@@ -6,6 +6,8 @@ import '../data/http/client.dart';
 
 import '../models/money.dart';
 
+////////////////////////////////////////////////
+
 final moneyProvider = StateNotifierProvider.autoDispose
     .family<MoneyNotifier, Money, String>((ref, date) {
   final client = ref.read(httpClientProvider);
@@ -79,3 +81,5 @@ class MoneyNotifier extends StateNotifier<Money> {
     });
   }
 }
+
+////////////////////////////////////////////////

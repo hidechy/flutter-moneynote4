@@ -5,6 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../data/http/client.dart';
 import '../models/spend_month_summary.dart';
 
+////////////////////////////////////////////////
+
 final spendMonthSummaryProvider = StateNotifierProvider.autoDispose
     .family<SpendMonthSummaryNotifier, List<SpendMonthSummary>, String>(
         (ref, date) {
@@ -42,3 +44,5 @@ class SpendMonthSummaryNotifier extends StateNotifier<List<SpendMonthSummary>> {
     });
   }
 }
+
+////////////////////////////////////////////////

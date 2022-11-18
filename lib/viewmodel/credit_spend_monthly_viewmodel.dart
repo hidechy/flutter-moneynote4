@@ -6,6 +6,8 @@ import '../data/http/client.dart';
 
 import '../models/credit_spend_monthly.dart';
 
+////////////////////////////////////////////////
+
 final creditSpendMonthlyProvider = StateNotifierProvider.autoDispose
     .family<CreditSpendMonthlyNotifier, List<CreditSpendMonthly>, String>(
         (ref, date) {
@@ -45,3 +47,5 @@ class CreditSpendMonthlyNotifier
     });
   }
 }
+
+////////////////////////////////////////////////

@@ -1,10 +1,12 @@
-// ignore_for_file: must_be_immutable, sized_box_shrink_expand
+// ignore_for_file: must_be_immutable, sized_box_shrink_expand, unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../models/money.dart';
 import '../../utility/utility.dart';
+
+import '../../viewmodel/gold_viewmodel.dart';
 import '../../viewmodel/money_viewmodel.dart';
 
 class MoneyAlert extends ConsumerWidget {
@@ -14,9 +16,13 @@ class MoneyAlert extends ConsumerWidget {
 
   final Utility _utility = Utility();
 
+  late WidgetRef _ref;
+
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    _ref = ref;
+
     final moneyState = ref.watch(moneyProvider(date.toString().split(' ')[0]));
 
     return AlertDialog(
@@ -31,9 +37,13 @@ class MoneyAlert extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  moneyState.date.toString().split(' ')[0],
-                  style: const TextStyle(fontSize: 20),
+                Container(
+                  decoration: const BoxDecoration(color: Colors.indigo),
+                  alignment: Alignment.center,
+                  child: Text(
+                    moneyState.date.toString().split(' ')[0],
+                    style: const TextStyle(fontSize: 20),
+                  ),
                 ),
                 const SizedBox(height: 30),
                 displayMoney(data: moneyState),
@@ -41,6 +51,8 @@ class MoneyAlert extends ConsumerWidget {
                 displayBank(data: moneyState),
                 const SizedBox(height: 30),
                 displayPay(data: moneyState),
+                const SizedBox(height: 30),
+                displayGold(),
               ],
             ),
           ),
@@ -53,6 +65,19 @@ class MoneyAlert extends ConsumerWidget {
   Widget displayMoney({required Money data}) {
     return Column(
       children: [
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.all(5),
+                decoration: const BoxDecoration(color: Colors.indigo),
+                child: const Text('CURRENCY'),
+              ),
+            ),
+            Expanded(child: Container()),
+          ],
+        ),
+        const SizedBox(height: 10),
         getMoneyDispRow(key: '10000', value: data.yen10000),
         getMoneyDispRow(key: '5000', value: data.yen5000),
         getMoneyDispRow(key: '2000', value: data.yen2000),
@@ -71,6 +96,19 @@ class MoneyAlert extends ConsumerWidget {
   Widget displayBank({required Money data}) {
     return Column(
       children: [
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.all(5),
+                decoration: const BoxDecoration(color: Colors.indigo),
+                child: const Text('BANK'),
+              ),
+            ),
+            Expanded(child: Container()),
+          ],
+        ),
+        const SizedBox(height: 10),
         getMoneyDispRow(key: 'bank_a', value: data.bankA),
         getMoneyDispRow(key: 'bank_b', value: data.bankB),
         getMoneyDispRow(key: 'bank_c', value: data.bankC),
@@ -84,6 +122,19 @@ class MoneyAlert extends ConsumerWidget {
   Widget displayPay({required Money data}) {
     return Column(
       children: [
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.all(5),
+                decoration: const BoxDecoration(color: Colors.indigo),
+                child: const Text('E-MONEY'),
+              ),
+            ),
+            Expanded(child: Container()),
+          ],
+        ),
+        const SizedBox(height: 10),
         getMoneyDispRow(key: 'pay_a', value: data.payA),
         getMoneyDispRow(key: 'pay_b', value: data.payB),
         getMoneyDispRow(key: 'pay_c', value: data.payC),
@@ -119,6 +170,73 @@ class MoneyAlert extends ConsumerWidget {
           children: [
             Text(dispKey.toString()),
             Text(_utility.makeCurrencyDisplay(value)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  ///
+  Widget displayGold() {
+    final goldState = _ref.watch(goldProvider);
+
+    if (goldState == null) {
+      return Container();
+    }
+
+    final goldDate = '${goldState.year}-${goldState.month}-${goldState.day}';
+
+    var goldDiff = 0;
+    if (goldState.goldValue != null && goldState.payPrice != null) {
+      goldDiff = int.parse(goldState.goldValue.toString()) -
+          int.parse(goldState.payPrice.toString());
+    }
+
+    return DefaultTextStyle(
+      style: const TextStyle(fontSize: 16),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 3),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.white.withOpacity(0.3),
+            ),
+          ),
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: const BoxDecoration(color: Colors.indigo),
+                    child: const Text('GOLD'),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.topRight,
+                    child: Text(goldDate),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                (goldState.payPrice == null)
+                    ? Container()
+                    : Text(_utility
+                        .makeCurrencyDisplay(goldState.payPrice.toString())),
+                (goldState.goldValue == null)
+                    ? Container()
+                    : Text(_utility
+                        .makeCurrencyDisplay(goldState.goldValue.toString())),
+                Text(_utility.makeCurrencyDisplay(goldDiff.toString())),
+              ],
+            ),
           ],
         ),
       ),
