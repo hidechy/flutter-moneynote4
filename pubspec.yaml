@@ -15,6 +15,7 @@ dependencies:
   flutter:
     sdk: flutter
   hooks_riverpod: ^2.1.1
+  http: ^0.13.5
   table_calendar: ^3.0.8
 
 dev_dependencies:
@@ -27,3 +28,18 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
+
+  assets:
+    - assets/images/
+
+flutter_native_splash:
+  image: "assets/image/money.png"
+  color: "212121"
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/image/launcher.png"
+
+  adaptive_icon_background: "#212121"
+  adaptive_icon_foreground: "assets/image/launcher.png"
