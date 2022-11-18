@@ -2,11 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/models/spend_month_summary.dart';
 import 'package:moneynote4/screens/credit_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../utility/utility.dart';
 import '../viewmodel/spend_month_summary_viewmodel.dart';
+import '_components/money_alert.dart';
 
 class HomeScreen extends ConsumerWidget {
   HomeScreen({super.key});
@@ -27,6 +29,8 @@ class HomeScreen extends ConsumerWidget {
     final spendMonthSummaryState = ref.watch(
       spendMonthSummaryProvider(focusDayState.toString()),
     );
+
+    final total = makeTotalPrice(data: spendMonthSummaryState);
 
     final size = MediaQuery.of(context).size;
 
@@ -142,6 +146,17 @@ class HomeScreen extends ConsumerWidget {
                 color: Colors.yellowAccent.withOpacity(0.2),
                 thickness: 5,
               ),
+              Container(
+                alignment: Alignment.topRight,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
+                child: Text(
+                  _utility.makeCurrencyDisplay(total.toString()),
+                  style: const TextStyle(fontSize: 20),
+                ),
+              ),
               DefaultTextStyle(
                 style: const TextStyle(fontSize: 12),
                 child: Expanded(
@@ -232,11 +247,36 @@ class HomeScreen extends ConsumerWidget {
   void onDayPressed({required DateTime date}) {
     _ref.watch(blueBallProvider.notifier).setDateTime(dateTime: date);
     _ref.watch(focusDayProvider.notifier).setDateTime(dateTime: date);
+
+    showDialog(
+      context: _context,
+      builder: (_) {
+        return Dialog(
+          backgroundColor: Colors.blueGrey.withOpacity(0.3),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          insetPadding: const EdgeInsets.all(30),
+          child: MoneyAlert(date: date),
+        );
+      },
+    );
   }
 
   ///
   void onPageMoved({required DateTime date}) {
     _ref.watch(focusDayProvider.notifier).setDateTime(dateTime: date);
+  }
+
+  ///
+  int makeTotalPrice({required List<SpendMonthSummary> data}) {
+    var ret = 0;
+
+    for (var i = 0; i < data.length; i++) {
+      ret += int.parse(data[i].sum.toString());
+    }
+
+    return ret;
   }
 }
 
