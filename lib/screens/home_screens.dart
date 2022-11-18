@@ -98,7 +98,46 @@ class HomeScreen extends ConsumerWidget {
 
           Column(
             children: [
-              Container(height: size.height * 0.5),
+              Container(
+                padding: const EdgeInsets.only(
+                  top: 80,
+                  right: 20,
+                  left: 20,
+                ),
+                alignment: Alignment.topRight,
+                height: size.height * 0.5,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        ref
+                            .watch(focusDayProvider.notifier)
+                            .setDateTime(dateTime: DateTime.now());
+
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                        );
+                      },
+                      child: const Icon(
+                        Icons.refresh,
+                        color: Colors.lightBlueAccent,
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'yearly',
+                        style: TextStyle(
+                          color: Colors.lightBlueAccent,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               Divider(
                 color: Colors.yellowAccent.withOpacity(0.2),
                 thickness: 5,
