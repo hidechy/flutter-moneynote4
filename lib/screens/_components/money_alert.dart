@@ -8,6 +8,7 @@ import '../../utility/utility.dart';
 
 import '../../viewmodel/gold_viewmodel.dart';
 import '../../viewmodel/money_viewmodel.dart';
+import '../../viewmodel/stock_viewmodel.dart';
 
 class MoneyAlert extends ConsumerWidget {
   MoneyAlert({super.key, required this.date});
@@ -26,6 +27,8 @@ class MoneyAlert extends ConsumerWidget {
     final moneyState = ref.watch(moneyProvider(date.toString().split(' ')[0]));
 
     return AlertDialog(
+      titlePadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.zero,
       backgroundColor: Colors.transparent,
       insetPadding: EdgeInsets.zero,
       content: SizedBox(
@@ -37,6 +40,7 @@ class MoneyAlert extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const SizedBox(height: 20),
                 Container(
                   decoration: const BoxDecoration(color: Colors.indigo),
                   alignment: Alignment.center,
@@ -53,6 +57,9 @@ class MoneyAlert extends ConsumerWidget {
                 displayPay(data: moneyState),
                 const SizedBox(height: 30),
                 displayGold(),
+                const SizedBox(height: 30),
+                displayStock(),
+                const SizedBox(height: 20),
               ],
             ),
           ),
@@ -235,6 +242,58 @@ class MoneyAlert extends ConsumerWidget {
                     : Text(_utility
                         .makeCurrencyDisplay(goldState.goldValue.toString())),
                 Text(_utility.makeCurrencyDisplay(goldDiff.toString())),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  ///
+  Widget displayStock() {
+    final stockListState = _ref.watch(stockListProvider);
+
+    return DefaultTextStyle(
+      style: const TextStyle(fontSize: 16),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 3),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.white.withOpacity(0.3),
+            ),
+          ),
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: const BoxDecoration(color: Colors.indigo),
+                    child: const Text('STOCK'),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.topRight,
+                    child: Text(stockListState.date.toString().split(' ')[0]),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(_utility
+                    .makeCurrencyDisplay(stockListState.cost.toString())),
+                Text(_utility
+                    .makeCurrencyDisplay(stockListState.price.toString())),
+                Text(_utility
+                    .makeCurrencyDisplay(stockListState.diff.toString())),
               ],
             ),
           ],
