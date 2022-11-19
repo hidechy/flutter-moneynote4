@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/models/credit_spend_monthly.dart';
 import 'package:moneynote4/utility/utility.dart';
 
-import '../viewmodel/credit_spend_monthly_viewmodel.dart';
+import '../viewmodel/credit_viewmodel.dart';
 
 class CreditScreen extends ConsumerWidget {
   CreditScreen({super.key, required this.date});

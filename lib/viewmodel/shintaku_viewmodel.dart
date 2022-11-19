@@ -1,19 +1,19 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/models/shintaku_record.dart';
 
 import '../data/http/client.dart';
-import '../models/stock.dart';
-import '../models/stock_record.dart';
+import '../models/shintaku.dart';
 
 ////////////////////////////////////////////////
 
-final stockProvider =
-    StateNotifierProvider.autoDispose<StockNotifier, Stock>((ref) {
+final shintakuProvider =
+    StateNotifierProvider.autoDispose<ShintakuNotifier, Shintaku>((ref) {
   final client = ref.read(httpClientProvider);
 
-  return StockNotifier(
-    Stock(
+  return ShintakuNotifier(
+    Shintaku(
       cost: 0,
       price: 0,
       diff: 0,
@@ -21,27 +21,28 @@ final stockProvider =
       record: [],
     ),
     client,
-  )..getStock();
+  )..getShintaku();
 });
 
-class StockNotifier extends StateNotifier<Stock> {
-  StockNotifier(super.state, this.client);
+class ShintakuNotifier extends StateNotifier<Shintaku> {
+  ShintakuNotifier(super.state, this.client);
 
   final HttpClient client;
 
-  Future<void> getStock() async {
-    await client.post(path: 'getDataStock').then((value) {
-      final list = <StockRecord>[];
+  Future<void> getShintaku() async {
+    await client.post(path: 'getDataShintaku').then((value) {
+      final list = <ShintakuRecord>[];
+
       for (var i = 0;
           i < int.parse(value['data']['record'].length.toString());
           i++) {
         list.add(
-          StockRecord(
+          ShintakuRecord(
             name: value['data']['record'][i]['name'].toString(),
             date: DateTime.parse(value['data']['record'][i]['date'].toString()),
-            num: int.parse(value['data']['record'][i]['num'].toString()),
-            oneStock: value['data']['record'][i]['oneStock'].toString(),
-            cost: int.parse(value['data']['record'][i]['cost'].toString()),
+            num: value['data']['record'][i]['num'].toString(),
+            shutoku: value['data']['record'][i]['shutoku'].toString(),
+            cost: value['data']['record'][i]['cost'].toString(),
             price: value['data']['record'][i]['price'].toString(),
             diff: int.parse(value['data']['record'][i]['diff'].toString()),
             data: value['data']['record'][i]['data'].toString(),
@@ -49,7 +50,7 @@ class StockNotifier extends StateNotifier<Stock> {
         );
       }
 
-      final stock = Stock(
+      final shintaku = Shintaku(
         cost: int.parse(value['data']['cost'].toString()),
         price: int.parse(value['data']['price'].toString()),
         diff: int.parse(value['data']['diff'].toString()),
@@ -57,7 +58,7 @@ class StockNotifier extends StateNotifier<Stock> {
         record: list,
       );
 
-      state = stock;
+      state = shintaku;
     });
   }
 }

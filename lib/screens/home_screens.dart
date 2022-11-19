@@ -7,7 +7,7 @@ import 'package:moneynote4/screens/credit_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../utility/utility.dart';
-import '../viewmodel/spend_month_summary_viewmodel.dart';
+import '../viewmodel/spend_viewmodel.dart';
 import '_components/money_alert.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -102,45 +102,32 @@ class HomeScreen extends ConsumerWidget {
 
           Column(
             children: [
-              Container(
-                padding: const EdgeInsets.only(
-                  top: 80,
-                  right: 20,
-                  left: 20,
-                ),
-                alignment: Alignment.topRight,
-                height: size.height * 0.5,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        ref
-                            .watch(focusDayProvider.notifier)
-                            .setDateTime(dateTime: DateTime.now());
+              Container(height: size.height * 0.5),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      ref
+                          .watch(focusDayProvider.notifier)
+                          .setDateTime(dateTime: DateTime.now());
 
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => HomeScreen()),
-                        );
-                      },
-                      child: const Icon(
-                        Icons.refresh,
-                        color: Colors.lightBlueAccent,
-                      ),
+                      ref
+                          .watch(blueBallProvider.notifier)
+                          .setDateTime(dateTime: DateTime.now());
+
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()),
+                      );
+                    },
+                    child: const Icon(
+                      Icons.refresh,
+                      color: Colors.lightBlueAccent,
                     ),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Text(
-                        'yearly',
-                        style: TextStyle(
-                          color: Colors.lightBlueAccent,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                  makeButtonRow(),
+                ],
               ),
               Divider(
                 color: Colors.yellowAccent.withOpacity(0.2),
@@ -216,6 +203,67 @@ class HomeScreen extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+
+  ///
+  Widget makeButtonRow() {
+    return Row(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.lightBlueAccent, width: 2),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          child: GestureDetector(
+            onTap: () {},
+            child: const Text(
+              '全',
+              style: TextStyle(
+                color: Colors.lightBlueAccent,
+                fontSize: 20,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: 10),
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.lightBlueAccent, width: 2),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          child: GestureDetector(
+            onTap: () {},
+            child: const Text(
+              '年',
+              style: TextStyle(
+                color: Colors.lightBlueAccent,
+                fontSize: 20,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: 10),
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.lightBlueAccent, width: 2),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          child: GestureDetector(
+            onTap: () {},
+            child: const Text(
+              '月',
+              style: TextStyle(
+                color: Colors.lightBlueAccent,
+                fontSize: 20,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 

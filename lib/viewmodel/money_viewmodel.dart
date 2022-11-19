@@ -36,6 +36,7 @@ final moneyProvider = StateNotifierProvider.autoDispose
       payC: '',
       payD: '',
       payE: '',
+      sum: '',
     ),
     client,
   )..getMoney(date: date);
@@ -77,6 +78,7 @@ class MoneyNotifier extends StateNotifier<Money> {
         payC: value['data']['pay_c'].toString(),
         payD: value['data']['pay_d'].toString(),
         payE: value['data']['pay_e'].toString(),
+        sum: value['data']['sum'].toString(),
       );
     });
   }

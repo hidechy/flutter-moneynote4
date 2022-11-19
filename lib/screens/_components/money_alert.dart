@@ -6,8 +6,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../models/money.dart';
 import '../../utility/utility.dart';
 
+import '../../viewmodel/bank_viewmodel.dart';
 import '../../viewmodel/gold_viewmodel.dart';
 import '../../viewmodel/money_viewmodel.dart';
+import '../../viewmodel/shintaku_viewmodel.dart';
 import '../../viewmodel/stock_viewmodel.dart';
 
 class MoneyAlert extends ConsumerWidget {
@@ -24,7 +26,26 @@ class MoneyAlert extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
 
-    final moneyState = ref.watch(moneyProvider(date.toString().split(' ')[0]));
+    final exDate = date.toString().split(' ');
+
+    final moneyState = ref.watch(moneyProvider(exDate[0]));
+
+    final exYmd = exDate[0].split('-');
+    final yesterday = DateTime(
+      int.parse(exYmd[0]),
+      int.parse(exYmd[1]),
+      int.parse(exYmd[2]) - 1,
+    );
+
+    final yesterdayMoney = ref.watch(
+      moneyProvider(yesterday.toString().split(' ')[0]),
+    );
+
+    final total = (moneyState.sum == '') ? '0' : moneyState.sum;
+    final diff = (moneyState.sum == '' || yesterdayMoney.sum == '')
+        ? '0'
+        : (int.parse(yesterdayMoney.sum) - int.parse(moneyState.sum))
+            .toString();
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -42,11 +63,30 @@ class MoneyAlert extends ConsumerWidget {
               children: [
                 const SizedBox(height: 20),
                 Container(
-                  decoration: const BoxDecoration(color: Colors.indigo),
+                  decoration: BoxDecoration(
+                    color: Colors.indigo,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   alignment: Alignment.center,
                   child: Text(
                     moneyState.date.toString().split(' ')[0],
                     style: const TextStyle(fontSize: 20),
+                  ),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        _utility.makeCurrencyDisplay(total),
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      Text(
+                        _utility.makeCurrencyDisplay(diff),
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 30),
@@ -59,7 +99,9 @@ class MoneyAlert extends ConsumerWidget {
                 displayGold(),
                 const SizedBox(height: 30),
                 displayStock(),
-                const SizedBox(height: 20),
+                const SizedBox(height: 30),
+                displayShintaku(),
+                const SizedBox(height: 50),
               ],
             ),
           ),
@@ -77,7 +119,11 @@ class MoneyAlert extends ConsumerWidget {
             Expanded(
               child: Container(
                 padding: const EdgeInsets.all(5),
-                decoration: const BoxDecoration(color: Colors.indigo),
+                decoration: BoxDecoration(
+                  color: Colors.indigo,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                alignment: Alignment.center,
                 child: const Text('CURRENCY'),
               ),
             ),
@@ -95,58 +141,6 @@ class MoneyAlert extends ConsumerWidget {
         getMoneyDispRow(key: '10', value: data.yen10),
         getMoneyDispRow(key: '5', value: data.yen5),
         getMoneyDispRow(key: '1', value: data.yen1),
-      ],
-    );
-  }
-
-  ///
-  Widget displayBank({required Money data}) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.all(5),
-                decoration: const BoxDecoration(color: Colors.indigo),
-                child: const Text('BANK'),
-              ),
-            ),
-            Expanded(child: Container()),
-          ],
-        ),
-        const SizedBox(height: 10),
-        getMoneyDispRow(key: 'bank_a', value: data.bankA),
-        getMoneyDispRow(key: 'bank_b', value: data.bankB),
-        getMoneyDispRow(key: 'bank_c', value: data.bankC),
-        getMoneyDispRow(key: 'bank_d', value: data.bankD),
-        getMoneyDispRow(key: 'bank_e', value: data.bankE),
-      ],
-    );
-  }
-
-  ///
-  Widget displayPay({required Money data}) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.all(5),
-                decoration: const BoxDecoration(color: Colors.indigo),
-                child: const Text('E-MONEY'),
-              ),
-            ),
-            Expanded(child: Container()),
-          ],
-        ),
-        const SizedBox(height: 10),
-        getMoneyDispRow(key: 'pay_a', value: data.payA),
-        getMoneyDispRow(key: 'pay_b', value: data.payB),
-        getMoneyDispRow(key: 'pay_c', value: data.payC),
-        getMoneyDispRow(key: 'pay_d', value: data.payD),
-        getMoneyDispRow(key: 'pay_e', value: data.payE),
       ],
     );
   }
@@ -184,6 +178,168 @@ class MoneyAlert extends ConsumerWidget {
   }
 
   ///
+  Widget displayBank({required Money data}) {
+    final bankStateA = _ref.watch(bankProvider('bank_a'));
+    final bankStateB = _ref.watch(bankProvider('bank_b'));
+    final bankStateC = _ref.watch(bankProvider('bank_c'));
+    final bankStateD = _ref.watch(bankProvider('bank_d'));
+    final bankStateE = _ref.watch(bankProvider('bank_e'));
+
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.indigo,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                alignment: Alignment.center,
+                child: const Text('BANK'),
+              ),
+            ),
+            Expanded(child: Container()),
+          ],
+        ),
+        const SizedBox(height: 10),
+        DefaultTextStyle(
+          style: const TextStyle(fontSize: 16),
+          child: Column(
+            children: [
+              getBankDispRow(
+                name: 'bank_a',
+                price: data.bankA,
+                date: bankStateA.date.toString(),
+              ),
+              getBankDispRow(
+                name: 'bank_b',
+                price: data.bankB,
+                date: bankStateB.date.toString(),
+              ),
+              getBankDispRow(
+                name: 'bank_c',
+                price: data.bankC,
+                date: bankStateC.date.toString(),
+              ),
+              getBankDispRow(
+                name: 'bank_d',
+                price: data.bankD,
+                date: bankStateD.date.toString(),
+              ),
+              getBankDispRow(
+                name: 'bank_e',
+                price: data.bankE,
+                date: bankStateE.date.toString(),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  ///
+  Widget getBankDispRow(
+      {required String name, required String price, required String date}) {
+    if (name == '' || price == '' || date == '') {
+      return Container();
+    }
+
+    final bankName = _utility.getBankName();
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: Colors.white.withOpacity(0.3),
+          ),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(bankName[name].toString()),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                (price == null) ? '0' : _utility.makeCurrencyDisplay(price),
+              ),
+              Text(date.split(' ')[0]),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  ///
+  Widget displayPay({required Money data}) {
+    final payStateA = _ref.watch(bankProvider('pay_a'));
+    final payStateB = _ref.watch(bankProvider('pay_b'));
+    final payStateC = _ref.watch(bankProvider('pay_c'));
+    final payStateD = _ref.watch(bankProvider('pay_d'));
+    final payStateE = _ref.watch(bankProvider('pay_e'));
+
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.indigo,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                alignment: Alignment.center,
+                child: const Text('E-MONEY'),
+              ),
+            ),
+            Expanded(child: Container()),
+          ],
+        ),
+        const SizedBox(height: 10),
+        DefaultTextStyle(
+          style: const TextStyle(fontSize: 16),
+          child: Column(
+            children: [
+              getBankDispRow(
+                name: 'pay_a',
+                price: data.payA,
+                date: payStateA.date.toString(),
+              ),
+              getBankDispRow(
+                name: 'pay_b',
+                price: data.payB,
+                date: payStateB.date.toString(),
+              ),
+              getBankDispRow(
+                name: 'pay_c',
+                price: data.payC,
+                date: payStateC.date.toString(),
+              ),
+              getBankDispRow(
+                name: 'pay_d',
+                price: data.payD,
+                date: payStateD.date.toString(),
+              ),
+              getBankDispRow(
+                name: 'pay_e',
+                price: data.payE,
+                date: payStateE.date.toString(),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  ///
   Widget displayGold() {
     final goldState = _ref.watch(goldProvider);
 
@@ -217,7 +373,11 @@ class MoneyAlert extends ConsumerWidget {
                 Expanded(
                   child: Container(
                     padding: const EdgeInsets.all(5),
-                    decoration: const BoxDecoration(color: Colors.indigo),
+                    decoration: BoxDecoration(
+                      color: Colors.indigo,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    alignment: Alignment.center,
                     child: const Text('GOLD'),
                   ),
                 ),
@@ -252,7 +412,7 @@ class MoneyAlert extends ConsumerWidget {
 
   ///
   Widget displayStock() {
-    final stockListState = _ref.watch(stockListProvider);
+    final stockState = _ref.watch(stockProvider);
 
     return DefaultTextStyle(
       style: const TextStyle(fontSize: 16),
@@ -272,14 +432,71 @@ class MoneyAlert extends ConsumerWidget {
                 Expanded(
                   child: Container(
                     padding: const EdgeInsets.all(5),
-                    decoration: const BoxDecoration(color: Colors.indigo),
+                    decoration: BoxDecoration(
+                      color: Colors.indigo,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    alignment: Alignment.center,
                     child: const Text('STOCK'),
                   ),
                 ),
                 Expanded(
                   child: Container(
                     alignment: Alignment.topRight,
-                    child: Text(stockListState.date.toString().split(' ')[0]),
+                    child: Text(stockState.date.toString().split(' ')[0]),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(_utility.makeCurrencyDisplay(stockState.cost.toString())),
+                Text(_utility.makeCurrencyDisplay(stockState.price.toString())),
+                Text(_utility.makeCurrencyDisplay(stockState.diff.toString())),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  ///
+  Widget displayShintaku() {
+    final shintakuState = _ref.watch(shintakuProvider);
+
+    return DefaultTextStyle(
+      style: const TextStyle(fontSize: 16),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 3),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.white.withOpacity(0.3),
+            ),
+          ),
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: Colors.indigo,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    alignment: Alignment.center,
+                    child: const Text('SHINTAKU'),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.topRight,
+                    child: Text(shintakuState.date.toString().split(' ')[0]),
                   ),
                 ),
               ],
@@ -289,11 +506,11 @@ class MoneyAlert extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(_utility
-                    .makeCurrencyDisplay(stockListState.cost.toString())),
+                    .makeCurrencyDisplay(shintakuState.cost.toString())),
                 Text(_utility
-                    .makeCurrencyDisplay(stockListState.price.toString())),
+                    .makeCurrencyDisplay(shintakuState.price.toString())),
                 Text(_utility
-                    .makeCurrencyDisplay(stockListState.diff.toString())),
+                    .makeCurrencyDisplay(shintakuState.diff.toString())),
               ],
             ),
           ],

@@ -24,6 +24,8 @@ http://toyohide.work/BrainLog/api/moneydl
         "pay_c": "39",
         "pay_d": "6294",
         "pay_e": "11961"
+
+        "sum": "5317801"
     }
 }
 
@@ -53,6 +55,7 @@ class Money {
     required this.payC,
     required this.payD,
     required this.payE,
+    required this.sum,
   });
 
   factory Money.fromJson(Map<String, dynamic> json) => Money(
@@ -78,6 +81,7 @@ class Money {
         payC: json['pay_c'].toString(),
         payD: json['pay_d'].toString(),
         payE: json['pay_e'].toString(),
+        sum: json['sum'].toString(),
       );
 
   DateTime date;
@@ -102,6 +106,7 @@ class Money {
   String payC;
   String payD;
   String payE;
+  String sum;
 
   Map<String, dynamic> toJson() => {
         'date':
@@ -127,5 +132,6 @@ class Money {
         'pay_c': payC,
         'pay_d': payD,
         'pay_e': payE,
+        'sum': sum,
       };
 }
