@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/spend_alert.dart';
 
 import '../../models/money.dart';
 import '../../utility/utility.dart';
@@ -74,17 +75,49 @@ class MoneyAlert extends ConsumerWidget {
                   ),
                 ),
                 SizedBox(
-                  width: double.infinity,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        _utility.makeCurrencyDisplay(total),
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      Text(
-                        _utility.makeCurrencyDisplay(diff),
-                        style: const TextStyle(fontSize: 20),
+                      Container(),
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                _utility.makeCurrencyDisplay(total),
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                              Text(
+                                _utility.makeCurrencyDisplay(diff),
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(width: 20),
+                          GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (_) {
+                                  return Dialog(
+                                    backgroundColor:
+                                        Colors.blueGrey.withOpacity(0.3),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    insetPadding: const EdgeInsets.all(30),
+                                    child: SpendAlert(
+                                      date: date,
+                                      diff: diff,
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            child: const Icon(Icons.info_outline),
+                          ),
+                        ],
                       ),
                     ],
                   ),
