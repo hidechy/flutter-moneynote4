@@ -12,6 +12,7 @@ import '../../viewmodel/money_notifier.dart';
 import '../../viewmodel/shintaku_notifier.dart';
 import '../../viewmodel/stock_notifier.dart';
 
+import 'bank_alert.dart';
 import 'spend_alert.dart';
 
 class MoneyAlert extends ConsumerWidget {
@@ -21,11 +22,13 @@ class MoneyAlert extends ConsumerWidget {
 
   final Utility _utility = Utility();
 
+  late BuildContext _context;
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    _context = context;
     _ref = ref;
 
     final exDate = date.toString().split(' ');
@@ -217,11 +220,11 @@ class MoneyAlert extends ConsumerWidget {
 
   ///
   Widget displayBank({required Money data}) {
-    final bankStateA = _ref.watch(bankProvider('bank_a'));
-    final bankStateB = _ref.watch(bankProvider('bank_b'));
-    final bankStateC = _ref.watch(bankProvider('bank_c'));
-    final bankStateD = _ref.watch(bankProvider('bank_d'));
-    final bankStateE = _ref.watch(bankProvider('bank_e'));
+    final bankStateA = _ref.watch(bankLastProvider('bank_a'));
+    final bankStateB = _ref.watch(bankLastProvider('bank_b'));
+    final bankStateC = _ref.watch(bankLastProvider('bank_c'));
+    final bankStateD = _ref.watch(bankLastProvider('bank_d'));
+    final bankStateE = _ref.watch(bankLastProvider('bank_e'));
 
     return Column(
       children: [
@@ -299,7 +302,30 @@ class MoneyAlert extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(bankName[name].toString()),
+          Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: _context,
+                    builder: (_) {
+                      return Dialog(
+                        backgroundColor: Colors.blueGrey.withOpacity(0.3),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        insetPadding: const EdgeInsets.all(30),
+                        child: BankAlert(name: name),
+                      );
+                    },
+                  );
+                },
+                child: const Icon(Icons.info_outline),
+              ),
+              const SizedBox(width: 20),
+              Text(bankName[name].toString()),
+            ],
+          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -316,11 +342,11 @@ class MoneyAlert extends ConsumerWidget {
 
   ///
   Widget displayPay({required Money data}) {
-    final payStateA = _ref.watch(bankProvider('pay_a'));
-    final payStateB = _ref.watch(bankProvider('pay_b'));
-    final payStateC = _ref.watch(bankProvider('pay_c'));
-    final payStateD = _ref.watch(bankProvider('pay_d'));
-    final payStateE = _ref.watch(bankProvider('pay_e'));
+    final payStateA = _ref.watch(bankLastProvider('pay_a'));
+    final payStateB = _ref.watch(bankLastProvider('pay_b'));
+    final payStateC = _ref.watch(bankLastProvider('pay_c'));
+    final payStateD = _ref.watch(bankLastProvider('pay_d'));
+    final payStateE = _ref.watch(bankLastProvider('pay_e'));
 
     return Column(
       children: [

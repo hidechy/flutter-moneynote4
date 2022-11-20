@@ -12,15 +12,15 @@ http://toyohide.work/BrainLog/api/bankSearch
 
 */
 
-class BankCompanyRecord {
-  BankCompanyRecord({
+class BankCompanyChange {
+  BankCompanyChange({
     required this.date,
     required this.price,
     required this.diff,
   });
 
-  factory BankCompanyRecord.fromJson(Map<String, dynamic> json) =>
-      BankCompanyRecord(
+  factory BankCompanyChange.fromJson(Map<String, dynamic> json) =>
+      BankCompanyChange(
         date: DateTime.parse(json['date'].toString()),
         price: json['price'].toString(),
         diff: int.parse(json['diff'].toString()),
