@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/models/credit_spend_monthly.dart';
-import 'package:moneynote4/utility/utility.dart';
 
-import '../viewmodel/credit_viewmodel.dart';
+import '../models/credit_spend_monthly.dart';
+import '../utility/utility.dart';
+import '../viewmodel/credit_notifier.dart';
 
 class CreditScreen extends ConsumerWidget {
   CreditScreen({super.key, required this.date});

@@ -2,16 +2,17 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/spend_alert.dart';
 
 import '../../models/money.dart';
 import '../../utility/utility.dart';
 
-import '../../viewmodel/bank_viewmodel.dart';
-import '../../viewmodel/gold_viewmodel.dart';
-import '../../viewmodel/money_viewmodel.dart';
-import '../../viewmodel/shintaku_viewmodel.dart';
-import '../../viewmodel/stock_viewmodel.dart';
+import '../../viewmodel/bank_notifier.dart';
+import '../../viewmodel/gold_notifier.dart';
+import '../../viewmodel/money_notifier.dart';
+import '../../viewmodel/shintaku_notifier.dart';
+import '../../viewmodel/stock_notifier.dart';
+
+import 'spend_alert.dart';
 
 class MoneyAlert extends ConsumerWidget {
   MoneyAlert({super.key, required this.date});
@@ -95,28 +96,32 @@ class MoneyAlert extends ConsumerWidget {
                             ],
                           ),
                           const SizedBox(width: 20),
-                          GestureDetector(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (_) {
-                                  return Dialog(
-                                    backgroundColor:
-                                        Colors.blueGrey.withOpacity(0.3),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                    insetPadding: const EdgeInsets.all(30),
-                                    child: SpendAlert(
-                                      date: date,
-                                      diff: diff,
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                            child: const Icon(Icons.info_outline),
-                          ),
+                          (total == '0')
+                              ? Container()
+                              : GestureDetector(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (_) {
+                                        return Dialog(
+                                          backgroundColor:
+                                              Colors.blueGrey.withOpacity(0.3),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                          ),
+                                          insetPadding:
+                                              const EdgeInsets.all(30),
+                                          child: SpendAlert(
+                                            date: date,
+                                            diff: diff,
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: const Icon(Icons.info_outline),
+                                ),
                         ],
                       ),
                     ],
@@ -203,7 +208,7 @@ class MoneyAlert extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(dispKey.toString()),
-            Text(_utility.makeCurrencyDisplay(value)),
+            Text((value == 'null') ? '0' : _utility.makeCurrencyDisplay(value)),
           ],
         ),
       ),
@@ -299,7 +304,7 @@ class MoneyAlert extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                (price == null) ? '0' : _utility.makeCurrencyDisplay(price),
+                (price == 'null') ? '0' : _utility.makeCurrencyDisplay(price),
               ),
               Text(date.split(' ')[0]),
             ],

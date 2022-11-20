@@ -1,9 +1,10 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/models/gold.dart';
 
 import '../data/http/client.dart';
+
+import '../models/gold.dart';
 
 ////////////////////////////////////////////////
 

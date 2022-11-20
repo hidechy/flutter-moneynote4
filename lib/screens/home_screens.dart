@@ -2,13 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/models/spend_month_summary.dart';
-import 'package:moneynote4/screens/credit_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../models/spend_month_summary.dart';
 import '../utility/utility.dart';
-import '../viewmodel/spend_viewmodel.dart';
+import '../viewmodel/spend_notifier.dart';
 import '_components/money_alert.dart';
+import 'credit_screen.dart';
 
 class HomeScreen extends ConsumerWidget {
   HomeScreen({super.key});
