@@ -1,6 +1,8 @@
-// ignore_for_file: avoid_dynamic_calls
+// ignore_for_file: avoid_dynamic_calls, literal_only_boolean_expressions
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/models/spend_yearly.dart';
+import 'package:moneynote4/models/spend_yearly_item.dart';
 
 import '../data/http/client.dart';
 import '../models/spend_item_daily.dart';
@@ -95,6 +97,67 @@ class SpendItemDailyNotifier extends StateNotifier<SpendItemDaily> {
       }
 
       state = spendItemDaily;
+    });
+  }
+}
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+
+final spendMonthDetailProvider = StateNotifierProvider.autoDispose
+    .family<SpendMonthDetailNotifier, List<SpendYearly>, String>((ref, date) {
+  final client = ref.read(httpClientProvider);
+
+  return SpendMonthDetailNotifier(
+    [],
+    client,
+  )..getSpendMonthDetail(date: date);
+});
+
+class SpendMonthDetailNotifier extends StateNotifier<List<SpendYearly>> {
+  SpendMonthDetailNotifier(super.state, this.client);
+
+  final HttpClient client;
+
+  Future<void> getSpendMonthDetail({required String date}) async {
+    await client.post(
+      path: 'getYearSpend',
+      body: {'date': date},
+    ).then((value) {
+      final list = <SpendYearly>[];
+
+      final exDate = date.split('-');
+
+      for (var i = 0; i < int.parse(value['data'].length.toString()); i++) {
+        final exOneDate = value['data'][i]['date'].toString().split('-');
+        if ('${exDate[0]}-${exDate[1]}' == '${exOneDate[0]}-${exOneDate[1]}') {
+          final list2 = <SpendYearlyItem>[];
+
+          for (var j = 0;
+              j < int.parse(value['data'][i]['item'].length.toString());
+              j++) {
+            list2.add(
+              SpendYearlyItem(
+                item: value['data'][i]['item'][j]['item'].toString(),
+                price:
+                    int.parse(value['data'][i]['item'][j]['price'].toString()),
+                flag: int.parse(value['data'][i]['item'][j]['flag'].toString()),
+              ),
+            );
+          }
+
+          list.add(
+            SpendYearly(
+              date: DateTime.parse(value['data'][i]['date'].toString()),
+              spend: int.parse(value['data'][i]['spend'].toString()),
+              item: list2,
+            ),
+          );
+        }
+      }
+
+      state = list;
     });
   }
 }

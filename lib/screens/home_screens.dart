@@ -8,6 +8,7 @@ import '../models/spend_month_summary.dart';
 import '../utility/utility.dart';
 import '../viewmodel/spend_notifier.dart';
 import '_components/money_alert.dart';
+import '_components/monthly_spend_alert.dart';
 import 'credit_screen.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -134,14 +135,38 @@ class HomeScreen extends ConsumerWidget {
                 thickness: 5,
               ),
               Container(
-                alignment: Alignment.topRight,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
                   vertical: 10,
                 ),
-                child: Text(
-                  _utility.makeCurrencyDisplay(total.toString()),
-                  style: const TextStyle(fontSize: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          context: _context,
+                          builder: (_) {
+                            return Dialog(
+                              backgroundColor: Colors.blueGrey.withOpacity(0.3),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              insetPadding: const EdgeInsets.all(30),
+                              child: MonthlySpendAlert(
+                                date: focusDayState,
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: const Icon(Icons.details),
+                    ),
+                    Text(
+                      _utility.makeCurrencyDisplay(total.toString()),
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                  ],
                 ),
               ),
               DefaultTextStyle(
