@@ -2,9 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/models/holiday.dart';
+import 'package:moneynote4/models/youbi.dart';
 
 import '../../utility/utility.dart';
+import '../../viewmodel/holiday_notifier.dart';
 import '../../viewmodel/spend_notifier.dart';
+import '../../viewmodel/youbi_notifier.dart';
 
 class MonthlySpendAlert extends ConsumerWidget {
   MonthlySpendAlert({super.key, required this.date});
@@ -51,10 +55,24 @@ class MonthlySpendAlert extends ConsumerWidget {
     final spendMonthDetailState =
         _ref.watch(spendMonthDetailProvider(exDate[0]));
 
+    final youbiState = _ref.watch(youbiProvider(exDate[0]));
+
+    final holidayState = _ref.watch(holidayProvider);
+
     final list = <Widget>[];
 
     for (var i = 0; i < spendMonthDetailState.length; i++) {
       final list2 = <Widget>[];
+
+      final youbi = getYoubi(
+        date: spendMonthDetailState[i].date.toString().split(' ')[0],
+        state: youbiState,
+      );
+
+      final holiday = getHoliday(
+        date: spendMonthDetailState[i].date.toString().split(' ')[0],
+        state: holidayState,
+      );
 
       for (var j = 0; j < spendMonthDetailState[i].item.length; j++) {
         final color = (spendMonthDetailState[i].item[j].flag.toString() == '1')
@@ -94,16 +112,19 @@ class MonthlySpendAlert extends ConsumerWidget {
           margin: const EdgeInsets.symmetric(vertical: 5),
           padding: const EdgeInsets.all(5),
           decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.white.withOpacity(0.5),
-            ),
-          ),
+              border: Border.all(color: Colors.white.withOpacity(0.5)),
+              color: getBoxColor(
+                youbi: youbi,
+                holiday: holiday,
+              )),
           child: Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(spendMonthDetailState[i].date.toString().split(' ')[0]),
+                  Text(
+                    '${spendMonthDetailState[i].date.toString().split(' ')[0]}（${youbi.youbi}）',
+                  ),
                   Text(_utility.makeCurrencyDisplay(
                       spendMonthDetailState[i].spend.toString())),
                 ],
@@ -129,5 +150,56 @@ class MonthlySpendAlert extends ConsumerWidget {
         children: list,
       ),
     );
+  }
+
+  ///
+  Youbi getYoubi({required String date, required List<Youbi> state}) {
+    for (var i = 0; i < state.length; i++) {
+      if (state[i].date == date) {
+        return state[i];
+      }
+    }
+
+    return Youbi(
+      date: '',
+      youbi: '',
+      youbiNum: 0,
+    );
+  }
+
+  ///
+  Color getBoxColor({required Youbi youbi, required int holiday}) {
+    var color = Colors.black.withOpacity(0.2);
+
+    switch (youbi.youbiNum) {
+      case 0:
+        color = Colors.redAccent.withOpacity(0.2);
+        break;
+      case 6:
+        color = Colors.blueAccent.withOpacity(0.2);
+        break;
+      default:
+        color = Colors.black.withOpacity(0.2);
+        break;
+    }
+
+    if (holiday == 1) {
+      color = Colors.greenAccent.withOpacity(0.2);
+    }
+
+    return color;
+  }
+
+  ///
+  int getHoliday({required String date, required Holiday state}) {
+    var answer = 0;
+
+    for (var i = 0; i < state.data.length; i++) {
+      if (state.data[i].toString().split(' ')[0] == date) {
+        answer = 1;
+      }
+    }
+
+    return answer;
   }
 }

@@ -7,9 +7,10 @@ import 'package:table_calendar/table_calendar.dart';
 import '../models/spend_month_summary.dart';
 import '../utility/utility.dart';
 import '../viewmodel/spend_notifier.dart';
+import '_components/_money_dialog.dart';
+import '_components/credit_alert.dart';
 import '_components/money_alert.dart';
 import '_components/monthly_spend_alert.dart';
-import 'credit_screen.dart';
 
 class HomeScreen extends ConsumerWidget {
   HomeScreen({super.key});
@@ -100,7 +101,6 @@ class HomeScreen extends ConsumerWidget {
             ],
           ),
           ///////////// calendar
-
           Column(
             children: [
               Container(height: size.height * 0.5),
@@ -144,20 +144,9 @@ class HomeScreen extends ConsumerWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        showDialog(
-                          context: _context,
-                          builder: (_) {
-                            return Dialog(
-                              backgroundColor: Colors.blueGrey.withOpacity(0.3),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              insetPadding: const EdgeInsets.all(30),
-                              child: MonthlySpendAlert(
-                                date: focusDayState,
-                              ),
-                            );
-                          },
+                        MoneyDialog(
+                          context: context,
+                          widget: MonthlySpendAlert(date: focusDayState),
                         );
                       },
                       child: const Icon(Icons.details),
@@ -300,11 +289,9 @@ class HomeScreen extends ConsumerWidget {
       case 'credit':
         return GestureDetector(
           onTap: () {
-            Navigator.push(
-              _context,
-              MaterialPageRoute(
-                builder: (context) => CreditScreen(date: focusDayState),
-              ),
+            MoneyDialog(
+              context: _context,
+              widget: CreditAlert(date: focusDayState),
             );
           },
           child: const Icon(Icons.credit_card),
@@ -322,18 +309,9 @@ class HomeScreen extends ConsumerWidget {
     _ref.watch(blueBallProvider.notifier).setDateTime(dateTime: date);
     _ref.watch(focusDayProvider.notifier).setDateTime(dateTime: date);
 
-    showDialog(
+    MoneyDialog(
       context: _context,
-      builder: (_) {
-        return Dialog(
-          backgroundColor: Colors.blueGrey.withOpacity(0.3),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
-          insetPadding: const EdgeInsets.all(30),
-          child: MoneyAlert(date: date),
-        );
-      },
+      widget: MoneyAlert(date: date),
     );
   }
 

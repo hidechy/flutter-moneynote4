@@ -5,13 +5,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../models/money.dart';
 import '../../utility/utility.dart';
-
 import '../../viewmodel/bank_notifier.dart';
 import '../../viewmodel/gold_notifier.dart';
 import '../../viewmodel/money_notifier.dart';
 import '../../viewmodel/shintaku_notifier.dart';
 import '../../viewmodel/stock_notifier.dart';
-
+import '_money_dialog.dart';
 import 'bank_alert.dart';
 import 'spend_alert.dart';
 
@@ -103,24 +102,12 @@ class MoneyAlert extends ConsumerWidget {
                               ? Container()
                               : GestureDetector(
                                   onTap: () {
-                                    showDialog(
+                                    MoneyDialog(
                                       context: context,
-                                      builder: (_) {
-                                        return Dialog(
-                                          backgroundColor:
-                                              Colors.blueGrey.withOpacity(0.3),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(30),
-                                          ),
-                                          insetPadding:
-                                              const EdgeInsets.all(30),
-                                          child: SpendAlert(
-                                            date: date,
-                                            diff: diff,
-                                          ),
-                                        );
-                                      },
+                                      widget: SpendAlert(
+                                        date: date,
+                                        diff: diff,
+                                      ),
                                     );
                                   },
                                   child: const Icon(Icons.info_outline),
@@ -306,18 +293,9 @@ class MoneyAlert extends ConsumerWidget {
             children: [
               GestureDetector(
                 onTap: () {
-                  showDialog(
+                  MoneyDialog(
                     context: _context,
-                    builder: (_) {
-                      return Dialog(
-                        backgroundColor: Colors.blueGrey.withOpacity(0.3),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        insetPadding: const EdgeInsets.all(30),
-                        child: BankAlert(name: name),
-                      );
-                    },
+                    widget: BankAlert(name: name),
                   );
                 },
                 child: const Icon(Icons.info_outline),
