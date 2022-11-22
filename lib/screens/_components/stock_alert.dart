@@ -1,0 +1,205 @@
+// ignore_for_file: must_be_immutable, sized_box_shrink_expand
+
+import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
+
+import '../../utility/utility.dart';
+import '../../viewmodel/stock_notifier.dart';
+
+class StockAlert extends ConsumerWidget {
+  StockAlert({super.key});
+
+  final autoScrollController = AutoScrollController();
+
+  final Utility _utility = Utility();
+
+  late WidgetRef _ref;
+
+  ///
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    _ref = ref;
+
+    final stockState = ref.watch(stockProvider);
+
+    final stockRecordState = _ref.watch(stockRecordProvider);
+
+    final exData = stockRecordState.data.split('/');
+
+    final selectStockState = ref.watch(selectStockProvider);
+
+    final size = MediaQuery.of(context).size;
+
+    return AlertDialog(
+      titlePadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.zero,
+      backgroundColor: Colors.transparent,
+      insetPadding: EdgeInsets.zero,
+      content: SizedBox(
+        width: double.infinity,
+        height: double.infinity,
+        child: SingleChildScrollView(
+          child: DefaultTextStyle(
+            style: const TextStyle(fontSize: 14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                SizedBox(
+                  height: size.height * 0.15,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: stockState.record.asMap().entries.map((e) {
+                        return Container(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: GestureDetector(
+                            onTap: () {
+                              ref
+                                  .watch(selectStockProvider.notifier)
+                                  .setSelectStock(selectStock: e.key);
+
+                              ref
+                                  .watch(stockRecordProvider.notifier)
+                                  .getStockRecord(flag: e.key);
+
+                              autoScrollController.scrollToIndex(0);
+                            },
+                            child: Text(
+                              e.value.name,
+                              style: TextStyle(
+                                color: (selectStockState == e.key)
+                                    ? Colors.yellowAccent
+                                    : Colors.white,
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+                Divider(
+                  color: Colors.yellowAccent.withOpacity(0.2),
+                  thickness: 5,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(),
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            autoScrollController.scrollToIndex(
+                              exData.length,
+                            );
+                          },
+                          child: const Icon(Icons.arrow_downward),
+                        ),
+                        const SizedBox(width: 20),
+                        GestureDetector(
+                          onTap: () {
+                            autoScrollController.scrollToIndex(0);
+                          },
+                          child: const Icon(Icons.arrow_upward),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  height: size.height * 0.55,
+                  child: displayStock(),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  ///
+  Widget displayStock() {
+    final stockRecordState = _ref.watch(stockRecordProvider);
+
+    final list = <Widget>[];
+
+    final exData = stockRecordState.data.split('/');
+
+    for (var i = 0; i < exData.length; i++) {
+      final exOne = exData[i].split('|');
+
+      final exDate = exOne[0].split('-');
+
+      list.add(
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 3),
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.white.withOpacity(0.3),
+              ),
+            ),
+          ),
+          child: AutoScrollTag(
+            key: ValueKey(i),
+            index: i,
+            controller: autoScrollController,
+            child: Table(
+              children: [
+                TableRow(children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(exDate[0]),
+                      Text('${exDate[1]}-${exDate[2]}'),
+                    ],
+                  ),
+                  Container(
+                    alignment: Alignment.topRight,
+                    child: Text(_utility.makeCurrencyDisplay(exOne[3])),
+                  ),
+                  Container(
+                    alignment: Alignment.topRight,
+                    child: Text(_utility.makeCurrencyDisplay(exOne[4])),
+                  ),
+                  Container(
+                    alignment: Alignment.topRight,
+                    child: Text(_utility.makeCurrencyDisplay(exOne[5])),
+                  ),
+                ]),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    return SingleChildScrollView(
+      controller: autoScrollController,
+      child: Column(
+        children: list,
+      ),
+    );
+  }
+}
+
+////////////////////////////////////////////////
+
+final selectStockProvider =
+    StateNotifierProvider.autoDispose<SelectStockStateNotifier, int>((ref) {
+  return SelectStockStateNotifier();
+});
+
+class SelectStockStateNotifier extends StateNotifier<int> {
+  SelectStockStateNotifier() : super(0);
+
+  ///
+  Future<void> setSelectStock({required int selectStock}) async {
+    state = selectStock;
+  }
+}

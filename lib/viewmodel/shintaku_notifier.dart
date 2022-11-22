@@ -8,7 +8,6 @@ import '../models/shintaku.dart';
 import '../models/shintaku_record.dart';
 
 ////////////////////////////////////////////////
-
 final shintakuProvider =
     StateNotifierProvider.autoDispose<ShintakuNotifier, Shintaku>((ref) {
   final client = ref.read(httpClientProvider);

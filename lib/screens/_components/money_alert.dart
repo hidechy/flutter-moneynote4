@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/gold_alert.dart';
 
 import '../../models/money.dart';
 import '../../utility/utility.dart';
@@ -13,7 +12,9 @@ import '../../viewmodel/shintaku_notifier.dart';
 import '../../viewmodel/stock_notifier.dart';
 import '_money_dialog.dart';
 import 'bank_alert.dart';
+import 'gold_alert.dart';
 import 'spend_alert.dart';
+import 'stock_alert.dart';
 
 class MoneyAlert extends ConsumerWidget {
   MoneyAlert({super.key, required this.date});
@@ -529,7 +530,12 @@ class MoneyAlert extends ConsumerWidget {
           Container(
             alignment: Alignment.topRight,
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                MoneyDialog(
+                  context: _context,
+                  widget: StockAlert(),
+                );
+              },
               child: const Icon(Icons.info_outline),
             ),
           ),
