@@ -1,14 +1,12 @@
-// ignore_for_file: must_be_immutable, sized_box_shrink_expand
-
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../utility/utility.dart';
-import '../../viewmodel/stock_notifier.dart';
+import '../../viewmodel/shintaku_notifier.dart';
 
-class StockAlert extends ConsumerWidget {
-  StockAlert({super.key});
+class ShintakuAlert extends ConsumerWidget {
+  ShintakuAlert({Key? key}) : super(key: key);
 
   final autoScrollController = AutoScrollController();
 
@@ -21,13 +19,13 @@ class StockAlert extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
 
-    final stockState = ref.watch(stockProvider);
+    final shintakuState = ref.watch(shintakuProvider);
 
-    final stockRecordState = ref.watch(stockRecordProvider);
+    final shintakuRecordState = ref.watch(shintakuRecordProvider);
 
-    final exData = stockRecordState.data.split('/');
+    final exData = shintakuRecordState.data.split('/');
 
-    final selectStockState = ref.watch(selectStockProvider);
+    final selectShintakuState = ref.watch(selectShintakuProvider);
 
     final size = MediaQuery.of(context).size;
 
@@ -51,25 +49,26 @@ class StockAlert extends ConsumerWidget {
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: stockState.record.asMap().entries.map((e) {
+                      children: shintakuState.record.asMap().entries.map((e) {
                         return Container(
+                          width: size.width * 0.7,
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: GestureDetector(
                             onTap: () {
                               ref
-                                  .watch(selectStockProvider.notifier)
-                                  .setSelectStock(selectStock: e.key);
+                                  .watch(selectShintakuProvider.notifier)
+                                  .setSelectShintaku(selectShintaku: e.key);
 
                               ref
-                                  .watch(stockRecordProvider.notifier)
-                                  .getStockRecord(flag: e.key);
+                                  .watch(shintakuRecordProvider.notifier)
+                                  .getShintakuRecord(flag: e.key);
 
                               autoScrollController.scrollToIndex(0);
                             },
                             child: Text(
                               e.value.name,
                               style: TextStyle(
-                                color: (selectStockState == e.key)
+                                color: (selectShintakuState == e.key)
                                     ? Colors.yellowAccent
                                     : Colors.white,
                               ),
@@ -112,7 +111,7 @@ class StockAlert extends ConsumerWidget {
                 const SizedBox(height: 20),
                 SizedBox(
                   height: size.height * 0.55,
-                  child: displayStock(),
+                  child: displayShintaku(),
                 ),
               ],
             ),
@@ -123,12 +122,12 @@ class StockAlert extends ConsumerWidget {
   }
 
   ///
-  Widget displayStock() {
-    final stockRecordState = _ref.watch(stockRecordProvider);
+  Widget displayShintaku() {
+    final shintakuRecordState = _ref.watch(shintakuRecordProvider);
 
     final list = <Widget>[];
 
-    final exData = stockRecordState.data.split('/');
+    final exData = shintakuRecordState.data.split('/');
 
     for (var i = 0; i < exData.length; i++) {
       final exOne = exData[i].split('|');
@@ -190,16 +189,16 @@ class StockAlert extends ConsumerWidget {
 
 ////////////////////////////////////////////////
 
-final selectStockProvider =
-    StateNotifierProvider.autoDispose<SelectStockStateNotifier, int>((ref) {
-  return SelectStockStateNotifier();
+final selectShintakuProvider =
+    StateNotifierProvider.autoDispose<SelectShintakuStateNotifier, int>((ref) {
+  return SelectShintakuStateNotifier();
 });
 
-class SelectStockStateNotifier extends StateNotifier<int> {
-  SelectStockStateNotifier() : super(0);
+class SelectShintakuStateNotifier extends StateNotifier<int> {
+  SelectShintakuStateNotifier() : super(0);
 
   ///
-  Future<void> setSelectStock({required int selectStock}) async {
-    state = selectStock;
+  Future<void> setSelectShintaku({required int selectShintaku}) async {
+    state = selectShintaku;
   }
 }

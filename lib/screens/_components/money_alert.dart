@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/shintaku_alert.dart';
 
 import '../../models/money.dart';
 import '../../utility/utility.dart';
@@ -604,7 +605,12 @@ class MoneyAlert extends ConsumerWidget {
           Container(
             alignment: Alignment.topRight,
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                MoneyDialog(
+                  context: _context,
+                  widget: ShintakuAlert(),
+                );
+              },
               child: const Icon(Icons.info_outline),
             ),
           ),

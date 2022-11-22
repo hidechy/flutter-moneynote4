@@ -64,3 +64,67 @@ class ShintakuNotifier extends StateNotifier<Shintaku> {
 }
 
 ////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+
+final shintakuRecordProvider =
+    StateNotifierProvider.autoDispose<ShintakuRecordNotifier, ShintakuRecord>(
+        (ref) {
+  final client = ref.read(httpClientProvider);
+
+  return ShintakuRecordNotifier(
+    ShintakuRecord(
+      name: '',
+      date: DateTime.now(),
+      num: '',
+      shutoku: '',
+      cost: '',
+      price: '',
+      diff: 0,
+      data: '',
+    ),
+    client,
+  )..getShintakuRecord(flag: 0);
+});
+
+class ShintakuRecordNotifier extends StateNotifier<ShintakuRecord> {
+  ShintakuRecordNotifier(super.state, this.client);
+
+  final HttpClient client;
+
+  Future<void> getShintakuRecord({required int flag}) async {
+    await client.post(path: 'getDataShintaku').then((value) {
+      var shintakuRecord = ShintakuRecord(
+        name: '',
+        date: DateTime.now(),
+        num: '',
+        shutoku: '',
+        cost: '',
+        price: '',
+        diff: 0,
+        data: '',
+      );
+
+      for (var i = 0;
+          i < int.parse(value['data']['record'].length.toString());
+          i++) {
+        if (i == flag) {
+          shintakuRecord = ShintakuRecord(
+            name: value['data']['record'][i]['name'].toString(),
+            date: DateTime.parse(value['data']['record'][i]['date'].toString()),
+            num: value['data']['record'][i]['num'].toString(),
+            shutoku: value['data']['record'][i]['shutoku'].toString(),
+            cost: value['data']['record'][i]['cost'].toString(),
+            price: value['data']['record'][i]['price'].toString(),
+            diff: int.parse(value['data']['record'][i]['diff'].toString()),
+            data: value['data']['record'][i]['data'].toString(),
+          );
+        }
+      }
+
+      state = shintakuRecord;
+    });
+  }
+}
+
+////////////////////////////////////////////////
