@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/gold_alert.dart';
 
 import '../../models/money.dart';
 import '../../utility/utility.dart';
@@ -383,7 +384,7 @@ class MoneyAlert extends ConsumerWidget {
 
   ///
   Widget displayGold() {
-    final goldState = _ref.watch(goldProvider);
+    final goldState = _ref.watch(goldLastProvider);
 
     if (goldState == null) {
       return Container();
@@ -399,55 +400,72 @@ class MoneyAlert extends ConsumerWidget {
 
     return DefaultTextStyle(
       style: const TextStyle(fontSize: 16),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 3),
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              color: Colors.white.withOpacity(0.3),
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.white.withOpacity(0.3),
+                ),
+              ),
+            ),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          color: Colors.indigo,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        alignment: Alignment.center,
+                        child: const Text('GOLD'),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.topRight,
+                        child: Text(goldDate),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    (goldState.payPrice == null)
+                        ? Container()
+                        : Text(_utility.makeCurrencyDisplay(
+                            goldState.payPrice.toString())),
+                    (goldState.goldValue == null)
+                        ? Container()
+                        : Text(_utility.makeCurrencyDisplay(
+                            goldState.goldValue.toString())),
+                    Text(_utility.makeCurrencyDisplay(goldDiff.toString())),
+                  ],
+                ),
+              ],
             ),
           ),
-        ),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      color: Colors.indigo,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    alignment: Alignment.center,
-                    child: const Text('GOLD'),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    alignment: Alignment.topRight,
-                    child: Text(goldDate),
-                  ),
-                ),
-              ],
+          const SizedBox(height: 5),
+          Container(
+            alignment: Alignment.topRight,
+            child: GestureDetector(
+              onTap: () {
+                MoneyDialog(
+                  context: _context,
+                  widget: GoldAlert(),
+                );
+              },
+              child: const Icon(Icons.info_outline),
             ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                (goldState.payPrice == null)
-                    ? Container()
-                    : Text(_utility
-                        .makeCurrencyDisplay(goldState.payPrice.toString())),
-                (goldState.goldValue == null)
-                    ? Container()
-                    : Text(_utility
-                        .makeCurrencyDisplay(goldState.goldValue.toString())),
-                Text(_utility.makeCurrencyDisplay(goldDiff.toString())),
-              ],
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -458,49 +476,64 @@ class MoneyAlert extends ConsumerWidget {
 
     return DefaultTextStyle(
       style: const TextStyle(fontSize: 16),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 3),
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              color: Colors.white.withOpacity(0.3),
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.white.withOpacity(0.3),
+                ),
+              ),
+            ),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          color: Colors.indigo,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        alignment: Alignment.center,
+                        child: const Text('STOCK'),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.topRight,
+                        child: Text(stockState.date.toString().split(' ')[0]),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(_utility
+                        .makeCurrencyDisplay(stockState.cost.toString())),
+                    Text(_utility
+                        .makeCurrencyDisplay(stockState.price.toString())),
+                    Text(_utility
+                        .makeCurrencyDisplay(stockState.diff.toString())),
+                  ],
+                ),
+              ],
             ),
           ),
-        ),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      color: Colors.indigo,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    alignment: Alignment.center,
-                    child: const Text('STOCK'),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    alignment: Alignment.topRight,
-                    child: Text(stockState.date.toString().split(' ')[0]),
-                  ),
-                ),
-              ],
+          const SizedBox(height: 5),
+          Container(
+            alignment: Alignment.topRight,
+            child: GestureDetector(
+              onTap: () {},
+              child: const Icon(Icons.info_outline),
             ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(_utility.makeCurrencyDisplay(stockState.cost.toString())),
-                Text(_utility.makeCurrencyDisplay(stockState.price.toString())),
-                Text(_utility.makeCurrencyDisplay(stockState.diff.toString())),
-              ],
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -511,52 +544,65 @@ class MoneyAlert extends ConsumerWidget {
 
     return DefaultTextStyle(
       style: const TextStyle(fontSize: 16),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 3),
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              color: Colors.white.withOpacity(0.3),
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.white.withOpacity(0.3),
+                ),
+              ),
+            ),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          color: Colors.indigo,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        alignment: Alignment.center,
+                        child: const Text('SHINTAKU'),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.topRight,
+                        child:
+                            Text(shintakuState.date.toString().split(' ')[0]),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(_utility
+                        .makeCurrencyDisplay(shintakuState.cost.toString())),
+                    Text(_utility
+                        .makeCurrencyDisplay(shintakuState.price.toString())),
+                    Text(_utility
+                        .makeCurrencyDisplay(shintakuState.diff.toString())),
+                  ],
+                ),
+              ],
             ),
           ),
-        ),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      color: Colors.indigo,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    alignment: Alignment.center,
-                    child: const Text('SHINTAKU'),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    alignment: Alignment.topRight,
-                    child: Text(shintakuState.date.toString().split(' ')[0]),
-                  ),
-                ),
-              ],
+          const SizedBox(height: 5),
+          Container(
+            alignment: Alignment.topRight,
+            child: GestureDetector(
+              onTap: () {},
+              child: const Icon(Icons.info_outline),
             ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(_utility
-                    .makeCurrencyDisplay(shintakuState.cost.toString())),
-                Text(_utility
-                    .makeCurrencyDisplay(shintakuState.price.toString())),
-                Text(_utility
-                    .makeCurrencyDisplay(shintakuState.diff.toString())),
-              ],
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
