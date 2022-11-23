@@ -39,7 +39,7 @@ class ShintakuAlert extends ConsumerWidget {
         height: double.infinity,
         child: SingleChildScrollView(
           child: DefaultTextStyle(
-            style: const TextStyle(fontSize: 14),
+            style: const TextStyle(fontSize: 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -133,6 +133,10 @@ class ShintakuAlert extends ConsumerWidget {
       final exOne = exData[i].split('|');
 
       final exDate = exOne[0].split('-');
+
+      if (exDate.length == 1) {
+        continue;
+      }
 
       list.add(
         Container(

@@ -40,7 +40,7 @@ class CreditAlert extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 40),
         child: SingleChildScrollView(
           child: DefaultTextStyle(
-            style: const TextStyle(fontSize: 14),
+            style: const TextStyle(fontSize: 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -53,7 +53,7 @@ class CreditAlert extends ConsumerWidget {
                   alignment: Alignment.center,
                   child: Text(
                     '${exYmd[0]}-${exYmd[1]}',
-                    style: const TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 16),
                   ),
                 ),
                 Container(
@@ -61,7 +61,7 @@ class CreditAlert extends ConsumerWidget {
                   padding: const EdgeInsets.all(10),
                   child: Text(
                     _utility.makeCurrencyDisplay(total.toString()),
-                    style: const TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 16),
                   ),
                 ),
                 const SizedBox(height: 20),

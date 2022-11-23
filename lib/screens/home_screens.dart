@@ -103,33 +103,44 @@ class HomeScreen extends ConsumerWidget {
           ///////////// calendar
           Column(
             children: [
-              Container(height: size.height * 0.5),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      ref
-                          .watch(focusDayProvider.notifier)
-                          .setDateTime(dateTime: DateTime.now());
+              Container(
+                width: double.infinity,
+                height: size.height * 0.6,
+                padding: EdgeInsets.only(right: 70),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    SizedBox(height: 60),
+                    GestureDetector(
+                      onTap: () {
+                        ref
+                            .watch(focusDayProvider.notifier)
+                            .setDateTime(dateTime: DateTime.now());
 
-                      ref
-                          .watch(blueBallProvider.notifier)
-                          .setDateTime(dateTime: DateTime.now());
+                        ref
+                            .watch(blueBallProvider.notifier)
+                            .setDateTime(dateTime: DateTime.now());
 
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()),
-                      );
-                    },
-                    child: const Icon(
-                      Icons.refresh,
-                      color: Colors.lightBlueAccent,
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                        );
+                      },
+                      child: const Icon(
+                        Icons.refresh,
+                        color: Colors.grey,
+                      ),
                     ),
-                  ),
-                  makeButtonRow(),
-                ],
+                  ],
+                ),
               ),
+//               Row(
+//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                 children: [
+//
+// //                  makeButtonRow(),
+//                 ],
+//               ),
               Divider(
                 color: Colors.yellowAccent.withOpacity(0.2),
                 thickness: 5,
@@ -153,7 +164,7 @@ class HomeScreen extends ConsumerWidget {
                     ),
                     Text(
                       _utility.makeCurrencyDisplay(total.toString()),
-                      style: const TextStyle(fontSize: 20),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ],
                 ),
@@ -168,41 +179,44 @@ class HomeScreen extends ConsumerWidget {
                       itemBuilder: (context, index) {
                         final spend = spendMonthSummaryState[index];
 
-                        return Container(
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: Colors.white.withOpacity(0.2),
-                              ),
-                            ),
-                          ),
-                          margin: const EdgeInsets.only(bottom: 3),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Table(
-                                  children: [
-                                    TableRow(children: [
-                                      Text(spend.item),
-                                      Container(
-                                        alignment: Alignment.topRight,
-                                        child: Text(
-                                          _utility.makeCurrencyDisplay(
-                                            spend.sum.toString(),
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        alignment: Alignment.topRight,
-                                        child: Text('${spend.percent} %'),
-                                      ),
-                                    ]),
-                                  ],
+                        return DefaultTextStyle(
+                          style: TextStyle(fontSize: 12),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Colors.white.withOpacity(0.2),
                                 ),
                               ),
-                              const SizedBox(width: 20),
-                              getLinkIcon(item: spend.item),
-                            ],
+                            ),
+                            margin: const EdgeInsets.only(bottom: 3),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Table(
+                                    children: [
+                                      TableRow(children: [
+                                        Text(spend.item),
+                                        Container(
+                                          alignment: Alignment.topRight,
+                                          child: Text(
+                                            _utility.makeCurrencyDisplay(
+                                              spend.sum.toString(),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          alignment: Alignment.topRight,
+                                          child: Text('${spend.percent} %'),
+                                        ),
+                                      ]),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(width: 20),
+                                getLinkIcon(item: spend.item),
+                              ],
+                            ),
                           ),
                         );
                       },
@@ -212,7 +226,7 @@ class HomeScreen extends ConsumerWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 20),
             ],
           ),
         ],
@@ -234,10 +248,7 @@ class HomeScreen extends ConsumerWidget {
             onTap: () {},
             child: const Text(
               '全',
-              style: TextStyle(
-                color: Colors.lightBlueAccent,
-                fontSize: 20,
-              ),
+              style: TextStyle(color: Colors.lightBlueAccent, fontSize: 12),
             ),
           ),
         ),
@@ -252,10 +263,7 @@ class HomeScreen extends ConsumerWidget {
             onTap: () {},
             child: const Text(
               '年',
-              style: TextStyle(
-                color: Colors.lightBlueAccent,
-                fontSize: 20,
-              ),
+              style: TextStyle(color: Colors.lightBlueAccent, fontSize: 12),
             ),
           ),
         ),
@@ -270,10 +278,7 @@ class HomeScreen extends ConsumerWidget {
             onTap: () {},
             child: const Text(
               '月',
-              style: TextStyle(
-                color: Colors.lightBlueAccent,
-                fontSize: 20,
-              ),
+              style: TextStyle(color: Colors.lightBlueAccent, fontSize: 12),
             ),
           ),
         ),

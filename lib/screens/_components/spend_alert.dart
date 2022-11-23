@@ -34,7 +34,7 @@ class SpendAlert extends ConsumerWidget {
         height: double.infinity,
         child: SingleChildScrollView(
           child: DefaultTextStyle(
-            style: const TextStyle(fontSize: 14),
+            style: const TextStyle(fontSize: 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -47,7 +47,7 @@ class SpendAlert extends ConsumerWidget {
                   alignment: Alignment.center,
                   child: Text(
                     date.toString().split(' ')[0],
-                    style: const TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 16),
                   ),
                 ),
                 SizedBox(
@@ -62,7 +62,7 @@ class SpendAlert extends ConsumerWidget {
                             children: [
                               Text(
                                 _utility.makeCurrencyDisplay(diff),
-                                style: const TextStyle(fontSize: 20),
+                                style: const TextStyle(fontSize: 16),
                               ),
                             ],
                           ),

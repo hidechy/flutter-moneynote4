@@ -34,7 +34,7 @@ class MonthlySpendAlert extends ConsumerWidget {
         height: double.infinity,
         child: SingleChildScrollView(
           child: DefaultTextStyle(
-            style: const TextStyle(fontSize: 14),
+            style: const TextStyle(fontSize: 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

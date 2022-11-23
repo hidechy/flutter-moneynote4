@@ -38,7 +38,7 @@ class BankAlert extends ConsumerWidget {
         height: double.infinity,
         child: SingleChildScrollView(
           child: DefaultTextStyle(
-            style: const TextStyle(fontSize: 14),
+            style: const TextStyle(fontSize: 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -51,9 +51,8 @@ class BankAlert extends ConsumerWidget {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            autoScrollController.scrollToIndex(
-                              bankAllState.length,
-                            );
+                            autoScrollController
+                                .scrollToIndex(bankAllState.length);
                           },
                           child: const Icon(Icons.arrow_downward),
                         ),
