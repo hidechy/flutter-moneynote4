@@ -1,8 +1,11 @@
 // ignore_for_file: must_be_immutable, cascade_invocations
 
+import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/extensions/extensions.dart';
+import 'package:moneynote4/screens/_components/seiyu_alert.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../models/spend_month_summary.dart';
@@ -44,8 +47,10 @@ class HomeScreen extends ConsumerWidget {
           ///////////// calendar
           Column(
             children: [
-              const SizedBox(height: 40),
+              const SizedBox(height: 20),
               TableCalendar(
+                rowHeight: 35,
+
                 ///
                 calendarStyle: const CalendarStyle(
                   todayDecoration: BoxDecoration(color: Colors.transparent),
@@ -104,12 +109,12 @@ class HomeScreen extends ConsumerWidget {
             children: [
               Container(
                 width: double.infinity,
-                height: context.screenSize.height * 0.6,
+                height: context.screenSize.height * 0.45,
                 padding: const EdgeInsets.only(right: 70),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    const SizedBox(height: 60),
+                    const SizedBox(height: 40),
                     GestureDetector(
                       onTap: () {
                         ref
@@ -133,15 +138,8 @@ class HomeScreen extends ConsumerWidget {
                   ],
                 ),
               ),
-//               Row(
-//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                 children: [
-//
-// //                  makeButtonRow(),
-//                 ],
-//               ),
               Divider(
-                color: Colors.yellowAccent.withOpacity(0.2),
+                color: Colors.indigo.withOpacity(0.8),
                 thickness: 5,
               ),
               Container(
@@ -152,15 +150,7 @@ class HomeScreen extends ConsumerWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        MoneyDialog(
-                          context: context,
-                          widget: MonthlySpendAlert(date: focusDayState),
-                        );
-                      },
-                      child: const Icon(Icons.details),
-                    ),
+                    Container(),
                     Text(
                       total.toString().toCurrency(),
                       style: const TextStyle(fontSize: 16),
@@ -228,58 +218,35 @@ class HomeScreen extends ConsumerWidget {
           ),
         ],
       ),
-    );
-  }
-
-  ///
-  Widget makeButtonRow() {
-    return Row(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.lightBlueAccent, width: 2),
-            borderRadius: BorderRadius.circular(10),
+      floatingActionButton: FabCircularMenu(
+        fabSize: 40,
+        alignment: Alignment.centerLeft,
+        ringColor: Colors.indigo.withOpacity(0.8),
+        fabOpenColor: Colors.indigo.withOpacity(0.8),
+        fabCloseColor: Colors.indigo.withOpacity(0.8),
+        ringWidth: 10,
+        ringDiameter: 200,
+        children: <Widget>[
+          IconButton(
+            icon: const Icon(FontAwesomeIcons.bullseye),
+            onPressed: () {
+              MoneyDialog(
+                context: context,
+                widget: SeiyuAlert(date: focusDayState),
+              );
+            },
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          child: GestureDetector(
-            onTap: () {},
-            child: const Text(
-              '全',
-              style: TextStyle(color: Colors.lightBlueAccent, fontSize: 12),
-            ),
+          IconButton(
+            icon: const Icon(Icons.details),
+            onPressed: () {
+              MoneyDialog(
+                context: context,
+                widget: MonthlySpendAlert(date: focusDayState),
+              );
+            },
           ),
-        ),
-        const SizedBox(width: 10),
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.lightBlueAccent, width: 2),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          child: GestureDetector(
-            onTap: () {},
-            child: const Text(
-              '年',
-              style: TextStyle(color: Colors.lightBlueAccent, fontSize: 12),
-            ),
-          ),
-        ),
-        const SizedBox(width: 10),
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.lightBlueAccent, width: 2),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          child: GestureDetector(
-            onTap: () {},
-            child: const Text(
-              '月',
-              style: TextStyle(color: Colors.lightBlueAccent, fontSize: 12),
-            ),
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

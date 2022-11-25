@@ -41,7 +41,7 @@ class CreditAlert extends ConsumerWidget {
       content: Container(
         width: double.infinity,
         height: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 40),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(
           child: DefaultTextStyle(
             style: const TextStyle(fontSize: 12),
@@ -49,6 +49,7 @@ class CreditAlert extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 20),
+                Container(width: context.screenSize.width),
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.indigo,

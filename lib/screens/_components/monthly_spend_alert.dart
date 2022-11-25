@@ -28,14 +28,13 @@ class MonthlySpendAlert extends ConsumerWidget {
 
     getNext2MonthCreditSpend();
 
-//    print(creditSpendMap);
-
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.zero,
       backgroundColor: Colors.transparent,
       insetPadding: EdgeInsets.zero,
-      content: SizedBox(
+      content: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         width: double.infinity,
         height: double.infinity,
         child: SingleChildScrollView(
@@ -45,6 +44,7 @@ class MonthlySpendAlert extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 20),
+                Container(width: context.screenSize.width),
                 displayMonthlySpend(),
               ],
             ),
@@ -187,7 +187,7 @@ class MonthlySpendAlert extends ConsumerWidget {
                 ),
               ),
               child: DefaultTextStyle(
-                style: const TextStyle(color: Colors.pinkAccent),
+                style: const TextStyle(color: Color(0xFFFB86CE)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -252,8 +252,11 @@ class MonthlySpendAlert extends ConsumerWidget {
     }
 
     return SingleChildScrollView(
-      child: Column(
-        children: list,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          children: list,
+        ),
       ),
     );
   }

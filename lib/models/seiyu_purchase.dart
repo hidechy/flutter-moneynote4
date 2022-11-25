@@ -30,7 +30,7 @@ class SeiyuPurchase {
   });
 
   factory SeiyuPurchase.fromJson(Map<String, dynamic> json) => SeiyuPurchase(
-        date: json['date'].toString().toDateTime(),
+        date: json['date'].toString(),
         pos: json['pos'].toString().toInt(),
         item: json['item'].toString(),
         tanka: json['tanka'].toString(),
@@ -39,7 +39,7 @@ class SeiyuPurchase {
         img: json['img'].toString(),
       );
 
-  DateTime date;
+  String date;
   int pos;
   String item;
   String tanka;
@@ -48,8 +48,7 @@ class SeiyuPurchase {
   String img;
 
   Map<String, dynamic> toJson() => {
-        'date':
-            "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
+        'date': date,
         'pos': pos,
         'item': item,
         'tanka': tanka,

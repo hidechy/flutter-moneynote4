@@ -59,10 +59,7 @@ final bankAllProvider = StateNotifierProvider.autoDispose
     .family<BankAllNotifier, List<BankCompanyAll>, String>((ref, bank) {
   final client = ref.read(httpClientProvider);
 
-  return BankAllNotifier(
-    [],
-    client,
-  )..getBankCompanyRecord(bank: bank);
+  return BankAllNotifier([], client)..getBankCompanyRecord(bank: bank);
 });
 
 class BankAllNotifier extends StateNotifier<List<BankCompanyAll>> {

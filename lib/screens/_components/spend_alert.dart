@@ -25,7 +25,8 @@ class SpendAlert extends ConsumerWidget {
       contentPadding: EdgeInsets.zero,
       backgroundColor: Colors.transparent,
       insetPadding: EdgeInsets.zero,
-      content: SizedBox(
+      content: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         width: double.infinity,
         height: double.infinity,
         child: SingleChildScrollView(
@@ -35,6 +36,7 @@ class SpendAlert extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 20),
+                Container(width: context.screenSize.width),
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.indigo,

@@ -70,10 +70,7 @@ final goldListProvider =
     StateNotifierProvider.autoDispose<GoldListNotifier, List<Gold>>((ref) {
   final client = ref.read(httpClientProvider);
 
-  return GoldListNotifier(
-    [],
-    client,
-  )..getGoldList();
+  return GoldListNotifier([], client)..getGoldList();
 });
 
 class GoldListNotifier extends StateNotifier<List<Gold>> {

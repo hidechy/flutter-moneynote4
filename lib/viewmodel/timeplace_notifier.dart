@@ -12,10 +12,7 @@ final timeplaceProvider = StateNotifierProvider.autoDispose
         (ref, date) {
   final client = ref.read(httpClientProvider);
 
-  return TimeplaceNotifier(
-    [],
-    client,
-  )..getTimeplace(date: date);
+  return TimeplaceNotifier([], client)..getTimeplace(date: date);
 });
 
 class TimeplaceNotifier extends StateNotifier<List<SpendTimeplaceMonthly>> {

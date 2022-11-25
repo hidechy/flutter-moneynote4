@@ -1,12 +1,12 @@
 // ignore_for_file: avoid_dynamic_calls, literal_only_boolean_expressions
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/models/spend_yearly.dart';
-import 'package:moneynote4/models/spend_yearly_item.dart';
 
 import '../data/http/client.dart';
 import '../models/spend_item_daily.dart';
 import '../models/spend_month_summary.dart';
+import '../models/spend_yearly.dart';
+import '../models/spend_yearly_item.dart';
 
 ////////////////////////////////////////////////
 
@@ -15,10 +15,8 @@ final spendMonthSummaryProvider = StateNotifierProvider.autoDispose
         (ref, date) {
   final client = ref.read(httpClientProvider);
 
-  return SpendMonthSummaryNotifier(
-    [],
-    client,
-  )..getSpendMonthSummary(date: date);
+  return SpendMonthSummaryNotifier([], client)
+    ..getSpendMonthSummary(date: date);
 });
 
 class SpendMonthSummaryNotifier extends StateNotifier<List<SpendMonthSummary>> {
@@ -109,10 +107,7 @@ final spendMonthDetailProvider = StateNotifierProvider.autoDispose
     .family<SpendMonthDetailNotifier, List<SpendYearly>, String>((ref, date) {
   final client = ref.read(httpClientProvider);
 
-  return SpendMonthDetailNotifier(
-    [],
-    client,
-  )..getSpendMonthDetail(date: date);
+  return SpendMonthDetailNotifier([], client)..getSpendMonthDetail(date: date);
 });
 
 class SpendMonthDetailNotifier extends StateNotifier<List<SpendYearly>> {
@@ -127,11 +122,11 @@ class SpendMonthDetailNotifier extends StateNotifier<List<SpendYearly>> {
     ).then((value) {
       final list = <SpendYearly>[];
 
-      final exDate = date.split('-');
+      final exYmd = date.split('-');
 
       for (var i = 0; i < int.parse(value['data'].length.toString()); i++) {
         final exOneDate = value['data'][i]['date'].toString().split('-');
-        if ('${exDate[0]}-${exDate[1]}' == '${exOneDate[0]}-${exOneDate[1]}') {
+        if ('${exYmd[0]}-${exYmd[1]}' == '${exOneDate[0]}-${exOneDate[1]}') {
           final list2 = <SpendYearlyItem>[];
 
           for (var j = 0;

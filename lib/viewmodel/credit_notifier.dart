@@ -13,10 +13,8 @@ final creditSpendMonthlyProvider = StateNotifierProvider.autoDispose
         (ref, date) {
   final client = ref.read(httpClientProvider);
 
-  return CreditSpendMonthlyNotifier(
-    [],
-    client,
-  )..getCreditSpendMonthly(date: date, kind: '');
+  return CreditSpendMonthlyNotifier([], client)
+    ..getCreditSpendMonthly(date: date, kind: '');
 });
 
 class CreditSpendMonthlyNotifier
