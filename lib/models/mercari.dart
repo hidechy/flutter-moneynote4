@@ -12,6 +12,8 @@ http://toyohide.work/BrainLog/api/mercaridata
 
 */
 
+import '../extensions/extensions.dart';
+
 class Mercari {
   Mercari({
     required this.date,
@@ -21,10 +23,10 @@ class Mercari {
   });
 
   factory Mercari.fromJson(Map<String, dynamic> json) => Mercari(
-        date: DateTime.parse(json['date'].toString()),
+        date: json['date'].toString().toDateTime(),
         record: json['record'].toString(),
-        dayTotal: int.parse(json['day_total'].toString()),
-        total: int.parse(json['total'].toString()),
+        dayTotal: json['day_total'].toString().toInt(),
+        total: json['total'].toString().toInt(),
       );
 
   DateTime date;

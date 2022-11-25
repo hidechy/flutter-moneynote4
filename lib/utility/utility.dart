@@ -1,7 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages, type_annotate_public_apis, cascade_invocations, strict_raw_type, noop_primitive_operations
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class Utility {
   /// 背景取得
@@ -12,13 +11,6 @@ class Utility {
       color: Colors.black.withOpacity(0.7),
       colorBlendMode: BlendMode.darken,
     );
-  }
-
-  /// 金額を3桁区切りで表示する
-  final formatter = NumberFormat('#,###');
-
-  String makeCurrencyDisplay(String text) {
-    return formatter.format(int.parse(text));
   }
 
   /// 銀行名取得

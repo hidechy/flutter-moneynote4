@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/extensions/extensions.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../models/spend_month_summary.dart';
@@ -33,8 +34,6 @@ class HomeScreen extends ConsumerWidget {
     );
 
     final total = makeTotalPrice(data: spendMonthSummaryState);
-
-    final size = MediaQuery.of(context).size;
 
     return Scaffold(
       body: Stack(
@@ -105,12 +104,12 @@ class HomeScreen extends ConsumerWidget {
             children: [
               Container(
                 width: double.infinity,
-                height: size.height * 0.6,
-                padding: EdgeInsets.only(right: 70),
+                height: context.screenSize.height * 0.6,
+                padding: const EdgeInsets.only(right: 70),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    SizedBox(height: 60),
+                    const SizedBox(height: 60),
                     GestureDetector(
                       onTap: () {
                         ref
@@ -163,7 +162,7 @@ class HomeScreen extends ConsumerWidget {
                       child: const Icon(Icons.details),
                     ),
                     Text(
-                      _utility.makeCurrencyDisplay(total.toString()),
+                      total.toString().toCurrency(),
                       style: const TextStyle(fontSize: 16),
                     ),
                   ],
@@ -180,7 +179,7 @@ class HomeScreen extends ConsumerWidget {
                         final spend = spendMonthSummaryState[index];
 
                         return DefaultTextStyle(
-                          style: TextStyle(fontSize: 12),
+                          style: const TextStyle(fontSize: 12),
                           child: Container(
                             decoration: BoxDecoration(
                               border: Border(
@@ -200,9 +199,7 @@ class HomeScreen extends ConsumerWidget {
                                         Container(
                                           alignment: Alignment.topRight,
                                           child: Text(
-                                            _utility.makeCurrencyDisplay(
-                                              spend.sum.toString(),
-                                            ),
+                                            spend.sum.toString().toCurrency(),
                                           ),
                                         ),
                                         Container(

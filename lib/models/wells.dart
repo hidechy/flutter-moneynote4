@@ -12,6 +12,8 @@ http://toyohide.work/BrainLog/api/getWells
 
 */
 
+import '../extensions/extensions.dart';
+
 class Wells {
   Wells({
     required this.num,
@@ -22,7 +24,7 @@ class Wells {
 
   factory Wells.fromJson(Map<String, dynamic> json) => Wells(
         num: json['num'].toString(),
-        date: DateTime.parse(json['date'].toString()),
+        date: json['date'].toString().toDateTime(),
         price: json['price'].toString(),
         total: json['total'].toString(),
       );

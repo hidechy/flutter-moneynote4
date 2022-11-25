@@ -21,6 +21,8 @@ http://toyohide.work/BrainLog/api/getDataStock
 
 */
 
+import '../extensions/extensions.dart';
+
 class StockRecord {
   StockRecord({
     required this.name,
@@ -35,12 +37,12 @@ class StockRecord {
 
   factory StockRecord.fromJson(Map<String, dynamic> json) => StockRecord(
         name: json['name'].toString(),
-        date: DateTime.parse(json['date'].toString()),
-        num: int.parse(json['num'].toString()),
+        date: json['date'].toString().toDateTime(),
+        num: json['num'].toString().toInt(),
         oneStock: json['oneStock'].toString(),
-        cost: int.parse(json['cost'].toString()),
+        cost: json['cost'].toString().toInt(),
         price: json['price'].toString(),
-        diff: int.parse(json['diff'].toString()),
+        diff: json['diff'].toString().toInt(),
         data: json['data'].toString(),
       );
 

@@ -12,6 +12,8 @@ http://toyohide.work/BrainLog/api/benefit
 
 */
 
+import '../extensions/extensions.dart';
+
 class Salary {
   Salary({
     required this.date,
@@ -21,7 +23,7 @@ class Salary {
   });
 
   factory Salary.fromJson(Map<String, dynamic> json) => Salary(
-        date: DateTime.parse(json['date'].toString()),
+        date: json['date'].toString().toDateTime(),
         ym: json['ym'].toString(),
         salary: json['salary'].toString(),
         company: json['company'].toString(),

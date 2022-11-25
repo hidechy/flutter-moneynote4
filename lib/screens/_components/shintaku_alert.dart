@@ -1,16 +1,16 @@
+// ignore_for_file: must_be_immutable, sized_box_shrink_expand
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
-import '../../utility/utility.dart';
+import '../../extensions/extensions.dart';
 import '../../viewmodel/shintaku_notifier.dart';
 
 class ShintakuAlert extends ConsumerWidget {
-  ShintakuAlert({Key? key}) : super(key: key);
+  ShintakuAlert({super.key});
 
   final autoScrollController = AutoScrollController();
-
-  final Utility _utility = Utility();
 
   late WidgetRef _ref;
 
@@ -26,8 +26,6 @@ class ShintakuAlert extends ConsumerWidget {
     final exData = shintakuRecordState.data.split('/');
 
     final selectShintakuState = ref.watch(selectShintakuProvider);
-
-    final size = MediaQuery.of(context).size;
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -45,13 +43,13 @@ class ShintakuAlert extends ConsumerWidget {
               children: [
                 const SizedBox(height: 20),
                 SizedBox(
-                  height: size.height * 0.15,
+                  height: context.screenSize.height * 0.15,
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: shintakuState.record.asMap().entries.map((e) {
                         return Container(
-                          width: size.width * 0.7,
+                          width: context.screenSize.width * 0.7,
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: GestureDetector(
                             onTap: () {
@@ -110,7 +108,7 @@ class ShintakuAlert extends ConsumerWidget {
                 ),
                 const SizedBox(height: 20),
                 SizedBox(
-                  height: size.height * 0.55,
+                  height: context.screenSize.height * 0.55,
                   child: displayShintaku(),
                 ),
               ],
@@ -164,15 +162,15 @@ class ShintakuAlert extends ConsumerWidget {
                   ),
                   Container(
                     alignment: Alignment.topRight,
-                    child: Text(_utility.makeCurrencyDisplay(exOne[3])),
+                    child: Text(exOne[3].toCurrency()),
                   ),
                   Container(
                     alignment: Alignment.topRight,
-                    child: Text(_utility.makeCurrencyDisplay(exOne[4])),
+                    child: Text(exOne[4].toCurrency()),
                   ),
                   Container(
                     alignment: Alignment.topRight,
-                    child: Text(_utility.makeCurrencyDisplay(exOne[5])),
+                    child: Text(exOne[5].toCurrency()),
                   ),
                 ]),
               ],

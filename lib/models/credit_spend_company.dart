@@ -13,6 +13,8 @@ http://toyohide.work/BrainLog/api/creditCompanySearch
 
 */
 
+import '../extensions/extensions.dart';
+
 class CreditSpendCompany {
   CreditSpendCompany({
     required this.ym,
@@ -24,7 +26,7 @@ class CreditSpendCompany {
   factory CreditSpendCompany.fromJson(Map<String, dynamic> json) =>
       CreditSpendCompany(
         ym: json['ym'].toString(),
-        date: DateTime.parse(json['date'].toString()),
+        date: json['date'].toString().toDateTime(),
         item: json['item'].toString(),
         price: json['price'].toString(),
       );

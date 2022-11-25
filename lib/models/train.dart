@@ -12,6 +12,8 @@ http://toyohide.work/BrainLog/api/gettrainrecord
 
 */
 
+import '../extensions/extensions.dart';
+
 class Train {
   Train({
     required this.date,
@@ -21,7 +23,7 @@ class Train {
   });
 
   factory Train.fromJson(Map<String, dynamic> json) => Train(
-        date: DateTime.parse(json['date'].toString()),
+        date: json['date'].toString().toDateTime(),
         station: json['station'].toString(),
         price: json['price'].toString(),
         oufuku: json['oufuku'].toString(),

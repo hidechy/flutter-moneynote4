@@ -11,6 +11,8 @@ http://toyohide.work/BrainLog/api/itemDetailDisplay
 
 */
 
+import '../extensions/extensions.dart';
+
 class ItemDate {
   ItemDate({
     required this.date,
@@ -18,7 +20,7 @@ class ItemDate {
   });
 
   factory ItemDate.fromJson(Map<String, dynamic> json) => ItemDate(
-        date: DateTime.parse(json['date'].toString()),
+        date: json['date'].toString().toDateTime(),
         price: json['price'].toString(),
       );
 

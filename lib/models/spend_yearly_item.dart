@@ -40,6 +40,8 @@ http://toyohide.work/BrainLog/api/getYearSpend
 
 */
 
+import '../extensions/extensions.dart';
+
 class SpendYearlyItem {
   SpendYearlyItem({
     required this.item,
@@ -51,7 +53,7 @@ class SpendYearlyItem {
       SpendYearlyItem(
         item: json['item'].toString(),
         price: json['price'],
-        flag: int.parse(json['flag'].toString()),
+        flag: json['flag'].toString().toInt(),
       );
 
   String item;

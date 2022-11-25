@@ -15,6 +15,8 @@ http://toyohide.work/BrainLog/api/everydaySpendSearch
 
 */
 
+import '../extensions/extensions.dart';
+
 class MoneyMonthlySpend {
   MoneyMonthlySpend({
     required this.date,
@@ -27,10 +29,10 @@ class MoneyMonthlySpend {
 
   factory MoneyMonthlySpend.fromJson(Map<String, dynamic> json) =>
       MoneyMonthlySpend(
-        date: DateTime.parse(json['date'].toString()),
-        spend: int.parse(json['spend'].toString()),
+        date: json['date'].toString().toDateTime(),
+        spend: json['spend'].toString().toInt(),
         record: json['record'].toString(),
-        diff: int.parse(json['diff'].toString()),
+        diff: json['diff'].toString().toInt(),
         step: json['step'].toString(),
         distance: json['distance'].toString(),
       );

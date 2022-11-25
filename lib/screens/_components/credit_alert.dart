@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../extensions/extensions.dart';
 import '../../models/credit_spend_monthly.dart';
-import '../../utility/utility.dart';
 import '../../viewmodel/credit_notifier.dart';
 
 class CreditAlert extends ConsumerWidget {
@@ -12,22 +12,26 @@ class CreditAlert extends ConsumerWidget {
 
   final DateTime date;
 
-  final Utility _utility = Utility();
-
   late WidgetRef _ref;
+  late BuildContext _context;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
-
-    final exDate = date.toString().split(' ');
-    final exYmd = exDate[0].split('-');
+    _context = context;
 
     final creditSpendMonthlyState =
         ref.watch(creditSpendMonthlyProvider(date.toString()));
 
+    final selectCreditState = ref.watch(selectCreditProvider);
+
     final total = makeTotalPrice(data: creditSpendMonthlyState);
+
+    final cardList = makeCardList(data: creditSpendMonthlyState);
+
+    final exDate = date.toString().split(' ');
+    final exYmd = exDate[0].split('-');
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -60,9 +64,39 @@ class CreditAlert extends ConsumerWidget {
                   alignment: Alignment.topRight,
                   padding: const EdgeInsets.all(10),
                   child: Text(
-                    _utility.makeCurrencyDisplay(total.toString()),
+                    total.toString().toCurrency(),
                     style: const TextStyle(fontSize: 16),
                   ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: cardList.map((kind) {
+                        return Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 5),
+                          child: GestureDetector(
+                            onTap: () {
+                              ref
+                                  .watch(selectCreditProvider.notifier)
+                                  .setSelectCredit(selectCredit: kind);
+
+                              ref
+                                  .watch(creditSpendMonthlyProvider(
+                                          date.toString())
+                                      .notifier)
+                                  .getCreditSpendMonthly(
+                                    date: date.yyyymmdd,
+                                    kind: kind,
+                                  );
+                            },
+                            child: getCreditMark(kind: kind),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                    Text(selectCreditState),
+                  ],
                 ),
                 const SizedBox(height: 20),
                 dispCredit(),
@@ -84,6 +118,7 @@ class CreditAlert extends ConsumerWidget {
     for (var i = 0; i < creditSpendMonthlyState.length; i++) {
       list.add(
         Container(
+          width: _context.screenSize.width,
           padding: const EdgeInsets.symmetric(vertical: 3),
           decoration: BoxDecoration(
             border: Border(
@@ -108,8 +143,7 @@ class CreditAlert extends ConsumerWidget {
                       alignment: Alignment.topRight,
                       padding: const EdgeInsets.only(right: 20),
                       child: Text(
-                        _utility.makeCurrencyDisplay(
-                            creditSpendMonthlyState[i].price),
+                        creditSpendMonthlyState[i].price.toCurrency(),
                       ),
                     ),
                   ],
@@ -137,12 +171,13 @@ class CreditAlert extends ConsumerWidget {
         return const Icon(Icons.credit_card, color: Colors.redAccent);
       case 'rakuten':
         return const Icon(Icons.credit_card, color: Colors.orangeAccent);
-
       case 'amex':
         return const Icon(Icons.credit_card, color: Colors.purpleAccent);
+      case 'sumitomo':
+        return const Icon(Icons.credit_card, color: Colors.greenAccent);
     }
 
-    return Container();
+    return const Icon(Icons.credit_card, color: Colors.white);
   }
 
   ///
@@ -154,5 +189,33 @@ class CreditAlert extends ConsumerWidget {
     }
 
     return ret;
+  }
+
+  ///
+  List<String> makeCardList({required List<CreditSpendMonthly> data}) {
+    final list = <String>[''];
+
+    for (var i = 0; i < data.length; i++) {
+      if (!list.contains(data[i].kind)) {
+        list.add(data[i].kind);
+      }
+    }
+
+    return list;
+  }
+}
+
+////////////////////////////////////////////////////////////
+final selectCreditProvider =
+    StateNotifierProvider.autoDispose<SelectCreditStateNotifier, String>((ref) {
+  return SelectCreditStateNotifier();
+});
+
+class SelectCreditStateNotifier extends StateNotifier<String> {
+  SelectCreditStateNotifier() : super('');
+
+  ///
+  Future<void> setSelectCredit({required String selectCredit}) async {
+    state = selectCredit;
   }
 }

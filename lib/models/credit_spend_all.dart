@@ -15,6 +15,8 @@ http://toyohide.work/BrainLog/api/carditemlist
 
 */
 
+import '../extensions/extensions.dart';
+
 class CreditSpendAll {
   CreditSpendAll({
     required this.payMonth,
@@ -30,10 +32,10 @@ class CreditSpendAll {
         payMonth: json['pay_month'].toString(),
         item: json['item'].toString(),
         price: json['price'].toString(),
-        date: DateTime.parse(json['date'].toString()),
+        date: json['date'].toString().toDateTime(),
         kind: json['kind'].toString(),
-        monthDiff: int.parse(json['month_diff'].toString()),
-        flag: int.parse(json['flag'].toString()),
+        monthDiff: json['month_diff'].toString().toInt(),
+        flag: json['flag'].toString().toInt(),
       );
 
   String payMonth;

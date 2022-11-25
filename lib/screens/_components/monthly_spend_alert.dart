@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/models/holiday.dart';
-import 'package:moneynote4/models/youbi.dart';
 
-import '../../utility/utility.dart';
+import '../../extensions/extensions.dart';
+import '../../models/holiday.dart';
+import '../../models/youbi.dart';
 import '../../viewmodel/holiday_notifier.dart';
 import '../../viewmodel/spend_notifier.dart';
 import '../../viewmodel/youbi_notifier.dart';
@@ -14,8 +14,6 @@ class MonthlySpendAlert extends ConsumerWidget {
   MonthlySpendAlert({super.key, required this.date});
 
   final DateTime date;
-
-  final Utility _utility = Utility();
 
   late WidgetRef _ref;
 
@@ -50,12 +48,10 @@ class MonthlySpendAlert extends ConsumerWidget {
 
   ///
   Widget displayMonthlySpend() {
-    final exDate = date.toString().split(' ');
-
     final spendMonthDetailState =
-        _ref.watch(spendMonthDetailProvider(exDate[0]));
+        _ref.watch(spendMonthDetailProvider(date.yyyymmdd));
 
-    final youbiState = _ref.watch(youbiProvider(exDate[0]));
+    final youbiState = _ref.watch(youbiProvider(date.yyyymmdd));
 
     final holidayState = _ref.watch(holidayProvider);
 
@@ -97,8 +93,11 @@ class MonthlySpendAlert extends ConsumerWidget {
                   style: TextStyle(color: color),
                 ),
                 Text(
-                  _utility.makeCurrencyDisplay(
-                      spendMonthDetailState[i].item[j].price.toString()),
+                  spendMonthDetailState[i]
+                      .item[j]
+                      .price
+                      .toString()
+                      .toCurrency(),
                   style: TextStyle(color: color),
                 ),
               ],
@@ -125,8 +124,7 @@ class MonthlySpendAlert extends ConsumerWidget {
                   Text(
                     '${spendMonthDetailState[i].date.toString().split(' ')[0]}（${youbi.youbi}）',
                   ),
-                  Text(_utility.makeCurrencyDisplay(
-                      spendMonthDetailState[i].spend.toString())),
+                  Text(spendMonthDetailState[i].spend.toString().toCurrency()),
                 ],
               ),
               Row(

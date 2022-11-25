@@ -47,6 +47,8 @@ http://toyohide.work/BrainLog/api/balanceSheetRecord
 
 */
 
+import '../extensions/extensions.dart';
+
 class Balancesheet {
   Balancesheet({
     required this.ym,
@@ -58,8 +60,8 @@ class Balancesheet {
 
   factory Balancesheet.fromJson(Map<String, dynamic> json) => Balancesheet(
         ym: json['ym'].toString(),
-        assetsTotal: int.parse(json['assets_total'].toString()),
-        capitalTotal: int.parse(json['capital_total'].toString()),
+        assetsTotal: json['assets_total'].toString().toInt(),
+        capitalTotal: json['capital_total'].toString().toInt(),
         assets: Map.from(json['assets'] as Map<dynamic, dynamic>).map(
           (k, v) => MapEntry<String, int>(
             k.toString(),

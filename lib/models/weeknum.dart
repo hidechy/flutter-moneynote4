@@ -10,13 +10,15 @@ http://toyohide.work/BrainLog/api/getmonthlyweeknum
 
 */
 
+import '../extensions/extensions.dart';
+
 class Weeknum {
   Weeknum({
     required this.weeknum,
   });
 
   factory Weeknum.fromJson(Map<String, dynamic> json) => Weeknum(
-        weeknum: int.parse(json['weeknum'].toString()),
+        weeknum: json['weeknum'].toString().toInt(),
       );
 
   int weeknum;

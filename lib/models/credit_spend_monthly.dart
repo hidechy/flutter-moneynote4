@@ -13,6 +13,8 @@ http://toyohide.work/BrainLog/api/uccardspend
 
 */
 
+import '../extensions/extensions.dart';
+
 class CreditSpendMonthly {
   CreditSpendMonthly({
     required this.item,
@@ -25,7 +27,7 @@ class CreditSpendMonthly {
       CreditSpendMonthly(
         item: json['item'].toString(),
         price: json['price'].toString(),
-        date: DateTime.parse(json['date'].toString()),
+        date: json['date'].toString().toDateTime(),
         kind: json['kind'].toString(),
       );
 

@@ -31,6 +31,8 @@ http://toyohide.work/BrainLog/api/moneydl
 
 */
 
+import '../extensions/extensions.dart';
+
 class Money {
   Money({
     required this.date,
@@ -59,7 +61,7 @@ class Money {
   });
 
   factory Money.fromJson(Map<String, dynamic> json) => Money(
-        date: DateTime.parse(json['date'].toString()),
+        date: json['date'].toString().toDateTime(),
         ym: json['ym'].toString(),
         yen10000: json['yen_10000'].toString(),
         yen5000: json['yen_5000'].toString(),

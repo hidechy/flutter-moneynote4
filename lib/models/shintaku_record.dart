@@ -21,6 +21,8 @@ http://toyohide.work/BrainLog/api/getDataShintaku
 
 */
 
+import '../extensions/extensions.dart';
+
 class ShintakuRecord {
   ShintakuRecord({
     required this.name,
@@ -35,12 +37,12 @@ class ShintakuRecord {
 
   factory ShintakuRecord.fromJson(Map<String, dynamic> json) => ShintakuRecord(
         name: json['name'].toString(),
-        date: DateTime.parse(json['date'].toString()),
+        date: json['date'].toString().toDateTime(),
         num: json['num'].toString(),
         shutoku: json['shutoku'].toString(),
         cost: json['cost'].toString(),
         price: json['price'].toString(),
-        diff: int.parse(json['diff'].toString()),
+        diff: json['diff'].toString().toInt(),
         data: json['data'].toString(),
       );
 

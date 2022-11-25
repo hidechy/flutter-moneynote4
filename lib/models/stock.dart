@@ -23,6 +23,8 @@ http://toyohide.work/BrainLog/api/getDataStock
 
 // ignore_for_file: avoid_dynamic_calls, inference_failure_on_untyped_parameter
 
+import '../extensions/extensions.dart';
+
 import 'stock_record.dart';
 
 class Stock {
@@ -35,10 +37,10 @@ class Stock {
   });
 
   factory Stock.fromJson(Map<String, dynamic> json) => Stock(
-        cost: int.parse(json['cost'].toString()),
-        price: int.parse(json['price'].toString()),
-        diff: int.parse(json['diff'].toString()),
-        date: DateTime.parse(json['date'].toString()),
+        cost: json['cost'].toString().toInt(),
+        price: json['price'].toString().toInt(),
+        diff: json['diff'].toString().toInt(),
+        date: json['date'].toString().toDateTime(),
         record: List<StockRecord>.from(json['record']
                 .map((x) => StockRecord.fromJson(x as Map<String, dynamic>))
             as Iterable),

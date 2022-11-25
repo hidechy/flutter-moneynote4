@@ -11,6 +11,8 @@ http://toyohide.work/BrainLog/api/getholiday
 
 // ignore_for_file: inference_failure_on_untyped_parameter, avoid_dynamic_calls
 
+import '../extensions/extensions.dart';
+
 class Holiday {
   Holiday({
     required this.data,
@@ -18,7 +20,7 @@ class Holiday {
 
   factory Holiday.fromJson(Map<String, dynamic> json) => Holiday(
         data: List<DateTime>.from(
-            json['data'].map((x) => DateTime.parse(x.toString())) as Iterable),
+            json['data'].map((x) => x.toString().toDateTime()) as Iterable),
       );
 
   List<DateTime> data;

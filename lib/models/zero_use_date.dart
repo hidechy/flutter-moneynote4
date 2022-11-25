@@ -11,6 +11,8 @@ http://toyohide.work/BrainLog/api/timeplacezerousedate
 
 */
 
+import '../extensions/extensions.dart';
+
 class ZeroUseDate {
   ZeroUseDate({
     required this.data,
@@ -18,7 +20,7 @@ class ZeroUseDate {
 
   factory ZeroUseDate.fromJson(Map<String, dynamic> json) => ZeroUseDate(
         data: List<DateTime>.from(
-            json['data'].map((x) => DateTime.parse(x.toString())) as Iterable),
+            json['data'].map((x) => x.toString().toDateTime()) as Iterable),
       );
 
   List<DateTime> data;

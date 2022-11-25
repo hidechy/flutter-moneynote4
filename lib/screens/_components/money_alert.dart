@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/shintaku_alert.dart';
 
+import '../../extensions/extensions.dart';
 import '../../models/money.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/bank_notifier.dart';
@@ -14,6 +14,7 @@ import '../../viewmodel/stock_notifier.dart';
 import '_money_dialog.dart';
 import 'bank_alert.dart';
 import 'gold_alert.dart';
+import 'shintaku_alert.dart';
 import 'spend_alert.dart';
 import 'stock_alert.dart';
 
@@ -33,11 +34,11 @@ class MoneyAlert extends ConsumerWidget {
     _context = context;
     _ref = ref;
 
+    final moneyState = ref.watch(moneyProvider(date.yyyymmdd));
+
     final exDate = date.toString().split(' ');
-
-    final moneyState = ref.watch(moneyProvider(exDate[0]));
-
     final exYmd = exDate[0].split('-');
+
     final yesterday = DateTime(
       int.parse(exYmd[0]),
       int.parse(exYmd[1]),
@@ -91,11 +92,11 @@ class MoneyAlert extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
-                                _utility.makeCurrencyDisplay(total),
+                                total.toCurrency(),
                                 style: const TextStyle(fontSize: 16),
                               ),
                               Text(
-                                _utility.makeCurrencyDisplay(diff),
+                                diff.toCurrency(),
                                 style: const TextStyle(fontSize: 16),
                               ),
                             ],
@@ -144,7 +145,7 @@ class MoneyAlert extends ConsumerWidget {
   ///
   Widget displayMoney({required Money data}) {
     return DefaultTextStyle(
-      style: TextStyle(fontSize: 12),
+      style: const TextStyle(fontSize: 12),
       child: Column(
         children: [
           Row(
@@ -202,7 +203,7 @@ class MoneyAlert extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(dispKey.toString()),
-          Text((value == 'null') ? '0' : _utility.makeCurrencyDisplay(value)),
+          Text((value == 'null') ? '0' : value.toCurrency()),
         ],
       ),
     );
@@ -217,7 +218,7 @@ class MoneyAlert extends ConsumerWidget {
     final bankStateE = _ref.watch(bankLastProvider('bank_e'));
 
     return DefaultTextStyle(
-      style: TextStyle(fontSize: 12),
+      style: const TextStyle(fontSize: 12),
       child: Column(
         children: [
           Row(
@@ -284,7 +285,7 @@ class MoneyAlert extends ConsumerWidget {
     final bankName = _utility.getBankName();
 
     return DefaultTextStyle(
-      style: TextStyle(fontSize: 12),
+      style: const TextStyle(fontSize: 12),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 3),
         decoration: BoxDecoration(
@@ -316,7 +317,7 @@ class MoneyAlert extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  (price == 'null') ? '0' : _utility.makeCurrencyDisplay(price),
+                  (price == 'null') ? '0' : price.toCurrency(),
                 ),
                 Text(date.split(' ')[0]),
               ],
@@ -336,7 +337,7 @@ class MoneyAlert extends ConsumerWidget {
     final payStateE = _ref.watch(bankLastProvider('pay_e'));
 
     return DefaultTextStyle(
-      style: TextStyle(fontSize: 12),
+      style: const TextStyle(fontSize: 12),
       child: Column(
         children: [
           Row(
@@ -451,13 +452,11 @@ class MoneyAlert extends ConsumerWidget {
                   children: [
                     (goldState.payPrice == null)
                         ? Container()
-                        : Text(_utility.makeCurrencyDisplay(
-                            goldState.payPrice.toString())),
+                        : Text(goldState.payPrice.toString().toCurrency()),
                     (goldState.goldValue == null)
                         ? Container()
-                        : Text(_utility.makeCurrencyDisplay(
-                            goldState.goldValue.toString())),
-                    Text(_utility.makeCurrencyDisplay(goldDiff.toString())),
+                        : Text(goldState.goldValue.toString().toCurrency()),
+                    Text(goldDiff.toString().toCurrency()),
                   ],
                 ),
               ],
@@ -525,12 +524,9 @@ class MoneyAlert extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(_utility
-                        .makeCurrencyDisplay(stockState.cost.toString())),
-                    Text(_utility
-                        .makeCurrencyDisplay(stockState.price.toString())),
-                    Text(_utility
-                        .makeCurrencyDisplay(stockState.diff.toString())),
+                    Text(stockState.cost.toString().toCurrency()),
+                    Text(stockState.price.toString().toCurrency()),
+                    Text(stockState.diff.toString().toCurrency()),
                   ],
                 ),
               ],
@@ -599,12 +595,9 @@ class MoneyAlert extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(_utility
-                        .makeCurrencyDisplay(shintakuState.cost.toString())),
-                    Text(_utility
-                        .makeCurrencyDisplay(shintakuState.price.toString())),
-                    Text(_utility
-                        .makeCurrencyDisplay(shintakuState.diff.toString())),
+                    Text(shintakuState.cost.toString().toCurrency()),
+                    Text(shintakuState.price.toString().toCurrency()),
+                    Text(shintakuState.diff.toString().toCurrency()),
                   ],
                 ),
               ],

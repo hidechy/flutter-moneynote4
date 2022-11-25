@@ -12,6 +12,8 @@ http://toyohide.work/BrainLog/api/spenditemweekly
 
 */
 
+import '../extensions/extensions.dart';
+
 class SpendWeekly {
   SpendWeekly({
     required this.date,
@@ -20,7 +22,7 @@ class SpendWeekly {
   });
 
   factory SpendWeekly.fromJson(Map<String, dynamic> json) => SpendWeekly(
-        date: DateTime.parse(json['date'].toString()),
+        date: json['date'].toString().toDateTime(),
         koumoku: json['koumoku'].toString(),
         price: json['price'],
       );

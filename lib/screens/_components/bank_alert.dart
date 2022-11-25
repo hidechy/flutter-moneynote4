@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
+import '../../extensions/extensions.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/bank_notifier.dart';
 
@@ -25,8 +26,6 @@ class BankAlert extends ConsumerWidget {
     final bankAllState = _ref.watch(bankAllProvider(name));
 
     final bankName = _utility.getBankName();
-
-    final size = MediaQuery.of(context).size;
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -73,7 +72,7 @@ class BankAlert extends ConsumerWidget {
                 ),
                 SizedBox(
                   width: double.infinity,
-                  height: size.height * 0.75,
+                  height: context.screenSize.height * 0.75,
                   child: displayBank(),
                 ),
               ],
@@ -111,7 +110,7 @@ class BankAlert extends ConsumerWidget {
                 Text(bankAllState[i].date.toString().split(' ')[0]),
                 Row(
                   children: [
-                    Text(_utility.makeCurrencyDisplay(bankAllState[i].price)),
+                    Text(bankAllState[i].price.toCurrency()),
                     const SizedBox(width: 20),
                     getBankMark(mark: bankAllState[i].mark),
                   ],

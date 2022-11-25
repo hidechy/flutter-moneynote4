@@ -11,6 +11,8 @@ http://toyohide.work/BrainLog/api/getSamedaySpend
 
 */
 
+import '../extensions/extensions.dart';
+
 class MoneySameday {
   MoneySameday({
     required this.ym,
@@ -19,7 +21,7 @@ class MoneySameday {
 
   factory MoneySameday.fromJson(Map<String, dynamic> json) => MoneySameday(
         ym: json['ym'].toString(),
-        sum: int.parse(json['sum'].toString()),
+        sum: json['sum'].toString().toInt(),
       );
 
   String ym;

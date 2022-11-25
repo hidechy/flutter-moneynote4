@@ -11,6 +11,8 @@ http://toyohide.work/BrainLog/api/getDutyData
 
 */
 
+import '../extensions/extensions.dart';
+
 class Duty {
   Duty({
     required this.duty,
@@ -20,7 +22,7 @@ class Duty {
 
   factory Duty.fromJson(Map<String, dynamic> json) => Duty(
         duty: json['duty'].toString(),
-        date: DateTime.parse(json['date'].toString()),
+        date: json['date'].toString().toDateTime(),
         price: json['price'],
       );
 

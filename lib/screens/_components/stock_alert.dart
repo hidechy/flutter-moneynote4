@@ -4,15 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
-import '../../utility/utility.dart';
+import '../../extensions/extensions.dart';
 import '../../viewmodel/stock_notifier.dart';
 
 class StockAlert extends ConsumerWidget {
   StockAlert({super.key});
 
   final autoScrollController = AutoScrollController();
-
-  final Utility _utility = Utility();
 
   late WidgetRef _ref;
 
@@ -28,8 +26,6 @@ class StockAlert extends ConsumerWidget {
     final exData = stockRecordState.data.split('/');
 
     final selectStockState = ref.watch(selectStockProvider);
-
-    final size = MediaQuery.of(context).size;
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -47,7 +43,7 @@ class StockAlert extends ConsumerWidget {
               children: [
                 const SizedBox(height: 20),
                 SizedBox(
-                  height: size.height * 0.15,
+                  height: context.screenSize.height * 0.15,
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,7 +107,7 @@ class StockAlert extends ConsumerWidget {
                 ),
                 const SizedBox(height: 20),
                 SizedBox(
-                  height: size.height * 0.55,
+                  height: context.screenSize.height * 0.55,
                   child: displayStock(),
                 ),
               ],
@@ -165,15 +161,15 @@ class StockAlert extends ConsumerWidget {
                   ),
                   Container(
                     alignment: Alignment.topRight,
-                    child: Text(_utility.makeCurrencyDisplay(exOne[3])),
+                    child: Text(exOne[3].toCurrency()),
                   ),
                   Container(
                     alignment: Alignment.topRight,
-                    child: Text(_utility.makeCurrencyDisplay(exOne[4])),
+                    child: Text(exOne[4].toCurrency()),
                   ),
                   Container(
                     alignment: Alignment.topRight,
-                    child: Text(_utility.makeCurrencyDisplay(exOne[5])),
+                    child: Text(exOne[5].toCurrency()),
                   ),
                 ]),
               ],

@@ -12,6 +12,8 @@ http://toyohide.work/BrainLog/api/bankSearch
 
 */
 
+import '../extensions/extensions.dart';
+
 class BankCompanyChange {
   BankCompanyChange({
     required this.date,
@@ -21,9 +23,9 @@ class BankCompanyChange {
 
   factory BankCompanyChange.fromJson(Map<String, dynamic> json) =>
       BankCompanyChange(
-        date: DateTime.parse(json['date'].toString()),
+        date: json['date'].toString().toDateTime(),
         price: json['price'].toString(),
-        diff: int.parse(json['diff'].toString()),
+        diff: json['diff'].toString().toInt(),
       );
 
   DateTime date;

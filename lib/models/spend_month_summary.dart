@@ -12,6 +12,8 @@ http://toyohide.work/BrainLog/api/monthsummary
 
 */
 
+import '../extensions/extensions.dart';
+
 class SpendMonthSummary {
   SpendMonthSummary({
     required this.item,
@@ -22,8 +24,8 @@ class SpendMonthSummary {
   factory SpendMonthSummary.fromJson(Map<String, dynamic> json) =>
       SpendMonthSummary(
         item: json['item'].toString(),
-        sum: int.parse(json['sum'].toString()),
-        percent: int.parse(json['percent'].toString()),
+        sum: json['sum'].toString().toInt(),
+        percent: json['percent'].toString().toInt(),
       );
 
   String item;

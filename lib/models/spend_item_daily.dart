@@ -16,6 +16,8 @@ http://toyohide.work/BrainLog/api/getmonthSpendItem
 
 */
 
+import '../extensions/extensions.dart';
+
 class SpendItemDaily {
   SpendItemDaily({
     required this.date,
@@ -23,7 +25,7 @@ class SpendItemDaily {
   });
 
   factory SpendItemDaily.fromJson(Map<String, dynamic> json) => SpendItemDaily(
-        date: DateTime.parse(json['date'].toString()),
+        date: json['date'].toString().toDateTime(),
         item: List<String>.from(json['item'].map((x) => x) as Iterable),
       );
 

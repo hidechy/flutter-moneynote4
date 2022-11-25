@@ -13,6 +13,8 @@ http://toyohide.work/BrainLog/api/timeplaceweekly
 
 */
 
+import '../extensions/extensions.dart';
+
 class SpendTimeplaceWeekly {
   SpendTimeplaceWeekly({
     required this.date,
@@ -23,10 +25,10 @@ class SpendTimeplaceWeekly {
 
   factory SpendTimeplaceWeekly.fromJson(Map<String, dynamic> json) =>
       SpendTimeplaceWeekly(
-        date: DateTime.parse(json['date'].toString()),
+        date: json['date'].toString().toDateTime(),
         time: json['time'].toString(),
         place: json['place'].toString(),
-        price: int.parse(json['price'].toString()),
+        price: json['price'].toString().toInt(),
       );
 
   DateTime date;

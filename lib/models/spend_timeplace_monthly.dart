@@ -13,6 +13,8 @@ http://toyohide.work/BrainLog/api/getmonthlytimeplace
 
 */
 
+import '../extensions/extensions.dart';
+
 class SpendTimeplaceMonthly {
   SpendTimeplaceMonthly({
     required this.date,
@@ -23,10 +25,10 @@ class SpendTimeplaceMonthly {
 
   factory SpendTimeplaceMonthly.fromJson(Map<String, dynamic> json) =>
       SpendTimeplaceMonthly(
-        date: DateTime.parse(json['date'].toString()),
+        date: json['date'].toString().toDateTime(),
         time: json['time'].toString(),
         place: json['place'].toString(),
-        price: int.parse(json['price'].toString()),
+        price: json['price'].toString().toInt(),
       );
 
   DateTime date;

@@ -40,6 +40,8 @@ http://toyohide.work/BrainLog/api/getYearSpend
 
 // ignore_for_file: avoid_dynamic_calls, inference_failure_on_untyped_parameter
 
+import '../extensions/extensions.dart';
+
 import 'spend_yearly_item.dart';
 
 class SpendYearly {
@@ -50,8 +52,8 @@ class SpendYearly {
   });
 
   factory SpendYearly.fromJson(Map<String, dynamic> json) => SpendYearly(
-        date: DateTime.parse(json['date'].toString()),
-        spend: int.parse(json['spend'].toString()),
+        date: json['date'].toString().toDateTime(),
+        spend: json['spend'].toString().toInt(),
         item: List<SpendYearlyItem>.from(json['item']
                 .map((x) => SpendYearlyItem.fromJson(x as Map<String, dynamic>))
             as Iterable),

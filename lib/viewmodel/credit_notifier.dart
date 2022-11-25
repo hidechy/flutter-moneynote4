@@ -16,7 +16,7 @@ final creditSpendMonthlyProvider = StateNotifierProvider.autoDispose
   return CreditSpendMonthlyNotifier(
     [],
     client,
-  )..getCreditSpendMonthly(date: date);
+  )..getCreditSpendMonthly(date: date, kind: '');
 });
 
 class CreditSpendMonthlyNotifier
@@ -25,7 +25,8 @@ class CreditSpendMonthlyNotifier
 
   final HttpClient client;
 
-  Future<void> getCreditSpendMonthly({required String date}) async {
+  Future<void> getCreditSpendMonthly(
+      {required String date, required String kind}) async {
     await client.post(
       path: 'uccardspend',
       body: {'date': date},
@@ -33,14 +34,27 @@ class CreditSpendMonthlyNotifier
       final list = <CreditSpendMonthly>[];
 
       for (var i = 0; i < int.parse(value['data'].length.toString()); i++) {
-        list.add(
-          CreditSpendMonthly(
-            item: value['data'][i]['item'].toString(),
-            price: value['data'][i]['price'].toString(),
-            date: DateTime.parse(value['data'][i]['date'].toString()),
-            kind: value['data'][i]['kind'].toString(),
-          ),
-        );
+        if (kind == '') {
+          list.add(
+            CreditSpendMonthly(
+              item: value['data'][i]['item'].toString(),
+              price: value['data'][i]['price'].toString(),
+              date: DateTime.parse(value['data'][i]['date'].toString()),
+              kind: value['data'][i]['kind'].toString(),
+            ),
+          );
+        } else {
+          if (kind == value['data'][i]['kind'].toString()) {
+            list.add(
+              CreditSpendMonthly(
+                item: value['data'][i]['item'].toString(),
+                price: value['data'][i]['price'].toString(),
+                date: DateTime.parse(value['data'][i]['date'].toString()),
+                kind: value['data'][i]['kind'].toString(),
+              ),
+            );
+          }
+        }
       }
 
       state = list;

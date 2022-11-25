@@ -16,6 +16,8 @@ http://toyohide.work/BrainLog/api/seiyuuPurchaseList
 
 */
 
+import '../extensions/extensions.dart';
+
 class SeiyuPurchase {
   SeiyuPurchase({
     required this.date,
@@ -28,8 +30,8 @@ class SeiyuPurchase {
   });
 
   factory SeiyuPurchase.fromJson(Map<String, dynamic> json) => SeiyuPurchase(
-        date: DateTime.parse(json['date'].toString()),
-        pos: int.parse(json['pos'].toString()),
+        date: json['date'].toString().toDateTime(),
+        pos: json['pos'].toString().toInt(),
         item: json['item'].toString(),
         tanka: json['tanka'].toString(),
         kosuu: json['kosuu'].toString(),

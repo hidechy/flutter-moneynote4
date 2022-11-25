@@ -13,6 +13,8 @@ http://toyohide.work/BrainLog/api/getmonthstartmoney
 
 */
 
+import '../extensions/extensions.dart';
+
 class MoneyMonthStart {
   MoneyMonthStart({
     required this.year,
@@ -24,7 +26,7 @@ class MoneyMonthStart {
 
   factory MoneyMonthStart.fromJson(Map<String, dynamic> json) =>
       MoneyMonthStart(
-        year: int.parse(json['year'].toString()),
+        year: json['year'].toString().toInt(),
         price: json['price'].toString(),
         manen: json['manen'].toString(),
         updown: json['updown'].toString(),

@@ -23,6 +23,8 @@ http://toyohide.work/BrainLog/api/getDataShintaku
 
 // ignore_for_file: avoid_dynamic_calls, inference_failure_on_untyped_parameter
 
+import '../extensions/extensions.dart';
+
 import 'shintaku_record.dart';
 
 class Shintaku {
@@ -35,10 +37,10 @@ class Shintaku {
   });
 
   factory Shintaku.fromJson(Map<String, dynamic> json) => Shintaku(
-        cost: int.parse(json['cost'].toString()),
-        price: int.parse(json['price'].toString()),
-        diff: int.parse(json['diff'].toString()),
-        date: DateTime.parse(json['date'].toString()),
+        cost: json['cost'].toString().toInt(),
+        price: json['price'].toString().toInt(),
+        diff: json['diff'].toString().toInt(),
+        date: json['date'].toString().toDateTime(),
         record: List<ShintakuRecord>.from(json['record']
                 .map((x) => ShintakuRecord.fromJson(x as Map<String, dynamic>))
             as Iterable),

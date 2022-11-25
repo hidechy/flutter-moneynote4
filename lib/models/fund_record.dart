@@ -16,6 +16,8 @@ http://toyohide.work/BrainLog/api/getFund
 
 */
 
+import '../extensions/extensions.dart';
+
 class FundRecord {
   FundRecord({
     required this.date,
@@ -26,7 +28,7 @@ class FundRecord {
   });
 
   factory FundRecord.fromJson(Map<String, dynamic> json) => FundRecord(
-        date: DateTime.parse(json['date'].toString()),
+        date: json['date'].toString().toDateTime(),
         basePrice: json['base_price'].toString(),
         compareFront: json['compare_front'].toString(),
         yearlyReturn: json['yearly_return'].toString(),

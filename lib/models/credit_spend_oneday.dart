@@ -13,6 +13,8 @@ http://toyohide.work/BrainLog/api/getCreditDateData
 
 */
 
+import '../extensions/extensions.dart';
+
 class CreditSpendOneday {
   CreditSpendOneday({
     required this.card,
@@ -24,7 +26,7 @@ class CreditSpendOneday {
   factory CreditSpendOneday.fromJson(Map<String, dynamic> json) =>
       CreditSpendOneday(
         card: json['card'].toString(),
-        date: DateTime.parse(json['date'].toString()),
+        date: json['date'].toString().toDateTime(),
         item: json['item'].toString(),
         price: json['price'].toString(),
       );

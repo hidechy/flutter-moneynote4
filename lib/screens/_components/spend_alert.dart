@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../utility/utility.dart';
+import '../../extensions/extensions.dart';
 import '../../viewmodel/spend_notifier.dart';
 import '../../viewmodel/timeplace_notifier.dart';
 
@@ -13,16 +13,12 @@ class SpendAlert extends ConsumerWidget {
   final DateTime date;
   final String diff;
 
-  final Utility _utility = Utility();
-
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
-
-    final size = MediaQuery.of(context).size;
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -61,7 +57,7 @@ class SpendAlert extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
-                                _utility.makeCurrencyDisplay(diff),
+                                diff.toCurrency(),
                                 style: const TextStyle(fontSize: 16),
                               ),
                             ],
@@ -74,7 +70,7 @@ class SpendAlert extends ConsumerWidget {
                 const SizedBox(height: 20),
                 SizedBox(
                   width: double.infinity,
-                  height: size.height * 0.2,
+                  height: context.screenSize.height * 0.2,
                   child: displaySpendItem(),
                 ),
                 Divider(
@@ -83,7 +79,7 @@ class SpendAlert extends ConsumerWidget {
                 ),
                 SizedBox(
                   width: double.infinity,
-                  height: size.height * 0.2,
+                  height: context.screenSize.height * 0.2,
                   child: displayTimeplace(),
                 ),
                 Divider(
@@ -128,7 +124,7 @@ class SpendAlert extends ConsumerWidget {
                 style: TextStyle(color: color),
               ),
               Text(
-                _utility.makeCurrencyDisplay(exValue[2]),
+                exValue[2].toCurrency(),
                 style: TextStyle(color: color),
               ),
             ],
@@ -186,9 +182,7 @@ class SpendAlert extends ConsumerWidget {
                 width: 50,
                 alignment: Alignment.topRight,
                 child: Text(
-                  _utility.makeCurrencyDisplay(
-                    timeplaceState[i].price.toString(),
-                  ),
+                  timeplaceState[i].price.toString().toCurrency(),
                 ),
               ),
             ],
