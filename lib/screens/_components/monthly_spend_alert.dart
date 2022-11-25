@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
+import '../../models/credit_spend_monthly.dart';
 import '../../models/holiday.dart';
 import '../../models/youbi.dart';
+import '../../viewmodel/credit_notifier.dart';
 import '../../viewmodel/holiday_notifier.dart';
 import '../../viewmodel/spend_notifier.dart';
 import '../../viewmodel/youbi_notifier.dart';
@@ -15,12 +17,18 @@ class MonthlySpendAlert extends ConsumerWidget {
 
   final DateTime date;
 
+  Map<String, List<CreditSpendMonthly>> creditSpendMap = {};
+
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
+
+    getNext2MonthCreditSpend();
+
+//    print(creditSpendMap);
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -47,6 +55,66 @@ class MonthlySpendAlert extends ConsumerWidget {
   }
 
   ///
+  void getNext2MonthCreditSpend() {
+    final exYmd = date.yyyymmdd.split('-');
+
+    var list = <CreditSpendMonthly>[];
+    var keepDate = '';
+
+    //---------------------//
+    final after1 = DateTime(exYmd[0].toInt(), exYmd[1].toInt() + 1);
+
+    final creditSpendMonthlyState1 =
+        _ref.watch(creditSpendMonthlyProvider(after1.yyyymmdd));
+
+    list = <CreditSpendMonthly>[];
+    keepDate = '';
+
+    for (var i = 0; i < creditSpendMonthlyState1.length; i++) {
+      if (keepDate != creditSpendMonthlyState1[i].date.yyyymmdd) {
+        list = [];
+      }
+
+      if (date.yyyymm == creditSpendMonthlyState1[i].date.yyyymm) {
+        list.add(creditSpendMonthlyState1[i]);
+      }
+
+      if (list.isNotEmpty) {
+        creditSpendMap[creditSpendMonthlyState1[i].date.yyyymmdd] = list;
+      }
+
+      keepDate = creditSpendMonthlyState1[i].date.yyyymmdd;
+    }
+    //---------------------//
+
+    //---------------------//
+    final after2 = DateTime(exYmd[0].toInt(), exYmd[1].toInt() + 2);
+
+    final creditSpendMonthlyState2 =
+        _ref.watch(creditSpendMonthlyProvider(after2.yyyymmdd));
+
+    list = <CreditSpendMonthly>[];
+    keepDate = '';
+
+    for (var i = 0; i < creditSpendMonthlyState2.length; i++) {
+      if (keepDate != creditSpendMonthlyState2[i].date.yyyymmdd) {
+        list = [];
+      }
+
+      if (date.yyyymm == creditSpendMonthlyState2[i].date.yyyymm) {
+        list.add(creditSpendMonthlyState2[i]);
+      }
+
+      if (list.isNotEmpty) {
+        creditSpendMap[creditSpendMonthlyState2[i].date.yyyymmdd] = list;
+      }
+
+      keepDate = creditSpendMonthlyState2[i].date.yyyymmdd;
+    }
+    //---------------------//
+  }
+
+  ///
   Widget displayMonthlySpend() {
     final spendMonthDetailState =
         _ref.watch(spendMonthDetailProvider(date.yyyymmdd));
@@ -61,12 +129,12 @@ class MonthlySpendAlert extends ConsumerWidget {
       final list2 = <Widget>[];
 
       final youbi = getYoubi(
-        date: spendMonthDetailState[i].date.toString().split(' ')[0],
+        date: spendMonthDetailState[i].date.yyyymmdd,
         state: youbiState,
       );
 
       final holiday = getHoliday(
-        date: spendMonthDetailState[i].date.toString().split(' ')[0],
+        date: spendMonthDetailState[i].date.yyyymmdd,
         state: holidayState,
       );
 
@@ -85,25 +153,65 @@ class MonthlySpendAlert extends ConsumerWidget {
                 ),
               ),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  spendMonthDetailState[i].item[j].item,
-                  style: TextStyle(color: color),
-                ),
-                Text(
-                  spendMonthDetailState[i]
+            child: DefaultTextStyle(
+              style: TextStyle(color: color),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(spendMonthDetailState[i].item[j].item),
+                  Text(spendMonthDetailState[i]
                       .item[j]
                       .price
                       .toString()
-                      .toCurrency(),
-                  style: TextStyle(color: color),
-                ),
-              ],
+                      .toCurrency()),
+                ],
+              ),
             ),
           ),
         );
+      }
+
+      if (creditSpendMap[spendMonthDetailState[i].date.yyyymmdd] != null) {
+        final creditItemList =
+            creditSpendMap[spendMonthDetailState[i].date.yyyymmdd];
+
+        for (var j = 0; j < creditItemList!.length; j++) {
+          list2.add(
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 3),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Colors.white.withOpacity(0.3),
+                  ),
+                ),
+              ),
+              child: DefaultTextStyle(
+                style: const TextStyle(color: Colors.pinkAccent),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                        flex: 3,
+                        child: Text(
+                          creditItemList[j].item,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        )),
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.topRight,
+                        child: Text(
+                          creditItemList[j].price.toCurrency(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
       }
 
       list.add(
@@ -122,7 +230,7 @@ class MonthlySpendAlert extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '${spendMonthDetailState[i].date.toString().split(' ')[0]}（${youbi.youbi}）',
+                    '${spendMonthDetailState[i].date.yyyymmdd}（${youbi.youbi}）',
                   ),
                   Text(spendMonthDetailState[i].spend.toString().toCurrency()),
                 ],

@@ -16,6 +16,11 @@ extension DateTimeEx on DateTime {
     final outputFormat = DateFormat('yyyy-MM-dd');
     return outputFormat.format(this);
   }
+
+  String get yyyymm {
+    final outputFormat = DateFormat('yyyy-MM');
+    return outputFormat.format(this);
+  }
 }
 
 ///
