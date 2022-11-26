@@ -36,17 +36,17 @@ class Utility {
   Color getLeadingBgColor({required String month}) {
     switch (int.parse(month) % 6) {
       case 0:
-        return Colors.orangeAccent.withOpacity(0.3);
+        return Colors.orangeAccent.withOpacity(0.2);
       case 1:
-        return Colors.blueAccent.withOpacity(0.3);
+        return Colors.blueAccent.withOpacity(0.2);
       case 2:
-        return Colors.redAccent.withOpacity(0.3);
+        return Colors.redAccent.withOpacity(0.2);
       case 3:
-        return Colors.purpleAccent.withOpacity(0.3);
+        return Colors.purpleAccent.withOpacity(0.2);
       case 4:
-        return Colors.greenAccent.withOpacity(0.3);
+        return Colors.greenAccent.withOpacity(0.2);
       case 5:
-        return Colors.yellowAccent.withOpacity(0.3);
+        return Colors.yellowAccent.withOpacity(0.2);
       default:
         return Colors.black;
     }

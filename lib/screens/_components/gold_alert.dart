@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/extensions/extensions.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
+import '../../extensions/extensions.dart';
 import '../../viewmodel/gold_notifier.dart';
 
 class GoldAlert extends ConsumerWidget {

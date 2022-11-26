@@ -4,17 +4,19 @@ import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/extensions/extensions.dart';
-import 'package:moneynote4/screens/_components/seiyu_alert.dart';
+import 'package:moneynote4/screens/_components/duty_alert.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../extensions/extensions.dart';
 import '../models/spend_month_summary.dart';
 import '../utility/utility.dart';
 import '../viewmodel/spend_notifier.dart';
 import '_components/_money_dialog.dart';
+import '_components/amazon_alert.dart';
 import '_components/credit_alert.dart';
 import '_components/money_alert.dart';
 import '_components/monthly_spend_alert.dart';
+import '_components/seiyu_alert.dart';
 
 class HomeScreen extends ConsumerWidget {
   HomeScreen({super.key});
@@ -226,26 +228,7 @@ class HomeScreen extends ConsumerWidget {
         fabCloseColor: Colors.indigo.withOpacity(0.8),
         ringWidth: 10,
         ringDiameter: 200,
-        children: <Widget>[
-          IconButton(
-            icon: const Icon(FontAwesomeIcons.bullseye),
-            onPressed: () {
-              MoneyDialog(
-                context: context,
-                widget: SeiyuAlert(date: focusDayState),
-              );
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.details),
-            onPressed: () {
-              MoneyDialog(
-                context: context,
-                widget: MonthlySpendAlert(date: focusDayState),
-              );
-            },
-          ),
-        ],
+        children: getCircleFabMenu(),
       ),
     );
   }
@@ -298,6 +281,91 @@ class HomeScreen extends ConsumerWidget {
     }
 
     return ret;
+  }
+
+  ///
+  List<Widget> getCircleFabMenu() {
+    final focusDayState = _ref.watch(focusDayProvider);
+
+    final list = <Widget>[];
+
+    list.add(
+      GestureDetector(
+        onTap: () {
+          MoneyDialog(
+            context: _context,
+            widget: DutyAlert(date: focusDayState),
+          );
+        },
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            Icon(FontAwesomeIcons.biohazard),
+            SizedBox(width: 5),
+            Text('Duty'),
+          ],
+        ),
+      ),
+    );
+
+    list.add(
+      GestureDetector(
+        onTap: () {
+          MoneyDialog(
+            context: _context,
+            widget: AmazonAlert(date: focusDayState),
+          );
+        },
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            Icon(FontAwesomeIcons.amazon),
+            SizedBox(width: 5),
+            Text('Amazon'),
+          ],
+        ),
+      ),
+    );
+
+    list.add(
+      GestureDetector(
+        onTap: () {
+          MoneyDialog(
+            context: _context,
+            widget: SeiyuAlert(date: focusDayState),
+          );
+        },
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            Icon(FontAwesomeIcons.bullseye),
+            SizedBox(width: 5),
+            Text('Seiyuu'),
+          ],
+        ),
+      ),
+    );
+
+    list.add(
+      GestureDetector(
+        onTap: () {
+          MoneyDialog(
+            context: _context,
+            widget: MonthlySpendAlert(date: focusDayState),
+          );
+        },
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            Icon(Icons.details),
+            SizedBox(width: 5),
+            Text('Spend'),
+          ],
+        ),
+      ),
+    );
+
+    return list;
   }
 }
 

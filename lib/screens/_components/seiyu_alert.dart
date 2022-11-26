@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/extensions/extensions.dart';
 
+import '../../extensions/extensions.dart';
 import '../../viewmodel/seiyu_notifier.dart';
 
 class SeiyuAlert extends ConsumerWidget {
@@ -117,7 +117,7 @@ class SeiyuAlert extends ConsumerWidget {
 
             _ref
                 .watch(seiyuDateProvider(date.yyyymmdd).notifier)
-                .getSeiyuPurchaseList(date: '$i-01-01');
+                .getSeiyuDateList(date: '$i-01-01');
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
@@ -249,6 +249,8 @@ class SelectYearStateNotifier extends StateNotifier<String> {
     state = selectYear;
   }
 }
+
+////////////////////////////////////////////////
 
 ////////////////////////////////////////////////
 

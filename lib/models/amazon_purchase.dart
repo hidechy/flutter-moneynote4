@@ -14,8 +14,6 @@ http://toyohide.work/BrainLog/api/amazonPurchaseList
 
 */
 
-import '../extensions/extensions.dart';
-
 class AmazonPurchase {
   AmazonPurchase({
     required this.date,
@@ -26,22 +24,21 @@ class AmazonPurchase {
   });
 
   factory AmazonPurchase.fromJson(Map<String, dynamic> json) => AmazonPurchase(
-        date: json['date'].toString().toDateTime(),
+        date: json['date'].toString(),
         price: json['price'].toString(),
         orderNumber: json['order_number'].toString(),
         item: json['item'].toString(),
         img: json['img'].toString(),
       );
 
-  DateTime date;
+  String date;
   String price;
   String orderNumber;
   String item;
   String img;
 
   Map<String, dynamic> toJson() => {
-        'date':
-            "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
+        'date': date,
         'price': price,
         'order_number': orderNumber,
         'item': item,

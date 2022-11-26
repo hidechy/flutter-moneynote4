@@ -12,7 +12,7 @@ final seiyuDateProvider = StateNotifierProvider.autoDispose
     .family<SeiyuDateNotifier, List<SeiyuPurchase>, String>((ref, date) {
   final client = ref.read(httpClientProvider);
 
-  return SeiyuDateNotifier([], client)..getSeiyuPurchaseList(date: date);
+  return SeiyuDateNotifier([], client)..getSeiyuDateList(date: date);
 });
 
 class SeiyuDateNotifier extends StateNotifier<List<SeiyuPurchase>> {
@@ -20,7 +20,7 @@ class SeiyuDateNotifier extends StateNotifier<List<SeiyuPurchase>> {
 
   final HttpClient client;
 
-  Future<void> getSeiyuPurchaseList({required String date}) async {
+  Future<void> getSeiyuDateList({required String date}) async {
     await client.post(
       path: 'seiyuuPurchaseList',
       body: {'date': date},
