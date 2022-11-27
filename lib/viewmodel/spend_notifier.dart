@@ -1,9 +1,9 @@
 // ignore_for_file: avoid_dynamic_calls, literal_only_boolean_expressions
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/extensions/extensions.dart';
 
 import '../data/http/client.dart';
+import '../extensions/extensions.dart';
 import '../models/spend_item_daily.dart';
 import '../models/spend_month_summary.dart';
 import '../models/spend_yearly.dart';

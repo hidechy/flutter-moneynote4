@@ -1,11 +1,10 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/extensions/extensions.dart';
 
 import '../data/http/client.dart';
+import '../extensions/extensions.dart';
 import '../models/shintaku.dart';
-
 import '../models/shintaku_record.dart';
 
 ////////////////////////////////////////////////
