@@ -21,8 +21,7 @@ class CreditAlert extends ConsumerWidget {
     _ref = ref;
     _context = context;
 
-    final creditSpendMonthlyState =
-        ref.watch(creditSpendMonthlyProvider(date.toString()));
+    final creditSpendMonthlyState = ref.watch(creditSpendMonthlyProvider(date));
 
     final selectCreditState = ref.watch(selectCreditProvider);
 
@@ -83,11 +82,10 @@ class CreditAlert extends ConsumerWidget {
                                   .setSelectCredit(selectCredit: kind);
 
                               ref
-                                  .watch(creditSpendMonthlyProvider(
-                                          date.toString())
-                                      .notifier)
+                                  .watch(
+                                      creditSpendMonthlyProvider(date).notifier)
                                   .getCreditSpendMonthly(
-                                    date: date.yyyymmdd,
+                                    date: date,
                                     kind: kind,
                                   );
                             },
@@ -112,7 +110,7 @@ class CreditAlert extends ConsumerWidget {
   ///
   Widget dispCredit() {
     final creditSpendMonthlyState =
-        _ref.watch(creditSpendMonthlyProvider(date.toString()));
+        _ref.watch(creditSpendMonthlyProvider(date));
 
     final list = <Widget>[];
 

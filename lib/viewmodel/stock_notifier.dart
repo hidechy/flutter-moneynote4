@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/extensions/extensions.dart';
 
 import '../data/http/client.dart';
 import '../models/stock.dart';
@@ -32,7 +33,7 @@ class StockNotifier extends StateNotifier<Stock> {
     await client.post(path: 'getDataStock').then((value) {
       final list = <StockRecord>[];
       for (var i = 0;
-          i < int.parse(value['data']['record'].length.toString());
+          i < value['data']['record'].length.toString().toInt();
           i++) {
         list.add(
           StockRecord(
@@ -102,7 +103,7 @@ class StockRecordNotifier extends StateNotifier<StockRecord> {
       );
 
       for (var i = 0;
-          i < int.parse(value['data']['record'].length.toString());
+          i < value['data']['record'].length.toString().toInt();
           i++) {
         if (i == flag) {
           stockRecord = StockRecord(

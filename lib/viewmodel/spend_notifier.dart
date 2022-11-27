@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls, literal_only_boolean_expressions
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/extensions/extensions.dart';
 
 import '../data/http/client.dart';
 import '../models/spend_item_daily.dart';
@@ -11,7 +12,7 @@ import '../models/spend_yearly_item.dart';
 ////////////////////////////////////////////////
 
 final spendMonthSummaryProvider = StateNotifierProvider.autoDispose
-    .family<SpendMonthSummaryNotifier, List<SpendMonthSummary>, String>(
+    .family<SpendMonthSummaryNotifier, List<SpendMonthSummary>, DateTime>(
         (ref, date) {
   final client = ref.read(httpClientProvider);
 
@@ -24,14 +25,14 @@ class SpendMonthSummaryNotifier extends StateNotifier<List<SpendMonthSummary>> {
 
   final HttpClient client;
 
-  Future<void> getSpendMonthSummary({required String date}) async {
+  Future<void> getSpendMonthSummary({required DateTime date}) async {
     await client.post(
       path: 'monthsummary',
-      body: {'date': date},
+      body: {'date': date.yyyymmdd},
     ).then((value) {
       final list = <SpendMonthSummary>[];
 
-      for (var i = 0; i < int.parse(value['data'].length.toString()); i++) {
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         list.add(
           SpendMonthSummary(
             item: value['data'][i]['item'].toString(),
@@ -51,7 +52,7 @@ class SpendMonthSummaryNotifier extends StateNotifier<List<SpendMonthSummary>> {
 ////////////////////////////////////////////////
 
 final spendItemDailyProvider = StateNotifierProvider.autoDispose
-    .family<SpendItemDailyNotifier, SpendItemDaily, String>((ref, date) {
+    .family<SpendItemDailyNotifier, SpendItemDaily, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   return SpendItemDailyNotifier(
@@ -68,18 +69,19 @@ class SpendItemDailyNotifier extends StateNotifier<SpendItemDaily> {
 
   final HttpClient client;
 
-  Future<void> getSpendItemDaily({required String date}) async {
+  Future<void> getSpendItemDaily({required DateTime date}) async {
     await client.post(
       path: 'getmonthSpendItem',
-      body: {'date': date},
+      body: {'date': date.yyyymmdd},
     ).then((value) {
       var spendItemDaily = SpendItemDaily(
         date: DateTime.now(),
         item: [],
       );
 
-      for (var i = 0; i < int.parse(value['data'].length.toString()); i++) {
-        if (value['data'][i]['date'] == date) {
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        if ('${value['data'][i]['date']} 00:00:00'.toDateTime().yyyymmdd ==
+            date.yyyymmdd) {
           final list = <String>[];
           for (var j = 0;
               j < int.parse(value['data'][i]['item'].length.toString());
@@ -104,7 +106,7 @@ class SpendItemDailyNotifier extends StateNotifier<SpendItemDaily> {
 ////////////////////////////////////////////////
 
 final spendMonthDetailProvider = StateNotifierProvider.autoDispose
-    .family<SpendMonthDetailNotifier, List<SpendYearly>, String>((ref, date) {
+    .family<SpendMonthDetailNotifier, List<SpendYearly>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   return SpendMonthDetailNotifier([], client)..getSpendMonthDetail(date: date);
@@ -115,18 +117,16 @@ class SpendMonthDetailNotifier extends StateNotifier<List<SpendYearly>> {
 
   final HttpClient client;
 
-  Future<void> getSpendMonthDetail({required String date}) async {
+  Future<void> getSpendMonthDetail({required DateTime date}) async {
     await client.post(
       path: 'getYearSpend',
-      body: {'date': date},
+      body: {'date': date.yyyymmdd},
     ).then((value) {
       final list = <SpendYearly>[];
 
-      final exYmd = date.split('-');
-
-      for (var i = 0; i < int.parse(value['data'].length.toString()); i++) {
-        final exOneDate = value['data'][i]['date'].toString().split('-');
-        if ('${exYmd[0]}-${exYmd[1]}' == '${exOneDate[0]}-${exOneDate[1]}') {
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        if (date.yyyymm ==
+            '${value['data'][i]['date']} 00:00:00'.toDateTime().yyyymm) {
           final list2 = <SpendYearlyItem>[];
 
           for (var j = 0;

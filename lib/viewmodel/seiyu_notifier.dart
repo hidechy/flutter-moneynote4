@@ -9,7 +9,7 @@ import '../models/seiyu_purchase.dart';
 ////////////////////////////////////////////////
 
 final seiyuDateProvider = StateNotifierProvider.autoDispose
-    .family<SeiyuDateNotifier, List<SeiyuPurchase>, String>((ref, date) {
+    .family<SeiyuDateNotifier, List<SeiyuPurchase>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   return SeiyuDateNotifier([], client)..getSeiyuDateList(date: date);
@@ -20,14 +20,14 @@ class SeiyuDateNotifier extends StateNotifier<List<SeiyuPurchase>> {
 
   final HttpClient client;
 
-  Future<void> getSeiyuDateList({required String date}) async {
+  Future<void> getSeiyuDateList({required DateTime date}) async {
     await client.post(
       path: 'seiyuuPurchaseList',
-      body: {'date': date},
+      body: {'date': date.yyyymmdd},
     ).then((value) {
       final list = <SeiyuPurchase>[];
 
-      for (var i = 0; i < int.parse(value['data'].length.toString()); i++) {
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         list.add(
           SeiyuPurchase(
             date: value['data'][i]['date'].toString(),
@@ -69,7 +69,7 @@ class SeiyuPurchaseNotifier extends StateNotifier<List<SeiyuPurchase>> {
     ).then((value) {
       final list = <SeiyuPurchase>[];
 
-      for (var i = 0; i < int.parse(value['data'].length.toString()); i++) {
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         if (date == value['data'][i]['date'].toString()) {
           list.add(
             SeiyuPurchase(

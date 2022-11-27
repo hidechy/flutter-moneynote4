@@ -1,26 +1,26 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:moneynote4/extensions/extensions.dart';
 
 import '../models/youbi.dart';
 
 ////////////////////////////////////////////////
 
 final youbiProvider = StateNotifierProvider.autoDispose
-    .family<YoubiNotifier, List<Youbi>, String>((ref, date) {
+    .family<YoubiNotifier, List<Youbi>, DateTime>((ref, date) {
   return YoubiNotifier([])..getYoubi(date: date);
 });
 
 class YoubiNotifier extends StateNotifier<List<Youbi>> {
   YoubiNotifier(super.state);
 
-  Future<void> getYoubi({required String date}) async {
-    final exDate = date.split('-');
-    final endDay = DateTime(int.parse(exDate[0]), int.parse(exDate[1]) + 1, 0);
+  Future<void> getYoubi({required DateTime date}) async {
+    final endDay = DateTime(date.yyyy.toInt(), date.mm.toInt() - 1, 0);
     final exEndDay = endDay.toString().split(' ')[0].split('-');
 
     final list = <Youbi>[];
     for (var i = 1; i <= int.parse(exEndDay[2]); i++) {
-      final youbiDate = DateTime(int.parse(exDate[0]), int.parse(exDate[1]), i);
+      final youbiDate = DateTime(date.yyyy.toInt(), date.mm.toInt(), i);
       final youbi = DateFormat('EEEE').format(youbiDate);
 
       switch (youbi) {

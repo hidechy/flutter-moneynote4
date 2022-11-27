@@ -19,11 +19,13 @@ class MonthlySpendAlert extends ConsumerWidget {
 
   Map<String, List<CreditSpendMonthly>> creditSpendMap = {};
 
+  late BuildContext _context;
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    _context = context;
     _ref = ref;
 
     getNext2MonthCreditSpend();
@@ -33,8 +35,7 @@ class MonthlySpendAlert extends ConsumerWidget {
       contentPadding: EdgeInsets.zero,
       backgroundColor: Colors.transparent,
       insetPadding: EdgeInsets.zero,
-      content: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+      content: SizedBox(
         width: double.infinity,
         height: double.infinity,
         child: SingleChildScrollView(
@@ -65,7 +66,7 @@ class MonthlySpendAlert extends ConsumerWidget {
     final after1 = DateTime(exYmd[0].toInt(), exYmd[1].toInt() + 1);
 
     final creditSpendMonthlyState1 =
-        _ref.watch(creditSpendMonthlyProvider(after1.yyyymmdd));
+        _ref.watch(creditSpendMonthlyProvider(after1));
 
     list = <CreditSpendMonthly>[];
     keepDate = '';
@@ -91,7 +92,7 @@ class MonthlySpendAlert extends ConsumerWidget {
     final after2 = DateTime(exYmd[0].toInt(), exYmd[1].toInt() + 2);
 
     final creditSpendMonthlyState2 =
-        _ref.watch(creditSpendMonthlyProvider(after2.yyyymmdd));
+        _ref.watch(creditSpendMonthlyProvider(after2));
 
     list = <CreditSpendMonthly>[];
     keepDate = '';
@@ -116,10 +117,9 @@ class MonthlySpendAlert extends ConsumerWidget {
 
   ///
   Widget displayMonthlySpend() {
-    final spendMonthDetailState =
-        _ref.watch(spendMonthDetailProvider(date.yyyymmdd));
+    final spendMonthDetailState = _ref.watch(spendMonthDetailProvider(date));
 
-    final youbiState = _ref.watch(youbiProvider(date.yyyymmdd));
+    final youbiState = _ref.watch(youbiProvider(date));
 
     final holidayState = _ref.watch(holidayProvider);
 
@@ -145,6 +145,7 @@ class MonthlySpendAlert extends ConsumerWidget {
 
         list2.add(
           Container(
+            width: _context.screenSize.width,
             padding: const EdgeInsets.symmetric(vertical: 3),
             decoration: BoxDecoration(
               border: Border(

@@ -34,20 +34,15 @@ class MoneyAlert extends ConsumerWidget {
     _context = context;
     _ref = ref;
 
-    final moneyState = ref.watch(moneyProvider(date.yyyymmdd));
+    final moneyState = ref.watch(moneyProvider(date));
 
     final exDate = date.toString().split(' ');
     final exYmd = exDate[0].split('-');
 
-    final yesterday = DateTime(
-      int.parse(exYmd[0]),
-      int.parse(exYmd[1]),
-      int.parse(exYmd[2]) - 1,
-    );
+    final yesterday =
+        DateTime(exYmd[0].toInt(), exYmd[1].toInt(), exYmd[2].toInt() - 1);
 
-    final yesterdayMoney = ref.watch(
-      moneyProvider(yesterday.toString().split(' ')[0]),
-    );
+    final yesterdayMoney = ref.watch(moneyProvider(yesterday));
 
     final total = (moneyState.sum == '') ? '0' : moneyState.sum;
     final diff = (moneyState.sum == '' || yesterdayMoney.sum == '')

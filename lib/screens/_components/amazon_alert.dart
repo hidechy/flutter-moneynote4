@@ -69,8 +69,8 @@ class AmazonAlert extends ConsumerWidget {
                 .setSelectYear(selectYear: i.toString());
 
             _ref
-                .watch(amazonPurchaseProvider(date.yyyymmdd).notifier)
-                .getAmazonPurchaseList(date: '$i-01-01');
+                .watch(amazonPurchaseProvider(date).notifier)
+                .getAmazonPurchaseList(date: '$i-01-01 00:00:00'.toDateTime());
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
@@ -92,8 +92,7 @@ class AmazonAlert extends ConsumerWidget {
 
   ///
   Widget displayAmazonPurchase() {
-    final amazonPurchaseState =
-        _ref.watch(amazonPurchaseProvider(date.yyyymmdd));
+    final amazonPurchaseState = _ref.watch(amazonPurchaseProvider(date));
 
     final list = <Widget>[];
 

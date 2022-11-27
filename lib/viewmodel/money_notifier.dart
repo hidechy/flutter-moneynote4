@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/extensions/extensions.dart';
 
 import '../data/http/client.dart';
 
@@ -9,7 +10,7 @@ import '../models/money.dart';
 ////////////////////////////////////////////////
 
 final moneyProvider = StateNotifierProvider.autoDispose
-    .family<MoneyNotifier, Money, String>((ref, date) {
+    .family<MoneyNotifier, Money, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   return MoneyNotifier(
@@ -47,17 +48,14 @@ class MoneyNotifier extends StateNotifier<Money> {
 
   final HttpClient client;
 
-  Future<void> getMoney({required String date}) async {
+  Future<void> getMoney({required DateTime date}) async {
     await client.post(
       path: 'moneydl',
-      body: {'date': date},
+      body: {'date': date.yyyymmdd},
     ).then((value) {
-      final exDate = date.split(' ');
-      final exYmd = exDate[0].split('-');
-
       state = Money(
-        date: DateTime.parse(date),
-        ym: '${exYmd[0]}-${exYmd[1]}',
+        date: date,
+        ym: date.yyyymm,
         yen10000: value['data']['yen_10000'].toString(),
         yen5000: value['data']['yen_5000'].toString(),
         yen2000: value['data']['yen_2000'].toString(),

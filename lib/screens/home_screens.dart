@@ -4,7 +4,9 @@ import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/credit_summary_alert.dart';
 import 'package:moneynote4/screens/_components/duty_alert.dart';
+import 'package:moneynote4/screens/_components/home_fix_alert.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../extensions/extensions.dart';
@@ -35,7 +37,7 @@ class HomeScreen extends ConsumerWidget {
     final focusDayState = ref.watch(focusDayProvider);
 
     final spendMonthSummaryState = ref.watch(
-      spendMonthSummaryProvider(focusDayState.toString()),
+      spendMonthSummaryProvider(focusDayState),
     );
 
     final total = makeTotalPrice(data: spendMonthSummaryState);
@@ -294,15 +296,15 @@ class HomeScreen extends ConsumerWidget {
         onTap: () {
           MoneyDialog(
             context: _context,
-            widget: DutyAlert(date: focusDayState),
+            widget: CreditSummaryAlert(date: focusDayState),
           );
         },
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: const [
-            Icon(FontAwesomeIcons.biohazard),
+            Icon(Icons.list),
             SizedBox(width: 5),
-            Text('Duty'),
+            Text('Credit Summary'),
           ],
         ),
       ),
@@ -341,6 +343,44 @@ class HomeScreen extends ConsumerWidget {
             Icon(FontAwesomeIcons.bullseye),
             SizedBox(width: 5),
             Text('Seiyuu'),
+          ],
+        ),
+      ),
+    );
+
+    list.add(
+      GestureDetector(
+        onTap: () {
+          MoneyDialog(
+            context: _context,
+            widget: HomeFixAlert(date: focusDayState),
+          );
+        },
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            Icon(FontAwesomeIcons.house),
+            SizedBox(width: 5),
+            Text('Home Fix'),
+          ],
+        ),
+      ),
+    );
+
+    list.add(
+      GestureDetector(
+        onTap: () {
+          MoneyDialog(
+            context: _context,
+            widget: DutyAlert(date: focusDayState),
+          );
+        },
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            Icon(FontAwesomeIcons.biohazard),
+            SizedBox(width: 5),
+            Text('Duty'),
           ],
         ),
       ),

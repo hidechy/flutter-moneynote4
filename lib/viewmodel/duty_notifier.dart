@@ -1,14 +1,15 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../data/http/client.dart';
-import '../models/duty.dart';
-
 import '../extensions/extensions.dart';
+import '../models/duty.dart';
 
 ////////////////////////////////////////////////
 
 final dutyProvider = StateNotifierProvider.autoDispose
-    .family<DutyNotifier, List<Duty>, String>((ref, date) {
+    .family<DutyNotifier, List<Duty>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   return DutyNotifier([], client)..getDuty(date: date);
@@ -19,15 +20,15 @@ class DutyNotifier extends StateNotifier<List<Duty>> {
 
   final HttpClient client;
 
-  Future<void> getDuty({required String date}) async {
+  Future<void> getDuty({required DateTime date}) async {
     await client.post(
       path: 'getDutyData',
-      body: {'date': date},
+      body: {'date': date.yyyymmdd},
     ).then((value) {
       final list = <Duty>[];
 
-      for (var i = 0; i < int.parse(value['data'].length.toString()); i++) {
-        if ('$date 00:00:00'.toDateTime().yyyy ==
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        if (date.yyyy ==
             '${value['data'][i]['date']} 00:00:00'.toDateTime().yyyy) {
           list.add(
             Duty(

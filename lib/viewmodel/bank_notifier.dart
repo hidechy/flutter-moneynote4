@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/extensions/extensions.dart';
 
 import '../data/http/client.dart';
 import '../models/bank_company_all.dart';
@@ -38,7 +39,7 @@ class BankLastNotifier extends StateNotifier<BankCompanyChange> {
         diff: 0,
       );
 
-      for (var i = 0; i < int.parse(value['data'].length.toString()); i++) {
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         bankCompanyRecord = BankCompanyChange(
           date: DateTime.parse(value['data'][i]['date'].toString()),
           price: value['data'][i]['price'].toString(),
@@ -74,7 +75,7 @@ class BankAllNotifier extends StateNotifier<List<BankCompanyAll>> {
     ).then((value) {
       final list = <BankCompanyAll>[];
 
-      for (var i = 0; i < int.parse(value['data'].length.toString()); i++) {
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         var mark = '';
         if (i == 0) {
           mark = 'up';

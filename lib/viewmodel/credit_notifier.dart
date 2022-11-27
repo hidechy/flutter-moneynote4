@@ -2,14 +2,15 @@
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../extensions/extensions.dart';
 import '../data/http/client.dart';
-
 import '../models/credit_spend_monthly.dart';
+import '../models/credit_summary.dart';
 
 ////////////////////////////////////////////////
 
 final creditSpendMonthlyProvider = StateNotifierProvider.autoDispose
-    .family<CreditSpendMonthlyNotifier, List<CreditSpendMonthly>, String>(
+    .family<CreditSpendMonthlyNotifier, List<CreditSpendMonthly>, DateTime>(
         (ref, date) {
   final client = ref.read(httpClientProvider);
 
@@ -24,14 +25,14 @@ class CreditSpendMonthlyNotifier
   final HttpClient client;
 
   Future<void> getCreditSpendMonthly(
-      {required String date, required String kind}) async {
+      {required DateTime date, required String kind}) async {
     await client.post(
       path: 'uccardspend',
-      body: {'date': date},
+      body: {'date': date.yyyymmdd},
     ).then((value) {
       final list = <CreditSpendMonthly>[];
 
-      for (var i = 0; i < int.parse(value['data'].length.toString()); i++) {
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         if (kind == '') {
           list.add(
             CreditSpendMonthly(
@@ -58,6 +59,65 @@ class CreditSpendMonthlyNotifier
       state = list;
     });
   }
+}
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+
+final creditSummaryItemProvider = StateNotifierProvider.autoDispose
+    .family<CreditSummaryItemNotifier, List<String>, DateTime>((ref, date) {
+  final client = ref.read(httpClientProvider);
+
+  return CreditSummaryItemNotifier(
+    [],
+    client,
+  )..getCreditSummaryItem(date: date);
+});
+
+class CreditSummaryItemNotifier extends StateNotifier<List<String>> {
+  CreditSummaryItemNotifier(super.state, this.client);
+
+  final HttpClient client;
+
+  Future<void> getCreditSummaryItem({required DateTime date}) async {
+    final year = date.yyyy;
+
+    await client.post(
+      path: 'getYearCreditSummaryItem',
+      body: {'year': year},
+    ).then((value) {
+      final list = <String>[];
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        list.add(value['data'][i].toString());
+      }
+
+      state = list;
+    });
+  }
+}
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+
+final creditSummaryProvider = StateNotifierProvider.autoDispose
+    .family<CreditSummaryNotifier, List<CreditSummary>, DateTime>((ref, date) {
+  final client = ref.read(httpClientProvider);
+
+  return CreditSummaryNotifier(
+    [],
+    client,
+  )..getCreditSummary(date: date);
+});
+
+class CreditSummaryNotifier extends StateNotifier<List<CreditSummary>> {
+  CreditSummaryNotifier(super.state, this.client);
+
+  final HttpClient client;
+
+  Future<void> getCreditSummary({required DateTime date}) async {}
 }
 
 ////////////////////////////////////////////////

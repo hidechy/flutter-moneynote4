@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/extensions/extensions.dart';
 
 import '../data/http/client.dart';
 import '../models/shintaku.dart';
@@ -34,7 +35,7 @@ class ShintakuNotifier extends StateNotifier<Shintaku> {
       final list = <ShintakuRecord>[];
 
       for (var i = 0;
-          i < int.parse(value['data']['record'].length.toString());
+          i < value['data']['record'].length.toString().toInt();
           i++) {
         list.add(
           ShintakuRecord(
@@ -106,7 +107,7 @@ class ShintakuRecordNotifier extends StateNotifier<ShintakuRecord> {
       );
 
       for (var i = 0;
-          i < int.parse(value['data']['record'].length.toString());
+          i < value['data']['record'].length.toString().toInt();
           i++) {
         if (i == flag) {
           shintakuRecord = ShintakuRecord(

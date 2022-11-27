@@ -9,7 +9,8 @@ import '../models/amazon_purchase.dart';
 ////////////////////////////////////////////////
 
 final amazonPurchaseProvider = StateNotifierProvider.autoDispose
-    .family<AmazonPurchaseNotifier, List<AmazonPurchase>, String>((ref, date) {
+    .family<AmazonPurchaseNotifier, List<AmazonPurchase>, DateTime>(
+        (ref, date) {
   final client = ref.read(httpClientProvider);
 
   return AmazonPurchaseNotifier([], client)..getAmazonPurchaseList(date: date);
@@ -20,15 +21,15 @@ class AmazonPurchaseNotifier extends StateNotifier<List<AmazonPurchase>> {
 
   final HttpClient client;
 
-  Future<void> getAmazonPurchaseList({required String date}) async {
+  Future<void> getAmazonPurchaseList({required DateTime date}) async {
     await client.post(
       path: 'amazonPurchaseList',
-      body: {'date': date},
+      body: {'date': date.yyyymmdd},
     ).then((value) {
       final list = <AmazonPurchase>[];
 
-      for (var i = 0; i < int.parse(value['data'].length.toString()); i++) {
-        if ('$date 00:00:00'.toDateTime().yyyy ==
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        if (date.yyyy ==
             '${value['data'][i]['date']} 00:00:00'.toDateTime().yyyy) {
           list.add(
             AmazonPurchase(

@@ -116,8 +116,8 @@ class SeiyuAlert extends ConsumerWidget {
                 .setSelectYear(selectYear: i.toString());
 
             _ref
-                .watch(seiyuDateProvider(date.yyyymmdd).notifier)
-                .getSeiyuDateList(date: '$i-01-01');
+                .watch(seiyuDateProvider(date).notifier)
+                .getSeiyuDateList(date: '$i-01-01 00:00:00'.toDateTime());
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
@@ -139,7 +139,7 @@ class SeiyuAlert extends ConsumerWidget {
 
   ///
   List<String> makeYearDateList() {
-    final seiyuPurchaseState = _ref.watch(seiyuDateProvider(date.yyyymmdd));
+    final seiyuPurchaseState = _ref.watch(seiyuDateProvider(date));
 
     final list = <String>[];
     var keepDate = '';

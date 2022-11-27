@@ -1,16 +1,15 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
-import '../../utility/utility.dart';
 import '../../viewmodel/duty_notifier.dart';
 
 class DutyAlert extends ConsumerWidget {
   DutyAlert({super.key, required this.date});
 
   final DateTime date;
-
-  final Utility _utility = Utility();
 
   late BuildContext _context;
   late WidgetRef _ref;
@@ -67,8 +66,8 @@ class DutyAlert extends ConsumerWidget {
                 .setSelectYear(selectYear: i.toString());
 
             _ref
-                .watch(dutyProvider(date.yyyymmdd).notifier)
-                .getDuty(date: '$i-01-01');
+                .watch(dutyProvider(date).notifier)
+                .getDuty(date: '$i-01-01 00:00:00'.toDateTime());
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
@@ -90,9 +89,9 @@ class DutyAlert extends ConsumerWidget {
 
   ///
   Widget displayDuty() {
-    final dutyState = _ref.watch(dutyProvider(date.yyyymmdd));
+    final dutyState = _ref.watch(dutyProvider(date));
 
-    List<Widget> list = [];
+    final list = <Widget>[];
 
     for (var i = 0; i < dutyState.length; i++) {
       list.add(

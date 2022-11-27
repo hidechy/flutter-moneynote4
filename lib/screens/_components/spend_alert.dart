@@ -98,8 +98,7 @@ class SpendAlert extends ConsumerWidget {
 
   ///
   Widget displaySpendItem() {
-    final spendItemDailyState =
-        _ref.watch(spendItemDailyProvider(date.toString().split(' ')[0]));
+    final spendItemDailyState = _ref.watch(spendItemDailyProvider(date));
 
     final list = <Widget>[];
 
@@ -157,8 +156,7 @@ class SpendAlert extends ConsumerWidget {
 
   ///
   Widget displayTimeplace() {
-    final timeplaceState =
-        _ref.watch(timeplaceProvider(date.toString().split(' ')[0]));
+    final timeplaceState = _ref.watch(timeplaceProvider(date));
 
     final list = <Widget>[];
 

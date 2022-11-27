@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/extensions/extensions.dart';
 
 import '../data/http/client.dart';
 
@@ -39,7 +40,7 @@ class GoldLastNotifier extends StateNotifier<Gold> {
         goldPrice: '',
       );
 
-      for (var i = 0; i < int.parse(value['data'].length.toString()); i++) {
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         if (value['data'][i]['gold_price'] != '-') {
           gold = Gold(
             year: value['data'][i]['year'].toString(),
@@ -82,7 +83,7 @@ class GoldListNotifier extends StateNotifier<List<Gold>> {
     await client.post(path: 'getgolddata').then((value) {
       final list = <Gold>[];
 
-      for (var i = 0; i < int.parse(value['data'].length.toString()); i++) {
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         list.add(
           Gold(
             year: value['data'][i]['year'].toString(),
