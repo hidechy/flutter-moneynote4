@@ -2,17 +2,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/amazon_notifier.dart';
 
-class AmazonAlert extends ConsumerWidget {
+class AmazonAlert extends HookConsumerWidget {
   AmazonAlert({super.key, required this.date});
 
   final DateTime date;
 
   final Utility _utility = Utility();
+
+  Uuid uuid = const Uuid();
 
   late BuildContext _context;
   late WidgetRef _ref;
@@ -67,10 +70,6 @@ class AmazonAlert extends ConsumerWidget {
             _ref
                 .watch(selectYearProvider.notifier)
                 .setSelectYear(selectYear: i.toString());
-
-            _ref
-                .watch(amazonPurchaseProvider(date).notifier)
-                .getAmazonPurchaseList(date: '$i-01-01 00:00:00'.toDateTime());
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
@@ -92,7 +91,13 @@ class AmazonAlert extends ConsumerWidget {
 
   ///
   Widget displayAmazonPurchase() {
-    final amazonPurchaseState = _ref.watch(amazonPurchaseProvider(date));
+    final selectYearState = _ref.watch(selectYearProvider);
+
+    final amazonPurchaseState = _ref.watch(
+      amazonPurchaseProvider(
+        '$selectYearState-01-01 00:00:00'.toDateTime(),
+      ),
+    );
 
     final list = <Widget>[];
 
@@ -151,6 +156,7 @@ class AmazonAlert extends ConsumerWidget {
     }
 
     return SingleChildScrollView(
+      key: PageStorageKey(uuid.v1()),
       child: Column(
         children: list,
       ),

@@ -1,11 +1,13 @@
 // ignore_for_file: avoid_dynamic_calls, literal_only_boolean_expressions
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/models/spend_summary_record.dart';
 
 import '../data/http/client.dart';
 import '../extensions/extensions.dart';
 import '../models/spend_item_daily.dart';
 import '../models/spend_month_summary.dart';
+import '../models/spend_summary.dart';
 import '../models/spend_yearly.dart';
 import '../models/spend_yearly_item.dart';
 
@@ -150,6 +152,57 @@ class SpendMonthDetailNotifier extends StateNotifier<List<SpendYearly>> {
             ),
           );
         }
+      }
+
+      state = list;
+    });
+  }
+}
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+
+final spendSummaryProvider = StateNotifierProvider.autoDispose
+    .family<SpendSummaryNotifier, List<SpendSummary>, DateTime>((ref, date) {
+  final client = ref.read(httpClientProvider);
+
+  return SpendSummaryNotifier([], client)..getSpendSummary(date: date);
+});
+
+class SpendSummaryNotifier extends StateNotifier<List<SpendSummary>> {
+  SpendSummaryNotifier(super.state, this.client);
+
+  final HttpClient client;
+
+  Future<void> getSpendSummary({required DateTime date}) async {
+    final year = date.yyyy;
+
+    await client.post(
+      path: 'getYearSpendSummaySummary',
+      body: {'year': year},
+    ).then((value) {
+      final list = <SpendSummary>[];
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        final list2 = <SpendSummaryRecord>[];
+        for (var j = 0;
+            j < value['data'][i]['list'].length.toString().toInt();
+            j++) {
+          list2.add(
+            SpendSummaryRecord(
+              month: value['data'][i]['list'][j]['month'].toString(),
+              price: value['data'][i]['list'][j]['price'].toString().toInt(),
+            ),
+          );
+        }
+
+        list.add(
+          SpendSummary(
+            item: value['data'][i]['item'].toString(),
+            list: list2,
+          ),
+        );
       }
 
       state = list;

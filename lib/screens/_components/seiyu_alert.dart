@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
 import '../../viewmodel/seiyu_notifier.dart';
@@ -10,6 +11,8 @@ class SeiyuAlert extends ConsumerWidget {
   SeiyuAlert({super.key, required this.date});
 
   final DateTime date;
+
+  Uuid uuid = const Uuid();
 
   late WidgetRef _ref;
 
@@ -227,6 +230,7 @@ class SeiyuAlert extends ConsumerWidget {
     }
 
     return SingleChildScrollView(
+      key: PageStorageKey(uuid.v1()),
       child: Column(
         children: list,
       ),

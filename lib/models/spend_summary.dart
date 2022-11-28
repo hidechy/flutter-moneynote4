@@ -1,42 +1,42 @@
 /*
-http://toyohide.work/BrainLog/api/getYearCreditSummarySummary
-{"year":"2020"}
+http://toyohide.work/BrainLog/api/getYearSpendSummaySummary
+{"year":2022}
 
 {
     "data": [
         {
-            "item": "TELASA",
+            "item": "食費",
             "list": [
                 {
                     "month": "01",
-                    "price": 618
+                    "price": 11155
                 },
                 {
                     "month": "02",
-                    "price": 618
+                    "price": 8971
                 },
 
 */
 
 // ignore_for_file: avoid_dynamic_calls, inference_failure_on_untyped_parameter
 
-import 'credit_summary_record.dart';
+import 'spend_summary_record.dart';
 
-class CreditSummary {
-  CreditSummary({
+class SpendSummary {
+  SpendSummary({
     required this.item,
     required this.list,
   });
 
-  factory CreditSummary.fromJson(Map<String, dynamic> json) => CreditSummary(
+  factory SpendSummary.fromJson(Map<String, dynamic> json) => SpendSummary(
         item: json['item'].toString(),
-        list: List<CreditSummaryRecord>.from(json['list'].map(
-                (x) => CreditSummaryRecord.fromJson(x as Map<String, dynamic>))
+        list: List<SpendSummaryRecord>.from(json['list'].map(
+                (x) => SpendSummaryRecord.fromJson(x as Map<String, dynamic>))
             as Iterable),
       );
 
   String item;
-  List<CreditSummaryRecord> list;
+  List<SpendSummaryRecord> list;
 
   Map<String, dynamic> toJson() => {
         'item': item,

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
 import '../../viewmodel/duty_notifier.dart';
@@ -10,6 +11,8 @@ class DutyAlert extends ConsumerWidget {
   DutyAlert({super.key, required this.date});
 
   final DateTime date;
+
+  Uuid uuid = const Uuid();
 
   late BuildContext _context;
   late WidgetRef _ref;
@@ -64,10 +67,6 @@ class DutyAlert extends ConsumerWidget {
             _ref
                 .watch(selectYearProvider.notifier)
                 .setSelectYear(selectYear: i.toString());
-
-            _ref
-                .watch(dutyProvider(date).notifier)
-                .getDuty(date: '$i-01-01 00:00:00'.toDateTime());
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
@@ -89,7 +88,13 @@ class DutyAlert extends ConsumerWidget {
 
   ///
   Widget displayDuty() {
-    final dutyState = _ref.watch(dutyProvider(date));
+    final selectYearState = _ref.watch(selectYearProvider);
+
+    final dutyState = _ref.watch(
+      dutyProvider(
+        '$selectYearState-01-01 00:00:00'.toDateTime(),
+      ),
+    );
 
     final list = <Widget>[];
 
@@ -122,6 +127,7 @@ class DutyAlert extends ConsumerWidget {
     }
 
     return SingleChildScrollView(
+      key: PageStorageKey(uuid.v1()),
       child: Column(
         children: list,
       ),

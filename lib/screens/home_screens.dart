@@ -4,6 +4,7 @@ import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/spend_summary_alert.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../extensions/extensions.dart';
@@ -302,9 +303,30 @@ class HomeScreen extends ConsumerWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: const [
-            Icon(Icons.list),
+            Icon(Icons.list, color: Colors.lightBlueAccent),
             SizedBox(width: 5),
-            Text('Credit Summary'),
+            Text('Credit Summary',
+                style: TextStyle(color: Colors.lightBlueAccent)),
+          ],
+        ),
+      ),
+    );
+
+    list.add(
+      GestureDetector(
+        onTap: () {
+          MoneyDialog(
+            context: _context,
+            widget: SpendSummaryAlert(date: focusDayState),
+          );
+        },
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            Icon(Icons.select_all, color: Colors.lightBlueAccent),
+            SizedBox(width: 5),
+            Text('Spend Summary',
+                style: TextStyle(color: Colors.lightBlueAccent)),
           ],
         ),
       ),
@@ -321,9 +343,9 @@ class HomeScreen extends ConsumerWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: const [
-            Icon(FontAwesomeIcons.amazon),
+            Icon(FontAwesomeIcons.amazon, color: Colors.lightBlueAccent),
             SizedBox(width: 5),
-            Text('Amazon'),
+            Text('Amazon', style: TextStyle(color: Colors.lightBlueAccent)),
           ],
         ),
       ),
@@ -340,9 +362,9 @@ class HomeScreen extends ConsumerWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: const [
-            Icon(FontAwesomeIcons.bullseye),
+            Icon(FontAwesomeIcons.bullseye, color: Colors.lightBlueAccent),
             SizedBox(width: 5),
-            Text('Seiyuu'),
+            Text('Seiyuu', style: TextStyle(color: Colors.lightBlueAccent)),
           ],
         ),
       ),
@@ -359,9 +381,9 @@ class HomeScreen extends ConsumerWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: const [
-            Icon(FontAwesomeIcons.house),
+            Icon(FontAwesomeIcons.house, color: Colors.lightBlueAccent),
             SizedBox(width: 5),
-            Text('Home Fix'),
+            Text('Home Fix', style: TextStyle(color: Colors.lightBlueAccent)),
           ],
         ),
       ),
@@ -378,9 +400,9 @@ class HomeScreen extends ConsumerWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: const [
-            Icon(FontAwesomeIcons.biohazard),
+            Icon(FontAwesomeIcons.biohazard, color: Colors.lightBlueAccent),
             SizedBox(width: 5),
-            Text('Duty'),
+            Text('Duty', style: TextStyle(color: Colors.lightBlueAccent)),
           ],
         ),
       ),
@@ -397,9 +419,9 @@ class HomeScreen extends ConsumerWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: const [
-            Icon(Icons.details),
+            Icon(Icons.details, color: Colors.lightBlueAccent),
             SizedBox(width: 5),
-            Text('Spend'),
+            Text('Spend', style: TextStyle(color: Colors.lightBlueAccent)),
           ],
         ),
       ),

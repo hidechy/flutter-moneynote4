@@ -1,15 +1,14 @@
-// ignore_for_file: must_be_immutable, prefer_const_constructors
+// ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
-import '../../viewmodel/home_fix_notifier.dart';
+import '../../viewmodel/spend_notifier.dart';
 
-class HomeFixAlert extends ConsumerWidget {
-  HomeFixAlert({super.key, required this.date});
+class SpendSummaryAlert extends ConsumerWidget {
+  SpendSummaryAlert({super.key, required this.date});
 
   final DateTime date;
 
@@ -45,7 +44,7 @@ class HomeFixAlert extends ConsumerWidget {
                 Container(width: context.screenSize.width),
                 Row(children: yearWidgetList),
                 const SizedBox(height: 20),
-                displayHomeFix(),
+                displaySpendSummary(),
               ],
             ),
           ),
@@ -88,18 +87,47 @@ class HomeFixAlert extends ConsumerWidget {
   }
 
   ///
-  Widget displayHomeFix() {
-    final list = <Widget>[];
+  Widget displaySpendSummary() {
+    final oneWidth = _context.screenSize.width / 5;
 
     final selectYearState = _ref.watch(selectYearProvider);
 
-    final homeFixState = _ref.watch(
-      homeFixProvider(
-        '$selectYearState-01-01 00:00:00'.toDateTime(),
-      ),
-    );
+    final spendSummaryState = _ref.watch(
+        spendSummaryProvider('$selectYearState-01-01 00:00:00'.toDateTime()));
 
-    for (var i = 0; i < homeFixState.length; i++) {
+    final list = <Widget>[];
+
+    for (var i = 0; i < spendSummaryState.length; i++) {
+      final list2 = <Widget>[];
+      for (var j = 0; j < spendSummaryState[i].list.length; j++) {
+        list2.add(
+          Container(
+            width: oneWidth,
+            margin: const EdgeInsets.all(3),
+            padding: const EdgeInsets.all(3),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.white.withOpacity(0.3)),
+            ),
+            child: Stack(
+              children: [
+                Text(
+                  spendSummaryState[i].list[j].month,
+                  style: const TextStyle(color: Colors.grey),
+                ),
+                Container(
+                  alignment: Alignment.topRight,
+                  child: Text(spendSummaryState[i]
+                      .list[j]
+                      .price
+                      .toString()
+                      .toCurrency()),
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+
       list.add(
         Container(
           width: _context.screenSize.width,
@@ -125,92 +153,9 @@ class HomeFixAlert extends ConsumerWidget {
                     ],
                   ),
                 ),
-                child: Text(homeFixState[i].ym),
+                child: Text(spendSummaryState[i].item),
               ),
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  const Icon(FontAwesomeIcons.house),
-                  SizedBox(width: 20),
-                  Expanded(child: Text('yachin')),
-                  Expanded(
-                    child: Container(
-                      alignment: Alignment.topRight,
-                      child: Text(homeFixState[i].yachin),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  Icon(FontAwesomeIcons.wifi),
-                  SizedBox(width: 20),
-                  Expanded(child: Text('wifi')),
-                  Expanded(
-                    child: Container(
-                      alignment: Alignment.topRight,
-                      child: Text(homeFixState[i].wifi),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  Icon(FontAwesomeIcons.mobileScreenButton),
-                  SizedBox(width: 20),
-                  Expanded(child: Text('mobile')),
-                  Expanded(
-                    child: Container(
-                      alignment: Alignment.topRight,
-                      child: Text(homeFixState[i].mobile),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  Icon(FontAwesomeIcons.fireFlameSimple),
-                  SizedBox(width: 20),
-                  Expanded(child: Text('gas')),
-                  Expanded(
-                    child: Container(
-                      alignment: Alignment.topRight,
-                      child: Text(homeFixState[i].gas),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  Icon(FontAwesomeIcons.bolt),
-                  SizedBox(width: 20),
-                  Expanded(child: Text('denki')),
-                  Expanded(
-                    child: Container(
-                      alignment: Alignment.topRight,
-                      child: Text(homeFixState[i].denki),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  Icon(FontAwesomeIcons.droplet),
-                  SizedBox(width: 20),
-                  Expanded(child: Text('suidou')),
-                  Expanded(
-                    child: Container(
-                      alignment: Alignment.topRight,
-                      child: Text(homeFixState[i].suidou),
-                    ),
-                  ),
-                ],
-              ),
+              Wrap(children: list2),
             ],
           ),
         ),
@@ -220,6 +165,7 @@ class HomeFixAlert extends ConsumerWidget {
     return SingleChildScrollView(
       key: PageStorageKey(uuid.v1()),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: list,
       ),
     );

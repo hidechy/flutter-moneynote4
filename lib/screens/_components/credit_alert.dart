@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/credit_spend_monthly.dart';
@@ -11,6 +12,8 @@ class CreditAlert extends ConsumerWidget {
   CreditAlert({super.key, required this.date});
 
   final DateTime date;
+
+  Uuid uuid = const Uuid();
 
   late WidgetRef _ref;
   late BuildContext _context;
@@ -157,6 +160,7 @@ class CreditAlert extends ConsumerWidget {
     }
 
     return SingleChildScrollView(
+      key: PageStorageKey(uuid.v1()),
       child: Column(
         children: list,
       ),

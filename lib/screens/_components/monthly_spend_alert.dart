@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/credit_spend_monthly.dart';
@@ -16,6 +17,8 @@ class MonthlySpendAlert extends ConsumerWidget {
   MonthlySpendAlert({super.key, required this.date});
 
   final DateTime date;
+
+  Uuid uuid = const Uuid();
 
   Map<String, List<CreditSpendMonthly>> creditSpendMap = {};
 
@@ -253,6 +256,7 @@ class MonthlySpendAlert extends ConsumerWidget {
     }
 
     return SingleChildScrollView(
+      key: PageStorageKey(uuid.v1()),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(

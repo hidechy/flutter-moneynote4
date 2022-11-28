@@ -1,11 +1,14 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/models/credit_summary_record.dart';
 
 import '../../extensions/extensions.dart';
 import '../data/http/client.dart';
 import '../models/credit_spend_monthly.dart';
 import '../models/credit_summary.dart';
+
+//import '../state/credit_summary_param_state.dart';
 
 ////////////////////////////////////////////////
 
@@ -65,43 +68,6 @@ class CreditSpendMonthlyNotifier
 
 ////////////////////////////////////////////////
 
-final creditSummaryItemProvider = StateNotifierProvider.autoDispose
-    .family<CreditSummaryItemNotifier, List<String>, DateTime>((ref, date) {
-  final client = ref.read(httpClientProvider);
-
-  return CreditSummaryItemNotifier(
-    [],
-    client,
-  )..getCreditSummaryItem(date: date);
-});
-
-class CreditSummaryItemNotifier extends StateNotifier<List<String>> {
-  CreditSummaryItemNotifier(super.state, this.client);
-
-  final HttpClient client;
-
-  Future<void> getCreditSummaryItem({required DateTime date}) async {
-    final year = date.yyyy;
-
-    await client.post(
-      path: 'getYearCreditSummaryItem',
-      body: {'year': year},
-    ).then((value) {
-      final list = <String>[];
-
-      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        list.add(value['data'][i].toString());
-      }
-
-      state = list;
-    });
-  }
-}
-
-////////////////////////////////////////////////
-
-////////////////////////////////////////////////
-
 final creditSummaryProvider = StateNotifierProvider.autoDispose
     .family<CreditSummaryNotifier, List<CreditSummary>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
@@ -117,7 +83,39 @@ class CreditSummaryNotifier extends StateNotifier<List<CreditSummary>> {
 
   final HttpClient client;
 
-  Future<void> getCreditSummary({required DateTime date}) async {}
+  Future<void> getCreditSummary({required DateTime date}) async {
+    final year = date.yyyy;
+
+    await client.post(
+      path: 'getYearCreditSummarySummary',
+      body: {'year': year},
+    ).then((value) {
+      final list = <CreditSummary>[];
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        final list2 = <CreditSummaryRecord>[];
+        for (var j = 0;
+            j < value['data'][i]['list'].length.toString().toInt();
+            j++) {
+          list2.add(
+            CreditSummaryRecord(
+              month: value['data'][i]['list'][j]['month'].toString(),
+              price: value['data'][i]['list'][j]['price'].toString().toInt(),
+            ),
+          );
+        }
+
+        list.add(
+          CreditSummary(
+            item: value['data'][i]['item'].toString(),
+            list: list2,
+          ),
+        );
+      }
+
+      state = list;
+    });
+  }
 }
 
 ////////////////////////////////////////////////
