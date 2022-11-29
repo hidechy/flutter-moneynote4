@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/models/money_score.dart';
 
 import '../data/http/client.dart';
 import '../extensions/extensions.dart';
@@ -77,6 +78,54 @@ class MoneyNotifier extends StateNotifier<Money> {
         payE: value['data']['pay_e'].toString(),
         sum: value['data']['sum'].toString(),
       );
+    });
+  }
+}
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+
+final moneyScoreProvider =
+    StateNotifierProvider.autoDispose<MoneyScoreNotifier, List<MoneyScore>>(
+        (ref) {
+  final client = ref.read(httpClientProvider);
+
+  return MoneyScoreNotifier([], client)..getMoneyScore();
+});
+
+class MoneyScoreNotifier extends StateNotifier<List<MoneyScore>> {
+  MoneyScoreNotifier(super.state, this.client);
+
+  final HttpClient client;
+
+  Future<void> getMoneyScore() async {
+    await client.post(path: 'getmonthstartmoney').then((value) {
+      List<MoneyScore> list = [];
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        var exPrice = value['data'][i]['price'].toString().split('|');
+        var exManen = value['data'][i]['manen'].toString().split('|');
+        var exUpDown = value['data'][i]['updown'].toString().split('|');
+        var exSagaku = value['data'][i]['sagaku'].toString().split('|');
+
+        for (var j = 0; j < exPrice.length; j++) {
+          var ym =
+              '${value['data'][i]['year']}-${(j + 1).toString().padLeft(2, '0')}';
+
+          list.add(
+            MoneyScore(
+              ym: ym,
+              price: exPrice[j],
+              manen: exManen[j],
+              updown: exUpDown[j],
+              sagaku: exSagaku[j],
+            ),
+          );
+        }
+      }
+
+      state = list;
     });
   }
 }

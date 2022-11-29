@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/money_score_alert.dart';
 import 'package:moneynote4/screens/_components/spend_summary_alert.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -353,6 +354,23 @@ class HomeScreen extends ConsumerWidget {
       IconButton(
         onPressed: () {
           _ref.watch(homeMenuProvider.notifier).setHomeMenu(
+                menuFlag: 'money_score',
+                menuName: 'マネースコア',
+              );
+        },
+        icon: Icon(
+          Icons.trending_up,
+          color: (homeMenuState.menuFlag == 'money_score')
+              ? Colors.lightBlueAccent
+              : Colors.white,
+        ),
+      ),
+    );
+
+    list.add(
+      IconButton(
+        onPressed: () {
+          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
                 menuFlag: 'spend_summary',
                 menuName: '使用金額比較',
               );
@@ -467,6 +485,13 @@ class HomeScreen extends ConsumerWidget {
         MoneyDialog(
           context: _context,
           widget: MonthlySpendAlert(date: focusDayState),
+        );
+        break;
+
+      case 'money_score':
+        MoneyDialog(
+          context: _context,
+          widget: MoneyScoreAlert(date: focusDayState),
         );
         break;
 
