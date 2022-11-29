@@ -1,6 +1,5 @@
 // ignore_for_file: must_be_immutable, cascade_invocations
 
-import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -10,6 +9,7 @@ import 'package:table_calendar/table_calendar.dart';
 import '../extensions/extensions.dart';
 import '../models/spend_month_summary.dart';
 import '../utility/utility.dart';
+import '../viewmodel/home_menu_notifier.dart';
 import '../viewmodel/spend_notifier.dart';
 import '_components/_money_dialog.dart';
 import '_components/amazon_alert.dart';
@@ -36,6 +36,8 @@ class HomeScreen extends ConsumerWidget {
     _ref = ref;
 
     final focusDayState = ref.watch(focusDayProvider);
+
+    final homeMenuState = ref.watch(homeMenuProvider);
 
     final spendMonthSummaryState = ref.watch(
       spendMonthSummaryProvider(focusDayState),
@@ -155,7 +157,27 @@ class HomeScreen extends ConsumerWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(),
+                    ElevatedButton(
+                      onPressed: () {
+                        openAlertWindow(flag: homeMenuState.menuFlag);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        backgroundColor: Colors.indigo.withOpacity(0.8),
+                      ),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minWidth: context.screenSize.width / 4,
+                        ),
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            homeMenuState.menuName,
+                            style: TextStyle(fontSize: 12),
+                          ),
+                        ),
+                      ),
+                    ),
                     Text(
                       total.toString().toCurrency(),
                       style: const TextStyle(fontSize: 16),
@@ -163,75 +185,26 @@ class HomeScreen extends ConsumerWidget {
                   ],
                 ),
               ),
-              DefaultTextStyle(
-                style: const TextStyle(fontSize: 12),
-                child: Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: ListView.separated(
-                      padding: const EdgeInsets.only(top: 10),
-                      itemBuilder: (context, index) {
-                        final spend = spendMonthSummaryState[index];
-
-                        return DefaultTextStyle(
-                          style: const TextStyle(fontSize: 12),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                  color: Colors.white.withOpacity(0.2),
-                                ),
-                              ),
-                            ),
-                            margin: const EdgeInsets.only(bottom: 3),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Table(
-                                    children: [
-                                      TableRow(children: [
-                                        Text(spend.item),
-                                        Container(
-                                          alignment: Alignment.topRight,
-                                          child: Text(
-                                            spend.sum.toString().toCurrency(),
-                                          ),
-                                        ),
-                                        Container(
-                                          alignment: Alignment.topRight,
-                                          child: Text('${spend.percent} %'),
-                                        ),
-                                      ]),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(width: 20),
-                                getLinkIcon(item: spend.item),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) => Container(),
-                      itemCount: spendMonthSummaryState.length,
+              Container(
+                height: context.screenSize.height * 0.40,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: displayIcons(),
                     ),
-                  ),
+                    Expanded(
+                      child: displayMonthSpend(),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 20),
             ],
           ),
         ],
-      ),
-      floatingActionButton: FabCircularMenu(
-        fabSize: 40,
-        alignment: Alignment.centerLeft,
-        ringColor: Colors.indigo.withOpacity(0.8),
-        fabOpenColor: Colors.indigo.withOpacity(0.8),
-        fabCloseColor: Colors.indigo.withOpacity(0.8),
-        ringWidth: 10,
-        ringDiameter: 200,
-        children: getCircleFabMenu(),
       ),
     );
   }
@@ -287,147 +260,258 @@ class HomeScreen extends ConsumerWidget {
   }
 
   ///
-  List<Widget> getCircleFabMenu() {
+  Widget displayMonthSpend() {
+    final list = <Widget>[];
+
     final focusDayState = _ref.watch(focusDayProvider);
+
+    final spendMonthSummaryState = _ref.watch(
+      spendMonthSummaryProvider(focusDayState),
+    );
+
+    for (var i = 0; i < spendMonthSummaryState.length; i++) {
+      final spend = spendMonthSummaryState[i];
+
+      list.add(
+        DefaultTextStyle(
+          style: const TextStyle(fontSize: 12),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.white.withOpacity(0.2),
+                ),
+              ),
+            ),
+            margin: const EdgeInsets.only(bottom: 3),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(spend.item),
+                        flex: 2,
+                      ),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.topRight,
+                          child: Text(
+                            spend.sum.toString().toCurrency(),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.topRight,
+                          child: Text('${spend.percent} %'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 20),
+                getLinkIcon(item: spend.item),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    return SingleChildScrollView(
+      child: Column(
+        children: list,
+      ),
+    );
+  }
+
+  ///
+  Widget displayIcons() {
+    final homeMenuState = _ref.watch(homeMenuProvider);
 
     final list = <Widget>[];
 
     list.add(
-      GestureDetector(
-        onTap: () {
-          MoneyDialog(
-            context: _context,
-            widget: CreditSummaryAlert(date: focusDayState),
-          );
+      IconButton(
+        onPressed: () {
+          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
+                menuFlag: 'monthly_spend',
+                menuName: '月間使用金額履歴',
+              );
         },
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            Icon(Icons.list, color: Colors.lightBlueAccent),
-            SizedBox(width: 5),
-            Text('Credit Summary',
-                style: TextStyle(color: Colors.lightBlueAccent)),
-          ],
+        icon: Icon(
+          Icons.details,
+          color: (homeMenuState.menuFlag == 'monthly_spend')
+              ? Colors.lightBlueAccent
+              : Colors.white,
         ),
       ),
     );
 
     list.add(
-      GestureDetector(
-        onTap: () {
-          MoneyDialog(
-            context: _context,
-            widget: SpendSummaryAlert(date: focusDayState),
-          );
+      IconButton(
+        onPressed: () {
+          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
+                menuFlag: 'spend_summary',
+                menuName: '使用金額比較',
+              );
         },
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            Icon(Icons.select_all, color: Colors.lightBlueAccent),
-            SizedBox(width: 5),
-            Text('Spend Summary',
-                style: TextStyle(color: Colors.lightBlueAccent)),
-          ],
+        icon: Icon(
+          Icons.select_all,
+          color: (homeMenuState.menuFlag == 'spend_summary')
+              ? Colors.lightBlueAccent
+              : Colors.white,
         ),
       ),
     );
 
     list.add(
-      GestureDetector(
-        onTap: () {
-          MoneyDialog(
-            context: _context,
-            widget: AmazonAlert(date: focusDayState),
-          );
+      IconButton(
+        onPressed: () {
+          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
+                menuFlag: 'credit_summary',
+                menuName: 'クレジット使用比較',
+              );
         },
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            Icon(FontAwesomeIcons.amazon, color: Colors.lightBlueAccent),
-            SizedBox(width: 5),
-            Text('Amazon', style: TextStyle(color: Colors.lightBlueAccent)),
-          ],
+        icon: Icon(
+          Icons.list,
+          color: (homeMenuState.menuFlag == 'credit_summary')
+              ? Colors.lightBlueAccent
+              : Colors.white,
         ),
       ),
     );
 
     list.add(
-      GestureDetector(
-        onTap: () {
-          MoneyDialog(
-            context: _context,
-            widget: SeiyuAlert(date: focusDayState),
-          );
+      IconButton(
+        onPressed: () {
+          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
+                menuFlag: 'duty_paid',
+                menuName: '支払い義務金額履歴',
+              );
         },
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            Icon(FontAwesomeIcons.bullseye, color: Colors.lightBlueAccent),
-            SizedBox(width: 5),
-            Text('Seiyuu', style: TextStyle(color: Colors.lightBlueAccent)),
-          ],
+        icon: Icon(
+          FontAwesomeIcons.biohazard,
+          color: (homeMenuState.menuFlag == 'duty_paid')
+              ? Colors.lightBlueAccent
+              : Colors.white,
         ),
       ),
     );
 
     list.add(
-      GestureDetector(
-        onTap: () {
-          MoneyDialog(
-            context: _context,
-            widget: HomeFixAlert(date: focusDayState),
-          );
+      IconButton(
+        onPressed: () {
+          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
+                menuFlag: 'home_fix',
+                menuName: '家計固定費履歴',
+              );
         },
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            Icon(FontAwesomeIcons.house, color: Colors.lightBlueAccent),
-            SizedBox(width: 5),
-            Text('Home Fix', style: TextStyle(color: Colors.lightBlueAccent)),
-          ],
+        icon: Icon(
+          FontAwesomeIcons.house,
+          color: (homeMenuState.menuFlag == 'home_fix')
+              ? Colors.lightBlueAccent
+              : Colors.white,
         ),
       ),
     );
 
     list.add(
-      GestureDetector(
-        onTap: () {
-          MoneyDialog(
-            context: _context,
-            widget: DutyAlert(date: focusDayState),
-          );
+      IconButton(
+        onPressed: () {
+          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
+                menuFlag: 'seiyuu_purchase',
+                menuName: '西友購入履歴',
+              );
         },
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            Icon(FontAwesomeIcons.biohazard, color: Colors.lightBlueAccent),
-            SizedBox(width: 5),
-            Text('Duty', style: TextStyle(color: Colors.lightBlueAccent)),
-          ],
+        icon: Icon(
+          FontAwesomeIcons.bullseye,
+          color: (homeMenuState.menuFlag == 'seiyuu_purchase')
+              ? Colors.lightBlueAccent
+              : Colors.white,
         ),
       ),
     );
 
     list.add(
-      GestureDetector(
-        onTap: () {
-          MoneyDialog(
-            context: _context,
-            widget: MonthlySpendAlert(date: focusDayState),
-          );
+      IconButton(
+        onPressed: () {
+          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
+                menuFlag: 'amazon_purchase',
+                menuName: 'Amazon購入履歴',
+              );
         },
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            Icon(Icons.details, color: Colors.lightBlueAccent),
-            SizedBox(width: 5),
-            Text('Spend', style: TextStyle(color: Colors.lightBlueAccent)),
-          ],
+        icon: Icon(
+          FontAwesomeIcons.amazon,
+          color: (homeMenuState.menuFlag == 'amazon_purchase')
+              ? Colors.lightBlueAccent
+              : Colors.white,
         ),
       ),
     );
 
-    return list;
+    return SingleChildScrollView(
+      child: Column(
+        children: list,
+      ),
+    );
+  }
+
+  ///
+  void openAlertWindow({required String flag}) {
+    final focusDayState = _ref.watch(focusDayProvider);
+
+    switch (flag) {
+      case 'monthly_spend':
+        MoneyDialog(
+          context: _context,
+          widget: MonthlySpendAlert(date: focusDayState),
+        );
+        break;
+
+      case 'spend_summary':
+        MoneyDialog(
+          context: _context,
+          widget: SpendSummaryAlert(date: focusDayState),
+        );
+        break;
+
+      case 'credit_summary':
+        MoneyDialog(
+          context: _context,
+          widget: CreditSummaryAlert(date: focusDayState),
+        );
+        break;
+
+      case 'duty_paid':
+        MoneyDialog(
+          context: _context,
+          widget: DutyAlert(date: focusDayState),
+        );
+        break;
+
+      case 'home_fix':
+        MoneyDialog(
+          context: _context,
+          widget: HomeFixAlert(date: focusDayState),
+        );
+        break;
+
+      case 'seiyuu_purchase':
+        MoneyDialog(
+          context: _context,
+          widget: SeiyuAlert(date: focusDayState),
+        );
+        break;
+
+      case 'amazon_purchase':
+        MoneyDialog(
+          context: _context,
+          widget: AmazonAlert(date: focusDayState),
+        );
+        break;
+    }
   }
 }
 
