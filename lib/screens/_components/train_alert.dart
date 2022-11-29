@@ -5,22 +5,20 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
-import '../../viewmodel/spend_notifier.dart';
+import '../../viewmodel/train_notifier.dart';
 
-class SpendSummaryAlert extends ConsumerWidget {
-  SpendSummaryAlert({super.key, required this.date});
+class TrainAlert extends ConsumerWidget {
+  TrainAlert({super.key, required this.date});
 
   final DateTime date;
 
   Uuid uuid = const Uuid();
 
-  late BuildContext _context;
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    _context = context;
     _ref = ref;
 
     final yearWidgetList = makeYearWidgetList();
@@ -44,7 +42,7 @@ class SpendSummaryAlert extends ConsumerWidget {
                 Container(width: context.screenSize.width),
                 Row(children: yearWidgetList),
                 const SizedBox(height: 20),
-                displaySpendSummary(),
+                displayTrain(),
               ],
             ),
           ),
@@ -67,6 +65,10 @@ class SpendSummaryAlert extends ConsumerWidget {
             _ref
                 .watch(selectYearProvider.notifier)
                 .setSelectYear(selectYear: i.toString());
+
+            final date = '$i-01-01 00:00:00'.toDateTime();
+
+            _ref.watch(trainProvider.notifier).getYearTrain(date: date);
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
@@ -87,50 +89,14 @@ class SpendSummaryAlert extends ConsumerWidget {
   }
 
   ///
-  Widget displaySpendSummary() {
-    final oneWidth = _context.screenSize.width / 6;
-
-    final selectYearState = _ref.watch(selectYearProvider);
-
-    final spendSummaryState = _ref.watch(
-        spendSummaryProvider('$selectYearState-01-01 00:00:00'.toDateTime()));
-
+  Widget displayTrain() {
     final list = <Widget>[];
 
-    for (var i = 0; i < spendSummaryState.length; i++) {
-      final list2 = <Widget>[];
-      for (var j = 0; j < spendSummaryState[i].list.length; j++) {
-        list2.add(
-          Container(
-            width: oneWidth,
-            margin: const EdgeInsets.all(3),
-            padding: const EdgeInsets.all(3),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white.withOpacity(0.3)),
-            ),
-            child: Stack(
-              children: [
-                Text(
-                  spendSummaryState[i].list[j].month,
-                  style: const TextStyle(color: Colors.grey),
-                ),
-                Container(
-                  alignment: Alignment.topRight,
-                  child: Text(spendSummaryState[i]
-                      .list[j]
-                      .price
-                      .toString()
-                      .toCurrency()),
-                ),
-              ],
-            ),
-          ),
-        );
-      }
+    final trainState = _ref.watch(trainProvider);
 
+    for (var i = 0; i < trainState.length; i++) {
       list.add(
         Container(
-          width: _context.screenSize.width,
           padding: const EdgeInsets.symmetric(vertical: 3),
           decoration: BoxDecoration(
             border: Border(
@@ -139,23 +105,22 @@ class SpendSummaryAlert extends ConsumerWidget {
               ),
             ),
           ),
-          child: Column(
+          child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: _context.screenSize.width,
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.indigo.withOpacity(0.8),
-                      Colors.transparent
-                    ],
-                  ),
-                ),
-                child: Text(spendSummaryState[i].item),
+              Expanded(
+                child: Text(trainState[i].date.yyyymmdd),
               ),
-              Wrap(children: list2),
+              Expanded(
+                flex: 2,
+                child: Text(trainState[i].station),
+              ),
+              Expanded(
+                child: Container(
+                  alignment: Alignment.topRight,
+                  child: Text(trainState[i].price.toCurrency()),
+                ),
+              ),
             ],
           ),
         ),
@@ -163,9 +128,7 @@ class SpendSummaryAlert extends ConsumerWidget {
     }
 
     return SingleChildScrollView(
-      key: PageStorageKey(uuid.v1()),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: list,
       ),
     );

@@ -3,8 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/money_score_alert.dart';
-import 'package:moneynote4/screens/_components/spend_summary_alert.dart';
+import 'package:moneynote4/screens/_components/train_alert.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../extensions/extensions.dart';
@@ -14,13 +13,16 @@ import '../viewmodel/home_menu_notifier.dart';
 import '../viewmodel/spend_notifier.dart';
 import '_components/_money_dialog.dart';
 import '_components/amazon_alert.dart';
+import '_components/benefit_alert.dart';
 import '_components/credit_alert.dart';
 import '_components/credit_summary_alert.dart';
 import '_components/duty_alert.dart';
 import '_components/home_fix_alert.dart';
 import '_components/money_alert.dart';
+import '_components/money_score_alert.dart';
 import '_components/monthly_spend_alert.dart';
 import '_components/seiyu_alert.dart';
+import '_components/spend_summary_alert.dart';
 
 class HomeScreen extends ConsumerWidget {
   HomeScreen({super.key});
@@ -174,7 +176,7 @@ class HomeScreen extends ConsumerWidget {
                           alignment: Alignment.center,
                           child: Text(
                             homeMenuState.menuName,
-                            style: TextStyle(fontSize: 12),
+                            style: const TextStyle(fontSize: 12),
                           ),
                         ),
                       ),
@@ -291,8 +293,8 @@ class HomeScreen extends ConsumerWidget {
                   child: Row(
                     children: [
                       Expanded(
-                        child: Text(spend.item),
                         flex: 2,
+                        child: Text(spend.item),
                       ),
                       Expanded(
                         child: Container(
@@ -361,6 +363,23 @@ class HomeScreen extends ConsumerWidget {
         icon: Icon(
           Icons.trending_up,
           color: (homeMenuState.menuFlag == 'money_score')
+              ? Colors.lightBlueAccent
+              : Colors.white,
+        ),
+      ),
+    );
+
+    list.add(
+      IconButton(
+        onPressed: () {
+          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
+                menuFlag: 'benefit',
+                menuName: '収入獲得履歴',
+              );
+        },
+        icon: Icon(
+          Icons.monetization_on,
+          color: (homeMenuState.menuFlag == 'benefit')
               ? Colors.lightBlueAccent
               : Colors.white,
         ),
@@ -469,6 +488,23 @@ class HomeScreen extends ConsumerWidget {
       ),
     );
 
+    list.add(
+      IconButton(
+        onPressed: () {
+          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
+                menuFlag: 'train',
+                menuName: '電車乗車履歴',
+              );
+        },
+        icon: Icon(
+          Icons.train,
+          color: (homeMenuState.menuFlag == 'train')
+              ? Colors.lightBlueAccent
+              : Colors.white,
+        ),
+      ),
+    );
+
     return SingleChildScrollView(
       child: Column(
         children: list,
@@ -492,6 +528,13 @@ class HomeScreen extends ConsumerWidget {
         MoneyDialog(
           context: _context,
           widget: MoneyScoreAlert(date: focusDayState),
+        );
+        break;
+
+      case 'benefit':
+        MoneyDialog(
+          context: _context,
+          widget: BenefitAlert(date: focusDayState),
         );
         break;
 
@@ -534,6 +577,13 @@ class HomeScreen extends ConsumerWidget {
         MoneyDialog(
           context: _context,
           widget: AmazonAlert(date: focusDayState),
+        );
+        break;
+
+      case 'train':
+        MoneyDialog(
+          context: _context,
+          widget: TrainAlert(date: focusDayState),
         );
         break;
     }

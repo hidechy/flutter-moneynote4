@@ -14,15 +14,15 @@ http://toyohide.work/BrainLog/api/benefit
 
 import '../extensions/extensions.dart';
 
-class Salary {
-  Salary({
+class Benefit {
+  Benefit({
     required this.date,
     required this.ym,
     required this.salary,
     required this.company,
   });
 
-  factory Salary.fromJson(Map<String, dynamic> json) => Salary(
+  factory Benefit.fromJson(Map<String, dynamic> json) => Benefit(
         date: json['date'].toString().toDateTime(),
         ym: json['ym'].toString(),
         salary: json['salary'].toString(),

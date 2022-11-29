@@ -5,10 +5,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
-import '../../viewmodel/money_notifier.dart';
+import '../../viewmodel/benefit_notifier.dart';
 
-class MoneyScoreAlert extends ConsumerWidget {
-  MoneyScoreAlert({super.key, required this.date});
+class BenefitAlert extends ConsumerWidget {
+  BenefitAlert({super.key, required this.date});
 
   final DateTime date;
 
@@ -40,7 +40,7 @@ class MoneyScoreAlert extends ConsumerWidget {
                 Container(width: context.screenSize.width),
                 // Row(children: yearWidgetList),
                 // const SizedBox(height: 20),
-                displayMoneyScore(),
+                displayBenefit(),
               ],
             ),
           ),
@@ -50,14 +50,12 @@ class MoneyScoreAlert extends ConsumerWidget {
   }
 
   ///
-  Widget displayMoneyScore() {
-    final moneyScoreState = _ref.watch(moneyScoreProvider);
-
+  Widget displayBenefit() {
     final list = <Widget>[];
-    for (var i = 0; i < moneyScoreState.length - 1; i++) {
-      final price =
-          (moneyScoreState[i].price == '-') ? '0' : moneyScoreState[i].price;
 
+    final benefitState = _ref.watch(benefitProvider);
+
+    for (var i = 0; i < benefitState.length; i++) {
       list.add(
         Container(
           padding: const EdgeInsets.symmetric(vertical: 3),
@@ -69,22 +67,17 @@ class MoneyScoreAlert extends ConsumerWidget {
             ),
           ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(child: Text(moneyScoreState[i].ym)),
+              Expanded(child: Text(benefitState[i].ym)),
+              Expanded(
+                flex: 2,
+                child: Text(benefitState[i].company),
+              ),
               Expanded(
                 child: Container(
                   alignment: Alignment.topRight,
-                  child: Text(price.toCurrency()),
-                ),
-              ),
-              SizedBox(
-                width: 100,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    dispUpDownIcon(mark: moneyScoreState[i].updown),
-                    Text(moneyScoreState[i].sagaku),
-                  ],
+                  child: Text(benefitState[i].salary.toCurrency()),
                 ),
               ),
             ],
@@ -98,26 +91,5 @@ class MoneyScoreAlert extends ConsumerWidget {
         children: list,
       ),
     );
-  }
-
-  ///
-  Widget dispUpDownIcon({required String mark}) {
-    switch (mark) {
-      case '1':
-        return const Icon(
-          Icons.arrow_upward,
-          color: Colors.greenAccent,
-        );
-      case '0':
-        return const Icon(
-          Icons.arrow_downward,
-          color: Colors.redAccent,
-        );
-      default:
-        return const Icon(
-          Icons.crop_square,
-          color: Colors.black,
-        );
-    }
   }
 }

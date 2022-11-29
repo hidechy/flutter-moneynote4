@@ -12,14 +12,14 @@ http://toyohide.work/BrainLog/api/getsalary
 
 import '../extensions/extensions.dart';
 
-class SalaryYearMonth {
-  SalaryYearMonth({
+class BenefitYearMonth {
+  BenefitYearMonth({
     required this.year,
     required this.salary,
   });
 
-  factory SalaryYearMonth.fromJson(Map<String, dynamic> json) =>
-      SalaryYearMonth(
+  factory BenefitYearMonth.fromJson(Map<String, dynamic> json) =>
+      BenefitYearMonth(
         year: json['year'].toString().toInt(),
         salary: json['salary'].toString(),
       );
