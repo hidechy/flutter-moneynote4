@@ -69,4 +69,54 @@ class Utility {
       const Color(0xffdb2f5c),
     ];
   }
+
+  ///
+  Color getYoubiColor(
+      {required DateTime date,
+      required String youbiStr,
+      required List<DateTime> holiday}) {
+    var color = Colors.black.withOpacity(0.2);
+
+    switch (youbiStr) {
+      case 'Sunday':
+        color = Colors.redAccent.withOpacity(0.2);
+        break;
+
+      case 'Saturday':
+        color = Colors.blueAccent.withOpacity(0.2);
+        break;
+
+      default:
+        color = Colors.black.withOpacity(0.2);
+        break;
+    }
+
+    if (holiday.contains(date)) {
+      color = Colors.greenAccent.withOpacity(0.2);
+    }
+
+    return color;
+  }
+
+  ///
+  String getYoubi({required String youbiStr}) {
+    switch (youbiStr) {
+      case 'Sunday':
+        return '日';
+      case 'Monday':
+        return '月';
+      case 'Tuesday':
+        return '火';
+      case 'Wednesday':
+        return '水';
+      case 'Thursday':
+        return '木';
+      case 'Friday':
+        return '金';
+      case 'Saturday':
+        return '土';
+    }
+
+    return '';
+  }
 }

@@ -41,6 +41,11 @@ extension DateTimeEx on DateTime {
     final outputFormat = DateFormat('dd');
     return outputFormat.format(this);
   }
+
+  String get youbiStr {
+    final outputFormat = DateFormat('EEEE');
+    return outputFormat.format(this);
+  }
 }
 
 ///

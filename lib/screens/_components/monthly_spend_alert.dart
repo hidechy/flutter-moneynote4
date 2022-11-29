@@ -2,16 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/utility/utility.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/credit_spend_monthly.dart';
-import '../../models/holiday.dart';
-import '../../models/youbi.dart';
 import '../../viewmodel/credit_notifier.dart';
 import '../../viewmodel/holiday_notifier.dart';
 import '../../viewmodel/spend_notifier.dart';
-import '../../viewmodel/youbi_notifier.dart';
 
 class MonthlySpendAlert extends ConsumerWidget {
   MonthlySpendAlert({super.key, required this.date});
@@ -19,6 +17,8 @@ class MonthlySpendAlert extends ConsumerWidget {
   final DateTime date;
 
   Uuid uuid = const Uuid();
+
+  final Utility _utility = Utility();
 
   Map<String, List<CreditSpendMonthly>> creditSpendMap = {};
 
@@ -118,6 +118,148 @@ class MonthlySpendAlert extends ConsumerWidget {
     //---------------------//
   }
 
+  ///
+  Widget displayMonthlySpend() {
+    final spendMonthDetailState = _ref.watch(spendMonthDetailProvider(date));
+
+    final holidayState = _ref.watch(holidayProvider);
+
+    final list = <Widget>[];
+
+    for (var i = 0; i < spendMonthDetailState.length; i++) {
+      final list2 = <Widget>[];
+
+      for (var j = 0; j < spendMonthDetailState[i].item.length; j++) {
+        final color = (spendMonthDetailState[i].item[j].flag.toString() == '1')
+            ? Colors.lightBlueAccent
+            : Colors.white;
+
+        list2.add(
+          Container(
+            width: _context.screenSize.width,
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.white.withOpacity(0.3),
+                ),
+              ),
+            ),
+            child: DefaultTextStyle(
+              style: TextStyle(color: color),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(spendMonthDetailState[i].item[j].item),
+                  Text(spendMonthDetailState[i]
+                      .item[j]
+                      .price
+                      .toString()
+                      .toCurrency()),
+                ],
+              ),
+            ),
+          ),
+        );
+      }
+
+      if (creditSpendMap[spendMonthDetailState[i].date.yyyymmdd] != null) {
+        final creditItemList =
+            creditSpendMap[spendMonthDetailState[i].date.yyyymmdd];
+
+        for (var j = 0; j < creditItemList!.length; j++) {
+          list2.add(
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 3),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Colors.white.withOpacity(0.3),
+                  ),
+                ),
+              ),
+              child: DefaultTextStyle(
+                style: const TextStyle(color: Color(0xFFFB86CE)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                        flex: 3,
+                        child: Text(
+                          creditItemList[j].item,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        )),
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.topRight,
+                        child: Text(
+                          creditItemList[j].price.toCurrency(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
+      }
+
+      final youbi =
+          _utility.getYoubi(youbiStr: spendMonthDetailState[i].date.youbiStr);
+
+      list.add(
+        Container(
+          margin: const EdgeInsets.symmetric(vertical: 5),
+          padding: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.white.withOpacity(0.5)),
+            color: _utility.getYoubiColor(
+              date: spendMonthDetailState[i].date,
+              youbiStr: spendMonthDetailState[i].date.youbiStr,
+              holiday: holidayState.data,
+            ),
+          ),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '${spendMonthDetailState[i].date.yyyymmdd}（$youbi）',
+                  ),
+                  Text(spendMonthDetailState[i].spend.toString().toCurrency()),
+                ],
+              ),
+              Row(
+                children: [
+                  const SizedBox(width: 30),
+                  Expanded(
+                    child: Column(
+                      children: list2,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return SingleChildScrollView(
+      key: PageStorageKey(uuid.v1()),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          children: list,
+        ),
+      ),
+    );
+  }
+
+/*
   ///
   Widget displayMonthlySpend() {
     final spendMonthDetailState = _ref.watch(spendMonthDetailProvider(date));
@@ -265,55 +407,6 @@ class MonthlySpendAlert extends ConsumerWidget {
       ),
     );
   }
+*/
 
-  ///
-  Youbi getYoubi({required String date, required List<Youbi> state}) {
-    for (var i = 0; i < state.length; i++) {
-      if (state[i].date == date) {
-        return state[i];
-      }
-    }
-
-    return Youbi(
-      date: '',
-      youbi: '',
-      youbiNum: 0,
-    );
-  }
-
-  ///
-  Color getBoxColor({required Youbi youbi, required int holiday}) {
-    var color = Colors.black.withOpacity(0.2);
-
-    switch (youbi.youbiNum) {
-      case 0:
-        color = Colors.redAccent.withOpacity(0.2);
-        break;
-      case 6:
-        color = Colors.blueAccent.withOpacity(0.2);
-        break;
-      default:
-        color = Colors.black.withOpacity(0.2);
-        break;
-    }
-
-    if (holiday == 1) {
-      color = Colors.greenAccent.withOpacity(0.2);
-    }
-
-    return color;
-  }
-
-  ///
-  int getHoliday({required String date, required Holiday state}) {
-    var answer = 0;
-
-    for (var i = 0; i < state.data.length; i++) {
-      if (state.data[i].toString().split(' ')[0] == date) {
-        answer = 1;
-      }
-    }
-
-    return answer;
-  }
 }

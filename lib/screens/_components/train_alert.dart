@@ -2,9 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/utility/utility.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
+import '../../viewmodel/holiday_notifier.dart';
 import '../../viewmodel/train_notifier.dart';
 
 class TrainAlert extends ConsumerWidget {
@@ -13,6 +15,8 @@ class TrainAlert extends ConsumerWidget {
   final DateTime date;
 
   Uuid uuid = const Uuid();
+
+  final Utility _utility = Utility();
 
   late WidgetRef _ref;
 
@@ -90,36 +94,53 @@ class TrainAlert extends ConsumerWidget {
 
   ///
   Widget displayTrain() {
-    final list = <Widget>[];
+    final holidayState = _ref.watch(holidayProvider);
 
     final trainState = _ref.watch(trainProvider);
+
+    final list = <Widget>[];
 
     for (var i = 0; i < trainState.length; i++) {
       list.add(
         Container(
-          padding: const EdgeInsets.symmetric(vertical: 3),
+          padding: const EdgeInsets.all(10),
+          margin: EdgeInsets.only(bottom: 10),
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
                 color: Colors.white.withOpacity(0.3),
               ),
             ),
+            color: _utility.getYoubiColor(
+              date: trainState[i].date,
+              youbiStr: trainState[i].date.youbiStr,
+              holiday: holidayState.data,
+            ),
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: Text(trainState[i].date.yyyymmdd),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white.withOpacity(0.8)),
+                ),
+                child: Column(
+                  children: [
+                    Text(trainState[i].date.yyyy),
+                    Text(trainState[i].date.mm),
+                    Text(trainState[i].date.dd),
+                  ],
+                ),
               ),
+              const SizedBox(width: 20),
               Expanded(
-                flex: 2,
                 child: Text(trainState[i].station),
               ),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.topRight,
-                  child: Text(trainState[i].price.toCurrency()),
-                ),
+              Container(
+                width: 60,
+                alignment: Alignment.topRight,
+                child: Text(trainState[i].price.toCurrency()),
               ),
             ],
           ),
