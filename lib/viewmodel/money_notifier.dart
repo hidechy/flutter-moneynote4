@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/models/money_everyday.dart';
 
 import '../data/http/client.dart';
 import '../extensions/extensions.dart';
@@ -124,6 +125,42 @@ class MoneyScoreNotifier extends StateNotifier<List<MoneyScore>> {
             ),
           );
         }
+      }
+
+      state = list;
+    });
+  }
+}
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+
+final moneyEverydayProvider = StateNotifierProvider.autoDispose<
+    MoneyEverydayNotifier, List<MoneyEveryday>>((ref) {
+  final client = ref.read(httpClientProvider);
+
+  return MoneyEverydayNotifier([], client)..getMoneyEveryday();
+});
+
+class MoneyEverydayNotifier extends StateNotifier<List<MoneyEveryday>> {
+  MoneyEverydayNotifier(super.state, this.client);
+
+  final HttpClient client;
+
+  Future<void> getMoneyEveryday() async {
+    await client.post(path: 'getEverydayMoney').then((value) {
+      final list = <MoneyEveryday>[];
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        list.add(
+          MoneyEveryday(
+            date: '${value['data'][i]['date']} 00:00:00'.toDateTime(),
+            youbiNum: value['data'][i]['youbiNum'].toString(),
+            sum: value['data'][i]['sum'].toString(),
+            spend: value['data'][i]['spend'].toString(),
+          ),
+        );
       }
 
       state = list;

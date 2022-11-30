@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/models/money_everyday.dart';
 import 'package:moneynote4/utility/utility.dart';
 import 'package:uuid/uuid.dart';
 
@@ -9,6 +10,7 @@ import '../../extensions/extensions.dart';
 import '../../models/credit_spend_monthly.dart';
 import '../../viewmodel/credit_notifier.dart';
 import '../../viewmodel/holiday_notifier.dart';
+import '../../viewmodel/money_notifier.dart';
 import '../../viewmodel/spend_notifier.dart';
 
 class MonthlySpendAlert extends ConsumerWidget {
@@ -124,6 +126,8 @@ class MonthlySpendAlert extends ConsumerWidget {
 
     final holidayState = _ref.watch(holidayProvider);
 
+    final moneyEverydayState = _ref.watch(moneyEverydayProvider);
+
     final list = <Widget>[];
 
     for (var i = 0; i < spendMonthDetailState.length; i++) {
@@ -209,6 +213,11 @@ class MonthlySpendAlert extends ConsumerWidget {
       final youbi =
           _utility.getYoubi(youbiStr: spendMonthDetailState[i].date.youbiStr);
 
+      var sum = getSum(
+        date: spendMonthDetailState[i].date.yyyymmdd,
+        everydayState: moneyEverydayState,
+      );
+
       list.add(
         Container(
           margin: const EdgeInsets.symmetric(vertical: 5),
@@ -224,14 +233,25 @@ class MonthlySpendAlert extends ConsumerWidget {
           child: Column(
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     '${spendMonthDetailState[i].date.yyyymmdd}（$youbi）',
                   ),
-                  Text(spendMonthDetailState[i].spend.toString().toCurrency()),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(sum.toCurrency()),
+                      Text(spendMonthDetailState[i]
+                          .spend
+                          .toString()
+                          .toCurrency()),
+                    ],
+                  ),
                 ],
               ),
+              SizedBox(height: 10),
               Row(
                 children: [
                   const SizedBox(width: 30),
@@ -259,154 +279,15 @@ class MonthlySpendAlert extends ConsumerWidget {
     );
   }
 
-/*
   ///
-  Widget displayMonthlySpend() {
-    final spendMonthDetailState = _ref.watch(spendMonthDetailProvider(date));
-
-    final youbiState = _ref.watch(youbiProvider(date));
-
-    final holidayState = _ref.watch(holidayProvider);
-
-    final list = <Widget>[];
-
-    for (var i = 0; i < spendMonthDetailState.length; i++) {
-      final list2 = <Widget>[];
-
-      final youbi = getYoubi(
-        date: spendMonthDetailState[i].date.yyyymmdd,
-        state: youbiState,
-      );
-
-      final holiday = getHoliday(
-        date: spendMonthDetailState[i].date.yyyymmdd,
-        state: holidayState,
-      );
-
-      for (var j = 0; j < spendMonthDetailState[i].item.length; j++) {
-        final color = (spendMonthDetailState[i].item[j].flag.toString() == '1')
-            ? Colors.lightBlueAccent
-            : Colors.white;
-
-        list2.add(
-          Container(
-            width: _context.screenSize.width,
-            padding: const EdgeInsets.symmetric(vertical: 3),
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Colors.white.withOpacity(0.3),
-                ),
-              ),
-            ),
-            child: DefaultTextStyle(
-              style: TextStyle(color: color),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(spendMonthDetailState[i].item[j].item),
-                  Text(spendMonthDetailState[i]
-                      .item[j]
-                      .price
-                      .toString()
-                      .toCurrency()),
-                ],
-              ),
-            ),
-          ),
-        );
+  String getSum(
+      {required String date, required List<MoneyEveryday> everydayState}) {
+    for (var i = 0; i < everydayState.length; i++) {
+      if (date == everydayState[i].date.yyyymmdd) {
+        return everydayState[i].sum;
       }
-
-      if (creditSpendMap[spendMonthDetailState[i].date.yyyymmdd] != null) {
-        final creditItemList =
-            creditSpendMap[spendMonthDetailState[i].date.yyyymmdd];
-
-        for (var j = 0; j < creditItemList!.length; j++) {
-          list2.add(
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 3),
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Colors.white.withOpacity(0.3),
-                  ),
-                ),
-              ),
-              child: DefaultTextStyle(
-                style: const TextStyle(color: Color(0xFFFB86CE)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                        flex: 3,
-                        child: Text(
-                          creditItemList[j].item,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        )),
-                    Expanded(
-                      child: Container(
-                        alignment: Alignment.topRight,
-                        child: Text(
-                          creditItemList[j].price.toCurrency(),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        }
-      }
-
-      list.add(
-        Container(
-          margin: const EdgeInsets.symmetric(vertical: 5),
-          padding: const EdgeInsets.all(5),
-          decoration: BoxDecoration(
-              border: Border.all(color: Colors.white.withOpacity(0.5)),
-              color: getBoxColor(
-                youbi: youbi,
-                holiday: holiday,
-              )),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '${spendMonthDetailState[i].date.yyyymmdd}（${youbi.youbi}）',
-                  ),
-                  Text(spendMonthDetailState[i].spend.toString().toCurrency()),
-                ],
-              ),
-              Row(
-                children: [
-                  const SizedBox(width: 30),
-                  Expanded(
-                    child: Column(
-                      children: list2,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      );
     }
 
-    return SingleChildScrollView(
-      key: PageStorageKey(uuid.v1()),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          children: list,
-        ),
-      ),
-    );
+    return '';
   }
-*/
-
 }

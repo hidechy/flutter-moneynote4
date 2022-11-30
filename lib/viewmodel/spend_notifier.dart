@@ -10,9 +10,9 @@ import '../models/spend_summary.dart';
 import '../models/spend_summary_record.dart';
 import '../models/spend_yearly.dart';
 import '../models/spend_yearly_item.dart';
+import 'money_notifier.dart';
 
 ////////////////////////////////////////////////
-
 final spendMonthSummaryProvider = StateNotifierProvider.autoDispose
     .family<SpendMonthSummaryNotifier, List<SpendMonthSummary>, DateTime>(
         (ref, date) {
@@ -50,9 +50,7 @@ class SpendMonthSummaryNotifier extends StateNotifier<List<SpendMonthSummary>> {
 }
 
 ////////////////////////////////////////////////
-
 ////////////////////////////////////////////////
-
 final spendItemDailyProvider = StateNotifierProvider.autoDispose
     .family<SpendItemDailyNotifier, SpendItemDaily, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
@@ -104,9 +102,7 @@ class SpendItemDailyNotifier extends StateNotifier<SpendItemDaily> {
 }
 
 ////////////////////////////////////////////////
-
 ////////////////////////////////////////////////
-
 final spendMonthDetailProvider = StateNotifierProvider.autoDispose
     .family<SpendMonthDetailNotifier, List<SpendYearly>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
@@ -160,9 +156,7 @@ class SpendMonthDetailNotifier extends StateNotifier<List<SpendYearly>> {
 }
 
 ////////////////////////////////////////////////
-
 ////////////////////////////////////////////////
-
 final spendSummaryProvider = StateNotifierProvider.autoDispose
     .family<SpendSummaryNotifier, List<SpendSummary>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
