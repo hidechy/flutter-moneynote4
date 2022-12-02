@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/models/money_everyday.dart';
 import 'package:moneynote4/screens/_components/_money_dialog.dart';
-import 'package:moneynote4/screens/_components/monthly_graph_alert.dart';
+import 'package:moneynote4/screens/_components/monthly_spend_graph_alert.dart';
 import 'package:moneynote4/utility/utility.dart';
 import 'package:uuid/uuid.dart';
 
@@ -63,7 +63,7 @@ class MonthlySpendAlert extends ConsumerWidget {
                         onTap: () {
                           MoneyDialog(
                             context: context,
-                            widget: MonthlyGraphAlert(date: date),
+                            widget: MonthlySpendGraphAlert(date: date),
                           );
                         },
                         child: const Icon(Icons.graphic_eq),

@@ -7,6 +7,7 @@ import 'package:scroll_to_index/scroll_to_index.dart';
 import '../../extensions/extensions.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/bank_notifier.dart';
+import '../../viewmodel/holiday_notifier.dart';
 
 class BankAlert extends ConsumerWidget {
   BankAlert({super.key, required this.name});
@@ -87,11 +88,15 @@ class BankAlert extends ConsumerWidget {
 
   ///
   Widget displayBank() {
+    final holidayState = _ref.watch(holidayProvider);
+
     final bankAllState = _ref.watch(bankAllProvider(name));
 
     final list = <Widget>[];
 
     for (var i = 0; i < bankAllState.length; i++) {
+      final youbi = _utility.getYoubi(youbiStr: bankAllState[i].date.youbiStr);
+
       list.add(
         Container(
           padding: const EdgeInsets.symmetric(vertical: 3),
@@ -101,6 +106,11 @@ class BankAlert extends ConsumerWidget {
                 color: Colors.white.withOpacity(0.3),
               ),
             ),
+            color: _utility.getYoubiColor(
+              date: bankAllState[i].date,
+              youbiStr: bankAllState[i].date.youbiStr,
+              holiday: holidayState.data,
+            ),
           ),
           child: AutoScrollTag(
             key: ValueKey(i),
@@ -109,7 +119,7 @@ class BankAlert extends ConsumerWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(bankAllState[i].date.toString().split(' ')[0]),
+                Text('${bankAllState[i].date.yyyymmdd}（${youbi}）'),
                 Row(
                   children: [
                     Text(bankAllState[i].price.toCurrency()),

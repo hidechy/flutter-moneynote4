@@ -2,10 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/money_score_graph_alert.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
 import '../../viewmodel/money_notifier.dart';
+import '_money_dialog.dart';
 
 class MoneyScoreAlert extends ConsumerWidget {
   MoneyScoreAlert({super.key, required this.date});
@@ -40,6 +42,24 @@ class MoneyScoreAlert extends ConsumerWidget {
                 Container(width: context.screenSize.width),
                 // Row(children: yearWidgetList),
                 // const SizedBox(height: 20),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(),
+                    GestureDetector(
+                      onTap: () {
+                        MoneyDialog(
+                          context: context,
+                          widget: MoneyScoreGraphAlert(date: date),
+                        );
+                      },
+                      child: const Icon(Icons.graphic_eq),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 20),
 
                 displayMoneyScore(),
               ],

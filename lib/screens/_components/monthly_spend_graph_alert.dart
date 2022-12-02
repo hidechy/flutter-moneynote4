@@ -9,8 +9,8 @@ import '../../extensions/extensions.dart';
 
 import '../../viewmodel/money_notifier.dart';
 
-class MonthlyGraphAlert extends ConsumerWidget {
-  MonthlyGraphAlert({super.key, required this.date});
+class MonthlySpendGraphAlert extends ConsumerWidget {
+  MonthlySpendGraphAlert({super.key, required this.date});
 
   final DateTime date;
 
@@ -39,12 +39,9 @@ class MonthlyGraphAlert extends ConsumerWidget {
       content: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         controller: _controller,
-        child: Container(
+        child: SizedBox(
           width: context.screenSize.width * graphWidthState,
           height: context.screenSize.height - 50,
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.2),
-          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -248,7 +245,7 @@ class MonthlyGraphAlert extends ConsumerWidget {
       lineBarsData: [
         LineChartBarData(
           spots: flspots,
-          barWidth: 5,
+          barWidth: (graphWidthState == minGraphRate) ? 3 : 5,
           isStrokeCapRound: true,
           color: Colors.yellowAccent,
         ),
@@ -264,7 +261,7 @@ final graphWidthProvider =
 });
 
 class GraphWidthStateNotifier extends StateNotifier<double> {
-  GraphWidthStateNotifier() : super(1);
+  GraphWidthStateNotifier() : super(0.6);
 
   ///
   Future<void> setGraphWidth({required double width}) async {
