@@ -10,7 +10,6 @@ import '../models/spend_summary.dart';
 import '../models/spend_summary_record.dart';
 import '../models/spend_yearly.dart';
 import '../models/spend_yearly_item.dart';
-import 'money_notifier.dart';
 
 ////////////////////////////////////////////////
 final spendMonthSummaryProvider = StateNotifierProvider.autoDispose

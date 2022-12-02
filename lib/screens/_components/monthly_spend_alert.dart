@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/models/money_everyday.dart';
+import 'package:moneynote4/screens/_components/_money_dialog.dart';
+import 'package:moneynote4/screens/_components/monthly_graph_alert.dart';
 import 'package:moneynote4/utility/utility.dart';
 import 'package:uuid/uuid.dart';
 
@@ -51,6 +53,25 @@ class MonthlySpendAlert extends ConsumerWidget {
               children: [
                 const SizedBox(height: 20),
                 Container(width: context.screenSize.width),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(),
+                      GestureDetector(
+                        onTap: () {
+                          MoneyDialog(
+                            context: context,
+                            widget: MonthlyGraphAlert(date: date),
+                          );
+                        },
+                        child: const Icon(Icons.graphic_eq),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
                 displayMonthlySpend(),
               ],
             ),
@@ -188,12 +209,13 @@ class MonthlySpendAlert extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                        flex: 3,
-                        child: Text(
-                          creditItemList[j].item,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        )),
+                      flex: 3,
+                      child: Text(
+                        creditItemList[j].item,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ),
                     Expanded(
                       child: Container(
                         alignment: Alignment.topRight,
@@ -213,7 +235,7 @@ class MonthlySpendAlert extends ConsumerWidget {
       final youbi =
           _utility.getYoubi(youbiStr: spendMonthDetailState[i].date.youbiStr);
 
-      var sum = getSum(
+      final sum = getSum(
         date: spendMonthDetailState[i].date.yyyymmdd,
         everydayState: moneyEverydayState,
       );
@@ -242,7 +264,7 @@ class MonthlySpendAlert extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(sum.toCurrency()),
+                      Text((sum == '') ? '0' : sum.toCurrency()),
                       Text(spendMonthDetailState[i]
                           .spend
                           .toString()
@@ -251,7 +273,7 @@ class MonthlySpendAlert extends ConsumerWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 children: [
                   const SizedBox(width: 30),

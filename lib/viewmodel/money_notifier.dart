@@ -93,42 +93,54 @@ final moneyScoreProvider =
         (ref) {
   final client = ref.read(httpClientProvider);
 
-  return MoneyScoreNotifier([], client)..getMoneyScore();
+  final moneyEverydayState = ref.watch(moneyEverydayProvider);
+
+  return MoneyScoreNotifier([], client, moneyEverydayState)..getMoneyScore();
 });
 
 class MoneyScoreNotifier extends StateNotifier<List<MoneyScore>> {
-  MoneyScoreNotifier(super.state, this.client);
+  MoneyScoreNotifier(super.state, this.client, this.moneyEverydayState);
 
   final HttpClient client;
+  final List<MoneyEveryday> moneyEverydayState;
 
   Future<void> getMoneyScore() async {
-    await client.post(path: 'getmonthstartmoney').then((value) {
-      final list = <MoneyScore>[];
+    final list = <MoneyScore>[];
 
-      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        final exPrice = value['data'][i]['price'].toString().split('|');
-        final exManen = value['data'][i]['manen'].toString().split('|');
-        final exUpDown = value['data'][i]['updown'].toString().split('|');
-        final exSagaku = value['data'][i]['sagaku'].toString().split('|');
+    final allSum = <String, int>{};
+    final ymList = <String>[];
+    for (var i = 0; i < moneyEverydayState.length; i++) {
+      allSum[moneyEverydayState[i].date.yyyymmdd] =
+          moneyEverydayState[i].sum.toInt();
 
-        for (var j = 0; j < exPrice.length; j++) {
-          final ym =
-              '${value['data'][i]['year']}-${(j + 1).toString().padLeft(2, '0')}';
-
-          list.add(
-            MoneyScore(
-              ym: ym,
-              price: exPrice[j],
-              manen: exManen[j],
-              updown: exUpDown[j],
-              sagaku: exSagaku[j],
-            ),
-          );
-        }
+      if (moneyEverydayState[i].date.dd == '01') {
+        ymList.add(moneyEverydayState[i].date.yyyymm);
       }
+    }
 
-      state = list;
-    });
+    for (var i = 0; i < ymList.length; i++) {
+      final price = allSum['${ymList[i]}-01'];
+
+      final nextPrice =
+          (i < ymList.length - 1) ? allSum['${ymList[i + 1]}-01'] : 0;
+
+      final sag = nextPrice! - price.toString().toInt();
+      final sagaku = (sag < 0) ? sag * -1 : sag;
+      final manen = (sagaku / 10000).ceil();
+      final updown = (sag < 0) ? 0 : 1;
+
+      list.add(
+        MoneyScore(
+          ym: ymList[i],
+          price: price.toString(),
+          manen: manen.toString(),
+          updown: updown.toString(),
+          sagaku: sagaku.toString(),
+        ),
+      );
+    }
+
+    state = list;
   }
 }
 

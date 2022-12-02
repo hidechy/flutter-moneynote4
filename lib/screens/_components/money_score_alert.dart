@@ -40,6 +40,7 @@ class MoneyScoreAlert extends ConsumerWidget {
                 Container(width: context.screenSize.width),
                 // Row(children: yearWidgetList),
                 // const SizedBox(height: 20),
+
                 displayMoneyScore(),
               ],
             ),
@@ -54,7 +55,7 @@ class MoneyScoreAlert extends ConsumerWidget {
     final moneyScoreState = _ref.watch(moneyScoreProvider);
 
     final list = <Widget>[];
-    for (var i = 0; i < moneyScoreState.length - 1; i++) {
+    for (var i = 0; i < moneyScoreState.length; i++) {
       final price =
           (moneyScoreState[i].price == '-') ? '0' : moneyScoreState[i].price;
 
@@ -79,13 +80,15 @@ class MoneyScoreAlert extends ConsumerWidget {
               ),
               SizedBox(
                 width: 100,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    dispUpDownIcon(mark: moneyScoreState[i].updown),
-                    Text(moneyScoreState[i].sagaku),
-                  ],
-                ),
+                child: (i == moneyScoreState.length - 1)
+                    ? Column(children: const [Text(''), Text('')])
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          dispUpDownIcon(mark: moneyScoreState[i].updown),
+                          Text(moneyScoreState[i].sagaku.toCurrency()),
+                        ],
+                      ),
               ),
             ],
           ),
