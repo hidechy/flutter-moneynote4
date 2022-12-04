@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/oneday_input_screen.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/money.dart';
@@ -82,7 +83,20 @@ class MoneyAlert extends ConsumerWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(),
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          OnedayInputScreen(date: date)));
+                            },
+                            icon: const Icon(Icons.input),
+                          ),
+                        ],
+                      ),
                       Row(
                         children: [
                           Column(

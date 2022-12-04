@@ -119,7 +119,7 @@ class BankAlert extends ConsumerWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('${bankAllState[i].date.yyyymmdd}（${youbi}）'),
+                Text('${bankAllState[i].date.yyyymmdd}（$youbi）'),
                 Row(
                   children: [
                     Text(bankAllState[i].price.toCurrency()),

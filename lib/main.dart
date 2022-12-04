@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'screens/home_screens.dart';
+import 'screens/home_screen.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));

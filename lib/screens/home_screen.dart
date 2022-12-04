@@ -352,6 +352,28 @@ class HomeScreen extends ConsumerWidget {
       ),
     );
 
+    //
+    //
+    // list.add(
+    //   IconButton(
+    //     onPressed: () {
+    //       _ref.watch(homeMenuProvider.notifier).setHomeMenu(
+    //             menuFlag: 'oneday_input',
+    //             menuName: '金額登録',
+    //           );
+    //     },
+    //     icon: Icon(
+    //       Icons.input,
+    //       color: (homeMenuState.menuFlag == 'oneday_input')
+    //           ? Colors.lightBlueAccent
+    //           : Colors.white,
+    //     ),
+    //   ),
+    // );
+    //
+    //
+    //
+
     list.add(
       IconButton(
         onPressed: () {
@@ -523,6 +545,19 @@ class HomeScreen extends ConsumerWidget {
           widget: MonthlySpendAlert(date: focusDayState),
         );
         break;
+
+      //
+      //
+      //
+      // case 'oneday_input':
+      //   MoneyDialog(
+      //     context: _context,
+      //     widget: OnedayInputAlert(date: focusDayState),
+      //   );
+      //   break;
+      //
+      //
+      //
 
       case 'money_score':
         MoneyDialog(
