@@ -58,86 +58,50 @@ class OnedayInputScreen extends ConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        children: [
-                          Row(
-                            children: [
-                              const SizedBox(width: 90, child: Text('Today')),
-                              Text(date.yyyymmdd),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              const SizedBox(
-                                  width: 90, child: Text('Last Day')),
-                              Text(
-                                lastInputDate,
-                                style: (date.yyyymmdd == lastInputDate)
-                                    ? const TextStyle(
-                                        color: Colors.yellowAccent,
-                                      )
-                                    : null,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      const SizedBox(width: 20),
-                      Row(
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              ref
-                                  .watch(beforeCallProvider.notifier)
-                                  .setFlag(flag: 1);
-
-                              setDefaultMoneyData(usage: 'before');
-                            },
-                            icon: Icon(
-                              Icons.copy,
-                              color: (beforeCallState == 1)
-                                  ? Colors.yellowAccent
-                                  : Colors.white,
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: updateMoney,
-                            icon: const Icon(Icons.input),
-                          ),
-                          IconButton(
-                            onPressed: () => Navigator.pop(context),
-                            icon: const Icon(Icons.close),
-                          ),
-                        ],
+                      Container(),
+                      IconButton(
+                        onPressed: () => Navigator.pop(context),
+                        icon: const Icon(Icons.close),
                       ),
                     ],
-                  ),
-                  Divider(
-                    color: Colors.white.withOpacity(0.3),
-                    thickness: 2,
                   ),
                   Row(
                     children: [
                       Expanded(
-                        child: Container(
-                          alignment: Alignment.topLeft,
-                          child: GestureDetector(
-                            onTap: makeTotal,
-                            child: const Icon(Icons.check_box),
-                          ),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                const SizedBox(width: 90, child: Text('Today')),
+                                Text(date.yyyymmdd),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const SizedBox(
+                                    width: 90, child: Text('Last Day')),
+                                Text(
+                                  lastInputDate,
+                                  style: (date.yyyymmdd == lastInputDate)
+                                      ? const TextStyle(
+                                          color: Colors.yellowAccent,
+                                        )
+                                      : null,
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                      Expanded(child: Container()),
-                      const SizedBox(width: 40),
-                      const Expanded(
-                        child: Text('form total'),
-                      ),
                       Expanded(
-                        child: Container(
-                          alignment: Alignment.topRight,
-                          child: Text(
-                            formTotalState.toString().toCurrency(),
-                          ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            const Text('form total'),
+                            Text(
+                              formTotalState.toString().toCurrency(),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -149,6 +113,37 @@ class OnedayInputScreen extends ConsumerWidget {
                   displayMoneyInput(),
                   displayBankInput(),
                   displayPayInput(),
+                  Divider(
+                    color: Colors.white.withOpacity(0.3),
+                    thickness: 2,
+                  ),
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          ref
+                              .watch(beforeCallProvider.notifier)
+                              .setFlag(flag: 1);
+
+                          setDefaultMoneyData(usage: 'before');
+                        },
+                        icon: Icon(
+                          Icons.copy,
+                          color: (beforeCallState == 1)
+                              ? Colors.yellowAccent
+                              : Colors.white,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: makeTotal,
+                        icon: const Icon(Icons.check_box),
+                      ),
+                      IconButton(
+                        onPressed: updateMoney,
+                        icon: const Icon(Icons.input),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
