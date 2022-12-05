@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/mercari_alert.dart';
 import 'package:moneynote4/screens/_components/train_alert.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -527,6 +528,23 @@ class HomeScreen extends ConsumerWidget {
       ),
     );
 
+    list.add(
+      IconButton(
+        onPressed: () {
+          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
+                menuFlag: 'mercari',
+                menuName: 'メルカリ',
+              );
+        },
+        icon: Icon(
+          FontAwesomeIcons.handshake,
+          color: (homeMenuState.menuFlag == 'mercari')
+              ? Colors.lightBlueAccent
+              : Colors.white,
+        ),
+      ),
+    );
+
     return SingleChildScrollView(
       child: Column(
         children: list,
@@ -545,19 +563,6 @@ class HomeScreen extends ConsumerWidget {
           widget: MonthlySpendAlert(date: focusDayState),
         );
         break;
-
-      //
-      //
-      //
-      // case 'oneday_input':
-      //   MoneyDialog(
-      //     context: _context,
-      //     widget: OnedayInputAlert(date: focusDayState),
-      //   );
-      //   break;
-      //
-      //
-      //
 
       case 'money_score':
         MoneyDialog(
@@ -619,6 +624,13 @@ class HomeScreen extends ConsumerWidget {
         MoneyDialog(
           context: _context,
           widget: TrainAlert(date: focusDayState),
+        );
+        break;
+
+      case 'mercari':
+        MoneyDialog(
+          context: _context,
+          widget: MercariAlert(date: focusDayState),
         );
         break;
     }
