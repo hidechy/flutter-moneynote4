@@ -19,6 +19,9 @@ class OnedayInputScreen extends ConsumerWidget {
 
   String lastInputDate = '';
 
+  int lastSum = 0;
+  int formTotal = 0;
+
   late BuildContext _context;
   late WidgetRef _ref;
 
@@ -39,9 +42,13 @@ class OnedayInputScreen extends ConsumerWidget {
 
     final beforeCallState = ref.watch(beforeCallProvider);
 
-    if (beforeCallState != 1) {
+    final stopDefaultState = ref.watch(stopDefaultProvider);
+
+    if (beforeCallState == 0 && stopDefaultState == 0) {
       setDefaultMoneyData(usage: 'today');
     }
+
+    final spendDiffState = ref.watch(spendDiffProvider);
 
     return Scaffold(
       body: Stack(
@@ -68,6 +75,7 @@ class OnedayInputScreen extends ConsumerWidget {
                   Row(
                     children: [
                       Expanded(
+                        flex: 2,
                         child: Column(
                           children: [
                             Row(
@@ -118,25 +126,51 @@ class OnedayInputScreen extends ConsumerWidget {
                     thickness: 2,
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(
-                        onPressed: () {
-                          ref
-                              .watch(beforeCallProvider.notifier)
-                              .setFlag(flag: 1);
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              ref
+                                  .watch(beforeCallProvider.notifier)
+                                  .setFlag(flag: 1);
 
-                          setDefaultMoneyData(usage: 'before');
-                        },
-                        icon: Icon(
-                          Icons.copy,
-                          color: (beforeCallState == 1)
-                              ? Colors.yellowAccent
-                              : Colors.white,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: makeTotal,
-                        icon: const Icon(Icons.check_box),
+                              if (date.yyyymmdd != lastInputDate) {
+                                setDefaultMoneyData(usage: 'before');
+                              }
+                            },
+                            icon: Icon(
+                              Icons.copy,
+                              color: (beforeCallState == 1)
+                                  ? Colors.yellowAccent
+                                  : Colors.white,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              ref
+                                  .watch(stopDefaultProvider.notifier)
+                                  .setStop(stop: 1);
+
+                              makeTotal();
+                            },
+                            icon: const Icon(Icons.check_box),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              ref
+                                  .watch(stopDefaultProvider.notifier)
+                                  .setStop(stop: 1);
+
+                              ref
+                                  .watch(spendDiffProvider.notifier)
+                                  .setSpend(spend: lastSum - formTotal);
+                            },
+                            icon: const Icon(Icons.arrow_circle_right),
+                          ),
+                          Text(spendDiffState.toString().toCurrency()),
+                        ],
                       ),
                       IconButton(
                         onPressed: updateMoney,
@@ -243,6 +277,8 @@ class OnedayInputScreen extends ConsumerWidget {
     payCState.text = (moneyState.payC == 'null') ? '0' : moneyState.payC;
     payDState.text = (moneyState.payD == 'null') ? '0' : moneyState.payD;
     payEState.text = (moneyState.payE == 'null') ? '0' : moneyState.payE;
+
+    lastSum = moneyState.sum.toInt();
   }
 
   ///
@@ -465,6 +501,9 @@ class OnedayInputScreen extends ConsumerWidget {
           fontSize: 13,
           color: Colors.white,
         ),
+        onChanged: (value) {
+          tec.text = value;
+        },
       ),
     );
   }
@@ -502,6 +541,8 @@ class OnedayInputScreen extends ConsumerWidget {
     }
 
     _ref.watch(formTotalProvider.notifier).setTotal(total: onedayTotal);
+
+    formTotal = onedayTotal;
   }
 
   ///
@@ -652,5 +693,35 @@ class FormTotalStateNotifier extends StateNotifier<int> {
   ///
   Future<void> setTotal({required int total}) async {
     state = total;
+  }
+}
+
+////////////////////////////////////////////////////////////
+final spendDiffProvider =
+    StateNotifierProvider.autoDispose<SpendDiffStateNotifier, int>((ref) {
+  return SpendDiffStateNotifier();
+});
+
+class SpendDiffStateNotifier extends StateNotifier<int> {
+  SpendDiffStateNotifier() : super(0);
+
+  ///
+  Future<void> setSpend({required int spend}) async {
+    state = spend;
+  }
+}
+
+////////////////////////////////////////////////////////////
+final stopDefaultProvider =
+    StateNotifierProvider.autoDispose<StopDefaultStateNotifier, int>((ref) {
+  return StopDefaultStateNotifier();
+});
+
+class StopDefaultStateNotifier extends StateNotifier<int> {
+  StopDefaultStateNotifier() : super(0);
+
+  ///
+  Future<void> setStop({required int stop}) async {
+    state = stop;
   }
 }
