@@ -354,27 +354,22 @@ class HomeScreen extends ConsumerWidget {
       ),
     );
 
-    //
-    //
     // list.add(
     //   IconButton(
     //     onPressed: () {
     //       _ref.watch(homeMenuProvider.notifier).setHomeMenu(
-    //             menuFlag: 'oneday_input',
-    //             menuName: '金額登録',
+    //             menuFlag: 'yearly_spend',
+    //             menuName: '年間使用金額履歴',
     //           );
     //     },
     //     icon: Icon(
-    //       Icons.input,
-    //       color: (homeMenuState.menuFlag == 'oneday_input')
+    //       FontAwesomeIcons.calculator,
+    //       color: (homeMenuState.menuFlag == 'yearly_spend')
     //           ? Colors.lightBlueAccent
     //           : Colors.white,
     //     ),
     //   ),
     // );
-    //
-    //
-    //
 
     list.add(
       IconButton(
