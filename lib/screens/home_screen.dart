@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/credit_company_alert.dart';
 import 'package:moneynote4/screens/_components/mercari_alert.dart';
 import 'package:moneynote4/screens/_components/train_alert.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -447,6 +448,23 @@ class HomeScreen extends ConsumerWidget {
       IconButton(
         onPressed: () {
           _ref.watch(homeMenuProvider.notifier).setHomeMenu(
+                menuFlag: 'credit_company',
+                menuName: 'クレジット会社比較',
+              );
+        },
+        icon: Icon(
+          Icons.calendar_view_month_rounded,
+          color: (homeMenuState.menuFlag == 'credit_company')
+              ? Colors.lightBlueAccent
+              : Colors.white,
+        ),
+      ),
+    );
+
+    list.add(
+      IconButton(
+        onPressed: () {
+          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
                 menuFlag: 'duty_paid',
                 menuName: '支払い義務金額履歴',
               );
@@ -589,6 +607,13 @@ class HomeScreen extends ConsumerWidget {
         MoneyDialog(
           context: _context,
           widget: CreditSummaryAlert(date: focusDayState),
+        );
+        break;
+
+      case 'credit_company':
+        MoneyDialog(
+          context: _context,
+          widget: CreditCompanyAlert(date: focusDayState),
         );
         break;
 

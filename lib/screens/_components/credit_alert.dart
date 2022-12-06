@@ -207,18 +207,3 @@ class CreditAlert extends ConsumerWidget {
     return list;
   }
 }
-
-////////////////////////////////////////////////////////////
-final selectCreditProvider =
-    StateNotifierProvider.autoDispose<SelectCreditStateNotifier, String>((ref) {
-  return SelectCreditStateNotifier();
-});
-
-class SelectCreditStateNotifier extends StateNotifier<String> {
-  SelectCreditStateNotifier() : super('');
-
-  ///
-  Future<void> setSelectCredit({required String selectCredit}) async {
-    state = selectCredit;
-  }
-}

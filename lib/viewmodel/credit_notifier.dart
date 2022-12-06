@@ -1,6 +1,8 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/models/credit_company.dart';
+import 'package:moneynote4/models/credit_company_record.dart';
 
 import '../../extensions/extensions.dart';
 import '../data/http/client.dart';
@@ -118,3 +120,70 @@ class CreditSummaryNotifier extends StateNotifier<List<CreditSummary>> {
 }
 
 ////////////////////////////////////////////////
+
+final creditCompanyProvider = StateNotifierProvider.autoDispose
+    .family<CreditCompanyNotifier, List<CreditCompany>, DateTime>((ref, date) {
+  final client = ref.read(httpClientProvider);
+
+  return CreditCompanyNotifier([], client)..getCreditCompany(date: date);
+});
+
+class CreditCompanyNotifier extends StateNotifier<List<CreditCompany>> {
+  CreditCompanyNotifier(super.state, this.client);
+
+  final HttpClient client;
+
+  Future<void> getCreditCompany({required DateTime date}) async {
+    await client.post(
+      path: 'getcompanycredit',
+      body: {'date': date.yyyymmdd},
+    ).then((value) {
+      final list = <CreditCompany>[];
+
+      var keepYm = '';
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        final list2 = <CreditCompanyRecord>[];
+
+        for (var j = 0;
+            j < value['data'][i]['list'].length.toString().toInt();
+            j++) {
+          list2.add(
+            CreditCompanyRecord(
+              company: value['data'][i]['list'][j]['company'].toString(),
+              sum: value['data'][i]['list'][j]['sum'].toString().toInt(),
+            ),
+          );
+
+          if (keepYm != value['data'][i]['ym'].toString()) {
+            list.add(
+              CreditCompany(
+                ym: value['data'][i]['ym'].toString(),
+                list: list2,
+              ),
+            );
+          }
+
+          keepYm = value['data'][i]['ym'].toString();
+        }
+      }
+
+      state = list;
+    });
+  }
+}
+
+////////////////////////////////////////////////
+
+final selectCreditProvider =
+    StateNotifierProvider.autoDispose<SelectCreditStateNotifier, String>((ref) {
+  return SelectCreditStateNotifier();
+});
+
+class SelectCreditStateNotifier extends StateNotifier<String> {
+  SelectCreditStateNotifier() : super('');
+
+  ///
+  Future<void> setSelectCredit({required String selectCredit}) async {
+    state = selectCredit;
+  }
+}

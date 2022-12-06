@@ -154,6 +154,7 @@ class MonthlySpendAlert extends ConsumerWidget {
     for (var i = 0; i < spendMonthDetailState.length; i++) {
       final list2 = <Widget>[];
 
+      var daySum = 0;
       for (var j = 0; j < spendMonthDetailState[i].item.length; j++) {
         final color = (spendMonthDetailState[i].item[j].flag.toString() == '1')
             ? Colors.lightBlueAccent
@@ -186,6 +187,8 @@ class MonthlySpendAlert extends ConsumerWidget {
             ),
           ),
         );
+
+        daySum += spendMonthDetailState[i].item[j].price.toString().toInt();
       }
 
       if (creditSpendMap[spendMonthDetailState[i].date.yyyymmdd] != null) {
@@ -284,6 +287,22 @@ class MonthlySpendAlert extends ConsumerWidget {
                   ),
                 ],
               ),
+              if (spendMonthDetailState[i].spend - daySum != 0)
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 3),
+                  decoration: BoxDecoration(
+                    color: Colors.yellowAccent.withOpacity(0.3),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(),
+                      Text(
+                          (spendMonthDetailState[i].spend - daySum).toString()),
+                    ],
+                  ),
+                ),
             ],
           ),
         ),

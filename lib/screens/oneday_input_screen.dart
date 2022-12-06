@@ -278,7 +278,9 @@ class OnedayInputScreen extends ConsumerWidget {
     payDState.text = (moneyState.payD == 'null') ? '0' : moneyState.payD;
     payEState.text = (moneyState.payE == 'null') ? '0' : moneyState.payE;
 
-    lastSum = moneyState.sum.toInt();
+    if (moneyState.sum.toInt() > 0) {
+      lastSum = moneyState.sum.toInt();
+    }
   }
 
   ///

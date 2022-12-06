@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/utility/utility.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../extensions/extensions.dart';
@@ -11,6 +12,8 @@ class GoldAlert extends ConsumerWidget {
   GoldAlert({super.key});
 
   final autoScrollController = AutoScrollController();
+
+  final Utility _utility = Utility();
 
   late WidgetRef _ref;
 
@@ -111,7 +114,7 @@ class GoldAlert extends ConsumerWidget {
                 ? SizedBox(
                     width: double.infinity,
                     child: Text(
-                      date,
+                      '$date（${_utility.getYoubi(youbiStr: '$date 00:00:00'.toDateTime().youbiStr)}）',
                       style: const TextStyle(color: Colors.grey),
                     ),
                   )
@@ -122,8 +125,10 @@ class GoldAlert extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            width: 100,
-                            child: Text(date),
+                            width: 140,
+                            child: Text(
+                              '$date（${_utility.getYoubi(youbiStr: '$date 00:00:00'.toDateTime().youbiStr)}）',
+                            ),
                           ),
                           const Text('1g'),
                           Column(
