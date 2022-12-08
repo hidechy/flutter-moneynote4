@@ -2,14 +2,11 @@
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/models/credit_company.dart';
-import 'package:moneynote4/models/credit_company_record.dart';
 
 import '../../extensions/extensions.dart';
 import '../data/http/client.dart';
 import '../models/credit_spend_monthly.dart';
 import '../models/credit_summary.dart';
-
-import '../models/credit_summary_record.dart';
 
 ////////////////////////////////////////////////
 
@@ -188,7 +185,9 @@ class CreditCompanyNotifier extends StateNotifier<List<CreditCompany>> {
 
       var keepYm = '';
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        final list2 = <CreditCompanyRecord>[];
+        //
+        // final list2 = <CreditCompanyRecord>[];
+        //
 
         for (var j = 0;
             j < value['data'][i]['list'].length.toString().toInt();

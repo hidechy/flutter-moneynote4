@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/utility/utility.dart';
 
 import '../data/http/client.dart';
 import '../extensions/extensions.dart';
@@ -12,13 +13,16 @@ final benefitProvider =
     StateNotifierProvider.autoDispose<BenefitNotifier, List<Benefit>>((ref) {
   final client = ref.read(httpClientProvider);
 
-  return BenefitNotifier([], client)..getBenefit();
+  final utility = Utility();
+
+  return BenefitNotifier([], client, utility)..getBenefit();
 });
 
 class BenefitNotifier extends StateNotifier<List<Benefit>> {
-  BenefitNotifier(super.state, this.client);
+  BenefitNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
+  final Utility utility;
 
   Future<void> getBenefit() async {
     await client.post(path: 'benefit').then((value) {
@@ -36,6 +40,8 @@ class BenefitNotifier extends StateNotifier<List<Benefit>> {
       }
 
       state = list;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
     });
   }
 }

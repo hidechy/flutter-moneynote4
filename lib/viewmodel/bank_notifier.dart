@@ -6,6 +6,7 @@ import '../data/http/client.dart';
 import '../extensions/extensions.dart';
 import '../models/bank_company_all.dart';
 import '../models/bank_company_change.dart';
+import '../utility/utility.dart';
 
 ////////////////////////////////////////////////
 
@@ -13,20 +14,20 @@ final bankLastProvider = StateNotifierProvider.autoDispose
     .family<BankLastNotifier, BankCompanyChange, String>((ref, bank) {
   final client = ref.read(httpClientProvider);
 
+  final utility = Utility();
+
   return BankLastNotifier(
-    BankCompanyChange(
-      date: DateTime.now(),
-      price: '',
-      diff: 0,
-    ),
+    BankCompanyChange(date: DateTime.now(), price: '', diff: 0),
     client,
+    utility,
   )..getBankCompanyRecord(bank: bank);
 });
 
 class BankLastNotifier extends StateNotifier<BankCompanyChange> {
-  BankLastNotifier(super.state, this.client);
+  BankLastNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
+  final Utility utility;
 
   Future<void> getBankCompanyRecord({required String bank}) async {
     await client.post(
@@ -51,6 +52,8 @@ class BankLastNotifier extends StateNotifier<BankCompanyChange> {
       }
 
       state = bankCompanyRecord;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
     });
   }
 }
@@ -63,13 +66,16 @@ final bankAllProvider = StateNotifierProvider.autoDispose
     .family<BankAllNotifier, List<BankCompanyAll>, String>((ref, bank) {
   final client = ref.read(httpClientProvider);
 
-  return BankAllNotifier([], client)..getBankCompanyRecord(bank: bank);
+  final utility = Utility();
+
+  return BankAllNotifier([], client, utility)..getBankCompanyRecord(bank: bank);
 });
 
 class BankAllNotifier extends StateNotifier<List<BankCompanyAll>> {
-  BankAllNotifier(super.state, this.client);
+  BankAllNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
+  final Utility utility;
 
   Future<void> getBankCompanyRecord({required String bank}) async {
     await client.post(
@@ -104,6 +110,8 @@ class BankAllNotifier extends StateNotifier<List<BankCompanyAll>> {
       }
 
       state = list;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
     });
   }
 }

@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/utility/utility.dart';
 
 import '../data/http/client.dart';
 import '../extensions/extensions.dart';
@@ -13,13 +14,17 @@ final amazonPurchaseProvider = StateNotifierProvider.autoDispose
         (ref, date) {
   final client = ref.read(httpClientProvider);
 
-  return AmazonPurchaseNotifier([], client)..getAmazonPurchaseList(date: date);
+  final utility = Utility();
+
+  return AmazonPurchaseNotifier([], client, utility)
+    ..getAmazonPurchaseList(date: date);
 });
 
 class AmazonPurchaseNotifier extends StateNotifier<List<AmazonPurchase>> {
-  AmazonPurchaseNotifier(super.state, this.client);
+  AmazonPurchaseNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
+  final Utility utility;
 
   Future<void> getAmazonPurchaseList({required DateTime date}) async {
     await client.post(
@@ -46,6 +51,8 @@ class AmazonPurchaseNotifier extends StateNotifier<List<AmazonPurchase>> {
       }
 
       state = list;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
     });
   }
 }
