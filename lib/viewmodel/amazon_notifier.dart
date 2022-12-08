@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/utility/utility.dart';
 
 import '../data/http/client.dart';
+import '../data/http/path.dart';
 import '../extensions/extensions.dart';
 import '../models/amazon_purchase.dart';
 
@@ -28,7 +29,7 @@ class AmazonPurchaseNotifier extends StateNotifier<List<AmazonPurchase>> {
 
   Future<void> getAmazonPurchaseList({required DateTime date}) async {
     await client.post(
-      path: 'amazonPurchaseList',
+      path: APIPath.amazonPurchase.toString(),
       body: {'date': date.yyyymmdd},
     ).then((value) {
       final list = <AmazonPurchase>[];
