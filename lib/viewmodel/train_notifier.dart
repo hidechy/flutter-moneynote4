@@ -3,8 +3,10 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../data/http/client.dart';
+import '../data/http/path.dart';
 import '../extensions/extensions.dart';
 import '../models/train.dart';
+import '../utility/utility.dart';
 
 ////////////////////////////////////////////////
 
@@ -12,17 +14,20 @@ final trainProvider =
     StateNotifierProvider.autoDispose<TrainNotifier, List<Train>>((ref) {
   final client = ref.read(httpClientProvider);
 
-  return TrainNotifier([], client)..getTrain();
+  final utility = Utility();
+
+  return TrainNotifier([], client, utility)..getTrain();
 });
 
 class TrainNotifier extends StateNotifier<List<Train>> {
-  TrainNotifier(super.state, this.client);
+  TrainNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
+  final Utility utility;
 
   ///
   Future<void> getTrain() async {
-    await client.post(path: 'gettrainrecord').then((value) {
+    await client.post(path: APIPath.gettrainrecord).then((value) {
       final list = <Train>[];
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
@@ -42,7 +47,7 @@ class TrainNotifier extends StateNotifier<List<Train>> {
 
   ///
   Future<void> getYearTrain({required DateTime date}) async {
-    await client.post(path: 'gettrainrecord').then((value) {
+    await client.post(path: APIPath.gettrainrecord).then((value) {
       final list = <Train>[];
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
@@ -60,6 +65,8 @@ class TrainNotifier extends StateNotifier<List<Train>> {
       }
 
       state = list;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
     });
   }
 }

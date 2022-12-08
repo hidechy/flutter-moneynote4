@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart';
+import 'package:moneynote4/data/http/path.dart';
 
 ///////////////////////////////////////////////////////////////////
 final Provider<HttpClient> httpClientProvider = Provider<HttpClient>(
@@ -18,12 +19,12 @@ class HttpClient {
   late Client _client;
 
   Future<dynamic> post({
-    required String path,
+    required APIPath path,
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? body,
   }) async {
     final uri = Uri.http(Environment.apiEndPoint,
-        '${Environment.apiBasePath}/$path', queryParameters);
+        '${Environment.apiBasePath}/${path.value}', queryParameters);
 
     final response = await _client.post(uri,
         headers: await _headers, body: json.encode(body));

@@ -3,14 +3,18 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../data/http/client.dart';
+import '../data/http/path.dart';
 import '../extensions/extensions.dart';
 import '../models/stock.dart';
 import '../models/stock_record.dart';
+import '../utility/utility.dart';
 
 ////////////////////////////////////////////////
 final stockProvider =
     StateNotifierProvider.autoDispose<StockNotifier, Stock>((ref) {
   final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
 
   return StockNotifier(
     Stock(
@@ -21,21 +25,18 @@ final stockProvider =
       record: [],
     ),
     client,
+    utility,
   )..getStock();
 });
 
 class StockNotifier extends StateNotifier<Stock> {
-  StockNotifier(super.state, this.client);
+  StockNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
+  final Utility utility;
 
   Future<void> getStock() async {
-    await client.post(path: 'getDataStock').then((value) {
-      /*
-
-
-
-
+    await client.post(path: APIPath.getDataStock).then((value) {
       final list = <StockRecord>[];
       for (var i = 0;
           i < value['data']['record'].length.toString().toInt();
@@ -63,11 +64,8 @@ class StockNotifier extends StateNotifier<Stock> {
       );
 
       state = stock;
-
-
-      */
-
-      state = Stock.fromJson(value['data'] as Map<String, dynamic>);
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
     });
   }
 }
@@ -78,6 +76,8 @@ class StockNotifier extends StateNotifier<Stock> {
 final stockRecordProvider =
     StateNotifierProvider.autoDispose<StockRecordNotifier, StockRecord>((ref) {
   final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
 
   return StockRecordNotifier(
     StockRecord(
@@ -91,16 +91,18 @@ final stockRecordProvider =
       data: '',
     ),
     client,
+    utility,
   )..getStockRecord(flag: 0);
 });
 
 class StockRecordNotifier extends StateNotifier<StockRecord> {
-  StockRecordNotifier(super.state, this.client);
+  StockRecordNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
+  final Utility utility;
 
   Future<void> getStockRecord({required int flag}) async {
-    await client.post(path: 'getDataStock').then((value) {
+    await client.post(path: APIPath.getDataStock).then((value) {
       var stockRecord = StockRecord(
         name: '',
         date: DateTime.now(),
@@ -133,6 +135,8 @@ class StockRecordNotifier extends StateNotifier<StockRecord> {
       }
 
       state = stockRecord;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
     });
   }
 }

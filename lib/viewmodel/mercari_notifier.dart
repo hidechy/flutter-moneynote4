@@ -1,10 +1,12 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/models/mercari_record.dart';
 
 import '../data/http/client.dart';
+import '../data/http/path.dart';
 import '../extensions/extensions.dart';
+import '../models/mercari_record.dart';
+import '../utility/utility.dart';
 
 ////////////////////////////////////////////////
 final mercariProvider =
@@ -12,16 +14,19 @@ final mercariProvider =
         (ref) {
   final client = ref.read(httpClientProvider);
 
-  return MercariNotifier([], client)..getMercariData();
+  final utility = Utility();
+
+  return MercariNotifier([], client, utility)..getMercariData();
 });
 
 class MercariNotifier extends StateNotifier<List<MercariRecord>> {
-  MercariNotifier(super.state, this.client);
+  MercariNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
+  final Utility utility;
 
   Future<void> getMercariData() async {
-    await client.post(path: 'mercaridata').then((value) {
+    await client.post(path: APIPath.mercaridata).then((value) {
       final list = <MercariRecord>[];
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
@@ -50,6 +55,8 @@ class MercariNotifier extends StateNotifier<List<MercariRecord>> {
       }
 
       state = list;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
     });
   }
 }

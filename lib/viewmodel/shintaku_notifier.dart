@@ -3,14 +3,18 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../data/http/client.dart';
+import '../data/http/path.dart';
 import '../extensions/extensions.dart';
 import '../models/shintaku.dart';
 import '../models/shintaku_record.dart';
+import '../utility/utility.dart';
 
 ////////////////////////////////////////////////
 final shintakuProvider =
     StateNotifierProvider.autoDispose<ShintakuNotifier, Shintaku>((ref) {
   final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
 
   return ShintakuNotifier(
     Shintaku(
@@ -21,20 +25,18 @@ final shintakuProvider =
       record: [],
     ),
     client,
+    utility,
   )..getShintaku();
 });
 
 class ShintakuNotifier extends StateNotifier<Shintaku> {
-  ShintakuNotifier(super.state, this.client);
+  ShintakuNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
+  final Utility utility;
 
   Future<void> getShintaku() async {
-    await client.post(path: 'getDataShintaku').then((value) {
-      /*
-
-
-
+    await client.post(path: APIPath.getDataShintaku).then((value) {
       final list = <ShintakuRecord>[];
 
       for (var i = 0;
@@ -63,12 +65,8 @@ class ShintakuNotifier extends StateNotifier<Shintaku> {
       );
 
       state = shintaku;
-
-
-
-      */
-
-      state = Shintaku.fromJson(value['data'] as Map<String, dynamic>);
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
     });
   }
 }
@@ -82,6 +80,8 @@ final shintakuRecordProvider =
         (ref) {
   final client = ref.read(httpClientProvider);
 
+  final utility = Utility();
+
   return ShintakuRecordNotifier(
     ShintakuRecord(
       name: '',
@@ -94,16 +94,18 @@ final shintakuRecordProvider =
       data: '',
     ),
     client,
+    utility,
   )..getShintakuRecord(flag: 0);
 });
 
 class ShintakuRecordNotifier extends StateNotifier<ShintakuRecord> {
-  ShintakuRecordNotifier(super.state, this.client);
+  ShintakuRecordNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
+  final Utility utility;
 
   Future<void> getShintakuRecord({required int flag}) async {
-    await client.post(path: 'getDataShintaku').then((value) {
+    await client.post(path: APIPath.getDataShintaku).then((value) {
       var shintakuRecord = ShintakuRecord(
         name: '',
         date: DateTime.now(),
@@ -136,6 +138,8 @@ class ShintakuRecordNotifier extends StateNotifier<ShintakuRecord> {
       }
 
       state = shintakuRecord;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
     });
   }
 }

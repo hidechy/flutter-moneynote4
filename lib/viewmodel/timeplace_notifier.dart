@@ -3,8 +3,10 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../data/http/client.dart';
+import '../data/http/path.dart';
 import '../extensions/extensions.dart';
 import '../models/spend_timeplace_monthly.dart';
+import '../utility/utility.dart';
 
 ////////////////////////////////////////////////
 
@@ -13,17 +15,20 @@ final timeplaceProvider = StateNotifierProvider.autoDispose
         (ref, date) {
   final client = ref.read(httpClientProvider);
 
-  return TimeplaceNotifier([], client)..getTimeplace(date: date);
+  final utility = Utility();
+
+  return TimeplaceNotifier([], client, utility)..getTimeplace(date: date);
 });
 
 class TimeplaceNotifier extends StateNotifier<List<SpendTimeplaceMonthly>> {
-  TimeplaceNotifier(super.state, this.client);
+  TimeplaceNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
+  final Utility utility;
 
   Future<void> getTimeplace({required DateTime date}) async {
     await client.post(
-      path: 'getmonthlytimeplace',
+      path: APIPath.getmonthlytimeplace,
       body: {'date': date.yyyymmdd},
     ).then((value) {
       final list = <SpendTimeplaceMonthly>[];
@@ -31,20 +36,19 @@ class TimeplaceNotifier extends StateNotifier<List<SpendTimeplaceMonthly>> {
       for (var i = 0; i < int.parse(value['data'].length.toString()); i++) {
         if (value['data'][i]['date'] == date.yyyymmdd) {
           list.add(
-            // SpendTimeplaceMonthly(
-            //   date: DateTime.parse(value['data'][i]['date'].toString()),
-            //   time: value['data'][i]['time'].toString(),
-            //   place: value['data'][i]['place'].toString(),
-            //   price: int.parse(value['data'][i]['price'].toString()),
-            // ),
-
-            SpendTimeplaceMonthly.fromJson(
-                value['data'][i] as Map<String, dynamic>),
+            SpendTimeplaceMonthly(
+              date: DateTime.parse(value['data'][i]['date'].toString()),
+              time: value['data'][i]['time'].toString(),
+              place: value['data'][i]['place'].toString(),
+              price: int.parse(value['data'][i]['price'].toString()),
+            ),
           );
         }
       }
 
       state = list;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
     });
   }
 }

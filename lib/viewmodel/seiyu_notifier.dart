@@ -3,8 +3,10 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../data/http/client.dart';
+import '../data/http/path.dart';
 import '../extensions/extensions.dart';
 import '../models/seiyu_purchase.dart';
+import '../utility/utility.dart';
 
 ////////////////////////////////////////////////
 
@@ -12,17 +14,20 @@ final seiyuDateProvider = StateNotifierProvider.autoDispose
     .family<SeiyuDateNotifier, List<SeiyuPurchase>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
-  return SeiyuDateNotifier([], client)..getSeiyuDateList(date: date);
+  final utility = Utility();
+
+  return SeiyuDateNotifier([], client, utility)..getSeiyuDateList(date: date);
 });
 
 class SeiyuDateNotifier extends StateNotifier<List<SeiyuPurchase>> {
-  SeiyuDateNotifier(super.state, this.client);
+  SeiyuDateNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
+  final Utility utility;
 
   Future<void> getSeiyuDateList({required DateTime date}) async {
     await client.post(
-      path: 'seiyuuPurchaseList',
+      path: APIPath.seiyuuPurchaseList,
       body: {'date': date.yyyymmdd},
     ).then((value) {
       final list = <SeiyuPurchase>[];
@@ -44,6 +49,8 @@ class SeiyuDateNotifier extends StateNotifier<List<SeiyuPurchase>> {
       }
 
       state = list;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
     });
   }
 }
@@ -56,17 +63,20 @@ final seiyuPurchaseProvider = StateNotifierProvider.autoDispose<
     SeiyuPurchaseNotifier, List<SeiyuPurchase>>((ref) {
   final client = ref.read(httpClientProvider);
 
-  return SeiyuPurchaseNotifier([], client);
+  final utility = Utility();
+
+  return SeiyuPurchaseNotifier([], client, utility);
 });
 
 class SeiyuPurchaseNotifier extends StateNotifier<List<SeiyuPurchase>> {
-  SeiyuPurchaseNotifier(super.state, this.client);
+  SeiyuPurchaseNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
+  final Utility utility;
 
   Future<void> getSeiyuPurchaseList({required String date}) async {
     await client.post(
-      path: 'seiyuuPurchaseList',
+      path: APIPath.seiyuuPurchaseList,
       body: {'date': date},
     ).then((value) {
       final list = <SeiyuPurchase>[];
@@ -90,6 +100,8 @@ class SeiyuPurchaseNotifier extends StateNotifier<List<SeiyuPurchase>> {
       }
 
       state = list;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
     });
   }
 }

@@ -1,11 +1,12 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/utility/utility.dart';
 
 import '../data/http/client.dart';
+import '../data/http/path.dart';
 import '../extensions/extensions.dart';
 import '../models/benefit.dart';
+import '../utility/utility.dart';
 
 ////////////////////////////////////////////////
 
@@ -25,7 +26,7 @@ class BenefitNotifier extends StateNotifier<List<Benefit>> {
   final Utility utility;
 
   Future<void> getBenefit() async {
-    await client.post(path: 'benefit').then((value) {
+    await client.post(path: APIPath.benefit).then((value) {
       final list = <Benefit>[];
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
