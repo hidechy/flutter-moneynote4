@@ -31,12 +31,15 @@ class TimeplaceNotifier extends StateNotifier<List<SpendTimeplaceMonthly>> {
       for (var i = 0; i < int.parse(value['data'].length.toString()); i++) {
         if (value['data'][i]['date'] == date.yyyymmdd) {
           list.add(
-            SpendTimeplaceMonthly(
-              date: DateTime.parse(value['data'][i]['date'].toString()),
-              time: value['data'][i]['time'].toString(),
-              place: value['data'][i]['place'].toString(),
-              price: int.parse(value['data'][i]['price'].toString()),
-            ),
+            // SpendTimeplaceMonthly(
+            //   date: DateTime.parse(value['data'][i]['date'].toString()),
+            //   time: value['data'][i]['time'].toString(),
+            //   place: value['data'][i]['place'].toString(),
+            //   price: int.parse(value['data'][i]['price'].toString()),
+            // ),
+
+            SpendTimeplaceMonthly.fromJson(
+                value['data'][i] as Map<String, dynamic>),
           );
         }
       }

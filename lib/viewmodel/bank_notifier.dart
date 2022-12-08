@@ -40,11 +40,14 @@ class BankLastNotifier extends StateNotifier<BankCompanyChange> {
       );
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        bankCompanyRecord = BankCompanyChange(
-          date: DateTime.parse(value['data'][i]['date'].toString()),
-          price: value['data'][i]['price'].toString(),
-          diff: int.parse(value['data'][i]['diff'].toString()),
-        );
+        // bankCompanyRecord = BankCompanyChange(
+        //   date: DateTime.parse(value['data'][i]['date'].toString()),
+        //   price: value['data'][i]['price'].toString(),
+        //   diff: int.parse(value['data'][i]['diff'].toString()),
+        // );
+
+        bankCompanyRecord = BankCompanyChange.fromJson(
+            value['data'][i] as Map<String, dynamic>);
       }
 
       state = bankCompanyRecord;

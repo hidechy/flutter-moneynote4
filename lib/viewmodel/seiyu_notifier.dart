@@ -29,15 +29,17 @@ class SeiyuDateNotifier extends StateNotifier<List<SeiyuPurchase>> {
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         list.add(
-          SeiyuPurchase(
-            date: value['data'][i]['date'].toString(),
-            pos: value['data'][i]['pos'].toString().toInt(),
-            item: value['data'][i]['item'].toString(),
-            tanka: value['data'][i]['tanka'].toString(),
-            kosuu: value['data'][i]['kosuu'].toString(),
-            price: value['data'][i]['price'].toString(),
-            img: value['data'][i]['img'].toString(),
-          ),
+          // SeiyuPurchase(
+          //   date: value['data'][i]['date'].toString(),
+          //   pos: value['data'][i]['pos'].toString().toInt(),
+          //   item: value['data'][i]['item'].toString(),
+          //   tanka: value['data'][i]['tanka'].toString(),
+          //   kosuu: value['data'][i]['kosuu'].toString(),
+          //   price: value['data'][i]['price'].toString(),
+          //   img: value['data'][i]['img'].toString(),
+          // ),
+
+          SeiyuPurchase.fromJson(value['data'][i] as Map<String, dynamic>),
         );
       }
 
@@ -72,15 +74,17 @@ class SeiyuPurchaseNotifier extends StateNotifier<List<SeiyuPurchase>> {
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         if (date == value['data'][i]['date'].toString()) {
           list.add(
-            SeiyuPurchase(
-              date: value['data'][i]['date'].toString(),
-              pos: value['data'][i]['pos'].toString().toInt(),
-              item: value['data'][i]['item'].toString(),
-              tanka: value['data'][i]['tanka'].toString(),
-              kosuu: value['data'][i]['kosuu'].toString(),
-              price: value['data'][i]['price'].toString(),
-              img: value['data'][i]['img'].toString(),
-            ),
+            // SeiyuPurchase(
+            //   date: value['data'][i]['date'].toString(),
+            //   pos: value['data'][i]['pos'].toString().toInt(),
+            //   item: value['data'][i]['item'].toString(),
+            //   tanka: value['data'][i]['tanka'].toString(),
+            //   kosuu: value['data'][i]['kosuu'].toString(),
+            //   price: value['data'][i]['price'].toString(),
+            //   img: value['data'][i]['img'].toString(),
+            // ),
+
+            SeiyuPurchase.fromJson(value['data'][i] as Map<String, dynamic>),
           );
         }
       }

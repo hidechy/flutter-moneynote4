@@ -31,6 +31,11 @@ class StockNotifier extends StateNotifier<Stock> {
 
   Future<void> getStock() async {
     await client.post(path: 'getDataStock').then((value) {
+      /*
+
+
+
+
       final list = <StockRecord>[];
       for (var i = 0;
           i < value['data']['record'].length.toString().toInt();
@@ -58,6 +63,11 @@ class StockNotifier extends StateNotifier<Stock> {
       );
 
       state = stock;
+
+
+      */
+
+      state = Stock.fromJson(value['data'] as Map<String, dynamic>);
     });
   }
 }
@@ -106,16 +116,19 @@ class StockRecordNotifier extends StateNotifier<StockRecord> {
           i < value['data']['record'].length.toString().toInt();
           i++) {
         if (i == flag) {
-          stockRecord = StockRecord(
-            name: value['data']['record'][i]['name'].toString(),
-            date: DateTime.parse(value['data']['record'][i]['date'].toString()),
-            num: int.parse(value['data']['record'][i]['num'].toString()),
-            oneStock: value['data']['record'][i]['oneStock'].toString(),
-            cost: int.parse(value['data']['record'][i]['cost'].toString()),
-            price: value['data']['record'][i]['price'].toString(),
-            diff: int.parse(value['data']['record'][i]['diff'].toString()),
-            data: value['data']['record'][i]['data'].toString(),
-          );
+          // stockRecord = StockRecord(
+          //   name: value['data']['record'][i]['name'].toString(),
+          //   date: DateTime.parse(value['data']['record'][i]['date'].toString()),
+          //   num: int.parse(value['data']['record'][i]['num'].toString()),
+          //   oneStock: value['data']['record'][i]['oneStock'].toString(),
+          //   cost: int.parse(value['data']['record'][i]['cost'].toString()),
+          //   price: value['data']['record'][i]['price'].toString(),
+          //   diff: int.parse(value['data']['record'][i]['diff'].toString()),
+          //   data: value['data']['record'][i]['data'].toString(),
+          // );
+
+          stockRecord = StockRecord.fromJson(
+              value['data']['record'][i] as Map<String, dynamic>);
         }
       }
 

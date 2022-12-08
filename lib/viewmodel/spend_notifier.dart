@@ -35,11 +35,13 @@ class SpendMonthSummaryNotifier extends StateNotifier<List<SpendMonthSummary>> {
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         list.add(
-          SpendMonthSummary(
-            item: value['data'][i]['item'].toString(),
-            sum: int.parse(value['data'][i]['sum'].toString()),
-            percent: int.parse(value['data'][i]['percent'].toString()),
-          ),
+          // SpendMonthSummary(
+          //   item: value['data'][i]['item'].toString(),
+          //   sum: int.parse(value['data'][i]['sum'].toString()),
+          //   percent: int.parse(value['data'][i]['percent'].toString()),
+          // ),
+
+          SpendMonthSummary.fromJson(value['data'][i] as Map<String, dynamic>),
         );
       }
 
@@ -81,6 +83,9 @@ class SpendItemDailyNotifier extends StateNotifier<SpendItemDaily> {
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         if ('${value['data'][i]['date']} 00:00:00'.toDateTime().yyyymmdd ==
             date.yyyymmdd) {
+          /*
+
+
           final list = <String>[];
           for (var j = 0;
               j < int.parse(value['data'][i]['item'].length.toString());
@@ -92,6 +97,13 @@ class SpendItemDailyNotifier extends StateNotifier<SpendItemDaily> {
             date: DateTime.parse(value['data'][i]['date'].toString()),
             item: list,
           );
+
+
+
+          */
+
+          spendItemDaily =
+              SpendItemDaily.fromJson(value['data'][i] as Map<String, dynamic>);
         }
       }
 
@@ -124,6 +136,11 @@ class SpendMonthDetailNotifier extends StateNotifier<List<SpendYearly>> {
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         if (date.yyyymm ==
             '${value['data'][i]['date']} 00:00:00'.toDateTime().yyyymm) {
+          /*
+
+
+
+
           final list2 = <SpendYearlyItem>[];
 
           for (var j = 0;
@@ -145,6 +162,21 @@ class SpendMonthDetailNotifier extends StateNotifier<List<SpendYearly>> {
               spend: int.parse(value['data'][i]['spend'].toString()),
               item: list2,
             ),
+          );
+
+
+
+
+          */
+
+          list.add(
+            // SpendYearly(
+            //   date: DateTime.parse(value['data'][i]['date'].toString()),
+            //   spend: int.parse(value['data'][i]['spend'].toString()),
+            //   item: list2,
+            // ),
+
+            SpendYearly.fromJson(value['data'][i] as Map<String, dynamic>),
           );
         }
       }
@@ -178,6 +210,9 @@ class SpendSummaryNotifier extends StateNotifier<List<SpendSummary>> {
       final list = <SpendSummary>[];
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        /*
+
+
         final list2 = <SpendSummaryRecord>[];
         for (var j = 0;
             j < value['data'][i]['list'].length.toString().toInt();
@@ -195,6 +230,19 @@ class SpendSummaryNotifier extends StateNotifier<List<SpendSummary>> {
             item: value['data'][i]['item'].toString(),
             list: list2,
           ),
+        );
+
+
+
+        */
+
+        list.add(
+          // SpendSummary(
+          //   item: value['data'][i]['item'].toString(),
+          //   list: list2,
+          // ),
+
+          SpendSummary.fromJson(value['data'][i] as Map<String, dynamic>),
         );
       }
 

@@ -37,27 +37,52 @@ class CreditSpendMonthlyNotifier
       final list = <CreditSpendMonthly>[];
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        if (kind != '') {
+          if (kind != value['data'][i]['kind'].toString()) {
+            continue;
+          }
+        }
+
+        list.add(
+          CreditSpendMonthly.fromJson(value['data'][i] as Map<String, dynamic>),
+        );
+
+        /*
+
+
+
         if (kind == '') {
           list.add(
-            CreditSpendMonthly(
-              item: value['data'][i]['item'].toString(),
-              price: value['data'][i]['price'].toString(),
-              date: DateTime.parse(value['data'][i]['date'].toString()),
-              kind: value['data'][i]['kind'].toString(),
-            ),
+            // CreditSpendMonthly(
+            //   item: value['data'][i]['item'].toString(),
+            //   price: value['data'][i]['price'].toString(),
+            //   date: DateTime.parse(value['data'][i]['date'].toString()),
+            //   kind: value['data'][i]['kind'].toString(),
+            // ),
+
+            CreditSpendMonthly.fromJson(
+                value['data'][i] as Map<String, dynamic>),
           );
         } else {
           if (kind == value['data'][i]['kind'].toString()) {
             list.add(
-              CreditSpendMonthly(
-                item: value['data'][i]['item'].toString(),
-                price: value['data'][i]['price'].toString(),
-                date: DateTime.parse(value['data'][i]['date'].toString()),
-                kind: value['data'][i]['kind'].toString(),
-              ),
+              // CreditSpendMonthly(
+              //   item: value['data'][i]['item'].toString(),
+              //   price: value['data'][i]['price'].toString(),
+              //   date: DateTime.parse(value['data'][i]['date'].toString()),
+              //   kind: value['data'][i]['kind'].toString(),
+              // ),
+
+              CreditSpendMonthly.fromJson(
+                  value['data'][i] as Map<String, dynamic>),
             );
           }
         }
+
+
+
+        */
+
       }
 
       state = list;
@@ -94,15 +119,31 @@ class CreditSummaryNotifier extends StateNotifier<List<CreditSummary>> {
       final list = <CreditSummary>[];
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        list.add(
+          // CreditSummary(
+          //   item: value['data'][i]['item'].toString(),
+          //   list: list2,
+          // ),
+
+          CreditSummary.fromJson(value['data'][i] as Map<String, dynamic>),
+        );
+
+        /*
+
+
+
         final list2 = <CreditSummaryRecord>[];
         for (var j = 0;
             j < value['data'][i]['list'].length.toString().toInt();
             j++) {
           list2.add(
-            CreditSummaryRecord(
-              month: value['data'][i]['list'][j]['month'].toString(),
-              price: value['data'][i]['list'][j]['price'].toString().toInt(),
-            ),
+            // CreditSummaryRecord(
+            //   month: value['data'][i]['list'][j]['month'].toString(),
+            //   price: value['data'][i]['list'][j]['price'].toString().toInt(),
+            // ),
+
+            CreditSummaryRecord.fromJson(
+                value['data'][i] as Map<String, dynamic>),
           );
         }
 
@@ -112,6 +153,11 @@ class CreditSummaryNotifier extends StateNotifier<List<CreditSummary>> {
             list: list2,
           ),
         );
+
+
+
+        */
+
       }
 
       state = list;
@@ -147,6 +193,23 @@ class CreditCompanyNotifier extends StateNotifier<List<CreditCompany>> {
         for (var j = 0;
             j < value['data'][i]['list'].length.toString().toInt();
             j++) {
+          if (keepYm != value['data'][i]['ym'].toString()) {
+            list.add(
+              // CreditCompany(
+              //   ym: value['data'][i]['ym'].toString(),
+              //   list: list2,
+              // ),
+
+              CreditCompany.fromJson(value['data'][i] as Map<String, dynamic>),
+            );
+          }
+
+          keepYm = value['data'][i]['ym'].toString();
+
+          /*
+
+
+
           list2.add(
             CreditCompanyRecord(
               company: value['data'][i]['list'][j]['company'].toString(),
@@ -164,6 +227,11 @@ class CreditCompanyNotifier extends StateNotifier<List<CreditCompany>> {
           }
 
           keepYm = value['data'][i]['ym'].toString();
+
+
+
+          */
+
         }
       }
 

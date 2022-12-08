@@ -31,6 +31,10 @@ class ShintakuNotifier extends StateNotifier<Shintaku> {
 
   Future<void> getShintaku() async {
     await client.post(path: 'getDataShintaku').then((value) {
+      /*
+
+
+
       final list = <ShintakuRecord>[];
 
       for (var i = 0;
@@ -59,6 +63,12 @@ class ShintakuNotifier extends StateNotifier<Shintaku> {
       );
 
       state = shintaku;
+
+
+
+      */
+
+      state = Shintaku.fromJson(value['data'] as Map<String, dynamic>);
     });
   }
 }
@@ -109,16 +119,19 @@ class ShintakuRecordNotifier extends StateNotifier<ShintakuRecord> {
           i < value['data']['record'].length.toString().toInt();
           i++) {
         if (i == flag) {
-          shintakuRecord = ShintakuRecord(
-            name: value['data']['record'][i]['name'].toString(),
-            date: DateTime.parse(value['data']['record'][i]['date'].toString()),
-            num: value['data']['record'][i]['num'].toString(),
-            shutoku: value['data']['record'][i]['shutoku'].toString(),
-            cost: value['data']['record'][i]['cost'].toString(),
-            price: value['data']['record'][i]['price'].toString(),
-            diff: int.parse(value['data']['record'][i]['diff'].toString()),
-            data: value['data']['record'][i]['data'].toString(),
-          );
+          // shintakuRecord = ShintakuRecord(
+          //   name: value['data']['record'][i]['name'].toString(),
+          //   date: DateTime.parse(value['data']['record'][i]['date'].toString()),
+          //   num: value['data']['record'][i]['num'].toString(),
+          //   shutoku: value['data']['record'][i]['shutoku'].toString(),
+          //   cost: value['data']['record'][i]['cost'].toString(),
+          //   price: value['data']['record'][i]['price'].toString(),
+          //   diff: int.parse(value['data']['record'][i]['diff'].toString()),
+          //   data: value['data']['record'][i]['data'].toString(),
+          // );
+
+          shintakuRecord = ShintakuRecord.fromJson(
+              value['data']['record'][i] as Map<String, dynamic>);
         }
       }
 
