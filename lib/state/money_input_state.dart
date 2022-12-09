@@ -2,6 +2,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'money_input_state.freezed.dart';
 
+part 'money_input_state.g.dart';
+
 @freezed
 class MoneyInputState with _$MoneyInputState {
   const factory MoneyInputState({
@@ -30,4 +32,7 @@ class MoneyInputState with _$MoneyInputState {
     required String payD,
     required String payE,
   }) = _MoneyInputState;
+
+  factory MoneyInputState.fromJson(Map<String, dynamic> json) =>
+      _$MoneyInputStateFromJson(json);
 }

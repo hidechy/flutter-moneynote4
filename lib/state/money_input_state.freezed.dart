@@ -14,6 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+MoneyInputState _$MoneyInputStateFromJson(Map<String, dynamic> json) {
+  return _MoneyInputState.fromJson(json);
+}
+
 /// @nodoc
 mixin _$MoneyInputState {
   String get date => throw _privateConstructorUsedError; //
@@ -38,6 +42,7 @@ mixin _$MoneyInputState {
   String get payD => throw _privateConstructorUsedError;
   String get payE => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $MoneyInputStateCopyWith<MoneyInputState> get copyWith =>
       throw _privateConstructorUsedError;
@@ -352,7 +357,7 @@ class __$$_MoneyInputStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_MoneyInputState implements _MoneyInputState {
   const _$_MoneyInputState(
       {required this.date,
@@ -376,6 +381,9 @@ class _$_MoneyInputState implements _MoneyInputState {
       required this.payC,
       required this.payD,
       required this.payE});
+
+  factory _$_MoneyInputState.fromJson(Map<String, dynamic> json) =>
+      _$$_MoneyInputStateFromJson(json);
 
   @override
   final String date;
@@ -457,6 +465,7 @@ class _$_MoneyInputState implements _MoneyInputState {
             (identical(other.payE, payE) || other.payE == payE));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
@@ -488,6 +497,13 @@ class _$_MoneyInputState implements _MoneyInputState {
   @pragma('vm:prefer-inline')
   _$$_MoneyInputStateCopyWith<_$_MoneyInputState> get copyWith =>
       __$$_MoneyInputStateCopyWithImpl<_$_MoneyInputState>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_MoneyInputStateToJson(
+      this,
+    );
+  }
 }
 
 abstract class _MoneyInputState implements MoneyInputState {
@@ -513,6 +529,9 @@ abstract class _MoneyInputState implements MoneyInputState {
       required final String payC,
       required final String payD,
       required final String payE}) = _$_MoneyInputState;
+
+  factory _MoneyInputState.fromJson(Map<String, dynamic> json) =
+      _$_MoneyInputState.fromJson;
 
   @override
   String get date;
