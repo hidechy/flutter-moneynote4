@@ -23,6 +23,7 @@ enum APIPath {
   getDataStock,
   getmonthlytimeplace,
   gettrainrecord,
+  yearsummary,
 }
 
 extension APIPathExtension on APIPath {
@@ -76,6 +77,8 @@ extension APIPathExtension on APIPath {
         return 'getmonthlytimeplace';
       case APIPath.gettrainrecord:
         return 'gettrainrecord';
+      case APIPath.yearsummary:
+        return 'yearsummary';
     }
   }
 }

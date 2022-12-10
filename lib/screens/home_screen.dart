@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/screens/_components/credit_company_alert.dart';
 import 'package:moneynote4/screens/_components/mercari_alert.dart';
+import 'package:moneynote4/screens/_components/spend_yearly_alert.dart';
 import 'package:moneynote4/screens/_components/train_alert.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -354,22 +355,22 @@ class HomeScreen extends ConsumerWidget {
       ),
     );
 
-    // list.add(
-    //   IconButton(
-    //     onPressed: () {
-    //       _ref.watch(homeMenuProvider.notifier).setHomeMenu(
-    //             menuFlag: 'yearly_spend',
-    //             menuName: '年間使用金額履歴',
-    //           );
-    //     },
-    //     icon: Icon(
-    //       FontAwesomeIcons.calculator,
-    //       color: (homeMenuState.menuFlag == 'yearly_spend')
-    //           ? Colors.lightBlueAccent
-    //           : Colors.white,
-    //     ),
-    //   ),
-    // );
+    list.add(
+      IconButton(
+        onPressed: () {
+          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
+                menuFlag: 'yearly_spend',
+                menuName: '年間使用金額履歴',
+              );
+        },
+        icon: Icon(
+          FontAwesomeIcons.calculator,
+          color: (homeMenuState.menuFlag == 'yearly_spend')
+              ? Colors.lightBlueAccent
+              : Colors.white,
+        ),
+      ),
+    );
 
     list.add(
       IconButton(
@@ -574,6 +575,13 @@ class HomeScreen extends ConsumerWidget {
         MoneyDialog(
           context: _context,
           widget: MonthlySpendAlert(date: focusDayState),
+        );
+        break;
+
+      case 'yearly_spend':
+        MoneyDialog(
+          context: _context,
+          widget: SpendYearlyAlert(date: focusDayState),
         );
         break;
 

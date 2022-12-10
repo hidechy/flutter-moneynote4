@@ -8,6 +8,7 @@ import '../extensions/extensions.dart';
 import '../models/spend_item_daily.dart';
 import '../models/spend_month_summary.dart';
 import '../models/spend_summary.dart';
+import '../models/spend_year_summary.dart';
 import '../models/spend_yearly.dart';
 import '../models/spend_yearly_item.dart';
 import '../utility/utility.dart';
@@ -234,6 +235,46 @@ class SpendSummaryNotifier extends StateNotifier<List<SpendSummary>> {
           // ),
 
           SpendSummary.fromJson(value['data'][i] as Map<String, dynamic>),
+        );
+      }
+
+      state = list;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
+  }
+}
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+final spendYearSummaryProvider = StateNotifierProvider.autoDispose
+    .family<SpendYearSummaryNotifier, List<SpendYearSummary>, DateTime>(
+        (ref, date) {
+  final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
+
+  return SpendYearSummaryNotifier([], client, utility)
+    ..getSpendSummary(date: date);
+});
+
+class SpendYearSummaryNotifier extends StateNotifier<List<SpendYearSummary>> {
+  SpendYearSummaryNotifier(super.state, this.client, this.utility);
+
+  final HttpClient client;
+  final Utility utility;
+
+  Future<void> getSpendSummary({required DateTime date}) async {
+    await client.post(
+      path: APIPath.yearsummary,
+      body: {'date': date.yyyymmdd},
+    ).then((value) {
+      final list = <SpendYearSummary>[];
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        list.add(
+          SpendYearSummary.fromJson(value['data'][i] as Map<String, dynamic>),
         );
       }
 
