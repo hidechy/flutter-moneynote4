@@ -95,6 +95,47 @@ class MoneyNotifier extends StateNotifier<Money> {
 
 ////////////////////////////////////////////////
 
+final moneyEverydayProvider = StateNotifierProvider.autoDispose<
+    MoneyEverydayNotifier, List<MoneyEveryday>>((ref) {
+  final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
+
+  return MoneyEverydayNotifier([], client, utility)..getMoneyEveryday();
+});
+
+class MoneyEverydayNotifier extends StateNotifier<List<MoneyEveryday>> {
+  MoneyEverydayNotifier(super.state, this.client, this.utility);
+
+  final HttpClient client;
+  final Utility utility;
+
+  Future<void> getMoneyEveryday() async {
+    await client.post(path: APIPath.getEverydayMoney).then((value) {
+      final list = <MoneyEveryday>[];
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        list.add(
+          MoneyEveryday(
+            date: '${value['data'][i]['date']} 00:00:00'.toDateTime(),
+            youbiNum: value['data'][i]['youbiNum'].toString(),
+            sum: value['data'][i]['sum'].toString(),
+            spend: value['data'][i]['spend'].toString(),
+          ),
+        );
+      }
+
+      state = list;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
+  }
+}
+
+////////////////////////////////////////////////
+
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 final moneyScoreProvider =
     StateNotifierProvider.autoDispose<MoneyScoreNotifier, List<MoneyScore>>(
         (ref) {
@@ -151,45 +192,4 @@ class MoneyScoreNotifier extends StateNotifier<List<MoneyScore>> {
   }
 }
 
-////////////////////////////////////////////////
-
-////////////////////////////////////////////////
-
-final moneyEverydayProvider = StateNotifierProvider.autoDispose<
-    MoneyEverydayNotifier, List<MoneyEveryday>>((ref) {
-  final client = ref.read(httpClientProvider);
-
-  final utility = Utility();
-
-  return MoneyEverydayNotifier([], client, utility)..getMoneyEveryday();
-});
-
-class MoneyEverydayNotifier extends StateNotifier<List<MoneyEveryday>> {
-  MoneyEverydayNotifier(super.state, this.client, this.utility);
-
-  final HttpClient client;
-  final Utility utility;
-
-  Future<void> getMoneyEveryday() async {
-    await client.post(path: APIPath.getEverydayMoney).then((value) {
-      final list = <MoneyEveryday>[];
-
-      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        list.add(
-          MoneyEveryday(
-            date: '${value['data'][i]['date']} 00:00:00'.toDateTime(),
-            youbiNum: value['data'][i]['youbiNum'].toString(),
-            sum: value['data'][i]['sum'].toString(),
-            spend: value['data'][i]['spend'].toString(),
-          ),
-        );
-      }
-
-      state = list;
-    }).catchError((error, _) {
-      utility.showError('予期せぬエラーが発生しました');
-    });
-  }
-}
-
-////////////////////////////////////////////////
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

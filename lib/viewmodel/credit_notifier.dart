@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/models/spend_yearly_detail.dart';
 
 import '../../extensions/extensions.dart';
 import '../data/http/client.dart';
@@ -149,6 +150,8 @@ class CreditSummaryNotifier extends StateNotifier<List<CreditSummary>> {
 
 ////////////////////////////////////////////////
 
+////////////////////////////////////////////////
+
 final creditCompanyProvider = StateNotifierProvider.autoDispose
     .family<CreditCompanyNotifier, List<CreditCompany>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
@@ -232,6 +235,8 @@ class CreditCompanyNotifier extends StateNotifier<List<CreditCompany>> {
 
 ////////////////////////////////////////////////
 
+////////////////////////////////////////////////
+
 final selectCreditProvider =
     StateNotifierProvider.autoDispose<SelectCreditStateNotifier, String>((ref) {
   return SelectCreditStateNotifier();
@@ -245,3 +250,56 @@ class SelectCreditStateNotifier extends StateNotifier<String> {
     state = selectCredit;
   }
 }
+
+////////////////////////////////////////////////
+
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+final creditSummaryDetailProvider = StateNotifierProvider.autoDispose
+    .family<CreditSummaryDetailNotifier, List<SpendYearlyDetail>, DateTime>(
+        (ref, date) {
+  final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
+
+  final creditSummaryState = ref.watch(creditSummaryProvider(date));
+
+  return CreditSummaryDetailNotifier([], client, utility, creditSummaryState)
+    ..getCreditSummaryDetail(date: date);
+});
+
+class CreditSummaryDetailNotifier
+    extends StateNotifier<List<SpendYearlyDetail>> {
+  CreditSummaryDetailNotifier(
+      super.state, this.client, this.utility, this.creditSummaryState);
+
+  final HttpClient client;
+  final Utility utility;
+  final List<CreditSummary> creditSummaryState;
+
+  Future<void> getCreditSummaryDetail({required DateTime date}) async {
+    var month = date.mm;
+
+    List<SpendYearlyDetail> list = [];
+
+    for (var i = 0; i < creditSummaryState.length; i++) {
+      for (var j = 0; j < creditSummaryState[i].list.length; j++) {
+        if (month == creditSummaryState[i].list[j].month) {
+          if (creditSummaryState[i].list[j].price > 0) {
+            list.add(
+              SpendYearlyDetail(
+                item: creditSummaryState[i].item,
+                month: creditSummaryState[i].list[j].month,
+                price: creditSummaryState[i].list[j].price,
+              ),
+            );
+          }
+        }
+      }
+    }
+
+    state = list;
+  }
+}
+
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
