@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/screens/_components/_money_dialog.dart';
-import 'package:moneynote4/screens/_components/spend_yearly_detail_alert.dart';
+import 'package:moneynote4/screens/_components/credit_yearly_detail_alert.dart';
 
 import '../../extensions/extensions.dart';
 import '../../viewmodel/spend_notifier.dart';
@@ -121,7 +121,6 @@ class SpendYearlyAlert extends ConsumerWidget {
           child: Row(
             children: [
               Expanded(
-                flex: 2,
                 child: Text(
                   spendYearSummaryState[i].item,
                 ),
@@ -135,7 +134,7 @@ class SpendYearlyAlert extends ConsumerWidget {
                       Text(
                         spendYearSummaryState[i].sum.toString().toCurrency(),
                       ),
-                      SizedBox(width: 20),
+                      const SizedBox(width: 20),
                     ],
                   ),
                 ),
@@ -147,7 +146,7 @@ class SpendYearlyAlert extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(percent),
-                      SizedBox(width: 20),
+                      const SizedBox(width: 20),
                       getLinkIcon(item: spendYearSummaryState[i].item),
                     ],
                   ),
@@ -173,7 +172,6 @@ class SpendYearlyAlert extends ConsumerWidget {
         child: Row(
           children: [
             const Expanded(
-              flex: 2,
               child: Text(''),
             ),
             Expanded(
@@ -183,7 +181,7 @@ class SpendYearlyAlert extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(yearSum.toString().toCurrency()),
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                   ],
                 ),
               ),
@@ -195,7 +193,7 @@ class SpendYearlyAlert extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text('$yearPercent %'),
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                     getLinkIcon(item: ''),
                   ],
                 ),
@@ -223,11 +221,11 @@ class SpendYearlyAlert extends ConsumerWidget {
           onTap: () {
             MoneyDialog(
               context: _context,
-              widget: SpendYearlyDetailAlert(
-                  date: '${selectYearState}-01-01 00:00:00'.toDateTime()),
+              widget: CreditYearlyDetailAlert(
+                  date: '$selectYearState-01-01 00:00:00'.toDateTime()),
             );
           },
-          child: Icon(Icons.credit_card),
+          child: const Icon(Icons.credit_card),
         );
       default:
         return Icon(

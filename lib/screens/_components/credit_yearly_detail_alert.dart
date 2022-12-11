@@ -1,19 +1,26 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/_money_dialog.dart';
+import 'package:moneynote4/screens/_components/credit_udemy_alert.dart';
 
 import '../../extensions/extensions.dart';
 import '../../viewmodel/credit_notifier.dart';
 
-class SpendYearlyDetailAlert extends ConsumerWidget {
-  SpendYearlyDetailAlert({Key? key, required this.date}) : super(key: key);
+class CreditYearlyDetailAlert extends ConsumerWidget {
+  CreditYearlyDetailAlert({super.key, required this.date});
 
   final DateTime date;
 
+  late BuildContext _context;
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    _context = context;
     _ref = ref;
 
     final monthWidgetList = makeMonthWidgetList();
@@ -37,9 +44,9 @@ class SpendYearlyDetailAlert extends ConsumerWidget {
                 Container(width: context.screenSize.width),
                 Text(
                   date.yyyy,
-                  style: TextStyle(fontSize: 20),
+                  style: const TextStyle(fontSize: 20),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(children: monthWidgetList),
@@ -56,8 +63,6 @@ class SpendYearlyDetailAlert extends ConsumerWidget {
 
   ///
   List<Widget> makeMonthWidgetList() {
-    final exYmd = date.yyyymmdd.split('-');
-
     final selectMonthState = _ref.watch(selectMonthProvider);
 
     final monthList = <Widget>[];
@@ -102,7 +107,7 @@ class SpendYearlyDetailAlert extends ConsumerWidget {
       for (var i = 0; i < creditSummaryDetailState.length; i++) {
         sum += creditSummaryDetailState[i].price;
 
-        var priceColor = (creditSummaryDetailState[i].price >= 10000)
+        final priceColor = (creditSummaryDetailState[i].price >= 10000)
             ? Colors.yellowAccent
             : Colors.white;
 
@@ -117,15 +122,32 @@ class SpendYearlyDetailAlert extends ConsumerWidget {
               ),
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  creditSummaryDetailState[i].item,
-                  style: TextStyle(color: priceColor),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        creditSummaryDetailState[i].item,
+                        style: TextStyle(color: priceColor),
+                      ),
+                      Container(
+                        alignment: Alignment.topRight,
+                        child: Text(
+                          creditSummaryDetailState[i]
+                              .price
+                              .toString()
+                              .toCurrency(),
+                          style: TextStyle(color: priceColor),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                Text(
-                  creditSummaryDetailState[i].price.toString().toCurrency(),
-                  style: TextStyle(color: priceColor),
+                const SizedBox(width: 20),
+                getLinkIcon(
+                  item: creditSummaryDetailState[i].item,
+                  price: creditSummaryDetailState[i].price,
                 ),
               ],
             ),
@@ -147,8 +169,17 @@ class SpendYearlyDetailAlert extends ConsumerWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(''),
-              Text(sum.toString().toCurrency()),
+              Container(),
+              Row(
+                children: [
+                  Text(sum.toString().toCurrency()),
+                  const SizedBox(width: 20),
+                  Icon(
+                    Icons.check_box_outline_blank,
+                    color: Colors.black.withOpacity(0.1),
+                  )
+                ],
+              ),
             ],
           ),
         ),
@@ -160,6 +191,32 @@ class SpendYearlyDetailAlert extends ConsumerWidget {
         children: list,
       ),
     );
+  }
+
+  ///
+  Widget getLinkIcon({required String item, required int price}) {
+    final selectMonthState = _ref.watch(selectMonthProvider);
+
+    switch (item) {
+      case 'UDEMY':
+        return GestureDetector(
+          onTap: () {
+            MoneyDialog(
+              context: _context,
+              widget: CreditUdemyAlert(
+                date: '${date.yyyy}-$selectMonthState-01 00:00:00'.toDateTime(),
+                price: price,
+              ),
+            );
+          },
+          child: const Icon(FontAwesomeIcons.u),
+        );
+      default:
+        return Icon(
+          Icons.check_box_outline_blank,
+          color: Colors.black.withOpacity(0.1),
+        );
+    }
   }
 }
 

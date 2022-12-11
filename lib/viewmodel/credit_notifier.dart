@@ -278,9 +278,9 @@ class CreditSummaryDetailNotifier
   final List<CreditSummary> creditSummaryState;
 
   Future<void> getCreditSummaryDetail({required DateTime date}) async {
-    var month = date.mm;
+    final month = date.mm;
 
-    List<SpendYearlyDetail> list = [];
+    final list = <SpendYearlyDetail>[];
 
     for (var i = 0; i < creditSummaryState.length; i++) {
       for (var j = 0; j < creditSummaryState[i].list.length; j++) {
@@ -295,6 +295,47 @@ class CreditSummaryDetailNotifier
             );
           }
         }
+      }
+    }
+
+    state = list;
+  }
+}
+
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+final creditUdemyProvider = StateNotifierProvider.autoDispose
+    .family<CreditUdemyNotifier, List<CreditSpendMonthly>, DateTime>(
+        (ref, date) {
+  final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
+
+  final creditSpendMonthlyState = ref.watch(creditSpendMonthlyProvider(date));
+
+  return CreditUdemyNotifier([], client, utility, creditSpendMonthlyState)
+    ..getCreditUdemy(date: date);
+});
+
+class CreditUdemyNotifier extends StateNotifier<List<CreditSpendMonthly>> {
+  CreditUdemyNotifier(
+      super.state, this.client, this.utility, this.creditSpendMonthlyState);
+
+  final HttpClient client;
+  final Utility utility;
+  final List<CreditSpendMonthly> creditSpendMonthlyState;
+
+  Future<void> getCreditUdemy({required DateTime date}) async {
+    final reg = RegExp('UDEMY');
+
+    final list = <CreditSpendMonthly>[];
+    for (var i = 0; i < creditSpendMonthlyState.length; i++) {
+      final match = reg.firstMatch(creditSpendMonthlyState[i].item);
+
+      if (match != null) {
+        list.add(creditSpendMonthlyState[i]);
       }
     }
 

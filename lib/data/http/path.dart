@@ -24,6 +24,7 @@ enum APIPath {
   getmonthlytimeplace,
   gettrainrecord,
   yearsummary,
+  getUdemyData,
 }
 
 extension APIPathExtension on APIPath {
@@ -79,6 +80,8 @@ extension APIPathExtension on APIPath {
         return 'gettrainrecord';
       case APIPath.yearsummary:
         return 'yearsummary';
+      case APIPath.getUdemyData:
+        return 'getUdemyData';
     }
   }
 }

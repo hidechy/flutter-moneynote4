@@ -1,5 +1,3 @@
-import '../extensions/extensions.dart';
-
 class SpendYearlyDetail {
   SpendYearlyDetail({
     required this.item,
