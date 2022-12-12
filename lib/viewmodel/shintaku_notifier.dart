@@ -121,19 +121,16 @@ class ShintakuRecordNotifier extends StateNotifier<ShintakuRecord> {
           i < value['data']['record'].length.toString().toInt();
           i++) {
         if (i == flag) {
-          // shintakuRecord = ShintakuRecord(
-          //   name: value['data']['record'][i]['name'].toString(),
-          //   date: DateTime.parse(value['data']['record'][i]['date'].toString()),
-          //   num: value['data']['record'][i]['num'].toString(),
-          //   shutoku: value['data']['record'][i]['shutoku'].toString(),
-          //   cost: value['data']['record'][i]['cost'].toString(),
-          //   price: value['data']['record'][i]['price'].toString(),
-          //   diff: int.parse(value['data']['record'][i]['diff'].toString()),
-          //   data: value['data']['record'][i]['data'].toString(),
-          // );
-
-          shintakuRecord = ShintakuRecord.fromJson(
-              value['data']['record'][i] as Map<String, dynamic>);
+          shintakuRecord = ShintakuRecord(
+            name: value['data']['record'][i]['name'].toString(),
+            date: '${value['data']['record'][i]['date']} 00:00:00'.toDateTime(),
+            num: value['data']['record'][i]['num'].toString(),
+            shutoku: value['data']['record'][i]['shutoku'].toString(),
+            cost: value['data']['record'][i]['cost'].toString(),
+            price: value['data']['record'][i]['price'].toString(),
+            diff: value['data']['record'][i]['diff'].toString().toInt(),
+            data: value['data']['record'][i]['data'].toString(),
+          );
         }
       }
 

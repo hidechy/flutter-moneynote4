@@ -118,19 +118,16 @@ class StockRecordNotifier extends StateNotifier<StockRecord> {
           i < value['data']['record'].length.toString().toInt();
           i++) {
         if (i == flag) {
-          // stockRecord = StockRecord(
-          //   name: value['data']['record'][i]['name'].toString(),
-          //   date: DateTime.parse(value['data']['record'][i]['date'].toString()),
-          //   num: int.parse(value['data']['record'][i]['num'].toString()),
-          //   oneStock: value['data']['record'][i]['oneStock'].toString(),
-          //   cost: int.parse(value['data']['record'][i]['cost'].toString()),
-          //   price: value['data']['record'][i]['price'].toString(),
-          //   diff: int.parse(value['data']['record'][i]['diff'].toString()),
-          //   data: value['data']['record'][i]['data'].toString(),
-          // );
-
-          stockRecord = StockRecord.fromJson(
-              value['data']['record'][i] as Map<String, dynamic>);
+          stockRecord = StockRecord(
+            name: value['data']['record'][i]['name'].toString(),
+            date: '${value['data']['record'][i]['date']} 00:00:00'.toDateTime(),
+            num: int.parse(value['data']['record'][i]['num'].toString()),
+            oneStock: value['data']['record'][i]['oneStock'].toString(),
+            cost: value['data']['record'][i]['cost'].toString().toInt(),
+            price: value['data']['record'][i]['price'].toString(),
+            diff: int.parse(value['data']['record'][i]['diff'].toString()),
+            data: value['data']['record'][i]['data'].toString(),
+          );
         }
       }
 
