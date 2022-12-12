@@ -12,7 +12,7 @@ import '../../viewmodel/gold_notifier.dart';
 import '../../viewmodel/money_notifier.dart';
 import '../../viewmodel/shintaku_notifier.dart';
 import '../../viewmodel/stock_notifier.dart';
-import '../oneday_input_screen.dart';
+import '../money_input_screen.dart';
 import '_money_dialog.dart';
 import 'bank_alert.dart';
 import 'gold_alert.dart';
@@ -100,7 +100,7 @@ class MoneyAlert extends ConsumerWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          OnedayInputScreen(date: date)));
+                                          MoneyInputScreen(date: date)));
                             },
                             icon: const Icon(Icons.input),
                           ),

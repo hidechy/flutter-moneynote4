@@ -10,8 +10,8 @@ import '../utility/utility.dart';
 import '../viewmodel/money_notifier.dart';
 import '../viewmodel/spend_notifier.dart';
 
-class OnedayInputScreen extends ConsumerWidget {
-  OnedayInputScreen({super.key, required this.date});
+class MoneyInputScreen extends ConsumerWidget {
+  MoneyInputScreen({super.key, required this.date});
 
   final DateTime date;
 
