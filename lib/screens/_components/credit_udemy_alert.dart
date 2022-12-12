@@ -2,10 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/extensions/extensions.dart';
-import 'package:moneynote4/models/credit_spend_monthly.dart';
-import 'package:moneynote4/models/udemy.dart';
 
+import '../../extensions/extensions.dart';
+import '../../models/credit_spend_monthly.dart';
+import '../../models/udemy.dart';
+import '../../state/device_info/device_info_notifier.dart';
+import '../../utility/utility.dart';
 import '../../viewmodel/credit_notifier.dart';
 import '../../viewmodel/udemy_notifier.dart';
 
@@ -15,6 +17,8 @@ class CreditUdemyAlert extends ConsumerWidget {
   final DateTime date;
   final int price;
 
+  final Utility _utility = Utility();
+
   late BuildContext _context;
   late WidgetRef _ref;
 
@@ -23,6 +27,8 @@ class CreditUdemyAlert extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _context = context;
     _ref = ref;
+
+    final deviceInfoState = ref.read(deviceInfoProvider);
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -41,6 +47,12 @@ class CreditUdemyAlert extends ConsumerWidget {
               children: [
                 const SizedBox(height: 20),
                 Container(width: context.screenSize.width),
+
+                //----------//
+                if (deviceInfoState.model == 'iPhone')
+                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                //----------//
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

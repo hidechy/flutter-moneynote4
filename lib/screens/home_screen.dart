@@ -1,39 +1,84 @@
-// ignore_for_file: must_be_immutable, cascade_invocations
+// ignore_for_file: must_be_immutable, cascade_invocations, empty_catches
 
+import 'dart:async';
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/credit_company_alert.dart';
-import 'package:moneynote4/screens/_components/mercari_alert.dart';
-import 'package:moneynote4/screens/_components/spend_yearly_alert.dart';
-import 'package:moneynote4/screens/_components/train_alert.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../extensions/extensions.dart';
 import '../models/spend_month_summary.dart';
+import '../state/device_info/device_info_notifier.dart';
+import '../state/device_info/device_info_request_state.dart';
+import '../state/home_menu/home_menu_notifier.dart';
 import '../utility/utility.dart';
-import '../viewmodel/home_menu_notifier.dart';
 import '../viewmodel/spend_notifier.dart';
 import '_components/_money_dialog.dart';
 import '_components/amazon_alert.dart';
 import '_components/benefit_alert.dart';
 import '_components/credit_alert.dart';
+import '_components/credit_company_alert.dart';
 import '_components/credit_summary_alert.dart';
 import '_components/duty_alert.dart';
 import '_components/home_fix_alert.dart';
+import '_components/mercari_alert.dart';
 import '_components/money_alert.dart';
 import '_components/money_score_alert.dart';
 import '_components/monthly_spend_alert.dart';
 import '_components/seiyu_alert.dart';
 import '_components/spend_summary_alert.dart';
+import '_components/spend_yearly_alert.dart';
+import '_components/train_alert.dart';
 
 class HomeScreen extends ConsumerWidget {
   HomeScreen({super.key});
+
+  static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
 
   late BuildContext _context;
   late WidgetRef _ref;
 
   final Utility _utility = Utility();
+
+  //---------------------------------------------------//
+
+  Future<void> initPlatformState() async {
+    try {
+      if (Platform.isAndroid) {
+        _readAndroidBuildData(await deviceInfoPlugin.androidInfo);
+      } else if (Platform.isIOS) {
+        _readIosDeviceInfo(await deviceInfoPlugin.iosInfo);
+      }
+    } on PlatformException {}
+  }
+
+  ///
+  void _readAndroidBuildData(AndroidDeviceInfo build) {
+    final request = DeviceInfoRequestState(
+      name: build.brand,
+      systemName: build.product,
+      model: build.model,
+    );
+
+    _ref.watch(deviceInfoProvider.notifier).setDeviceInfo(param: request);
+  }
+
+  ///
+  void _readIosDeviceInfo(IosDeviceInfo data) {
+    final request = DeviceInfoRequestState(
+      name: data.name ?? '',
+      systemName: data.systemName ?? '',
+      model: data.model ?? '',
+    );
+
+    _ref.watch(deviceInfoProvider.notifier).setDeviceInfo(param: request);
+  }
+
+  //---------------------------------------------------//
 
   ///
   @override
@@ -50,6 +95,8 @@ class HomeScreen extends ConsumerWidget {
     );
 
     final total = makeTotalPrice(data: spendMonthSummaryState);
+
+    initPlatformState();
 
     return Scaffold(
       body: Stack(

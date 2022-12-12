@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../extensions/extensions.dart';
+import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/bank_notifier.dart';
 import '../../viewmodel/holiday_notifier.dart';
@@ -28,6 +29,8 @@ class BankAlert extends ConsumerWidget {
 
     final bankName = _utility.getBankName();
 
+    final deviceInfoState = ref.read(deviceInfoProvider);
+
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.zero,
@@ -45,6 +48,12 @@ class BankAlert extends ConsumerWidget {
               children: [
                 const SizedBox(height: 20),
                 Container(width: context.screenSize.width),
+
+                //----------//
+                if (deviceInfoState.model == 'iPhone')
+                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                //----------//
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

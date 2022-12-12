@@ -121,6 +121,18 @@ class Utility {
   }
 
   ///
+  Widget getFileNameDebug({required String name}) {
+    return Container(
+      alignment: Alignment.topRight,
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Text(
+        name,
+        style: const TextStyle(color: Color(0xFFFBB6CE)),
+      ),
+    );
+  }
+
+  ///
   void showError(String msg) {
     ScaffoldMessenger.of(NavigationService.navigatorKey.currentContext!)
         .showSnackBar(

@@ -2,16 +2,17 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/oneday_input_screen.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/money.dart';
+import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/bank_notifier.dart';
 import '../../viewmodel/gold_notifier.dart';
 import '../../viewmodel/money_notifier.dart';
 import '../../viewmodel/shintaku_notifier.dart';
 import '../../viewmodel/stock_notifier.dart';
+import '../oneday_input_screen.dart';
 import '_money_dialog.dart';
 import 'bank_alert.dart';
 import 'gold_alert.dart';
@@ -51,6 +52,8 @@ class MoneyAlert extends ConsumerWidget {
         : (int.parse(yesterdayMoney.sum) - int.parse(moneyState.sum))
             .toString();
 
+    final deviceInfoState = ref.read(deviceInfoProvider);
+
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.zero,
@@ -68,6 +71,12 @@ class MoneyAlert extends ConsumerWidget {
               children: [
                 const SizedBox(height: 20),
                 Container(width: context.screenSize.width),
+
+                //----------//
+                if (deviceInfoState.model == 'iPhone')
+                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                //----------//
+
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.indigo,

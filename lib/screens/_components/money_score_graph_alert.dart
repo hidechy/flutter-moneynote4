@@ -5,8 +5,10 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/extensions/extensions.dart';
 
+import '../../extensions/extensions.dart';
+import '../../state/device_info/device_info_notifier.dart';
+import '../../utility/utility.dart';
 import '../../viewmodel/money_notifier.dart';
 
 class MoneyScoreGraphAlert extends ConsumerWidget {
@@ -24,17 +26,20 @@ class MoneyScoreGraphAlert extends ConsumerWidget {
 
   List<String> ymList = [];
 
+  final Utility _utility = Utility();
+
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
-    _ref = ref;
 
     setChartData();
 
     final graphWidthState = ref.watch(graphWidthProvider);
+
+    final deviceInfoState = ref.read(deviceInfoProvider);
 
     return AlertDialog(
       backgroundColor: Colors.transparent,
@@ -49,6 +54,12 @@ class MoneyScoreGraphAlert extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(width: context.screenSize.width),
+
+              //----------//
+              if (deviceInfoState.model == 'iPhone')
+                _utility.getFileNameDebug(name: runtimeType.toString()),
+              //----------//
+
               Expanded(
                 child: LineChart(data),
               ),

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
+import '../../state/device_info/device_info_notifier.dart';
+import '../../utility/utility.dart';
 import '../../viewmodel/credit_notifier.dart';
 
 class CreditCompanyAlert extends ConsumerWidget {
@@ -14,6 +16,8 @@ class CreditCompanyAlert extends ConsumerWidget {
   List<String> creditCompany = ['uc', 'rakuten', 'sumitomo', 'amex'];
   Map<String, List<Map<String, dynamic>>> creditCompanyMap = {};
 
+  final Utility _utility = Utility();
+
   late WidgetRef _ref;
 
   ///
@@ -22,6 +26,8 @@ class CreditCompanyAlert extends ConsumerWidget {
     _ref = ref;
 
     final yearWidgetList = makeYearWidgetList();
+
+    final deviceInfoState = ref.read(deviceInfoProvider);
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -40,6 +46,12 @@ class CreditCompanyAlert extends ConsumerWidget {
               children: [
                 const SizedBox(height: 20),
                 Container(width: context.screenSize.width),
+
+                //----------//
+                if (deviceInfoState.model == 'iPhone')
+                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                //----------//
+
                 Row(children: yearWidgetList),
                 const SizedBox(height: 20),
                 displayCreditCompany(),

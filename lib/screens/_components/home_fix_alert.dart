@@ -6,6 +6,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
+import '../../state/device_info/device_info_notifier.dart';
+import '../../utility/utility.dart';
 import '../../viewmodel/home_fix_notifier.dart';
 
 class HomeFixAlert extends ConsumerWidget {
@@ -14,6 +16,8 @@ class HomeFixAlert extends ConsumerWidget {
   final DateTime date;
 
   Uuid uuid = const Uuid();
+
+  final Utility _utility = Utility();
 
   late BuildContext _context;
   late WidgetRef _ref;
@@ -25,6 +29,8 @@ class HomeFixAlert extends ConsumerWidget {
     _ref = ref;
 
     final yearWidgetList = makeYearWidgetList();
+
+    final deviceInfoState = ref.read(deviceInfoProvider);
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -43,6 +49,12 @@ class HomeFixAlert extends ConsumerWidget {
               children: [
                 const SizedBox(height: 20),
                 Container(width: context.screenSize.width),
+
+                //----------//
+                if (deviceInfoState.model == 'iPhone')
+                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                //----------//
+
                 Row(children: yearWidgetList),
                 const SizedBox(height: 20),
                 displayHomeFix(),

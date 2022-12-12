@@ -5,9 +5,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../extensions/extensions.dart';
 import '../models/money.dart';
+import '../state/money_input/money_input_notifier.dart';
 import '../utility/utility.dart';
 import '../viewmodel/money_notifier.dart';
-import '../viewmodel/oneday_input_notifier.dart';
 import '../viewmodel/spend_notifier.dart';
 
 class OnedayInputScreen extends ConsumerWidget {

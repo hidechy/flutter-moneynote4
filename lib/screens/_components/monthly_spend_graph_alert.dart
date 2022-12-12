@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
-
+import '../../state/device_info/device_info_notifier.dart';
+import '../../utility/utility.dart';
 import '../../viewmodel/money_notifier.dart';
 
 class MonthlySpendGraphAlert extends ConsumerWidget {
@@ -22,6 +23,8 @@ class MonthlySpendGraphAlert extends ConsumerWidget {
 
   double minGraphRate = 0.6;
 
+  final Utility _utility = Utility();
+
   late WidgetRef _ref;
 
   ///
@@ -32,6 +35,8 @@ class MonthlySpendGraphAlert extends ConsumerWidget {
     setChartData();
 
     final graphWidthState = ref.watch(graphWidthProvider);
+
+    final deviceInfoState = ref.read(deviceInfoProvider);
 
     return AlertDialog(
       backgroundColor: Colors.transparent,
@@ -46,6 +51,12 @@ class MonthlySpendGraphAlert extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(width: context.screenSize.width),
+
+              //----------//
+              if (deviceInfoState.model == 'iPhone')
+                _utility.getFileNameDebug(name: runtimeType.toString()),
+              //----------//
+
               Expanded(
                 child: LineChart(data),
               ),

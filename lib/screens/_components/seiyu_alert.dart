@@ -5,6 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
+import '../../state/device_info/device_info_notifier.dart';
+import '../../utility/utility.dart';
 import '../../viewmodel/seiyu_notifier.dart';
 
 class SeiyuAlert extends ConsumerWidget {
@@ -13,6 +15,8 @@ class SeiyuAlert extends ConsumerWidget {
   final DateTime date;
 
   Uuid uuid = const Uuid();
+
+  final Utility _utility = Utility();
 
   late WidgetRef _ref;
 
@@ -28,6 +32,8 @@ class SeiyuAlert extends ConsumerWidget {
     final selectYearState = ref.watch(selectYearProvider);
 
     final selectDateState = ref.watch(selectDateProvider);
+
+    final deviceInfoState = ref.read(deviceInfoProvider);
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -46,6 +52,12 @@ class SeiyuAlert extends ConsumerWidget {
               children: [
                 const SizedBox(height: 20),
                 Container(width: context.screenSize.width),
+
+                //----------//
+                if (deviceInfoState.model == 'iPhone')
+                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                //----------//
+
                 Row(children: yearWidgetList),
                 const SizedBox(height: 10),
                 SizedBox(

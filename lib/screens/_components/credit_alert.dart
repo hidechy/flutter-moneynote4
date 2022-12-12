@@ -6,6 +6,8 @@ import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/credit_spend_monthly.dart';
+import '../../state/device_info/device_info_notifier.dart';
+import '../../utility/utility.dart';
 import '../../viewmodel/credit_notifier.dart';
 
 class CreditAlert extends ConsumerWidget {
@@ -14,6 +16,8 @@ class CreditAlert extends ConsumerWidget {
   final DateTime date;
 
   Uuid uuid = const Uuid();
+
+  final Utility _utility = Utility();
 
   late WidgetRef _ref;
   late BuildContext _context;
@@ -35,6 +39,8 @@ class CreditAlert extends ConsumerWidget {
     final exDate = date.toString().split(' ');
     final exYmd = exDate[0].split('-');
 
+    final deviceInfoState = ref.read(deviceInfoProvider);
+
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.zero,
@@ -52,6 +58,12 @@ class CreditAlert extends ConsumerWidget {
               children: [
                 const SizedBox(height: 20),
                 Container(width: context.screenSize.width),
+
+                //----------//
+                if (deviceInfoState.model == 'iPhone')
+                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                //----------//
+
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.indigo,

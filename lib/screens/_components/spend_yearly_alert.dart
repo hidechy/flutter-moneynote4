@@ -2,16 +2,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/_money_dialog.dart';
-import 'package:moneynote4/screens/_components/credit_yearly_detail_alert.dart';
 
 import '../../extensions/extensions.dart';
+import '../../state/device_info/device_info_notifier.dart';
+import '../../utility/utility.dart';
 import '../../viewmodel/spend_notifier.dart';
+import '_money_dialog.dart';
+import 'credit_yearly_detail_alert.dart';
 
 class SpendYearlyAlert extends ConsumerWidget {
   SpendYearlyAlert({super.key, required this.date});
 
   final DateTime date;
+
+  final Utility _utility = Utility();
 
   late BuildContext _context;
   late WidgetRef _ref;
@@ -23,6 +27,8 @@ class SpendYearlyAlert extends ConsumerWidget {
     _ref = ref;
 
     final yearWidgetList = makeYearWidgetList();
+
+    final deviceInfoState = ref.read(deviceInfoProvider);
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -41,6 +47,12 @@ class SpendYearlyAlert extends ConsumerWidget {
               children: [
                 const SizedBox(height: 20),
                 Container(width: context.screenSize.width),
+
+                //----------//
+                if (deviceInfoState.model == 'iPhone')
+                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                //----------//
+
                 Row(children: yearWidgetList),
                 const SizedBox(height: 20),
                 displaySpendYearly(),

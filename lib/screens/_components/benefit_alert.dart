@@ -5,6 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
+import '../../state/device_info/device_info_notifier.dart';
+import '../../utility/utility.dart';
 import '../../viewmodel/benefit_notifier.dart';
 
 class BenefitAlert extends ConsumerWidget {
@@ -14,12 +16,16 @@ class BenefitAlert extends ConsumerWidget {
 
   Uuid uuid = const Uuid();
 
+  final Utility _utility = Utility();
+
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
+
+    final deviceInfoState = ref.read(deviceInfoProvider);
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -38,6 +44,12 @@ class BenefitAlert extends ConsumerWidget {
               children: [
                 const SizedBox(height: 20),
                 Container(width: context.screenSize.width),
+
+                //----------//
+                if (deviceInfoState.model == 'iPhone')
+                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                //----------//
+
                 // Row(children: yearWidgetList),
                 // const SizedBox(height: 20),
                 displayBenefit(),

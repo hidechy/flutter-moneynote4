@@ -2,12 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/money_score_graph_alert.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
+import '../../state/device_info/device_info_notifier.dart';
+import '../../utility/utility.dart';
 import '../../viewmodel/money_notifier.dart';
 import '_money_dialog.dart';
+import 'money_score_graph_alert.dart';
 
 class MoneyScoreAlert extends ConsumerWidget {
   MoneyScoreAlert({super.key, required this.date});
@@ -16,12 +18,16 @@ class MoneyScoreAlert extends ConsumerWidget {
 
   Uuid uuid = const Uuid();
 
+  final Utility _utility = Utility();
+
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
+
+    final deviceInfoState = ref.read(deviceInfoProvider);
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -40,8 +46,11 @@ class MoneyScoreAlert extends ConsumerWidget {
               children: [
                 const SizedBox(height: 20),
                 Container(width: context.screenSize.width),
-                // Row(children: yearWidgetList),
-                // const SizedBox(height: 20),
+
+                //----------//
+                if (deviceInfoState.model == 'iPhone')
+                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                //----------//
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

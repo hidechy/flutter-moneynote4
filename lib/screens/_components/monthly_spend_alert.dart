@@ -2,18 +2,19 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/models/money_everyday.dart';
-import 'package:moneynote4/screens/_components/_money_dialog.dart';
-import 'package:moneynote4/screens/_components/monthly_spend_graph_alert.dart';
-import 'package:moneynote4/utility/utility.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/credit_spend_monthly.dart';
+import '../../models/money_everyday.dart';
+import '../../state/device_info/device_info_notifier.dart';
+import '../../utility/utility.dart';
 import '../../viewmodel/credit_notifier.dart';
 import '../../viewmodel/holiday_notifier.dart';
 import '../../viewmodel/money_notifier.dart';
 import '../../viewmodel/spend_notifier.dart';
+import '_money_dialog.dart';
+import 'monthly_spend_graph_alert.dart';
 
 class MonthlySpendAlert extends ConsumerWidget {
   MonthlySpendAlert({super.key, required this.date});
@@ -37,6 +38,8 @@ class MonthlySpendAlert extends ConsumerWidget {
 
     getNext2MonthCreditSpend();
 
+    final deviceInfoState = ref.read(deviceInfoProvider);
+
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.zero,
@@ -53,6 +56,12 @@ class MonthlySpendAlert extends ConsumerWidget {
               children: [
                 const SizedBox(height: 20),
                 Container(width: context.screenSize.width),
+
+                //----------//
+                if (deviceInfoState.model == 'iPhone')
+                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                //----------//
+
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(

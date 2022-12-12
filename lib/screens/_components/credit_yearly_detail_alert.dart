@@ -3,16 +3,20 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/_money_dialog.dart';
-import 'package:moneynote4/screens/_components/credit_udemy_alert.dart';
 
 import '../../extensions/extensions.dart';
+import '../../state/device_info/device_info_notifier.dart';
+import '../../utility/utility.dart';
 import '../../viewmodel/credit_notifier.dart';
+import '_money_dialog.dart';
+import 'credit_udemy_alert.dart';
 
 class CreditYearlyDetailAlert extends ConsumerWidget {
   CreditYearlyDetailAlert({super.key, required this.date});
 
   final DateTime date;
+
+  final Utility _utility = Utility();
 
   late BuildContext _context;
   late WidgetRef _ref;
@@ -24,6 +28,8 @@ class CreditYearlyDetailAlert extends ConsumerWidget {
     _ref = ref;
 
     final monthWidgetList = makeMonthWidgetList();
+
+    final deviceInfoState = ref.read(deviceInfoProvider);
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -42,6 +48,12 @@ class CreditYearlyDetailAlert extends ConsumerWidget {
               children: [
                 const SizedBox(height: 20),
                 Container(width: context.screenSize.width),
+
+                //----------//
+                if (deviceInfoState.model == 'iPhone')
+                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                //----------//
+
                 Text(
                   date.yyyy,
                   style: const TextStyle(fontSize: 20),

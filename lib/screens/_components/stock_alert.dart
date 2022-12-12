@@ -5,12 +5,16 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../extensions/extensions.dart';
+import '../../state/device_info/device_info_notifier.dart';
+import '../../utility/utility.dart';
 import '../../viewmodel/stock_notifier.dart';
 
 class StockAlert extends ConsumerWidget {
   StockAlert({super.key});
 
   final autoScrollController = AutoScrollController();
+
+  final Utility _utility = Utility();
 
   late WidgetRef _ref;
 
@@ -26,6 +30,8 @@ class StockAlert extends ConsumerWidget {
     final exData = stockRecordState.data.split('/');
 
     final selectStockState = ref.watch(selectStockProvider);
+
+    final deviceInfoState = ref.read(deviceInfoProvider);
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -44,6 +50,12 @@ class StockAlert extends ConsumerWidget {
               children: [
                 const SizedBox(height: 20),
                 Container(width: context.screenSize.width),
+
+                //----------//
+                if (deviceInfoState.model == 'iPhone')
+                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                //----------//
+
                 SizedBox(
                   height: context.screenSize.height * 0.15,
                   child: SingleChildScrollView(
