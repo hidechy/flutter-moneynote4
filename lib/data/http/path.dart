@@ -27,6 +27,7 @@ enum APIPath {
   getUdemyData,
   updateBankMoney,
   setBankMove,
+  getBankMove,
 }
 
 extension APIPathExtension on APIPath {
@@ -88,6 +89,8 @@ extension APIPathExtension on APIPath {
         return 'updateBankMoney';
       case APIPath.setBankMove:
         return 'setBankMove';
+      case APIPath.getBankMove:
+        return 'getBankMove';
     }
   }
 }

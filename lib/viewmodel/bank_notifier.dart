@@ -7,6 +7,7 @@ import '../data/http/path.dart';
 import '../extensions/extensions.dart';
 import '../models/bank_company_all.dart';
 import '../models/bank_company_change.dart';
+import '../models/bank_move.dart';
 import '../utility/utility.dart';
 
 ////////////////////////////////////////////////
@@ -109,6 +110,42 @@ class BankAllNotifier extends StateNotifier<List<BankCompanyAll>> {
             price: value['data'][i][bank].toString(),
             mark: mark,
           ),
+        );
+      }
+
+      state = list;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
+  }
+}
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+
+final bankMoveProvider =
+    StateNotifierProvider.autoDispose<BankMoveNotifier, List<BankMove>>((ref) {
+  final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
+
+  return BankMoveNotifier([], client, utility)..getBankMove();
+});
+
+class BankMoveNotifier extends StateNotifier<List<BankMove>> {
+  BankMoveNotifier(super.state, this.client, this.utility);
+
+  final HttpClient client;
+  final Utility utility;
+
+  Future<void> getBankMove() async {
+    await client.post(path: APIPath.getBankMove).then((value) {
+      final list = <BankMove>[];
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        list.add(
+          BankMove.fromJson(value['data'][i] as Map<String, dynamic>),
         );
       }
 

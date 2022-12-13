@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/bank_input_screen.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/money.dart';
@@ -20,6 +19,8 @@ import 'gold_alert.dart';
 import 'shintaku_alert.dart';
 import 'spend_alert.dart';
 import 'stock_alert.dart';
+
+import '../bank_input_screen.dart';
 
 class MoneyAlert extends ConsumerWidget {
   MoneyAlert({super.key, required this.date});

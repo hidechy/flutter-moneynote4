@@ -3,7 +3,8 @@ import 'dart:convert';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart';
-import 'package:moneynote4/data/http/path.dart';
+
+import 'path.dart';
 
 ///////////////////////////////////////////////////////////////////
 final Provider<HttpClient> httpClientProvider = Provider<HttpClient>(

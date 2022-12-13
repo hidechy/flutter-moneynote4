@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/models/benefit.dart';
+
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
@@ -10,6 +10,7 @@ import '../../models/credit_spend_monthly.dart';
 import '../../models/money_everyday.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
+import '../../viewmodel/bank_notifier.dart';
 import '../../viewmodel/benefit_notifier.dart';
 import '../../viewmodel/credit_notifier.dart';
 import '../../viewmodel/holiday_notifier.dart';
@@ -17,6 +18,8 @@ import '../../viewmodel/money_notifier.dart';
 import '../../viewmodel/spend_notifier.dart';
 import '_money_dialog.dart';
 import 'monthly_spend_graph_alert.dart';
+
+import '../../models/benefit.dart';
 
 class MonthlySpendAlert extends ConsumerWidget {
   MonthlySpendAlert({super.key, required this.date});
@@ -162,6 +165,8 @@ class MonthlySpendAlert extends ConsumerWidget {
 
     final benefitState = _ref.watch(benefitProvider);
 
+    final bankMoveState = _ref.watch(bankMoveProvider);
+
     final list = <Widget>[];
 
     for (var i = 0; i < spendMonthDetailState.length; i++) {
@@ -301,10 +306,13 @@ class MonthlySpendAlert extends ConsumerWidget {
         everydayState: moneyEverydayState,
       );
 
-      final diff = getDiff(
-        spend: sum['spend'].toString().toInt(),
-        daySum: daySum,
-      );
+      var diff = 0;
+      if (sum != null) {
+        diff = getDiff(
+          spend: sum['spend'].toString().toInt(),
+          daySum: daySum,
+        );
+      }
 
       list.add(
         Container(
@@ -341,7 +349,7 @@ class MonthlySpendAlert extends ConsumerWidget {
                           decoration: BoxDecoration(
                             color: Colors.yellowAccent.withOpacity(0.3),
                           ),
-                          child: Text(diff.toString()),
+                          child: Text(diff.toString().toCurrency()),
                         ),
                     ],
                   ),
