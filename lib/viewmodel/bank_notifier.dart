@@ -76,6 +76,11 @@ class BankAllNotifier extends StateNotifier<List<BankCompanyAll>> {
   final Utility utility;
 
   Future<void> getBankCompanyRecord({required String bank}) async {
+    if (bank == '') {
+      state = [];
+      return;
+    }
+
     await client.post(
       path: APIPath.getAllBank,
       body: {'bank': bank},

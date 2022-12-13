@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/bank_input_screen.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/money.dart';
@@ -97,12 +98,26 @@ class MoneyAlert extends ConsumerWidget {
                           IconButton(
                             onPressed: () {
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          MoneyInputScreen(date: date)));
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      MoneyInputScreen(date: date),
+                                ),
+                              );
                             },
                             icon: const Icon(Icons.input),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      BankInputScreen(date: date),
+                                ),
+                              );
+                            },
+                            icon: const Icon(Icons.business),
                           ),
                         ],
                       ),

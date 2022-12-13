@@ -25,6 +25,8 @@ enum APIPath {
   gettrainrecord,
   yearsummary,
   getUdemyData,
+  updateBankMoney,
+  setBankMove,
 }
 
 extension APIPathExtension on APIPath {
@@ -82,6 +84,10 @@ extension APIPathExtension on APIPath {
         return 'yearsummary';
       case APIPath.getUdemyData:
         return 'getUdemyData';
+      case APIPath.updateBankMoney:
+        return 'updateBankMoney';
+      case APIPath.setBankMove:
+        return 'setBankMove';
     }
   }
 }
