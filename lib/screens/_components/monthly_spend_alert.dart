@@ -1,7 +1,8 @@
-// ignore_for_file: must_be_immutable, sized_box_shrink_expand
+// ignore_for_file: must_be_immutable, sized_box_shrink_expand, inference_failure_on_collection_literal
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/models/benefit.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
@@ -9,6 +10,7 @@ import '../../models/credit_spend_monthly.dart';
 import '../../models/money_everyday.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
+import '../../viewmodel/benefit_notifier.dart';
 import '../../viewmodel/credit_notifier.dart';
 import '../../viewmodel/holiday_notifier.dart';
 import '../../viewmodel/money_notifier.dart';
@@ -158,9 +160,12 @@ class MonthlySpendAlert extends ConsumerWidget {
 
     final moneyEverydayState = _ref.watch(moneyEverydayProvider);
 
+    final benefitState = _ref.watch(benefitProvider);
+
     final list = <Widget>[];
 
     for (var i = 0; i < spendMonthDetailState.length; i++) {
+      //--------------------------------------------- list2
       final list2 = <Widget>[];
 
       var daySum = 0;
@@ -244,12 +249,61 @@ class MonthlySpendAlert extends ConsumerWidget {
         }
       }
 
+      final benefit = getBenefit(
+        date: spendMonthDetailState[i].date.yyyymmdd,
+        benefitState: benefitState,
+      );
+
+      if (benefit != null) {
+        list2.add(
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.white.withOpacity(0.3),
+                ),
+              ),
+            ),
+            child: DefaultTextStyle(
+              style: const TextStyle(color: Colors.yellowAccent),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Expanded(
+                    flex: 3,
+                    child: Text(
+                      'benefit',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.topRight,
+                      child: Text(benefit.salary.toCurrency()),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      }
+
+      //--------------------------------------------- list2
+
       final youbi =
           _utility.getYoubi(youbiStr: spendMonthDetailState[i].date.youbiStr);
 
-      final sum = getSum(
+      final sum = getSumMap(
         date: spendMonthDetailState[i].date.yyyymmdd,
         everydayState: moneyEverydayState,
+      );
+
+      final diff = getDiff(
+        spend: sum['spend'].toString().toInt(),
+        daySum: daySum,
       );
 
       list.add(
@@ -276,11 +330,19 @@ class MonthlySpendAlert extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text((sum == '') ? '0' : sum.toCurrency()),
-                      Text(spendMonthDetailState[i]
-                          .spend
-                          .toString()
-                          .toCurrency()),
+                      Text((sum['sum'] == '')
+                          ? '0'
+                          : sum['sum'].toString().toCurrency()),
+                      Text(sum['spend'].toString().toCurrency()),
+                      if (diff != 0)
+                        Container(
+                          padding: const EdgeInsets.only(
+                              top: 3, bottom: 3, left: 20),
+                          decoration: BoxDecoration(
+                            color: Colors.yellowAccent.withOpacity(0.3),
+                          ),
+                          child: Text(diff.toString()),
+                        ),
                     ],
                   ),
                 ],
@@ -296,22 +358,6 @@ class MonthlySpendAlert extends ConsumerWidget {
                   ),
                 ],
               ),
-              if (spendMonthDetailState[i].spend - daySum != 0)
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(vertical: 3),
-                  decoration: BoxDecoration(
-                    color: Colors.yellowAccent.withOpacity(0.3),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(),
-                      Text(
-                          (spendMonthDetailState[i].spend - daySum).toString()),
-                    ],
-                  ),
-                ),
             ],
           ),
         ),
@@ -330,14 +376,36 @@ class MonthlySpendAlert extends ConsumerWidget {
   }
 
   ///
-  String getSum(
+  Map<dynamic, dynamic> getSumMap(
       {required String date, required List<MoneyEveryday> everydayState}) {
+    final map = {};
     for (var i = 0; i < everydayState.length; i++) {
       if (date == everydayState[i].date.yyyymmdd) {
-        return everydayState[i].sum;
+        map['sum'] = everydayState[i].sum;
+        map['spend'] = everydayState[i].spend;
       }
     }
 
-    return '';
+    return map;
+  }
+
+  ///
+  int getDiff({required int spend, required int daySum}) {
+    if (spend < 0) {
+      return (spend * -1) + daySum;
+    } else {
+      return spend - daySum;
+    }
+  }
+
+  ///
+  Benefit? getBenefit(
+      {required String date, required List<Benefit> benefitState}) {
+    for (var i = 0; i < benefitState.length; i++) {
+      if (date == benefitState[i].date.yyyymmdd) {
+        return benefitState[i];
+      }
+    }
+    return null;
   }
 }

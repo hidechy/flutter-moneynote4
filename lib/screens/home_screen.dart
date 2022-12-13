@@ -107,7 +107,7 @@ class HomeScreen extends ConsumerWidget {
           ///////////// calendar
           Column(
             children: [
-              const SizedBox(height: 20),
+              const SizedBox(height: 40),
               TableCalendar(
                 rowHeight: 35,
 
@@ -174,7 +174,7 @@ class HomeScreen extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 60),
                     GestureDetector(
                       onTap: () {
                         ref
