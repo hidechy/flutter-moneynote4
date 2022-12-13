@@ -99,4 +99,18 @@ class BankInputNotifier extends StateNotifier<BankInputState> {
       utility.showError('予期せぬエラーが発生しました');
     });
   }
+
+  ///
+  Future<void> onTapSubmit() async {
+    state = state.copyWith(
+      bankMoney: '',
+      selectBank: '',
+      selectDate: '',
+      selectInOutFlag: 0,
+      outArrowBank: '',
+      outArrowDate: '',
+      inArrowBank: '',
+      inArrowDate: '',
+    );
+  }
 }

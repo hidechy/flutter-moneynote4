@@ -188,6 +188,12 @@ class BankInputScreen extends ConsumerWidget {
 
                                     break;
                                 }
+
+                                _ref
+                                    .watch(bankInputProvider.notifier)
+                                    .onTapSubmit();
+
+                                Navigator.pop(context);
                               },
                               icon: const Icon(Icons.input),
                             ),
