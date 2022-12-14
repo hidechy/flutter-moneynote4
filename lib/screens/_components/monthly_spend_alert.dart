@@ -1,12 +1,10 @@
-// ignore_for_file: must_be_immutable, sized_box_shrink_expand, inference_failure_on_collection_literal
+// ignore_for_file: must_be_immutable, sized_box_shrink_expand
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/models/bank_move.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
-import '../../models/benefit.dart';
 import '../../models/credit_spend_monthly.dart';
 import '../../models/money_everyday.dart';
 import '../../state/device_info/device_info_notifier.dart';
@@ -162,15 +160,11 @@ class MonthlySpendAlert extends ConsumerWidget {
 
     final moneyEverydayState = _ref.watch(moneyEverydayProvider);
 
+    final everydayStateMap = makeEverydayStateMap(state: moneyEverydayState);
+
     final benefitState = _ref.watch(benefitProvider);
 
     final bankMoveState = _ref.watch(bankMoveProvider);
-
-    final everydayStateMap = makeEverydayStateMap(state: moneyEverydayState);
-
-    final benefitStateMap = makeBenefitStateMap(state: benefitState);
-
-    final bankMoveStateMap = makeBankMoveStateMap(state: bankMoveState);
 
     final list = <Widget>[];
 
@@ -259,10 +253,10 @@ class MonthlySpendAlert extends ConsumerWidget {
         }
       }
 
-      if (benefitStateMap[spendMonthDetailState[i].date.yyyymmdd] != null) {
-        var value = benefitStateMap[spendMonthDetailState[i].date.yyyymmdd];
-
-        for (int j = 0; j < value!.length; j++) {
+      //////////////////////////////////////////////////////////////////
+      for (var j = 0; j < benefitState.length; j++) {
+        if (spendMonthDetailState[i].date.yyyymmdd ==
+            benefitState[j].date.yyyymmdd) {
           list2.add(
             Container(
               padding: const EdgeInsets.symmetric(vertical: 3),
@@ -289,7 +283,7 @@ class MonthlySpendAlert extends ConsumerWidget {
                     Expanded(
                       child: Container(
                         alignment: Alignment.topRight,
-                        child: Text(value[j].salary),
+                        child: Text(benefitState[j].salary.toCurrency()),
                       ),
                     ),
                   ],
@@ -299,11 +293,12 @@ class MonthlySpendAlert extends ConsumerWidget {
           );
         }
       }
+      //////////////////////////////////////////////////////////////////
 
-      if (bankMoveStateMap[spendMonthDetailState[i].date.yyyymmdd] != null) {
-        var value = bankMoveStateMap[spendMonthDetailState[i].date.yyyymmdd];
-
-        for (var j = 0; j < value!.length; j++) {
+      //////////////////////////////////////////////////////////////////
+      for (var j = 0; j < bankMoveState.length; j++) {
+        if (spendMonthDetailState[i].date.yyyymmdd ==
+            bankMoveState[j].date.yyyymmdd) {
           list2.add(
             Container(
               padding: const EdgeInsets.symmetric(vertical: 3),
@@ -322,7 +317,7 @@ class MonthlySpendAlert extends ConsumerWidget {
                     Expanded(
                       flex: 3,
                       child: Text(
-                        'Bank Move - ${value[j].bank} // ${value[j].flag == 0 ? 'out' : 'in'}',
+                        'Bank Move - ${bankMoveState[j].bank} // ${bankMoveState[j].flag == 0 ? 'out' : 'in'}',
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                       ),
@@ -330,7 +325,8 @@ class MonthlySpendAlert extends ConsumerWidget {
                     Expanded(
                       child: Container(
                         alignment: Alignment.topRight,
-                        child: Text(value[j].price.toString().toCurrency()),
+                        child: Text(
+                            bankMoveState[j].price.toString().toCurrency()),
                       ),
                     ),
                   ],
@@ -340,63 +336,7 @@ class MonthlySpendAlert extends ConsumerWidget {
           );
         }
       }
-
-      /*
-
-
-
-
-
-      if (bankMoveStateMap[spendMonthDetailState[i].date.yyyymmdd] != null) {
-        list2.add(
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 3),
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Colors.white.withOpacity(0.3),
-                ),
-              ),
-            ),
-            child: DefaultTextStyle(
-              style: const TextStyle(color: Colors.yellowAccent),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: Text(
-                      'Bank Move - ${bankMoveStateMap[spendMonthDetailState[i].date.yyyymmdd]!.bank}',
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      alignment: Alignment.topRight,
-                      child: Text(
-                        bankMoveStateMap[
-                                spendMonthDetailState[i].date.yyyymmdd]!
-                            .price
-                            .toString(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      }
-
-
-
-
-
-
-
-
-      */
+      //////////////////////////////////////////////////////////////////
 
       //--------------------------------------------- list2
 
@@ -437,6 +377,7 @@ class MonthlySpendAlert extends ConsumerWidget {
                     children: [
                       if (sum != null)
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text((sum.sum == '') ? '0' : sum.sum.toCurrency()),
                             Text(sum.spend.toCurrency()),
@@ -499,51 +440,6 @@ class MonthlySpendAlert extends ConsumerWidget {
 
     for (var i = 0; i < state.length; i++) {
       map[state[i].date.yyyymmdd] = state[i];
-    }
-
-    return map;
-  }
-
-  ///
-  Map<String, List<Benefit>> makeBenefitStateMap(
-      {required List<Benefit> state}) {
-    final map = <String, List<Benefit>>{};
-
-    List<Benefit> list = [];
-    var keepDate = '';
-    for (var i = 0; i < state.length; i++) {
-      if (keepDate != state[i].date.yyyymmdd) {
-        list = [];
-      }
-
-      list.add(state[i]);
-
-      map[state[i].date.yyyymmdd] = list;
-
-      keepDate = state[i].date.yyyymmdd;
-    }
-
-    return map;
-  }
-
-  ///
-  Map<String, List<BankMove>> makeBankMoveStateMap(
-      {required List<BankMove> state}) {
-    final map = <String, List<BankMove>>{};
-
-    List<BankMove> list = [];
-    var keepDate = '';
-
-    for (var i = 0; i < state.length; i++) {
-      if (keepDate != state[i].date.yyyymmdd) {
-        list = [];
-      }
-
-      list.add(state[i]);
-
-      map[state[i].date.yyyymmdd] = list;
-
-      keepDate = state[i].date.yyyymmdd;
     }
 
     return map;
