@@ -148,10 +148,7 @@ class CreditAlert extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(creditSpendMonthlyState[i]
-                        .date
-                        .toString()
-                        .split(' ')[0]),
+                    Text(creditSpendMonthlyState[i].date.yyyymmdd),
                     Text(creditSpendMonthlyState[i].item),
                     Container(
                       alignment: Alignment.topRight,
