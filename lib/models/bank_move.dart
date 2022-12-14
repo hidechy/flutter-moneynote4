@@ -23,22 +23,26 @@ class BankMove {
     required this.date,
     required this.bank,
     required this.price,
+    required this.flag,
   });
 
   factory BankMove.fromJson(Map<String, dynamic> json) => BankMove(
         date: DateTime.parse(json['date'].toString()),
         bank: json['bank'].toString(),
         price: json['price'].toString().toInt(),
+        flag: json['flag'].toString().toInt(),
       );
 
   DateTime date;
   String bank;
   int price;
+  int flag;
 
   Map<String, dynamic> toJson() => {
         'date':
             "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
         'bank': bank,
         'price': price,
+        'flag': flag,
       };
 }
