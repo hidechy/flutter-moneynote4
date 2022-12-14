@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/models/bank_move.dart';
 
 import 'package:uuid/uuid.dart';
 
@@ -167,6 +168,12 @@ class MonthlySpendAlert extends ConsumerWidget {
 
     final bankMoveState = _ref.watch(bankMoveProvider);
 
+    var everydayStateMap = makeEverydayStateMap(state: moneyEverydayState);
+
+    var benefitStateMap = makeBenefitStateMap(state: benefitState);
+
+    var bankMoveStateMap = makeBankMoveStateMap(state: bankMoveState);
+
     final list = <Widget>[];
 
     for (var i = 0; i < spendMonthDetailState.length; i++) {
@@ -254,12 +261,7 @@ class MonthlySpendAlert extends ConsumerWidget {
         }
       }
 
-      final benefit = getBenefit(
-        date: spendMonthDetailState[i].date.yyyymmdd,
-        benefitState: benefitState,
-      );
-
-      if (benefit != null) {
+      if (benefitStateMap[spendMonthDetailState[i].date.yyyymmdd] != null) {
         list2.add(
           Container(
             padding: const EdgeInsets.symmetric(vertical: 3),
@@ -286,7 +288,64 @@ class MonthlySpendAlert extends ConsumerWidget {
                   Expanded(
                     child: Container(
                       alignment: Alignment.topRight,
-                      child: Text(benefit.salary.toCurrency()),
+                      child: Text(
+                        benefitStateMap[spendMonthDetailState[i].date.yyyymmdd]!
+                            .salary
+                            .toString(),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      }
+
+      //
+      //
+      //
+      // var bankMove = getBankMove(
+      //   date: spendMonthDetailState[i].date.yyyymmdd,
+      //   bankMoveState: bankMoveState,
+      // );
+      //
+      //
+      //
+
+      if (bankMoveStateMap[spendMonthDetailState[i].date.yyyymmdd] != null) {
+        list2.add(
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.white.withOpacity(0.3),
+                ),
+              ),
+            ),
+            child: DefaultTextStyle(
+              style: const TextStyle(color: Colors.yellowAccent),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: Text(
+                      'Bank Move - ${bankMoveStateMap[spendMonthDetailState[i].date.yyyymmdd]!.bank}',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.topRight,
+                      child: Text(
+                        bankMoveStateMap[
+                                spendMonthDetailState[i].date.yyyymmdd]!
+                            .price
+                            .toString(),
+                      ),
                     ),
                   ),
                 ],
@@ -298,18 +357,16 @@ class MonthlySpendAlert extends ConsumerWidget {
 
       //--------------------------------------------- list2
 
-      final youbi =
-          _utility.getYoubi(youbiStr: spendMonthDetailState[i].date.youbiStr);
-
-      final sum = getSumMap(
-        date: spendMonthDetailState[i].date.yyyymmdd,
-        everydayState: moneyEverydayState,
+      final youbi = _utility.getYoubi(
+        youbiStr: spendMonthDetailState[i].date.youbiStr,
       );
+
+      final sum = everydayStateMap[spendMonthDetailState[i].date.yyyymmdd];
 
       var diff = 0;
       if (sum != null) {
         diff = getDiff(
-          spend: sum['spend'].toString().toInt(),
+          spend: sum.spend.toString().toInt(),
           daySum: daySum,
         );
       }
@@ -338,10 +395,10 @@ class MonthlySpendAlert extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text((sum['sum'] == '')
+                      Text((sum!.sum == '')
                           ? '0'
-                          : sum['sum'].toString().toCurrency()),
-                      Text(sum['spend'].toString().toCurrency()),
+                          : sum.sum.toString().toCurrency()),
+                      Text(sum.spend.toString().toCurrency()),
                       if (diff != 0)
                         Container(
                           padding: const EdgeInsets.only(
@@ -384,20 +441,6 @@ class MonthlySpendAlert extends ConsumerWidget {
   }
 
   ///
-  Map<dynamic, dynamic> getSumMap(
-      {required String date, required List<MoneyEveryday> everydayState}) {
-    final map = {};
-    for (var i = 0; i < everydayState.length; i++) {
-      if (date == everydayState[i].date.yyyymmdd) {
-        map['sum'] = everydayState[i].sum;
-        map['spend'] = everydayState[i].spend;
-      }
-    }
-
-    return map;
-  }
-
-  ///
   int getDiff({required int spend, required int daySum}) {
     if (spend < 0) {
       return (spend * -1) + daySum;
@@ -407,13 +450,36 @@ class MonthlySpendAlert extends ConsumerWidget {
   }
 
   ///
-  Benefit? getBenefit(
-      {required String date, required List<Benefit> benefitState}) {
-    for (var i = 0; i < benefitState.length; i++) {
-      if (date == benefitState[i].date.yyyymmdd) {
-        return benefitState[i];
-      }
+  Map<String, MoneyEveryday> makeEverydayStateMap(
+      {required List<MoneyEveryday> state}) {
+    Map<String, MoneyEveryday> map = {};
+
+    for (var i = 0; i < state.length; i++) {
+      map[state[i].date.yyyymmdd] = state[i];
     }
-    return null;
+
+    return map;
+  }
+
+  ///
+  Map<String, Benefit> makeBenefitStateMap({required List<Benefit> state}) {
+    Map<String, Benefit> map = {};
+
+    for (var i = 0; i < state.length; i++) {
+      map[state[i].date.yyyymmdd] = state[i];
+    }
+
+    return map;
+  }
+
+  ///
+  Map<String, BankMove> makeBankMoveStateMap({required List<BankMove> state}) {
+    Map<String, BankMove> map = {};
+
+    for (var i = 0; i < state.length; i++) {
+      map[state[i].date.yyyymmdd] = state[i];
+    }
+
+    return map;
   }
 }
