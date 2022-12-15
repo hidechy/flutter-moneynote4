@@ -70,8 +70,6 @@ class CreditSummaryAlert extends ConsumerWidget {
   List<Widget> makeYearWidgetList() {
     final appParamState = _ref.watch(appParamProvider);
 
-    print(appParamState.CreditSummaryAlertSelectYear);
-
     final yearList = <Widget>[];
     for (var i = date.yyyy.toInt(); i >= 2020; i--) {
       yearList.add(

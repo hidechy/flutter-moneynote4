@@ -1,12 +1,13 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/extensions/extensions.dart';
+
+import '../../extensions/extensions.dart';
 
 import 'app_param_state.dart';
 
 ////////////////////////////////////////////////
 final appParamProvider =
     StateNotifierProvider.autoDispose<AppParamNotifier, AppParamState>((ref) {
-  var year = DateTime.now().yyyy;
+  final year = DateTime.now().yyyy;
 
   return AppParamNotifier(
     AppParamState(
