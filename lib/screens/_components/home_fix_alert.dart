@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
+import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/home_fix_notifier.dart';
@@ -70,7 +71,7 @@ class HomeFixAlert extends ConsumerWidget {
   List<Widget> makeYearWidgetList() {
     final exYmd = date.yyyymmdd.split('-');
 
-    final selectYearState = _ref.watch(selectYearProvider);
+    final appParamState = _ref.watch(appParamProvider);
 
     final yearList = <Widget>[];
     for (var i = exYmd[0].toInt(); i >= 2020; i--) {
@@ -78,15 +79,15 @@ class HomeFixAlert extends ConsumerWidget {
         GestureDetector(
           onTap: () {
             _ref
-                .watch(selectYearProvider.notifier)
-                .setSelectYear(selectYear: i.toString());
+                .watch(appParamProvider.notifier)
+                .setHomeFixAlertSelectYear(year: i);
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
             margin: const EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white.withOpacity(0.5)),
-              color: (i.toString() == selectYearState)
+              color: (i == appParamState.HomeFixAlertSelectYear)
                   ? Colors.yellowAccent.withOpacity(0.2)
                   : null,
             ),
@@ -103,11 +104,11 @@ class HomeFixAlert extends ConsumerWidget {
   Widget displayHomeFix() {
     final list = <Widget>[];
 
-    final selectYearState = _ref.watch(selectYearProvider);
+    final appParamState = _ref.watch(appParamProvider);
 
     final homeFixState = _ref.watch(
       homeFixProvider(
-        '$selectYearState-01-01 00:00:00'.toDateTime(),
+        '${appParamState.HomeFixAlertSelectYear}-01-01 00:00:00'.toDateTime(),
       ),
     );
 
@@ -235,21 +236,5 @@ class HomeFixAlert extends ConsumerWidget {
         children: list,
       ),
     );
-  }
-}
-
-////////////////////////////////////////////////
-
-final selectYearProvider =
-    StateNotifierProvider.autoDispose<SelectYearStateNotifier, String>((ref) {
-  return SelectYearStateNotifier();
-});
-
-class SelectYearStateNotifier extends StateNotifier<String> {
-  SelectYearStateNotifier() : super(DateTime.now().toString().split('-')[0]);
-
-  ///
-  Future<void> setSelectYear({required String selectYear}) async {
-    state = selectYear;
   }
 }

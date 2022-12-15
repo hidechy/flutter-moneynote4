@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
+import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/credit_notifier.dart';
@@ -65,7 +66,7 @@ class CreditCompanyAlert extends ConsumerWidget {
 
   ///
   List<Widget> makeYearWidgetList() {
-    final selectYearState = _ref.watch(selectYearProvider);
+    final appParamState = _ref.watch(appParamProvider);
 
     final yearList = <Widget>[];
     for (var i = date.yyyy.toInt(); i >= 2020; i--) {
@@ -73,15 +74,15 @@ class CreditCompanyAlert extends ConsumerWidget {
         GestureDetector(
           onTap: () {
             _ref
-                .watch(selectYearProvider.notifier)
-                .setSelectYear(selectYear: i.toString());
+                .watch(appParamProvider.notifier)
+                .setCreditCompanyAlertSelectYear(year: i);
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
             margin: const EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white.withOpacity(0.5)),
-              color: (i.toString() == selectYearState)
+              color: (i == appParamState.CreditCompanyAlertSelectYear)
                   ? Colors.yellowAccent.withOpacity(0.2)
                   : null,
             ),
@@ -96,10 +97,11 @@ class CreditCompanyAlert extends ConsumerWidget {
 
   ///
   Widget displayCreditCompany() {
-    final selectYearState = _ref.watch(selectYearProvider);
+    final appParamState = _ref.watch(appParamProvider);
 
-    final creditCompanyState = _ref.watch(
-        creditCompanyProvider('$selectYearState-01-01 00:00:00'.toDateTime()));
+    final creditCompanyState = _ref.watch(creditCompanyProvider(
+        '${appParamState.CreditCompanyAlertSelectYear}-01-01 00:00:00'
+            .toDateTime()));
 
     final list = <Widget>[];
 
@@ -206,21 +208,5 @@ class CreditCompanyAlert extends ConsumerWidget {
     }
 
     return const Icon(Icons.credit_card, color: Colors.white);
-  }
-}
-
-////////////////////////////////////////////////
-
-final selectYearProvider =
-    StateNotifierProvider.autoDispose<SelectYearStateNotifier, String>((ref) {
-  return SelectYearStateNotifier();
-});
-
-class SelectYearStateNotifier extends StateNotifier<String> {
-  SelectYearStateNotifier() : super(DateTime.now().toString().split('-')[0]);
-
-  ///
-  Future<void> setSelectYear({required String selectYear}) async {
-    state = selectYear;
   }
 }

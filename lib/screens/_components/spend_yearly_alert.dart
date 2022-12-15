@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
+import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/spend_notifier.dart';
@@ -68,7 +69,7 @@ class SpendYearlyAlert extends ConsumerWidget {
   List<Widget> makeYearWidgetList() {
     final exYmd = date.yyyymmdd.split('-');
 
-    final selectYearState = _ref.watch(selectYearProvider);
+    final appParamState = _ref.watch(appParamProvider);
 
     final yearList = <Widget>[];
     for (var i = exYmd[0].toInt(); i >= 2020; i--) {
@@ -76,15 +77,15 @@ class SpendYearlyAlert extends ConsumerWidget {
         GestureDetector(
           onTap: () {
             _ref
-                .watch(selectYearProvider.notifier)
-                .setSelectYear(selectYear: i.toString());
+                .watch(appParamProvider.notifier)
+                .setSpendYearlyAlertSelectYear(year: i);
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
             margin: const EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white.withOpacity(0.5)),
-              color: (i.toString() == selectYearState)
+              color: (i == appParamState.SpendYearlyAlertSelectYear)
                   ? Colors.yellowAccent.withOpacity(0.2)
                   : null,
             ),
@@ -99,11 +100,12 @@ class SpendYearlyAlert extends ConsumerWidget {
 
   ///
   Widget displaySpendYearly() {
-    final selectYearState = _ref.watch(selectYearProvider);
+    final appParamState = _ref.watch(appParamProvider);
 
     final spendYearSummaryState = _ref.watch(
       spendYearSummaryProvider(
-        '$selectYearState-01-01 00:00:00'.toDateTime(),
+        '${appParamState.SpendYearlyAlertSelectYear}-01-01 00:00:00'
+            .toDateTime(),
       ),
     );
 
@@ -225,7 +227,7 @@ class SpendYearlyAlert extends ConsumerWidget {
 
   ///
   Widget getLinkIcon({required String item}) {
-    final selectYearState = _ref.watch(selectYearProvider);
+    final appParamState = _ref.watch(appParamProvider);
 
     switch (item) {
       case 'credit':
@@ -234,7 +236,9 @@ class SpendYearlyAlert extends ConsumerWidget {
             MoneyDialog(
               context: _context,
               widget: CreditYearlyDetailAlert(
-                  date: '$selectYearState-01-01 00:00:00'.toDateTime()),
+                  date:
+                      '${appParamState.SpendYearlyAlertSelectYear}-01-01 00:00:00'
+                          .toDateTime()),
             );
           },
           child: const Icon(Icons.credit_card),
@@ -245,21 +249,5 @@ class SpendYearlyAlert extends ConsumerWidget {
           color: Colors.black.withOpacity(0.1),
         );
     }
-  }
-}
-
-////////////////////////////////////////////////
-
-final selectYearProvider =
-    StateNotifierProvider.autoDispose<SelectYearStateNotifier, String>((ref) {
-  return SelectYearStateNotifier();
-});
-
-class SelectYearStateNotifier extends StateNotifier<String> {
-  SelectYearStateNotifier() : super(DateTime.now().toString().split('-')[0]);
-
-  ///
-  Future<void> setSelectYear({required String selectYear}) async {
-    state = selectYear;
   }
 }

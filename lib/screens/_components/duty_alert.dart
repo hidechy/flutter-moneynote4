@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
+import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/duty_notifier.dart';
@@ -67,7 +68,7 @@ class DutyAlert extends ConsumerWidget {
 
   ///
   List<Widget> makeYearWidgetList() {
-    final selectYearState = _ref.watch(selectYearProvider);
+    final appParamState = _ref.watch(appParamProvider);
 
     final yearList = <Widget>[];
     for (var i = date.yyyy.toInt(); i >= 2020; i--) {
@@ -75,15 +76,15 @@ class DutyAlert extends ConsumerWidget {
         GestureDetector(
           onTap: () {
             _ref
-                .watch(selectYearProvider.notifier)
-                .setSelectYear(selectYear: i.toString());
+                .watch(appParamProvider.notifier)
+                .setDutyAlertSelectYear(year: i);
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
             margin: const EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white.withOpacity(0.5)),
-              color: (i.toString() == selectYearState)
+              color: (i == appParamState.DutyAlertSelectYear)
                   ? Colors.yellowAccent.withOpacity(0.2)
                   : null,
             ),
@@ -98,11 +99,11 @@ class DutyAlert extends ConsumerWidget {
 
   ///
   Widget displayDuty() {
-    final selectYearState = _ref.watch(selectYearProvider);
+    final appParamState = _ref.watch(appParamProvider);
 
     final dutyState = _ref.watch(
       dutyProvider(
-        '$selectYearState-01-01 00:00:00'.toDateTime(),
+        '${appParamState.DutyAlertSelectYear}-01-01 00:00:00'.toDateTime(),
       ),
     );
 
@@ -142,21 +143,5 @@ class DutyAlert extends ConsumerWidget {
         children: list,
       ),
     );
-  }
-}
-
-////////////////////////////////////////////////
-
-final selectYearProvider =
-    StateNotifierProvider.autoDispose<SelectYearStateNotifier, String>((ref) {
-  return SelectYearStateNotifier();
-});
-
-class SelectYearStateNotifier extends StateNotifier<String> {
-  SelectYearStateNotifier() : super(DateTime.now().toString().split('-')[0]);
-
-  ///
-  Future<void> setSelectYear({required String selectYear}) async {
-    state = selectYear;
   }
 }

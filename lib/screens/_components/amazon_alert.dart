@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
+import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/amazon_notifier.dart';
@@ -67,7 +68,7 @@ class AmazonAlert extends HookConsumerWidget {
 
   ///
   List<Widget> makeYearWidgetList() {
-    final selectYearState = _ref.watch(selectYearProvider);
+    final appParamState = _ref.watch(appParamProvider);
 
     final yearList = <Widget>[];
     for (var i = date.yyyy.toInt(); i >= 2020; i--) {
@@ -75,15 +76,15 @@ class AmazonAlert extends HookConsumerWidget {
         GestureDetector(
           onTap: () {
             _ref
-                .watch(selectYearProvider.notifier)
-                .setSelectYear(selectYear: i.toString());
+                .watch(appParamProvider.notifier)
+                .setAmazonAlertSelectYear(year: i);
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
             margin: const EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white.withOpacity(0.5)),
-              color: (i.toString() == selectYearState)
+              color: (i == appParamState.AmazonAlertSelectYear)
                   ? Colors.yellowAccent.withOpacity(0.2)
                   : null,
             ),
@@ -98,11 +99,11 @@ class AmazonAlert extends HookConsumerWidget {
 
   ///
   Widget displayAmazonPurchase() {
-    final selectYearState = _ref.watch(selectYearProvider);
+    final appParamState = _ref.watch(appParamProvider);
 
     final amazonPurchaseState = _ref.watch(
       amazonPurchaseProvider(
-        '$selectYearState-01-01 00:00:00'.toDateTime(),
+        '${appParamState.AmazonAlertSelectYear}-01-01 00:00:00'.toDateTime(),
       ),
     );
 
@@ -168,21 +169,5 @@ class AmazonAlert extends HookConsumerWidget {
         children: list,
       ),
     );
-  }
-}
-
-////////////////////////////////////////////////
-
-final selectYearProvider =
-    StateNotifierProvider.autoDispose<SelectYearStateNotifier, String>((ref) {
-  return SelectYearStateNotifier();
-});
-
-class SelectYearStateNotifier extends StateNotifier<String> {
-  SelectYearStateNotifier() : super(DateTime.now().toString().split('-')[0]);
-
-  ///
-  Future<void> setSelectYear({required String selectYear}) async {
-    state = selectYear;
   }
 }

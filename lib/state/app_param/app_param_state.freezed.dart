@@ -19,20 +19,10 @@ mixin _$AppParamState {
   int get AmazonAlertSelectYear => throw _privateConstructorUsedError;
   int get CreditCompanyAlertSelectYear => throw _privateConstructorUsedError;
   int get CreditSummaryAlertSelectYear => throw _privateConstructorUsedError;
-  String get CreditYearlyDetailAlertSelectMonth =>
-      throw _privateConstructorUsedError;
   int get DutyAlertSelectYear => throw _privateConstructorUsedError;
   int get HomeFixAlertSelectYear => throw _privateConstructorUsedError;
-  double get MoneyScoreGraphAlertGraphWidth =>
-      throw _privateConstructorUsedError;
-  double get MoneySpendGraphAlertGraphWidth =>
-      throw _privateConstructorUsedError;
-  int get SeiyuAlertSelectYear => throw _privateConstructorUsedError;
-  String get SeiyuAlertSelectDate => throw _privateConstructorUsedError;
-  String get ShintakuAlertSelectShintaku => throw _privateConstructorUsedError;
   int get SpendSummaryAlertSelectYear => throw _privateConstructorUsedError;
   int get SpendYearlyAlertSelectYear => throw _privateConstructorUsedError;
-  String get StockAlertSelectStock => throw _privateConstructorUsedError;
   int get TrainAlertSelectYear => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -50,17 +40,10 @@ abstract class $AppParamStateCopyWith<$Res> {
       {int AmazonAlertSelectYear,
       int CreditCompanyAlertSelectYear,
       int CreditSummaryAlertSelectYear,
-      String CreditYearlyDetailAlertSelectMonth,
       int DutyAlertSelectYear,
       int HomeFixAlertSelectYear,
-      double MoneyScoreGraphAlertGraphWidth,
-      double MoneySpendGraphAlertGraphWidth,
-      int SeiyuAlertSelectYear,
-      String SeiyuAlertSelectDate,
-      String ShintakuAlertSelectShintaku,
       int SpendSummaryAlertSelectYear,
       int SpendYearlyAlertSelectYear,
-      String StockAlertSelectStock,
       int TrainAlertSelectYear});
 }
 
@@ -80,17 +63,10 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
     Object? AmazonAlertSelectYear = null,
     Object? CreditCompanyAlertSelectYear = null,
     Object? CreditSummaryAlertSelectYear = null,
-    Object? CreditYearlyDetailAlertSelectMonth = null,
     Object? DutyAlertSelectYear = null,
     Object? HomeFixAlertSelectYear = null,
-    Object? MoneyScoreGraphAlertGraphWidth = null,
-    Object? MoneySpendGraphAlertGraphWidth = null,
-    Object? SeiyuAlertSelectYear = null,
-    Object? SeiyuAlertSelectDate = null,
-    Object? ShintakuAlertSelectShintaku = null,
     Object? SpendSummaryAlertSelectYear = null,
     Object? SpendYearlyAlertSelectYear = null,
-    Object? StockAlertSelectStock = null,
     Object? TrainAlertSelectYear = null,
   }) {
     return _then(_value.copyWith(
@@ -106,11 +82,6 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
           ? _value.CreditSummaryAlertSelectYear
           : CreditSummaryAlertSelectYear // ignore: cast_nullable_to_non_nullable
               as int,
-      CreditYearlyDetailAlertSelectMonth: null ==
-              CreditYearlyDetailAlertSelectMonth
-          ? _value.CreditYearlyDetailAlertSelectMonth
-          : CreditYearlyDetailAlertSelectMonth // ignore: cast_nullable_to_non_nullable
-              as String,
       DutyAlertSelectYear: null == DutyAlertSelectYear
           ? _value.DutyAlertSelectYear
           : DutyAlertSelectYear // ignore: cast_nullable_to_non_nullable
@@ -119,26 +90,6 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
           ? _value.HomeFixAlertSelectYear
           : HomeFixAlertSelectYear // ignore: cast_nullable_to_non_nullable
               as int,
-      MoneyScoreGraphAlertGraphWidth: null == MoneyScoreGraphAlertGraphWidth
-          ? _value.MoneyScoreGraphAlertGraphWidth
-          : MoneyScoreGraphAlertGraphWidth // ignore: cast_nullable_to_non_nullable
-              as double,
-      MoneySpendGraphAlertGraphWidth: null == MoneySpendGraphAlertGraphWidth
-          ? _value.MoneySpendGraphAlertGraphWidth
-          : MoneySpendGraphAlertGraphWidth // ignore: cast_nullable_to_non_nullable
-              as double,
-      SeiyuAlertSelectYear: null == SeiyuAlertSelectYear
-          ? _value.SeiyuAlertSelectYear
-          : SeiyuAlertSelectYear // ignore: cast_nullable_to_non_nullable
-              as int,
-      SeiyuAlertSelectDate: null == SeiyuAlertSelectDate
-          ? _value.SeiyuAlertSelectDate
-          : SeiyuAlertSelectDate // ignore: cast_nullable_to_non_nullable
-              as String,
-      ShintakuAlertSelectShintaku: null == ShintakuAlertSelectShintaku
-          ? _value.ShintakuAlertSelectShintaku
-          : ShintakuAlertSelectShintaku // ignore: cast_nullable_to_non_nullable
-              as String,
       SpendSummaryAlertSelectYear: null == SpendSummaryAlertSelectYear
           ? _value.SpendSummaryAlertSelectYear
           : SpendSummaryAlertSelectYear // ignore: cast_nullable_to_non_nullable
@@ -147,10 +98,6 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
           ? _value.SpendYearlyAlertSelectYear
           : SpendYearlyAlertSelectYear // ignore: cast_nullable_to_non_nullable
               as int,
-      StockAlertSelectStock: null == StockAlertSelectStock
-          ? _value.StockAlertSelectStock
-          : StockAlertSelectStock // ignore: cast_nullable_to_non_nullable
-              as String,
       TrainAlertSelectYear: null == TrainAlertSelectYear
           ? _value.TrainAlertSelectYear
           : TrainAlertSelectYear // ignore: cast_nullable_to_non_nullable
@@ -171,17 +118,10 @@ abstract class _$$_AppParamStateCopyWith<$Res>
       {int AmazonAlertSelectYear,
       int CreditCompanyAlertSelectYear,
       int CreditSummaryAlertSelectYear,
-      String CreditYearlyDetailAlertSelectMonth,
       int DutyAlertSelectYear,
       int HomeFixAlertSelectYear,
-      double MoneyScoreGraphAlertGraphWidth,
-      double MoneySpendGraphAlertGraphWidth,
-      int SeiyuAlertSelectYear,
-      String SeiyuAlertSelectDate,
-      String ShintakuAlertSelectShintaku,
       int SpendSummaryAlertSelectYear,
       int SpendYearlyAlertSelectYear,
-      String StockAlertSelectStock,
       int TrainAlertSelectYear});
 }
 
@@ -199,17 +139,10 @@ class __$$_AppParamStateCopyWithImpl<$Res>
     Object? AmazonAlertSelectYear = null,
     Object? CreditCompanyAlertSelectYear = null,
     Object? CreditSummaryAlertSelectYear = null,
-    Object? CreditYearlyDetailAlertSelectMonth = null,
     Object? DutyAlertSelectYear = null,
     Object? HomeFixAlertSelectYear = null,
-    Object? MoneyScoreGraphAlertGraphWidth = null,
-    Object? MoneySpendGraphAlertGraphWidth = null,
-    Object? SeiyuAlertSelectYear = null,
-    Object? SeiyuAlertSelectDate = null,
-    Object? ShintakuAlertSelectShintaku = null,
     Object? SpendSummaryAlertSelectYear = null,
     Object? SpendYearlyAlertSelectYear = null,
-    Object? StockAlertSelectStock = null,
     Object? TrainAlertSelectYear = null,
   }) {
     return _then(_$_AppParamState(
@@ -225,11 +158,6 @@ class __$$_AppParamStateCopyWithImpl<$Res>
           ? _value.CreditSummaryAlertSelectYear
           : CreditSummaryAlertSelectYear // ignore: cast_nullable_to_non_nullable
               as int,
-      CreditYearlyDetailAlertSelectMonth: null ==
-              CreditYearlyDetailAlertSelectMonth
-          ? _value.CreditYearlyDetailAlertSelectMonth
-          : CreditYearlyDetailAlertSelectMonth // ignore: cast_nullable_to_non_nullable
-              as String,
       DutyAlertSelectYear: null == DutyAlertSelectYear
           ? _value.DutyAlertSelectYear
           : DutyAlertSelectYear // ignore: cast_nullable_to_non_nullable
@@ -238,26 +166,6 @@ class __$$_AppParamStateCopyWithImpl<$Res>
           ? _value.HomeFixAlertSelectYear
           : HomeFixAlertSelectYear // ignore: cast_nullable_to_non_nullable
               as int,
-      MoneyScoreGraphAlertGraphWidth: null == MoneyScoreGraphAlertGraphWidth
-          ? _value.MoneyScoreGraphAlertGraphWidth
-          : MoneyScoreGraphAlertGraphWidth // ignore: cast_nullable_to_non_nullable
-              as double,
-      MoneySpendGraphAlertGraphWidth: null == MoneySpendGraphAlertGraphWidth
-          ? _value.MoneySpendGraphAlertGraphWidth
-          : MoneySpendGraphAlertGraphWidth // ignore: cast_nullable_to_non_nullable
-              as double,
-      SeiyuAlertSelectYear: null == SeiyuAlertSelectYear
-          ? _value.SeiyuAlertSelectYear
-          : SeiyuAlertSelectYear // ignore: cast_nullable_to_non_nullable
-              as int,
-      SeiyuAlertSelectDate: null == SeiyuAlertSelectDate
-          ? _value.SeiyuAlertSelectDate
-          : SeiyuAlertSelectDate // ignore: cast_nullable_to_non_nullable
-              as String,
-      ShintakuAlertSelectShintaku: null == ShintakuAlertSelectShintaku
-          ? _value.ShintakuAlertSelectShintaku
-          : ShintakuAlertSelectShintaku // ignore: cast_nullable_to_non_nullable
-              as String,
       SpendSummaryAlertSelectYear: null == SpendSummaryAlertSelectYear
           ? _value.SpendSummaryAlertSelectYear
           : SpendSummaryAlertSelectYear // ignore: cast_nullable_to_non_nullable
@@ -266,10 +174,6 @@ class __$$_AppParamStateCopyWithImpl<$Res>
           ? _value.SpendYearlyAlertSelectYear
           : SpendYearlyAlertSelectYear // ignore: cast_nullable_to_non_nullable
               as int,
-      StockAlertSelectStock: null == StockAlertSelectStock
-          ? _value.StockAlertSelectStock
-          : StockAlertSelectStock // ignore: cast_nullable_to_non_nullable
-              as String,
       TrainAlertSelectYear: null == TrainAlertSelectYear
           ? _value.TrainAlertSelectYear
           : TrainAlertSelectYear // ignore: cast_nullable_to_non_nullable
@@ -285,17 +189,10 @@ class _$_AppParamState implements _AppParamState {
       {required this.AmazonAlertSelectYear,
       required this.CreditCompanyAlertSelectYear,
       required this.CreditSummaryAlertSelectYear,
-      required this.CreditYearlyDetailAlertSelectMonth,
       required this.DutyAlertSelectYear,
       required this.HomeFixAlertSelectYear,
-      required this.MoneyScoreGraphAlertGraphWidth,
-      required this.MoneySpendGraphAlertGraphWidth,
-      required this.SeiyuAlertSelectYear,
-      required this.SeiyuAlertSelectDate,
-      required this.ShintakuAlertSelectShintaku,
       required this.SpendSummaryAlertSelectYear,
       required this.SpendYearlyAlertSelectYear,
-      required this.StockAlertSelectStock,
       required this.TrainAlertSelectYear});
 
   @override
@@ -305,33 +202,19 @@ class _$_AppParamState implements _AppParamState {
   @override
   final int CreditSummaryAlertSelectYear;
   @override
-  final String CreditYearlyDetailAlertSelectMonth;
-  @override
   final int DutyAlertSelectYear;
   @override
   final int HomeFixAlertSelectYear;
-  @override
-  final double MoneyScoreGraphAlertGraphWidth;
-  @override
-  final double MoneySpendGraphAlertGraphWidth;
-  @override
-  final int SeiyuAlertSelectYear;
-  @override
-  final String SeiyuAlertSelectDate;
-  @override
-  final String ShintakuAlertSelectShintaku;
   @override
   final int SpendSummaryAlertSelectYear;
   @override
   final int SpendYearlyAlertSelectYear;
   @override
-  final String StockAlertSelectStock;
-  @override
   final int TrainAlertSelectYear;
 
   @override
   String toString() {
-    return 'AppParamState(AmazonAlertSelectYear: $AmazonAlertSelectYear, CreditCompanyAlertSelectYear: $CreditCompanyAlertSelectYear, CreditSummaryAlertSelectYear: $CreditSummaryAlertSelectYear, CreditYearlyDetailAlertSelectMonth: $CreditYearlyDetailAlertSelectMonth, DutyAlertSelectYear: $DutyAlertSelectYear, HomeFixAlertSelectYear: $HomeFixAlertSelectYear, MoneyScoreGraphAlertGraphWidth: $MoneyScoreGraphAlertGraphWidth, MoneySpendGraphAlertGraphWidth: $MoneySpendGraphAlertGraphWidth, SeiyuAlertSelectYear: $SeiyuAlertSelectYear, SeiyuAlertSelectDate: $SeiyuAlertSelectDate, ShintakuAlertSelectShintaku: $ShintakuAlertSelectShintaku, SpendSummaryAlertSelectYear: $SpendSummaryAlertSelectYear, SpendYearlyAlertSelectYear: $SpendYearlyAlertSelectYear, StockAlertSelectStock: $StockAlertSelectStock, TrainAlertSelectYear: $TrainAlertSelectYear)';
+    return 'AppParamState(AmazonAlertSelectYear: $AmazonAlertSelectYear, CreditCompanyAlertSelectYear: $CreditCompanyAlertSelectYear, CreditSummaryAlertSelectYear: $CreditSummaryAlertSelectYear, DutyAlertSelectYear: $DutyAlertSelectYear, HomeFixAlertSelectYear: $HomeFixAlertSelectYear, SpendSummaryAlertSelectYear: $SpendSummaryAlertSelectYear, SpendYearlyAlertSelectYear: $SpendYearlyAlertSelectYear, TrainAlertSelectYear: $TrainAlertSelectYear)';
   }
 
   @override
@@ -341,41 +224,26 @@ class _$_AppParamState implements _AppParamState {
             other is _$_AppParamState &&
             (identical(other.AmazonAlertSelectYear, AmazonAlertSelectYear) ||
                 other.AmazonAlertSelectYear == AmazonAlertSelectYear) &&
-            (identical(other.CreditCompanyAlertSelectYear, CreditCompanyAlertSelectYear) ||
+            (identical(other.CreditCompanyAlertSelectYear,
+                    CreditCompanyAlertSelectYear) ||
                 other.CreditCompanyAlertSelectYear ==
                     CreditCompanyAlertSelectYear) &&
-            (identical(other.CreditSummaryAlertSelectYear, CreditSummaryAlertSelectYear) ||
+            (identical(other.CreditSummaryAlertSelectYear,
+                    CreditSummaryAlertSelectYear) ||
                 other.CreditSummaryAlertSelectYear ==
                     CreditSummaryAlertSelectYear) &&
-            (identical(other.CreditYearlyDetailAlertSelectMonth,
-                    CreditYearlyDetailAlertSelectMonth) ||
-                other.CreditYearlyDetailAlertSelectMonth ==
-                    CreditYearlyDetailAlertSelectMonth) &&
             (identical(other.DutyAlertSelectYear, DutyAlertSelectYear) ||
                 other.DutyAlertSelectYear == DutyAlertSelectYear) &&
             (identical(other.HomeFixAlertSelectYear, HomeFixAlertSelectYear) ||
                 other.HomeFixAlertSelectYear == HomeFixAlertSelectYear) &&
-            (identical(other.MoneyScoreGraphAlertGraphWidth, MoneyScoreGraphAlertGraphWidth) ||
-                other.MoneyScoreGraphAlertGraphWidth ==
-                    MoneyScoreGraphAlertGraphWidth) &&
-            (identical(other.MoneySpendGraphAlertGraphWidth, MoneySpendGraphAlertGraphWidth) ||
-                other.MoneySpendGraphAlertGraphWidth ==
-                    MoneySpendGraphAlertGraphWidth) &&
-            (identical(other.SeiyuAlertSelectYear, SeiyuAlertSelectYear) ||
-                other.SeiyuAlertSelectYear == SeiyuAlertSelectYear) &&
-            (identical(other.SeiyuAlertSelectDate, SeiyuAlertSelectDate) ||
-                other.SeiyuAlertSelectDate == SeiyuAlertSelectDate) &&
-            (identical(other.ShintakuAlertSelectShintaku, ShintakuAlertSelectShintaku) ||
-                other.ShintakuAlertSelectShintaku ==
-                    ShintakuAlertSelectShintaku) &&
-            (identical(other.SpendSummaryAlertSelectYear, SpendSummaryAlertSelectYear) ||
+            (identical(other.SpendSummaryAlertSelectYear,
+                    SpendSummaryAlertSelectYear) ||
                 other.SpendSummaryAlertSelectYear ==
                     SpendSummaryAlertSelectYear) &&
-            (identical(other.SpendYearlyAlertSelectYear, SpendYearlyAlertSelectYear) ||
+            (identical(other.SpendYearlyAlertSelectYear,
+                    SpendYearlyAlertSelectYear) ||
                 other.SpendYearlyAlertSelectYear ==
                     SpendYearlyAlertSelectYear) &&
-            (identical(other.StockAlertSelectStock, StockAlertSelectStock) ||
-                other.StockAlertSelectStock == StockAlertSelectStock) &&
             (identical(other.TrainAlertSelectYear, TrainAlertSelectYear) ||
                 other.TrainAlertSelectYear == TrainAlertSelectYear));
   }
@@ -386,17 +254,10 @@ class _$_AppParamState implements _AppParamState {
       AmazonAlertSelectYear,
       CreditCompanyAlertSelectYear,
       CreditSummaryAlertSelectYear,
-      CreditYearlyDetailAlertSelectMonth,
       DutyAlertSelectYear,
       HomeFixAlertSelectYear,
-      MoneyScoreGraphAlertGraphWidth,
-      MoneySpendGraphAlertGraphWidth,
-      SeiyuAlertSelectYear,
-      SeiyuAlertSelectDate,
-      ShintakuAlertSelectShintaku,
       SpendSummaryAlertSelectYear,
       SpendYearlyAlertSelectYear,
-      StockAlertSelectStock,
       TrainAlertSelectYear);
 
   @JsonKey(ignore: true)
@@ -411,17 +272,10 @@ abstract class _AppParamState implements AppParamState {
       {required final int AmazonAlertSelectYear,
       required final int CreditCompanyAlertSelectYear,
       required final int CreditSummaryAlertSelectYear,
-      required final String CreditYearlyDetailAlertSelectMonth,
       required final int DutyAlertSelectYear,
       required final int HomeFixAlertSelectYear,
-      required final double MoneyScoreGraphAlertGraphWidth,
-      required final double MoneySpendGraphAlertGraphWidth,
-      required final int SeiyuAlertSelectYear,
-      required final String SeiyuAlertSelectDate,
-      required final String ShintakuAlertSelectShintaku,
       required final int SpendSummaryAlertSelectYear,
       required final int SpendYearlyAlertSelectYear,
-      required final String StockAlertSelectStock,
       required final int TrainAlertSelectYear}) = _$_AppParamState;
 
   @override
@@ -431,27 +285,13 @@ abstract class _AppParamState implements AppParamState {
   @override
   int get CreditSummaryAlertSelectYear;
   @override
-  String get CreditYearlyDetailAlertSelectMonth;
-  @override
   int get DutyAlertSelectYear;
   @override
   int get HomeFixAlertSelectYear;
   @override
-  double get MoneyScoreGraphAlertGraphWidth;
-  @override
-  double get MoneySpendGraphAlertGraphWidth;
-  @override
-  int get SeiyuAlertSelectYear;
-  @override
-  String get SeiyuAlertSelectDate;
-  @override
-  String get ShintakuAlertSelectShintaku;
-  @override
   int get SpendSummaryAlertSelectYear;
   @override
   int get SpendYearlyAlertSelectYear;
-  @override
-  String get StockAlertSelectStock;
   @override
   int get TrainAlertSelectYear;
   @override

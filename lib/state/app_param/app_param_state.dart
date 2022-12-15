@@ -10,17 +10,10 @@ class AppParamState with _$AppParamState {
     required int AmazonAlertSelectYear,
     required int CreditCompanyAlertSelectYear,
     required int CreditSummaryAlertSelectYear,
-    required String CreditYearlyDetailAlertSelectMonth,
     required int DutyAlertSelectYear,
     required int HomeFixAlertSelectYear,
-    required double MoneyScoreGraphAlertGraphWidth,
-    required double MoneySpendGraphAlertGraphWidth,
-    required int SeiyuAlertSelectYear,
-    required String SeiyuAlertSelectDate,
-    required String ShintakuAlertSelectShintaku,
     required int SpendSummaryAlertSelectYear,
     required int SpendYearlyAlertSelectYear,
-    required String StockAlertSelectStock,
     required int TrainAlertSelectYear,
   }) = _AppParamState;
 }
