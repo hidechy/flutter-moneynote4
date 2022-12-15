@@ -186,5 +186,3 @@ class SelectYearStateNotifier extends StateNotifier<String> {
     state = selectYear;
   }
 }
-
-////////////////////////////////////////////////

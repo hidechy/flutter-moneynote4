@@ -284,6 +284,7 @@ class MoneyScoreGraphAlert extends ConsumerWidget {
   }
 }
 
+///
 ////////////////////////////////////////////////////////////
 final graphWidthProvider =
     StateNotifierProvider.autoDispose<GraphWidthStateNotifier, double>((ref) {

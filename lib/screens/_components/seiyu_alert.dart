@@ -268,8 +268,6 @@ class SelectYearStateNotifier extends StateNotifier<String> {
 
 ////////////////////////////////////////////////
 
-////////////////////////////////////////////////
-
 final selectDateProvider =
     StateNotifierProvider.autoDispose<SelectDateStateNotifier, String>((ref) {
   return SelectDateStateNotifier();
@@ -283,5 +281,3 @@ class SelectDateStateNotifier extends StateNotifier<String> {
     state = selectDate;
   }
 }
-
-////////////////////////////////////////////////

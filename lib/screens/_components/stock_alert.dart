@@ -202,6 +202,7 @@ class StockAlert extends ConsumerWidget {
   }
 }
 
+///
 ////////////////////////////////////////////////
 
 final selectStockProvider =

@@ -247,5 +247,3 @@ class SelectMonthStateNotifier extends StateNotifier<String> {
     state = selectMonth;
   }
 }
-
-////////////////////////////////////////////////

@@ -203,6 +203,7 @@ class ShintakuAlert extends ConsumerWidget {
   }
 }
 
+///
 ////////////////////////////////////////////////
 
 final selectShintakuProvider =

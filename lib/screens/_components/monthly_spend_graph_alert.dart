@@ -265,6 +265,7 @@ class MonthlySpendGraphAlert extends ConsumerWidget {
   }
 }
 
+///
 ////////////////////////////////////////////////////////////
 final graphWidthProvider =
     StateNotifierProvider.autoDispose<GraphWidthStateNotifier, double>((ref) {
