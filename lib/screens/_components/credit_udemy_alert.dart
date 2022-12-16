@@ -10,6 +10,7 @@ import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/credit_notifier.dart';
 import '../../viewmodel/udemy_notifier.dart';
+import '_parts/udemy_box.dart';
 
 class CreditUdemyAlert extends ConsumerWidget {
   CreditUdemyAlert({super.key, required this.date, required this.price});
@@ -19,13 +20,11 @@ class CreditUdemyAlert extends ConsumerWidget {
 
   final Utility _utility = Utility();
 
-  late BuildContext _context;
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    _context = context;
     _ref = ref;
 
     final deviceInfoState = ref.read(deviceInfoProvider);
@@ -101,7 +100,7 @@ class CreditUdemyAlert extends ConsumerWidget {
 
   ///
   Widget displayUdemy() {
-    final udemyState = _ref.watch(udemyProvider(date));
+    final udemyState = _ref.watch(udemyProvider);
 
     final creditUdemyState = _ref.watch(creditUdemyProvider(date));
 
@@ -112,43 +111,7 @@ class CreditUdemyAlert extends ConsumerWidget {
 
     final list = <Widget>[];
     for (var i = 0; i < udemyList.length; i++) {
-      list.add(
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 3),
-          width: _context.screenSize.width,
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.white.withOpacity(0.3),
-              ),
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(udemyList[i].date),
-                  Text(udemyList[i].category),
-                ],
-              ),
-              Text(udemyList[i].title),
-              Container(
-                alignment: Alignment.topRight,
-                child: Text(udemyList[i].price.toCurrency()),
-              ),
-              Container(
-                alignment: Alignment.topRight,
-                child: Text(
-                  udemyList[i].pay,
-                  style: const TextStyle(color: Colors.grey),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
+      list.add(UdemyBox(udemy: udemyList[i]));
     }
 
     return SingleChildScrollView(

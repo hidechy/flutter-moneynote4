@@ -10,8 +10,8 @@ import '../utility/utility.dart';
 
 ////////////////////////////////////////////////
 
-final udemyProvider = StateNotifierProvider.autoDispose
-    .family<UdemyNotifier, List<Udemy>, DateTime>((ref, date) {
+final udemyProvider =
+    StateNotifierProvider.autoDispose<UdemyNotifier, List<Udemy>>((ref) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
@@ -37,6 +37,55 @@ class UdemyNotifier extends StateNotifier<List<Udemy>> {
       }
 
       state = list;
+    });
+  }
+
+  ///
+  Future<void> getYearUdemy({required int year}) async {
+    await client.post(path: APIPath.getUdemyData).then((value) {
+      final list = <Udemy>[];
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        list.add(
+          Udemy.fromJson(value['data'][i] as Map<String, dynamic>),
+        );
+      }
+
+      final list2 = <Udemy>[];
+
+      for (var i = 0; i < list.length; i++) {
+        if ('${list[i].date} 00:00:00'.toDateTime().yyyy.toInt() == year) {
+          list2.add(list[i]);
+        }
+      }
+
+      state = list2;
+    });
+  }
+
+  ///
+  Future<void> getYearCategoryUdemy(
+      {required int year, required String category}) async {
+    await client.post(path: APIPath.getUdemyData).then((value) {
+      final list = <Udemy>[];
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        list.add(
+          Udemy.fromJson(value['data'][i] as Map<String, dynamic>),
+        );
+      }
+
+      final list2 = <Udemy>[];
+
+      for (var i = 0; i < list.length; i++) {
+        if ('${list[i].date} 00:00:00'.toDateTime().yyyy.toInt() == year) {
+          if (list[i].category == category) {
+            list2.add(list[i]);
+          }
+        }
+      }
+
+      state = list2;
     });
   }
 }

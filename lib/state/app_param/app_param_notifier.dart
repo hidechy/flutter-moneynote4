@@ -14,11 +14,14 @@ final appParamProvider =
       AmazonAlertSelectYear: year.toInt(),
       CreditCompanyAlertSelectYear: year.toInt(),
       CreditSummaryAlertSelectYear: year.toInt(),
+      CreditYearlyDetailAlertSelectMonth: 1,
       DutyAlertSelectYear: year.toInt(),
       HomeFixAlertSelectYear: year.toInt(),
       SpendSummaryAlertSelectYear: year.toInt(),
       SpendYearlyAlertSelectYear: year.toInt(),
       TrainAlertSelectYear: year.toInt(),
+      UdemyAlertSelectYear: 0,
+      UdemyAlertSelectCategory: '',
     ),
   );
 });
@@ -35,6 +38,10 @@ class AppParamNotifier extends StateNotifier<AppParamState> {
   Future<void> setCreditSummaryAlertSelectYear({required int year}) async =>
       state = state.copyWith(CreditSummaryAlertSelectYear: year);
 
+  Future<void> setCreditYearlyDetailAlertSelectMonth(
+          {required int month}) async =>
+      state = state.copyWith(CreditYearlyDetailAlertSelectMonth: month);
+
   Future<void> setDutyAlertSelectYear({required int year}) async =>
       state = state.copyWith(DutyAlertSelectYear: year);
 
@@ -49,6 +56,12 @@ class AppParamNotifier extends StateNotifier<AppParamState> {
 
   Future<void> setTrainAlertSelectYear({required int year}) async =>
       state = state.copyWith(TrainAlertSelectYear: year);
+
+  Future<void> setUdemyAlertSelectYear({required int year}) async =>
+      state = state.copyWith(UdemyAlertSelectYear: year);
+
+  Future<void> setUdemyAlertSelectCategory({required String category}) async =>
+      state = state.copyWith(UdemyAlertSelectCategory: category);
 }
 
 ////////////////////////////////////////////////

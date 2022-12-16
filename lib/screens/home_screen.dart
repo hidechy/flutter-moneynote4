@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/udemy_alert.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../extensions/extensions.dart';
@@ -606,6 +607,23 @@ class HomeScreen extends ConsumerWidget {
       ),
     );
 
+    list.add(
+      IconButton(
+        onPressed: () {
+          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
+                menuFlag: 'udemy',
+                menuName: 'UDEMY',
+              );
+        },
+        icon: Icon(
+          FontAwesomeIcons.u,
+          color: (homeMenuState.menuFlag == 'udemy')
+              ? Colors.lightBlueAccent
+              : Colors.white,
+        ),
+      ),
+    );
+
     return SingleChildScrollView(
       child: Column(
         children: list,
@@ -706,6 +724,13 @@ class HomeScreen extends ConsumerWidget {
         MoneyDialog(
           context: _context,
           widget: MercariAlert(date: focusDayState),
+        );
+        break;
+
+      case 'udemy':
+        MoneyDialog(
+          context: _context,
+          widget: UdemyAlert(date: focusDayState),
         );
         break;
     }

@@ -19,11 +19,15 @@ mixin _$AppParamState {
   int get AmazonAlertSelectYear => throw _privateConstructorUsedError;
   int get CreditCompanyAlertSelectYear => throw _privateConstructorUsedError;
   int get CreditSummaryAlertSelectYear => throw _privateConstructorUsedError;
+  int get CreditYearlyDetailAlertSelectMonth =>
+      throw _privateConstructorUsedError;
   int get DutyAlertSelectYear => throw _privateConstructorUsedError;
   int get HomeFixAlertSelectYear => throw _privateConstructorUsedError;
   int get SpendSummaryAlertSelectYear => throw _privateConstructorUsedError;
   int get SpendYearlyAlertSelectYear => throw _privateConstructorUsedError;
   int get TrainAlertSelectYear => throw _privateConstructorUsedError;
+  int get UdemyAlertSelectYear => throw _privateConstructorUsedError;
+  String get UdemyAlertSelectCategory => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AppParamStateCopyWith<AppParamState> get copyWith =>
@@ -40,11 +44,14 @@ abstract class $AppParamStateCopyWith<$Res> {
       {int AmazonAlertSelectYear,
       int CreditCompanyAlertSelectYear,
       int CreditSummaryAlertSelectYear,
+      int CreditYearlyDetailAlertSelectMonth,
       int DutyAlertSelectYear,
       int HomeFixAlertSelectYear,
       int SpendSummaryAlertSelectYear,
       int SpendYearlyAlertSelectYear,
-      int TrainAlertSelectYear});
+      int TrainAlertSelectYear,
+      int UdemyAlertSelectYear,
+      String UdemyAlertSelectCategory});
 }
 
 /// @nodoc
@@ -63,11 +70,14 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
     Object? AmazonAlertSelectYear = null,
     Object? CreditCompanyAlertSelectYear = null,
     Object? CreditSummaryAlertSelectYear = null,
+    Object? CreditYearlyDetailAlertSelectMonth = null,
     Object? DutyAlertSelectYear = null,
     Object? HomeFixAlertSelectYear = null,
     Object? SpendSummaryAlertSelectYear = null,
     Object? SpendYearlyAlertSelectYear = null,
     Object? TrainAlertSelectYear = null,
+    Object? UdemyAlertSelectYear = null,
+    Object? UdemyAlertSelectCategory = null,
   }) {
     return _then(_value.copyWith(
       AmazonAlertSelectYear: null == AmazonAlertSelectYear
@@ -81,6 +91,11 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
       CreditSummaryAlertSelectYear: null == CreditSummaryAlertSelectYear
           ? _value.CreditSummaryAlertSelectYear
           : CreditSummaryAlertSelectYear // ignore: cast_nullable_to_non_nullable
+              as int,
+      CreditYearlyDetailAlertSelectMonth: null ==
+              CreditYearlyDetailAlertSelectMonth
+          ? _value.CreditYearlyDetailAlertSelectMonth
+          : CreditYearlyDetailAlertSelectMonth // ignore: cast_nullable_to_non_nullable
               as int,
       DutyAlertSelectYear: null == DutyAlertSelectYear
           ? _value.DutyAlertSelectYear
@@ -102,6 +117,14 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
           ? _value.TrainAlertSelectYear
           : TrainAlertSelectYear // ignore: cast_nullable_to_non_nullable
               as int,
+      UdemyAlertSelectYear: null == UdemyAlertSelectYear
+          ? _value.UdemyAlertSelectYear
+          : UdemyAlertSelectYear // ignore: cast_nullable_to_non_nullable
+              as int,
+      UdemyAlertSelectCategory: null == UdemyAlertSelectCategory
+          ? _value.UdemyAlertSelectCategory
+          : UdemyAlertSelectCategory // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -118,11 +141,14 @@ abstract class _$$_AppParamStateCopyWith<$Res>
       {int AmazonAlertSelectYear,
       int CreditCompanyAlertSelectYear,
       int CreditSummaryAlertSelectYear,
+      int CreditYearlyDetailAlertSelectMonth,
       int DutyAlertSelectYear,
       int HomeFixAlertSelectYear,
       int SpendSummaryAlertSelectYear,
       int SpendYearlyAlertSelectYear,
-      int TrainAlertSelectYear});
+      int TrainAlertSelectYear,
+      int UdemyAlertSelectYear,
+      String UdemyAlertSelectCategory});
 }
 
 /// @nodoc
@@ -139,11 +165,14 @@ class __$$_AppParamStateCopyWithImpl<$Res>
     Object? AmazonAlertSelectYear = null,
     Object? CreditCompanyAlertSelectYear = null,
     Object? CreditSummaryAlertSelectYear = null,
+    Object? CreditYearlyDetailAlertSelectMonth = null,
     Object? DutyAlertSelectYear = null,
     Object? HomeFixAlertSelectYear = null,
     Object? SpendSummaryAlertSelectYear = null,
     Object? SpendYearlyAlertSelectYear = null,
     Object? TrainAlertSelectYear = null,
+    Object? UdemyAlertSelectYear = null,
+    Object? UdemyAlertSelectCategory = null,
   }) {
     return _then(_$_AppParamState(
       AmazonAlertSelectYear: null == AmazonAlertSelectYear
@@ -157,6 +186,11 @@ class __$$_AppParamStateCopyWithImpl<$Res>
       CreditSummaryAlertSelectYear: null == CreditSummaryAlertSelectYear
           ? _value.CreditSummaryAlertSelectYear
           : CreditSummaryAlertSelectYear // ignore: cast_nullable_to_non_nullable
+              as int,
+      CreditYearlyDetailAlertSelectMonth: null ==
+              CreditYearlyDetailAlertSelectMonth
+          ? _value.CreditYearlyDetailAlertSelectMonth
+          : CreditYearlyDetailAlertSelectMonth // ignore: cast_nullable_to_non_nullable
               as int,
       DutyAlertSelectYear: null == DutyAlertSelectYear
           ? _value.DutyAlertSelectYear
@@ -178,6 +212,14 @@ class __$$_AppParamStateCopyWithImpl<$Res>
           ? _value.TrainAlertSelectYear
           : TrainAlertSelectYear // ignore: cast_nullable_to_non_nullable
               as int,
+      UdemyAlertSelectYear: null == UdemyAlertSelectYear
+          ? _value.UdemyAlertSelectYear
+          : UdemyAlertSelectYear // ignore: cast_nullable_to_non_nullable
+              as int,
+      UdemyAlertSelectCategory: null == UdemyAlertSelectCategory
+          ? _value.UdemyAlertSelectCategory
+          : UdemyAlertSelectCategory // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -189,11 +231,14 @@ class _$_AppParamState implements _AppParamState {
       {required this.AmazonAlertSelectYear,
       required this.CreditCompanyAlertSelectYear,
       required this.CreditSummaryAlertSelectYear,
+      required this.CreditYearlyDetailAlertSelectMonth,
       required this.DutyAlertSelectYear,
       required this.HomeFixAlertSelectYear,
       required this.SpendSummaryAlertSelectYear,
       required this.SpendYearlyAlertSelectYear,
-      required this.TrainAlertSelectYear});
+      required this.TrainAlertSelectYear,
+      required this.UdemyAlertSelectYear,
+      required this.UdemyAlertSelectCategory});
 
   @override
   final int AmazonAlertSelectYear;
@@ -201,6 +246,8 @@ class _$_AppParamState implements _AppParamState {
   final int CreditCompanyAlertSelectYear;
   @override
   final int CreditSummaryAlertSelectYear;
+  @override
+  final int CreditYearlyDetailAlertSelectMonth;
   @override
   final int DutyAlertSelectYear;
   @override
@@ -211,10 +258,14 @@ class _$_AppParamState implements _AppParamState {
   final int SpendYearlyAlertSelectYear;
   @override
   final int TrainAlertSelectYear;
+  @override
+  final int UdemyAlertSelectYear;
+  @override
+  final String UdemyAlertSelectCategory;
 
   @override
   String toString() {
-    return 'AppParamState(AmazonAlertSelectYear: $AmazonAlertSelectYear, CreditCompanyAlertSelectYear: $CreditCompanyAlertSelectYear, CreditSummaryAlertSelectYear: $CreditSummaryAlertSelectYear, DutyAlertSelectYear: $DutyAlertSelectYear, HomeFixAlertSelectYear: $HomeFixAlertSelectYear, SpendSummaryAlertSelectYear: $SpendSummaryAlertSelectYear, SpendYearlyAlertSelectYear: $SpendYearlyAlertSelectYear, TrainAlertSelectYear: $TrainAlertSelectYear)';
+    return 'AppParamState(AmazonAlertSelectYear: $AmazonAlertSelectYear, CreditCompanyAlertSelectYear: $CreditCompanyAlertSelectYear, CreditSummaryAlertSelectYear: $CreditSummaryAlertSelectYear, CreditYearlyDetailAlertSelectMonth: $CreditYearlyDetailAlertSelectMonth, DutyAlertSelectYear: $DutyAlertSelectYear, HomeFixAlertSelectYear: $HomeFixAlertSelectYear, SpendSummaryAlertSelectYear: $SpendSummaryAlertSelectYear, SpendYearlyAlertSelectYear: $SpendYearlyAlertSelectYear, TrainAlertSelectYear: $TrainAlertSelectYear, UdemyAlertSelectYear: $UdemyAlertSelectYear, UdemyAlertSelectCategory: $UdemyAlertSelectCategory)';
   }
 
   @override
@@ -232,6 +283,10 @@ class _$_AppParamState implements _AppParamState {
                     CreditSummaryAlertSelectYear) ||
                 other.CreditSummaryAlertSelectYear ==
                     CreditSummaryAlertSelectYear) &&
+            (identical(other.CreditYearlyDetailAlertSelectMonth,
+                    CreditYearlyDetailAlertSelectMonth) ||
+                other.CreditYearlyDetailAlertSelectMonth ==
+                    CreditYearlyDetailAlertSelectMonth) &&
             (identical(other.DutyAlertSelectYear, DutyAlertSelectYear) ||
                 other.DutyAlertSelectYear == DutyAlertSelectYear) &&
             (identical(other.HomeFixAlertSelectYear, HomeFixAlertSelectYear) ||
@@ -240,12 +295,15 @@ class _$_AppParamState implements _AppParamState {
                     SpendSummaryAlertSelectYear) ||
                 other.SpendSummaryAlertSelectYear ==
                     SpendSummaryAlertSelectYear) &&
-            (identical(other.SpendYearlyAlertSelectYear,
-                    SpendYearlyAlertSelectYear) ||
+            (identical(other.SpendYearlyAlertSelectYear, SpendYearlyAlertSelectYear) ||
                 other.SpendYearlyAlertSelectYear ==
                     SpendYearlyAlertSelectYear) &&
             (identical(other.TrainAlertSelectYear, TrainAlertSelectYear) ||
-                other.TrainAlertSelectYear == TrainAlertSelectYear));
+                other.TrainAlertSelectYear == TrainAlertSelectYear) &&
+            (identical(other.UdemyAlertSelectYear, UdemyAlertSelectYear) ||
+                other.UdemyAlertSelectYear == UdemyAlertSelectYear) &&
+            (identical(other.UdemyAlertSelectCategory, UdemyAlertSelectCategory) ||
+                other.UdemyAlertSelectCategory == UdemyAlertSelectCategory));
   }
 
   @override
@@ -254,11 +312,14 @@ class _$_AppParamState implements _AppParamState {
       AmazonAlertSelectYear,
       CreditCompanyAlertSelectYear,
       CreditSummaryAlertSelectYear,
+      CreditYearlyDetailAlertSelectMonth,
       DutyAlertSelectYear,
       HomeFixAlertSelectYear,
       SpendSummaryAlertSelectYear,
       SpendYearlyAlertSelectYear,
-      TrainAlertSelectYear);
+      TrainAlertSelectYear,
+      UdemyAlertSelectYear,
+      UdemyAlertSelectCategory);
 
   @JsonKey(ignore: true)
   @override
@@ -272,11 +333,14 @@ abstract class _AppParamState implements AppParamState {
       {required final int AmazonAlertSelectYear,
       required final int CreditCompanyAlertSelectYear,
       required final int CreditSummaryAlertSelectYear,
+      required final int CreditYearlyDetailAlertSelectMonth,
       required final int DutyAlertSelectYear,
       required final int HomeFixAlertSelectYear,
       required final int SpendSummaryAlertSelectYear,
       required final int SpendYearlyAlertSelectYear,
-      required final int TrainAlertSelectYear}) = _$_AppParamState;
+      required final int TrainAlertSelectYear,
+      required final int UdemyAlertSelectYear,
+      required final String UdemyAlertSelectCategory}) = _$_AppParamState;
 
   @override
   int get AmazonAlertSelectYear;
@@ -284,6 +348,8 @@ abstract class _AppParamState implements AppParamState {
   int get CreditCompanyAlertSelectYear;
   @override
   int get CreditSummaryAlertSelectYear;
+  @override
+  int get CreditYearlyDetailAlertSelectMonth;
   @override
   int get DutyAlertSelectYear;
   @override
@@ -294,6 +360,10 @@ abstract class _AppParamState implements AppParamState {
   int get SpendYearlyAlertSelectYear;
   @override
   int get TrainAlertSelectYear;
+  @override
+  int get UdemyAlertSelectYear;
+  @override
+  String get UdemyAlertSelectCategory;
   @override
   @JsonKey(ignore: true)
   _$$_AppParamStateCopyWith<_$_AppParamState> get copyWith =>

@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
+import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/credit_notifier.dart';
@@ -75,7 +76,7 @@ class CreditYearlyDetailAlert extends ConsumerWidget {
 
   ///
   List<Widget> makeMonthWidgetList() {
-    final selectMonthState = _ref.watch(selectMonthProvider);
+    final appParamState = _ref.watch(appParamProvider);
 
     final monthList = <Widget>[];
     for (var i = 1; i <= 12; i++) {
@@ -83,15 +84,15 @@ class CreditYearlyDetailAlert extends ConsumerWidget {
         GestureDetector(
           onTap: () {
             _ref
-                .watch(selectMonthProvider.notifier)
-                .setSelectMonth(selectMonth: i.toString());
+                .watch(appParamProvider.notifier)
+                .setCreditYearlyDetailAlertSelectMonth(month: i);
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
             margin: const EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white.withOpacity(0.5)),
-              color: (i.toString() == selectMonthState)
+              color: (i == appParamState.CreditYearlyDetailAlertSelectMonth)
                   ? Colors.yellowAccent.withOpacity(0.2)
                   : null,
             ),
@@ -106,66 +107,21 @@ class CreditYearlyDetailAlert extends ConsumerWidget {
 
   ///
   Widget displaySpendYearlyDetail() {
-    final selectMonthState = _ref.watch(selectMonthProvider);
+    final appParamState = _ref.watch(appParamProvider);
 
     final list = <Widget>[];
 
-    if (selectMonthState != '') {
-      final creditSummaryDetailState = _ref.watch(creditSummaryDetailProvider(
-          '${date.yyyy}-${selectMonthState.padLeft(2, '0')}-01 00:00:00'
-              .toDateTime()));
+    final creditSummaryDetailState = _ref.watch(creditSummaryDetailProvider(
+        '${date.yyyy}-${appParamState.CreditYearlyDetailAlertSelectMonth.toString().padLeft(2, '0')}-01 00:00:00'
+            .toDateTime()));
 
-      var sum = 0;
-      for (var i = 0; i < creditSummaryDetailState.length; i++) {
-        sum += creditSummaryDetailState[i].price;
+    var sum = 0;
+    for (var i = 0; i < creditSummaryDetailState.length; i++) {
+      sum += creditSummaryDetailState[i].price;
 
-        final priceColor = (creditSummaryDetailState[i].price >= 10000)
-            ? Colors.yellowAccent
-            : Colors.white;
-
-        list.add(
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 3),
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Colors.white.withOpacity(0.3),
-                ),
-              ),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        creditSummaryDetailState[i].item,
-                        style: TextStyle(color: priceColor),
-                      ),
-                      Container(
-                        alignment: Alignment.topRight,
-                        child: Text(
-                          creditSummaryDetailState[i]
-                              .price
-                              .toString()
-                              .toCurrency(),
-                          style: TextStyle(color: priceColor),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 20),
-                getLinkIcon(
-                  item: creditSummaryDetailState[i].item,
-                  price: creditSummaryDetailState[i].price,
-                ),
-              ],
-            ),
-          ),
-        );
-      }
+      final priceColor = (creditSummaryDetailState[i].price >= 10000)
+          ? Colors.yellowAccent
+          : Colors.white;
 
       list.add(
         Container(
@@ -176,27 +132,70 @@ class CreditYearlyDetailAlert extends ConsumerWidget {
                 color: Colors.white.withOpacity(0.3),
               ),
             ),
-            color: Colors.yellowAccent.withOpacity(0.2),
           ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(),
-              Row(
-                children: [
-                  Text(sum.toString().toCurrency()),
-                  const SizedBox(width: 20),
-                  Icon(
-                    Icons.check_box_outline_blank,
-                    color: Colors.black.withOpacity(0.1),
-                  )
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      creditSummaryDetailState[i].item,
+                      style: TextStyle(color: priceColor),
+                    ),
+                    Container(
+                      alignment: Alignment.topRight,
+                      child: Text(
+                        creditSummaryDetailState[i]
+                            .price
+                            .toString()
+                            .toCurrency(),
+                        style: TextStyle(color: priceColor),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 20),
+              getLinkIcon(
+                item: creditSummaryDetailState[i].item,
+                price: creditSummaryDetailState[i].price,
               ),
             ],
           ),
         ),
       );
     }
+
+    list.add(
+      Container(
+        padding: const EdgeInsets.symmetric(vertical: 3),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.white.withOpacity(0.3),
+            ),
+          ),
+          color: Colors.yellowAccent.withOpacity(0.2),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(),
+            Row(
+              children: [
+                Text(sum.toString().toCurrency()),
+                const SizedBox(width: 20),
+                Icon(
+                  Icons.check_box_outline_blank,
+                  color: Colors.black.withOpacity(0.1),
+                )
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
 
     return SingleChildScrollView(
       child: Column(
@@ -207,7 +206,7 @@ class CreditYearlyDetailAlert extends ConsumerWidget {
 
   ///
   Widget getLinkIcon({required String item, required int price}) {
-    final selectMonthState = _ref.watch(selectMonthProvider);
+    final appParamState = _ref.watch(appParamProvider);
 
     switch (item) {
       case 'UDEMY':
@@ -216,7 +215,9 @@ class CreditYearlyDetailAlert extends ConsumerWidget {
             MoneyDialog(
               context: _context,
               widget: CreditUdemyAlert(
-                date: '${date.yyyy}-$selectMonthState-01 00:00:00'.toDateTime(),
+                date:
+                    '${date.yyyy}-${appParamState.CreditYearlyDetailAlertSelectMonth}-01 00:00:00'
+                        .toDateTime(),
                 price: price,
               ),
             );
@@ -229,21 +230,5 @@ class CreditYearlyDetailAlert extends ConsumerWidget {
           color: Colors.black.withOpacity(0.1),
         );
     }
-  }
-}
-
-////////////////////////////////////////////////
-
-final selectMonthProvider =
-    StateNotifierProvider.autoDispose<SelectMonthStateNotifier, String>((ref) {
-  return SelectMonthStateNotifier();
-});
-
-class SelectMonthStateNotifier extends StateNotifier<String> {
-  SelectMonthStateNotifier() : super('');
-
-  ///
-  Future<void> setSelectMonth({required String selectMonth}) async {
-    state = selectMonth;
   }
 }
