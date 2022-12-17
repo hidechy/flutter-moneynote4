@@ -20,7 +20,7 @@ final appParamProvider =
       SpendSummaryAlertSelectYear: year.toInt(),
       SpendYearlyAlertSelectYear: year.toInt(),
       TrainAlertSelectYear: year.toInt(),
-      UdemyAlertSelectYear: 0,
+      UdemyAlertSelectYear: year.toInt(),
       UdemyAlertSelectCategory: '',
     ),
   );
