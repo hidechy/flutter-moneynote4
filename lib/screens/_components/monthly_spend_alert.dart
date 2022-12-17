@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/models/zero_use_date.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
@@ -158,13 +159,15 @@ class MonthlySpendAlert extends ConsumerWidget {
 
     final holidayState = _ref.watch(holidayProvider);
 
-    final moneyEverydayState = _ref.watch(moneyEverydayProvider);
-
-    final everydayStateMap = makeEverydayStateMap(state: moneyEverydayState);
-
     final benefitState = _ref.watch(benefitProvider);
 
     final bankMoveState = _ref.watch(bankMoveProvider);
+
+    final spendZeroUseDateState = _ref.watch(spendZeroUseDateProvider);
+
+    final moneyEverydayState = _ref.watch(moneyEverydayProvider);
+
+    final everydayStateMap = makeEverydayStateMap(state: moneyEverydayState);
 
     final list = <Widget>[];
 
@@ -351,6 +354,11 @@ class MonthlySpendAlert extends ConsumerWidget {
         diff = getDiff(spend: sum.spend.toInt(), daySum: daySum);
       }
 
+      var spendZeroFlag = getSpendZeroFlag(
+        date: spendMonthDetailState[i].date.yyyymmdd,
+        spend: spendZeroUseDateState,
+      );
+
       list.add(
         Container(
           margin: const EdgeInsets.symmetric(vertical: 5),
@@ -369,8 +377,17 @@ class MonthlySpendAlert extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '${spendMonthDetailState[i].date.yyyymmdd}（$youbi）',
+                  Row(
+                    children: [
+                      Text(
+                        '${spendMonthDetailState[i].date.yyyymmdd}（$youbi）',
+                      ),
+                      if (spendZeroFlag == 1)
+                        Icon(
+                          Icons.star,
+                          color: Colors.yellowAccent.withOpacity(0.6),
+                        ),
+                    ],
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -443,5 +460,16 @@ class MonthlySpendAlert extends ConsumerWidget {
     }
 
     return map;
+  }
+
+  ///
+  int getSpendZeroFlag({required String date, required ZeroUseDate spend}) {
+    for (var i = 0; i < spend.data.length; i++) {
+      if (date == spend.data[i].yyyymmdd) {
+        return 1;
+      }
+    }
+
+    return 0;
   }
 }

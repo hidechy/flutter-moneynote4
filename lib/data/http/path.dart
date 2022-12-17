@@ -28,6 +28,7 @@ enum APIPath {
   updateBankMoney,
   setBankMove,
   getBankMove,
+  timeplacezerousedate,
 }
 
 extension APIPathExtension on APIPath {
@@ -91,6 +92,8 @@ extension APIPathExtension on APIPath {
         return 'setBankMove';
       case APIPath.getBankMove:
         return 'getBankMove';
+      case APIPath.timeplacezerousedate:
+        return 'timeplacezerousedate';
     }
   }
 }

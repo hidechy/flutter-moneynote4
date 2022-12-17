@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls, literal_only_boolean_expressions
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/models/zero_use_date.dart';
 
 import '../data/http/client.dart';
 import '../data/http/path.dart';
@@ -279,6 +280,41 @@ class SpendYearSummaryNotifier extends StateNotifier<List<SpendYearSummary>> {
       }
 
       state = list;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
+  }
+}
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+final spendZeroUseDateProvider =
+    StateNotifierProvider.autoDispose<SpendZeroUseDateNotifier, ZeroUseDate>(
+        (ref) {
+  final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
+
+  return SpendZeroUseDateNotifier(ZeroUseDate(data: []), client, utility)
+    ..getSpendZeroUseDate();
+});
+
+class SpendZeroUseDateNotifier extends StateNotifier<ZeroUseDate> {
+  SpendZeroUseDateNotifier(super.state, this.client, this.utility);
+
+  final HttpClient client;
+  final Utility utility;
+
+  Future<void> getSpendZeroUseDate() async {
+    await client.post(path: APIPath.timeplacezerousedate).then((value) {
+      final list = <DateTime>[];
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        list.add(DateTime.parse(value['data'][i].toString()));
+      }
+
+      state = ZeroUseDate(data: list);
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
