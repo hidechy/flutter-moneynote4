@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/food_expenses_alert.dart';
 import 'package:moneynote4/screens/_components/udemy_alert.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -326,6 +327,9 @@ class HomeScreen extends ConsumerWidget {
     for (var i = 0; i < spendMonthSummaryState.length; i++) {
       final spend = spendMonthSummaryState[i];
 
+      final textColor =
+          (spend.sum >= 10000) ? Colors.yellowAccent : Colors.white;
+
       list.add(
         DefaultTextStyle(
           style: const TextStyle(fontSize: 12),
@@ -345,20 +349,27 @@ class HomeScreen extends ConsumerWidget {
                     children: [
                       Expanded(
                         flex: 2,
-                        child: Text(spend.item),
+                        child: Text(
+                          spend.item,
+                          style: TextStyle(color: textColor),
+                        ),
                       ),
                       Expanded(
                         child: Container(
                           alignment: Alignment.topRight,
                           child: Text(
                             spend.sum.toString().toCurrency(),
+                            style: TextStyle(color: textColor),
                           ),
                         ),
                       ),
                       Expanded(
                         child: Container(
                           alignment: Alignment.topRight,
-                          child: Text('${spend.percent} %'),
+                          child: Text(
+                            '${spend.percent} %',
+                            style: TextStyle(color: textColor),
+                          ),
                         ),
                       ),
                     ],
@@ -543,6 +554,23 @@ class HomeScreen extends ConsumerWidget {
       IconButton(
         onPressed: () {
           _ref.watch(homeMenuProvider.notifier).setHomeMenu(
+                menuFlag: 'food_expenses',
+                menuName: '食費',
+              );
+        },
+        icon: Icon(
+          Icons.fastfood,
+          color: (homeMenuState.menuFlag == 'food_expenses')
+              ? Colors.lightBlueAccent
+              : Colors.white,
+        ),
+      ),
+    );
+
+    list.add(
+      IconButton(
+        onPressed: () {
+          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
                 menuFlag: 'seiyuu_purchase',
                 menuName: '西友購入履歴',
               );
@@ -697,6 +725,14 @@ class HomeScreen extends ConsumerWidget {
           context: _context,
           widget: HomeFixAlert(date: focusDayState),
         );
+        break;
+
+      case 'food_expenses':
+        MoneyDialog(
+          context: _context,
+          widget: FoodExpensesAlert(date: focusDayState),
+        );
+
         break;
 
       case 'seiyuu_purchase':

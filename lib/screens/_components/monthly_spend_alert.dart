@@ -354,7 +354,7 @@ class MonthlySpendAlert extends ConsumerWidget {
         diff = getDiff(spend: sum.spend.toInt(), daySum: daySum);
       }
 
-      var spendZeroFlag = getSpendZeroFlag(
+      final spendZeroFlag = getSpendZeroFlag(
         date: spendMonthDetailState[i].date.yyyymmdd,
         spend: spendZeroUseDateState,
       );

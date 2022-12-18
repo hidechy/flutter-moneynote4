@@ -10,17 +10,17 @@ import '../utility/utility.dart';
 
 ////////////////////////////////////////////////
 
-final seiyuDateProvider = StateNotifierProvider.autoDispose
-    .family<SeiyuDateNotifier, List<SeiyuPurchase>, DateTime>((ref, date) {
+final seiyuAllProvider = StateNotifierProvider.autoDispose
+    .family<SeiyuAllNotifier, List<SeiyuPurchase>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return SeiyuDateNotifier([], client, utility)..getSeiyuDateList(date: date);
+  return SeiyuAllNotifier([], client, utility)..getSeiyuDateList(date: date);
 });
 
-class SeiyuDateNotifier extends StateNotifier<List<SeiyuPurchase>> {
-  SeiyuDateNotifier(super.state, this.client, this.utility);
+class SeiyuAllNotifier extends StateNotifier<List<SeiyuPurchase>> {
+  SeiyuAllNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
   final Utility utility;
@@ -59,17 +59,17 @@ class SeiyuDateNotifier extends StateNotifier<List<SeiyuPurchase>> {
 
 ////////////////////////////////////////////////
 
-final seiyuPurchaseProvider = StateNotifierProvider.autoDispose<
-    SeiyuPurchaseNotifier, List<SeiyuPurchase>>((ref) {
+final seiyuPurchaseDateProvider = StateNotifierProvider.autoDispose<
+    SeiyuPurchaseDateNotifier, List<SeiyuPurchase>>((ref) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return SeiyuPurchaseNotifier([], client, utility);
+  return SeiyuPurchaseDateNotifier([], client, utility);
 });
 
-class SeiyuPurchaseNotifier extends StateNotifier<List<SeiyuPurchase>> {
-  SeiyuPurchaseNotifier(super.state, this.client, this.utility);
+class SeiyuPurchaseDateNotifier extends StateNotifier<List<SeiyuPurchase>> {
+  SeiyuPurchaseDateNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
   final Utility utility;

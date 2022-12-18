@@ -74,7 +74,7 @@ class SeiyuAlert extends ConsumerWidget {
                                 .setSelectDate(selectDate: val);
 
                             ref
-                                .watch(seiyuPurchaseProvider.notifier)
+                                .watch(seiyuPurchaseDateProvider.notifier)
                                 .getSeiyuPurchaseList(
                                   date: '$selectYearState-$val',
                                 );
@@ -131,7 +131,7 @@ class SeiyuAlert extends ConsumerWidget {
                 .setSelectYear(selectYear: i.toString());
 
             _ref
-                .watch(seiyuDateProvider(date).notifier)
+                .watch(seiyuAllProvider(date).notifier)
                 .getSeiyuDateList(date: '$i-01-01 00:00:00'.toDateTime());
           },
           child: Container(
@@ -154,17 +154,17 @@ class SeiyuAlert extends ConsumerWidget {
 
   ///
   List<String> makeYearDateList() {
-    final seiyuPurchaseState = _ref.watch(seiyuDateProvider(date));
+    final seiyuAllState = _ref.watch(seiyuAllProvider(date));
 
     final list = <String>[];
     var keepDate = '';
 
-    for (var i = 0; i < seiyuPurchaseState.length; i++) {
-      if (keepDate != seiyuPurchaseState[i].date) {
-        list.add('${seiyuPurchaseState[i].date} 00:00:00'.toDateTime().mmdd);
+    for (var i = 0; i < seiyuAllState.length; i++) {
+      if (keepDate != seiyuAllState[i].date) {
+        list.add('${seiyuAllState[i].date} 00:00:00'.toDateTime().mmdd);
       }
 
-      keepDate = seiyuPurchaseState[i].date;
+      keepDate = seiyuAllState[i].date;
     }
 
     return list;
@@ -172,14 +172,14 @@ class SeiyuAlert extends ConsumerWidget {
 
   ///
   Widget displaySeiyuPurchase() {
-    final seiyuPurchaseState = _ref.watch(seiyuPurchaseProvider);
+    final seiyuPurchaseDateState = _ref.watch(seiyuPurchaseDateProvider);
 
     final list = <Widget>[];
 
     var total = 0;
 
-    for (var i = 0; i < seiyuPurchaseState.length; i++) {
-      total += seiyuPurchaseState[i].price.toInt();
+    for (var i = 0; i < seiyuPurchaseDateState.length; i++) {
+      total += seiyuPurchaseDateState[i].price.toInt();
     }
 
     list.add(
@@ -198,7 +198,7 @@ class SeiyuAlert extends ConsumerWidget {
       ),
     );
 
-    for (var i = 0; i < seiyuPurchaseState.length; i++) {
+    for (var i = 0; i < seiyuPurchaseDateState.length; i++) {
       list.add(
         Container(
           padding: const EdgeInsets.symmetric(vertical: 3),
@@ -214,25 +214,25 @@ class SeiyuAlert extends ConsumerWidget {
             children: [
               Container(
                 alignment: Alignment.topRight,
-                child: Text(seiyuPurchaseState[i].date),
+                child: Text(seiyuPurchaseDateState[i].date),
               ),
               Text(
-                seiyuPurchaseState[i].item,
+                seiyuPurchaseDateState[i].item,
                 style: const TextStyle(
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
               Row(
                 children: [
-                  Text(seiyuPurchaseState[i].tanka.toCurrency()),
+                  Text(seiyuPurchaseDateState[i].tanka.toCurrency()),
                   const SizedBox(width: 20),
                   const Text('×'),
                   const SizedBox(width: 20),
-                  Text(seiyuPurchaseState[i].kosuu),
+                  Text(seiyuPurchaseDateState[i].kosuu),
                   const SizedBox(width: 20),
                   const Text('='),
                   const SizedBox(width: 20),
-                  Text(seiyuPurchaseState[i].price.toCurrency()),
+                  Text(seiyuPurchaseDateState[i].price.toCurrency()),
                 ],
               ),
             ],

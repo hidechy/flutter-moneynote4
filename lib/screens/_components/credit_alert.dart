@@ -130,6 +130,10 @@ class CreditAlert extends ConsumerWidget {
     final list = <Widget>[];
 
     for (var i = 0; i < creditSpendMonthlyState.length; i++) {
+      final bgColor = (creditSpendMonthlyState[i].price.toInt() >= 5000)
+          ? Colors.yellowAccent.withOpacity(0.1)
+          : Colors.transparent;
+
       list.add(
         Container(
           width: _context.screenSize.width,
@@ -140,6 +144,7 @@ class CreditAlert extends ConsumerWidget {
                 color: Colors.white.withOpacity(0.3),
               ),
             ),
+            color: bgColor,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
