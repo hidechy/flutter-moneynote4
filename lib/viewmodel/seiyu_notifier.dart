@@ -1,16 +1,19 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/state/seiyu_purchase_item/seiyu_purchase_item_request_state.dart';
 
 import '../data/http/client.dart';
 import '../data/http/path.dart';
 import '../extensions/extensions.dart';
+import '../models/seiyu_item.dart';
 import '../models/seiyu_purchase.dart';
 import '../utility/utility.dart';
 
 /*
 seiyuAllProvider        List<SeiyuPurchase>
 seiyuPurchaseDateProvider       List<SeiyuPurchase>
+seiyuPurchaseItemProvider       List<SeiyuItem>
 */
 
 ////////////////////////////////////////////////
@@ -108,6 +111,52 @@ class SeiyuPurchaseDateNotifier extends StateNotifier<List<SeiyuPurchase>> {
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
+  }
+}
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+
+final seiyuPurchaseItemProvider = StateNotifierProvider.autoDispose.family<
+    SeiyuPurchaseItemNotifier,
+    List<SeiyuItem>,
+    SeiyuPurchaseItemRequestState>((ref, param) {
+  final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
+
+  return SeiyuPurchaseItemNotifier([], client, utility)
+    ..getSeiyuPurchaseItemList(param: param);
+});
+
+class SeiyuPurchaseItemNotifier extends StateNotifier<List<SeiyuItem>> {
+  SeiyuPurchaseItemNotifier(super.state, this.client, this.utility);
+
+  final HttpClient client;
+  final Utility utility;
+
+  Future<void> getSeiyuPurchaseItemList(
+      {required SeiyuPurchaseItemRequestState param}) async {
+    await client.post(
+      path: APIPath.getSeiyuuPurchaseItemList,
+      body: {'date': param.date.yyyymmdd},
+    ).then((value) {
+      final list = <SeiyuItem>[];
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        if (param.item == value['data'][i]['item'].toString()) {
+          list.add(
+              SeiyuItem.fromJson(value['data'][i] as Map<String, dynamic>));
+        }
+      }
+
+      state = list;
+    });
+
+    //     .catchError((error, _) {
+    //   utility.showError('予期せぬエラーが発生しました');
+    // });
   }
 }
 

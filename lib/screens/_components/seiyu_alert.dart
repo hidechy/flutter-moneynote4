@@ -9,6 +9,9 @@ import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/seiyu_notifier.dart';
+import '_money_dialog.dart';
+
+import 'seiyu_item_alert.dart';
 
 class SeiyuAlert extends ConsumerWidget {
   SeiyuAlert({super.key, required this.date});
@@ -19,11 +22,13 @@ class SeiyuAlert extends ConsumerWidget {
 
   final Utility _utility = Utility();
 
+  late BuildContext _context;
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    _context = context;
     _ref = ref;
 
     final yearWidgetList = makeYearWidgetList();
@@ -66,7 +71,7 @@ class SeiyuAlert extends ConsumerWidget {
                     key: PageStorageKey(uuid.v1()),
                     child: Row(
                       children: yearDateList.map((val) {
-                        var exVal = val.split('-');
+                        final exVal = val.split('-');
                         return GestureDetector(
                           onTap: () {
                             ref
@@ -210,31 +215,53 @@ class SeiyuAlert extends ConsumerWidget {
               ),
             ),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Row(
             children: [
-              Container(
-                alignment: Alignment.topRight,
-                child: Text(seiyuPurchaseDateState[i].date),
-              ),
-              Text(
-                seiyuPurchaseDateState[i].item,
-                style: const TextStyle(
-                  overflow: TextOverflow.ellipsis,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      alignment: Alignment.topRight,
+                      child: Text(seiyuPurchaseDateState[i].date),
+                    ),
+                    Text(
+                      seiyuPurchaseDateState[i].item,
+                      style: const TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Text(seiyuPurchaseDateState[i].tanka.toCurrency()),
+                        const SizedBox(width: 20),
+                        const Text('×'),
+                        const SizedBox(width: 20),
+                        Text(seiyuPurchaseDateState[i].kosuu),
+                        const SizedBox(width: 20),
+                        const Text('='),
+                        const SizedBox(width: 20),
+                        Text(seiyuPurchaseDateState[i].price.toCurrency()),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-              Row(
-                children: [
-                  Text(seiyuPurchaseDateState[i].tanka.toCurrency()),
-                  const SizedBox(width: 20),
-                  const Text('×'),
-                  const SizedBox(width: 20),
-                  Text(seiyuPurchaseDateState[i].kosuu),
-                  const SizedBox(width: 20),
-                  const Text('='),
-                  const SizedBox(width: 20),
-                  Text(seiyuPurchaseDateState[i].price.toCurrency()),
-                ],
+              const SizedBox(width: 10),
+              IconButton(
+                onPressed: () {
+                  MoneyDialog(
+                    context: _context,
+                    widget: SeiyuItemAlert(
+                      date: date,
+                      item: seiyuPurchaseDateState[i].item,
+                    ),
+                  );
+                },
+                icon: Icon(
+                  Icons.ac_unit,
+                  color: Colors.white.withOpacity(0.8),
+                ),
               ),
             ],
           ),
