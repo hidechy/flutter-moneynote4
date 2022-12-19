@@ -8,6 +8,10 @@ import '../extensions/extensions.dart';
 import '../models/mercari_record.dart';
 import '../utility/utility.dart';
 
+/*
+mercariProvider       List<MercariRecord>
+*/
+
 ////////////////////////////////////////////////
 final mercariProvider =
     StateNotifierProvider.autoDispose<MercariNotifier, List<MercariRecord>>(

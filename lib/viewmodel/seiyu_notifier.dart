@@ -8,6 +8,11 @@ import '../extensions/extensions.dart';
 import '../models/seiyu_purchase.dart';
 import '../utility/utility.dart';
 
+/*
+seiyuAllProvider        List<SeiyuPurchase>
+seiyuPurchaseDateProvider       List<SeiyuPurchase>
+*/
+
 ////////////////////////////////////////////////
 
 final seiyuAllProvider = StateNotifierProvider.autoDispose

@@ -11,6 +11,15 @@ import '../models/credit_spend_monthly.dart';
 import '../models/credit_summary.dart';
 import '../utility/utility.dart';
 
+/*
+creditSpendMonthlyProvider        List<CreditSpendMonthly>
+creditSummaryProvider       List<CreditSummary>
+creditCompanyProvider       List<CreditCompany>
+selectCreditProvider        String
+creditSummaryDetailProvider       List<SpendYearlyDetail>       *
+creditUdemyProvider       List<CreditSpendMonthly>        *
+*/
+
 ////////////////////////////////////////////////
 
 final creditSpendMonthlyProvider = StateNotifierProvider.autoDispose

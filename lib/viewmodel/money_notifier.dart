@@ -10,6 +10,12 @@ import '../models/money_everyday.dart';
 import '../models/money_score.dart';
 import '../utility/utility.dart';
 
+/*
+moneyProvider       Money
+moneyEverydayProvider       List<MoneyEveryday>
+moneyScoreProvider        List<MoneyScore>        *
+*/
+
 ////////////////////////////////////////////////
 
 final moneyProvider = StateNotifierProvider.autoDispose

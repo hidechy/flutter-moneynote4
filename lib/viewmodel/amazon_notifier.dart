@@ -9,6 +9,10 @@ import '../models/amazon_purchase.dart';
 
 import '../utility/utility.dart';
 
+/*
+amazonPurchaseProvider        List<AmazonPurchase>
+*/
+
 ////////////////////////////////////////////////
 
 final amazonPurchaseProvider = StateNotifierProvider.autoDispose

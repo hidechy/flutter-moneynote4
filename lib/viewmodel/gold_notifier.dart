@@ -8,6 +8,11 @@ import '../extensions/extensions.dart';
 import '../models/gold.dart';
 import '../utility/utility.dart';
 
+/*
+goldLastProvider        Gold
+goldListProvider        List<Gold>
+*/
+
 ////////////////////////////////////////////////
 
 final goldLastProvider =

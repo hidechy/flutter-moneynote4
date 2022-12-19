@@ -8,6 +8,10 @@ import '../extensions/extensions.dart';
 import '../models/spend_timeplace_monthly.dart';
 import '../utility/utility.dart';
 
+/*
+timeplaceProvider       List<SpendTimeplaceMonthly>
+*/
+
 ////////////////////////////////////////////////
 
 final timeplaceProvider = StateNotifierProvider.autoDispose

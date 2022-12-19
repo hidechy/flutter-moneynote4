@@ -8,6 +8,10 @@ import '../extensions/extensions.dart';
 import '../models/udemy.dart';
 import '../utility/utility.dart';
 
+/*
+udemyProvider       List<Udemy>
+*/
+
 ////////////////////////////////////////////////
 
 final udemyProvider =

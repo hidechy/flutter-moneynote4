@@ -8,6 +8,10 @@ import '../extensions/extensions.dart';
 import '../models/benefit.dart';
 import '../utility/utility.dart';
 
+/*
+benefitProvider       List<Benefit>
+*/
+
 ////////////////////////////////////////////////
 
 final benefitProvider =

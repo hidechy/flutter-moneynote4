@@ -14,6 +14,15 @@ import '../models/spend_yearly.dart';
 import '../models/spend_yearly_item.dart';
 import '../utility/utility.dart';
 
+/*
+spendMonthSummaryProvider       List<SpendMonthSummary>
+spendItemDailyProvider        SpendItemDaily
+spendMonthDetailProvider        List<SpendYearly>
+spendSummaryProvider        List<SpendSummary>
+spendYearSummaryProvider        List<SpendYearSummary>
+spendZeroUseDateProvider        ZeroUseDate
+*/
+
 ////////////////////////////////////////////////
 final spendMonthSummaryProvider = StateNotifierProvider.autoDispose
     .family<SpendMonthSummaryNotifier, List<SpendMonthSummary>, DateTime>(

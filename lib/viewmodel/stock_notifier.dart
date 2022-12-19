@@ -9,6 +9,11 @@ import '../models/stock.dart';
 import '../models/stock_record.dart';
 import '../utility/utility.dart';
 
+/*
+stockProvider       Stock
+stockRecordProvider       StockRecord
+*/
+
 ////////////////////////////////////////////////
 final stockProvider =
     StateNotifierProvider.autoDispose<StockNotifier, Stock>((ref) {

@@ -9,6 +9,11 @@ import '../models/shintaku.dart';
 import '../models/shintaku_record.dart';
 import '../utility/utility.dart';
 
+/*
+shintakuProvider        Shintaku
+shintakuRecordProvider        ShintakuRecord
+*/
+
 ////////////////////////////////////////////////
 final shintakuProvider =
     StateNotifierProvider.autoDispose<ShintakuNotifier, Shintaku>((ref) {

@@ -8,6 +8,10 @@ import '../extensions/extensions.dart';
 import '../models/duty.dart';
 import '../utility/utility.dart';
 
+/*
+dutyProvider        List<Duty>
+*/
+
 ////////////////////////////////////////////////
 
 final dutyProvider = StateNotifierProvider.autoDispose

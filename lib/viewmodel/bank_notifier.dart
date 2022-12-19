@@ -10,6 +10,12 @@ import '../models/bank_company_change.dart';
 import '../models/bank_move.dart';
 import '../utility/utility.dart';
 
+/*
+bankLastProvider        BankCompanyChange
+bankAllProvider       List<BankCompanyAll>
+bankMoveProvider        List<BankMove>
+*/
+
 ////////////////////////////////////////////////
 
 final bankLastProvider = StateNotifierProvider.autoDispose
