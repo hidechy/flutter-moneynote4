@@ -17,6 +17,8 @@ final appParamProvider =
       CreditYearlyDetailAlertSelectMonth: 1,
       DutyAlertSelectYear: year.toInt(),
       HomeFixAlertSelectYear: year.toInt(),
+      SeiyuAlertSelectYear: year.toInt(),
+      SeiyuAlertSelectDate: '',
       SpendSummaryAlertSelectYear: year.toInt(),
       SpendYearlyAlertSelectYear: year.toInt(),
       TrainAlertSelectYear: year.toInt(),
@@ -47,6 +49,12 @@ class AppParamNotifier extends StateNotifier<AppParamState> {
 
   Future<void> setHomeFixAlertSelectYear({required int year}) async =>
       state = state.copyWith(HomeFixAlertSelectYear: year);
+
+  Future<void> setSeiyuAlertSelectYear({required int year}) async =>
+      state = state.copyWith(SeiyuAlertSelectYear: year);
+
+  Future<void> setSeiyuAlertSelectDate({required String date}) async =>
+      state = state.copyWith(SeiyuAlertSelectDate: date);
 
   Future<void> setSpendSummaryAlertSelectYear({required int year}) async =>
       state = state.copyWith(SpendSummaryAlertSelectYear: year);

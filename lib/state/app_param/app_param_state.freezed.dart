@@ -23,6 +23,8 @@ mixin _$AppParamState {
       throw _privateConstructorUsedError;
   int get DutyAlertSelectYear => throw _privateConstructorUsedError;
   int get HomeFixAlertSelectYear => throw _privateConstructorUsedError;
+  int get SeiyuAlertSelectYear => throw _privateConstructorUsedError;
+  String get SeiyuAlertSelectDate => throw _privateConstructorUsedError;
   int get SpendSummaryAlertSelectYear => throw _privateConstructorUsedError;
   int get SpendYearlyAlertSelectYear => throw _privateConstructorUsedError;
   int get TrainAlertSelectYear => throw _privateConstructorUsedError;
@@ -47,6 +49,8 @@ abstract class $AppParamStateCopyWith<$Res> {
       int CreditYearlyDetailAlertSelectMonth,
       int DutyAlertSelectYear,
       int HomeFixAlertSelectYear,
+      int SeiyuAlertSelectYear,
+      String SeiyuAlertSelectDate,
       int SpendSummaryAlertSelectYear,
       int SpendYearlyAlertSelectYear,
       int TrainAlertSelectYear,
@@ -73,6 +77,8 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
     Object? CreditYearlyDetailAlertSelectMonth = null,
     Object? DutyAlertSelectYear = null,
     Object? HomeFixAlertSelectYear = null,
+    Object? SeiyuAlertSelectYear = null,
+    Object? SeiyuAlertSelectDate = null,
     Object? SpendSummaryAlertSelectYear = null,
     Object? SpendYearlyAlertSelectYear = null,
     Object? TrainAlertSelectYear = null,
@@ -105,6 +111,14 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
           ? _value.HomeFixAlertSelectYear
           : HomeFixAlertSelectYear // ignore: cast_nullable_to_non_nullable
               as int,
+      SeiyuAlertSelectYear: null == SeiyuAlertSelectYear
+          ? _value.SeiyuAlertSelectYear
+          : SeiyuAlertSelectYear // ignore: cast_nullable_to_non_nullable
+              as int,
+      SeiyuAlertSelectDate: null == SeiyuAlertSelectDate
+          ? _value.SeiyuAlertSelectDate
+          : SeiyuAlertSelectDate // ignore: cast_nullable_to_non_nullable
+              as String,
       SpendSummaryAlertSelectYear: null == SpendSummaryAlertSelectYear
           ? _value.SpendSummaryAlertSelectYear
           : SpendSummaryAlertSelectYear // ignore: cast_nullable_to_non_nullable
@@ -144,6 +158,8 @@ abstract class _$$_AppParamStateCopyWith<$Res>
       int CreditYearlyDetailAlertSelectMonth,
       int DutyAlertSelectYear,
       int HomeFixAlertSelectYear,
+      int SeiyuAlertSelectYear,
+      String SeiyuAlertSelectDate,
       int SpendSummaryAlertSelectYear,
       int SpendYearlyAlertSelectYear,
       int TrainAlertSelectYear,
@@ -168,6 +184,8 @@ class __$$_AppParamStateCopyWithImpl<$Res>
     Object? CreditYearlyDetailAlertSelectMonth = null,
     Object? DutyAlertSelectYear = null,
     Object? HomeFixAlertSelectYear = null,
+    Object? SeiyuAlertSelectYear = null,
+    Object? SeiyuAlertSelectDate = null,
     Object? SpendSummaryAlertSelectYear = null,
     Object? SpendYearlyAlertSelectYear = null,
     Object? TrainAlertSelectYear = null,
@@ -200,6 +218,14 @@ class __$$_AppParamStateCopyWithImpl<$Res>
           ? _value.HomeFixAlertSelectYear
           : HomeFixAlertSelectYear // ignore: cast_nullable_to_non_nullable
               as int,
+      SeiyuAlertSelectYear: null == SeiyuAlertSelectYear
+          ? _value.SeiyuAlertSelectYear
+          : SeiyuAlertSelectYear // ignore: cast_nullable_to_non_nullable
+              as int,
+      SeiyuAlertSelectDate: null == SeiyuAlertSelectDate
+          ? _value.SeiyuAlertSelectDate
+          : SeiyuAlertSelectDate // ignore: cast_nullable_to_non_nullable
+              as String,
       SpendSummaryAlertSelectYear: null == SpendSummaryAlertSelectYear
           ? _value.SpendSummaryAlertSelectYear
           : SpendSummaryAlertSelectYear // ignore: cast_nullable_to_non_nullable
@@ -234,6 +260,8 @@ class _$_AppParamState implements _AppParamState {
       required this.CreditYearlyDetailAlertSelectMonth,
       required this.DutyAlertSelectYear,
       required this.HomeFixAlertSelectYear,
+      required this.SeiyuAlertSelectYear,
+      required this.SeiyuAlertSelectDate,
       required this.SpendSummaryAlertSelectYear,
       required this.SpendYearlyAlertSelectYear,
       required this.TrainAlertSelectYear,
@@ -253,6 +281,10 @@ class _$_AppParamState implements _AppParamState {
   @override
   final int HomeFixAlertSelectYear;
   @override
+  final int SeiyuAlertSelectYear;
+  @override
+  final String SeiyuAlertSelectDate;
+  @override
   final int SpendSummaryAlertSelectYear;
   @override
   final int SpendYearlyAlertSelectYear;
@@ -265,7 +297,7 @@ class _$_AppParamState implements _AppParamState {
 
   @override
   String toString() {
-    return 'AppParamState(AmazonAlertSelectYear: $AmazonAlertSelectYear, CreditCompanyAlertSelectYear: $CreditCompanyAlertSelectYear, CreditSummaryAlertSelectYear: $CreditSummaryAlertSelectYear, CreditYearlyDetailAlertSelectMonth: $CreditYearlyDetailAlertSelectMonth, DutyAlertSelectYear: $DutyAlertSelectYear, HomeFixAlertSelectYear: $HomeFixAlertSelectYear, SpendSummaryAlertSelectYear: $SpendSummaryAlertSelectYear, SpendYearlyAlertSelectYear: $SpendYearlyAlertSelectYear, TrainAlertSelectYear: $TrainAlertSelectYear, UdemyAlertSelectYear: $UdemyAlertSelectYear, UdemyAlertSelectCategory: $UdemyAlertSelectCategory)';
+    return 'AppParamState(AmazonAlertSelectYear: $AmazonAlertSelectYear, CreditCompanyAlertSelectYear: $CreditCompanyAlertSelectYear, CreditSummaryAlertSelectYear: $CreditSummaryAlertSelectYear, CreditYearlyDetailAlertSelectMonth: $CreditYearlyDetailAlertSelectMonth, DutyAlertSelectYear: $DutyAlertSelectYear, HomeFixAlertSelectYear: $HomeFixAlertSelectYear, SeiyuAlertSelectYear: $SeiyuAlertSelectYear, SeiyuAlertSelectDate: $SeiyuAlertSelectDate, SpendSummaryAlertSelectYear: $SpendSummaryAlertSelectYear, SpendYearlyAlertSelectYear: $SpendYearlyAlertSelectYear, TrainAlertSelectYear: $TrainAlertSelectYear, UdemyAlertSelectYear: $UdemyAlertSelectYear, UdemyAlertSelectCategory: $UdemyAlertSelectCategory)';
   }
 
   @override
@@ -291,8 +323,11 @@ class _$_AppParamState implements _AppParamState {
                 other.DutyAlertSelectYear == DutyAlertSelectYear) &&
             (identical(other.HomeFixAlertSelectYear, HomeFixAlertSelectYear) ||
                 other.HomeFixAlertSelectYear == HomeFixAlertSelectYear) &&
-            (identical(other.SpendSummaryAlertSelectYear,
-                    SpendSummaryAlertSelectYear) ||
+            (identical(other.SeiyuAlertSelectYear, SeiyuAlertSelectYear) ||
+                other.SeiyuAlertSelectYear == SeiyuAlertSelectYear) &&
+            (identical(other.SeiyuAlertSelectDate, SeiyuAlertSelectDate) ||
+                other.SeiyuAlertSelectDate == SeiyuAlertSelectDate) &&
+            (identical(other.SpendSummaryAlertSelectYear, SpendSummaryAlertSelectYear) ||
                 other.SpendSummaryAlertSelectYear ==
                     SpendSummaryAlertSelectYear) &&
             (identical(other.SpendYearlyAlertSelectYear, SpendYearlyAlertSelectYear) ||
@@ -315,6 +350,8 @@ class _$_AppParamState implements _AppParamState {
       CreditYearlyDetailAlertSelectMonth,
       DutyAlertSelectYear,
       HomeFixAlertSelectYear,
+      SeiyuAlertSelectYear,
+      SeiyuAlertSelectDate,
       SpendSummaryAlertSelectYear,
       SpendYearlyAlertSelectYear,
       TrainAlertSelectYear,
@@ -336,6 +373,8 @@ abstract class _AppParamState implements AppParamState {
       required final int CreditYearlyDetailAlertSelectMonth,
       required final int DutyAlertSelectYear,
       required final int HomeFixAlertSelectYear,
+      required final int SeiyuAlertSelectYear,
+      required final String SeiyuAlertSelectDate,
       required final int SpendSummaryAlertSelectYear,
       required final int SpendYearlyAlertSelectYear,
       required final int TrainAlertSelectYear,
@@ -354,6 +393,10 @@ abstract class _AppParamState implements AppParamState {
   int get DutyAlertSelectYear;
   @override
   int get HomeFixAlertSelectYear;
+  @override
+  int get SeiyuAlertSelectYear;
+  @override
+  String get SeiyuAlertSelectDate;
   @override
   int get SpendSummaryAlertSelectYear;
   @override

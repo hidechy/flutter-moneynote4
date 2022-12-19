@@ -13,6 +13,8 @@ class AppParamState with _$AppParamState {
     required int CreditYearlyDetailAlertSelectMonth,
     required int DutyAlertSelectYear,
     required int HomeFixAlertSelectYear,
+    required int SeiyuAlertSelectYear,
+    required String SeiyuAlertSelectDate,
     required int SpendSummaryAlertSelectYear,
     required int SpendYearlyAlertSelectYear,
     required int TrainAlertSelectYear,

@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
+import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/seiyu_notifier.dart';
@@ -29,9 +30,7 @@ class SeiyuAlert extends ConsumerWidget {
 
     final yearDateList = makeYearDateList();
 
-    final selectYearState = ref.watch(selectYearProvider);
-
-    final selectDateState = ref.watch(selectDateProvider);
+    final appParamState = ref.watch(appParamProvider);
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
@@ -64,19 +63,21 @@ class SeiyuAlert extends ConsumerWidget {
                   height: 40,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
+                    key: PageStorageKey(uuid.v1()),
                     child: Row(
                       children: yearDateList.map((val) {
-                        final exVal = val.split('-');
+                        var exVal = val.split('-');
                         return GestureDetector(
                           onTap: () {
                             ref
-                                .watch(selectDateProvider.notifier)
-                                .setSelectDate(selectDate: val);
+                                .watch(appParamProvider.notifier)
+                                .setSeiyuAlertSelectDate(date: val);
 
                             ref
                                 .watch(seiyuPurchaseDateProvider.notifier)
                                 .getSeiyuPurchaseList(
-                                  date: '$selectYearState-$val',
+                                  date:
+                                      '${appParamState.SeiyuAlertSelectYear}-$val',
                                 );
                           },
                           child: Container(
@@ -89,7 +90,7 @@ class SeiyuAlert extends ConsumerWidget {
                               border: Border.all(
                                 color: Colors.white.withOpacity(0.5),
                               ),
-                              color: (selectDateState == val)
+                              color: (appParamState.SeiyuAlertSelectDate == val)
                                   ? Colors.yellowAccent.withOpacity(0.3)
                                   : null,
                             ),
@@ -119,7 +120,7 @@ class SeiyuAlert extends ConsumerWidget {
   List<Widget> makeYearWidgetList() {
     final exYmd = date.yyyymmdd.split('-');
 
-    final selectYearState = _ref.watch(selectYearProvider);
+    final appParamState = _ref.watch(appParamProvider);
 
     final yearList = <Widget>[];
     for (var i = exYmd[0].toInt(); i >= 2020; i--) {
@@ -127,8 +128,8 @@ class SeiyuAlert extends ConsumerWidget {
         GestureDetector(
           onTap: () {
             _ref
-                .watch(selectYearProvider.notifier)
-                .setSelectYear(selectYear: i.toString());
+                .watch(appParamProvider.notifier)
+                .setSeiyuAlertSelectYear(year: i);
 
             _ref
                 .watch(seiyuAllProvider(date).notifier)
@@ -139,7 +140,7 @@ class SeiyuAlert extends ConsumerWidget {
             margin: const EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white.withOpacity(0.5)),
-              color: (i.toString() == selectYearState)
+              color: (i == appParamState.SeiyuAlertSelectYear)
                   ? Colors.yellowAccent.withOpacity(0.2)
                   : null,
             ),
@@ -250,6 +251,12 @@ class SeiyuAlert extends ConsumerWidget {
   }
 }
 
+/*
+
+
+
+
+
 ////////////////////////////////////////////////
 
 final selectYearProvider =
@@ -281,3 +288,4 @@ class SelectDateStateNotifier extends StateNotifier<String> {
     state = selectDate;
   }
 }
+*/
