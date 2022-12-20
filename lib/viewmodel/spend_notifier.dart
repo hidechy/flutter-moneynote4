@@ -2,6 +2,7 @@
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/models/zero_use_date.dart';
+import 'package:moneynote4/state/spend_yearly_item/spend_yearly_item_state.dart';
 
 import '../data/http/client.dart';
 import '../data/http/path.dart';
@@ -186,6 +187,63 @@ class SpendMonthDetailNotifier extends StateNotifier<List<SpendYearly>> {
 }
 
 ////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+final spendYearlyItemProvider = StateNotifierProvider.autoDispose.family<
+    SpendYearlyItemNotifier,
+    List<SpendYearlyItemState>,
+    SpendYearlyItemState>((ref, param) {
+  final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
+
+  return SpendYearlyItemNotifier([], client, utility)
+    ..getSpendYearlyItem(param: param);
+});
+
+class SpendYearlyItemNotifier
+    extends StateNotifier<List<SpendYearlyItemState>> {
+  SpendYearlyItemNotifier(super.state, this.client, this.utility);
+
+  final HttpClient client;
+  final Utility utility;
+
+  Future<void> getSpendYearlyItem({required SpendYearlyItemState param}) async {
+    await client.post(
+      path: APIPath.getYearSpend,
+      body: {'date': param.date.yyyymmdd},
+    ).then((value) {
+      final list = <SpendYearlyItemState>[];
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        final date = value['data'][i]['date'].toString();
+        for (var j = 0;
+            j < value['data'][i]['item'].length.toString().toInt();
+            j++) {
+          if (param.item == value['data'][i]['item'][j]['item'].toString()) {
+            if (value['data'][i]['item'][j]['price'].toString().toInt() > 0) {
+              list.add(
+                SpendYearlyItemState(
+                  date: '$date 00:00:00'.toDateTime(),
+                  item: value['data'][i]['item'][j]['item'].toString(),
+                  price:
+                      value['data'][i]['item'][j]['price'].toString().toInt(),
+                ),
+              );
+            }
+          }
+        }
+      }
+
+      state = list;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
+  }
+}
+
+////////////////////////////////////////////////
+
 ////////////////////////////////////////////////
 final spendSummaryProvider = StateNotifierProvider.autoDispose
     .family<SpendSummaryNotifier, List<SpendSummary>, DateTime>((ref, date) {

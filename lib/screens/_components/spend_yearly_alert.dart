@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/spend_yearly_item_alert.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/app_param/app_param_notifier.dart';
@@ -236,17 +237,28 @@ class SpendYearlyAlert extends ConsumerWidget {
             MoneyDialog(
               context: _context,
               widget: CreditYearlyDetailAlert(
-                  date:
-                      '${appParamState.SpendYearlyAlertSelectYear}-01-01 00:00:00'
-                          .toDateTime()),
+                date:
+                    '${appParamState.SpendYearlyAlertSelectYear}-01-01 00:00:00'
+                        .toDateTime(),
+              ),
             );
           },
           child: const Icon(Icons.credit_card),
         );
       default:
-        return Icon(
-          Icons.check_box_outline_blank,
-          color: Colors.black.withOpacity(0.1),
+        return GestureDetector(
+          onTap: () {
+            MoneyDialog(
+              context: _context,
+              widget: SpendYearlyItemAlert(
+                date:
+                    '${appParamState.SpendYearlyAlertSelectYear}-01-01 00:00:00'
+                        .toDateTime(),
+                item: item,
+              ),
+            );
+          },
+          child: const Icon(Icons.call_made),
         );
     }
   }
