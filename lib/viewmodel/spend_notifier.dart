@@ -19,6 +19,7 @@ import '../utility/utility.dart';
 spendMonthSummaryProvider       List<SpendMonthSummary>
 spendItemDailyProvider        SpendItemDaily
 spendMonthDetailProvider        List<SpendYearly>
+spendYearlyItemProvider       List<SpendYearlyItemState>
 spendSummaryProvider        List<SpendSummary>
 spendYearSummaryProvider        List<SpendYearSummary>
 spendZeroUseDateProvider        ZeroUseDate

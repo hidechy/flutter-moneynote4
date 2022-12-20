@@ -1,30 +1,29 @@
 /*
-http://toyohide.work/BrainLog/api/timeplaceweekly
+http://toyohide.work/BrainLog/api/getmonthlytimeplace
 {"date":"2022-01-01"}
 
 {
     "data": [
         {
-            "date": "2021-12-26",
-            "time": "08:18",
-            "place": "西船橋",
-            "price": 123
+            "date": "2022-01-01",
+            "time": "10:10",
+            "place": "大洗",
+            "price": 200
         },
 
 */
 
 import '../extensions/extensions.dart';
 
-class SpendTimeplaceWeekly {
-  SpendTimeplaceWeekly({
+class SpendTimeplace {
+  SpendTimeplace({
     required this.date,
     required this.time,
     required this.place,
     required this.price,
   });
 
-  factory SpendTimeplaceWeekly.fromJson(Map<String, dynamic> json) =>
-      SpendTimeplaceWeekly(
+  factory SpendTimeplace.fromJson(Map<String, dynamic> json) => SpendTimeplace(
         date: json['date'].toString().toDateTime(),
         time: json['time'].toString(),
         place: json['place'].toString(),

@@ -2,43 +2,27 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/_money_dialog.dart';
-import 'package:moneynote4/screens/_components/spend_timeplace_alert.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
-import '../../state/spend_yearly_item/spend_yearly_item_state.dart';
 import '../../utility/utility.dart';
-import '../../viewmodel/spend_notifier.dart';
+import '../../viewmodel/timeplace_notifier.dart';
 
-class SpendYearlyItemAlert extends ConsumerWidget {
-  SpendYearlyItemAlert({super.key, required this.date, required this.item});
+class SpendTimeplaceAlert extends ConsumerWidget {
+  SpendTimeplaceAlert(
+      {super.key, required this.date, required this.item, required this.price});
 
   final DateTime date;
   final String item;
+  final int price;
 
   final Utility _utility = Utility();
 
-  final timeplaceItem = [
-    '交通費',
-    '遊興費',
-    'お賽銭',
-    '交際費',
-    '雑費',
-    '教育費',
-    '被服費',
-    '医療費',
-    '美容費',
-    '通信費'
-  ];
-
-  late BuildContext _context;
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    _context = context;
     _ref = ref;
 
     final deviceInfoState = ref.read(deviceInfoProvider);
@@ -69,8 +53,14 @@ class SpendYearlyItemAlert extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(date.yyyy),
-                    Text(item),
+                    Text(date.yyyymmdd),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(item),
+                        Text(price.toString().toCurrency()),
+                      ],
+                    ),
                   ],
                 ),
 
@@ -79,7 +69,7 @@ class SpendYearlyItemAlert extends ConsumerWidget {
                   thickness: 3,
                 ),
 
-                displaySpendYearlyItem(),
+                displaySpendTimeplace(),
               ],
             ),
           ),
@@ -89,14 +79,12 @@ class SpendYearlyItemAlert extends ConsumerWidget {
   }
 
   ///
-  Widget displaySpendYearlyItem() {
-    final param = SpendYearlyItemState(date: date, item: item);
-
-    final spendYearlyItemState = _ref.watch(spendYearlyItemProvider(param));
-
+  Widget displaySpendTimeplace() {
     final list = <Widget>[];
 
-    for (var i = 0; i < spendYearlyItemState.length; i++) {
+    final timeplaceState = _ref.watch(timeplaceProvider(date));
+
+    for (var i = 0; i < timeplaceState.length; i++) {
       list.add(
         Container(
           padding: const EdgeInsets.symmetric(vertical: 3),
@@ -110,41 +98,17 @@ class SpendYearlyItemAlert extends ConsumerWidget {
           child: Row(
             children: [
               Expanded(
-                child: Text(spendYearlyItemState[i].date.yyyymmdd),
+                child: Text(timeplaceState[i].time),
               ),
               Expanded(
-                child: Text(spendYearlyItemState[i].item),
+                child: Text(timeplaceState[i].place),
               ),
               Expanded(
                 child: Container(
                   alignment: Alignment.topRight,
-                  child: Text(
-                    spendYearlyItemState[i].price.toString().toCurrency(),
-                  ),
+                  child: Text(timeplaceState[i].price.toString().toCurrency()),
                 ),
               ),
-              const SizedBox(width: 20),
-              (timeplaceItem.contains(spendYearlyItemState[i].item))
-                  ? GestureDetector(
-                      onTap: () {
-                        MoneyDialog(
-                          context: _context,
-                          widget: SpendTimeplaceAlert(
-                            date: spendYearlyItemState[i].date,
-                            item: item,
-                            price: spendYearlyItemState[i].price!,
-                          ),
-                        );
-                      },
-                      child: Icon(
-                        Icons.pin_drop_rounded,
-                        color: Colors.white.withOpacity(0.6),
-                      ),
-                    )
-                  : const Icon(
-                      Icons.crop_square,
-                      color: Colors.black,
-                    ),
             ],
           ),
         ),

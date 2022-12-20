@@ -5,18 +5,17 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../data/http/client.dart';
 import '../data/http/path.dart';
 import '../extensions/extensions.dart';
-import '../models/spend_timeplace_monthly.dart';
+import '../models/spend_timeplace.dart';
 import '../utility/utility.dart';
 
 /*
-timeplaceProvider       List<SpendTimeplaceMonthly>
+timeplaceProvider       List<SpendTimeplace>
 */
 
 ////////////////////////////////////////////////
 
 final timeplaceProvider = StateNotifierProvider.autoDispose
-    .family<TimeplaceNotifier, List<SpendTimeplaceMonthly>, DateTime>(
-        (ref, date) {
+    .family<TimeplaceNotifier, List<SpendTimeplace>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
@@ -24,7 +23,7 @@ final timeplaceProvider = StateNotifierProvider.autoDispose
   return TimeplaceNotifier([], client, utility)..getTimeplace(date: date);
 });
 
-class TimeplaceNotifier extends StateNotifier<List<SpendTimeplaceMonthly>> {
+class TimeplaceNotifier extends StateNotifier<List<SpendTimeplace>> {
   TimeplaceNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
@@ -35,12 +34,12 @@ class TimeplaceNotifier extends StateNotifier<List<SpendTimeplaceMonthly>> {
       path: APIPath.getmonthlytimeplace,
       body: {'date': date.yyyymmdd},
     ).then((value) {
-      final list = <SpendTimeplaceMonthly>[];
+      final list = <SpendTimeplace>[];
 
       for (var i = 0; i < int.parse(value['data'].length.toString()); i++) {
         if (value['data'][i]['date'] == date.yyyymmdd) {
           list.add(
-            SpendTimeplaceMonthly(
+            SpendTimeplace(
               date: DateTime.parse(value['data'][i]['date'].toString()),
               time: value['data'][i]['time'].toString(),
               place: value['data'][i]['place'].toString(),
