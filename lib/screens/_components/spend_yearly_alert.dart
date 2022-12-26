@@ -114,6 +114,10 @@ class SpendYearlyAlert extends ConsumerWidget {
 
     var yearSum = 0;
     var yearPercent = 0;
+
+    var zeikin = 0;
+    final zei = ['所得税', '住民税', '年金', '国民年金基金', '国民健康保険'];
+
     for (var i = 0; i < spendYearSummaryState.length; i++) {
       var percent = '';
       if (spendYearSummaryState[i].sum > 0) {
@@ -122,6 +126,10 @@ class SpendYearlyAlert extends ConsumerWidget {
       }
 
       yearSum += spendYearSummaryState[i].sum;
+
+      if (zei.contains(spendYearSummaryState[i].item)) {
+        zeikin += spendYearSummaryState[i].sum;
+      }
 
       list.add(
         Container(
@@ -136,8 +144,11 @@ class SpendYearlyAlert extends ConsumerWidget {
           child: Row(
             children: [
               Expanded(
-                child: Text(
-                  spendYearSummaryState[i].item,
+                child: Row(
+                  children: [
+                    getTrailing(item: spendYearSummaryState[i].item),
+                    Text(spendYearSummaryState[i].item),
+                  ],
                 ),
               ),
               Expanded(
@@ -171,6 +182,25 @@ class SpendYearlyAlert extends ConsumerWidget {
           ),
         ),
       );
+
+      if (spendYearSummaryState[i].item == zei[zei.length - 1]) {
+        list.add(
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.white.withOpacity(0.3),
+                ),
+              ),
+              color: Colors.lightBlueAccent.withOpacity(0.2),
+            ),
+            alignment: Alignment.topRight,
+            child: Text(zeikin.toString().toCurrency()),
+          ),
+        );
+      }
     }
 
     list.add(
@@ -204,14 +234,7 @@ class SpendYearlyAlert extends ConsumerWidget {
             Expanded(
               child: Container(
                 alignment: Alignment.topRight,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text('$yearPercent %'),
-                    const SizedBox(width: 20),
-                    getLinkIcon(item: ''),
-                  ],
-                ),
+                child: Text('$yearPercent %'),
               ),
             ),
           ],
@@ -260,6 +283,40 @@ class SpendYearlyAlert extends ConsumerWidget {
           },
           child: const Icon(Icons.call_made),
         );
+    }
+  }
+
+  ///
+  Widget getTrailing({required String item}) {
+    switch (item) {
+      case '所得税':
+        return Row(
+          children: const [
+            Text('┏'),
+            SizedBox(width: 10),
+          ],
+        );
+
+      case '住民税':
+      case '年金':
+      case '国民年金基金':
+        return Row(
+          children: const [
+            Text('┃'),
+            SizedBox(width: 10),
+          ],
+        );
+
+      case '国民健康保険':
+        return Row(
+          children: const [
+            Text('┗'),
+            SizedBox(width: 10),
+          ],
+        );
+
+      default:
+        return Container();
     }
   }
 }
