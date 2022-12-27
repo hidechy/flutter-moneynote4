@@ -435,40 +435,6 @@ class HomeScreen extends ConsumerWidget {
       IconButton(
         onPressed: () {
           _ref.watch(homeMenuProvider.notifier).setHomeMenu(
-                menuFlag: 'money_score',
-                menuName: 'マネースコア',
-              );
-        },
-        icon: Icon(
-          Icons.trending_up,
-          color: (homeMenuState.menuFlag == 'money_score')
-              ? Colors.lightBlueAccent
-              : Colors.white,
-        ),
-      ),
-    );
-
-    list.add(
-      IconButton(
-        onPressed: () {
-          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
-                menuFlag: 'benefit',
-                menuName: '収入獲得履歴',
-              );
-        },
-        icon: Icon(
-          Icons.monetization_on,
-          color: (homeMenuState.menuFlag == 'benefit')
-              ? Colors.lightBlueAccent
-              : Colors.white,
-        ),
-      ),
-    );
-
-    list.add(
-      IconButton(
-        onPressed: () {
-          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
                 menuFlag: 'spend_summary',
                 menuName: '使用金額比較',
               );
@@ -510,6 +476,40 @@ class HomeScreen extends ConsumerWidget {
         icon: Icon(
           Icons.calendar_view_month_rounded,
           color: (homeMenuState.menuFlag == 'credit_company')
+              ? Colors.lightBlueAccent
+              : Colors.white,
+        ),
+      ),
+    );
+
+    list.add(
+      IconButton(
+        onPressed: () {
+          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
+                menuFlag: 'money_score',
+                menuName: 'マネースコア',
+              );
+        },
+        icon: Icon(
+          Icons.trending_up,
+          color: (homeMenuState.menuFlag == 'money_score')
+              ? Colors.lightBlueAccent
+              : Colors.white,
+        ),
+      ),
+    );
+
+    list.add(
+      IconButton(
+        onPressed: () {
+          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
+                menuFlag: 'benefit',
+                menuName: '収入獲得履歴',
+              );
+        },
+        icon: Icon(
+          Icons.monetization_on,
+          color: (homeMenuState.menuFlag == 'benefit')
               ? Colors.lightBlueAccent
               : Colors.white,
         ),

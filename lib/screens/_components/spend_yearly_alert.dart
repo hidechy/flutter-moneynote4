@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/spend_yearly_item_alert.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/app_param/app_param_notifier.dart';
@@ -11,6 +10,8 @@ import '../../utility/utility.dart';
 import '../../viewmodel/spend_notifier.dart';
 import '_money_dialog.dart';
 import 'credit_yearly_detail_alert.dart';
+
+import 'spend_yearly_item_alert.dart';
 
 class SpendYearlyAlert extends ConsumerWidget {
   SpendYearlyAlert({super.key, required this.date});
@@ -290,15 +291,15 @@ class SpendYearlyAlert extends ConsumerWidget {
   Widget getTrailing({required String item}) {
     switch (item) {
       case '所得税':
-        return Text('┏');
+        return const Text('┏');
 
       case '住民税':
       case '年金':
       case '国民年金基金':
-        return Text('┃');
+        return const Text('┃');
 
       case '国民健康保険':
-        return Text('┗');
+        return const Text('┗');
 
       default:
         return Container();

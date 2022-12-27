@@ -1,7 +1,10 @@
-// ignore_for_file: must_be_immutable, cascade_invocations, use_build_context_synchronously
+// ignore_for_file: must_be_immutable, cascade_invocations, use_build_context_synchronously, deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:soundpool/soundpool.dart';
+import 'package:vibration/vibration.dart';
 
 import '../extensions/extensions.dart';
 import '../models/money.dart';
@@ -71,6 +74,12 @@ class MoneyInputScreen extends ConsumerWidget {
   TextEditingController tecPayD = TextEditingController(text: '0');
   TextEditingController tecPayE = TextEditingController(text: '0');
 
+  Soundpool soundpool = Soundpool(streamType: StreamType.notification);
+
+  late int soundC;
+  late int soundD;
+  late int soundE;
+
   late BuildContext _context;
   late WidgetRef _ref;
 
@@ -79,6 +88,8 @@ class MoneyInputScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _context = context;
     _ref = ref;
+
+    loadSound();
 
     final spendMonthDetailState = _ref.watch(spendMonthDetailProvider(date));
 
@@ -174,8 +185,10 @@ class MoneyInputScreen extends ConsumerWidget {
                       Row(
                         children: [
                           IconButton(
-                            onPressed: () {
-                              ref
+                            onPressed: () async {
+                              await soundpool.play(soundC);
+
+                              await ref
                                   .watch(beforeCallProvider.notifier)
                                   .setFlag(flag: 1);
 
@@ -193,8 +206,10 @@ class MoneyInputScreen extends ConsumerWidget {
                             ),
                           ),
                           IconButton(
-                            onPressed: () {
-                              ref
+                            onPressed: () async {
+                              await soundpool.play(soundD);
+
+                              await ref
                                   .watch(stopDefaultProvider.notifier)
                                   .setStop(stop: 1);
 
@@ -203,12 +218,14 @@ class MoneyInputScreen extends ConsumerWidget {
                             icon: const Icon(Icons.check_box),
                           ),
                           IconButton(
-                            onPressed: () {
-                              ref
+                            onPressed: () async {
+                              await soundpool.play(soundE);
+
+                              await ref
                                   .watch(stopDefaultProvider.notifier)
                                   .setStop(stop: 1);
 
-                              ref
+                              await ref
                                   .watch(spendDiffProvider.notifier)
                                   .setSpend(spend: lastSum - formTotal);
                             },
@@ -724,7 +741,30 @@ class MoneyInputScreen extends ConsumerWidget {
 
     await _ref.watch(moneyProvider(date).notifier).getMoney(date: date);
 
+    await Vibration.vibrate(pattern: [500, 1000, 500, 2000]);
+
     Navigator.pop(_context);
+  }
+
+  ///
+  Future<void> loadSound() async {
+    soundC = await rootBundle
+        .load('assets/sounds/sound_c.mp3')
+        .then((ByteData soundData) {
+      return soundpool.load(soundData);
+    });
+
+    soundD = await rootBundle
+        .load('assets/sounds/sound_d.mp3')
+        .then((ByteData soundData) {
+      return soundpool.load(soundData);
+    });
+
+    soundE = await rootBundle
+        .load('assets/sounds/sound_e.mp3')
+        .then((ByteData soundData) {
+      return soundpool.load(soundData);
+    });
   }
 }
 

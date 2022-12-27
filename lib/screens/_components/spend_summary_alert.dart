@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/models/spend_year_summary.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
@@ -101,13 +102,20 @@ class SpendSummaryAlert extends ConsumerWidget {
 
   ///
   Widget displaySpendSummary() {
-    final oneWidth = _context.screenSize.width / 6;
+    final oneWidth = _context.screenSize.width / 6.5;
 
     final appParamState = _ref.watch(appParamProvider);
 
     final spendSummaryState = _ref.watch(spendSummaryProvider(
         '${appParamState.SpendSummaryAlertSelectYear}-01-01 00:00:00'
             .toDateTime()));
+
+    final spendYearSummaryState = _ref.watch(
+      spendYearSummaryProvider(
+        '${appParamState.SpendSummaryAlertSelectYear}-01-01 00:00:00'
+            .toDateTime(),
+      ),
+    );
 
     final list = <Widget>[];
 
@@ -167,7 +175,16 @@ class SpendSummaryAlert extends ConsumerWidget {
                     ],
                   ),
                 ),
-                child: Text(spendSummaryState[i].item),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(spendSummaryState[i].item),
+                    getItemTotal(
+                      item: spendSummaryState[i].item,
+                      state: spendYearSummaryState,
+                    ),
+                  ],
+                ),
               ),
               Wrap(children: list2),
             ],
@@ -182,6 +199,28 @@ class SpendSummaryAlert extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: list,
       ),
+    );
+  }
+
+  ///
+  Widget getItemTotal(
+      {required String item, required List<SpendYearSummary> state}) {
+    var it = SpendYearSummary(item: '', sum: 0, percent: 0);
+
+    for (var i = 0; i < state.length; i++) {
+      if (item == state[i].item) {
+        it = SpendYearSummary(
+          item: state[i].item,
+          sum: state[i].sum,
+          percent: state[i].percent,
+        );
+      }
+    }
+
+    return Container(
+      alignment: Alignment.topRight,
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: Text(it.sum.toString().toCurrency()),
     );
   }
 }

@@ -24,8 +24,10 @@ dependencies:
   intl: ^0.17.0
   json_annotation: ^4.7.0
   scroll_to_index: ^3.0.1
+  soundpool: ^2.3.0
   table_calendar: ^3.0.8
   uuid: ^3.0.7
+  vibration: ^1.7.6
 
 dev_dependencies:
 
@@ -43,6 +45,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/sounds/
 
 flutter_native_splash:
   image: "assets/image/money.png"
