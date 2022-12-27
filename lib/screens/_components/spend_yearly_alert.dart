@@ -290,30 +290,15 @@ class SpendYearlyAlert extends ConsumerWidget {
   Widget getTrailing({required String item}) {
     switch (item) {
       case '所得税':
-        return Row(
-          children: const [
-            Text('┏'),
-            SizedBox(width: 10),
-          ],
-        );
+        return Text('┏');
 
       case '住民税':
       case '年金':
       case '国民年金基金':
-        return Row(
-          children: const [
-            Text('┃'),
-            SizedBox(width: 10),
-          ],
-        );
+        return Text('┃');
 
       case '国民健康保険':
-        return Row(
-          children: const [
-            Text('┗'),
-            SizedBox(width: 10),
-          ],
-        );
+        return Text('┗');
 
       default:
         return Container();
