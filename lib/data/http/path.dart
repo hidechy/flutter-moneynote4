@@ -30,6 +30,7 @@ enum APIPath {
   getBankMove,
   timeplacezerousedate,
   getSeiyuuPurchaseItemList,
+  balanceSheetRecord,
 }
 
 extension APIPathExtension on APIPath {
@@ -97,6 +98,8 @@ extension APIPathExtension on APIPath {
         return 'timeplacezerousedate';
       case APIPath.getSeiyuuPurchaseItemList:
         return 'getSeiyuuPurchaseItemList';
+      case APIPath.balanceSheetRecord:
+        return 'balanceSheetRecord';
     }
   }
 }

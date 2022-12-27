@@ -24,6 +24,7 @@ final appParamProvider =
       TrainAlertSelectYear: year.toInt(),
       UdemyAlertSelectYear: year.toInt(),
       UdemyAlertSelectCategory: '',
+      BalanceSheetAlertSelectYear: year.toInt(),
     ),
   );
 });
@@ -70,6 +71,9 @@ class AppParamNotifier extends StateNotifier<AppParamState> {
 
   Future<void> setUdemyAlertSelectCategory({required String category}) async =>
       state = state.copyWith(UdemyAlertSelectCategory: category);
+
+  Future<void> setBalanceSheetAlertSelectYear({required int year}) async =>
+      state = state.copyWith(BalanceSheetAlertSelectYear: year);
 }
 
 ////////////////////////////////////////////////

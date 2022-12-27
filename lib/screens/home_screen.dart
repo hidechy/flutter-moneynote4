@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, cascade_invocations, empty_catches
+// ignore_for_file: must_be_immutable, cascade_invocations, empty_catches, deprecated_member_use
 
 import 'dart:async';
 import 'dart:io';
@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/balance_sheet_alert.dart';
 import 'package:moneynote4/screens/_components/food_expenses_alert.dart';
 import 'package:moneynote4/screens/_components/udemy_alert.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -652,6 +653,23 @@ class HomeScreen extends ConsumerWidget {
       ),
     );
 
+    list.add(
+      IconButton(
+        onPressed: () {
+          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
+                menuFlag: 'balanceSheet',
+                menuName: 'balanceSheet',
+              );
+        },
+        icon: Icon(
+          FontAwesomeIcons.balanceScale,
+          color: (homeMenuState.menuFlag == 'balanceSheet')
+              ? Colors.lightBlueAccent
+              : Colors.white,
+        ),
+      ),
+    );
+
     return SingleChildScrollView(
       child: Column(
         children: list,
@@ -767,6 +785,13 @@ class HomeScreen extends ConsumerWidget {
         MoneyDialog(
           context: _context,
           widget: UdemyAlert(date: focusDayState),
+        );
+        break;
+
+      case 'balanceSheet':
+        MoneyDialog(
+          context: _context,
+          widget: BalanceSheetAlert(date: focusDayState),
         );
         break;
     }
