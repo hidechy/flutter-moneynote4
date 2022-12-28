@@ -9,6 +9,7 @@ import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../state/spend_yearly_item/spend_yearly_item_state.dart';
 import '../../utility/utility.dart';
+import '../../viewmodel/holiday_notifier.dart';
 import '../../viewmodel/spend_notifier.dart';
 
 class SpendYearlyItemAlert extends ConsumerWidget {
@@ -94,9 +95,15 @@ class SpendYearlyItemAlert extends ConsumerWidget {
 
     final spendYearlyItemState = _ref.watch(spendYearlyItemProvider(param));
 
+    final holidayState = _ref.watch(holidayProvider);
+
     final list = <Widget>[];
 
     for (var i = 0; i < spendYearlyItemState.length; i++) {
+      final youbi = _utility.getYoubi(
+        youbiStr: spendYearlyItemState[i].date.youbiStr,
+      );
+
       list.add(
         Container(
           padding: const EdgeInsets.symmetric(vertical: 3),
@@ -106,11 +113,16 @@ class SpendYearlyItemAlert extends ConsumerWidget {
                 color: Colors.white.withOpacity(0.3),
               ),
             ),
+            color: _utility.getYoubiColor(
+              date: spendYearlyItemState[i].date,
+              youbiStr: spendYearlyItemState[i].date.youbiStr,
+              holiday: holidayState.data,
+            ),
           ),
           child: Row(
             children: [
               Expanded(
-                child: Text(spendYearlyItemState[i].date.yyyymmdd),
+                child: Text('${spendYearlyItemState[i].date.mmdd}（${youbi}）'),
               ),
               Expanded(
                 child: Text(spendYearlyItemState[i].item),
@@ -143,7 +155,7 @@ class SpendYearlyItemAlert extends ConsumerWidget {
                     )
                   : const Icon(
                       Icons.crop_square,
-                      color: Colors.black,
+                      color: Colors.transparent,
                     ),
             ],
           ),

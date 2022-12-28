@@ -99,7 +99,7 @@ class CreditSummaryAlert extends ConsumerWidget {
 
   ///
   Widget displayCreditSummary() {
-    final oneWidth = _context.screenSize.width / 6;
+    final oneWidth = _context.screenSize.width / 6.5;
 
     final appParamState = _ref.watch(appParamProvider);
 
