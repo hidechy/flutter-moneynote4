@@ -122,7 +122,7 @@ class SpendYearlyItemAlert extends ConsumerWidget {
           child: Row(
             children: [
               Expanded(
-                child: Text('${spendYearlyItemState[i].date.mmdd}（${youbi}）'),
+                child: Text('${spendYearlyItemState[i].date.mmdd}（$youbi）'),
               ),
               Expanded(
                 child: Text(spendYearlyItemState[i].item),

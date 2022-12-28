@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/models/spend_year_summary.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
+import '../../models/spend_year_summary.dart';
 import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
@@ -33,6 +33,12 @@ class SpendSummaryAlert extends ConsumerWidget {
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
+    final appParamState = ref.watch(appParamProvider);
+
+    final spendSummaryState = ref.watch(spendSummaryProvider(
+        '${appParamState.SpendSummaryAlertSelectYear}-01-01 00:00:00'
+            .toDateTime()));
+
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.zero,
@@ -42,26 +48,37 @@ class SpendSummaryAlert extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         width: double.infinity,
         height: double.infinity,
-        child: SingleChildScrollView(
-          child: DefaultTextStyle(
-            style: const TextStyle(fontSize: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                Container(width: context.screenSize.width),
+        child: Stack(
+          children: [
+            AbsorbPointer(
+              absorbing: spendSummaryState.saving,
+              child: SingleChildScrollView(
+                child: DefaultTextStyle(
+                  style: const TextStyle(fontSize: 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 20),
+                      Container(width: context.screenSize.width),
 
-                //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
-                //----------//
+                      //----------//
+                      if (deviceInfoState.model == 'iPhone')
+                        _utility.getFileNameDebug(name: runtimeType.toString()),
+                      //----------//
 
-                Row(children: yearWidgetList),
-                const SizedBox(height: 20),
-                displaySpendSummary(),
-              ],
+                      Row(children: yearWidgetList),
+                      const SizedBox(height: 20),
+                      displaySpendSummary(),
+                    ],
+                  ),
+                ),
+              ),
             ),
-          ),
+            if (spendSummaryState.saving)
+              const Center(
+                child: CircularProgressIndicator(),
+              ),
+          ],
         ),
       ),
     );
@@ -119,9 +136,9 @@ class SpendSummaryAlert extends ConsumerWidget {
 
     final list = <Widget>[];
 
-    for (var i = 0; i < spendSummaryState.length; i++) {
+    for (var i = 0; i < spendSummaryState.list.length; i++) {
       final list2 = <Widget>[];
-      for (var j = 0; j < spendSummaryState[i].list.length; j++) {
+      for (var j = 0; j < spendSummaryState.list[i].list.length; j++) {
         list2.add(
           Container(
             width: oneWidth,
@@ -133,14 +150,12 @@ class SpendSummaryAlert extends ConsumerWidget {
             child: Stack(
               children: [
                 Text(
-                  spendSummaryState[i].list[j].month,
+                  spendSummaryState.list[i].list[j].month,
                   style: const TextStyle(color: Colors.grey),
                 ),
                 Container(
                   alignment: Alignment.topRight,
-                  child: Text(spendSummaryState[i]
-                      .list[j]
-                      .price
+                  child: Text(spendSummaryState.list[i].list[j].price
                       .toString()
                       .toCurrency()),
                 ),
@@ -178,9 +193,9 @@ class SpendSummaryAlert extends ConsumerWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(spendSummaryState[i].item),
+                    Text(spendSummaryState.list[i].item),
                     getItemTotal(
-                      item: spendSummaryState[i].item,
+                      item: spendSummaryState.list[i].item,
                       state: spendYearSummaryState,
                     ),
                   ],

@@ -2,6 +2,7 @@
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/models/zero_use_date.dart';
+import 'package:moneynote4/state/spend_summary/spend_summary_state.dart';
 import 'package:moneynote4/state/spend_yearly_item/spend_yearly_item_state.dart';
 
 import '../data/http/client.dart';
@@ -247,21 +248,24 @@ class SpendYearlyItemNotifier
 
 ////////////////////////////////////////////////
 final spendSummaryProvider = StateNotifierProvider.autoDispose
-    .family<SpendSummaryNotifier, List<SpendSummary>, DateTime>((ref, date) {
+    .family<SpendSummaryNotifier, SpendSummaryState, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return SpendSummaryNotifier([], client, utility)..getSpendSummary(date: date);
+  return SpendSummaryNotifier(const SpendSummaryState(), client, utility)
+    ..getSpendSummary(date: date);
 });
 
-class SpendSummaryNotifier extends StateNotifier<List<SpendSummary>> {
+class SpendSummaryNotifier extends StateNotifier<SpendSummaryState> {
   SpendSummaryNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
   final Utility utility;
 
   Future<void> getSpendSummary({required DateTime date}) async {
+    state = state.copyWith(saving: true);
+
     final year = date.yyyy;
 
     await client.post(
@@ -271,43 +275,14 @@ class SpendSummaryNotifier extends StateNotifier<List<SpendSummary>> {
       final list = <SpendSummary>[];
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        /*
-
-
-        final list2 = <SpendSummaryRecord>[];
-        for (var j = 0;
-            j < value['data'][i]['list'].length.toString().toInt();
-            j++) {
-          list2.add(
-            SpendSummaryRecord(
-              month: value['data'][i]['list'][j]['month'].toString(),
-              price: value['data'][i]['list'][j]['price'].toString().toInt(),
-            ),
-          );
-        }
-
         list.add(
-          SpendSummary(
-            item: value['data'][i]['item'].toString(),
-            list: list2,
-          ),
-        );
-
-
-
-        */
-
-        list.add(
-          // SpendSummary(
-          //   item: value['data'][i]['item'].toString(),
-          //   list: list2,
-          // ),
-
           SpendSummary.fromJson(value['data'][i] as Map<String, dynamic>),
         );
       }
 
-      state = list;
+      state = state.copyWith(saving: false);
+
+      state = state.copyWith(list: list);
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
