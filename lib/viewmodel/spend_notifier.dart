@@ -21,7 +21,7 @@ spendMonthSummaryProvider       List<SpendMonthSummary>
 spendItemDailyProvider        SpendItemDaily
 spendMonthDetailProvider        List<SpendYearly>
 spendYearlyItemProvider       List<SpendYearlyItemState>
-spendSummaryProvider        List<SpendSummary>
+spendSummaryProvider        SpendSummaryState // saving
 spendYearSummaryProvider        List<SpendYearSummary>
 spendZeroUseDateProvider        ZeroUseDate
 */
