@@ -68,7 +68,6 @@ class SeiyuAlert extends ConsumerWidget {
                   height: 40,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    key: PageStorageKey(uuid.v1()),
                     child: Row(
                       children: yearDateList.map((val) {
                         final exVal = val.split('-');
@@ -277,42 +276,3 @@ class SeiyuAlert extends ConsumerWidget {
     );
   }
 }
-
-/*
-
-
-
-
-
-////////////////////////////////////////////////
-
-final selectYearProvider =
-    StateNotifierProvider.autoDispose<SelectYearStateNotifier, String>((ref) {
-  return SelectYearStateNotifier();
-});
-
-class SelectYearStateNotifier extends StateNotifier<String> {
-  SelectYearStateNotifier() : super(DateTime.now().toString().split('-')[0]);
-
-  ///
-  Future<void> setSelectYear({required String selectYear}) async {
-    state = selectYear;
-  }
-}
-
-////////////////////////////////////////////////
-
-final selectDateProvider =
-    StateNotifierProvider.autoDispose<SelectDateStateNotifier, String>((ref) {
-  return SelectDateStateNotifier();
-});
-
-class SelectDateStateNotifier extends StateNotifier<String> {
-  SelectDateStateNotifier() : super(DateTime.now().toString().split('-')[0]);
-
-  ///
-  Future<void> setSelectDate({required String selectDate}) async {
-    state = selectDate;
-  }
-}
-*/

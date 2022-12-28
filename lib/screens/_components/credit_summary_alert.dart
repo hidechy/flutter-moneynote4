@@ -30,6 +30,12 @@ class CreditSummaryAlert extends ConsumerWidget {
 
     final yearWidgetList = makeYearWidgetList();
 
+    final appParamState = _ref.watch(appParamProvider);
+
+    final creditSummaryState = _ref.watch(creditSummaryProvider(
+        '${appParamState.CreditSummaryAlertSelectYear}-01-01 00:00:00'
+            .toDateTime()));
+
     final deviceInfoState = ref.read(deviceInfoProvider);
 
     return AlertDialog(
@@ -41,26 +47,37 @@ class CreditSummaryAlert extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         width: double.infinity,
         height: double.infinity,
-        child: SingleChildScrollView(
-          child: DefaultTextStyle(
-            style: const TextStyle(fontSize: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                Container(width: context.screenSize.width),
+        child: Stack(
+          children: [
+            AbsorbPointer(
+              absorbing: creditSummaryState.saving,
+              child: SingleChildScrollView(
+                child: DefaultTextStyle(
+                  style: const TextStyle(fontSize: 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 20),
+                      Container(width: context.screenSize.width),
 
-                //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
-                //----------//
+                      //----------//
+                      if (deviceInfoState.model == 'iPhone')
+                        _utility.getFileNameDebug(name: runtimeType.toString()),
+                      //----------//
 
-                Row(children: yearWidgetList),
-                const SizedBox(height: 20),
-                displayCreditSummary(),
-              ],
+                      Row(children: yearWidgetList),
+                      const SizedBox(height: 20),
+                      displayCreditSummary(),
+                    ],
+                  ),
+                ),
+              ),
             ),
-          ),
+            if (creditSummaryState.saving)
+              const Center(
+                child: CircularProgressIndicator(),
+              ),
+          ],
         ),
       ),
     );
@@ -107,11 +124,22 @@ class CreditSummaryAlert extends ConsumerWidget {
         '${appParamState.CreditSummaryAlertSelectYear}-01-01 00:00:00'
             .toDateTime()));
 
+    //--------------------------------------------------//
+    final itemSumMap = <String, int>{};
+    for (var i = 0; i < creditSummaryState.list.length; i++) {
+      var sum = 0;
+      for (var j = 0; j < creditSummaryState.list[i].list.length; j++) {
+        sum += creditSummaryState.list[i].list[j].price.toString().toInt();
+      }
+      itemSumMap[creditSummaryState.list[i].item] = sum;
+    }
+    //--------------------------------------------------//
+
     final list = <Widget>[];
 
-    for (var i = 0; i < creditSummaryState.length; i++) {
+    for (var i = 0; i < creditSummaryState.list.length; i++) {
       final list2 = <Widget>[];
-      for (var j = 0; j < creditSummaryState[i].list.length; j++) {
+      for (var j = 0; j < creditSummaryState.list[i].list.length; j++) {
         list2.add(
           Container(
             width: oneWidth,
@@ -123,16 +151,16 @@ class CreditSummaryAlert extends ConsumerWidget {
             child: Stack(
               children: [
                 Text(
-                  creditSummaryState[i].list[j].month,
+                  creditSummaryState.list[i].list[j].month,
                   style: const TextStyle(color: Colors.grey),
                 ),
                 Container(
                   alignment: Alignment.topRight,
-                  child: Text(creditSummaryState[i]
-                      .list[j]
-                      .price
-                      .toString()
-                      .toCurrency()),
+                  child: Text(
+                    creditSummaryState.list[i].list[j].price
+                        .toString()
+                        .toCurrency(),
+                  ),
                 ),
               ],
             ),
@@ -165,7 +193,25 @@ class CreditSummaryAlert extends ConsumerWidget {
                     ],
                   ),
                 ),
-                child: Text(creditSummaryState[i].item),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        creditSummaryState.list[i].item,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Container(
+                      width: 60,
+                      alignment: Alignment.topRight,
+                      child: Text(
+                        itemSumMap[creditSummaryState.list[i].item]
+                            .toString()
+                            .toCurrency(),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Wrap(children: list2),
             ],

@@ -5,7 +5,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
-import '../../models/spend_year_summary.dart';
 import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
@@ -127,12 +126,16 @@ class SpendSummaryAlert extends ConsumerWidget {
         '${appParamState.SpendSummaryAlertSelectYear}-01-01 00:00:00'
             .toDateTime()));
 
-    final spendYearSummaryState = _ref.watch(
-      spendYearSummaryProvider(
-        '${appParamState.SpendSummaryAlertSelectYear}-01-01 00:00:00'
-            .toDateTime(),
-      ),
-    );
+    //--------------------------------------------------//
+    final itemSumMap = <String, int>{};
+    for (var i = 0; i < spendSummaryState.list.length; i++) {
+      var sum = 0;
+      for (var j = 0; j < spendSummaryState.list[i].list.length; j++) {
+        sum += spendSummaryState.list[i].list[j].price.toString().toInt();
+      }
+      itemSumMap[spendSummaryState.list[i].item] = sum;
+    }
+    //--------------------------------------------------//
 
     final list = <Widget>[];
 
@@ -193,10 +196,20 @@ class SpendSummaryAlert extends ConsumerWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(spendSummaryState.list[i].item),
-                    getItemTotal(
-                      item: spendSummaryState.list[i].item,
-                      state: spendYearSummaryState,
+                    Expanded(
+                      child: Text(
+                        spendSummaryState.list[i].item,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Container(
+                      width: 60,
+                      alignment: Alignment.topRight,
+                      child: Text(
+                        itemSumMap[spendSummaryState.list[i].item]
+                            .toString()
+                            .toCurrency(),
+                      ),
                     ),
                   ],
                 ),
@@ -214,28 +227,6 @@ class SpendSummaryAlert extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: list,
       ),
-    );
-  }
-
-  ///
-  Widget getItemTotal(
-      {required String item, required List<SpendYearSummary> state}) {
-    var it = SpendYearSummary(item: '', sum: 0, percent: 0);
-
-    for (var i = 0; i < state.length; i++) {
-      if (item == state[i].item) {
-        it = SpendYearSummary(
-          item: state[i].item,
-          sum: state[i].sum,
-          percent: state[i].percent,
-        );
-      }
-    }
-
-    return Container(
-      alignment: Alignment.topRight,
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      child: Text(it.sum.toString().toCurrency()),
     );
   }
 }

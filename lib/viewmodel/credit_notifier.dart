@@ -2,6 +2,7 @@
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/models/spend_yearly_detail.dart';
+import 'package:moneynote4/state/credit_summary/credit_summary_state.dart';
 
 import '../../extensions/extensions.dart';
 import '../data/http/client.dart';
@@ -84,22 +85,24 @@ class CreditSpendMonthlyNotifier
 ////////////////////////////////////////////////
 
 final creditSummaryProvider = StateNotifierProvider.autoDispose
-    .family<CreditSummaryNotifier, List<CreditSummary>, DateTime>((ref, date) {
+    .family<CreditSummaryNotifier, CreditSummaryState, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return CreditSummaryNotifier([], client, utility)
+  return CreditSummaryNotifier(const CreditSummaryState(), client, utility)
     ..getCreditSummary(date: date);
 });
 
-class CreditSummaryNotifier extends StateNotifier<List<CreditSummary>> {
+class CreditSummaryNotifier extends StateNotifier<CreditSummaryState> {
   CreditSummaryNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
   final Utility utility;
 
   Future<void> getCreditSummary({required DateTime date}) async {
+    state = state.copyWith(saving: true);
+
     final year = date.yyyy;
 
     await client.post(
@@ -110,47 +113,13 @@ class CreditSummaryNotifier extends StateNotifier<List<CreditSummary>> {
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         list.add(
-          // CreditSummary(
-          //   item: value['data'][i]['item'].toString(),
-          //   list: list2,
-          // ),
-
           CreditSummary.fromJson(value['data'][i] as Map<String, dynamic>),
         );
-
-        /*
-
-
-
-        final list2 = <CreditSummaryRecord>[];
-        for (var j = 0;
-            j < value['data'][i]['list'].length.toString().toInt();
-            j++) {
-          list2.add(
-            // CreditSummaryRecord(
-            //   month: value['data'][i]['list'][j]['month'].toString(),
-            //   price: value['data'][i]['list'][j]['price'].toString().toInt(),
-            // ),
-
-            CreditSummaryRecord.fromJson(
-                value['data'][i] as Map<String, dynamic>),
-          );
-        }
-
-        list.add(
-          CreditSummary(
-            item: value['data'][i]['item'].toString(),
-            list: list2,
-          ),
-        );
-
-
-
-        */
-
       }
 
-      state = list;
+      state = state.copyWith(saving: false);
+
+      state = state.copyWith(list: list);
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
@@ -284,22 +253,22 @@ class CreditSummaryDetailNotifier
 
   final HttpClient client;
   final Utility utility;
-  final List<CreditSummary> creditSummaryState;
+  final CreditSummaryState creditSummaryState;
 
   Future<void> getCreditSummaryDetail({required DateTime date}) async {
     final month = date.mm;
 
     final list = <SpendYearlyDetail>[];
 
-    for (var i = 0; i < creditSummaryState.length; i++) {
-      for (var j = 0; j < creditSummaryState[i].list.length; j++) {
-        if (month == creditSummaryState[i].list[j].month) {
-          if (creditSummaryState[i].list[j].price > 0) {
+    for (var i = 0; i < creditSummaryState.list.length; i++) {
+      for (var j = 0; j < creditSummaryState.list[i].list.length; j++) {
+        if (month == creditSummaryState.list[i].list[j].month) {
+          if (creditSummaryState.list[i].list[j].price > 0) {
             list.add(
               SpendYearlyDetail(
-                item: creditSummaryState[i].item,
-                month: creditSummaryState[i].list[j].month,
-                price: creditSummaryState[i].list[j].price,
+                item: creditSummaryState.list[i].item,
+                month: creditSummaryState.list[i].list[j].month,
+                price: creditSummaryState.list[i].list[j].price,
               ),
             );
           }
