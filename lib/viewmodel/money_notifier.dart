@@ -14,7 +14,7 @@ import '../utility/utility.dart';
 /*
 moneyProvider       Money
 moneyEverydayProvider       List<MoneyEveryday>
-moneyScoreProvider        List<MoneyScore>        *
+moneyScoreProvider        MoneyScoreState       *
 */
 
 ////////////////////////////////////////////////
