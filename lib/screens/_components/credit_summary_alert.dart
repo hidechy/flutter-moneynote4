@@ -137,6 +137,8 @@ class CreditSummaryAlert extends ConsumerWidget {
 
     final list = <Widget>[];
 
+    var total = 0;
+
     for (var i = 0; i < creditSummaryState.list.length; i++) {
       final list2 = <Widget>[];
       for (var j = 0; j < creditSummaryState.list[i].list.length; j++) {
@@ -167,6 +169,8 @@ class CreditSummaryAlert extends ConsumerWidget {
           ),
         );
       }
+
+      total += itemSumMap[creditSummaryState.list[i].item].toString().toInt();
 
       list.add(
         Container(
@@ -214,6 +218,14 @@ class CreditSummaryAlert extends ConsumerWidget {
                 ),
               ),
               Wrap(children: list2),
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 5),
+                alignment: Alignment.topRight,
+                child: Text(
+                  total.toString().toCurrency(),
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
             ],
           ),
         ),
