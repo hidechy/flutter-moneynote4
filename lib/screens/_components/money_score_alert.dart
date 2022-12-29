@@ -119,15 +119,18 @@ class MoneyScoreAlert extends ConsumerWidget {
       keepYear = ymd.yyyy;
     }
 
-    yearScore[DateTime.now().yyyy.toInt()]!.removeLast();
+    if (yearScore[DateTime.now().yyyy.toInt()] != null) {
+      yearScore[DateTime.now().yyyy.toInt()]!.removeLast();
 
-    yearList.forEach((element) {
-      var sum = 0;
-      yearScore[element]!.forEach((element2) {
-        sum += element2;
+      yearList.forEach((element) {
+        var sum = 0;
+        yearScore[element]!.forEach((element2) {
+          sum += element2;
+        });
+        yearScore2[element] = sum;
       });
-      yearScore2[element] = sum;
-    });
+    }
+
     //--------------------------------------//
 
     final list = <Widget>[];
