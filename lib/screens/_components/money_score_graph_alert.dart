@@ -37,6 +37,8 @@ class MoneyScoreGraphAlert extends ConsumerWidget {
 
     setChartData();
 
+    final moneyScoreState = ref.watch(moneyScoreProvider);
+
     final graphWidthState = ref.watch(graphWidthProvider);
 
     final deviceInfoState = ref.read(deviceInfoProvider);
@@ -47,75 +49,91 @@ class MoneyScoreGraphAlert extends ConsumerWidget {
       content: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         controller: _controller,
-        child: SizedBox(
-          width: context.screenSize.width * graphWidthState,
-          height: context.screenSize.height - 50,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(width: context.screenSize.width),
+        child: Stack(
+          children: [
+            AbsorbPointer(
+              absorbing: moneyScoreState.saving,
+              child: SizedBox(
+                width: context.screenSize.width * graphWidthState,
+                height: context.screenSize.height - 50,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(width: context.screenSize.width),
 
-              //----------//
-              if (deviceInfoState.model == 'iPhone')
-                _utility.getFileNameDebug(name: runtimeType.toString()),
-              //----------//
+                    //----------//
+                    if (deviceInfoState.model == 'iPhone')
+                      _utility.getFileNameDebug(name: runtimeType.toString()),
+                    //----------//
 
-              Expanded(
-                child: LineChart(data),
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.indigo.withOpacity(0.3),
-                        ),
-                        onPressed: () {
-                          ref.watch(graphWidthProvider.notifier).setGraphWidth(
-                                width: (graphWidthState == minGraphRate)
-                                    ? (flspots.length / 5).ceil().toDouble()
-                                    : minGraphRate,
-                              );
-                        },
-                        child: const Text('width'),
-                      ),
-                      if (graphWidthState > minGraphRate)
+                    Expanded(
+                      child: LineChart(data),
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
                         Row(
                           children: [
-                            const SizedBox(width: 10),
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    Colors.pinkAccent.withOpacity(0.3),
+                                backgroundColor: Colors.indigo.withOpacity(0.3),
                               ),
                               onPressed: () {
-                                _controller.jumpTo(
-                                    _controller.position.maxScrollExtent);
+                                ref
+                                    .watch(graphWidthProvider.notifier)
+                                    .setGraphWidth(
+                                      width: (graphWidthState == minGraphRate)
+                                          ? (flspots.length / 5)
+                                              .ceil()
+                                              .toDouble()
+                                          : minGraphRate,
+                                    );
                               },
-                              child: const Text('jump'),
+                              child: const Text('width'),
                             ),
+                            if (graphWidthState > minGraphRate)
+                              Row(
+                                children: [
+                                  const SizedBox(width: 10),
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          Colors.pinkAccent.withOpacity(0.3),
+                                    ),
+                                    onPressed: () {
+                                      _controller.jumpTo(
+                                          _controller.position.maxScrollExtent);
+                                    },
+                                    child: const Text('jump'),
+                                  ),
+                                ],
+                              ),
                           ],
                         ),
-                    ],
-                  ),
-                  if (graphWidthState > minGraphRate)
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.pinkAccent.withOpacity(0.3),
-                      ),
-                      onPressed: () {
-                        _controller
-                            .jumpTo(_controller.position.minScrollExtent);
-                      },
-                      child: const Text('back'),
+                        if (graphWidthState > minGraphRate)
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Colors.pinkAccent.withOpacity(0.3),
+                            ),
+                            onPressed: () {
+                              _controller
+                                  .jumpTo(_controller.position.minScrollExtent);
+                            },
+                            child: const Text('back'),
+                          ),
+                      ],
                     ),
-                ],
+                  ],
+                ),
               ),
-            ],
-          ),
+            ),
+            if (moneyScoreState.saving)
+              const Center(
+                child: CircularProgressIndicator(),
+              ),
+          ],
         ),
       ),
     );
@@ -132,17 +150,17 @@ class MoneyScoreGraphAlert extends ConsumerWidget {
     flspots = [];
 
     var j = 0;
-    for (var i = 0; i < moneyScoreState.length; i++) {
+    for (var i = 0; i < moneyScoreState.list.length; i++) {
       flspots.add(
         FlSpot(
           (j + 1).toDouble(),
-          moneyScoreState[i].price.toInt().toDouble(),
+          moneyScoreState.list[i].price.toInt().toDouble(),
         ),
       );
 
-      list.add(moneyScoreState[i].price.toInt());
+      list.add(moneyScoreState.list[i].price.toInt());
 
-      ymList.add(moneyScoreState[i].ym);
+      ymList.add(moneyScoreState.list[i].ym);
 
       j++;
     }

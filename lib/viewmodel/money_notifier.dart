@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/state/money_score/money_score_state.dart';
 
 import '../data/http/client.dart';
 import '../data/http/path.dart';
@@ -143,22 +144,25 @@ class MoneyEverydayNotifier extends StateNotifier<List<MoneyEveryday>> {
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 final moneyScoreProvider =
-    StateNotifierProvider.autoDispose<MoneyScoreNotifier, List<MoneyScore>>(
+    StateNotifierProvider.autoDispose<MoneyScoreNotifier, MoneyScoreState>(
         (ref) {
   final client = ref.read(httpClientProvider);
 
   final moneyEverydayState = ref.watch(moneyEverydayProvider);
 
-  return MoneyScoreNotifier([], client, moneyEverydayState)..getMoneyScore();
+  return MoneyScoreNotifier(MoneyScoreState(), client, moneyEverydayState)
+    ..getMoneyScore();
 });
 
-class MoneyScoreNotifier extends StateNotifier<List<MoneyScore>> {
+class MoneyScoreNotifier extends StateNotifier<MoneyScoreState> {
   MoneyScoreNotifier(super.state, this.client, this.moneyEverydayState);
 
   final HttpClient client;
   final List<MoneyEveryday> moneyEverydayState;
 
   Future<void> getMoneyScore() async {
+    state = state.copyWith(saving: true);
+
     final list = <MoneyScore>[];
 
     final allSum = <String, int>{};
@@ -194,7 +198,9 @@ class MoneyScoreNotifier extends StateNotifier<List<MoneyScore>> {
       );
     }
 
-    state = list;
+    state = state.copyWith(saving: false);
+
+    state = state.copyWith(list: list);
   }
 }
 

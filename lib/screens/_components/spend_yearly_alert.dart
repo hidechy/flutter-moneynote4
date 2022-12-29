@@ -267,7 +267,10 @@ class SpendYearlyAlert extends ConsumerWidget {
               ),
             );
           },
-          child: const Icon(Icons.credit_card),
+          child: Icon(
+            Icons.credit_card,
+            color: Colors.white.withOpacity(0.6),
+          ),
         );
       default:
         return GestureDetector(
@@ -282,7 +285,10 @@ class SpendYearlyAlert extends ConsumerWidget {
               ),
             );
           },
-          child: const Icon(Icons.call_made),
+          child: Icon(
+            Icons.info_outline,
+            color: Colors.white.withOpacity(0.6),
+          ),
         );
     }
   }

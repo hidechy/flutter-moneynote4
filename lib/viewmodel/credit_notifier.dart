@@ -14,7 +14,7 @@ import '../utility/utility.dart';
 
 /*
 creditSpendMonthlyProvider        List<CreditSpendMonthly>
-creditSummaryProvider       List<CreditSummary>
+creditSummaryProvider       CreditSummaryState // saving
 creditCompanyProvider       List<CreditCompany>
 selectCreditProvider        String
 creditSummaryDetailProvider       List<SpendYearlyDetail>       *

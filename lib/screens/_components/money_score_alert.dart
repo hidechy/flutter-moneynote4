@@ -27,6 +27,8 @@ class MoneyScoreAlert extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
 
+    final moneyScoreState = ref.watch(moneyScoreProvider);
+
     final deviceInfoState = ref.read(deviceInfoProvider);
 
     return AlertDialog(
@@ -38,42 +40,53 @@ class MoneyScoreAlert extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         width: double.infinity,
         height: double.infinity,
-        child: SingleChildScrollView(
-          child: DefaultTextStyle(
-            style: const TextStyle(fontSize: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                Container(width: context.screenSize.width),
+        child: Stack(
+          children: [
+            AbsorbPointer(
+              absorbing: moneyScoreState.saving,
+              child: SingleChildScrollView(
+                child: DefaultTextStyle(
+                  style: const TextStyle(fontSize: 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 20),
+                      Container(width: context.screenSize.width),
 
-                //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
-                //----------//
+                      //----------//
+                      if (deviceInfoState.model == 'iPhone')
+                        _utility.getFileNameDebug(name: runtimeType.toString()),
+                      //----------//
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(),
-                    GestureDetector(
-                      onTap: () {
-                        MoneyDialog(
-                          context: context,
-                          widget: MoneyScoreGraphAlert(date: date),
-                        );
-                      },
-                      child: const Icon(Icons.graphic_eq),
-                    ),
-                  ],
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(),
+                          GestureDetector(
+                            onTap: () {
+                              MoneyDialog(
+                                context: context,
+                                widget: MoneyScoreGraphAlert(date: date),
+                              );
+                            },
+                            child: const Icon(Icons.graphic_eq),
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      displayMoneyScore(),
+                    ],
+                  ),
                 ),
-
-                const SizedBox(height: 20),
-
-                displayMoneyScore(),
-              ],
+              ),
             ),
-          ),
+            if (moneyScoreState.saving)
+              const Center(
+                child: CircularProgressIndicator(),
+              ),
+          ],
         ),
       ),
     );
@@ -84,9 +97,10 @@ class MoneyScoreAlert extends ConsumerWidget {
     final moneyScoreState = _ref.watch(moneyScoreProvider);
 
     final list = <Widget>[];
-    for (var i = 0; i < moneyScoreState.length; i++) {
-      final price =
-          (moneyScoreState[i].price == '-') ? '0' : moneyScoreState[i].price;
+    for (var i = 0; i < moneyScoreState.list.length; i++) {
+      final price = (moneyScoreState.list[i].price == '-')
+          ? '0'
+          : moneyScoreState.list[i].price;
 
       list.add(
         Container(
@@ -100,7 +114,7 @@ class MoneyScoreAlert extends ConsumerWidget {
           ),
           child: Row(
             children: [
-              Expanded(child: Text(moneyScoreState[i].ym)),
+              Expanded(child: Text(moneyScoreState.list[i].ym)),
               Expanded(
                 child: Container(
                   alignment: Alignment.topRight,
@@ -109,13 +123,13 @@ class MoneyScoreAlert extends ConsumerWidget {
               ),
               SizedBox(
                 width: 100,
-                child: (i == moneyScoreState.length - 1)
+                child: (i == moneyScoreState.list.length - 1)
                     ? Column(children: const [Text(''), Text('')])
                     : Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          dispUpDownIcon(mark: moneyScoreState[i].updown),
-                          Text(moneyScoreState[i].sagaku.toCurrency()),
+                          dispUpDownIcon(mark: moneyScoreState.list[i].updown),
+                          Text(moneyScoreState.list[i].sagaku.toCurrency()),
                         ],
                       ),
               ),
