@@ -150,7 +150,7 @@ final moneyScoreProvider =
 
   final moneyEverydayState = ref.watch(moneyEverydayProvider);
 
-  return MoneyScoreNotifier(MoneyScoreState(), client, moneyEverydayState)
+  return MoneyScoreNotifier(const MoneyScoreState(), client, moneyEverydayState)
     ..getMoneyScore();
 });
 
@@ -189,12 +189,12 @@ class MoneyScoreNotifier extends StateNotifier<MoneyScoreState> {
 
       list.add(
         MoneyScore(
-          ym: ymList[i],
-          price: price.toString(),
-          manen: manen.toString(),
-          updown: updown.toString(),
-          sagaku: sagaku.toString(),
-        ),
+            ym: ymList[i],
+            price: price.toString(),
+            manen: manen.toString(),
+            updown: updown.toString(),
+            sagaku: sagaku.toString(),
+            sag: sag),
       );
     }
 

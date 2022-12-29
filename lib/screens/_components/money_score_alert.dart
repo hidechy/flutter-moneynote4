@@ -96,11 +96,68 @@ class MoneyScoreAlert extends ConsumerWidget {
   Widget displayMoneyScore() {
     final moneyScoreState = _ref.watch(moneyScoreProvider);
 
+    //--------------------------------------//
+    final yearScore = <int, List<int>>{};
+    final yearScore2 = <int, int>{};
+
+    var keepYear = '';
+    var scoreList = <int>[];
+    final yearList = <int>[];
+
+    for (var i = 0; i < moneyScoreState.list.length; i++) {
+      final ymd = '${moneyScoreState.list[i].ym}-01 00:00:00'.toDateTime();
+
+      if (keepYear != ymd.yyyy) {
+        yearList.add(ymd.yyyy.toInt());
+        scoreList = [];
+      }
+
+      scoreList.add(moneyScoreState.list[i].sag);
+
+      yearScore[ymd.yyyy.toInt()] = scoreList;
+
+      keepYear = ymd.yyyy;
+    }
+
+    yearScore[DateTime.now().yyyy.toInt()]!.removeLast();
+
+    yearList.forEach((element) {
+      var sum = 0;
+      yearScore[element]!.forEach((element2) {
+        sum += element2;
+      });
+      yearScore2[element] = sum;
+    });
+    //--------------------------------------//
+
     final list = <Widget>[];
     for (var i = 0; i < moneyScoreState.list.length; i++) {
       final price = (moneyScoreState.list[i].price == '-')
           ? '0'
           : moneyScoreState.list[i].price;
+
+      //--------------------------------------//
+      final ymd = '${moneyScoreState.list[i].ym}-01 00:00:00'.toDateTime();
+
+      if (ymd.mm == '01') {
+        if (yearScore2[ymd.yyyy.toInt()] != null) {
+          list.add(
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.only(top: 50),
+              padding: const EdgeInsets.all(5),
+              alignment: Alignment.topRight,
+              decoration: BoxDecoration(
+                color: Colors.yellowAccent.withOpacity(0.2),
+              ),
+              child: Text(
+                yearScore2[ymd.yyyy.toInt()].toString().toCurrency(),
+              ),
+            ),
+          );
+        }
+      }
+      //--------------------------------------//
 
       list.add(
         Container(

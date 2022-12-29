@@ -5,6 +5,7 @@ class MoneyScore {
     required this.manen,
     required this.updown,
     required this.sagaku,
+    required this.sag,
   });
 
   String ym;
@@ -12,4 +13,5 @@ class MoneyScore {
   String manen;
   String updown;
   String sagaku;
+  int sag;
 }
