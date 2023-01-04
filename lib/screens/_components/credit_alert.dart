@@ -36,9 +36,6 @@ class CreditAlert extends ConsumerWidget {
 
     final cardList = makeCardList(data: creditSpendMonthlyState);
 
-    final exDate = date.toString().split(' ');
-    final exYmd = exDate[0].split('-');
-
     final deviceInfoState = ref.read(deviceInfoProvider);
 
     return AlertDialog(
@@ -71,7 +68,7 @@ class CreditAlert extends ConsumerWidget {
                   ),
                   alignment: Alignment.center,
                   child: Text(
-                    '${exYmd[0]}-${exYmd[1]}',
+                    date.yyyymm,
                     style: const TextStyle(fontSize: 16),
                   ),
                 ),

@@ -220,14 +220,12 @@ class MoneyScoreGraphAlert extends ConsumerWidget {
             showTitles: (graphWidthState == minGraphRate) ? false : true,
             reservedSize: 60,
             getTitlesWidget: (value, meta) {
-              final exYm = ymList[value.toInt() - 1].split('-');
-
               return SideTitleWidget(
                 axisSide: meta.axisSide,
                 child: Column(
                   children: [
-                    Text(exYm[0]),
-                    Text(exYm[1]),
+                    Text(ymList[value.toInt() - 1].toDateTime().yyyy),
+                    Text(ymList[value.toInt() - 1].toDateTime().mm),
                   ],
                 ),
               );
@@ -242,16 +240,14 @@ class MoneyScoreGraphAlert extends ConsumerWidget {
             showTitles: true,
             reservedSize: 60,
             getTitlesWidget: (value, meta) {
-              final exYm = ymList[value.toInt() - 1].split('-');
-
               return SideTitleWidget(
                 axisSide: meta.axisSide,
                 child: (graphWidthState == minGraphRate)
                     ? Container()
                     : Column(
                         children: [
-                          Text(exYm[0]),
-                          Text(exYm[1]),
+                          Text(ymList[value.toInt() - 1].toDateTime().yyyy),
+                          Text(ymList[value.toInt() - 1].toDateTime().mm),
                         ],
                       ),
               );

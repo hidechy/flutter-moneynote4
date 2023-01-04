@@ -219,11 +219,11 @@ class CreditSummaryAlert extends ConsumerWidget {
               ),
               Wrap(children: list2),
               Container(
-                padding: EdgeInsets.symmetric(vertical: 5),
+                padding: const EdgeInsets.symmetric(vertical: 5),
                 alignment: Alignment.topRight,
                 child: Text(
                   total.toString().toCurrency(),
-                  style: TextStyle(color: Colors.grey),
+                  style: const TextStyle(color: Colors.grey),
                 ),
               ),
             ],

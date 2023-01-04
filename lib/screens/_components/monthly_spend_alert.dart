@@ -95,16 +95,15 @@ class MonthlySpendAlert extends ConsumerWidget {
 
   ///
   void getNext2MonthCreditSpend() {
-    final exYmd = date.yyyymmdd.split('-');
-
     var list = <CreditSpendMonthly>[];
     var keepDate = '';
 
     //---------------------//
-    final after1 = DateTime(exYmd[0].toInt(), exYmd[1].toInt() + 1);
+    final after1 = _utility.makeSpecialDate(
+        date: date, usage: 'month', plusminus: 'plus', num: 1);
 
     final creditSpendMonthlyState1 =
-        _ref.watch(creditSpendMonthlyProvider(after1));
+        _ref.watch(creditSpendMonthlyProvider(after1!));
 
     list = <CreditSpendMonthly>[];
     keepDate = '';
@@ -127,10 +126,12 @@ class MonthlySpendAlert extends ConsumerWidget {
     //---------------------//
 
     //---------------------//
-    final after2 = DateTime(exYmd[0].toInt(), exYmd[1].toInt() + 2);
+
+    final after2 = _utility.makeSpecialDate(
+        date: date, usage: 'month', plusminus: 'plus', num: 2);
 
     final creditSpendMonthlyState2 =
-        _ref.watch(creditSpendMonthlyProvider(after2));
+        _ref.watch(creditSpendMonthlyProvider(after2!));
 
     list = <CreditSpendMonthly>[];
     keepDate = '';

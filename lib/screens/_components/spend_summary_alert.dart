@@ -85,12 +85,10 @@ class SpendSummaryAlert extends ConsumerWidget {
 
   ///
   List<Widget> makeYearWidgetList() {
-    final exYmd = date.yyyymmdd.split('-');
-
     final appParamState = _ref.watch(appParamProvider);
 
     final yearList = <Widget>[];
-    for (var i = exYmd[0].toInt(); i >= 2020; i--) {
+    for (var i = date.yyyy.toInt(); i >= 2020; i--) {
       yearList.add(
         GestureDetector(
           onTap: () {
@@ -220,11 +218,11 @@ class SpendSummaryAlert extends ConsumerWidget {
               ),
               Wrap(children: list2),
               Container(
-                padding: EdgeInsets.symmetric(vertical: 5),
+                padding: const EdgeInsets.symmetric(vertical: 5),
                 alignment: Alignment.topRight,
                 child: Text(
                   total.toString().toCurrency(),
-                  style: TextStyle(color: Colors.grey),
+                  style: const TextStyle(color: Colors.grey),
                 ),
               ),
             ],

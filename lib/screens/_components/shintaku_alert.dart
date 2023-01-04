@@ -170,8 +170,8 @@ class ShintakuAlert extends ConsumerWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(exDate[0]),
-                      Text('${exDate[1]}-${exDate[2]}'),
+                      Text(exOne[0].toDateTime().yyyy),
+                      Text(exOne[0].toDateTime().mmdd),
                     ],
                   ),
                   Container(

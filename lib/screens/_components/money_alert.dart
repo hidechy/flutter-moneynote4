@@ -39,13 +39,10 @@ class MoneyAlert extends ConsumerWidget {
 
     final moneyState = ref.watch(moneyProvider(date));
 
-    final exDate = date.toString().split(' ');
-    final exYmd = exDate[0].split('-');
+    final yesterday = _utility.makeSpecialDate(
+        date: date, usage: 'day', plusminus: 'minus', num: 1);
 
-    final yesterday =
-        DateTime(exYmd[0].toInt(), exYmd[1].toInt(), exYmd[2].toInt() - 1);
-
-    final yesterdayMoney = ref.watch(moneyProvider(yesterday));
+    final yesterdayMoney = ref.watch(moneyProvider(yesterday!));
 
     final total = (moneyState.sum == '') ? '0' : moneyState.sum;
     final diff = (moneyState.sum == '' || yesterdayMoney.sum == '')
@@ -85,7 +82,7 @@ class MoneyAlert extends ConsumerWidget {
                   ),
                   alignment: Alignment.center,
                   child: Text(
-                    moneyState.date.toString().split(' ')[0],
+                    date.yyyymmdd,
                     style: const TextStyle(fontSize: 16),
                   ),
                 ),
@@ -354,7 +351,7 @@ class MoneyAlert extends ConsumerWidget {
                 Text(
                   (price == 'null') ? '0' : price.toCurrency(),
                 ),
-                Text(date.split(' ')[0]),
+                Text(date.toDateTime().yyyymmdd),
               ],
             ),
           ],
@@ -550,7 +547,7 @@ class MoneyAlert extends ConsumerWidget {
                     Expanded(
                       child: Container(
                         alignment: Alignment.topRight,
-                        child: Text(stockState.date.toString().split(' ')[0]),
+                        child: Text(stockState.date.yyyymmdd),
                       ),
                     ),
                   ],
@@ -620,8 +617,7 @@ class MoneyAlert extends ConsumerWidget {
                     Expanded(
                       child: Container(
                         alignment: Alignment.topRight,
-                        child:
-                            Text(shintakuState.date.toString().split(' ')[0]),
+                        child: Text(shintakuState.date.yyyymmdd),
                       ),
                     ),
                   ],

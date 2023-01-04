@@ -69,12 +69,10 @@ class HomeFixAlert extends ConsumerWidget {
 
   ///
   List<Widget> makeYearWidgetList() {
-    final exYmd = date.yyyymmdd.split('-');
-
     final appParamState = _ref.watch(appParamProvider);
 
     final yearList = <Widget>[];
-    for (var i = exYmd[0].toInt(); i >= 2020; i--) {
+    for (var i = date.yyyy.toInt(); i >= 2020; i--) {
       yearList.add(
         GestureDetector(
           onTap: () {

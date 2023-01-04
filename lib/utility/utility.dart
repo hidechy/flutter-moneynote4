@@ -1,6 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages, type_annotate_public_apis, cascade_invocations, strict_raw_type, noop_primitive_operations
 
 import 'package:flutter/material.dart';
+import 'package:moneynote4/extensions/extensions.dart';
 
 class Utility {
   /// 背景取得
@@ -141,6 +142,41 @@ class Utility {
         duration: const Duration(seconds: 5),
       ),
     );
+  }
+
+  ///
+  DateTime? makeSpecialDate({
+    required DateTime date,
+    required String usage,
+    required String plusminus,
+    required int num,
+  }) {
+    var exDate = date.yyyymmdd.split('-');
+
+    switch ('${usage}|${plusminus}') {
+      case 'year|plus':
+        return DateTime(exDate[0].toInt() + num);
+      case 'year|minus':
+        return DateTime(exDate[0].toInt() - num);
+      case 'month|plus':
+        return DateTime(exDate[0].toInt(), exDate[1].toInt() + num);
+      case 'month|minus':
+        return DateTime(exDate[0].toInt(), exDate[1].toInt() - num);
+      case 'day|plus':
+        return DateTime(
+          exDate[0].toInt(),
+          exDate[1].toInt(),
+          exDate[2].toInt() + 1,
+        );
+      case 'day|minus':
+        return DateTime(
+          exDate[0].toInt(),
+          exDate[1].toInt(),
+          exDate[2].toInt() - 1,
+        );
+    }
+
+    return null;
   }
 }
 
