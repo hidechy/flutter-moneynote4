@@ -277,27 +277,27 @@ class MoneyAlert extends ConsumerWidget {
                 getBankDispRow(
                   name: 'bank_a',
                   price: data.bankA,
-                  date: bankStateA.date.toString(),
+                  dt: bankStateA.date.toString(),
                 ),
                 getBankDispRow(
                   name: 'bank_b',
                   price: data.bankB,
-                  date: bankStateB.date.toString(),
+                  dt: bankStateB.date.toString(),
                 ),
                 getBankDispRow(
                   name: 'bank_c',
                   price: data.bankC,
-                  date: bankStateC.date.toString(),
+                  dt: bankStateC.date.toString(),
                 ),
                 getBankDispRow(
                   name: 'bank_d',
                   price: data.bankD,
-                  date: bankStateD.date.toString(),
+                  dt: bankStateD.date.toString(),
                 ),
                 getBankDispRow(
                   name: 'bank_e',
                   price: data.bankE,
-                  date: bankStateE.date.toString(),
+                  dt: bankStateE.date.toString(),
                 ),
               ],
             ),
@@ -309,8 +309,8 @@ class MoneyAlert extends ConsumerWidget {
 
   ///
   Widget getBankDispRow(
-      {required String name, required String price, required String date}) {
-    if (name == '' || price == '' || date == '') {
+      {required String name, required String price, required String dt}) {
+    if (name == '' || price == '' || dt == '') {
       return Container();
     }
 
@@ -351,7 +351,7 @@ class MoneyAlert extends ConsumerWidget {
                 Text(
                   (price == 'null') ? '0' : price.toCurrency(),
                 ),
-                Text(date.toDateTime().yyyymmdd),
+                Text(dt.split(' ')[0]),
               ],
             ),
           ],
@@ -396,27 +396,27 @@ class MoneyAlert extends ConsumerWidget {
                 getBankDispRow(
                   name: 'pay_a',
                   price: data.payA,
-                  date: payStateA.date.toString(),
+                  dt: payStateA.date.toString(),
                 ),
                 getBankDispRow(
                   name: 'pay_b',
                   price: data.payB,
-                  date: payStateB.date.toString(),
+                  dt: payStateB.date.toString(),
                 ),
                 getBankDispRow(
                   name: 'pay_c',
                   price: data.payC,
-                  date: payStateC.date.toString(),
+                  dt: payStateC.date.toString(),
                 ),
                 getBankDispRow(
                   name: 'pay_d',
                   price: data.payD,
-                  date: payStateD.date.toString(),
+                  dt: payStateD.date.toString(),
                 ),
                 getBankDispRow(
                   name: 'pay_e',
                   price: data.payE,
-                  date: payStateE.date.toString(),
+                  dt: payStateE.date.toString(),
                 ),
               ],
             ),
