@@ -151,9 +151,9 @@ class Utility {
     required String plusminus,
     required int num,
   }) {
-    var exDate = date.yyyymmdd.split('-');
+    final exDate = date.yyyymmdd.split('-');
 
-    switch ('${usage}|${plusminus}') {
+    switch ('$usage|$plusminus') {
       case 'year|plus':
         return DateTime(exDate[0].toInt() + num);
       case 'year|minus':
