@@ -93,9 +93,9 @@ class MoneyInputScreen extends ConsumerWidget {
 
     final spendMonthDetailState = _ref.watch(spendMonthDetailProvider(date));
 
-    if (spendMonthDetailState.isNotEmpty) {
-      lastInputDate =
-          spendMonthDetailState[spendMonthDetailState.length - 1].date.yyyymmdd;
+    if (spendMonthDetailState.list.isNotEmpty) {
+      lastInputDate = spendMonthDetailState
+          .list[spendMonthDetailState.list.length - 1].date.yyyymmdd;
     }
 
     final formTotalState = ref.watch(formTotalProvider);

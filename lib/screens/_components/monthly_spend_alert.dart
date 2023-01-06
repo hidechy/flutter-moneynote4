@@ -43,6 +43,8 @@ class MonthlySpendAlert extends ConsumerWidget {
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
+    final spendMonthDetailState = ref.watch(spendMonthDetailProvider(date));
+
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.zero,
@@ -51,42 +53,53 @@ class MonthlySpendAlert extends ConsumerWidget {
       content: SizedBox(
         width: double.infinity,
         height: double.infinity,
-        child: SingleChildScrollView(
-          child: DefaultTextStyle(
-            style: const TextStyle(fontSize: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                Container(width: context.screenSize.width),
-
-                //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
-                //----------//
-
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Stack(
+          children: [
+            AbsorbPointer(
+              absorbing: spendMonthDetailState.saving,
+              child: SingleChildScrollView(
+                child: DefaultTextStyle(
+                  style: const TextStyle(fontSize: 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          MoneyDialog(
-                            context: context,
-                            widget: MonthlySpendGraphAlert(date: date),
-                          );
-                        },
-                        child: const Icon(Icons.graphic_eq),
+                      const SizedBox(height: 20),
+                      Container(width: context.screenSize.width),
+
+                      //----------//
+                      if (deviceInfoState.model == 'iPhone')
+                        _utility.getFileNameDebug(name: runtimeType.toString()),
+                      //----------//
+
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                MoneyDialog(
+                                  context: context,
+                                  widget: MonthlySpendGraphAlert(date: date),
+                                );
+                              },
+                              child: const Icon(Icons.graphic_eq),
+                            ),
+                          ],
+                        ),
                       ),
+                      const SizedBox(height: 20),
+                      displayMonthlySpend(),
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
-                displayMonthlySpend(),
-              ],
+              ),
             ),
-          ),
+            if (spendMonthDetailState.saving)
+              const Center(
+                child: CircularProgressIndicator(),
+              ),
+          ],
         ),
       ),
     );
@@ -171,15 +184,16 @@ class MonthlySpendAlert extends ConsumerWidget {
 
     final list = <Widget>[];
 
-    for (var i = 0; i < spendMonthDetailState.length; i++) {
+    for (var i = 0; i < spendMonthDetailState.list.length; i++) {
       //--------------------------------------------- list2
       final list2 = <Widget>[];
 
       var daySum = 0;
-      for (var j = 0; j < spendMonthDetailState[i].item.length; j++) {
-        final color = (spendMonthDetailState[i].item[j].flag.toString() == '1')
-            ? Colors.lightBlueAccent
-            : Colors.white;
+      for (var j = 0; j < spendMonthDetailState.list[i].item.length; j++) {
+        final color =
+            (spendMonthDetailState.list[i].item[j].flag.toString() == '1')
+                ? Colors.lightBlueAccent
+                : Colors.white;
 
         list2.add(
           Container(
@@ -197,10 +211,8 @@ class MonthlySpendAlert extends ConsumerWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(spendMonthDetailState[i].item[j].item),
-                  Text(spendMonthDetailState[i]
-                      .item[j]
-                      .price
+                  Text(spendMonthDetailState.list[i].item[j].item),
+                  Text(spendMonthDetailState.list[i].item[j].price
                       .toString()
                       .toCurrency()),
                 ],
@@ -209,12 +221,13 @@ class MonthlySpendAlert extends ConsumerWidget {
           ),
         );
 
-        daySum += spendMonthDetailState[i].item[j].price.toString().toInt();
+        daySum +=
+            spendMonthDetailState.list[i].item[j].price.toString().toInt();
       }
 
-      if (creditSpendMap[spendMonthDetailState[i].date.yyyymmdd] != null) {
+      if (creditSpendMap[spendMonthDetailState.list[i].date.yyyymmdd] != null) {
         final creditItemList =
-            creditSpendMap[spendMonthDetailState[i].date.yyyymmdd];
+            creditSpendMap[spendMonthDetailState.list[i].date.yyyymmdd];
 
         for (var j = 0; j < creditItemList!.length; j++) {
           list2.add(
@@ -258,7 +271,7 @@ class MonthlySpendAlert extends ConsumerWidget {
 
       //////////////////////////////////////////////////////////////////
       for (var j = 0; j < benefitState.length; j++) {
-        if (spendMonthDetailState[i].date.yyyymmdd ==
+        if (spendMonthDetailState.list[i].date.yyyymmdd ==
             benefitState[j].date.yyyymmdd) {
           list2.add(
             Container(
@@ -300,7 +313,7 @@ class MonthlySpendAlert extends ConsumerWidget {
 
       //////////////////////////////////////////////////////////////////
       for (var j = 0; j < bankMoveState.length; j++) {
-        if (spendMonthDetailState[i].date.yyyymmdd ==
+        if (spendMonthDetailState.list[i].date.yyyymmdd ==
             bankMoveState[j].date.yyyymmdd) {
           list2.add(
             Container(
@@ -344,10 +357,10 @@ class MonthlySpendAlert extends ConsumerWidget {
       //--------------------------------------------- list2
 
       final youbi = _utility.getYoubi(
-        youbiStr: spendMonthDetailState[i].date.youbiStr,
+        youbiStr: spendMonthDetailState.list[i].date.youbiStr,
       );
 
-      final sum = everydayStateMap[spendMonthDetailState[i].date.yyyymmdd];
+      final sum = everydayStateMap[spendMonthDetailState.list[i].date.yyyymmdd];
 
       var diff = 0;
       if (sum != null) {
@@ -355,7 +368,7 @@ class MonthlySpendAlert extends ConsumerWidget {
       }
 
       final spendZeroFlag = getSpendZeroFlag(
-        date: spendMonthDetailState[i].date.yyyymmdd,
+        date: spendMonthDetailState.list[i].date.yyyymmdd,
         spend: spendZeroUseDateState,
       );
 
@@ -366,8 +379,8 @@ class MonthlySpendAlert extends ConsumerWidget {
           decoration: BoxDecoration(
             border: Border.all(color: Colors.white.withOpacity(0.5)),
             color: _utility.getYoubiColor(
-              date: spendMonthDetailState[i].date,
-              youbiStr: spendMonthDetailState[i].date.youbiStr,
+              date: spendMonthDetailState.list[i].date,
+              youbiStr: spendMonthDetailState.list[i].date.youbiStr,
               holiday: holidayState.data,
             ),
           ),
@@ -380,7 +393,7 @@ class MonthlySpendAlert extends ConsumerWidget {
                   Row(
                     children: [
                       Text(
-                        '${spendMonthDetailState[i].date.yyyymmdd}（$youbi）',
+                        '${spendMonthDetailState.list[i].date.yyyymmdd}（$youbi）',
                       ),
                       if (spendZeroFlag == 1)
                         Icon(

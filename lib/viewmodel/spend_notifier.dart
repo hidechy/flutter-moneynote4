@@ -2,6 +2,7 @@
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/models/zero_use_date.dart';
+import 'package:moneynote4/state/monthly_spend/monthly_spend_state.dart';
 import 'package:moneynote4/state/spend_summary/spend_summary_state.dart';
 import 'package:moneynote4/state/spend_yearly_item/spend_yearly_item_state.dart';
 
@@ -130,18 +131,21 @@ class SpendItemDailyNotifier extends StateNotifier<SpendItemDaily> {
 }
 
 ////////////////////////////////////////////////
+
+//
+
 ////////////////////////////////////////////////
 final spendMonthDetailProvider = StateNotifierProvider.autoDispose
-    .family<SpendMonthDetailNotifier, List<SpendYearly>, DateTime>((ref, date) {
+    .family<SpendMonthDetailNotifier, MonthlySpendState, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return SpendMonthDetailNotifier([], client, utility)
+  return SpendMonthDetailNotifier(MonthlySpendState(), client, utility)
     ..getSpendMonthDetail(date: date);
 });
 
-class SpendMonthDetailNotifier extends StateNotifier<List<SpendYearly>> {
+class SpendMonthDetailNotifier extends StateNotifier<MonthlySpendState> {
   SpendMonthDetailNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
@@ -152,6 +156,8 @@ class SpendMonthDetailNotifier extends StateNotifier<List<SpendYearly>> {
       path: APIPath.getYearSpend,
       body: {'date': date.yyyymmdd},
     ).then((value) {
+      state = state.copyWith(saving: true);
+
       final list = <SpendYearly>[];
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
@@ -182,7 +188,9 @@ class SpendMonthDetailNotifier extends StateNotifier<List<SpendYearly>> {
         }
       }
 
-      state = list;
+      state = state.copyWith(saving: false);
+
+      state = state.copyWith(list: list);
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
@@ -190,6 +198,8 @@ class SpendMonthDetailNotifier extends StateNotifier<List<SpendYearly>> {
 }
 
 ////////////////////////////////////////////////
+
+//
 
 ////////////////////////////////////////////////
 final spendMonthUnitProvider = StateNotifierProvider.autoDispose

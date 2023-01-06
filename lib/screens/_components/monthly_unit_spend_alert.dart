@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/_money_dialog.dart';
+import 'package:moneynote4/screens/_components/monthly_spend_alert.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
@@ -19,11 +21,13 @@ class MonthlyUnitSpendAlert extends ConsumerWidget {
 
   Uuid uuid = const Uuid();
 
+  late BuildContext _context;
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    _context = context;
     _ref = ref;
 
     final yearWidgetList = makeYearWidgetList();
@@ -70,7 +74,7 @@ class MonthlyUnitSpendAlert extends ConsumerWidget {
     final appParamState = _ref.watch(appParamProvider);
 
     final yearList = <Widget>[];
-    for (var i = date.yyyy.toInt(); i >= 2019; i--) {
+    for (var i = date.yyyy.toInt(); i >= 2020; i--) {
       yearList.add(
         GestureDetector(
           onTap: () {
@@ -121,7 +125,26 @@ class MonthlyUnitSpendAlert extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(e.key),
-                Text(e.value.toString().toCurrency()),
+                Row(
+                  children: [
+                    Text(e.value.toString().toCurrency()),
+                    SizedBox(width: 20),
+                    GestureDetector(
+                      onTap: () {
+                        MoneyDialog(
+                          context: _context,
+                          widget: MonthlySpendAlert(
+                            date: '${e.key}-01 00:00:00'.toDateTime(),
+                          ),
+                        );
+                      },
+                      child: Icon(
+                        Icons.details,
+                        color: Colors.white.withOpacity(0.8),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           );
