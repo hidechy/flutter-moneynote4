@@ -1,9 +1,11 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/screens/_components/_money_dialog.dart';
 import 'package:moneynote4/screens/_components/monthly_spend_alert.dart';
+import 'package:moneynote4/screens/_components/monthly_unit_spend_graph.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
@@ -58,6 +60,24 @@ class MonthlyUnitSpendAlert extends ConsumerWidget {
                 //----------//
 
                 Row(children: yearWidgetList),
+
+                const SizedBox(height: 20),
+
+                Container(
+                  alignment: Alignment.topRight,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MonthlyUnitSpendGraph(),
+                        ),
+                      );
+                    },
+                    child: Icon(Icons.graphic_eq),
+                  ),
+                ),
+
                 const SizedBox(height: 20),
 
                 displayMonthlyUnitSpend(),
@@ -128,7 +148,7 @@ class MonthlyUnitSpendAlert extends ConsumerWidget {
                 Row(
                   children: [
                     Text(e.value.toString().toCurrency()),
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                     GestureDetector(
                       onTap: () {
                         MoneyDialog(
