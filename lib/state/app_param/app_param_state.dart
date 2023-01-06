@@ -21,5 +21,6 @@ class AppParamState with _$AppParamState {
     required int UdemyAlertSelectYear,
     required String UdemyAlertSelectCategory,
     required int BalanceSheetAlertSelectYear,
+    required int MonthlyUnitSpendAlertSelectYear,
   }) = _AppParamState;
 }

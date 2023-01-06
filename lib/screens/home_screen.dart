@@ -32,6 +32,7 @@ import '_components/mercari_alert.dart';
 import '_components/money_alert.dart';
 import '_components/money_score_alert.dart';
 import '_components/monthly_spend_alert.dart';
+import '_components/monthly_unit_spend_alert.dart';
 import '_components/seiyu_alert.dart';
 import '_components/spend_summary_alert.dart';
 import '_components/spend_yearly_alert.dart';
@@ -403,7 +404,7 @@ class HomeScreen extends ConsumerWidget {
         onPressed: () {
           _ref.watch(homeMenuProvider.notifier).setHomeMenu(
                 menuFlag: 'monthly_spend',
-                menuName: '月間使用金額履歴',
+                menuName: '月間消費金額履歴',
               );
         },
         icon: Icon(
@@ -419,8 +420,25 @@ class HomeScreen extends ConsumerWidget {
       IconButton(
         onPressed: () {
           _ref.watch(homeMenuProvider.notifier).setHomeMenu(
+                menuFlag: 'monthly_unit_spend',
+                menuName: '月別消費金額履歴',
+              );
+        },
+        icon: Icon(
+          Icons.bar_chart_sharp,
+          color: (homeMenuState.menuFlag == 'monthly_unit_spend')
+              ? Colors.lightBlueAccent
+              : Colors.white,
+        ),
+      ),
+    );
+
+    list.add(
+      IconButton(
+        onPressed: () {
+          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
                 menuFlag: 'yearly_spend',
-                menuName: '年間使用金額履歴',
+                menuName: '年間消費金額履歴',
               );
         },
         icon: Icon(
@@ -437,7 +455,7 @@ class HomeScreen extends ConsumerWidget {
         onPressed: () {
           _ref.watch(homeMenuProvider.notifier).setHomeMenu(
                 menuFlag: 'spend_summary',
-                menuName: '使用金額比較',
+                menuName: '消費金額ブロック比較',
               );
         },
         icon: Icon(
@@ -454,7 +472,7 @@ class HomeScreen extends ConsumerWidget {
         onPressed: () {
           _ref.watch(homeMenuProvider.notifier).setHomeMenu(
                 menuFlag: 'credit_summary',
-                menuName: 'クレジット使用比較',
+                menuName: 'クレジット消費ブロック比較',
               );
         },
         icon: Icon(
@@ -686,6 +704,13 @@ class HomeScreen extends ConsumerWidget {
         MoneyDialog(
           context: _context,
           widget: MonthlySpendAlert(date: focusDayState),
+        );
+        break;
+
+      case 'monthly_unit_spend':
+        MoneyDialog(
+          context: _context,
+          widget: MonthlyUnitSpendAlert(date: focusDayState),
         );
         break;
 

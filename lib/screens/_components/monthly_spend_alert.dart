@@ -39,12 +39,6 @@ class MonthlySpendAlert extends ConsumerWidget {
     _context = context;
     _ref = ref;
 
-    final prevMonth = _utility.makeSpecialDate(
-        date: date, usage: 'month', plusminus: 'minus', num: 1);
-
-    final nextMonth = _utility.makeSpecialDate(
-        date: date, usage: 'month', plusminus: 'plus', num: 1);
-
     getNext2MonthCreditSpend();
 
     final deviceInfoState = ref.read(deviceInfoProvider);
@@ -76,38 +70,6 @@ class MonthlySpendAlert extends ConsumerWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        children: [
-                          /*
-
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      MonthlySpendAlert(date: prevMonth!),
-                                ),
-                              );
-                            },
-                            child: Icon(Icons.skip_previous),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      MonthlySpendAlert(date: nextMonth!),
-                                ),
-                              );
-                            },
-                            child: Icon(Icons.skip_next),
-                          ),
-
-                          */
-                        ],
-                      ),
                       GestureDetector(
                         onTap: () {
                           MoneyDialog(

@@ -20,6 +20,7 @@ import '../utility/utility.dart';
 spendMonthSummaryProvider       List<SpendMonthSummary>
 spendItemDailyProvider        SpendItemDaily
 spendMonthDetailProvider        List<SpendYearly>
+spendMonthUnitProvider        Map<String, int>
 spendYearlyItemProvider       List<SpendYearlyItemState>
 spendSummaryProvider        SpendSummaryState // saving
 spendYearSummaryProvider        List<SpendYearSummary>
@@ -182,6 +183,64 @@ class SpendMonthDetailNotifier extends StateNotifier<List<SpendYearly>> {
       }
 
       state = list;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
+  }
+}
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+final spendMonthUnitProvider = StateNotifierProvider.autoDispose
+    .family<SpendMonthUnitNotifier, Map<String, int>, DateTime>((ref, date) {
+  final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
+
+  return SpendMonthUnitNotifier({}, client, utility)
+    ..getSpendMonthUnit(date: date);
+});
+
+class SpendMonthUnitNotifier extends StateNotifier<Map<String, int>> {
+  SpendMonthUnitNotifier(super.state, this.client, this.utility);
+
+  final HttpClient client;
+  final Utility utility;
+
+  Future<void> getSpendMonthUnit({required DateTime date}) async {
+    await client.post(
+      path: APIPath.getYearSpend,
+      body: {'date': date.yyyymmdd},
+    ).then((value) {
+      final year = date.yyyy;
+
+      final map = <String, int>{};
+
+      final map2 = <int, List<int>>{};
+
+      for (var i = 1; i <= 12; i++) {
+        map2[i] = [];
+      }
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        if (year == '${value['data'][i]['date']} 00:00:00'.toDateTime().yyyy) {
+          final month = '${value['data'][i]['date']} 00:00:00'.toDateTime().mm;
+          map2[month.toInt()]?.add(
+            value['data'][i]['spend'].toString().toInt(),
+          );
+        }
+      }
+
+      for (var i = 1; i <= 12; i++) {
+        var sum = 0;
+        map2[i]!.forEach((element) {
+          sum += element;
+          map['$year-${i.toString().padLeft(2, '0')}'] = sum;
+        });
+      }
+
+      state = map;
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
