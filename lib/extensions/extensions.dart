@@ -63,4 +63,8 @@ extension StringEx on String {
     final formatter = NumberFormat('#,###');
     return formatter.format(int.parse(this));
   }
+
+  double toDouble() {
+    return double.parse(this);
+  }
 }

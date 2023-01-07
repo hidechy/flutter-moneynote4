@@ -101,8 +101,8 @@ class GoldAlert extends ConsumerWidget {
 
       final diff = (goldListState[i].goldValue.toString() == '-')
           ? ''
-          : (int.parse(goldListState[i].goldValue.toString()) -
-                  int.parse(goldListState[i].payPrice.toString()))
+          : (goldListState[i].goldValue.toString().toInt() -
+                  goldListState[i].payPrice.toString().toInt())
               .toString();
 
       list.add(
@@ -172,7 +172,7 @@ class GoldAlert extends ConsumerWidget {
                                           child: Text(
                                             diff,
                                             style: TextStyle(
-                                              color: (int.parse(diff) >= 0)
+                                              color: (diff.toInt() >= 0)
                                                   ? Colors.yellowAccent
                                                   : Colors.redAccent,
                                             ),

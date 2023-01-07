@@ -52,7 +52,7 @@ class BankLastNotifier extends StateNotifier<BankCompanyChange> {
         bankCompanyRecord = BankCompanyChange(
           date: DateTime.parse(value['data'][i]['date'].toString()),
           price: value['data'][i]['price'].toString(),
-          diff: int.parse(value['data'][i]['diff'].toString()),
+          diff: value['data'][i]['diff'].toString().toInt(),
         );
       }
 
@@ -99,11 +99,11 @@ class BankAllNotifier extends StateNotifier<List<BankCompanyAll>> {
         if (i == 0) {
           mark = 'up';
         } else {
-          if (int.parse(value['data'][i][bank].toString()) >
-              int.parse(value['data'][i - 1][bank].toString())) {
+          if (value['data'][i][bank].toString().toInt() >
+              value['data'][i - 1][bank].toString().toInt()) {
             mark = 'up';
-          } else if (int.parse(value['data'][i][bank].toString()) <
-              int.parse(value['data'][i - 1][bank].toString())) {
+          } else if (value['data'][i][bank].toString().toInt() <
+              value['data'][i - 1][bank].toString().toInt()) {
             mark = 'down';
           } else {
             mark = 'equal';

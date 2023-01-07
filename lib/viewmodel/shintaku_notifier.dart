@@ -55,16 +55,16 @@ class ShintakuNotifier extends StateNotifier<Shintaku> {
             shutoku: value['data']['record'][i]['shutoku'].toString(),
             cost: value['data']['record'][i]['cost'].toString(),
             price: value['data']['record'][i]['price'].toString(),
-            diff: int.parse(value['data']['record'][i]['diff'].toString()),
+            diff: value['data']['record'][i]['diff'].toString().toInt(),
             data: value['data']['record'][i]['data'].toString(),
           ),
         );
       }
 
       final shintaku = Shintaku(
-        cost: int.parse(value['data']['cost'].toString()),
-        price: int.parse(value['data']['price'].toString()),
-        diff: int.parse(value['data']['diff'].toString()),
+        cost: value['data']['cost'].toString().toInt(),
+        price: value['data']['price'].toString().toInt(),
+        diff: value['data']['diff'].toString().toInt(),
         date: DateTime.parse(value['data']['date'].toString()),
         record: list,
       );

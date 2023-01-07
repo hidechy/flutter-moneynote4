@@ -55,12 +55,6 @@ class SpendMonthSummaryNotifier extends StateNotifier<List<SpendMonthSummary>> {
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         list.add(
-          // SpendMonthSummary(
-          //   item: value['data'][i]['item'].toString(),
-          //   sum: int.parse(value['data'][i]['sum'].toString()),
-          //   percent: int.parse(value['data'][i]['percent'].toString()),
-          // ),
-
           SpendMonthSummary.fromJson(value['data'][i] as Map<String, dynamic>),
         );
       }
@@ -111,7 +105,7 @@ class SpendItemDailyNotifier extends StateNotifier<SpendItemDaily> {
             date.yyyymmdd) {
           final list = <String>[];
           for (var j = 0;
-              j < int.parse(value['data'][i]['item'].length.toString());
+              j < value['data'][i]['item'].length.toString().toInt();
               j++) {
             list.add(value['data'][i]['item'][j].toString());
           }
@@ -131,8 +125,6 @@ class SpendItemDailyNotifier extends StateNotifier<SpendItemDaily> {
 }
 
 ////////////////////////////////////////////////
-
-//
 
 ////////////////////////////////////////////////
 final spendMonthDetailProvider = StateNotifierProvider.autoDispose
@@ -166,14 +158,13 @@ class SpendMonthDetailNotifier extends StateNotifier<MonthlySpendState> {
           final list2 = <SpendYearlyItem>[];
 
           for (var j = 0;
-              j < int.parse(value['data'][i]['item'].length.toString());
+              j < value['data'][i]['item'].length.toString().toInt();
               j++) {
             list2.add(
               SpendYearlyItem(
                 item: value['data'][i]['item'][j]['item'].toString(),
-                price:
-                    int.parse(value['data'][i]['item'][j]['price'].toString()),
-                flag: int.parse(value['data'][i]['item'][j]['flag'].toString()),
+                price: value['data'][i]['item'][j]['price'].toString().toInt(),
+                flag: value['data'][i]['item'][j]['flag'].toString().toInt(),
               ),
             );
           }
@@ -181,7 +172,7 @@ class SpendMonthDetailNotifier extends StateNotifier<MonthlySpendState> {
           list.add(
             SpendYearly(
               date: DateTime.parse(value['data'][i]['date'].toString()),
-              spend: int.parse(value['data'][i]['spend'].toString()),
+              spend: value['data'][i]['spend'].toString().toInt(),
               item: list2,
             ),
           );
@@ -198,8 +189,6 @@ class SpendMonthDetailNotifier extends StateNotifier<MonthlySpendState> {
 }
 
 ////////////////////////////////////////////////
-
-//
 
 ////////////////////////////////////////////////
 final spendMonthUnitProvider = StateNotifierProvider.autoDispose

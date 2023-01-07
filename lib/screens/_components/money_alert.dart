@@ -47,8 +47,7 @@ class MoneyAlert extends ConsumerWidget {
     final total = (moneyState.sum == '') ? '0' : moneyState.sum;
     final diff = (moneyState.sum == '' || yesterdayMoney.sum == '')
         ? '0'
-        : (int.parse(yesterdayMoney.sum) - int.parse(moneyState.sum))
-            .toString();
+        : (yesterdayMoney.sum.toInt() - moneyState.sum.toInt()).toString();
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
@@ -438,8 +437,8 @@ class MoneyAlert extends ConsumerWidget {
 
     var goldDiff = 0;
     if (goldState.goldValue != null && goldState.payPrice != null) {
-      goldDiff = int.parse(goldState.goldValue.toString()) -
-          int.parse(goldState.payPrice.toString());
+      goldDiff = goldState.goldValue.toString().toInt() -
+          goldState.payPrice.toString().toInt();
     }
 
     return DefaultTextStyle(

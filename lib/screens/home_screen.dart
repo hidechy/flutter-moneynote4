@@ -310,7 +310,7 @@ class HomeScreen extends ConsumerWidget {
     var ret = 0;
 
     for (var i = 0; i < data.length; i++) {
-      ret += int.parse(data[i].sum.toString());
+      ret += data[i].sum.toString().toInt();
     }
 
     return ret;

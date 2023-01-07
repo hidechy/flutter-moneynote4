@@ -35,7 +35,7 @@ class Utility {
 
   ///
   Color getLeadingBgColor({required String month}) {
-    switch (int.parse(month) % 6) {
+    switch (month.toInt() % 6) {
       case 0:
         return Colors.orangeAccent.withOpacity(0.2);
       case 1:

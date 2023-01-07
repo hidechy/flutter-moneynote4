@@ -63,16 +63,10 @@ class Balancesheet {
         assetsTotal: json['assets_total'].toString().toInt(),
         capitalTotal: json['capital_total'].toString().toInt(),
         assets: Map.from(json['assets'] as Map<dynamic, dynamic>).map(
-          (k, v) => MapEntry<String, int>(
-            k.toString(),
-            int.parse(v.toString()),
-          ),
+          (k, v) => MapEntry<String, int>(k.toString(), v.toString().toInt()),
         ),
         capital: Map.from(json['capital'] as Map<dynamic, dynamic>).map(
-          (k, v) => MapEntry<String, int>(
-            k.toString(),
-            int.parse(v.toString()),
-          ),
+          (k, v) => MapEntry<String, int>(k.toString(), v.toString().toInt()),
         ),
       );
 

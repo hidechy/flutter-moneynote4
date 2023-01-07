@@ -199,7 +199,7 @@ class CreditAlert extends ConsumerWidget {
     var ret = 0;
 
     for (var i = 0; i < data.length; i++) {
-      ret += int.parse(data[i].price.toString());
+      ret += data[i].price.toString().toInt();
     }
 
     return ret;

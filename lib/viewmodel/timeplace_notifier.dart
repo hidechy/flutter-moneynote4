@@ -36,14 +36,14 @@ class TimeplaceNotifier extends StateNotifier<List<SpendTimeplace>> {
     ).then((value) {
       final list = <SpendTimeplace>[];
 
-      for (var i = 0; i < int.parse(value['data'].length.toString()); i++) {
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         if (value['data'][i]['date'] == date.yyyymmdd) {
           list.add(
             SpendTimeplace(
               date: DateTime.parse(value['data'][i]['date'].toString()),
               time: value['data'][i]['time'].toString(),
               place: value['data'][i]['place'].toString(),
-              price: int.parse(value['data'][i]['price'].toString()),
+              price: value['data'][i]['price'].toString().toInt(),
             ),
           );
         }

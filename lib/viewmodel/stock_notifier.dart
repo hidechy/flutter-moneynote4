@@ -50,20 +50,20 @@ class StockNotifier extends StateNotifier<Stock> {
           StockRecord(
             name: value['data']['record'][i]['name'].toString(),
             date: DateTime.parse(value['data']['record'][i]['date'].toString()),
-            num: int.parse(value['data']['record'][i]['num'].toString()),
+            num: value['data']['record'][i]['num'].toString().toInt(),
             oneStock: value['data']['record'][i]['oneStock'].toString(),
-            cost: int.parse(value['data']['record'][i]['cost'].toString()),
+            cost: value['data']['record'][i]['cost'].toString().toInt(),
             price: value['data']['record'][i]['price'].toString(),
-            diff: int.parse(value['data']['record'][i]['diff'].toString()),
+            diff: value['data']['record'][i]['diff'].toString().toInt(),
             data: value['data']['record'][i]['data'].toString(),
           ),
         );
       }
 
       final stock = Stock(
-        cost: int.parse(value['data']['cost'].toString()),
-        price: int.parse(value['data']['price'].toString()),
-        diff: int.parse(value['data']['diff'].toString()),
+        cost: value['data']['cost'].toString().toInt(),
+        price: value['data']['price'].toString().toInt(),
+        diff: value['data']['diff'].toString().toInt(),
         date: DateTime.parse(value['data']['date'].toString()),
         record: list,
       );
@@ -126,11 +126,11 @@ class StockRecordNotifier extends StateNotifier<StockRecord> {
           stockRecord = StockRecord(
             name: value['data']['record'][i]['name'].toString(),
             date: '${value['data']['record'][i]['date']} 00:00:00'.toDateTime(),
-            num: int.parse(value['data']['record'][i]['num'].toString()),
+            num: value['data']['record'][i]['num'].toString().toInt(),
             oneStock: value['data']['record'][i]['oneStock'].toString(),
             cost: value['data']['record'][i]['cost'].toString().toInt(),
             price: value['data']['record'][i]['price'].toString(),
-            diff: int.parse(value['data']['record'][i]['diff'].toString()),
+            diff: value['data']['record'][i]['diff'].toString().toInt(),
             data: value['data']['record'][i]['data'].toString(),
           );
         }
