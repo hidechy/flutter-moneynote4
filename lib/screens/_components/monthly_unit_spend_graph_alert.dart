@@ -91,7 +91,7 @@ class MonthlyUnitSpendGraphAlert extends ConsumerWidget {
     //----------------------------------//
 
     data = BarChartData(
-      maxY: double.parse(graphMax.toString()),
+      maxY: graphMax.toString().toDouble(),
       borderData: FlBorderData(
           border: const Border(
         left: BorderSide(),
@@ -145,7 +145,7 @@ class MonthlyUnitSpendGraphAlert extends ConsumerWidget {
           return BarChartGroupData(
             x: '${e.key}-01 00:00:00'.toDateTime().mm.toInt(),
             barRods: [
-              BarChartRodData(toY: double.parse(e.value.toString())),
+              BarChartRodData(toY: e.value.toString().toDouble()),
             ],
           );
         },
