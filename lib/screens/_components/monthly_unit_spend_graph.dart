@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -34,6 +36,10 @@ class MonthlyUnitSpendGraph extends ConsumerWidget {
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
+    final spendMonthUnitState = ref.watch(spendMonthUnitProvider(date));
+
+    final width = (spendMonthUnitState.entries.length / 6).ceil();
+
     return AlertDialog(
       backgroundColor: Colors.transparent,
       contentPadding: EdgeInsets.zero,
@@ -41,7 +47,7 @@ class MonthlyUnitSpendGraph extends ConsumerWidget {
         scrollDirection: Axis.horizontal,
         controller: _controller,
         child: SizedBox(
-          width: context.screenSize.width * 0.7,
+          width: context.screenSize.width * width,
           height: context.screenSize.height - 50,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,7 +73,25 @@ class MonthlyUnitSpendGraph extends ConsumerWidget {
   void setChartData() {
     final spendMonthUnitState = _ref.watch(spendMonthUnitProvider(date));
 
+    //----------------------------------//
+    final list = <int>[];
+    spendMonthUnitState.entries.forEach((element) {
+      list.add(element.value);
+    });
+
+    const warisuu = 50000;
+    var graphMax = warisuu;
+
+    if (list.isNotEmpty) {
+      final maxValue = list.reduce(max);
+
+      graphMax = ((maxValue / warisuu).ceil()) * warisuu;
+    }
+
+    //----------------------------------//
+
     data = BarChartData(
+      maxY: double.parse(graphMax.toString()),
       borderData: FlBorderData(
           border: const Border(
         left: BorderSide(),
@@ -79,7 +103,16 @@ class MonthlyUnitSpendGraph extends ConsumerWidget {
           sideTitles: SideTitles(showTitles: false),
         ),
         rightTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 60,
+            getTitlesWidget: (value, meta) {
+              return Text(
+                value.toInt().toString().toCurrency(),
+                style: const TextStyle(fontSize: 12),
+              );
+            },
+          ),
         ),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
