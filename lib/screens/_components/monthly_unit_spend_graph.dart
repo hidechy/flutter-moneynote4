@@ -88,7 +88,7 @@ class MonthlyUnitSpendGraph extends ConsumerWidget {
             getTitlesWidget: (value, meta) {
               return Text(
                 value.toInt().toString().toCurrency(),
-                style: TextStyle(fontSize: 12),
+                style: const TextStyle(fontSize: 12),
               );
             },
           ),
