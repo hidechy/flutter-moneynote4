@@ -11,7 +11,7 @@ import '../../utility/utility.dart';
 import '../../viewmodel/spend_notifier.dart';
 import '_money_dialog.dart';
 import 'monthly_spend_alert.dart';
-import 'monthly_unit_spend_graph.dart';
+import 'monthly_unit_spend_graph_alert.dart';
 
 class MonthlyUnitSpendAlert extends ConsumerWidget {
   MonthlyUnitSpendAlert({super.key, required this.date});
@@ -73,7 +73,7 @@ class MonthlyUnitSpendAlert extends ConsumerWidget {
                     onTap: () {
                       MoneyDialog(
                         context: context,
-                        widget: MonthlyUnitSpendGraph(date: dt),
+                        widget: MonthlyUnitSpendGraphAlert(date: dt),
                       );
                     },
                     child: const Icon(Icons.graphic_eq),

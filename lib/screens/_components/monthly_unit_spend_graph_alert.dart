@@ -12,8 +12,8 @@ import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/spend_notifier.dart';
 
-class MonthlyUnitSpendGraph extends ConsumerWidget {
-  MonthlyUnitSpendGraph({super.key, required this.date});
+class MonthlyUnitSpendGraphAlert extends ConsumerWidget {
+  MonthlyUnitSpendGraphAlert({super.key, required this.date});
 
   final DateTime date;
 
