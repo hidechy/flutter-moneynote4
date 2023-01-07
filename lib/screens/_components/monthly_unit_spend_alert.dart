@@ -1,11 +1,7 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/_money_dialog.dart';
-import 'package:moneynote4/screens/_components/monthly_spend_alert.dart';
-import 'package:moneynote4/screens/_components/monthly_unit_spend_graph.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
@@ -13,6 +9,9 @@ import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/spend_notifier.dart';
+import '_money_dialog.dart';
+import 'monthly_spend_alert.dart';
+import 'monthly_unit_spend_graph.dart';
 
 class MonthlyUnitSpendAlert extends ConsumerWidget {
   MonthlyUnitSpendAlert({super.key, required this.date});
@@ -35,6 +34,11 @@ class MonthlyUnitSpendAlert extends ConsumerWidget {
     final yearWidgetList = makeYearWidgetList();
 
     final deviceInfoState = ref.read(deviceInfoProvider);
+
+    final appParamState = _ref.watch(appParamProvider);
+
+    final dt = '${appParamState.MonthlyUnitSpendAlertSelectYear}-01-01 00:00:00'
+        .toDateTime();
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -67,14 +71,12 @@ class MonthlyUnitSpendAlert extends ConsumerWidget {
                   alignment: Alignment.topRight,
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MonthlyUnitSpendGraph(),
-                        ),
+                      MoneyDialog(
+                        context: context,
+                        widget: MonthlyUnitSpendGraph(date: dt),
                       );
                     },
-                    child: Icon(Icons.graphic_eq),
+                    child: const Icon(Icons.graphic_eq),
                   ),
                 ),
 

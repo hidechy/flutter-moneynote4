@@ -1,15 +1,19 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
-
-import '../../extensions/extensions.dart';
+import '../../viewmodel/spend_notifier.dart';
 
 class MonthlyUnitSpendGraph extends ConsumerWidget {
-  MonthlyUnitSpendGraph({Key? key}) : super(key: key);
+  MonthlyUnitSpendGraph({super.key, required this.date});
+
+  final DateTime date;
 
   BarChartData data = BarChartData();
 
@@ -37,7 +41,7 @@ class MonthlyUnitSpendGraph extends ConsumerWidget {
         scrollDirection: Axis.horizontal,
         controller: _controller,
         child: SizedBox(
-          width: context.screenSize.width,
+          width: context.screenSize.width * 0.7,
           height: context.screenSize.height - 50,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,40 +65,58 @@ class MonthlyUnitSpendGraph extends ConsumerWidget {
 
   ///
   void setChartData() {
+    final spendMonthUnitState = _ref.watch(spendMonthUnitProvider(date));
+
     data = BarChartData(
-        borderData: FlBorderData(
-            border: const Border(
-          top: BorderSide.none,
-          right: BorderSide.none,
-          left: BorderSide(width: 1),
-          bottom: BorderSide(width: 1),
-        )),
-        groupsSpace: 10,
-        barGroups: [
-          BarChartGroupData(x: 1, barRods: [
-            BarChartRodData(toY: 10, width: 15),
-          ]),
-          BarChartGroupData(x: 2, barRods: [
-            BarChartRodData(toY: 9, width: 15),
-          ]),
-          BarChartGroupData(x: 3, barRods: [
-            BarChartRodData(toY: 4, width: 15),
-          ]),
-          BarChartGroupData(x: 4, barRods: [
-            BarChartRodData(toY: 2, width: 15),
-          ]),
-          BarChartGroupData(x: 5, barRods: [
-            BarChartRodData(toY: 13, width: 15),
-          ]),
-          BarChartGroupData(x: 6, barRods: [
-            BarChartRodData(toY: 17, width: 15),
-          ]),
-          BarChartGroupData(x: 7, barRods: [
-            BarChartRodData(toY: 19, width: 15),
-          ]),
-          BarChartGroupData(x: 8, barRods: [
-            BarChartRodData(toY: 21, width: 15),
-          ]),
-        ]);
+      borderData: FlBorderData(
+          border: const Border(
+        left: BorderSide(),
+        bottom: BorderSide(),
+      )),
+      titlesData: FlTitlesData(
+        show: true,
+        topTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        rightTitles: AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        leftTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 60,
+            getTitlesWidget: (value, meta) {
+              return Text(
+                value.toInt().toString().toCurrency(),
+                style: TextStyle(fontSize: 12),
+              );
+            },
+          ),
+        ),
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 32,
+            getTitlesWidget: (value, meta) {
+              return SideTitleWidget(
+                axisSide: meta.axisSide,
+                child: Text(value.toInt().toString()),
+              );
+            },
+          ),
+        ),
+      ),
+      barTouchData: BarTouchData(),
+      barGroups: spendMonthUnitState.entries.map(
+        (e) {
+          return BarChartGroupData(
+            x: '${e.key}-01 00:00:00'.toDateTime().mm.toInt(),
+            barRods: [
+              BarChartRodData(toY: double.parse(e.value.toString())),
+            ],
+          );
+        },
+      ).toList(),
+    );
   }
 }

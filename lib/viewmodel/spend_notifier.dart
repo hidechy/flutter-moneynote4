@@ -141,7 +141,7 @@ final spendMonthDetailProvider = StateNotifierProvider.autoDispose
 
   final utility = Utility();
 
-  return SpendMonthDetailNotifier(MonthlySpendState(), client, utility)
+  return SpendMonthDetailNotifier(const MonthlySpendState(), client, utility)
     ..getSpendMonthDetail(date: date);
 });
 
