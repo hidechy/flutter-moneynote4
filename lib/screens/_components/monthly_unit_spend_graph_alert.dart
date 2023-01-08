@@ -85,7 +85,7 @@ class MonthlyUnitSpendGraphAlert extends ConsumerWidget {
     if (list.isNotEmpty) {
       final maxValue = list.reduce(max);
 
-      graphMax = ((maxValue / warisuu).ceil()) * warisuu;
+      graphMax = ((maxValue / warisuu).ceil() + 3) * warisuu;
     }
 
     //----------------------------------//

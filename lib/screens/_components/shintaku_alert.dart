@@ -141,6 +141,7 @@ class ShintakuAlert extends ConsumerWidget {
 
     final exData = shintakuRecordState.data.split('/');
 
+    var keepNum = 0;
     for (var i = 0; i < exData.length; i++) {
       final exOne = exData[i].split('|');
 
@@ -149,6 +150,8 @@ class ShintakuAlert extends ConsumerWidget {
       if (exDate.length == 1) {
         continue;
       }
+
+      final diff = exOne[1].toInt() - keepNum;
 
       list.add(
         Container(
@@ -164,34 +167,59 @@ class ShintakuAlert extends ConsumerWidget {
             key: ValueKey(i),
             index: i,
             controller: autoScrollController,
-            child: Table(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TableRow(children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('${exOne[0]} 00:00:00'.toDateTime().yyyy),
-                      Text('${exOne[0]} 00:00:00'.toDateTime().mmdd),
-                    ],
-                  ),
-                  Container(
-                    alignment: Alignment.topRight,
-                    child: Text(exOne[3].toCurrency()),
-                  ),
-                  Container(
-                    alignment: Alignment.topRight,
-                    child: Text(exOne[4].toCurrency()),
-                  ),
-                  Container(
-                    alignment: Alignment.topRight,
-                    child: Text(exOne[5].toCurrency()),
-                  ),
-                ]),
+                Text(exOne[0]),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.topRight,
+                        child: Text(exOne[3].toCurrency()),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.topRight,
+                        child: Text(exOne[4].toCurrency()),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.topRight,
+                        child: Text(exOne[5].toCurrency()),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.topRight,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(exOne[1].toCurrency()),
+                            Text(
+                              diff.toString(),
+                              style: TextStyle(
+                                color: (diff == 0)
+                                    ? Colors.grey
+                                    : Colors.yellowAccent,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
         ),
       );
+
+      keepNum = exOne[1].toInt();
     }
 
     return SingleChildScrollView(
