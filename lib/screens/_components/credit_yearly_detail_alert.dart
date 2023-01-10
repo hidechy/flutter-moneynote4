@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/credit_yearly_total_alert.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/app_param/app_param_notifier.dart';
@@ -55,10 +56,25 @@ class CreditYearlyDetailAlert extends ConsumerWidget {
                   _utility.getFileNameDebug(name: runtimeType.toString()),
                 //----------//
 
-                Text(
-                  date.yyyy,
-                  style: const TextStyle(fontSize: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      date.yyyy,
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        MoneyDialog(
+                          context: context,
+                          widget: CreditYearlyTotalAlert(date: date),
+                        );
+                      },
+                      child: const Icon(Icons.add_chart),
+                    ),
+                  ],
                 ),
+
                 const SizedBox(height: 20),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,

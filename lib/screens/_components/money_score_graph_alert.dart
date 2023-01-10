@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, avoid_bool_literals_in_conditional_expressions
+// ignore_for_file: must_be_immutable, avoid_bool_literals_in_conditional_expressions, unnecessary_null_comparison
 
 import 'dart:math';
 

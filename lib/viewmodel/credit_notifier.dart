@@ -8,6 +8,7 @@ import '../../extensions/extensions.dart';
 import '../data/http/client.dart';
 import '../data/http/path.dart';
 import '../models/credit_company.dart';
+import '../models/credit_spend_all.dart';
 import '../models/credit_spend_monthly.dart';
 import '../models/credit_summary.dart';
 import '../utility/utility.dart';
@@ -226,6 +227,57 @@ class SelectCreditStateNotifier extends StateNotifier<String> {
   ///
   Future<void> setSelectCredit({required String selectCredit}) async {
     state = selectCredit;
+  }
+}
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+
+final creditYearlyTotalProvider = StateNotifierProvider.autoDispose
+    .family<CreditYearlyTotalNotifier, List<CreditSpendAll>, DateTime>(
+        (ref, date) {
+  final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
+
+  return CreditYearlyTotalNotifier([], client, utility)
+    ..getCreditYearlyTotal(date: date);
+});
+
+class CreditYearlyTotalNotifier extends StateNotifier<List<CreditSpendAll>> {
+  CreditYearlyTotalNotifier(super.state, this.client, this.utility);
+
+  final HttpClient client;
+  final Utility utility;
+
+  Future<void> getCreditYearlyTotal({required DateTime date}) async {
+    await client.post(path: APIPath.carditemlist).then((value) {
+      final list = <CreditSpendAll>[];
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        if (date.yyyy ==
+            '${value['data'][i]['pay_month']}-01 00:00:00'.toDateTime().yyyy) {
+          list.add(
+            CreditSpendAll(
+              payMonth: value['data'][i]['pay_month'].toString(),
+              item: value['data'][i]['item'].toString(),
+              price: value['data'][i]['price'].toString(),
+              date: '${value['data'][i]['date']} 00:00:00'.toDateTime(),
+              kind: value['data'][i]['kind'].toString(),
+              monthDiff: (value['data'][i]['monthDiff'] == null)
+                  ? 0
+                  : value['data'][i]['monthDiff'].toString().toInt(),
+              flag: value['data'][i]['flag'].toString().toInt(),
+            ),
+          );
+        }
+      }
+
+      state = list;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
   }
 }
 

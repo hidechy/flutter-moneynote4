@@ -31,6 +31,7 @@ enum APIPath {
   timeplacezerousedate,
   getSeiyuuPurchaseItemList,
   balanceSheetRecord,
+  carditemlist,
 }
 
 extension APIPathExtension on APIPath {
@@ -100,6 +101,8 @@ extension APIPathExtension on APIPath {
         return 'getSeiyuuPurchaseItemList';
       case APIPath.balanceSheetRecord:
         return 'balanceSheetRecord';
+      case APIPath.carditemlist:
+        return 'carditemlist';
     }
   }
 }
