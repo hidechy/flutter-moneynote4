@@ -222,12 +222,24 @@ class MoneyScoreGraphAlert extends ConsumerWidget {
             getTitlesWidget: (value, meta) {
               return SideTitleWidget(
                 axisSide: meta.axisSide,
-                child: Column(
-                  children: [
-                    Text(ymList[value.toInt() - 1].toDateTime().yyyy),
-                    Text(ymList[value.toInt() - 1].toDateTime().mm),
-                  ],
-                ),
+                child: (graphWidthState == minGraphRate)
+                    ? Container()
+                    : (ymList[value.toInt() - 1] == null)
+                        ? Container()
+                        : Column(
+                            children: [
+                              Text(
+                                '${ymList[value.toInt() - 1]}-01 00:00:00'
+                                    .toDateTime()
+                                    .yyyy,
+                              ),
+                              Text(
+                                '${ymList[value.toInt() - 1]}-01 00:00:00'
+                                    .toDateTime()
+                                    .mm,
+                              ),
+                            ],
+                          ),
               );
             },
           ),
@@ -244,12 +256,22 @@ class MoneyScoreGraphAlert extends ConsumerWidget {
                 axisSide: meta.axisSide,
                 child: (graphWidthState == minGraphRate)
                     ? Container()
-                    : Column(
-                        children: [
-                          Text(ymList[value.toInt() - 1].toDateTime().yyyy),
-                          Text(ymList[value.toInt() - 1].toDateTime().mm),
-                        ],
-                      ),
+                    : (ymList[value.toInt() - 1] == null)
+                        ? Container()
+                        : Column(
+                            children: [
+                              Text(
+                                '${ymList[value.toInt() - 1]}-01 00:00:00'
+                                    .toDateTime()
+                                    .yyyy,
+                              ),
+                              Text(
+                                '${ymList[value.toInt() - 1]}-01 00:00:00'
+                                    .toDateTime()
+                                    .mm,
+                              ),
+                            ],
+                          ),
               );
             },
           ),
