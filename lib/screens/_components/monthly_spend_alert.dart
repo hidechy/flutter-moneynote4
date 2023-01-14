@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/models/zero_use_date.dart';
 import 'package:moneynote4/screens/_components/spend_alert.dart';
+import 'package:moneynote4/state/monthly_spend/monthly_spend_state.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
@@ -387,66 +388,20 @@ class MonthlySpendAlert extends ConsumerWidget {
           ),
           child: Column(
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        '${spendMonthDetailState.list[i].date.yyyymmdd}（$youbi）',
-                      ),
-                      if (spendZeroFlag == 1)
-                        Icon(
-                          Icons.star,
-                          color: Colors.yellowAccent.withOpacity(0.6),
-                        ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      if (sum != null)
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text((sum.sum == '') ? '0' : sum.sum.toCurrency()),
-                            Text(sum.spend.toCurrency()),
-                          ],
-                        ),
-                      if (diff != 0)
-                        Container(
-                          padding: const EdgeInsets.only(
-                              top: 3, bottom: 3, left: 20),
-                          decoration: BoxDecoration(
-                            color: Colors.yellowAccent.withOpacity(0.3),
-                          ),
-                          child: Text(diff.toString().toCurrency()),
-                        ),
-                    ],
-                  ),
-                ],
+              getMidashiDate(
+                spendMonthDetailState,
+                i,
+                youbi,
+                spendZeroFlag,
+                sum,
+                diff,
+                daySum,
               ),
               const SizedBox(height: 10),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      MoneyDialog(
-                        context: _context,
-                        widget: SpendAlert(
-                          date: spendMonthDetailState.list[i].date,
-                          diff: daySum.toString(),
-                        ),
-                      );
-                    },
-                    child: Icon(
-                      Icons.info_outline,
-                      color: Colors.white.withOpacity(0.6),
-                    ),
-                  ),
-                  const SizedBox(width: 20),
+                  const SizedBox(width: 30),
                   Expanded(
                     child: Column(
                       children: list2,
@@ -468,6 +423,76 @@ class MonthlySpendAlert extends ConsumerWidget {
           children: list,
         ),
       ),
+    );
+  }
+
+  ///
+  Widget getMidashiDate(
+      MonthlySpendState spendMonthDetailState,
+      int i,
+      String youbi,
+      int spendZeroFlag,
+      MoneyEveryday? sum,
+      int diff,
+      int daySum) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            Text(
+              '${spendMonthDetailState.list[i].date.yyyymmdd}（$youbi）',
+            ),
+            if (spendZeroFlag == 1)
+              Icon(
+                Icons.star,
+                color: Colors.yellowAccent.withOpacity(0.6),
+              ),
+          ],
+        ),
+        Row(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                if (sum != null)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text((sum.sum == '') ? '0' : sum.sum.toCurrency()),
+                      Text(sum.spend.toCurrency()),
+                    ],
+                  ),
+                if (diff != 0)
+                  Container(
+                    padding: const EdgeInsets.only(top: 3, bottom: 3, left: 20),
+                    decoration: BoxDecoration(
+                      color: Colors.yellowAccent.withOpacity(0.3),
+                    ),
+                    child: Text(diff.toString().toCurrency()),
+                  ),
+              ],
+            ),
+            const SizedBox(width: 10),
+            GestureDetector(
+              onTap: () {
+                MoneyDialog(
+                  context: _context,
+                  widget: SpendAlert(
+                    date: spendMonthDetailState.list[i].date,
+                    diff: daySum.toString(),
+                  ),
+                );
+              },
+              child: Icon(
+                Icons.info_outline,
+                color: Colors.white.withOpacity(0.6),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
