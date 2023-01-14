@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/models/zero_use_date.dart';
+import 'package:moneynote4/screens/_components/spend_alert.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
@@ -428,8 +429,24 @@ class MonthlySpendAlert extends ConsumerWidget {
               ),
               const SizedBox(height: 10),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(width: 30),
+                  GestureDetector(
+                    onTap: () {
+                      MoneyDialog(
+                        context: _context,
+                        widget: SpendAlert(
+                          date: spendMonthDetailState.list[i].date,
+                          diff: daySum.toString(),
+                        ),
+                      );
+                    },
+                    child: Icon(
+                      Icons.info_outline,
+                      color: Colors.white.withOpacity(0.6),
+                    ),
+                  ),
+                  const SizedBox(width: 20),
                   Expanded(
                     child: Column(
                       children: list2,
