@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/extensions/extensions.dart';
@@ -5,9 +7,10 @@ import 'package:uuid/uuid.dart';
 
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
+import '../../viewmodel/spend_notifier.dart';
 
 class SamedaySpendAlert extends ConsumerWidget {
-  SamedaySpendAlert({Key? key, required this.date}) : super(key: key);
+  SamedaySpendAlert({super.key, required this.date});
 
   final DateTime date;
 
@@ -15,9 +18,13 @@ class SamedaySpendAlert extends ConsumerWidget {
 
   Uuid uuid = const Uuid();
 
+  late WidgetRef _ref;
+
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    _ref = ref;
+
     final deviceInfoState = ref.read(deviceInfoProvider);
 
     return AlertDialog(
@@ -43,7 +50,7 @@ class SamedaySpendAlert extends ConsumerWidget {
                   _utility.getFileNameDebug(name: runtimeType.toString()),
                 //----------//
 
-                Container(
+                SizedBox(
                   height: context.screenSize.height - 230,
                   child: Row(
                     children: [
@@ -51,23 +58,13 @@ class SamedaySpendAlert extends ConsumerWidget {
                         width: 30,
                         child: displayDaySelect(),
                       ),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: displaySamedaySpendList(),
+                      ),
                     ],
                   ),
                 ),
-
-                // Row(children: yearWidgetList),
-                // const SizedBox(height: 20),
-                //
-                // SingleChildScrollView(
-                //   scrollDirection: Axis.horizontal,
-                //   child: Row(
-                //     children: categoryWidgetList,
-                //   ),
-                // ),
-                //
-                // const SizedBox(height: 20),
-                //
-                // displayUdemy(),
               ],
             ),
           ),
@@ -78,19 +75,64 @@ class SamedaySpendAlert extends ConsumerWidget {
 
   ///
   Widget displayDaySelect() {
-    List<Widget> list = [];
+    final list = <Widget>[];
 
-    for (var i = 1; i < 31; i++) {
+    for (var i = 1; i <= 31; i++) {
+      list.add(
+        GestureDetector(
+          onTap: () {
+            _ref.watch(samedaySpendProvider(date).notifier).getSamedaySpend(
+                  date:
+                      '${date.yyyymm}-${i.toString().padLeft(2, '0')} 00:00:00'
+                          .toDateTime(),
+                );
+          },
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(5),
+            margin: const EdgeInsets.symmetric(vertical: 5),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.white),
+            ),
+            child: Text(i.toString()),
+          ),
+        ),
+      );
+    }
+
+    return SingleChildScrollView(
+      child: Column(
+        children: list,
+      ),
+    );
+  }
+
+  ///
+  Widget displaySamedaySpendList() {
+    final samedaySpendState = _ref.watch(samedaySpendProvider(date));
+
+    final list = <Widget>[];
+
+    for (var i = 0; i < samedaySpendState.length; i++) {
       list.add(
         Container(
-          width: double.infinity,
-          padding: EdgeInsets.all(5),
-          margin: EdgeInsets.symmetric(vertical: 5),
-          alignment: Alignment.center,
+          padding: const EdgeInsets.all(10),
+          margin: const EdgeInsets.only(bottom: 10),
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.white),
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.white.withOpacity(0.3),
+              ),
+            ),
           ),
-          child: Text(i.toString()),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(samedaySpendState[i].ym),
+              Text(samedaySpendState[i].sum.toString().toCurrency()),
+            ],
+          ),
         ),
       );
     }
