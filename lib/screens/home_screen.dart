@@ -10,6 +10,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/screens/_components/balance_sheet_alert.dart';
 import 'package:moneynote4/screens/_components/food_expenses_alert.dart';
+import 'package:moneynote4/screens/_components/sameday_spend_alert.dart';
 import 'package:moneynote4/screens/_components/udemy_alert.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -420,6 +421,23 @@ class HomeScreen extends ConsumerWidget {
       IconButton(
         onPressed: () {
           _ref.watch(homeMenuProvider.notifier).setHomeMenu(
+                menuFlag: 'sameday_spend',
+                menuName: '同日消費金額履歴',
+              );
+        },
+        icon: Icon(
+          Icons.account_tree,
+          color: (homeMenuState.menuFlag == 'sameday_spend')
+              ? Colors.lightBlueAccent
+              : Colors.white,
+        ),
+      ),
+    );
+
+    list.add(
+      IconButton(
+        onPressed: () {
+          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
                 menuFlag: 'monthly_unit_spend',
                 menuName: '月別消費金額履歴',
               );
@@ -704,6 +722,13 @@ class HomeScreen extends ConsumerWidget {
         MoneyDialog(
           context: _context,
           widget: MonthlySpendAlert(date: focusDayState),
+        );
+        break;
+
+      case 'sameday_spend':
+        MoneyDialog(
+          context: _context,
+          widget: SamedaySpendAlert(date: focusDayState),
         );
         break;
 

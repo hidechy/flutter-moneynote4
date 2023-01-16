@@ -1,20 +1,23 @@
 // ignore_for_file: avoid_dynamic_calls, literal_only_boolean_expressions
 
+import 'dart:html';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/models/zero_use_date.dart';
-import 'package:moneynote4/state/monthly_spend/monthly_spend_state.dart';
-import 'package:moneynote4/state/spend_summary/spend_summary_state.dart';
-import 'package:moneynote4/state/spend_yearly_item/spend_yearly_item_state.dart';
 
 import '../data/http/client.dart';
 import '../data/http/path.dart';
 import '../extensions/extensions.dart';
 import '../models/spend_item_daily.dart';
 import '../models/spend_month_summary.dart';
+import '../models/spend_sameday.dart';
 import '../models/spend_summary.dart';
 import '../models/spend_year_summary.dart';
 import '../models/spend_yearly.dart';
 import '../models/spend_yearly_item.dart';
+import '../models/zero_use_date.dart';
+import '../state/monthly_spend/monthly_spend_state.dart';
+import '../state/spend_summary/spend_summary_state.dart';
+import '../state/spend_yearly_item/spend_yearly_item_state.dart';
 import '../utility/utility.dart';
 
 /*
@@ -26,6 +29,7 @@ spendYearlyItemProvider       List<SpendYearlyItemState>
 spendSummaryProvider        SpendSummaryState // saving
 spendYearSummaryProvider        List<SpendYearSummary>
 spendZeroUseDateProvider        ZeroUseDate
+samedaySpendProvider        List<SpendSameday>
 */
 
 ////////////////////////////////////////////////
@@ -416,6 +420,47 @@ class SpendZeroUseDateNotifier extends StateNotifier<ZeroUseDate> {
       }
 
       state = ZeroUseDate(data: list);
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
+  }
+}
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+final samedaySpendProvider = StateNotifierProvider.autoDispose
+    .family<SamedaySpendNotifier, List<SpendSameday>, DateTime>((ref, date) {
+  final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
+
+  return SamedaySpendNotifier([], client, utility)..getSamedaySpend(date: date);
+});
+
+class SamedaySpendNotifier extends StateNotifier<List<SpendSameday>> {
+  SamedaySpendNotifier(super.state, this.client, this.utility);
+
+  final HttpClient client;
+  final Utility utility;
+
+  Future<void> getSamedaySpend({required DateTime date}) async {
+    await client.post(
+      path: APIPath.getSamedaySpend,
+      body: {'date': date.yyyymmdd},
+    ).then((value) {
+      final list = <SpendSameday>[];
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        list.add(
+          SpendSameday(
+            ym: value['data'][i]['ym'].toString(),
+            sum: value['data'][i]['sum'].toString().toInt(),
+          ),
+        );
+      }
+
+      state = list;
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });

@@ -32,6 +32,7 @@ enum APIPath {
   getSeiyuuPurchaseItemList,
   balanceSheetRecord,
   carditemlist,
+  getSamedaySpend
 }
 
 extension APIPathExtension on APIPath {
@@ -103,6 +104,8 @@ extension APIPathExtension on APIPath {
         return 'balanceSheetRecord';
       case APIPath.carditemlist:
         return 'carditemlist';
+      case APIPath.getSamedaySpend:
+        return 'getSamedaySpend';
     }
   }
 }
