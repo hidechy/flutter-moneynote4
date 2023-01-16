@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/extensions/extensions.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/spend_notifier.dart';
@@ -75,12 +76,18 @@ class SamedaySpendAlert extends ConsumerWidget {
 
   ///
   Widget displayDaySelect() {
+    final appParamState = _ref.watch(appParamProvider);
+
     final list = <Widget>[];
 
     for (var i = 1; i <= 31; i++) {
       list.add(
         GestureDetector(
           onTap: () {
+            _ref
+                .watch(appParamProvider.notifier)
+                .setSamedaySpendAlertDay(day: i);
+
             _ref.watch(samedaySpendProvider(date).notifier).getSamedaySpend(
                   date:
                       '${date.yyyymm}-${i.toString().padLeft(2, '0')} 00:00:00'
@@ -94,6 +101,9 @@ class SamedaySpendAlert extends ConsumerWidget {
             alignment: Alignment.center,
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white),
+              color: (i == appParamState.SamedaySpendAlertDay)
+                  ? Colors.yellowAccent.withOpacity(0.2)
+                  : null,
             ),
             child: Text(i.toString()),
           ),
