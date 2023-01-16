@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/extensions/extensions.dart';
+import 'package:moneynote4/screens/_components/_money_dialog.dart';
+import 'package:moneynote4/screens/_components/monthly_spend_alert.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../state/app_param/app_param_notifier.dart';
@@ -19,11 +21,13 @@ class SamedaySpendAlert extends ConsumerWidget {
 
   Uuid uuid = const Uuid();
 
+  late BuildContext _context;
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    _context = context;
     _ref = ref;
 
     final deviceInfoState = ref.read(deviceInfoProvider);
@@ -52,7 +56,7 @@ class SamedaySpendAlert extends ConsumerWidget {
                 //----------//
 
                 SizedBox(
-                  height: context.screenSize.height - 230,
+                  height: context.screenSize.height - 130,
                   child: Row(
                     children: [
                       SizedBox(
@@ -140,7 +144,27 @@ class SamedaySpendAlert extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(samedaySpendState[i].ym),
-              Text(samedaySpendState[i].sum.toString().toCurrency()),
+              Row(
+                children: [
+                  Text(samedaySpendState[i].sum.toString().toCurrency()),
+                  SizedBox(width: 10),
+                  GestureDetector(
+                    onTap: () {
+                      MoneyDialog(
+                        context: _context,
+                        widget: MonthlySpendAlert(
+                          date: '${samedaySpendState[i].ym}-01 00:00:00'
+                              .toDateTime(),
+                        ),
+                      );
+                    },
+                    child: Icon(
+                      Icons.info_outline,
+                      color: Colors.white.withOpacity(0.6),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

@@ -209,7 +209,7 @@ class MonthlySpendAlert extends ConsumerWidget {
               ),
             ),
             child: DefaultTextStyle(
-              style: TextStyle(color: color),
+              style: TextStyle(color: color, fontSize: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -243,7 +243,10 @@ class MonthlySpendAlert extends ConsumerWidget {
                 ),
               ),
               child: DefaultTextStyle(
-                style: const TextStyle(color: Color(0xFFFB86CE)),
+                style: const TextStyle(
+                  color: Color(0xFFFB86CE),
+                  fontSize: 12,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -286,7 +289,10 @@ class MonthlySpendAlert extends ConsumerWidget {
                 ),
               ),
               child: DefaultTextStyle(
-                style: const TextStyle(color: Colors.yellowAccent),
+                style: const TextStyle(
+                  color: Colors.yellowAccent,
+                  fontSize: 12,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -328,7 +334,10 @@ class MonthlySpendAlert extends ConsumerWidget {
                 ),
               ),
               child: DefaultTextStyle(
-                style: const TextStyle(color: Colors.greenAccent),
+                style: const TextStyle(
+                  color: Colors.greenAccent,
+                  fontSize: 12,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
