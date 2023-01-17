@@ -12,6 +12,7 @@ import 'package:moneynote4/screens/_components/balance_sheet_alert.dart';
 import 'package:moneynote4/screens/_components/food_expenses_alert.dart';
 import 'package:moneynote4/screens/_components/sameday_spend_alert.dart';
 import 'package:moneynote4/screens/_components/udemy_alert.dart';
+import 'package:moneynote4/screens/_components/wells_reserve_alert.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../extensions/extensions.dart';
@@ -706,6 +707,23 @@ class HomeScreen extends ConsumerWidget {
       ),
     );
 
+    list.add(
+      IconButton(
+        onPressed: () {
+          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
+                menuFlag: 'wells_reserve',
+                menuName: '積立年金記録',
+              );
+        },
+        icon: Icon(
+          FontAwesomeIcons.pagelines,
+          color: (homeMenuState.menuFlag == 'wells_reserve')
+              ? Colors.lightBlueAccent
+              : Colors.white,
+        ),
+      ),
+    );
+
     return SingleChildScrollView(
       child: Column(
         children: list,
@@ -842,6 +860,13 @@ class HomeScreen extends ConsumerWidget {
         MoneyDialog(
           context: _context,
           widget: BalanceSheetAlert(date: focusDayState),
+        );
+        break;
+
+      case 'wells_reserve':
+        MoneyDialog(
+          context: _context,
+          widget: WellsReserveAlert(date: focusDayState),
         );
         break;
     }

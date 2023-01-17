@@ -170,6 +170,10 @@ class SpendSummaryAlert extends ConsumerWidget {
 
       total += itemSumMap[spendSummaryState.list[i].item].toString().toInt();
 
+      if (itemSumMap[spendSummaryState.list[i].item].toString() == '0') {
+        continue;
+      }
+
       list.add(
         Container(
           width: _context.screenSize.width,
