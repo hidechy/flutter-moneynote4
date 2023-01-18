@@ -147,7 +147,7 @@ class SamedaySpendAlert extends ConsumerWidget {
               Row(
                 children: [
                   Text(samedaySpendState[i].sum.toString().toCurrency()),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   GestureDetector(
                     onTap: () {
                       MoneyDialog(

@@ -1,14 +1,17 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/extensions/extensions.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../extensions/extensions.dart';
 import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
+import '../../viewmodel/wells_reserve_notifier.dart';
 
 class WellsReserveAlert extends ConsumerWidget {
-  WellsReserveAlert({Key? key, required this.date}) : super(key: key);
+  WellsReserveAlert({super.key, required this.date});
 
   final DateTime date;
 
@@ -50,10 +53,15 @@ class WellsReserveAlert extends ConsumerWidget {
                   _utility.getFileNameDebug(name: runtimeType.toString()),
                 //----------//
 
-                Row(children: yearWidgetList),
-                
-                // const SizedBox(height: 20),
-                // displayTrain(),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: yearWidgetList,
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+                displayWellsReserve(),
               ],
             ),
           ),
@@ -67,30 +75,24 @@ class WellsReserveAlert extends ConsumerWidget {
     final appParamState = _ref.watch(appParamProvider);
 
     final yearList = <Widget>[];
-    for (var i = date.yyyy.toInt(); i >= 2020; i--) {
+    for (var i = date.yyyy.toInt(); i >= 2014; i--) {
       yearList.add(
         GestureDetector(
           onTap: () {
-            //
-            //
-            // _ref
-            //     .watch(appParamProvider.notifier)
-            //     .setTrainAlertSelectYear(year: i);
-            //
-            // final date = '$i-01-01 00:00:00'.toDateTime();
-            //
-            // _ref.watch(trainProvider.notifier).getYearTrain(date: date);
-            //
-            //
-            //
-            //
+            _ref
+                .watch(appParamProvider.notifier)
+                .setWellsReserveAlertYear(year: i);
+
+            _ref.watch(wellsReserveProvider.notifier).getWellsReserveNotifier(
+                  date: '$i-01-01 00:00:00'.toDateTime(),
+                );
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
             margin: const EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white.withOpacity(0.5)),
-              color: (i == appParamState.TrainAlertSelectYear)
+              color: (i == appParamState.WellsReserveAlertYear)
                   ? Colors.yellowAccent.withOpacity(0.2)
                   : null,
             ),
@@ -101,5 +103,53 @@ class WellsReserveAlert extends ConsumerWidget {
     }
 
     return yearList;
+  }
+
+  ///
+  Widget displayWellsReserve() {
+    final wellsReserveState = _ref.watch(wellsReserveProvider);
+
+    final list = <Widget>[];
+
+    for (var i = 0; i < wellsReserveState.length; i++) {
+      list.add(
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 3),
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.white.withOpacity(0.3),
+              ),
+            ),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(wellsReserveState[i].num),
+              ),
+              Expanded(
+                child: Text(wellsReserveState[i].date.yyyymmdd),
+              ),
+              Expanded(
+                child: Container(
+                  alignment: Alignment.topRight,
+                  child: Text(wellsReserveState[i].price.toCurrency()),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  alignment: Alignment.topRight,
+                  child: Text(wellsReserveState[i].total.toCurrency()),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return SingleChildScrollView(
+      child: Column(children: list),
+    );
   }
 }

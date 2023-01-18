@@ -33,6 +33,7 @@ mixin _$AppParamState {
   int get BalanceSheetAlertSelectYear => throw _privateConstructorUsedError;
   int get MonthlyUnitSpendAlertSelectYear => throw _privateConstructorUsedError;
   int get SamedaySpendAlertDay => throw _privateConstructorUsedError;
+  int get WellsReserveAlertYear => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AppParamStateCopyWith<AppParamState> get copyWith =>
@@ -61,7 +62,8 @@ abstract class $AppParamStateCopyWith<$Res> {
       String UdemyAlertSelectCategory,
       int BalanceSheetAlertSelectYear,
       int MonthlyUnitSpendAlertSelectYear,
-      int SamedaySpendAlertDay});
+      int SamedaySpendAlertDay,
+      int WellsReserveAlertYear});
 }
 
 /// @nodoc
@@ -93,6 +95,7 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
     Object? BalanceSheetAlertSelectYear = null,
     Object? MonthlyUnitSpendAlertSelectYear = null,
     Object? SamedaySpendAlertDay = null,
+    Object? WellsReserveAlertYear = null,
   }) {
     return _then(_value.copyWith(
       AmazonAlertSelectYear: null == AmazonAlertSelectYear
@@ -160,6 +163,10 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
           ? _value.SamedaySpendAlertDay
           : SamedaySpendAlertDay // ignore: cast_nullable_to_non_nullable
               as int,
+      WellsReserveAlertYear: null == WellsReserveAlertYear
+          ? _value.WellsReserveAlertYear
+          : WellsReserveAlertYear // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -188,7 +195,8 @@ abstract class _$$_AppParamStateCopyWith<$Res>
       String UdemyAlertSelectCategory,
       int BalanceSheetAlertSelectYear,
       int MonthlyUnitSpendAlertSelectYear,
-      int SamedaySpendAlertDay});
+      int SamedaySpendAlertDay,
+      int WellsReserveAlertYear});
 }
 
 /// @nodoc
@@ -218,6 +226,7 @@ class __$$_AppParamStateCopyWithImpl<$Res>
     Object? BalanceSheetAlertSelectYear = null,
     Object? MonthlyUnitSpendAlertSelectYear = null,
     Object? SamedaySpendAlertDay = null,
+    Object? WellsReserveAlertYear = null,
   }) {
     return _then(_$_AppParamState(
       AmazonAlertSelectYear: null == AmazonAlertSelectYear
@@ -285,6 +294,10 @@ class __$$_AppParamStateCopyWithImpl<$Res>
           ? _value.SamedaySpendAlertDay
           : SamedaySpendAlertDay // ignore: cast_nullable_to_non_nullable
               as int,
+      WellsReserveAlertYear: null == WellsReserveAlertYear
+          ? _value.WellsReserveAlertYear
+          : WellsReserveAlertYear // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -308,7 +321,8 @@ class _$_AppParamState implements _AppParamState {
       required this.UdemyAlertSelectCategory,
       required this.BalanceSheetAlertSelectYear,
       required this.MonthlyUnitSpendAlertSelectYear,
-      required this.SamedaySpendAlertDay});
+      required this.SamedaySpendAlertDay,
+      required this.WellsReserveAlertYear});
 
   @override
   final int AmazonAlertSelectYear;
@@ -342,10 +356,12 @@ class _$_AppParamState implements _AppParamState {
   final int MonthlyUnitSpendAlertSelectYear;
   @override
   final int SamedaySpendAlertDay;
+  @override
+  final int WellsReserveAlertYear;
 
   @override
   String toString() {
-    return 'AppParamState(AmazonAlertSelectYear: $AmazonAlertSelectYear, CreditCompanyAlertSelectYear: $CreditCompanyAlertSelectYear, CreditSummaryAlertSelectYear: $CreditSummaryAlertSelectYear, CreditYearlyDetailAlertSelectMonth: $CreditYearlyDetailAlertSelectMonth, DutyAlertSelectYear: $DutyAlertSelectYear, HomeFixAlertSelectYear: $HomeFixAlertSelectYear, SeiyuAlertSelectYear: $SeiyuAlertSelectYear, SeiyuAlertSelectDate: $SeiyuAlertSelectDate, SpendSummaryAlertSelectYear: $SpendSummaryAlertSelectYear, SpendYearlyAlertSelectYear: $SpendYearlyAlertSelectYear, TrainAlertSelectYear: $TrainAlertSelectYear, UdemyAlertSelectYear: $UdemyAlertSelectYear, UdemyAlertSelectCategory: $UdemyAlertSelectCategory, BalanceSheetAlertSelectYear: $BalanceSheetAlertSelectYear, MonthlyUnitSpendAlertSelectYear: $MonthlyUnitSpendAlertSelectYear, SamedaySpendAlertDay: $SamedaySpendAlertDay)';
+    return 'AppParamState(AmazonAlertSelectYear: $AmazonAlertSelectYear, CreditCompanyAlertSelectYear: $CreditCompanyAlertSelectYear, CreditSummaryAlertSelectYear: $CreditSummaryAlertSelectYear, CreditYearlyDetailAlertSelectMonth: $CreditYearlyDetailAlertSelectMonth, DutyAlertSelectYear: $DutyAlertSelectYear, HomeFixAlertSelectYear: $HomeFixAlertSelectYear, SeiyuAlertSelectYear: $SeiyuAlertSelectYear, SeiyuAlertSelectDate: $SeiyuAlertSelectDate, SpendSummaryAlertSelectYear: $SpendSummaryAlertSelectYear, SpendYearlyAlertSelectYear: $SpendYearlyAlertSelectYear, TrainAlertSelectYear: $TrainAlertSelectYear, UdemyAlertSelectYear: $UdemyAlertSelectYear, UdemyAlertSelectCategory: $UdemyAlertSelectCategory, BalanceSheetAlertSelectYear: $BalanceSheetAlertSelectYear, MonthlyUnitSpendAlertSelectYear: $MonthlyUnitSpendAlertSelectYear, SamedaySpendAlertDay: $SamedaySpendAlertDay, WellsReserveAlertYear: $WellsReserveAlertYear)';
   }
 
   @override
@@ -361,8 +377,7 @@ class _$_AppParamState implements _AppParamState {
             (identical(other.CreditSummaryAlertSelectYear, CreditSummaryAlertSelectYear) ||
                 other.CreditSummaryAlertSelectYear ==
                     CreditSummaryAlertSelectYear) &&
-            (identical(other.CreditYearlyDetailAlertSelectMonth,
-                    CreditYearlyDetailAlertSelectMonth) ||
+            (identical(other.CreditYearlyDetailAlertSelectMonth, CreditYearlyDetailAlertSelectMonth) ||
                 other.CreditYearlyDetailAlertSelectMonth ==
                     CreditYearlyDetailAlertSelectMonth) &&
             (identical(other.DutyAlertSelectYear, DutyAlertSelectYear) ||
@@ -383,7 +398,8 @@ class _$_AppParamState implements _AppParamState {
                 other.TrainAlertSelectYear == TrainAlertSelectYear) &&
             (identical(other.UdemyAlertSelectYear, UdemyAlertSelectYear) ||
                 other.UdemyAlertSelectYear == UdemyAlertSelectYear) &&
-            (identical(other.UdemyAlertSelectCategory, UdemyAlertSelectCategory) ||
+            (identical(
+                    other.UdemyAlertSelectCategory, UdemyAlertSelectCategory) ||
                 other.UdemyAlertSelectCategory == UdemyAlertSelectCategory) &&
             (identical(other.BalanceSheetAlertSelectYear, BalanceSheetAlertSelectYear) ||
                 other.BalanceSheetAlertSelectYear ==
@@ -392,7 +408,9 @@ class _$_AppParamState implements _AppParamState {
                 other.MonthlyUnitSpendAlertSelectYear ==
                     MonthlyUnitSpendAlertSelectYear) &&
             (identical(other.SamedaySpendAlertDay, SamedaySpendAlertDay) ||
-                other.SamedaySpendAlertDay == SamedaySpendAlertDay));
+                other.SamedaySpendAlertDay == SamedaySpendAlertDay) &&
+            (identical(other.WellsReserveAlertYear, WellsReserveAlertYear) ||
+                other.WellsReserveAlertYear == WellsReserveAlertYear));
   }
 
   @override
@@ -413,7 +431,8 @@ class _$_AppParamState implements _AppParamState {
       UdemyAlertSelectCategory,
       BalanceSheetAlertSelectYear,
       MonthlyUnitSpendAlertSelectYear,
-      SamedaySpendAlertDay);
+      SamedaySpendAlertDay,
+      WellsReserveAlertYear);
 
   @JsonKey(ignore: true)
   @override
@@ -439,7 +458,8 @@ abstract class _AppParamState implements AppParamState {
       required final String UdemyAlertSelectCategory,
       required final int BalanceSheetAlertSelectYear,
       required final int MonthlyUnitSpendAlertSelectYear,
-      required final int SamedaySpendAlertDay}) = _$_AppParamState;
+      required final int SamedaySpendAlertDay,
+      required final int WellsReserveAlertYear}) = _$_AppParamState;
 
   @override
   int get AmazonAlertSelectYear;
@@ -473,6 +493,8 @@ abstract class _AppParamState implements AppParamState {
   int get MonthlyUnitSpendAlertSelectYear;
   @override
   int get SamedaySpendAlertDay;
+  @override
+  int get WellsReserveAlertYear;
   @override
   @JsonKey(ignore: true)
   _$$_AppParamStateCopyWith<_$_AppParamState> get copyWith =>

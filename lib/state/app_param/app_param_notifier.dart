@@ -27,6 +27,7 @@ final appParamProvider =
       BalanceSheetAlertSelectYear: year.toInt(),
       MonthlyUnitSpendAlertSelectYear: year.toInt(),
       SamedaySpendAlertDay: DateTime.now().dd.toInt(),
+      WellsReserveAlertYear: year.toInt(),
     ),
   );
 });
@@ -82,6 +83,9 @@ class AppParamNotifier extends StateNotifier<AppParamState> {
 
   Future<void> setSamedaySpendAlertDay({required int day}) async =>
       state = state.copyWith(SamedaySpendAlertDay: day);
+
+  Future<void> setWellsReserveAlertYear({required int year}) async =>
+      state = state.copyWith(WellsReserveAlertYear: year);
 }
 
 ////////////////////////////////////////////////

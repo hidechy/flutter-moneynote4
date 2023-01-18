@@ -23,5 +23,6 @@ class AppParamState with _$AppParamState {
     required int BalanceSheetAlertSelectYear,
     required int MonthlyUnitSpendAlertSelectYear,
     required int SamedaySpendAlertDay,
+    required int WellsReserveAlertYear,
   }) = _AppParamState;
 }
