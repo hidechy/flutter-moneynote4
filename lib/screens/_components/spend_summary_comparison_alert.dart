@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -8,19 +10,21 @@ import '../../utility/utility.dart';
 import '../../viewmodel/spend_notifier.dart';
 
 class SpendSummaryComparisonAlert extends ConsumerWidget {
-  SpendSummaryComparisonAlert({Key? key}) : super(key: key);
+  SpendSummaryComparisonAlert({super.key});
 
   final Utility _utility = Utility();
 
   Uuid uuid = const Uuid();
 
-  Map<int, dynamic> comparisonMap = {};
+  Map<String, List<Map<int, int>>> comparisonMap = {};
 
+  late BuildContext _context;
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    _context = context;
     _ref = ref;
 
     makeComparisonMap();
@@ -52,12 +56,7 @@ class SpendSummaryComparisonAlert extends ConsumerWidget {
 
                 const SizedBox(height: 20),
 
-                Text(comparisonMap.entries.length.toString()),
-
-                //
-                //
-                // displayWellsReserve(),
-                //
+                displayComparisonData(),
               ],
             ),
           ),
@@ -67,13 +66,127 @@ class SpendSummaryComparisonAlert extends ConsumerWidget {
   }
 
   ///
-  void makeComparisonMap() async {
+  Future<void> makeComparisonMap() async {
+    final map = <int, Map<String, int>>{};
+
+    final midashi = <String>[];
+
     for (var i = 2020; i <= DateTime.now().yyyy.toInt(); i++) {
-      comparisonMap[i] = await _ref.watch(
-        spendSummaryProvider(
-          '${i}-01-01 00:00:00'.toDateTime(),
+      final spendSummaryState = _ref.watch(
+        spendSummaryProvider('$i-01-01 00:00:00'.toDateTime()),
+      );
+
+      final map2 = <String, int>{};
+      for (var j = 0; j < spendSummaryState.list.length; j++) {
+        if (i == 2020) {
+          midashi.add(spendSummaryState.list[j].item);
+        }
+
+        var total = 0;
+        for (var k = 0; k < spendSummaryState.list[j].list.length; k++) {
+          total += spendSummaryState.list[j].list[k].price;
+        }
+
+        map2[spendSummaryState.list[j].item] = total;
+      }
+
+      map[i] = map2;
+    }
+
+    midashi.forEach((element) {
+      final list = <Map<int, int>>[];
+
+      for (var i = 2020; i <= DateTime.now().yyyy.toInt(); i++) {
+        map[i]!.entries.forEach((element2) {
+          if (element == element2.key) {
+            final map3 = <int, int>{};
+            map3[i] = element2.value;
+            list.add(map3);
+          }
+        });
+      }
+
+      comparisonMap[element] = list;
+    });
+  }
+
+  ///
+  Widget displayComparisonData() {
+    final oneWidth = _context.screenSize.width / 5;
+
+    final list = <Widget>[];
+
+    comparisonMap.entries.forEach((element) {
+      final list2 = <Widget>[];
+
+      element.value.forEach((element2) {
+        element2.entries.forEach((element3) {
+          list2.add(
+            Stack(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(3),
+                  child: Text(
+                    element3.key.toString(),
+                    style: const TextStyle(color: Colors.grey),
+                  ),
+                ),
+                Container(
+                  width: oneWidth,
+                  alignment: Alignment.topRight,
+                  margin: const EdgeInsets.all(3),
+                  padding: const EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white.withOpacity(0.3)),
+                  ),
+                  child: Text(element3.value.toString().toCurrency()),
+                ),
+              ],
+            ),
+          );
+        });
+      });
+
+      list.add(
+        Container(
+          width: _context.screenSize.width,
+          padding: const EdgeInsets.symmetric(vertical: 3),
+          margin: const EdgeInsets.only(bottom: 10),
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.white.withOpacity(0.3),
+              ),
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: _context.screenSize.width,
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.indigo.withOpacity(0.8),
+                      Colors.transparent
+                    ],
+                  ),
+                ),
+                child: Text(element.key),
+              ),
+              Wrap(children: list2),
+            ],
+          ),
         ),
       );
-    }
+    });
+
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: list,
+      ),
+    );
   }
 }

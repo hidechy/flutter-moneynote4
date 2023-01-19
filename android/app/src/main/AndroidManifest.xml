@@ -3,7 +3,7 @@
 
     <application
         android:label="Money Note"
-        android:name="Money Note"
+        android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
