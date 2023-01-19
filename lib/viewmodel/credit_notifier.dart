@@ -18,6 +18,7 @@ creditSpendMonthlyProvider        List<CreditSpendMonthly>
 creditSummaryProvider       CreditSummaryState // saving
 creditCompanyProvider       List<CreditCompany>
 selectCreditProvider        String
+creditYearlyTotalProvider       List<CreditSpendAll>
 creditSummaryDetailProvider       List<SpendYearlyDetail>       *
 creditUdemyProvider       List<CreditSpendMonthly>        *
 */

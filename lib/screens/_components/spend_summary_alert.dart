@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/_money_dialog.dart';
+import 'package:moneynote4/screens/_components/spend_summary_comparison_alert.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
@@ -66,6 +68,20 @@ class SpendSummaryAlert extends ConsumerWidget {
                       //----------//
 
                       Row(children: yearWidgetList),
+
+                      Container(
+                        alignment: Alignment.topRight,
+                        child: GestureDetector(
+                          onTap: () {
+                            MoneyDialog(
+                              context: context,
+                              widget: SpendSummaryComparisonAlert(),
+                            );
+                          },
+                          child: Icon(Icons.info_outline),
+                        ),
+                      ),
+
                       const SizedBox(height: 20),
                       displaySpendSummary(),
                     ],

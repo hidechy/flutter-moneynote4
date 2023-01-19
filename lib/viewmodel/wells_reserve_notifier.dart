@@ -8,6 +8,10 @@ import '../extensions/extensions.dart';
 import '../models/wells.dart';
 import '../utility/utility.dart';
 
+/*
+wellsReserveProvider        List<Wells>
+*/
+
 ////////////////////////////////////////////////
 
 final wellsReserveProvider =
