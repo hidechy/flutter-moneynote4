@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/extensions/extensions.dart';
 import 'package:moneynote4/screens/_components/_money_dialog.dart';
 import 'package:moneynote4/screens/_components/monthly_spend_alert.dart';
+import 'package:moneynote4/screens/_components/spend_summary_halfyear_alert.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../state/app_param/app_param_notifier.dart';
@@ -54,6 +55,18 @@ class SamedaySpendAlert extends ConsumerWidget {
                 if (deviceInfoState.model == 'iPhone')
                   _utility.getFileNameDebug(name: runtimeType.toString()),
                 //----------//
+
+                GestureDetector(
+                  onTap: () {
+                    MoneyDialog(
+                      context: context,
+                      widget: SpendSummaryHalfyearAlert(),
+                    );
+                  },
+                  child: const Icon(Icons.line_style),
+                ),
+
+                const SizedBox(height: 20),
 
                 SizedBox(
                   height: context.screenSize.height - 130,
