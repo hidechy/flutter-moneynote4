@@ -26,6 +26,8 @@ class SpendSummaryHalfyearAlert extends ConsumerWidget {
 
   Map<String, List<CreditSpendMonthly>> creditSpendMap = {};
 
+  Map<String, int> totalMap = {};
+
   late BuildContext _context;
   late WidgetRef _ref;
 
@@ -92,6 +94,14 @@ class SpendSummaryHalfyearAlert extends ConsumerWidget {
 
     list.forEach((element) {
       list2.add(_ref.watch(spendMonthDetailProvider(element)).list);
+
+      //---------------------------- (2)
+      var total = 0;
+      _ref.watch(spendMonthDetailProvider(element)).list.forEach((element2) {
+        total += element2.spend;
+        totalMap[element2.date.yyyymmdd] = total;
+      });
+      //---------------------------- (2)
 
       //---------------------------- (1)
       final creditSpendMonthlyState =
@@ -299,39 +309,50 @@ class SpendSummaryHalfyearAlert extends ConsumerWidget {
         );
 
         list2.add(
-          Container(
-            margin: const EdgeInsets.all(5),
-            padding: const EdgeInsets.all(5),
-            width: oneWidth,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white.withOpacity(0.5)),
-            ),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: oneHeight),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.all(5),
+                padding: const EdgeInsets.all(5),
+                width: oneWidth,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white.withOpacity(0.5)),
+                ),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: oneHeight),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('${element2.date.yyyymmdd}（$youbi）'),
-                          if (spendZeroFlag == 1)
-                            Icon(
-                              Icons.star,
-                              color: Colors.yellowAccent.withOpacity(0.6),
-                            ),
+                          Row(
+                            children: [
+                              Text('${element2.date.yyyymmdd}（$youbi）'),
+                              if (spendZeroFlag == 1)
+                                Icon(
+                                  Icons.star,
+                                  color: Colors.yellowAccent.withOpacity(0.6),
+                                ),
+                            ],
+                          ),
+                          Text(element2.spend.toString().toCurrency()),
                         ],
                       ),
-                      Text(element2.spend.toString().toCurrency()),
+                      const SizedBox(height: 20),
+                      Column(children: list3),
                     ],
                   ),
-                  const SizedBox(height: 20),
-                  Column(children: list3),
-                ],
+                ),
               ),
-            ),
+              Container(
+                width: oneWidth,
+                alignment: Alignment.topRight,
+                padding: const EdgeInsets.all(5),
+                child: Text(
+                    totalMap[element2.date.yyyymmdd].toString().toCurrency()),
+              ),
+            ],
           ),
         );
       });
