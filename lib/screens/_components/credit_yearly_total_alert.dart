@@ -88,6 +88,7 @@ class CreditYearlyTotalAlert extends ConsumerWidget {
             await showDialog(
               context: _context,
               builder: (_) => CreditDetailDialog(
+                date: date,
                 creditDetail: creditYearlyTotalState[i],
               ),
             );

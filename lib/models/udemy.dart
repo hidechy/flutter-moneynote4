@@ -1,3 +1,18 @@
+/*
+http://toyohide.work/BrainLog/api/getUdemyData
+
+{
+    "data": [
+        {
+            "date": "2022-12-07",
+            "category": "flutter",
+            "title": "Flutter & Dart - The Complete Guide [2023 Edition]",
+            "price": "1800",
+            "pay": "JCB ****1626"
+        },
+
+*/
+
 class Udemy {
   Udemy({
     required this.date,
