@@ -71,24 +71,39 @@ class CreditYearlyTotalAlert extends ConsumerWidget {
 
     for (var i = 0; i < creditYearlyTotalState.length; i++) {
       list.add(
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(
-              width: _context.screenSize.width * 0.55,
-              child: Text(
-                creditYearlyTotalState[i].item,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+        GestureDetector(
+          onTap: () {},
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 5),
+            margin: const EdgeInsets.only(bottom: 10),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.white.withOpacity(0.3),
+                ),
               ),
             ),
-            SizedBox(
-              width: 60,
-              child: Text(
-                creditYearlyTotalState[i].date.yyyymm,
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: _context.screenSize.width * 0.55,
+                  child: Text(
+                    creditYearlyTotalState[i].item,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Container(
+                  width: 60,
+                  alignment: Alignment.topRight,
+                  child: Text(
+                    creditYearlyTotalState[i].date.yyyymm,
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       );
     }
