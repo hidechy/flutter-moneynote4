@@ -81,7 +81,7 @@ class CreditYearlyTotalAlert extends ConsumerWidget {
         GestureDetector(
           onTap: () async {
             Timer(
-              const Duration(seconds: 2),
+              const Duration(seconds: 3),
               () => Navigator.pop(_context),
             );
 
