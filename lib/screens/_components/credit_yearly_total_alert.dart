@@ -73,6 +73,10 @@ class CreditYearlyTotalAlert extends ConsumerWidget {
     final list = <Widget>[];
 
     for (var i = 0; i < creditYearlyTotalState.length; i++) {
+      final color = (creditYearlyTotalState[i].price.toInt() >= 3000)
+          ? Colors.yellowAccent
+          : Colors.white;
+
       list.add(
         GestureDetector(
           onTap: () async {
@@ -98,25 +102,31 @@ class CreditYearlyTotalAlert extends ConsumerWidget {
                 ),
               ),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: _context.screenSize.width * 0.55,
-                  child: Text(
-                    creditYearlyTotalState[i].item,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+            child: DefaultTextStyle(
+              style: TextStyle(
+                color: color,
+                fontSize: 12,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: _context.screenSize.width * 0.55,
+                    child: Text(
+                      creditYearlyTotalState[i].item,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                ),
-                Container(
-                  width: 60,
-                  alignment: Alignment.topRight,
-                  child: Text(
-                    creditYearlyTotalState[i].date.yyyymm,
+                  Container(
+                    width: 60,
+                    alignment: Alignment.topRight,
+                    child: Text(
+                      creditYearlyTotalState[i].date.yyyymm,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

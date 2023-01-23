@@ -40,7 +40,6 @@ class CreditDetailDialog extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(creditDetail.price.toCurrency()),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
@@ -48,6 +47,7 @@ class CreditDetailDialog extends StatelessWidget {
                         Text(creditDetail.kind),
                       ],
                     ),
+                    Text(creditDetail.price.toCurrency()),
                   ],
                 ),
               ],
