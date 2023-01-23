@@ -18,11 +18,13 @@ class CreditYearlyTotalAlert extends ConsumerWidget {
 
   Uuid uuid = const Uuid();
 
+  late BuildContext _context;
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    _context = context;
     _ref = ref;
 
     final deviceInfoState = ref.read(deviceInfoProvider);
@@ -69,75 +71,24 @@ class CreditYearlyTotalAlert extends ConsumerWidget {
 
     for (var i = 0; i < creditYearlyTotalState.length; i++) {
       list.add(
-        Container(
-          padding: const EdgeInsets.all(10),
-          margin: const EdgeInsets.only(bottom: 10),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.white.withOpacity(0.3),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: _context.screenSize.width * 0.6,
+              child: Text(
+                creditYearlyTotalState[i].item,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-          ),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white.withOpacity(0.8)),
-                  color: _utility.getLeadingBgColor(
-                      month: '${creditYearlyTotalState[i].payMonth}-01 00:00:00'
-                          .toDateTime()
-                          .mm),
-                ),
-                child: Column(
-                  children: [
-                    Text('${creditYearlyTotalState[i].payMonth}-01 00:00:00'
-                        .toDateTime()
-                        .yyyy),
-                    Text('${creditYearlyTotalState[i].payMonth}-01 00:00:00'
-                        .toDateTime()
-                        .mm),
-                  ],
-                ),
+            SizedBox(
+              width: 60,
+              child: Text(
+                creditYearlyTotalState[i].date.yyyymm,
               ),
-              const SizedBox(width: 20),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      creditYearlyTotalState[i].item,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(creditYearlyTotalState[i].date.yyyymmdd),
-                        Text(
-                          creditYearlyTotalState[i].price.toCurrency(),
-                          style: TextStyle(
-                            color:
-                                (creditYearlyTotalState[i].price.toInt() > 5000)
-                                    ? Colors.yellowAccent
-                                    : Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(),
-                        Text(creditYearlyTotalState[i].kind),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       );
     }

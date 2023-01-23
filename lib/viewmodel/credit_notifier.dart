@@ -256,15 +256,20 @@ class CreditYearlyTotalNotifier extends StateNotifier<List<CreditSpendAll>> {
     await client.post(path: APIPath.carditemlist).then((value) {
       final list = <CreditSpendAll>[];
 
+      final midashi = <String>[];
+
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         if (date.yyyy ==
             '${value['data'][i]['pay_month']}-01 00:00:00'.toDateTime().yyyy) {
+          final item = value['data'][i]['item'].toString();
+          final date = '${value['data'][i]['date']} 00:00:00'.toDateTime();
+
           list.add(
             CreditSpendAll(
               payMonth: value['data'][i]['pay_month'].toString(),
-              item: value['data'][i]['item'].toString(),
+              item: item,
               price: value['data'][i]['price'].toString(),
-              date: '${value['data'][i]['date']} 00:00:00'.toDateTime(),
+              date: date,
               kind: value['data'][i]['kind'].toString(),
               monthDiff: (value['data'][i]['monthDiff'] == null)
                   ? 0
@@ -272,10 +277,28 @@ class CreditYearlyTotalNotifier extends StateNotifier<List<CreditSpendAll>> {
               flag: value['data'][i]['flag'].toString().toInt(),
             ),
           );
+
+          final str = '$item|${date.yyyymm}';
+
+          if (!midashi.contains(str)) {
+            midashi.add(str);
+          }
         }
       }
 
-      state = list;
+      midashi.sort((a, b) => a.compareTo(b));
+
+      final list2 = <CreditSpendAll>[];
+
+      midashi.forEach((element) {
+        list.forEach((element2) {
+          if (element == '${element2.item}|${element2.date.yyyymm}') {
+            list2.add(element2);
+          }
+        });
+      });
+
+      state = list2;
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
