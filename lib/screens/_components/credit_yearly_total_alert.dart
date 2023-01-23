@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -8,6 +10,7 @@ import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/credit_notifier.dart';
+import '_parts/credit_detail_dialog.dart';
 
 class CreditYearlyTotalAlert extends ConsumerWidget {
   CreditYearlyTotalAlert({super.key, required this.date});
@@ -72,7 +75,19 @@ class CreditYearlyTotalAlert extends ConsumerWidget {
     for (var i = 0; i < creditYearlyTotalState.length; i++) {
       list.add(
         GestureDetector(
-          onTap: () {},
+          onTap: () async {
+            Timer(
+              const Duration(seconds: 2),
+              () => Navigator.pop(_context),
+            );
+
+            await showDialog(
+              context: _context,
+              builder: (_) => CreditDetailDialog(
+                creditDetail: creditYearlyTotalState[i],
+              ),
+            );
+          },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 5),
             margin: const EdgeInsets.only(bottom: 10),
