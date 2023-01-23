@@ -75,7 +75,7 @@ class CreditYearlyTotalAlert extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              width: _context.screenSize.width * 0.5,
+              width: _context.screenSize.width * 0.55,
               child: Text(
                 creditYearlyTotalState[i].item,
                 maxLines: 1,
