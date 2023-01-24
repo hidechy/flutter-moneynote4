@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
+import 'dart:math';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../data/http/client.dart';
@@ -50,7 +52,7 @@ class ShintakuNotifier extends StateNotifier<Shintaku> {
         list.add(
           ShintakuRecord(
             name: value['data']['record'][i]['name'].toString(),
-            date: DateTime.parse(value['data']['record'][i]['date'].toString()),
+            date: value['data']['record'][i]['date'].toString().toDateTime(),
             num: value['data']['record'][i]['num'].toString(),
             shutoku: value['data']['record'][i]['shutoku'].toString(),
             cost: value['data']['record'][i]['cost'].toString(),
