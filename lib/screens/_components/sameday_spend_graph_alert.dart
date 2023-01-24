@@ -45,7 +45,6 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
 
     /*
     print(list);
-
     flutter: [2020-06, 2020-05, 2020-04, 2020-03, 2020-02, 2020-01]
     flutter: [2020-06, 2020-05, 2020-04, 2020-03, 2020-02, 2020-01]
     flutter: [2020-06, 2020-05, 2020-04, 2020-03, 2020-02, 2020-01]
@@ -59,18 +58,14 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
 
     print(yearDates);
 
-    final spendMonthDetailState = _ref.watch(spendMonthDetailProvider(date));
+    final spendYearDetailState = _ref.watch(spendYearDetailProvider(date));
 
     /*
-
-
       SpendYearly({
     required this.date,
     required this.spend,
 //    required this.item,
   });
-
-
     */
   }
 }
