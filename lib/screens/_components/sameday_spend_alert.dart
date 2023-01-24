@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/extensions/extensions.dart';
 import 'package:moneynote4/screens/_components/_money_dialog.dart';
 import 'package:moneynote4/screens/_components/monthly_spend_alert.dart';
+import 'package:moneynote4/screens/_components/sameday_spend_graph_alert.dart';
 import 'package:moneynote4/screens/_components/spend_summary_halfyear_alert.dart';
 import 'package:uuid/uuid.dart';
 
@@ -69,7 +70,7 @@ class SamedaySpendAlert extends ConsumerWidget {
                 const SizedBox(height: 20),
 
                 SizedBox(
-                  height: context.screenSize.height - 130,
+                  height: context.screenSize.height - 180,
                   child: Row(
                     children: [
                       SizedBox(
@@ -161,20 +162,40 @@ class SamedaySpendAlert extends ConsumerWidget {
                 children: [
                   Text(samedaySpendState[i].sum.toString().toCurrency()),
                   const SizedBox(width: 10),
-                  GestureDetector(
-                    onTap: () {
-                      MoneyDialog(
-                        context: _context,
-                        widget: MonthlySpendAlert(
-                          date: '${samedaySpendState[i].ym}-01 00:00:00'
-                              .toDateTime(),
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          MoneyDialog(
+                            context: _context,
+                            widget: MonthlySpendAlert(
+                              date: '${samedaySpendState[i].ym}-01 00:00:00'
+                                  .toDateTime(),
+                            ),
+                          );
+                        },
+                        child: Icon(
+                          Icons.info_outline,
+                          color: Colors.white.withOpacity(0.6),
                         ),
-                      );
-                    },
-                    child: Icon(
-                      Icons.info_outline,
-                      color: Colors.white.withOpacity(0.6),
-                    ),
+                      ),
+                      const SizedBox(width: 10),
+                      GestureDetector(
+                        onTap: () {
+                          MoneyDialog(
+                            context: _context,
+                            widget: SamedaySpendGraphAlert(
+                              date: '${samedaySpendState[i].ym}-01 00:00:00'
+                                  .toDateTime(),
+                            ),
+                          );
+                        },
+                        child: Icon(
+                          Icons.graphic_eq,
+                          color: Colors.white.withOpacity(0.6),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

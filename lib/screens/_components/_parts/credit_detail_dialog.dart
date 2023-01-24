@@ -40,7 +40,7 @@ class CreditDetailDialog extends ConsumerWidget {
           color: Colors.blueGrey.withOpacity(0.3),
         ),
         child: DefaultTextStyle(
-          style: TextStyle(fontSize: 12),
+          style: const TextStyle(fontSize: 12),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
