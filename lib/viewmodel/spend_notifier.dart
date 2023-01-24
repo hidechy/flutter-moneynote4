@@ -22,7 +22,6 @@ import '../utility/utility.dart';
 spendMonthSummaryProvider       List<SpendMonthSummary>
 spendItemDailyProvider        SpendItemDaily
 spendMonthDetailProvider        List<SpendYearly>
-spendYearDetailProvider       List<SpendYearly>
 spendMonthUnitProvider        Map<String, int>
 spendYearlyItemProvider       List<SpendYearlyItemState>
 spendSummaryProvider        SpendSummaryState // saving
@@ -185,63 +184,6 @@ class SpendMonthDetailNotifier extends StateNotifier<MonthlySpendState> {
       state = state.copyWith(saving: false);
 
       state = state.copyWith(list: list);
-    }).catchError((error, _) {
-      utility.showError('予期せぬエラーが発生しました');
-    });
-  }
-}
-
-////////////////////////////////////////////////
-
-////////////////////////////////////////////////
-final spendYearDetailProvider = StateNotifierProvider.autoDispose
-    .family<SpendYearDetailNotifier, List<SpendYearly>, DateTime>((ref, date) {
-  final client = ref.read(httpClientProvider);
-
-  final utility = Utility();
-
-  return SpendYearDetailNotifier([], client, utility)
-    ..getSpendYearDetail(date: date);
-});
-
-class SpendYearDetailNotifier extends StateNotifier<List<SpendYearly>> {
-  SpendYearDetailNotifier(super.state, this.client, this.utility);
-
-  final HttpClient client;
-  final Utility utility;
-
-  Future<void> getSpendYearDetail({required DateTime date}) async {
-    await client.post(
-      path: APIPath.getYearSpend,
-      body: {'date': date.yyyymmdd},
-    ).then((value) {
-      final list = <SpendYearly>[];
-
-      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        final list2 = <SpendYearlyItem>[];
-
-        for (var j = 0;
-            j < value['data'][i]['item'].length.toString().toInt();
-            j++) {
-          list2.add(
-            SpendYearlyItem(
-              item: value['data'][i]['item'][j]['item'].toString(),
-              price: value['data'][i]['item'][j]['price'].toString().toInt(),
-              flag: value['data'][i]['item'][j]['flag'].toString().toInt(),
-            ),
-          );
-        }
-
-        list.add(
-          SpendYearly(
-            date: DateTime.parse(value['data'][i]['date'].toString()),
-            spend: value['data'][i]['spend'].toString().toInt(),
-            item: list2,
-          ),
-        );
-      }
-
-      state = list;
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
