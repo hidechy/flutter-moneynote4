@@ -10,6 +10,8 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
 
   final DateTime date;
 
+  List<List<Map<String, dynamic>>> samedayGraphData = [];
+
   late WidgetRef _ref;
 
   ///
@@ -48,10 +50,55 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
 
     print(list);
 
-    list.forEach((element) {
-      final spendMonthDetailState =
-          _ref.watch(spendMonthDetailProvider(element));
-    });
+    //
+    //
+    //
+    //
+    // list.forEach((element) {
+    //   final spendMonthDetailState =
+    //       _ref.watch(spendMonthDetailProvider(element));
+    //
+    //   List<Map<String, dynamic>> list2 = [];
+    //   var keepYm = '';
+    //   var sum = 0;
+    //
+    //   spendMonthDetailState.list.forEach((element2) {
+    //     if (element2.date.yyyymm != keepYm) {
+    //       list2 = [];
+    //       sum = 0;
+    //     }
+    //
+    //     for (var i = 1; i <= 31; i++) {
+    //       sum += (element2.date.day == i) ? element2.spend : 0;
+    //       Map<String, dynamic> map = {};
+    //       map['day'] = i;
+    //       map['price'] = sum;
+    //
+    //       list2.add(map);
+    //     }
+    //
+    //     keepYm = element2.date.yyyymm;
+    //   });
+    //
+    //   samedayGraphData.add(list2);
+    // });
+    //
+    // print(samedayGraphData);
+    //
+    //
+    //
+    //
+    //
+
+/*
+
+
+
+
+    List<List<Map<String, dynamic>>> samedayGraphData = [];
+
+
+*/
 
     /*
       SpendYearly({

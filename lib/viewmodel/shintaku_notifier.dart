@@ -46,13 +46,21 @@ class ShintakuNotifier extends StateNotifier<Shintaku> {
     await client.post(path: APIPath.getDataShintaku).then((value) {
       final list = <ShintakuRecord>[];
 
+      var maxDate = DateTime(2020);
+      var keepDate = DateTime(2020);
+
       for (var i = 0;
           i < value['data']['record'].length.toString().toInt();
           i++) {
+        var dt = '${value['data']['record'][i]['date']} 00:00:00'.toDateTime();
+        if (dt.isAfter(keepDate)) {
+          maxDate = dt;
+        }
+
         list.add(
           ShintakuRecord(
             name: value['data']['record'][i]['name'].toString(),
-            date: value['data']['record'][i]['date'].toString().toDateTime(),
+            date: dt,
             num: value['data']['record'][i]['num'].toString(),
             shutoku: value['data']['record'][i]['shutoku'].toString(),
             cost: value['data']['record'][i]['cost'].toString(),
@@ -61,13 +69,15 @@ class ShintakuNotifier extends StateNotifier<Shintaku> {
             data: value['data']['record'][i]['data'].toString(),
           ),
         );
+
+        keepDate = dt;
       }
 
       final shintaku = Shintaku(
         cost: value['data']['cost'].toString().toInt(),
         price: value['data']['price'].toString().toInt(),
         diff: value['data']['diff'].toString().toInt(),
-        date: DateTime.parse(value['data']['date'].toString()),
+        date: maxDate,
         record: list,
       );
 
