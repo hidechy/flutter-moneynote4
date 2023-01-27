@@ -185,30 +185,12 @@ class MoneyScoreGraphAlert extends ConsumerWidget {
       lineTouchData: LineTouchData(
         touchTooltipData: LineTouchTooltipData(
           tooltipBgColor: Colors.white.withOpacity(0.3),
+          getTooltipItems: _utility.getGraphToolTip,
         ),
       ),
 
       ///
-      gridData: FlGridData(
-        show: true,
-        drawVerticalLine: true,
-
-        //横線
-        getDrawingHorizontalLine: (value) {
-          return FlLine(
-            color: Colors.white30,
-            strokeWidth: 1,
-          );
-        },
-
-        //縦線
-        getDrawingVerticalLine: (value) {
-          return FlLine(
-            color: Colors.white38,
-            strokeWidth: 1,
-          );
-        },
-      ),
+      gridData: _utility.getFlGridData(),
 
       ///
       titlesData: FlTitlesData(

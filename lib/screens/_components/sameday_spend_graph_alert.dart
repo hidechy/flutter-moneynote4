@@ -183,26 +183,7 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
       ),
 
       ///
-      gridData: FlGridData(
-        show: true,
-        drawVerticalLine: true,
-
-        //横線
-        getDrawingHorizontalLine: (value) {
-          return FlLine(
-            color: Colors.white30,
-            strokeWidth: 1,
-          );
-        },
-
-        //縦線
-        getDrawingVerticalLine: (value) {
-          return FlLine(
-            color: Colors.white38,
-            strokeWidth: 1,
-          );
-        },
-      ),
+      gridData: _utility.getFlGridData(),
 
       ///
       titlesData: FlTitlesData(

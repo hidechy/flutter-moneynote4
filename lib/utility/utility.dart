@@ -1,5 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages, type_annotate_public_apis, cascade_invocations, strict_raw_type, noop_primitive_operations
 
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../extensions/extensions.dart';
@@ -178,6 +179,49 @@ class Utility {
     }
 
     return null;
+  }
+
+  ///
+  List<LineTooltipItem> getGraphToolTip(List<LineBarSpot> touchedSpots) {
+    final list = <LineTooltipItem>[];
+
+    touchedSpots.forEach((element) {
+      final textStyle = TextStyle(
+        color: element.bar.gradient?.colors.first ??
+            element.bar.color ??
+            Colors.blueGrey,
+        fontWeight: FontWeight.bold,
+        fontSize: 12,
+      );
+
+      final price = element.y.toString().split('.')[0].toCurrency();
+
+      list.add(
+        LineTooltipItem(
+          price,
+          textStyle,
+          textAlign: TextAlign.end,
+        ),
+      );
+    });
+
+    return list;
+  }
+
+  ///
+  FlGridData getFlGridData() {
+    final flline = FlLine(color: Colors.white30, strokeWidth: 1);
+
+    return FlGridData(
+      show: true,
+      drawVerticalLine: true,
+
+      //横線
+      getDrawingHorizontalLine: (value) => flline,
+
+      //縦線
+      getDrawingVerticalLine: (value) => flline,
+    );
   }
 }
 
