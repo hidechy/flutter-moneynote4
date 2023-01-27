@@ -11,6 +11,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/screens/_components/balance_sheet_alert.dart';
 import 'package:moneynote4/screens/_components/food_expenses_alert.dart';
 import 'package:moneynote4/screens/_components/sameday_spend_alert.dart';
+import 'package:moneynote4/screens/_components/spend_halfyear_summary_alert.dart';
 import 'package:moneynote4/screens/_components/udemy_alert.dart';
 import 'package:moneynote4/screens/_components/wells_reserve_alert.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -237,9 +238,28 @@ class HomeScreen extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    Text(
-                      total.toString().toCurrency(),
-                      style: const TextStyle(fontSize: 16),
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            MoneyDialog(
+                              context: context,
+                              widget: SpendHalfyearSummaryAlert(
+                                date: focusDayState,
+                              ),
+                            );
+                          },
+                          child: const Icon(
+                            FontAwesomeIcons.maximize,
+                            size: 14,
+                          ),
+                        ),
+                        const SizedBox(width: 20),
+                        Text(
+                          total.toString().toCurrency(),
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -281,7 +301,10 @@ class HomeScreen extends ConsumerWidget {
               widget: CreditAlert(date: focusDayState),
             );
           },
-          child: const Icon(Icons.credit_card),
+          child: const Icon(
+            Icons.credit_card,
+            size: 14,
+          ),
         );
       default:
         return Icon(
@@ -414,6 +437,7 @@ class HomeScreen extends ConsumerWidget {
           color: (homeMenuState.menuFlag == 'monthly_spend')
               ? Colors.lightBlueAccent
               : Colors.white,
+          size: 14,
         ),
       ),
     );
@@ -431,6 +455,7 @@ class HomeScreen extends ConsumerWidget {
           color: (homeMenuState.menuFlag == 'sameday_spend')
               ? Colors.lightBlueAccent
               : Colors.white,
+          size: 14,
         ),
       ),
     );
@@ -448,6 +473,7 @@ class HomeScreen extends ConsumerWidget {
           color: (homeMenuState.menuFlag == 'monthly_unit_spend')
               ? Colors.lightBlueAccent
               : Colors.white,
+          size: 14,
         ),
       ),
     );
@@ -465,6 +491,7 @@ class HomeScreen extends ConsumerWidget {
           color: (homeMenuState.menuFlag == 'yearly_spend')
               ? Colors.lightBlueAccent
               : Colors.white,
+          size: 14,
         ),
       ),
     );
@@ -482,6 +509,7 @@ class HomeScreen extends ConsumerWidget {
           color: (homeMenuState.menuFlag == 'spend_summary')
               ? Colors.lightBlueAccent
               : Colors.white,
+          size: 14,
         ),
       ),
     );
@@ -499,6 +527,7 @@ class HomeScreen extends ConsumerWidget {
           color: (homeMenuState.menuFlag == 'credit_summary')
               ? Colors.lightBlueAccent
               : Colors.white,
+          size: 14,
         ),
       ),
     );
@@ -516,6 +545,7 @@ class HomeScreen extends ConsumerWidget {
           color: (homeMenuState.menuFlag == 'credit_company')
               ? Colors.lightBlueAccent
               : Colors.white,
+          size: 14,
         ),
       ),
     );
@@ -533,6 +563,7 @@ class HomeScreen extends ConsumerWidget {
           color: (homeMenuState.menuFlag == 'money_score')
               ? Colors.lightBlueAccent
               : Colors.white,
+          size: 14,
         ),
       ),
     );
@@ -550,6 +581,7 @@ class HomeScreen extends ConsumerWidget {
           color: (homeMenuState.menuFlag == 'benefit')
               ? Colors.lightBlueAccent
               : Colors.white,
+          size: 14,
         ),
       ),
     );
@@ -567,6 +599,7 @@ class HomeScreen extends ConsumerWidget {
           color: (homeMenuState.menuFlag == 'duty_paid')
               ? Colors.lightBlueAccent
               : Colors.white,
+          size: 14,
         ),
       ),
     );
@@ -584,6 +617,7 @@ class HomeScreen extends ConsumerWidget {
           color: (homeMenuState.menuFlag == 'home_fix')
               ? Colors.lightBlueAccent
               : Colors.white,
+          size: 14,
         ),
       ),
     );
@@ -601,6 +635,7 @@ class HomeScreen extends ConsumerWidget {
           color: (homeMenuState.menuFlag == 'food_expenses')
               ? Colors.lightBlueAccent
               : Colors.white,
+          size: 14,
         ),
       ),
     );
@@ -618,6 +653,7 @@ class HomeScreen extends ConsumerWidget {
           color: (homeMenuState.menuFlag == 'seiyuu_purchase')
               ? Colors.lightBlueAccent
               : Colors.white,
+          size: 14,
         ),
       ),
     );
@@ -635,6 +671,7 @@ class HomeScreen extends ConsumerWidget {
           color: (homeMenuState.menuFlag == 'amazon_purchase')
               ? Colors.lightBlueAccent
               : Colors.white,
+          size: 14,
         ),
       ),
     );
@@ -652,6 +689,7 @@ class HomeScreen extends ConsumerWidget {
           color: (homeMenuState.menuFlag == 'train')
               ? Colors.lightBlueAccent
               : Colors.white,
+          size: 14,
         ),
       ),
     );
@@ -669,6 +707,7 @@ class HomeScreen extends ConsumerWidget {
           color: (homeMenuState.menuFlag == 'mercari')
               ? Colors.lightBlueAccent
               : Colors.white,
+          size: 14,
         ),
       ),
     );
@@ -686,6 +725,7 @@ class HomeScreen extends ConsumerWidget {
           color: (homeMenuState.menuFlag == 'udemy')
               ? Colors.lightBlueAccent
               : Colors.white,
+          size: 14,
         ),
       ),
     );
@@ -703,6 +743,7 @@ class HomeScreen extends ConsumerWidget {
           color: (homeMenuState.menuFlag == 'balanceSheet')
               ? Colors.lightBlueAccent
               : Colors.white,
+          size: 14,
         ),
       ),
     );
@@ -720,6 +761,7 @@ class HomeScreen extends ConsumerWidget {
           color: (homeMenuState.menuFlag == 'wells_reserve')
               ? Colors.lightBlueAccent
               : Colors.white,
+          size: 14,
         ),
       ),
     );
