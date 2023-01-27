@@ -70,7 +70,7 @@ class SamedaySpendAlert extends ConsumerWidget {
                 const SizedBox(height: 20),
 
                 SizedBox(
-                  height: context.screenSize.height - 270,
+                  height: context.screenSize.height - 170,
                   child: Row(
                     children: [
                       SizedBox(

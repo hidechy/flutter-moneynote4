@@ -222,7 +222,10 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
             getTitlesWidget: (value, meta) {
               return SideTitleWidget(
                 axisSide: meta.axisSide,
-                child: Text(value.toInt().toString()),
+                child: Text(
+                  value.toInt().toString(),
+                  style: const TextStyle(fontSize: 12),
+                ),
               );
             },
           ),
@@ -233,9 +236,12 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            reservedSize: 100,
+            reservedSize: 60,
             getTitlesWidget: (value, meta) {
-              return Text(value.toInt().toString());
+              return Text(
+                value.toInt().toString(),
+                style: const TextStyle(fontSize: 12),
+              );
             },
           ),
         ),
@@ -245,9 +251,12 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
         rightTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            reservedSize: 100,
+            reservedSize: 60,
             getTitlesWidget: (value, meta) {
-              return Text(value.toInt().toString());
+              return Text(
+                value.toInt().toString(),
+                style: const TextStyle(fontSize: 12),
+              );
             },
           ),
         ),
@@ -277,7 +286,7 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
             element.bar.color ??
             Colors.blueGrey,
         fontWeight: FontWeight.bold,
-        fontSize: 16,
+        fontSize: 12,
       );
 
       final price = element.y.toString().split('.')[0].toCurrency();
@@ -307,6 +316,7 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
             style: TextStyle(
               color: twelveColor[list.length],
               fontWeight: FontWeight.bold,
+              fontSize: 12,
             ),
           ),
         ),
