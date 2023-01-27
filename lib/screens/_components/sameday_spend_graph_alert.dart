@@ -1,8 +1,10 @@
+// ignore_for_file: must_be_immutable
+
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
-import '../../models/spend_yearly.dart';
 import '../../viewmodel/spend_notifier.dart';
 
 class SamedaySpendGraphAlert extends ConsumerWidget {
@@ -10,7 +12,7 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
 
   final DateTime date;
 
-  Map<String, List<Map<String, dynamic>>> samedayGraphData = {};
+  LineChartData data = LineChartData();
 
   late WidgetRef _ref;
 
@@ -19,13 +21,13 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
 
-    makeComparisonMap();
+    setChartData();
 
     return Container();
   }
 
   ///
-  void makeComparisonMap() {
+  void setChartData() {
     //---------------------------------------(1)
     final list = <DateTime>[];
 
@@ -48,105 +50,27 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
     }
     //---------------------------------------(1)
 
-    print(list);
+    //---------------------------------------(2)
+    final graphData = <String, List<Map<String, dynamic>>>{};
 
-    //
-    //
-    //
-    //
-    //
-    // List<Map<String, dynamic>> list2 = [];
-    //
-    // var keepYm = '';
-    // var sum = 0;
-    //
-    // list.forEach((element) {
-    //   final spendMonthDetailState =
-    //       _ref.watch(spendMonthDetailProvider(element));
-    //
-    //   spendMonthDetailState.list.forEach((element2) {
-    //     if (keepYm != element2.date.yyyymm) {
-    //       list2 = [];
-    //       sum = 0;
-    //     }
-    //
-    //     for (var i = 1; i <= 31; i++) {
-    //       sum += (element2.date.day == i) ? element2.spend : 0;
-    //
-    //       Map<String, dynamic> map = {};
-    //       map['day'] = i;
-    //       map['spend'] = sum;
-    //       list2.add(map);
-    //     }
-    //
-    //     samedayGraphData[element.yyyymm] = list2;
-    //
-    //     keepYm = element.yyyymm;
-    //   });
-    // });
-    //
-    // print(samedayGraphData);
-    //
-    //
-    //
-    //
+    list.forEach((element) {
+      final spendMonthDetailState =
+          _ref.watch(spendMonthDetailProvider(element));
 
-    //
-    //
-    //
-    //
-    // list.forEach((element) {
-    //   final spendMonthDetailState =
-    //       _ref.watch(spendMonthDetailProvider(element));
-    //
-    //   List<Map<String, dynamic>> list2 = [];
-    //   var keepYm = '';
-    //   var sum = 0;
-    //
-    //   spendMonthDetailState.list.forEach((element2) {
-    //     if (element2.date.yyyymm != keepYm) {
-    //       list2 = [];
-    //       sum = 0;
-    //     }
-    //
-    //     for (var i = 1; i <= 31; i++) {
-    //       sum += (element2.date.day == i) ? element2.spend : 0;
-    //       Map<String, dynamic> map = {};
-    //       map['day'] = i;
-    //       map['price'] = sum;
-    //
-    //       list2.add(map);
-    //     }
-    //
-    //     keepYm = element2.date.yyyymm;
-    //   });
-    //
-    //   samedayGraphData.add(list2);
-    // });
-    //
-    // print(samedayGraphData);
-    //
-    //
-    //
-    //
-    //
+      final list2 = <Map<String, int>>[];
 
-/*
+      var sum = 0;
 
+      spendMonthDetailState.list.forEach((element2) {
+        sum += element2.spend;
 
+        list2.add({'day': element2.date.day, 'sum': sum});
+      });
 
+      graphData[element.yyyymm] = list2;
+    });
 
-    List<List<Map<String, dynamic>>> samedayGraphData = [];
-
-
-*/
-
-    /*
-      SpendYearly({
-    required this.date,
-    required this.spend,
-//    required this.item,
-  });
-    */
+    print(graphData);
+    //---------------------------------------(2)
   }
 }

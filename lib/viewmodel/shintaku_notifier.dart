@@ -1,7 +1,5 @@
 // ignore_for_file: avoid_dynamic_calls
 
-import 'dart:math';
-
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../data/http/client.dart';
@@ -52,7 +50,8 @@ class ShintakuNotifier extends StateNotifier<Shintaku> {
       for (var i = 0;
           i < value['data']['record'].length.toString().toInt();
           i++) {
-        var dt = '${value['data']['record'][i]['date']} 00:00:00'.toDateTime();
+        final dt =
+            '${value['data']['record'][i]['date']} 00:00:00'.toDateTime();
         if (dt.isAfter(keepDate)) {
           maxDate = dt;
         }
