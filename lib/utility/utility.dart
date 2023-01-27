@@ -1,7 +1,8 @@
 // ignore_for_file: depend_on_referenced_packages, type_annotate_public_apis, cascade_invocations, strict_raw_type, noop_primitive_operations
 
 import 'package:flutter/material.dart';
-import 'package:moneynote4/extensions/extensions.dart';
+
+import '../extensions/extensions.dart';
 
 class Utility {
   /// 背景取得

@@ -142,7 +142,7 @@ class SamedaySpendAlert extends ConsumerWidget {
 
     final list = <Widget>[];
 
-    for (var i = 0; i < samedaySpendState.length; i++) {
+    for (var i = samedaySpendState.length - 1; i >= 0; i--) {
       list.add(
         Container(
           padding: const EdgeInsets.all(10),
