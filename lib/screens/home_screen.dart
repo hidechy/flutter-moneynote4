@@ -307,9 +307,10 @@ class HomeScreen extends ConsumerWidget {
           ),
         );
       default:
-        return Icon(
+        return const Icon(
           Icons.check_box_outline_blank,
-          color: Colors.black.withOpacity(0.1),
+          color: Colors.transparent,
+          size: 14,
         );
     }
   }

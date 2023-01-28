@@ -202,9 +202,9 @@ class CreditYearlyDetailAlert extends ConsumerWidget {
               children: [
                 Text(sum.toString().toCurrency()),
                 const SizedBox(width: 20),
-                Icon(
+                const Icon(
                   Icons.check_box_outline_blank,
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.transparent,
                 )
               ],
             ),
@@ -241,9 +241,9 @@ class CreditYearlyDetailAlert extends ConsumerWidget {
           child: const Icon(FontAwesomeIcons.u),
         );
       default:
-        return Icon(
+        return const Icon(
           Icons.check_box_outline_blank,
-          color: Colors.black.withOpacity(0.1),
+          color: Colors.transparent,
         );
     }
   }
