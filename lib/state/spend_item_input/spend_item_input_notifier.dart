@@ -41,8 +41,6 @@ class SpendItemInputNotifier extends StateNotifier<SpendItemInputState> {
 
     items[pos] = item;
 
-    print(items);
-
     state = state.copyWith(spendItem: items);
   }
 
@@ -50,11 +48,64 @@ class SpendItemInputNotifier extends StateNotifier<SpendItemInputState> {
     final prices = <String>[...state.spendPrice];
     prices[pos] = price;
 
-    print(prices);
-
     state = state.copyWith(spendPrice: prices);
   }
 
-  Future<void> inputSpendItem() async {}
+  Future<void> inputSpendItem({required DateTime date}) async {
+    print(state);
+    print(date);
+
+    final list = <Map<String, dynamic>>[];
+    for (var i = 0; i < 10; i++) {
+      if (state.spendItem[i] != '' && state.spendPrice[i] != '') {
+        list.add({'item': state.spendItem[i], 'price': state.spendPrice[i]});
+      }
+    }
+
+    print(list);
+
+    /*
+flutter: SpendItemInputState(itemPos: 2, spendItem: [食費, 交際費, プラス, , , , , , , ], spendPrice: [1390, 5000, -3, , , , , , , ])
+flutter: 2023-01-31 00:00:00.000Z
+flutter: [{item: 食費, price: 1390}, {item: 交際費, price: 5000}, {item: プラス, price: -3}]
+
+    */
+
+    /*
+
+
+{"date":"2023-01-01",
+"spend":[
+    {"item":"食費", "price":999},
+    {"item":"交際費", "price":888}
+]
+}
+
+
+
+    */
+
+    /*
+
+    mysql> desc t_dailyspend;
+
+| year       | varchar(4)       | NO   |     | NULL                |                |
+| month      | varchar(2)       | NO   |     | NULL                |                |
+| day        | varchar(2)       | NO   |     | NULL                |                |
+| ymd        | varchar(8)       | YES  |     | NULL                |                |
+
+| price      | int(11)          | NO   |     | NULL                |                |
+| koumoku    | varchar(30)      | NO   |     | NULL                |                |
+
+| created_at | timestamp        | NO   |     | 0000-00-00 00:00:00 |                |
+| updated_at | timestamp        | NO   |     | 0000-00-00 00:00:00 |                |
++------------+------------------+------+-----+---------------------+----------------+
+10 rows in set (0.00 sec)
+
+
+
+
+    */
+  }
 }
 ////////////////////////////////////////////////

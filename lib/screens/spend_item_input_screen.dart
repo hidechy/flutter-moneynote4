@@ -18,6 +18,8 @@ class SpendItemInputScreen extends ConsumerWidget {
 
   List<String> spendItem = [];
 
+  List<TextEditingController> tecs = [];
+
   late BuildContext _context;
   late WidgetRef _ref;
 
@@ -27,14 +29,9 @@ class SpendItemInputScreen extends ConsumerWidget {
     _context = context;
     _ref = ref;
 
-    makeSpendItem();
+    makeTecs();
 
-    //
-    //
-    // print(spendItem);
-    //
-    //
-    //
+    makeSpendItem();
 
     return Scaffold(
       body: Stack(
@@ -74,7 +71,11 @@ class SpendItemInputScreen extends ConsumerWidget {
                   children: [
                     Container(),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _ref
+                            .watch(spendItemInputProvider.notifier)
+                            .inputSpendItem(date: date);
+                      },
                       icon: const Icon(Icons.input),
                     ),
                   ],
@@ -86,6 +87,13 @@ class SpendItemInputScreen extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  ///
+  void makeTecs() {
+    for (var i = 0; i < 10; i++) {
+      tecs.add(TextEditingController(text: ''));
+    }
   }
 
   ///
@@ -154,8 +162,8 @@ class SpendItemInputScreen extends ConsumerWidget {
               SizedBox(
                 width: _context.screenSize.width * 0.3,
                 child: TextField(
-                  controller: TextEditingController(
-                      text: spendItemInputState.spendPrice[i]),
+                  keyboardType: TextInputType.number,
+                  controller: tecs[i],
                   decoration: const InputDecoration(
                     filled: true,
                     border: OutlineInputBorder(),
@@ -163,6 +171,10 @@ class SpendItemInputScreen extends ConsumerWidget {
                       vertical: 4,
                       horizontal: 4,
                     ),
+                  ),
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Colors.white,
                   ),
                   onChanged: (value) {
                     _ref.watch(spendItemInputProvider.notifier).setSpendPrice(
