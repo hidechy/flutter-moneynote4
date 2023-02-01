@@ -141,10 +141,11 @@ class HomeFixAlert extends ConsumerWidget {
               const SizedBox(height: 20),
               Row(
                 children: [
-                  const Icon(FontAwesomeIcons.house),
+                  const Icon(FontAwesomeIcons.house, size: 14),
                   SizedBox(width: 20),
                   Expanded(child: Text('yachin')),
                   Expanded(
+                    flex: 3,
                     child: Container(
                       alignment: Alignment.topRight,
                       child: Text(homeFixState[i].yachin),
@@ -155,10 +156,11 @@ class HomeFixAlert extends ConsumerWidget {
               SizedBox(height: 20),
               Row(
                 children: [
-                  Icon(FontAwesomeIcons.wifi),
+                  Icon(FontAwesomeIcons.wifi, size: 14),
                   SizedBox(width: 20),
                   Expanded(child: Text('wifi')),
                   Expanded(
+                    flex: 3,
                     child: Container(
                       alignment: Alignment.topRight,
                       child: Text(homeFixState[i].wifi),
@@ -169,10 +171,11 @@ class HomeFixAlert extends ConsumerWidget {
               SizedBox(height: 20),
               Row(
                 children: [
-                  Icon(FontAwesomeIcons.mobileScreenButton),
+                  Icon(FontAwesomeIcons.mobileScreenButton, size: 14),
                   SizedBox(width: 20),
                   Expanded(child: Text('mobile')),
                   Expanded(
+                    flex: 3,
                     child: Container(
                       alignment: Alignment.topRight,
                       child: Text(homeFixState[i].mobile),
@@ -183,10 +186,11 @@ class HomeFixAlert extends ConsumerWidget {
               SizedBox(height: 20),
               Row(
                 children: [
-                  Icon(FontAwesomeIcons.fireFlameSimple),
+                  Icon(FontAwesomeIcons.fireFlameSimple, size: 14),
                   SizedBox(width: 20),
                   Expanded(child: Text('gas')),
                   Expanded(
+                    flex: 3,
                     child: Container(
                       alignment: Alignment.topRight,
                       child: Text(homeFixState[i].gas),
@@ -197,10 +201,11 @@ class HomeFixAlert extends ConsumerWidget {
               SizedBox(height: 20),
               Row(
                 children: [
-                  Icon(FontAwesomeIcons.bolt),
+                  Icon(FontAwesomeIcons.bolt, size: 14),
                   SizedBox(width: 20),
                   Expanded(child: Text('denki')),
                   Expanded(
+                    flex: 3,
                     child: Container(
                       alignment: Alignment.topRight,
                       child: Text(homeFixState[i].denki),
@@ -211,10 +216,11 @@ class HomeFixAlert extends ConsumerWidget {
               SizedBox(height: 20),
               Row(
                 children: [
-                  Icon(FontAwesomeIcons.droplet),
+                  Icon(FontAwesomeIcons.droplet, size: 14),
                   SizedBox(width: 20),
                   Expanded(child: Text('suidou')),
                   Expanded(
+                    flex: 3,
                     child: Container(
                       alignment: Alignment.topRight,
                       child: Text(homeFixState[i].suidou),
