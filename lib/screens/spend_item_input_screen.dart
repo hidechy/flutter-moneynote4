@@ -10,9 +10,10 @@ import '../utility/utility.dart';
 import '../viewmodel/spend_notifier.dart';
 
 class SpendItemInputScreen extends ConsumerWidget {
-  SpendItemInputScreen({super.key, required this.date});
+  SpendItemInputScreen({super.key, required this.date, required this.diff});
 
   final DateTime date;
+  final String diff;
 
   final Utility _utility = Utility();
 
@@ -69,7 +70,7 @@ class SpendItemInputScreen extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(),
+                    Text(diff.toCurrency()),
                     IconButton(
                       onPressed: () {
                         _ref
@@ -116,15 +117,19 @@ class SpendItemInputScreen extends ConsumerWidget {
 
     spendItem = [];
 
-    final spendMonthSummaryState = _ref.watch(spendMonthSummaryProvider(date));
+    [DateTime(date.year - 1), DateTime(date.year)].forEach((element) {
+      final spendMonthDetailState =
+          _ref.watch(spendMonthDetailProvider(element));
 
-    spendItem.add('');
-    spendMonthSummaryState.forEach((element) {
-      if (bankSpend.contains(element.item)) {
-        return;
-      }
-
-      spendItem.add(element.item);
+      spendMonthDetailState.list.forEach((element2) {
+        element2.item.forEach((element3) {
+          if (!spendItem.contains(element3.item)) {
+            if (!bankSpend.contains(element3.item)) {
+              spendItem.add(element3.item);
+            }
+          }
+        });
+      });
     });
   }
 

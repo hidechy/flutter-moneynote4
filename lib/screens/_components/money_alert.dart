@@ -109,8 +109,10 @@ class MoneyAlert extends ConsumerWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      SpendItemInputScreen(date: date),
+                                  builder: (context) => SpendItemInputScreen(
+                                    date: date,
+                                    diff: diff,
+                                  ),
                                 ),
                               );
                             },
