@@ -1,7 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/extensions/extensions.dart';
 
 import '../../data/http/client.dart';
+import '../../data/http/path.dart';
+import '../../extensions/extensions.dart';
 import '../../utility/utility.dart';
 import 'spend_item_input_state.dart';
 
@@ -108,6 +109,13 @@ flutter: [{item: 食費, price: 1390}, {item: 交際費, price: 5000}, {item: �
 
 
     */
+
+    await client
+        .post(path: APIPath.spendItemInput, body: uploadData)
+        .then((value) {})
+        .catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
   }
 }
 ////////////////////////////////////////////////
