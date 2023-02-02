@@ -111,6 +111,41 @@ class HomeFixAlert extends ConsumerWidget {
     );
 
     for (var i = 0; i < homeFixState.length; i++) {
+      //--------------------------------
+      final datas = [
+        {
+          'icon': FontAwesomeIcons.house,
+          'title': 'yachin',
+          'data': homeFixState[i].yachin
+        },
+        {
+          'icon': FontAwesomeIcons.wifi,
+          'title': 'wifi',
+          'data': homeFixState[i].wifi
+        },
+        {
+          'icon': FontAwesomeIcons.mobileScreenButton,
+          'title': 'mobile',
+          'data': homeFixState[i].mobile
+        },
+        {
+          'icon': FontAwesomeIcons.fireFlameSimple,
+          'title': 'gas',
+          'data': homeFixState[i].gas
+        },
+        {
+          'icon': FontAwesomeIcons.bolt,
+          'title': 'denki',
+          'data': homeFixState[i].denki
+        },
+        {
+          'icon': FontAwesomeIcons.droplet,
+          'title': 'suidou',
+          'data': homeFixState[i].suidou
+        },
+      ];
+      //--------------------------------
+
       list.add(
         Container(
           width: _context.screenSize.width,
@@ -138,90 +173,14 @@ class HomeFixAlert extends ConsumerWidget {
                 ),
                 child: Text(homeFixState[i].ym),
               ),
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  const Icon(FontAwesomeIcons.house, size: 14),
-                  SizedBox(width: 20),
-                  Expanded(child: Text('yachin')),
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                      child: Text(homeFixState[i].yachin),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  Icon(FontAwesomeIcons.wifi, size: 14),
-                  SizedBox(width: 20),
-                  Expanded(child: Text('wifi')),
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                      child: Text(homeFixState[i].wifi),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  Icon(FontAwesomeIcons.mobileScreenButton, size: 14),
-                  SizedBox(width: 20),
-                  Expanded(child: Text('mobile')),
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                      child: Text(homeFixState[i].mobile),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  Icon(FontAwesomeIcons.fireFlameSimple, size: 14),
-                  SizedBox(width: 20),
-                  Expanded(child: Text('gas')),
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                      child: Text(homeFixState[i].gas),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  Icon(FontAwesomeIcons.bolt, size: 14),
-                  SizedBox(width: 20),
-                  Expanded(child: Text('denki')),
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                      child: Text(homeFixState[i].denki),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  Icon(FontAwesomeIcons.droplet, size: 14),
-                  SizedBox(width: 20),
-                  Expanded(child: Text('suidou')),
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                      child: Text(homeFixState[i].suidou),
-                    ),
-                  ),
-                ],
-              ),
+              for (var i = 0; i < datas.length; i++) ...[
+                SizedBox(height: 20),
+                dispData(
+                  icon: datas[i]['icon']! as IconData,
+                  title: datas[i]['title'].toString(),
+                  data: datas[i]['data'].toString(),
+                ),
+              ],
             ],
           ),
         ),
@@ -233,6 +192,22 @@ class HomeFixAlert extends ConsumerWidget {
       child: Column(
         children: list,
       ),
+    );
+  }
+
+  ///
+  Widget dispData(
+      {required IconData icon, required String title, required String data}) {
+    return Row(
+      children: [
+        Icon(icon, size: 14),
+        SizedBox(width: 20),
+        Expanded(child: Text(title)),
+        Expanded(
+          flex: 3,
+          child: Text(data),
+        ),
+      ],
     );
   }
 }
