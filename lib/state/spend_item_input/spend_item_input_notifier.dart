@@ -1,4 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/extensions/extensions.dart';
 
 import '../../data/http/client.dart';
 import '../../utility/utility.dart';
@@ -52,9 +53,6 @@ class SpendItemInputNotifier extends StateNotifier<SpendItemInputState> {
   }
 
   Future<void> inputSpendItem({required DateTime date}) async {
-    print(state);
-    print(date);
-
     final list = <Map<String, dynamic>>[];
     for (var i = 0; i < 10; i++) {
       if (state.spendItem[i] != '' && state.spendPrice[i] != '') {
@@ -62,7 +60,11 @@ class SpendItemInputNotifier extends StateNotifier<SpendItemInputState> {
       }
     }
 
-    print(list);
+    final uploadData = <String, dynamic>{};
+    uploadData['date'] = date.yyyymmdd;
+    uploadData['spend'] = list;
+
+    print(uploadData);
 
     /*
 flutter: SpendItemInputState(itemPos: 2, spendItem: [食費, 交際費, プラス, , , , , , , ], spendPrice: [1390, 5000, -3, , , , , , , ])
