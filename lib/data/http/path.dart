@@ -112,7 +112,6 @@ extension APIPathExtension on APIPath {
         return 'getWellsRecord';
       case APIPath.spendItemInput:
         return 'spendItemInput';
-        break;
     }
   }
 }
