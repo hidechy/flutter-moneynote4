@@ -94,6 +94,8 @@ class SpendItemInputNotifier extends StateNotifier<SpendItemInputState> {
             : state.spendPrice[i];
 
         list.add({'item': state.spendItem[i], 'price': price});
+      } else if (state.spendItem[i] == '食費' && state.spendPrice[i] == 0) {
+        list.add({'item': '食費', 'price': 0});
       }
     }
 
