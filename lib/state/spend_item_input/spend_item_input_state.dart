@@ -5,8 +5,10 @@ part 'spend_item_input_state.freezed.dart';
 @freezed
 class SpendItemInputState with _$SpendItemInputState {
   const factory SpendItemInputState({
-    required int itemPos,
     required List<String> spendItem,
-    required List<String> spendPrice,
+    required List<int> spendPrice,
+    required int itemPos,
+    required String baseDiff,
+    required int diff,
   }) = _SpendItemInputState;
 }

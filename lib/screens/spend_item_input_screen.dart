@@ -30,6 +30,8 @@ class SpendItemInputScreen extends ConsumerWidget {
     _context = context;
     _ref = ref;
 
+    final spendItemInputState = _ref.watch(spendItemInputProvider(diff));
+
     makeTecs();
 
     makeSpendItem();
@@ -70,11 +72,15 @@ class SpendItemInputScreen extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(diff.toCurrency()),
+                    Text(
+                      (spendItemInputState.diff != 0)
+                          ? spendItemInputState.diff.toString().toCurrency()
+                          : spendItemInputState.baseDiff.toCurrency(),
+                    ),
                     IconButton(
                       onPressed: () {
                         _ref
-                            .watch(spendItemInputProvider.notifier)
+                            .watch(spendItemInputProvider(diff).notifier)
                             .inputSpendItem(date: date);
                       },
                       icon: const Icon(Icons.input),
@@ -135,7 +141,7 @@ class SpendItemInputScreen extends ConsumerWidget {
 
   ///
   Widget displayInputParts() {
-    final spendItemInputState = _ref.watch(spendItemInputProvider);
+    final spendItemInputState = _ref.watch(spendItemInputProvider(diff));
 
     final list = <Widget>[];
 
@@ -182,10 +188,9 @@ class SpendItemInputScreen extends ConsumerWidget {
                     color: Colors.white,
                   ),
                   onChanged: (value) {
-                    _ref.watch(spendItemInputProvider.notifier).setSpendPrice(
-                          pos: i,
-                          price: value,
-                        );
+                    _ref
+                        .watch(spendItemInputProvider(diff).notifier)
+                        .setSpendPrice(pos: i, price: value.toInt());
                   },
                 ),
               ),
@@ -204,7 +209,7 @@ class SpendItemInputScreen extends ConsumerWidget {
 
   ///
   Widget displayNumSetPanel() {
-    final spendItemInputState = _ref.watch(spendItemInputProvider);
+    final spendItemInputState = _ref.watch(spendItemInputProvider(diff));
 
     final oneWidth = _context.screenSize.width / 6;
 
@@ -225,7 +230,7 @@ class SpendItemInputScreen extends ConsumerWidget {
                     selected: i == spendItemInputState.itemPos,
                     onSelected: (bool isSelected) {
                       _ref
-                          .watch(spendItemInputProvider.notifier)
+                          .watch(spendItemInputProvider(diff).notifier)
                           .setItemPos(pos: i);
                     },
                   ),
@@ -244,7 +249,7 @@ class SpendItemInputScreen extends ConsumerWidget {
               selected: e ==
                   spendItemInputState.spendItem[spendItemInputState.itemPos],
               onSelected: (bool isSelected) {
-                _ref.watch(spendItemInputProvider.notifier).setSpendItem(
+                _ref.watch(spendItemInputProvider(diff).notifier).setSpendItem(
                       pos: spendItemInputState.itemPos,
                       item: e,
                     );

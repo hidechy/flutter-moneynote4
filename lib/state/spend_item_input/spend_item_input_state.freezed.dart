@@ -16,9 +16,11 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SpendItemInputState {
-  int get itemPos => throw _privateConstructorUsedError;
   List<String> get spendItem => throw _privateConstructorUsedError;
-  List<String> get spendPrice => throw _privateConstructorUsedError;
+  List<int> get spendPrice => throw _privateConstructorUsedError;
+  int get itemPos => throw _privateConstructorUsedError;
+  String get baseDiff => throw _privateConstructorUsedError;
+  int get diff => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SpendItemInputStateCopyWith<SpendItemInputState> get copyWith =>
@@ -31,7 +33,12 @@ abstract class $SpendItemInputStateCopyWith<$Res> {
           SpendItemInputState value, $Res Function(SpendItemInputState) then) =
       _$SpendItemInputStateCopyWithImpl<$Res, SpendItemInputState>;
   @useResult
-  $Res call({int itemPos, List<String> spendItem, List<String> spendPrice});
+  $Res call(
+      {List<String> spendItem,
+      List<int> spendPrice,
+      int itemPos,
+      String baseDiff,
+      int diff});
 }
 
 /// @nodoc
@@ -47,15 +54,13 @@ class _$SpendItemInputStateCopyWithImpl<$Res, $Val extends SpendItemInputState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? itemPos = null,
     Object? spendItem = null,
     Object? spendPrice = null,
+    Object? itemPos = null,
+    Object? baseDiff = null,
+    Object? diff = null,
   }) {
     return _then(_value.copyWith(
-      itemPos: null == itemPos
-          ? _value.itemPos
-          : itemPos // ignore: cast_nullable_to_non_nullable
-              as int,
       spendItem: null == spendItem
           ? _value.spendItem
           : spendItem // ignore: cast_nullable_to_non_nullable
@@ -63,7 +68,19 @@ class _$SpendItemInputStateCopyWithImpl<$Res, $Val extends SpendItemInputState>
       spendPrice: null == spendPrice
           ? _value.spendPrice
           : spendPrice // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<int>,
+      itemPos: null == itemPos
+          ? _value.itemPos
+          : itemPos // ignore: cast_nullable_to_non_nullable
+              as int,
+      baseDiff: null == baseDiff
+          ? _value.baseDiff
+          : baseDiff // ignore: cast_nullable_to_non_nullable
+              as String,
+      diff: null == diff
+          ? _value.diff
+          : diff // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -76,7 +93,12 @@ abstract class _$$_SpendItemInputStateCopyWith<$Res>
       __$$_SpendItemInputStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int itemPos, List<String> spendItem, List<String> spendPrice});
+  $Res call(
+      {List<String> spendItem,
+      List<int> spendPrice,
+      int itemPos,
+      String baseDiff,
+      int diff});
 }
 
 /// @nodoc
@@ -90,15 +112,13 @@ class __$$_SpendItemInputStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? itemPos = null,
     Object? spendItem = null,
     Object? spendPrice = null,
+    Object? itemPos = null,
+    Object? baseDiff = null,
+    Object? diff = null,
   }) {
     return _then(_$_SpendItemInputState(
-      itemPos: null == itemPos
-          ? _value.itemPos
-          : itemPos // ignore: cast_nullable_to_non_nullable
-              as int,
       spendItem: null == spendItem
           ? _value._spendItem
           : spendItem // ignore: cast_nullable_to_non_nullable
@@ -106,7 +126,19 @@ class __$$_SpendItemInputStateCopyWithImpl<$Res>
       spendPrice: null == spendPrice
           ? _value._spendPrice
           : spendPrice // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<int>,
+      itemPos: null == itemPos
+          ? _value.itemPos
+          : itemPos // ignore: cast_nullable_to_non_nullable
+              as int,
+      baseDiff: null == baseDiff
+          ? _value.baseDiff
+          : baseDiff // ignore: cast_nullable_to_non_nullable
+              as String,
+      diff: null == diff
+          ? _value.diff
+          : diff // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -115,14 +147,14 @@ class __$$_SpendItemInputStateCopyWithImpl<$Res>
 
 class _$_SpendItemInputState implements _SpendItemInputState {
   const _$_SpendItemInputState(
-      {required this.itemPos,
-      required final List<String> spendItem,
-      required final List<String> spendPrice})
+      {required final List<String> spendItem,
+      required final List<int> spendPrice,
+      required this.itemPos,
+      required this.baseDiff,
+      required this.diff})
       : _spendItem = spendItem,
         _spendPrice = spendPrice;
 
-  @override
-  final int itemPos;
   final List<String> _spendItem;
   @override
   List<String> get spendItem {
@@ -130,16 +162,23 @@ class _$_SpendItemInputState implements _SpendItemInputState {
     return EqualUnmodifiableListView(_spendItem);
   }
 
-  final List<String> _spendPrice;
+  final List<int> _spendPrice;
   @override
-  List<String> get spendPrice {
+  List<int> get spendPrice {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_spendPrice);
   }
 
   @override
+  final int itemPos;
+  @override
+  final String baseDiff;
+  @override
+  final int diff;
+
+  @override
   String toString() {
-    return 'SpendItemInputState(itemPos: $itemPos, spendItem: $spendItem, spendPrice: $spendPrice)';
+    return 'SpendItemInputState(spendItem: $spendItem, spendPrice: $spendPrice, itemPos: $itemPos, baseDiff: $baseDiff, diff: $diff)';
   }
 
   @override
@@ -147,19 +186,24 @@ class _$_SpendItemInputState implements _SpendItemInputState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_SpendItemInputState &&
-            (identical(other.itemPos, itemPos) || other.itemPos == itemPos) &&
             const DeepCollectionEquality()
                 .equals(other._spendItem, _spendItem) &&
             const DeepCollectionEquality()
-                .equals(other._spendPrice, _spendPrice));
+                .equals(other._spendPrice, _spendPrice) &&
+            (identical(other.itemPos, itemPos) || other.itemPos == itemPos) &&
+            (identical(other.baseDiff, baseDiff) ||
+                other.baseDiff == baseDiff) &&
+            (identical(other.diff, diff) || other.diff == diff));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      itemPos,
       const DeepCollectionEquality().hash(_spendItem),
-      const DeepCollectionEquality().hash(_spendPrice));
+      const DeepCollectionEquality().hash(_spendPrice),
+      itemPos,
+      baseDiff,
+      diff);
 
   @JsonKey(ignore: true)
   @override
@@ -171,16 +215,22 @@ class _$_SpendItemInputState implements _SpendItemInputState {
 
 abstract class _SpendItemInputState implements SpendItemInputState {
   const factory _SpendItemInputState(
-      {required final int itemPos,
-      required final List<String> spendItem,
-      required final List<String> spendPrice}) = _$_SpendItemInputState;
+      {required final List<String> spendItem,
+      required final List<int> spendPrice,
+      required final int itemPos,
+      required final String baseDiff,
+      required final int diff}) = _$_SpendItemInputState;
 
-  @override
-  int get itemPos;
   @override
   List<String> get spendItem;
   @override
-  List<String> get spendPrice;
+  List<int> get spendPrice;
+  @override
+  int get itemPos;
+  @override
+  String get baseDiff;
+  @override
+  int get diff;
   @override
   @JsonKey(ignore: true)
   _$$_SpendItemInputStateCopyWith<_$_SpendItemInputState> get copyWith =>
