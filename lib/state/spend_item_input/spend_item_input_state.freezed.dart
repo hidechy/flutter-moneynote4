@@ -21,6 +21,7 @@ mixin _$SpendItemInputState {
   int get itemPos => throw _privateConstructorUsedError;
   String get baseDiff => throw _privateConstructorUsedError;
   int get diff => throw _privateConstructorUsedError;
+  List<bool> get minusCheck => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SpendItemInputStateCopyWith<SpendItemInputState> get copyWith =>
@@ -38,7 +39,8 @@ abstract class $SpendItemInputStateCopyWith<$Res> {
       List<int> spendPrice,
       int itemPos,
       String baseDiff,
-      int diff});
+      int diff,
+      List<bool> minusCheck});
 }
 
 /// @nodoc
@@ -59,6 +61,7 @@ class _$SpendItemInputStateCopyWithImpl<$Res, $Val extends SpendItemInputState>
     Object? itemPos = null,
     Object? baseDiff = null,
     Object? diff = null,
+    Object? minusCheck = null,
   }) {
     return _then(_value.copyWith(
       spendItem: null == spendItem
@@ -81,6 +84,10 @@ class _$SpendItemInputStateCopyWithImpl<$Res, $Val extends SpendItemInputState>
           ? _value.diff
           : diff // ignore: cast_nullable_to_non_nullable
               as int,
+      minusCheck: null == minusCheck
+          ? _value.minusCheck
+          : minusCheck // ignore: cast_nullable_to_non_nullable
+              as List<bool>,
     ) as $Val);
   }
 }
@@ -98,7 +105,8 @@ abstract class _$$_SpendItemInputStateCopyWith<$Res>
       List<int> spendPrice,
       int itemPos,
       String baseDiff,
-      int diff});
+      int diff,
+      List<bool> minusCheck});
 }
 
 /// @nodoc
@@ -117,6 +125,7 @@ class __$$_SpendItemInputStateCopyWithImpl<$Res>
     Object? itemPos = null,
     Object? baseDiff = null,
     Object? diff = null,
+    Object? minusCheck = null,
   }) {
     return _then(_$_SpendItemInputState(
       spendItem: null == spendItem
@@ -139,6 +148,10 @@ class __$$_SpendItemInputStateCopyWithImpl<$Res>
           ? _value.diff
           : diff // ignore: cast_nullable_to_non_nullable
               as int,
+      minusCheck: null == minusCheck
+          ? _value._minusCheck
+          : minusCheck // ignore: cast_nullable_to_non_nullable
+              as List<bool>,
     ));
   }
 }
@@ -151,9 +164,11 @@ class _$_SpendItemInputState implements _SpendItemInputState {
       required final List<int> spendPrice,
       required this.itemPos,
       required this.baseDiff,
-      required this.diff})
+      required this.diff,
+      required final List<bool> minusCheck})
       : _spendItem = spendItem,
-        _spendPrice = spendPrice;
+        _spendPrice = spendPrice,
+        _minusCheck = minusCheck;
 
   final List<String> _spendItem;
   @override
@@ -175,10 +190,16 @@ class _$_SpendItemInputState implements _SpendItemInputState {
   final String baseDiff;
   @override
   final int diff;
+  final List<bool> _minusCheck;
+  @override
+  List<bool> get minusCheck {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_minusCheck);
+  }
 
   @override
   String toString() {
-    return 'SpendItemInputState(spendItem: $spendItem, spendPrice: $spendPrice, itemPos: $itemPos, baseDiff: $baseDiff, diff: $diff)';
+    return 'SpendItemInputState(spendItem: $spendItem, spendPrice: $spendPrice, itemPos: $itemPos, baseDiff: $baseDiff, diff: $diff, minusCheck: $minusCheck)';
   }
 
   @override
@@ -193,7 +214,9 @@ class _$_SpendItemInputState implements _SpendItemInputState {
             (identical(other.itemPos, itemPos) || other.itemPos == itemPos) &&
             (identical(other.baseDiff, baseDiff) ||
                 other.baseDiff == baseDiff) &&
-            (identical(other.diff, diff) || other.diff == diff));
+            (identical(other.diff, diff) || other.diff == diff) &&
+            const DeepCollectionEquality()
+                .equals(other._minusCheck, _minusCheck));
   }
 
   @override
@@ -203,7 +226,8 @@ class _$_SpendItemInputState implements _SpendItemInputState {
       const DeepCollectionEquality().hash(_spendPrice),
       itemPos,
       baseDiff,
-      diff);
+      diff,
+      const DeepCollectionEquality().hash(_minusCheck));
 
   @JsonKey(ignore: true)
   @override
@@ -219,7 +243,8 @@ abstract class _SpendItemInputState implements SpendItemInputState {
       required final List<int> spendPrice,
       required final int itemPos,
       required final String baseDiff,
-      required final int diff}) = _$_SpendItemInputState;
+      required final int diff,
+      required final List<bool> minusCheck}) = _$_SpendItemInputState;
 
   @override
   List<String> get spendItem;
@@ -231,6 +256,8 @@ abstract class _SpendItemInputState implements SpendItemInputState {
   String get baseDiff;
   @override
   int get diff;
+  @override
+  List<bool> get minusCheck;
   @override
   @JsonKey(ignore: true)
   _$$_SpendItemInputStateCopyWith<_$_SpendItemInputState> get copyWith =>

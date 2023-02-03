@@ -10,5 +10,6 @@ class SpendItemInputState with _$SpendItemInputState {
     required int itemPos,
     required String baseDiff,
     required int diff,
+    required List<bool> minusCheck,
   }) = _SpendItemInputState;
 }

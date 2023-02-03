@@ -1,12 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../data/http/client.dart';
-
-//
-//
-// import '../../data/http/path.dart';
-//
-
+import '../../data/http/path.dart';
 import '../../extensions/extensions.dart';
 import '../../utility/utility.dart';
 import 'spend_item_input_state.dart';
@@ -21,9 +16,11 @@ final spendItemInputProvider = StateNotifierProvider.autoDispose
 
   final list = <String>[];
   final list2 = <int>[];
+  final list3 = <bool>[];
   for (var i = 0; i < 10; i++) {
     list.add('');
     list2.add(0);
+    list3.add(false);
   }
 
   return SpendItemInputNotifier(
@@ -33,6 +30,7 @@ final spendItemInputProvider = StateNotifierProvider.autoDispose
         itemPos: 0,
         spendItem: list,
         spendPrice: list2,
+        minusCheck: list3,
       ),
       client,
       utility);
@@ -64,17 +62,26 @@ class SpendItemInputNotifier extends StateNotifier<SpendItemInputState> {
     prices[pos] = price;
 
     var sum = 0;
-    prices.forEach((element) {
-      sum += element;
-    });
+    for (var i = 0; i < prices.length; i++) {
+      if (state.minusCheck[i]) {
+        sum -= prices[i];
+      } else {
+        sum += prices[i];
+      }
+    }
 
     final baseDiff = state.baseDiff.toInt();
     final diff = baseDiff - sum;
 
-    state = state.copyWith(
-      spendPrice: prices,
-      diff: diff,
-    );
+    state = state.copyWith(spendPrice: prices, diff: diff);
+  }
+
+  ///
+  Future<void> setMinusCheck({required int pos}) async {
+    final minusChecks = <bool>[...state.minusCheck];
+    final check = minusChecks[pos];
+    minusChecks[pos] = !check;
+    state = state.copyWith(minusCheck: minusChecks);
   }
 
   ///
@@ -82,7 +89,11 @@ class SpendItemInputNotifier extends StateNotifier<SpendItemInputState> {
     final list = <Map<String, dynamic>>[];
     for (var i = 0; i < 10; i++) {
       if (state.spendItem[i] != '' && state.spendPrice[i] != 0) {
-        list.add({'item': state.spendItem[i], 'price': state.spendPrice[i]});
+        final price = (state.minusCheck[i])
+            ? state.spendPrice[i] * -1
+            : state.spendPrice[i];
+
+        list.add({'item': state.spendItem[i], 'price': price});
       }
     }
 
@@ -90,18 +101,12 @@ class SpendItemInputNotifier extends StateNotifier<SpendItemInputState> {
     uploadData['date'] = date.yyyymmdd;
     uploadData['spend'] = list;
 
-    print(uploadData);
-
-    /*
-
     await client
-        .post(path: APIPath.spendItemInput, body: uploadData)
+        .post(path: APIPath.spendItemInsert, body: uploadData)
         .then((value) {})
         .catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
-
-    */
   }
 }
 ////////////////////////////////////////////////

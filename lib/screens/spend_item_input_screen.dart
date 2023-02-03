@@ -1,7 +1,8 @@
-// ignore_for_file: cascade_invocations, must_be_immutable
+// ignore_for_file: cascade_invocations, must_be_immutable, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:vibration/vibration.dart';
 
 import '../extensions/extensions.dart';
 
@@ -76,12 +77,23 @@ class SpendItemInputScreen extends ConsumerWidget {
                       (spendItemInputState.diff != 0)
                           ? spendItemInputState.diff.toString().toCurrency()
                           : spendItemInputState.baseDiff.toCurrency(),
+                      style: TextStyle(
+                        color: (spendItemInputState.diff == 0)
+                            ? Colors.yellowAccent
+                            : Colors.white,
+                      ),
                     ),
                     IconButton(
-                      onPressed: () {
-                        _ref
+                      onPressed: () async {
+                        await _ref
                             .watch(spendItemInputProvider(diff).notifier)
                             .inputSpendItem(date: date);
+
+                        await Vibration.vibrate(
+                          pattern: [500, 1000, 500, 2000],
+                        );
+
+                        Navigator.pop(_context);
                       },
                       icon: const Icon(Icons.input),
                     ),
@@ -193,6 +205,16 @@ class SpendItemInputScreen extends ConsumerWidget {
                         .setSpendPrice(pos: i, price: value.toInt());
                   },
                 ),
+              ),
+              Checkbox(
+                activeColor: Colors.orangeAccent,
+                value: spendItemInputState.minusCheck[i],
+                onChanged: (check) {
+                  _ref
+                      .watch(spendItemInputProvider(diff).notifier)
+                      .setMinusCheck(pos: i);
+                },
+                side: BorderSide(color: Colors.white.withOpacity(0.8)),
               ),
             ],
           ),
