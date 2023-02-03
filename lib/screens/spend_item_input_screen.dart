@@ -46,7 +46,7 @@ class SpendItemInputScreen extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               children: [
-                const SizedBox(height: 50),
+                const SizedBox(height: 30),
                 Container(width: context.screenSize.width),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -99,7 +99,7 @@ class SpendItemInputScreen extends ConsumerWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 20),
               ],
             ),
           ),
@@ -128,7 +128,9 @@ class SpendItemInputScreen extends ConsumerWidget {
       'GOLD',
       '投資信託',
       'アイアールシー',
-      '国民年金基金'
+      '国民年金基金',
+      'ジム会費',
+      '国民健康保険'
     ];
 
     //----------------------------------
@@ -167,9 +169,11 @@ class SpendItemInputScreen extends ConsumerWidget {
                 child: SizedBox(
                   width: _context.screenSize.width * 0.3,
                   child: TextField(
+                    style: const TextStyle(fontSize: 12),
                     readOnly: true,
                     controller: TextEditingController(
-                        text: spendItemInputState.spendItem[i]),
+                      text: spendItemInputState.spendItem[i],
+                    ),
                     decoration: const InputDecoration(
                       filled: true,
                       border: OutlineInputBorder(),
@@ -195,10 +199,7 @@ class SpendItemInputScreen extends ConsumerWidget {
                       horizontal: 4,
                     ),
                   ),
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: Colors.white,
-                  ),
+                  style: const TextStyle(fontSize: 12),
                   onChanged: (value) {
                     _ref
                         .watch(spendItemInputProvider(diff).notifier)
@@ -263,7 +264,10 @@ class SpendItemInputScreen extends ConsumerWidget {
         Wrap(
           children: spendItem.map((e) {
             return ChoiceChip(
-              label: Text((e == '') ? '_ clear _' : e),
+              label: Text(
+                (e == '') ? '_ clear _' : e,
+                style: const TextStyle(fontSize: 12),
+              ),
               backgroundColor: (e == '')
                   ? Colors.white.withOpacity(0.1)
                   : Colors.black.withOpacity(0.1),
