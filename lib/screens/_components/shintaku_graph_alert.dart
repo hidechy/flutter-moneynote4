@@ -134,7 +134,7 @@ class ShintakuGraphAlert extends ConsumerWidget {
     usageGuideList = [];
     dateList = [];
 
-    final dataMap = <String, List<Map<String, dynamic>?>>{};
+    final dataMap = <String, List<Map<String, String>?>>{};
 
     final points = <int>[];
 
