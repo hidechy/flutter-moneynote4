@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/state/money_score/money_score_state.dart';
+import 'package:moneynote4/models/benefit.dart';
 
 import '../data/http/client.dart';
 import '../data/http/path.dart';
@@ -10,11 +10,32 @@ import '../models/money.dart';
 import '../models/money_everyday.dart';
 import '../models/money_score.dart';
 import '../utility/utility.dart';
+import 'benefit_notifier.dart';
 
 /*
 moneyProvider       Money
 moneyEverydayProvider       List<MoneyEveryday>
-moneyScoreProvider        MoneyScoreState       *
+
+
+
+
+
+//
+//
+//
+// moneyScoreProvider        MoneyScoreState       *
+//
+//
+//
+
+
+
+
+
+
+
+
+
 */
 
 ////////////////////////////////////////////////
@@ -144,63 +165,106 @@ class MoneyEverydayNotifier extends StateNotifier<List<MoneyEveryday>> {
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 final moneyScoreProvider =
-    StateNotifierProvider.autoDispose<MoneyScoreNotifier, MoneyScoreState>(
+    StateNotifierProvider.autoDispose<MoneyScoreNotifier, List<MoneyScore>>(
         (ref) {
   final client = ref.read(httpClientProvider);
 
   final moneyEverydayState = ref.watch(moneyEverydayProvider);
 
-  return MoneyScoreNotifier(const MoneyScoreState(), client, moneyEverydayState)
-    ..getMoneyScore();
+  final benefitState = ref.watch(benefitProvider);
+
+  return MoneyScoreNotifier(
+    [],
+    client,
+    moneyEverydayState,
+    benefitState,
+  )..getMoneyScore();
 });
 
-class MoneyScoreNotifier extends StateNotifier<MoneyScoreState> {
-  MoneyScoreNotifier(super.state, this.client, this.moneyEverydayState);
+class MoneyScoreNotifier extends StateNotifier<List<MoneyScore>> {
+  MoneyScoreNotifier(
+    super.state,
+    this.client,
+    this.moneyEverydayState,
+    this.benefitState,
+  );
 
   final HttpClient client;
   final List<MoneyEveryday> moneyEverydayState;
+  final List<Benefit> benefitState;
 
   Future<void> getMoneyScore() async {
-    state = state.copyWith(saving: true);
-
     final list = <MoneyScore>[];
 
-    final allSum = <String, int>{};
-    final ymList = <String>[];
-    for (var i = 0; i < moneyEverydayState.length; i++) {
-      allSum[moneyEverydayState[i].date.yyyymmdd] =
-          moneyEverydayState[i].sum.toInt();
+    //--------------------------------------(1)
+    final firstDayList = <String>[];
 
-      if (moneyEverydayState[i].date.dd == '01') {
-        ymList.add(moneyEverydayState[i].date.yyyymm);
+    moneyEverydayState.forEach((element) {
+      if (element.date.day == 1) {
+        firstDayList.add(element.date.yyyymmdd);
       }
-    }
+    });
 
-    for (var i = 0; i < ymList.length; i++) {
-      final price = allSum['${ymList[i]}-01'];
+    final lastDayList = <DateTime>[];
 
-      final nextPrice =
-          (i < ymList.length - 1) ? allSum['${ymList[i + 1]}-01'] : 0;
-
-      final sag = nextPrice! - price.toString().toInt();
-      final sagaku = (sag < 0) ? sag * -1 : sag;
-      final manen = (sagaku / 10000).ceil();
-      final updown = (sag < 0) ? 0 : 1;
-
-      list.add(
-        MoneyScore(
-            ym: ymList[i],
-            price: price.toString(),
-            manen: manen.toString(),
-            updown: updown.toString(),
-            sagaku: sagaku.toString(),
-            sag: sag),
+    firstDayList.forEach((element) {
+      final exElement = element.split('-');
+      lastDayList.add(
+        DateTime(exElement[0].toInt(), exElement[1].toInt(), 0),
       );
-    }
+    });
+    //--------------------------------------(1)
 
-    state = state.copyWith(saving: false);
+    //--------------------------------------(2)
+    final bene = <String, List<int>>{};
+    var beneList = <int>[];
+    var keepYm = '';
+    benefitState.forEach((element) {
+      if (keepYm != element.ym) {
+        beneList = [];
+      }
 
-    state = state.copyWith(list: list);
+      beneList.add(element.salary.toInt());
+
+      bene[element.ym] = beneList;
+
+      keepYm = element.ym;
+    });
+
+    final benefit = <String, int>{};
+    bene.forEach((key, value) {
+      var total = 0;
+      value.forEach((element) {
+        total += element;
+      });
+
+      benefit[key] = total;
+    });
+
+    //--------------------------------------(2)
+
+    var keepSum = 0;
+    moneyEverydayState.forEach((element) {
+      lastDayList.forEach((element2) {
+        if (element.date == element2) {
+          list.add(
+            MoneyScore(
+              ym: element2.yyyymm,
+              price: element.sum.toInt(),
+              benefit: (benefit[element2.yyyymm] == null)
+                  ? 0
+                  : benefit[element2.yyyymm]!,
+              updown: (element.sum.toInt() > keepSum) ? 1 : 0,
+              sagaku: keepSum - element.sum.toInt(),
+            ),
+          );
+
+          keepSum = element.sum.toInt();
+        }
+      });
+    });
+
+    state = list;
   }
 }
 

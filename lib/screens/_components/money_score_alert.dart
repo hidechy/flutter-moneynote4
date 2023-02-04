@@ -2,21 +2,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/money_notifier.dart';
-import '_money_dialog.dart';
-import 'money_score_graph_alert.dart';
 
 class MoneyScoreAlert extends ConsumerWidget {
   MoneyScoreAlert({super.key, required this.date});
 
   final DateTime date;
-
-  Uuid uuid = const Uuid();
 
   final Utility _utility = Utility();
 
@@ -26,8 +21,6 @@ class MoneyScoreAlert extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
-
-    final moneyScoreState = ref.watch(moneyScoreProvider);
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
@@ -40,53 +33,52 @@ class MoneyScoreAlert extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         width: double.infinity,
         height: double.infinity,
-        child: Stack(
-          children: [
-            AbsorbPointer(
-              absorbing: moneyScoreState.saving,
-              child: SingleChildScrollView(
-                child: DefaultTextStyle(
-                  style: const TextStyle(fontSize: 12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 20),
-                      Container(width: context.screenSize.width),
+        child: SingleChildScrollView(
+          child: DefaultTextStyle(
+            style: const TextStyle(fontSize: 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                Container(width: context.screenSize.width),
 
-                      //----------//
-                      if (deviceInfoState.model == 'iPhone')
-                        _utility.getFileNameDebug(name: runtimeType.toString()),
-                      //----------//
+                //----------//
+                if (deviceInfoState.model == 'iPhone')
+                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                //----------//
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(),
-                          GestureDetector(
-                            onTap: () {
-                              MoneyDialog(
-                                context: context,
-                                widget: MoneyScoreGraphAlert(date: date),
-                              );
-                            },
-                            child: const Icon(Icons.graphic_eq),
-                          ),
-                        ],
-                      ),
+                /*
 
-                      const SizedBox(height: 20),
 
-                      displayMoneyScore(),
-                    ],
-                  ),
+
+
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(),
+                    GestureDetector(
+                      onTap: () {
+                        MoneyDialog(
+                          context: context,
+                          widget: MoneyScoreGraphAlert(date: date),
+                        );
+                      },
+                      child: const Icon(Icons.graphic_eq),
+                    ),
+                  ],
                 ),
-              ),
+
+                const SizedBox(height: 20),
+
+
+
+                */
+
+                displayMoneyScore(),
+              ],
             ),
-            if (moneyScoreState.saving)
-              const Center(
-                child: CircularProgressIndicator(),
-              ),
-          ],
+          ),
         ),
       ),
     );
@@ -96,75 +88,21 @@ class MoneyScoreAlert extends ConsumerWidget {
   Widget displayMoneyScore() {
     final moneyScoreState = _ref.watch(moneyScoreProvider);
 
-    //--------------------------------------//
-    final yearScore = <int, List<int>>{};
-    final yearScore2 = <int, int>{};
-
-    var keepYear = '';
-    var scoreList = <int>[];
-    final yearList = <int>[];
-
-    for (var i = 0; i < moneyScoreState.list.length; i++) {
-      final ymd = '${moneyScoreState.list[i].ym}-01 00:00:00'.toDateTime();
-
-      if (keepYear != ymd.yyyy) {
-        yearList.add(ymd.yyyy.toInt());
-        scoreList = [];
-      }
-
-      scoreList.add(moneyScoreState.list[i].sag);
-
-      yearScore[ymd.yyyy.toInt()] = scoreList;
-
-      keepYear = ymd.yyyy;
-    }
-
-    if (yearScore[DateTime.now().yyyy.toInt()] != null) {
-      yearScore[DateTime.now().yyyy.toInt()]!.removeLast();
-
-      yearList.forEach((element) {
-        var sum = 0;
-        yearScore[element]!.forEach((element2) {
-          sum += element2;
-        });
-        yearScore2[element] = sum;
-      });
-    }
-
-    //--------------------------------------//
-
     final list = <Widget>[];
-    for (var i = 0; i < moneyScoreState.list.length; i++) {
-      final price = (moneyScoreState.list[i].price == '-')
-          ? '0'
-          : moneyScoreState.list[i].price;
 
-      //--------------------------------------//
-      final ymd = '${moneyScoreState.list[i].ym}-01 00:00:00'.toDateTime();
+    for (var i = 1; i < moneyScoreState.length; i++) {
+      final sagaku = (moneyScoreState[i].updown == 1)
+          ? moneyScoreState[i].sagaku * -1
+          : moneyScoreState[i].sagaku;
 
-      if (ymd.mm == '01') {
-        if (yearScore2[ymd.yyyy.toInt()] != null) {
-          list.add(
-            Container(
-              width: double.infinity,
-              margin: const EdgeInsets.only(top: 50),
-              padding: const EdgeInsets.all(5),
-              alignment: Alignment.topRight,
-              decoration: BoxDecoration(
-                color: Colors.yellowAccent.withOpacity(0.2),
-              ),
-              child: Text(
-                yearScore2[ymd.yyyy.toInt()].toString().toCurrency(),
-              ),
-            ),
-          );
-        }
-      }
-      //--------------------------------------//
+      final spend = (moneyScoreState[i].updown == 1)
+          ? (moneyScoreState[i].benefit - sagaku)
+          : moneyScoreState[i].benefit + sagaku;
 
       list.add(
         Container(
-          padding: const EdgeInsets.symmetric(vertical: 3),
+          padding: const EdgeInsets.all(10),
+          margin: const EdgeInsets.only(bottom: 10),
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
@@ -174,24 +112,48 @@ class MoneyScoreAlert extends ConsumerWidget {
           ),
           child: Row(
             children: [
-              Expanded(child: Text(moneyScoreState.list[i].ym)),
               Expanded(
-                child: Container(
-                  alignment: Alignment.topRight,
-                  child: Text(price.toCurrency()),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          moneyScoreState[i].ym,
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        Text(moneyScoreState[i].price.toString().toCurrency()),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            const SizedBox(width: 20),
+                            Text(
+                              moneyScoreState[i]
+                                  .benefit
+                                  .toString()
+                                  .toCurrency(),
+                            ),
+                          ],
+                        ),
+                        Text(spend.toString().toCurrency()),
+                      ],
+                    ),
+                  ],
                 ),
               ),
+              const SizedBox(width: 20),
               SizedBox(
-                width: 100,
-                child: (i == moneyScoreState.list.length - 1)
-                    ? Column(children: const [Text(''), Text('')])
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          dispUpDownIcon(mark: moneyScoreState.list[i].updown),
-                          Text(moneyScoreState.list[i].sagaku.toCurrency()),
-                        ],
-                      ),
+                width: 60,
+                child: Column(
+                  children: [
+                    dispUpDownIcon(mark: moneyScoreState[i].updown),
+                    Text(sagaku.toString().toCurrency()),
+                  ],
+                ),
               ),
             ],
           ),
@@ -200,21 +162,19 @@ class MoneyScoreAlert extends ConsumerWidget {
     }
 
     return SingleChildScrollView(
-      child: Column(
-        children: list,
-      ),
+      child: Column(children: list),
     );
   }
 
   ///
-  Widget dispUpDownIcon({required String mark}) {
+  Widget dispUpDownIcon({required int mark}) {
     switch (mark) {
-      case '1':
+      case 1:
         return const Icon(
           Icons.arrow_upward,
           color: Colors.greenAccent,
         );
-      case '0':
+      case 0:
         return const Icon(
           Icons.arrow_downward,
           color: Colors.redAccent,
