@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/_money_dialog.dart';
+import 'package:moneynote4/screens/_components/shintaku_graph_alert.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../extensions/extensions.dart';
@@ -10,7 +12,9 @@ import '../../utility/utility.dart';
 import '../../viewmodel/shintaku_notifier.dart';
 
 class ShintakuAlert extends ConsumerWidget {
-  ShintakuAlert({super.key});
+  ShintakuAlert({super.key, required this.date});
+
+  final DateTime date;
 
   final autoScrollController = AutoScrollController();
 
@@ -98,7 +102,15 @@ class ShintakuAlert extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(),
+                    GestureDetector(
+                      onTap: () {
+                        MoneyDialog(
+                          context: context,
+                          widget: ShintakuGraphAlert(date: date),
+                        );
+                      },
+                      child: const Icon(Icons.graphic_eq),
+                    ),
                     Row(
                       children: [
                         GestureDetector(

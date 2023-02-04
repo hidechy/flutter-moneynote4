@@ -655,7 +655,7 @@ class MoneyAlert extends ConsumerWidget {
               onTap: () {
                 MoneyDialog(
                   context: _context,
-                  widget: ShintakuAlert(),
+                  widget: ShintakuAlert(date: date),
                 );
               },
               child: const Icon(Icons.info_outline),

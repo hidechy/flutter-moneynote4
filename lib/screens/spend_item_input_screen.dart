@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/home_screen.dart';
 import 'package:vibration/vibration.dart';
 
 import '../extensions/extensions.dart';
@@ -93,7 +94,12 @@ class SpendItemInputScreen extends ConsumerWidget {
                           pattern: [500, 1000, 500, 2000],
                         );
 
-                        Navigator.pop(_context);
+                        await Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomeScreen(),
+                          ),
+                        );
                       },
                       icon: const Icon(Icons.input),
                     ),
