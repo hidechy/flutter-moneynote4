@@ -97,8 +97,9 @@ class MoneyAlert extends ConsumerWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      MoneyInputScreen(date: date),
+                                  builder: (context) {
+                                    return MoneyInputScreen(date: date);
+                                  },
                                 ),
                               );
                             },
@@ -109,10 +110,12 @@ class MoneyAlert extends ConsumerWidget {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => SpendItemInputScreen(
-                                    date: date,
-                                    diff: diff,
-                                  ),
+                                  builder: (context) {
+                                    return SpendItemInputScreen(
+                                      date: date,
+                                      diff: diff,
+                                    );
+                                  },
                                 ),
                               );
                             },
@@ -123,8 +126,9 @@ class MoneyAlert extends ConsumerWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      BankInputScreen(date: date),
+                                  builder: (context) {
+                                    return BankInputScreen(date: date);
+                                  },
                                 ),
                               );
                             },
