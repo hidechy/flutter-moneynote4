@@ -88,6 +88,35 @@ class MoneyScoreAlert extends ConsumerWidget {
   Widget displayMoneyScore() {
     final moneyScoreState = _ref.watch(moneyScoreProvider);
 
+    //-----------------------------------------------
+    final totalMap = <String, int>{};
+    var keepYear = 0;
+    var total = 0;
+    for (var i = 1; i < moneyScoreState.length; i++) {
+      final year = '${moneyScoreState[i].ym}-01 00:00:00'.toDateTime().year;
+      if (year != keepYear) {
+        total = 0;
+      }
+
+      final sagaku = (moneyScoreState[i].updown == 1)
+          ? moneyScoreState[i].sagaku * -1
+          : moneyScoreState[i].sagaku;
+
+      switch (moneyScoreState[i].updown) {
+        case 0:
+          total -= sagaku;
+          break;
+        case 1:
+          total += sagaku;
+          break;
+      }
+
+      totalMap[year.toString()] = total;
+
+      keepYear = '${moneyScoreState[i].ym}-01 00:00:00'.toDateTime().year;
+    }
+    //-----------------------------------------------
+
     final list = <Widget>[];
 
     for (var i = 1; i < moneyScoreState.length; i++) {
@@ -98,6 +127,42 @@ class MoneyScoreAlert extends ConsumerWidget {
       final spend = (moneyScoreState[i].updown == 1)
           ? (moneyScoreState[i].benefit - sagaku)
           : moneyScoreState[i].benefit + sagaku;
+
+      final year = '${moneyScoreState[i].ym}-01 00:00:00'.toDateTime().year;
+
+      final month = '${moneyScoreState[i].ym}-01 00:00:00'.toDateTime().month;
+
+      if ((year != 2014 && month == 1) || (year == 2014 && month == 7)) {
+        final ttl = totalMap[year.toString()].toString().toCurrency();
+
+        list.add(
+          Column(
+            children: [
+              if (i != 1)
+                Container(
+                  margin: const EdgeInsets.only(top: 50),
+                ),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 3,
+                  horizontal: 10,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.yellowAccent.withOpacity(0.3),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(),
+                    Text(ttl),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      }
 
       list.add(
         Container(
