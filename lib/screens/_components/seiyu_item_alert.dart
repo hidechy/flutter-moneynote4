@@ -1,10 +1,9 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, cascade_invocations
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
-import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../state/seiyu_purchase_item/seiyu_purchase_item_request_state.dart';
 import '../../utility/utility.dart';
@@ -64,57 +63,58 @@ class SeiyuItemAlert extends ConsumerWidget {
 
   ///
   Widget displaySeiyuItem() {
-    final appParamState = _ref.watch(appParamProvider);
-
-    final param = SeiyuPurchaseItemRequestState(
-      date: '${appParamState.SeiyuAlertSelectYear}-01-01 00:00:00'.toDateTime(),
-      item: item,
-    );
-
-    final seiyuPurchaseItemState = _ref.watch(seiyuPurchaseItemProvider(param));
-
     final list = <Widget>[];
 
-    for (var i = 0; i < seiyuPurchaseItemState.length; i++) {
-      for (var j = 0; j < seiyuPurchaseItemState[i].list.length; j++) {
-        final exValue = seiyuPurchaseItemState[i].list[j].split('|');
+    for (var i = 2020; i <= date.year; i++) {
+      final param = SeiyuPurchaseItemRequestState(
+        date: '$i-01-01 00:00:00'.toDateTime(),
+        item: item,
+      );
 
-        list.add(
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 3),
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Colors.white.withOpacity(0.3),
+      final seiyuPurchaseItemState =
+          _ref.watch(seiyuPurchaseItemProvider(param));
+
+      seiyuPurchaseItemState.forEach((element) {
+        element.list.forEach((element2) {
+          final exValue = element2.split('|');
+
+          list.add(
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 3),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Colors.white.withOpacity(0.3),
+                  ),
                 ),
               ),
+              child: Row(
+                children: [
+                  Expanded(child: Text(exValue[0])),
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.topRight,
+                      child: Text(exValue[1].toCurrency()),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.topRight,
+                      child: Text(exValue[2]),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.topRight,
+                      child: Text(exValue[3].toCurrency()),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            child: Row(
-              children: [
-                Expanded(child: Text(exValue[0])),
-                Expanded(
-                  child: Container(
-                    alignment: Alignment.topRight,
-                    child: Text(exValue[1].toCurrency()),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    alignment: Alignment.topRight,
-                    child: Text(exValue[2]),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    alignment: Alignment.topRight,
-                    child: Text(exValue[3].toCurrency()),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      }
+          );
+        });
+      });
     }
 
     return SingleChildScrollView(
