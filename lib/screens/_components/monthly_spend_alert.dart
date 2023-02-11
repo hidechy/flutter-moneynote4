@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/models/zero_use_date.dart';
 import 'package:moneynote4/screens/_components/spend_alert.dart';
+import 'package:moneynote4/screens/monthly_spend_check_screen.dart';
 import 'package:moneynote4/state/monthly_spend/monthly_spend_state.dart';
 import 'package:uuid/uuid.dart';
 
@@ -76,7 +77,6 @@ class MonthlySpendAlert extends ConsumerWidget {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             GestureDetector(
                               onTap: () {
@@ -86,6 +86,19 @@ class MonthlySpendAlert extends ConsumerWidget {
                                 );
                               },
                               child: const Icon(Icons.graphic_eq),
+                            ),
+                            const SizedBox(width: 20),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        MonthlySpendCheckScreen(date: date),
+                                  ),
+                                );
+                              },
+                              child: const Icon(Icons.check_box),
                             ),
                           ],
                         ),
