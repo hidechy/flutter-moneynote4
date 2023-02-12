@@ -121,19 +121,6 @@ class MoneyAlert extends ConsumerWidget {
                             },
                             icon: const Icon(Icons.list),
                           ),
-                          IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return BankInputScreen(date: date);
-                                  },
-                                ),
-                              );
-                            },
-                            icon: const Icon(Icons.business),
-                          ),
                         ],
                       ),
                       Row(
@@ -284,7 +271,24 @@ class MoneyAlert extends ConsumerWidget {
                   child: const Text('BANK'),
                 ),
               ),
-              Expanded(child: Container()),
+              Expanded(
+                child: Container(
+                  alignment: Alignment.topRight,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        _context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return BankInputScreen(date: date);
+                          },
+                        ),
+                      );
+                    },
+                    child: const Icon(Icons.business),
+                  ),
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 10),

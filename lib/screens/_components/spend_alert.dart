@@ -168,7 +168,7 @@ class SpendAlert extends ConsumerWidget {
 
   ///
   Widget displayTimeplace() {
-    final timeplaceState = _ref.watch(timeplaceProvider(date));
+    final timeplaceState = _ref.watch(onedayTimeplaceProvider(date));
 
     final list = <Widget>[];
 

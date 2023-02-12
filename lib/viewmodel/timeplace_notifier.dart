@@ -14,22 +14,27 @@ timeplaceProvider       List<SpendTimeplace>
 
 ////////////////////////////////////////////////
 
-final timeplaceProvider = StateNotifierProvider.autoDispose
-    .family<TimeplaceNotifier, List<SpendTimeplace>, DateTime>((ref, date) {
+final onedayTimeplaceProvider = StateNotifierProvider.autoDispose
+    .family<OnedayTimeplaceNotifier, List<SpendTimeplace>, DateTime>(
+        (ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return TimeplaceNotifier([], client, utility)..getTimeplace(date: date);
+  return OnedayTimeplaceNotifier(
+    [],
+    client,
+    utility,
+  )..getOnedayTimeplace(date: date);
 });
 
-class TimeplaceNotifier extends StateNotifier<List<SpendTimeplace>> {
-  TimeplaceNotifier(super.state, this.client, this.utility);
+class OnedayTimeplaceNotifier extends StateNotifier<List<SpendTimeplace>> {
+  OnedayTimeplaceNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
   final Utility utility;
 
-  Future<void> getTimeplace({required DateTime date}) async {
+  Future<void> getOnedayTimeplace({required DateTime date}) async {
     await client.post(
       path: APIPath.getmonthlytimeplace,
       body: {'date': date.yyyymmdd},
@@ -47,6 +52,55 @@ class TimeplaceNotifier extends StateNotifier<List<SpendTimeplace>> {
             ),
           );
         }
+      }
+
+      state = list;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
+  }
+}
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+
+final monthlyTimeplaceProvider = StateNotifierProvider.autoDispose
+    .family<MonthlyTimeplaceNotifier, List<SpendTimeplace>, DateTime>(
+        (ref, date) {
+  final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
+
+  return MonthlyTimeplaceNotifier(
+    [],
+    client,
+    utility,
+  )..getMonthlyTimeplace(date: date);
+});
+
+class MonthlyTimeplaceNotifier extends StateNotifier<List<SpendTimeplace>> {
+  MonthlyTimeplaceNotifier(super.state, this.client, this.utility);
+
+  final HttpClient client;
+  final Utility utility;
+
+  Future<void> getMonthlyTimeplace({required DateTime date}) async {
+    await client.post(
+      path: APIPath.getmonthlytimeplace,
+      body: {'date': date.yyyymmdd},
+    ).then((value) {
+      final list = <SpendTimeplace>[];
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        list.add(
+          SpendTimeplace(
+            date: DateTime.parse(value['data'][i]['date'].toString()),
+            time: value['data'][i]['time'].toString(),
+            place: value['data'][i]['place'].toString(),
+            price: value['data'][i]['price'].toString().toInt(),
+          ),
+        );
       }
 
       state = list;

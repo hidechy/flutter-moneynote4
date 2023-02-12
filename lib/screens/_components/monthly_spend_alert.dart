@@ -1,17 +1,15 @@
-// ignore_for_file: must_be_immutable, sized_box_shrink_expand
+// ignore_for_file: must_be_immutable, sized_box_shrink_expand, cascade_invocations
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/models/zero_use_date.dart';
-import 'package:moneynote4/screens/_components/spend_alert.dart';
-import 'package:moneynote4/screens/monthly_spend_check_screen.dart';
-import 'package:moneynote4/state/monthly_spend/monthly_spend_state.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/credit_spend_monthly.dart';
 import '../../models/money_everyday.dart';
+import '../../models/zero_use_date.dart';
 import '../../state/device_info/device_info_notifier.dart';
+import '../../state/monthly_spend/monthly_spend_state.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/bank_notifier.dart';
 import '../../viewmodel/benefit_notifier.dart';
@@ -19,8 +17,11 @@ import '../../viewmodel/credit_notifier.dart';
 import '../../viewmodel/holiday_notifier.dart';
 import '../../viewmodel/money_notifier.dart';
 import '../../viewmodel/spend_notifier.dart';
+import '../../viewmodel/timeplace_notifier.dart';
+import '../monthly_spend_check_screen.dart';
 import '_money_dialog.dart';
 import 'monthly_spend_graph_alert.dart';
+import 'spend_alert.dart';
 
 class MonthlySpendAlert extends ConsumerWidget {
   MonthlySpendAlert({super.key, required this.date});
@@ -30,6 +31,8 @@ class MonthlySpendAlert extends ConsumerWidget {
   Uuid uuid = const Uuid();
 
   final Utility _utility = Utility();
+
+  List<String> timeplaceDateList = [];
 
   Map<String, List<CreditSpendMonthly>> creditSpendMap = {};
 
@@ -41,6 +44,8 @@ class MonthlySpendAlert extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _context = context;
     _ref = ref;
+
+    getMonthlyTimeplaceDate();
 
     getNext2MonthCreditSpend();
 
@@ -509,7 +514,10 @@ class MonthlySpendAlert extends ConsumerWidget {
               },
               child: Icon(
                 Icons.info_outline,
-                color: Colors.white.withOpacity(0.6),
+                color: (timeplaceDateList
+                        .contains(spendMonthDetailState.list[i].date.yyyymmdd))
+                    ? Colors.yellowAccent.withOpacity(0.8)
+                    : Colors.white.withOpacity(0.6),
               ),
             ),
           ],
@@ -548,5 +556,14 @@ class MonthlySpendAlert extends ConsumerWidget {
     }
 
     return 0;
+  }
+
+  ///
+  void getMonthlyTimeplaceDate() {
+    final monthlyTimeplaceState = _ref.watch(monthlyTimeplaceProvider(date));
+
+    monthlyTimeplaceState.forEach((element) {
+      timeplaceDateList.add(element.date.yyyymmdd);
+    });
   }
 }
