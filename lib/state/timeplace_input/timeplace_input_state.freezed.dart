@@ -16,7 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$TimeplaceInputState {
-  List<String> get timeplace => throw _privateConstructorUsedError;
+  List<String> get time => throw _privateConstructorUsedError;
+  List<String> get place => throw _privateConstructorUsedError;
   List<int> get spendPrice => throw _privateConstructorUsedError;
   int get itemPos => throw _privateConstructorUsedError;
   String get baseDiff => throw _privateConstructorUsedError;
@@ -35,7 +36,8 @@ abstract class $TimeplaceInputStateCopyWith<$Res> {
       _$TimeplaceInputStateCopyWithImpl<$Res, TimeplaceInputState>;
   @useResult
   $Res call(
-      {List<String> timeplace,
+      {List<String> time,
+      List<String> place,
       List<int> spendPrice,
       int itemPos,
       String baseDiff,
@@ -56,7 +58,8 @@ class _$TimeplaceInputStateCopyWithImpl<$Res, $Val extends TimeplaceInputState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? timeplace = null,
+    Object? time = null,
+    Object? place = null,
     Object? spendPrice = null,
     Object? itemPos = null,
     Object? baseDiff = null,
@@ -64,9 +67,13 @@ class _$TimeplaceInputStateCopyWithImpl<$Res, $Val extends TimeplaceInputState>
     Object? minusCheck = null,
   }) {
     return _then(_value.copyWith(
-      timeplace: null == timeplace
-          ? _value.timeplace
-          : timeplace // ignore: cast_nullable_to_non_nullable
+      time: null == time
+          ? _value.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      place: null == place
+          ? _value.place
+          : place // ignore: cast_nullable_to_non_nullable
               as List<String>,
       spendPrice: null == spendPrice
           ? _value.spendPrice
@@ -101,7 +108,8 @@ abstract class _$$_TimeplaceInputStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<String> timeplace,
+      {List<String> time,
+      List<String> place,
       List<int> spendPrice,
       int itemPos,
       String baseDiff,
@@ -120,7 +128,8 @@ class __$$_TimeplaceInputStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? timeplace = null,
+    Object? time = null,
+    Object? place = null,
     Object? spendPrice = null,
     Object? itemPos = null,
     Object? baseDiff = null,
@@ -128,9 +137,13 @@ class __$$_TimeplaceInputStateCopyWithImpl<$Res>
     Object? minusCheck = null,
   }) {
     return _then(_$_TimeplaceInputState(
-      timeplace: null == timeplace
-          ? _value._timeplace
-          : timeplace // ignore: cast_nullable_to_non_nullable
+      time: null == time
+          ? _value._time
+          : time // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      place: null == place
+          ? _value._place
+          : place // ignore: cast_nullable_to_non_nullable
               as List<String>,
       spendPrice: null == spendPrice
           ? _value._spendPrice
@@ -160,21 +173,30 @@ class __$$_TimeplaceInputStateCopyWithImpl<$Res>
 
 class _$_TimeplaceInputState implements _TimeplaceInputState {
   const _$_TimeplaceInputState(
-      {required final List<String> timeplace,
+      {required final List<String> time,
+      required final List<String> place,
       required final List<int> spendPrice,
       required this.itemPos,
       required this.baseDiff,
       required this.diff,
       required final List<bool> minusCheck})
-      : _timeplace = timeplace,
+      : _time = time,
+        _place = place,
         _spendPrice = spendPrice,
         _minusCheck = minusCheck;
 
-  final List<String> _timeplace;
+  final List<String> _time;
   @override
-  List<String> get timeplace {
+  List<String> get time {
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_timeplace);
+    return EqualUnmodifiableListView(_time);
+  }
+
+  final List<String> _place;
+  @override
+  List<String> get place {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_place);
   }
 
   final List<int> _spendPrice;
@@ -199,7 +221,7 @@ class _$_TimeplaceInputState implements _TimeplaceInputState {
 
   @override
   String toString() {
-    return 'TimeplaceInputState(timeplace: $timeplace, spendPrice: $spendPrice, itemPos: $itemPos, baseDiff: $baseDiff, diff: $diff, minusCheck: $minusCheck)';
+    return 'TimeplaceInputState(time: $time, place: $place, spendPrice: $spendPrice, itemPos: $itemPos, baseDiff: $baseDiff, diff: $diff, minusCheck: $minusCheck)';
   }
 
   @override
@@ -207,8 +229,8 @@ class _$_TimeplaceInputState implements _TimeplaceInputState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_TimeplaceInputState &&
-            const DeepCollectionEquality()
-                .equals(other._timeplace, _timeplace) &&
+            const DeepCollectionEquality().equals(other._time, _time) &&
+            const DeepCollectionEquality().equals(other._place, _place) &&
             const DeepCollectionEquality()
                 .equals(other._spendPrice, _spendPrice) &&
             (identical(other.itemPos, itemPos) || other.itemPos == itemPos) &&
@@ -222,7 +244,8 @@ class _$_TimeplaceInputState implements _TimeplaceInputState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(_timeplace),
+      const DeepCollectionEquality().hash(_time),
+      const DeepCollectionEquality().hash(_place),
       const DeepCollectionEquality().hash(_spendPrice),
       itemPos,
       baseDiff,
@@ -239,7 +262,8 @@ class _$_TimeplaceInputState implements _TimeplaceInputState {
 
 abstract class _TimeplaceInputState implements TimeplaceInputState {
   const factory _TimeplaceInputState(
-      {required final List<String> timeplace,
+      {required final List<String> time,
+      required final List<String> place,
       required final List<int> spendPrice,
       required final int itemPos,
       required final String baseDiff,
@@ -247,7 +271,9 @@ abstract class _TimeplaceInputState implements TimeplaceInputState {
       required final List<bool> minusCheck}) = _$_TimeplaceInputState;
 
   @override
-  List<String> get timeplace;
+  List<String> get time;
+  @override
+  List<String> get place;
   @override
   List<int> get spendPrice;
   @override

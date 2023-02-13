@@ -16,10 +16,12 @@ final timeplaceInputProvider = StateNotifierProvider.autoDispose
   final list = <String>[];
   final list2 = <int>[];
   final list3 = <bool>[];
+  final list4 = <String>[];
   for (var i = 0; i < 10; i++) {
     list.add('');
     list2.add(0);
     list3.add(false);
+    list4.add('');
   }
 
   return TimeplaceInputNotifier(
@@ -27,7 +29,8 @@ final timeplaceInputProvider = StateNotifierProvider.autoDispose
         baseDiff: baseDiff,
         diff: 0,
         itemPos: 0,
-        timeplace: list,
+        time: list,
+        place: list4,
         spendPrice: list2,
         minusCheck: list3,
       ),
@@ -47,13 +50,21 @@ class TimeplaceInputNotifier extends StateNotifier<TimeplaceInputState> {
   }
 
   ///
-  Future<void> setTimeplace(
-      {required int pos, required String timeplace}) async {
-    final timeplaces = <String>[...state.timeplace];
+  Future<void> setTime({required int pos, required String time}) async {
+    final times = <String>[...state.time];
 
-    timeplaces[pos] = timeplace;
+    times[pos] = time;
 
-    state = state.copyWith(timeplace: timeplaces);
+    state = state.copyWith(time: times);
+  }
+
+  ///
+  Future<void> setPlace({required int pos, required String place}) async {
+    final places = <String>[...state.place];
+
+    places[pos] = place;
+
+    state = state.copyWith(place: places);
   }
 
   ///

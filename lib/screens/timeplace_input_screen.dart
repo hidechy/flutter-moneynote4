@@ -1,19 +1,34 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../extensions/extensions.dart';
+import '../state/timeplace_input/timeplace_input_notifier.dart';
 import '../utility/utility.dart';
 
 class TimeplaceInputScreen extends ConsumerWidget {
-  TimeplaceInputScreen({super.key, required this.date});
+  TimeplaceInputScreen({super.key, required this.date, required this.diff});
 
   final DateTime date;
+  final String diff;
 
   final Utility _utility = Utility();
+
+  List<TextEditingController> tecPlaces = [];
+  List<TextEditingController> tecPrices = [];
+
+  late BuildContext _context;
+  late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    _context = context;
+    _ref = ref;
+
+    makeTecs();
+
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -35,11 +50,148 @@ class TimeplaceInputScreen extends ConsumerWidget {
                     ),
                   ],
                 ),
+                Divider(
+                  thickness: 2,
+                  color: Colors.white.withOpacity(0.4),
+                ),
+                Expanded(
+                  child: displayInputParts(),
+                ),
               ],
             ),
           ),
         ],
       ),
     );
+  }
+
+  ///
+  void makeTecs() {
+    for (var i = 0; i < 10; i++) {
+      tecPlaces.add(TextEditingController(text: ''));
+      tecPrices.add(TextEditingController(text: ''));
+    }
+  }
+
+  ///
+  Widget displayInputParts() {
+    final timeplaceInputState = _ref.watch(timeplaceInputProvider(diff));
+
+    final list = <Widget>[];
+
+    for (var i = 0; i < 10; i++) {
+      list.add(
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          child: Row(
+            children: [
+              SizedBox(
+                width: _context.screenSize.width * 0.2,
+                child: TextField(
+                  style: const TextStyle(fontSize: 12),
+                  readOnly: true,
+                  controller: TextEditingController(
+                    text: timeplaceInputState.time[i],
+                  ),
+                  decoration: const InputDecoration(
+                    filled: true,
+                    border: OutlineInputBorder(),
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 4,
+                      horizontal: 4,
+                    ),
+                  ),
+                  onTap: () {
+                    showTP(pos: i);
+                  },
+                ),
+              ),
+              const SizedBox(width: 20),
+              SizedBox(
+                width: _context.screenSize.width * 0.3,
+                child: TextField(
+                  controller: tecPlaces[i],
+                  decoration: const InputDecoration(
+                    filled: true,
+                    border: OutlineInputBorder(),
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 4,
+                      horizontal: 4,
+                    ),
+                  ),
+                  style: const TextStyle(fontSize: 12),
+                  onChanged: (value) {
+                    _ref
+                        .watch(timeplaceInputProvider(diff).notifier)
+                        .setPlace(pos: i, place: value);
+                  },
+                ),
+              ),
+              const SizedBox(width: 20),
+              SizedBox(
+                width: _context.screenSize.width * 0.2,
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  controller: tecPrices[i],
+                  decoration: const InputDecoration(
+                    filled: true,
+                    border: OutlineInputBorder(),
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 4,
+                      horizontal: 4,
+                    ),
+                  ),
+                  style: const TextStyle(fontSize: 12),
+                  onChanged: (value) {
+                    _ref
+                        .watch(timeplaceInputProvider(diff).notifier)
+                        .setSpendPrice(pos: i, price: value.toInt());
+                  },
+                ),
+              ),
+              Checkbox(
+                activeColor: Colors.orangeAccent,
+                value: timeplaceInputState.minusCheck[i],
+                onChanged: (check) {
+                  _ref
+                      .watch(timeplaceInputProvider(diff).notifier)
+                      .setMinusCheck(pos: i);
+                },
+                side: BorderSide(color: Colors.white.withOpacity(0.8)),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return SingleChildScrollView(
+      child: Column(
+        children: list,
+      ),
+    );
+  }
+
+  ///
+  Future<void> showTP({required int pos}) async {
+    final selectedTime = await showTimePicker(
+      context: _context,
+      initialTime: const TimeOfDay(hour: 8, minute: 0),
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child ?? Container(),
+        );
+      },
+    );
+
+    if (selectedTime != null) {
+      final time =
+          '${selectedTime.hour.toString().padLeft(2, '0')}:${selectedTime.minute.toString().padLeft(2, '0')}';
+
+      await _ref
+          .watch(timeplaceInputProvider(diff).notifier)
+          .setTime(pos: pos, time: time);
+    }
   }
 }

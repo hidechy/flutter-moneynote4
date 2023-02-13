@@ -128,7 +128,10 @@ class MoneyAlert extends ConsumerWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) {
-                                    return TimeplaceInputScreen(date: date);
+                                    return TimeplaceInputScreen(
+                                      date: date,
+                                      diff: diff,
+                                    );
                                   },
                                 ),
                               );
