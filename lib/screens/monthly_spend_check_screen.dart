@@ -181,7 +181,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
             ),
           ),
           child: DefaultTextStyle(
-            style: TextStyle(color: color),
+            style: TextStyle(color: color, fontSize: 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

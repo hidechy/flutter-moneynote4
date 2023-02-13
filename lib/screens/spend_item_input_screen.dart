@@ -45,7 +45,7 @@ class SpendItemInputScreen extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               children: [
-                const SizedBox(height: 30),
+                const SizedBox(height: 50),
                 Container(width: context.screenSize.width),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
