@@ -96,7 +96,40 @@ class TimeplaceInputNotifier extends StateNotifier<TimeplaceInputState> {
   }
 
   ///
-  Future<void> inputSpendItem({required DateTime date}) async {}
+  Future<void> inputTimeplace({required DateTime date}) async {
+    final list = <Map<String, dynamic>>[];
+    for (var i = 0; i < 10; i++) {
+      if (state.time[i] != '' &&
+          state.place[i] != '' &&
+          state.spendPrice[i] != 0) {
+        final price = (state.minusCheck[i])
+            ? state.spendPrice[i] * -1
+            : state.spendPrice[i];
+
+        list.add({
+          'time': state.time[i],
+          'place': state.place[i],
+          'price': price,
+        });
+      }
+    }
+
+    final uploadData = <String, dynamic>{};
+    uploadData['date'] = date.yyyymmdd;
+    uploadData['timeplace'] = list;
+
+    print(uploadData);
+
+/*
+flutter: {date: 2023-02-12,
+timeplace: [
+  {time: 08:00, place: aaa, price: 1110},
+  {time: 10:00, place: bbb, price: 2200},
+  {time: 14:00, place: ccc, price: 589}
+]}
+
+*/
+  }
 }
 
 ////////////////////////////////////////////////

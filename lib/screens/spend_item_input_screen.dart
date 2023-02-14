@@ -184,7 +184,16 @@ class SpendItemInputScreen extends ConsumerWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 20),
+              Checkbox(
+                activeColor: Colors.orangeAccent,
+                value: spendItemInputState.minusCheck[i],
+                onChanged: (check) {
+                  _ref
+                      .watch(spendItemInputProvider(diff).notifier)
+                      .setMinusCheck(pos: i);
+                },
+                side: BorderSide(color: Colors.white.withOpacity(0.8)),
+              ),
               SizedBox(
                 width: _context.screenSize.width * 0.3,
                 child: TextField(
@@ -205,16 +214,6 @@ class SpendItemInputScreen extends ConsumerWidget {
                         .setSpendPrice(pos: i, price: value.toInt());
                   },
                 ),
-              ),
-              Checkbox(
-                activeColor: Colors.orangeAccent,
-                value: spendItemInputState.minusCheck[i],
-                onChanged: (check) {
-                  _ref
-                      .watch(spendItemInputProvider(diff).notifier)
-                      .setMinusCheck(pos: i);
-                },
-                side: BorderSide(color: Colors.white.withOpacity(0.8)),
               ),
             ],
           ),
