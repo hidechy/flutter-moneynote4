@@ -1,15 +1,9 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-//
-//
-//
-// import 'package:vibration/vibration.dart';
-//
-//
-//
+import 'package:vibration/vibration.dart';
 
 import '../extensions/extensions.dart';
 import '../state/timeplace_input/timeplace_input_notifier.dart';
@@ -76,27 +70,15 @@ class TimeplaceInputScreen extends ConsumerWidget {
                       children: [
                         IconButton(
                           onPressed: () async {
-                            // await _ref
-                            //     .watch(spendItemInputProvider(diff).notifier)
-                            //     .inputSpendItem(date: date);
-
                             await _ref
                                 .watch(timeplaceInputProvider(diff).notifier)
                                 .inputTimeplace(date: date);
-
-                            /*
-
-
 
                             await Vibration.vibrate(
                               pattern: [500, 1000, 500, 2000],
                             );
 
                             Navigator.pop(_context);
-
-
-
-                            */
                           },
                           icon: const Icon(Icons.input),
                         ),

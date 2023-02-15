@@ -34,7 +34,8 @@ enum APIPath {
   carditemlist,
   getSamedaySpend,
   getWellsRecord,
-  spendItemInsert
+  spendItemInsert,
+  timeplaceInsert
 }
 
 extension APIPathExtension on APIPath {
@@ -112,6 +113,8 @@ extension APIPathExtension on APIPath {
         return 'getWellsRecord';
       case APIPath.spendItemInsert:
         return 'spendItemInsert';
+      case APIPath.timeplaceInsert:
+        return 'timeplaceInsert';
     }
   }
 }

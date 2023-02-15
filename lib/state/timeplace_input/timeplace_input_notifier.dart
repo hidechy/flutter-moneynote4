@@ -1,6 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../data/http/client.dart';
+import '../../data/http/path.dart';
 import '../../extensions/extensions.dart';
 import '../../utility/utility.dart';
 import 'timeplace_input_state.dart';
@@ -118,17 +119,12 @@ class TimeplaceInputNotifier extends StateNotifier<TimeplaceInputState> {
     uploadData['date'] = date.yyyymmdd;
     uploadData['timeplace'] = list;
 
-    print(uploadData);
-
-/*
-flutter: {date: 2023-02-12,
-timeplace: [
-  {time: 08:00, place: aaa, price: 1110},
-  {time: 10:00, place: bbb, price: 2200},
-  {time: 14:00, place: ccc, price: 589}
-]}
-
-*/
+    await client
+        .post(path: APIPath.timeplaceInsert, body: uploadData)
+        .then((value) {})
+        .catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
   }
 }
 
