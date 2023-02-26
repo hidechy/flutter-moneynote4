@@ -45,12 +45,14 @@ class MonthlySpendCheckNotifier extends StateNotifier<MonthlySpendCheckState> {
     uploadData['date'] = date.yyyymmdd;
     uploadData['items'] = items;
 
-    await client
-        .post(path: APIPath.inputSpendCheckItem, body: uploadData)
-        .then((value) {})
-        .catchError((error, _) {
-      utility.showError('予期せぬエラーが発生しました');
-    });
+    print(uploadData);
+
+    // await client
+    //     .post(path: APIPath.inputSpendCheckItem, body: uploadData)
+    //     .then((value) {})
+    //     .catchError((error, _) {
+    //   utility.showError('予期せぬエラーが発生しました');
+    // });
   }
 }
 

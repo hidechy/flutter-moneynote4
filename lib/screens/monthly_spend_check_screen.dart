@@ -8,7 +8,7 @@ import '../models/credit_spend_monthly.dart';
 import '../state/monthly_spend_check/monthly_spend_check_notifier.dart';
 import '../utility/utility.dart';
 import '../viewmodel/credit_notifier.dart';
-import '../viewmodel/spend_notifier.dart';
+import '../viewmodel/timeplace_notifier.dart';
 
 class MonthlySpendCheckScreen extends ConsumerWidget {
   MonthlySpendCheckScreen({super.key, required this.date});
@@ -18,8 +18,6 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
   final Utility _utility = Utility();
 
   Map<String, List<CreditSpendMonthly>> creditSpendMap = {};
-
-  List<Map<String, String>> listItem = [];
 
   late WidgetRef _ref;
 
@@ -141,98 +139,139 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
 
   ///
   Widget displayMonthlySpendCheckList() {
-    listItem = [];
-
-    final spendMonthDetailState = _ref.watch(spendMonthDetailProvider(date));
-
-    spendMonthDetailState.list.forEach((element) {
-      element.item.forEach((element2) {
-        if (element2.price.toString().toInt() > 0) {
-          listItem.add({
-            'date': element.date.yyyymmdd,
-            'item': element2.item,
-            'price': element2.price.toString().toCurrency(),
-            'type': 'daily',
-          });
-        }
-      });
-
-      if (creditSpendMap[element.date.yyyymmdd] != null) {
-        creditSpendMap[element.date.yyyymmdd]?.forEach((element3) {
-          listItem.add({
-            'date': element3.date.yyyymmdd,
-            'item': element3.item,
-            'price': element3.price.toCurrency(),
-            'type': 'credit',
-          });
-        });
-      }
-    });
+    final monthlyTimeplaceState = _ref.watch(monthlyTimeplaceProvider(date));
 
     final monthlySpendCheckState = _ref.watch(monthlySpendCheckProvider);
 
     final list = <Widget>[];
+
     var keepDate = '';
-    for (var i = 0; i < listItem.length; i++) {
-      if (keepDate != listItem[i]['date']) {
+    var i = 0;
+    var j = 0;
+    monthlyTimeplaceState.forEach((element) {
+      if (keepDate != element.date.yyyymmdd) {
         if (i != 0) {
           list.add(const SizedBox(height: 60));
         }
+
+        j = 0;
       }
 
-      final color = (listItem[i]['type'] == 'credit')
-          ? const Color(0xFFFB86CE)
-          : Colors.white;
+      if (j == 0) {
+        if (creditSpendMap[element.date.yyyymmdd] != null) {
+          creditSpendMap[element.date.yyyymmdd]?.forEach((element2) {
+            final st = <String>[];
+            st.add(element2.date.yyyymmdd);
+            st.add(element2.item);
+            st.add(element2.price);
+            st.add('credit');
+            final str = st.join('|');
 
-      final st = <String>[];
-      st.add(listItem[i]['date']!);
-      st.add(listItem[i]['item']!);
-      st.add(listItem[i]['price']!);
-      st.add(listItem[i]['type']!);
-      final str = st.join('|');
-
-      list.add(
-        GestureDetector(
-          onTap: () {
-            _ref
-                .watch(monthlySpendCheckProvider.notifier)
-                .setSelectItem(item: str);
-          },
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            margin: const EdgeInsets.only(bottom: 10),
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Colors.white.withOpacity(0.3),
+            list.add(GestureDetector(
+              onTap: () {
+                _ref
+                    .watch(monthlySpendCheckProvider.notifier)
+                    .setSelectItem(item: str);
+              },
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.only(bottom: 10),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.white.withOpacity(0.3),
+                    ),
+                  ),
+                  color: (monthlySpendCheckState.selectItem.contains(str))
+                      ? Colors.yellowAccent.withOpacity(0.1)
+                      : Colors.transparent,
+                ),
+                child: DefaultTextStyle(
+                  style: const TextStyle(color: Color(0xFFFB86CE)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(element2.date.yyyymmdd),
+                          Container(),
+                        ],
+                      ),
+                      Text(element2.item),
+                      Container(
+                        alignment: Alignment.topRight,
+                        child: Text(element2.price),
+                      )
+                    ],
+                  ),
                 ),
               ),
-              color: (monthlySpendCheckState.selectItem.contains(str))
-                  ? Colors.yellowAccent.withOpacity(0.1)
-                  : Colors.transparent,
-            ),
-            child: DefaultTextStyle(
-              style: TextStyle(color: color, fontSize: 12),
+            ));
+          });
+        }
+      }
+
+      if (element.price > 0) {
+        final st = <String>[];
+        st.add(element.date.yyyymmdd);
+        st.add(element.time);
+        st.add(element.price.toString());
+        st.add('daily');
+        final str = st.join('|');
+
+        list.add(
+          GestureDetector(
+            onTap: () {
+              _ref
+                  .watch(monthlySpendCheckProvider.notifier)
+                  .setSelectItem(item: str);
+            },
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              margin: const EdgeInsets.only(bottom: 10),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Colors.white.withOpacity(0.3),
+                  ),
+                ),
+                color: (monthlySpendCheckState.selectItem.contains(str))
+                    ? Colors.yellowAccent.withOpacity(0.1)
+                    : Colors.transparent,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(listItem[i]['date']!),
-                      Text(listItem[i]['price']!),
+                      Row(
+                        children: [
+                          Text(element.date.yyyymmdd),
+                          const SizedBox(width: 20),
+                          Text(element.time),
+                        ],
+                      ),
+                      Container(),
                     ],
                   ),
-                  Text(listItem[i]['item']!),
+                  Text(element.place),
+                  Container(
+                    alignment: Alignment.topRight,
+                    child: Text(element.price.toString().toCurrency()),
+                  ),
                 ],
               ),
             ),
           ),
-        ),
-      );
+        );
+      }
 
-      keepDate = listItem[i]['date']!;
-    }
+      j++;
+      i++;
+      keepDate = element.date.yyyymmdd;
+    });
 
     return SingleChildScrollView(
       child: Column(children: list),
