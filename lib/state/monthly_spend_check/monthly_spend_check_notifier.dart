@@ -1,6 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../data/http/client.dart';
+import '../../data/http/path.dart';
+import '../../extensions/extensions.dart';
 import '../../utility/utility.dart';
 import 'monthly_spend_check_state.dart';
 
@@ -33,6 +35,22 @@ class MonthlySpendCheckNotifier extends StateNotifier<MonthlySpendCheckState> {
       items.add(item);
     }
     state = state.copyWith(selectItem: items);
+  }
+
+  ///
+  Future<void> inputCheckItem({required DateTime date}) async {
+    final items = [...state.selectItem];
+
+    final uploadData = <String, dynamic>{};
+    uploadData['date'] = date.yyyymmdd;
+    uploadData['items'] = items;
+
+    await client
+        .post(path: APIPath.inputSpendCheckItem, body: uploadData)
+        .then((value) {})
+        .catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
   }
 }
 

@@ -48,8 +48,12 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                     Row(
                       children: [
                         IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.input),
+                          onPressed: () {
+                            ref
+                                .watch(monthlySpendCheckProvider.notifier)
+                                .inputCheckItem(date: date);
+                          },
+                          icon: const Icon(Icons.input),
                         ),
                         IconButton(
                           onPressed: () => Navigator.pop(context),
@@ -184,6 +188,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
       st.add(listItem[i]['date']!);
       st.add(listItem[i]['item']!);
       st.add(listItem[i]['price']!);
+      st.add(listItem[i]['type']!);
       final str = st.join('|');
 
       list.add(
