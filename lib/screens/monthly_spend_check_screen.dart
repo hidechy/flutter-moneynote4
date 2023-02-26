@@ -157,13 +157,14 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
         j = 0;
       }
 
+      /////////////////////////////////////////// credit
       if (j == 0) {
         if (creditSpendMap[element.date.yyyymmdd] != null) {
           creditSpendMap[element.date.yyyymmdd]?.forEach((element2) {
             final st = <String>[];
-            st.add(element2.date.yyyymmdd);
-            st.add(element2.item);
-            st.add(element2.price);
+            st.add(element2.date.yyyymmdd.trim());
+            st.add(element2.item.trim());
+            st.add(element2.price.trim());
             st.add('credit');
             final str = st.join('|');
 
@@ -211,62 +212,61 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
           });
         }
       }
+      /////////////////////////////////////////// credit
 
-      if (element.price > 0) {
-        final st = <String>[];
-        st.add(element.date.yyyymmdd);
-        st.add(element.time);
-        st.add(element.price.toString());
-        st.add('daily');
-        final str = st.join('|');
+      final st = <String>[];
+      st.add(element.date.yyyymmdd.trim());
+      st.add(element.time.trim());
+      st.add(element.price.toString().trim());
+      st.add('daily');
+      final str = st.join('|');
 
-        list.add(
-          GestureDetector(
-            onTap: () {
-              _ref
-                  .watch(monthlySpendCheckProvider.notifier)
-                  .setSelectItem(item: str);
-            },
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              margin: const EdgeInsets.only(bottom: 10),
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Colors.white.withOpacity(0.3),
-                  ),
+      list.add(
+        GestureDetector(
+          onTap: () {
+            _ref
+                .watch(monthlySpendCheckProvider.notifier)
+                .setSelectItem(item: str);
+          },
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            margin: const EdgeInsets.only(bottom: 10),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.white.withOpacity(0.3),
                 ),
-                color: (monthlySpendCheckState.selectItem.contains(str))
-                    ? Colors.yellowAccent.withOpacity(0.1)
-                    : Colors.transparent,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Text(element.date.yyyymmdd),
-                          const SizedBox(width: 20),
-                          Text(element.time),
-                        ],
-                      ),
-                      Container(),
-                    ],
-                  ),
-                  Text(element.place),
-                  Container(
-                    alignment: Alignment.topRight,
-                    child: Text(element.price.toString().toCurrency()),
-                  ),
-                ],
-              ),
+              color: (monthlySpendCheckState.selectItem.contains(str))
+                  ? Colors.yellowAccent.withOpacity(0.1)
+                  : Colors.transparent,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Text(element.date.yyyymmdd),
+                        const SizedBox(width: 20),
+                        Text(element.time),
+                      ],
+                    ),
+                    Container(),
+                  ],
+                ),
+                Text(element.place),
+                Container(
+                  alignment: Alignment.topRight,
+                  child: Text(element.price.toString().toCurrency()),
+                ),
+              ],
             ),
           ),
-        );
-      }
+        ),
+      );
 
       j++;
       i++;
