@@ -100,9 +100,7 @@ class TimeplaceInputNotifier extends StateNotifier<TimeplaceInputState> {
   Future<void> inputTimeplace({required DateTime date}) async {
     final list = <Map<String, dynamic>>[];
     for (var i = 0; i < 10; i++) {
-      if (state.time[i] != '' &&
-          state.place[i] != '' &&
-          state.spendPrice[i] != 0) {
+      if (state.time[i] != '' && state.place[i] != '') {
         final price = (state.minusCheck[i])
             ? state.spendPrice[i] * -1
             : state.spendPrice[i];

@@ -1,10 +1,11 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, cascade_invocations
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../extensions/extensions.dart';
 import '../models/credit_spend_monthly.dart';
+import '../state/monthly_spend_check/monthly_spend_check_notifier.dart';
 import '../utility/utility.dart';
 import '../viewmodel/credit_notifier.dart';
 import '../viewmodel/spend_notifier.dart';
@@ -44,9 +45,17 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(date.yyyymm),
-                    IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: const Icon(Icons.close),
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.input),
+                        ),
+                        IconButton(
+                          onPressed: () => Navigator.pop(context),
+                          icon: const Icon(Icons.close),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -156,6 +165,8 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
       }
     });
 
+    final monthlySpendCheckState = _ref.watch(monthlySpendCheckProvider);
+
     final list = <Widget>[];
     var keepDate = '';
     for (var i = 0; i < listItem.length; i++) {
@@ -169,31 +180,47 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
           ? const Color(0xFFFB86CE)
           : Colors.white;
 
+      final st = <String>[];
+      st.add(listItem[i]['date']!);
+      st.add(listItem[i]['item']!);
+      st.add(listItem[i]['price']!);
+      final str = st.join('|');
+
       list.add(
-        Container(
-          padding: const EdgeInsets.all(10),
-          margin: const EdgeInsets.only(bottom: 10),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.white.withOpacity(0.3),
-              ),
-            ),
-          ),
-          child: DefaultTextStyle(
-            style: TextStyle(color: color, fontSize: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(listItem[i]['date']!),
-                    Text(listItem[i]['price']!),
-                  ],
+        GestureDetector(
+          onTap: () {
+            _ref
+                .watch(monthlySpendCheckProvider.notifier)
+                .setSelectItem(item: str);
+          },
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            margin: const EdgeInsets.only(bottom: 10),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.white.withOpacity(0.3),
                 ),
-                Text(listItem[i]['item']!),
-              ],
+              ),
+              color: (monthlySpendCheckState.selectItem.contains(str))
+                  ? Colors.yellowAccent.withOpacity(0.1)
+                  : Colors.transparent,
+            ),
+            child: DefaultTextStyle(
+              style: TextStyle(color: color, fontSize: 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(listItem[i]['date']!),
+                      Text(listItem[i]['price']!),
+                    ],
+                  ),
+                  Text(listItem[i]['item']!),
+                ],
+              ),
             ),
           ),
         ),
