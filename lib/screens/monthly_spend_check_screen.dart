@@ -8,6 +8,7 @@ import '../models/credit_spend_monthly.dart';
 import '../state/monthly_spend_check/monthly_spend_check_notifier.dart';
 import '../utility/utility.dart';
 import '../viewmodel/credit_notifier.dart';
+import '../viewmodel/spend_notifier.dart';
 import '../viewmodel/timeplace_notifier.dart';
 
 class MonthlySpendCheckScreen extends ConsumerWidget {
@@ -19,12 +20,27 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
 
   Map<String, List<CreditSpendMonthly>> creditSpendMap = {};
 
+  Map<String, List<Map<int, String>>> monthlySpendMap = {};
+
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
+
+    makeMonthlySpendMap();
+
+    /*
+
+
+
+    print(monthlySpendMap);
+
+    flutter: {2023-01-01: [{116: 食費}, {727: 交通費}, {548: 交際費}, {10670: 交際費}, {200: お賽銭}], 2023-01-02: [{0: 食費}, {100: お賽銭}, {-16: プラス}], 2023-01-03: [{579: 食費}, {923: 交通費}, {-8: プラス}], 2023-01-04: [{1804: 食費}, {566: 交通費}, {26625: 国民年金基金}], 2023-01-05: [{999: 食費}, {566: 交通費}, {23580: credit}, {67000: 住居費}], 2023-01-06: [{0: 食費}, {2519: 水道光熱費}], 2023-01-07: [{767: 食費}, {493: 交通費}, {204: 通信費}, {2591: 水道光熱費}, {3000: 交際費}, {-6: プラス}], 2023-01-08: [{546: 食費}, {942: 交通費}], 2023-01-09: [{0: 食費}, {493: 交通費}, {-13: プラス}], 2023-01-10: [{0: 食費}, {3000: 共済代}], 2023-01-11: [{1090: 食費}, {566: 交通費}], 2023-01-12: [{1357: 食費}, {566: 交通費}, {1995: 牛乳代}], 2023-01-13: [{0: 食費}, {14850: アイアールシー}, {154: 手数料}], 2023-01-14: [{2865: 食費}, {-1: プラス}], 2023-01-15: [{890: 食費}, {1110: <…>
+
+
+    */
 
     getNext2MonthCreditSpend();
 
@@ -48,7 +64,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                         IconButton(
                           onPressed: () {
                             ref
-                                .watch(monthlySpendCheckProvider.notifier)
+                                .watch(monthlySpendCheckProvider(date).notifier)
                                 .inputCheckItem(date: date);
                           },
                           icon: const Icon(Icons.input),
@@ -141,7 +157,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
   Widget displayMonthlySpendCheckList() {
     final monthlyTimeplaceState = _ref.watch(monthlyTimeplaceProvider(date));
 
-    final monthlySpendCheckState = _ref.watch(monthlySpendCheckProvider);
+    final monthlySpendCheckState = _ref.watch(monthlySpendCheckProvider(date));
 
     final list = <Widget>[];
 
@@ -161,17 +177,21 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
       if (j == 0) {
         if (creditSpendMap[element.date.yyyymmdd] != null) {
           creditSpendMap[element.date.yyyymmdd]?.forEach((element2) {
+            //---------------------------------//
             final st = <String>[];
             st.add(element2.date.yyyymmdd.trim());
             st.add(element2.item.trim());
             st.add(element2.price.trim());
             st.add('credit');
             final str = st.join('|');
+            //---------------------------------//
+
+            var youbi = _utility.getYoubi(youbiStr: element2.date.youbiStr);
 
             list.add(GestureDetector(
               onTap: () {
                 _ref
-                    .watch(monthlySpendCheckProvider.notifier)
+                    .watch(monthlySpendCheckProvider(date).notifier)
                     .setSelectItem(item: str);
               },
               child: Container(
@@ -195,7 +215,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(element2.date.yyyymmdd),
+                          Text('${element2.date.yyyymmdd}（${youbi}）'),
                           Container(),
                         ],
                       ),
@@ -214,18 +234,49 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
       }
       /////////////////////////////////////////// credit
 
+      var item = '';
+      if (monthlySpendMap[element.date.yyyymmdd] != null) {
+        monthlySpendMap[element.date.yyyymmdd]?.forEach((element2) {
+          if (element2[element.price.toString().toInt()] != null) {
+            item = element2[element.price.toString().toInt()] ?? '';
+          }
+        });
+      }
+
+      //---------------------------------//
+      final st2 = <String>[];
+      st2.add(element.time.trim());
+      st2.add(element.place.trim());
+
+      if (item != '') {
+        st2.add(item);
+      }
+      //---------------------------------//
+
+      //---------------------------------//
       final st = <String>[];
       st.add(element.date.yyyymmdd.trim());
-      st.add(element.time.trim());
+      st.add(st2.join(' - '));
       st.add(element.price.toString().trim());
       st.add('daily');
       final str = st.join('|');
+      //---------------------------------//
+
+      //---------------------------------//
+      final st3 = <String>[];
+      st3.add(element.place);
+      if (item != '') {
+        st3.add(item);
+      }
+      //---------------------------------//
+
+      var youbi = _utility.getYoubi(youbiStr: element.date.youbiStr);
 
       list.add(
         GestureDetector(
           onTap: () {
             _ref
-                .watch(monthlySpendCheckProvider.notifier)
+                .watch(monthlySpendCheckProvider(date).notifier)
                 .setSelectItem(item: str);
           },
           child: Container(
@@ -249,7 +300,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                   children: [
                     Row(
                       children: [
-                        Text(element.date.yyyymmdd),
+                        Text('${element.date.yyyymmdd}（${youbi}）'),
                         const SizedBox(width: 20),
                         Text(element.time),
                       ],
@@ -257,7 +308,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                     Container(),
                   ],
                 ),
-                Text(element.place),
+                Text(st3.join(' - ')),
                 Container(
                   alignment: Alignment.topRight,
                   child: Text(element.price.toString().toCurrency()),
@@ -276,5 +327,20 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
     return SingleChildScrollView(
       child: Column(children: list),
     );
+  }
+
+  ///
+  void makeMonthlySpendMap() {
+    final spendMonthDetailState = _ref.watch(spendMonthDetailProvider(date));
+
+    spendMonthDetailState.list.forEach((element) {
+      final list = <Map<int, String>>[];
+
+      element.item.forEach((element2) {
+        list.add({element2.price.toString().toInt(): element2.item});
+      });
+
+      monthlySpendMap[element.date.yyyymmdd] = list;
+    });
   }
 }

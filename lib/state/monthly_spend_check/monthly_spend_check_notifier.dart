@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../data/http/client.dart';
@@ -7,8 +9,9 @@ import '../../utility/utility.dart';
 import 'monthly_spend_check_state.dart';
 
 ////////////////////////////////////////////////
-final monthlySpendCheckProvider = StateNotifierProvider.autoDispose<
-    MonthlySpendCheckNotifier, MonthlySpendCheckState>((ref) {
+final monthlySpendCheckProvider = StateNotifierProvider.autoDispose
+    .family<MonthlySpendCheckNotifier, MonthlySpendCheckState, DateTime>(
+        (ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
@@ -17,7 +20,7 @@ final monthlySpendCheckProvider = StateNotifierProvider.autoDispose<
     const MonthlySpendCheckState(selectItem: []),
     client,
     utility,
-  );
+  )..getSpendCheckItem(date: date);
 });
 
 class MonthlySpendCheckNotifier extends StateNotifier<MonthlySpendCheckState> {
@@ -25,6 +28,24 @@ class MonthlySpendCheckNotifier extends StateNotifier<MonthlySpendCheckState> {
 
   final HttpClient client;
   final Utility utility;
+
+  ///
+  Future<void> getSpendCheckItem({required DateTime date}) async {
+    await client.post(
+      path: APIPath.getSpendCheckItem,
+      body: {'date': date.yyyymmdd},
+    ).then((value) {
+      final list = <String>[];
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        list.add(value['data'][i] as String);
+      }
+
+      state = state.copyWith(selectItem: list);
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
+  }
 
   ///
   Future<void> setSelectItem({required String item}) async {
@@ -45,14 +66,12 @@ class MonthlySpendCheckNotifier extends StateNotifier<MonthlySpendCheckState> {
     uploadData['date'] = date.yyyymmdd;
     uploadData['items'] = items;
 
-    print(uploadData);
-
-    // await client
-    //     .post(path: APIPath.inputSpendCheckItem, body: uploadData)
-    //     .then((value) {})
-    //     .catchError((error, _) {
-    //   utility.showError('予期せぬエラーが発生しました');
-    // });
+    await client
+        .post(path: APIPath.inputSpendCheckItem, body: uploadData)
+        .then((value) {})
+        .catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
   }
 }
 
