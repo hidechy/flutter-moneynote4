@@ -204,7 +204,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                     ),
                   ),
                   color: (monthlySpendCheckState.selectItem.contains(str))
-                      ? Colors.yellowAccent.withOpacity(0.1)
+                      ? Colors.yellowAccent.withOpacity(0.2)
                       : Colors.transparent,
                 ),
                 child: DefaultTextStyle(
@@ -289,7 +289,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                 ),
               ),
               color: (monthlySpendCheckState.selectItem.contains(str))
-                  ? Colors.yellowAccent.withOpacity(0.1)
+                  ? Colors.yellowAccent.withOpacity(0.2)
                   : Colors.transparent,
             ),
             child: Column(
