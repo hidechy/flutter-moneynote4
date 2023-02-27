@@ -66,6 +66,8 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                             ref
                                 .watch(monthlySpendCheckProvider(date).notifier)
                                 .inputCheckItem(date: date);
+
+                            Navigator.pop(context);
                           },
                           icon: const Icon(Icons.input),
                         ),
@@ -186,7 +188,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
             final str = st.join('|');
             //---------------------------------//
 
-            var youbi = _utility.getYoubi(youbiStr: element2.date.youbiStr);
+            final youbi = _utility.getYoubi(youbiStr: element2.date.youbiStr);
 
             list.add(GestureDetector(
               onTap: () {
@@ -215,7 +217,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('${element2.date.yyyymmdd}（${youbi}）'),
+                          Text('${element2.date.yyyymmdd}（$youbi）'),
                           Container(),
                         ],
                       ),
@@ -270,7 +272,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
       }
       //---------------------------------//
 
-      var youbi = _utility.getYoubi(youbiStr: element.date.youbiStr);
+      final youbi = _utility.getYoubi(youbiStr: element.date.youbiStr);
 
       list.add(
         GestureDetector(
@@ -300,7 +302,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                   children: [
                     Row(
                       children: [
-                        Text('${element.date.yyyymmdd}（${youbi}）'),
+                        Text('${element.date.yyyymmdd}（$youbi）'),
                         const SizedBox(width: 20),
                         Text(element.time),
                       ],
