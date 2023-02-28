@@ -112,7 +112,7 @@ class SpendYearlyAlert extends ConsumerWidget {
     final list = <Widget>[];
 
     var yearSum = 0;
-    var yearPercent = 0;
+    var yearPercent = 0.0;
 
     var zeikin = 0;
     final zei = ['所得税', '住民税', '年金', '国民年金基金', '国民健康保険'];
@@ -120,8 +120,9 @@ class SpendYearlyAlert extends ConsumerWidget {
     for (var i = 0; i < spendYearSummaryState.length; i++) {
       var percent = '';
       if (spendYearSummaryState[i].sum > 0) {
-        percent = '${spendYearSummaryState[i].percent.toString()} %';
-        yearPercent += spendYearSummaryState[i].percent.toInt();
+        percent = '${spendYearSummaryState[i].percent} %';
+
+        yearPercent += double.parse(spendYearSummaryState[i].percent);
       }
 
       yearSum += spendYearSummaryState[i].sum;
@@ -233,7 +234,7 @@ class SpendYearlyAlert extends ConsumerWidget {
             Expanded(
               child: Container(
                 alignment: Alignment.topRight,
-                child: Text('$yearPercent %'),
+                child: Text('${yearPercent.toInt()} %'),
               ),
             ),
           ],
