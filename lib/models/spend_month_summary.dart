@@ -25,12 +25,12 @@ class SpendMonthSummary {
       SpendMonthSummary(
         item: json['item'].toString(),
         sum: json['sum'].toString().toInt(),
-        percent: json['percent'].toString().toInt(),
+        percent: json['percent'].toString(),
       );
 
   String item;
   int sum;
-  int percent;
+  String percent;
 
   Map<String, dynamic> toJson() => {
         'item': item,

@@ -121,7 +121,7 @@ class SpendYearlyAlert extends ConsumerWidget {
       var percent = '';
       if (spendYearSummaryState[i].sum > 0) {
         percent = '${spendYearSummaryState[i].percent.toString()} %';
-        yearPercent += spendYearSummaryState[i].percent;
+        yearPercent += spendYearSummaryState[i].percent.toInt();
       }
 
       yearSum += spendYearSummaryState[i].sum;
