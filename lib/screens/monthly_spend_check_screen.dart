@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../extensions/extensions.dart';
+import '../models/bank_monthly_spend.dart';
 import '../models/credit_spend_monthly.dart';
 import '../state/monthly_spend_check/monthly_spend_check_notifier.dart';
 import '../utility/utility.dart';
+import '../viewmodel/bank_notifier.dart';
 import '../viewmodel/credit_notifier.dart';
 import '../viewmodel/spend_notifier.dart';
 import '../viewmodel/timeplace_notifier.dart';
@@ -22,6 +24,8 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
 
   Map<String, List<Map<int, String>>> monthlySpendMap = {};
 
+  Map<String, List<BankMonthlySpend>> bankMonthlySpendMap = {};
+
   late WidgetRef _ref;
 
   ///
@@ -31,18 +35,9 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
 
     makeMonthlySpendMap();
 
-    /*
-
-
-
-    print(monthlySpendMap);
-
-    flutter: {2023-01-01: [{116: 食費}, {727: 交通費}, {548: 交際費}, {10670: 交際費}, {200: お賽銭}], 2023-01-02: [{0: 食費}, {100: お賽銭}, {-16: プラス}], 2023-01-03: [{579: 食費}, {923: 交通費}, {-8: プラス}], 2023-01-04: [{1804: 食費}, {566: 交通費}, {26625: 国民年金基金}], 2023-01-05: [{999: 食費}, {566: 交通費}, {23580: credit}, {67000: 住居費}], 2023-01-06: [{0: 食費}, {2519: 水道光熱費}], 2023-01-07: [{767: 食費}, {493: 交通費}, {204: 通信費}, {2591: 水道光熱費}, {3000: 交際費}, {-6: プラス}], 2023-01-08: [{546: 食費}, {942: 交通費}], 2023-01-09: [{0: 食費}, {493: 交通費}, {-13: プラス}], 2023-01-10: [{0: 食費}, {3000: 共済代}], 2023-01-11: [{1090: 食費}, {566: 交通費}], 2023-01-12: [{1357: 食費}, {566: 交通費}, {1995: 牛乳代}], 2023-01-13: [{0: 食費}, {14850: アイアールシー}, {154: 手数料}], 2023-01-14: [{2865: 食費}, {-1: プラス}], 2023-01-15: [{890: 食費}, {1110: <…>
-
-
-    */
-
     getNext2MonthCreditSpend();
+
+    makeBankMonthlySpendMap();
 
     return Scaffold(
       body: Stack(
@@ -175,8 +170,8 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
         j = 0;
       }
 
-      /////////////////////////////////////////// credit
       if (j == 0) {
+        /////////////////////////////////////////// credit
         if (creditSpendMap[element.date.yyyymmdd] != null) {
           creditSpendMap[element.date.yyyymmdd]?.forEach((element2) {
             //---------------------------------//
@@ -236,8 +231,8 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
             ));
           });
         }
+        /////////////////////////////////////////// credit
       }
-      /////////////////////////////////////////// credit
 
       var item = '';
       if (monthlySpendMap[element.date.yyyymmdd] != null) {
@@ -349,6 +344,25 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
       });
 
       monthlySpendMap[element.date.yyyymmdd] = list;
+    });
+  }
+
+  ///
+  void makeBankMonthlySpendMap() {
+    final bankMonthlySpendState = _ref.watch(bankMonthlySpendProvider(date));
+
+    var list = <BankMonthlySpend>[];
+    var keepDay = '';
+    bankMonthlySpendState.forEach((element) {
+      if (keepDay != element.day) {
+        list = [];
+      }
+
+      list.add(element);
+
+      bankMonthlySpendMap['${date.yyyymm}-${element.day}'] = list;
+
+      keepDay = element.day;
     });
   }
 }
