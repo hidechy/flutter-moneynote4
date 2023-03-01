@@ -190,44 +190,47 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
 
             final youbi = _utility.getYoubi(youbiStr: element2.date.youbiStr);
 
-            list.add(GestureDetector(
-              onTap: () {
-                _ref
-                    .watch(monthlySpendCheckProvider(date).notifier)
-                    .setSelectItem(item: str);
-              },
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                margin: const EdgeInsets.only(bottom: 10),
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.white.withOpacity(0.3),
-                    ),
+            list.add(Container(
+              padding: const EdgeInsets.all(10),
+              margin: const EdgeInsets.only(bottom: 10),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Colors.white.withOpacity(0.3),
                   ),
-                  color: (monthlySpendCheckState.selectItem.contains(str))
-                      ? Colors.yellowAccent.withOpacity(0.2)
-                      : Colors.transparent,
                 ),
-                child: DefaultTextStyle(
-                  style: const TextStyle(color: Color(0xFFFB86CE)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('${element2.date.yyyymmdd}（$youbi）'),
-                          Container(),
-                        ],
-                      ),
-                      Text(element2.item),
-                      Container(
-                        alignment: Alignment.topRight,
-                        child: Text(element2.price),
-                      )
-                    ],
-                  ),
+                color: (monthlySpendCheckState.selectItem.contains(str))
+                    ? Colors.yellowAccent.withOpacity(0.2)
+                    : Colors.transparent,
+              ),
+              child: DefaultTextStyle(
+                style: const TextStyle(color: Color(0xFFFB86CE)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('${element2.date.yyyymmdd}（$youbi）'),
+                        GestureDetector(
+                          onTap: () {
+                            _ref
+                                .watch(monthlySpendCheckProvider(date).notifier)
+                                .setSelectItem(item: str);
+                          },
+                          child: Icon(
+                            Icons.input,
+                            color: Colors.yellowAccent.withOpacity(0.6),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text(element2.item),
+                    Container(
+                      alignment: Alignment.topRight,
+                      child: Text(element2.price),
+                    )
+                  ],
                 ),
               ),
             ));
@@ -275,48 +278,51 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
       final youbi = _utility.getYoubi(youbiStr: element.date.youbiStr);
 
       list.add(
-        GestureDetector(
-          onTap: () {
-            _ref
-                .watch(monthlySpendCheckProvider(date).notifier)
-                .setSelectItem(item: str);
-          },
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            margin: const EdgeInsets.only(bottom: 10),
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Colors.white.withOpacity(0.3),
-                ),
+        Container(
+          padding: const EdgeInsets.all(10),
+          margin: const EdgeInsets.only(bottom: 10),
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.white.withOpacity(0.3),
               ),
-              color: (monthlySpendCheckState.selectItem.contains(str))
-                  ? Colors.yellowAccent.withOpacity(0.2)
-                  : Colors.transparent,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Text('${element.date.yyyymmdd}（$youbi）'),
-                        const SizedBox(width: 20),
-                        Text(element.time),
-                      ],
+            color: (monthlySpendCheckState.selectItem.contains(str))
+                ? Colors.yellowAccent.withOpacity(0.2)
+                : Colors.transparent,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Text('${element.date.yyyymmdd}（$youbi）'),
+                      const SizedBox(width: 20),
+                      Text(element.time),
+                    ],
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      _ref
+                          .watch(monthlySpendCheckProvider(date).notifier)
+                          .setSelectItem(item: str);
+                    },
+                    child: Icon(
+                      Icons.input,
+                      color: Colors.yellowAccent.withOpacity(0.6),
                     ),
-                    Container(),
-                  ],
-                ),
-                Text(st3.join(' - ')),
-                Container(
-                  alignment: Alignment.topRight,
-                  child: Text(element.price.toString().toCurrency()),
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+              Text(st3.join(' - ')),
+              Container(
+                alignment: Alignment.topRight,
+                child: Text(element.price.toString().toCurrency()),
+              ),
+            ],
           ),
         ),
       );
