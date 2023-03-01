@@ -7,6 +7,7 @@ import '../data/http/path.dart';
 import '../extensions/extensions.dart';
 import '../models/bank_company_all.dart';
 import '../models/bank_company_change.dart';
+import '../models/bank_monthly_spend.dart';
 import '../models/bank_move.dart';
 import '../utility/utility.dart';
 
@@ -14,6 +15,7 @@ import '../utility/utility.dart';
 bankLastProvider        BankCompanyChange
 bankAllProvider       List<BankCompanyAll>
 bankMoveProvider        List<BankMove>
+bankMonthlySpendProvider        List<BankMonthlySpend>
 */
 
 ////////////////////////////////////////////////
@@ -152,6 +154,50 @@ class BankMoveNotifier extends StateNotifier<List<BankMove>> {
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         list.add(
           BankMove.fromJson(value['data'][i] as Map<String, dynamic>),
+        );
+      }
+
+      state = list;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
+  }
+}
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+
+final bankMonthlySpendProvider = StateNotifierProvider.autoDispose
+    .family<BankMonthlySpendNotifier, List<BankMonthlySpend>, DateTime>(
+        (ref, date) {
+  final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
+
+  return BankMonthlySpendNotifier(
+    [],
+    client,
+    utility,
+  )..getBankMonthlySpend(date: date);
+});
+
+class BankMonthlySpendNotifier extends StateNotifier<List<BankMonthlySpend>> {
+  BankMonthlySpendNotifier(super.state, this.client, this.utility);
+
+  final HttpClient client;
+  final Utility utility;
+
+  Future<void> getBankMonthlySpend({required DateTime date}) async {
+    await client.post(
+      path: APIPath.getMonthlyBankRecord,
+      body: {'date': date.yyyymmdd},
+    ).then((value) {
+      final list = <BankMonthlySpend>[];
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        list.add(
+          BankMonthlySpend.fromJson(value['data'][i] as Map<String, dynamic>),
         );
       }
 

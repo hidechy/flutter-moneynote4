@@ -1,43 +1,44 @@
 enum APIPath {
   amazonPurchase,
+  balanceSheetRecord,
   bankSearch,
-  getAllBank,
   benefit,
-  uccardspend,
-  getYearCreditSummarySummary,
+  carditemlist,
+  getAllBank,
+  getBankMove,
   getcompanycredit,
+  getDataShintaku,
+  getDataStock,
   getDutyData,
+  getEverydayMoney,
   getgolddata,
   getholiday,
-  homeFix,
-  mercaridata,
-  moneydl,
-  getEverydayMoney,
-  moneyinsert,
-  seiyuuPurchaseList,
-  getDataShintaku,
-  monthsummary,
+  getMonthlyBankRecord,
+  getmonthlytimeplace,
   getmonthSpendItem,
+  getSamedaySpend,
+  getSeiyuuPurchaseItemList,
+  getSpendCheckItem,
+  gettrainrecord,
+  getUdemyData,
+  getWellsRecord,
+  getYearCreditSummarySummary,
   getYearSpend,
   getYearSpendSummaySummary,
-  getDataStock,
-  getmonthlytimeplace,
-  gettrainrecord,
-  yearsummary,
-  getUdemyData,
-  updateBankMoney,
+  homeFix,
+  inputSpendCheckItem,
+  mercaridata,
+  moneydl,
+  moneyinsert,
+  monthsummary,
+  seiyuuPurchaseList,
   setBankMove,
-  getBankMove,
-  timeplacezerousedate,
-  getSeiyuuPurchaseItemList,
-  balanceSheetRecord,
-  carditemlist,
-  getSamedaySpend,
-  getWellsRecord,
   spendItemInsert,
   timeplaceInsert,
-  getSpendCheckItem,
-  inputSpendCheckItem
+  timeplacezerousedate,
+  uccardspend,
+  updateBankMoney,
+  yearsummary
 }
 
 extension APIPathExtension on APIPath {
@@ -121,6 +122,8 @@ extension APIPathExtension on APIPath {
         return 'inputSpendCheckItem';
       case APIPath.getSpendCheckItem:
         return 'getSpendCheckItem';
+      case APIPath.getMonthlyBankRecord:
+        return 'getMonthlyBankRecord';
     }
   }
 }
