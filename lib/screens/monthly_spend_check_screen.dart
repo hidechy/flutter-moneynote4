@@ -233,7 +233,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                     Text(element2.item),
                     Container(
                       alignment: Alignment.topRight,
-                      child: Text(element2.price),
+                      child: Text(element2.price.toCurrency()),
                     )
                   ],
                 ),
@@ -293,7 +293,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                     Text('${element2.item} - ${element2.bank}'),
                     Container(
                       alignment: Alignment.topRight,
-                      child: Text(element2.price),
+                      child: Text(element2.price.toCurrency()),
                     )
                   ],
                 ),
