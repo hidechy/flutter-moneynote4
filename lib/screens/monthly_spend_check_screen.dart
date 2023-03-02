@@ -209,7 +209,10 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                     : Colors.transparent,
               ),
               child: DefaultTextStyle(
-                style: const TextStyle(color: Color(0xFFFB86CE)),
+                style: const TextStyle(
+                  color: Color(0xFFFB86CE),
+                  fontSize: 12,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -242,7 +245,6 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
           });
         }
         /////////////////////////////////////////// credit
-
         /////////////////////////////////////////// bank
         if (bankMonthlySpendMap[element.date.yyyymmdd] != null) {
           bankMonthlySpendMap[element.date.yyyymmdd]?.forEach((element2) {
@@ -269,7 +271,10 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                     : Colors.transparent,
               ),
               child: DefaultTextStyle(
-                style: const TextStyle(color: Colors.lightBlueAccent),
+                style: const TextStyle(
+                  color: Colors.lightBlueAccent,
+                  fontSize: 12,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -302,7 +307,6 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
           });
         }
         /////////////////////////////////////////// bank
-
       }
 
       var item = '';
@@ -357,38 +361,41 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                 ? Colors.yellowAccent.withOpacity(0.2)
                 : Colors.transparent,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Text('${element.date.yyyymmdd}（$youbi）'),
-                      const SizedBox(width: 20),
-                      Text(element.time),
-                    ],
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      _ref
-                          .watch(monthlySpendCheckProvider(date).notifier)
-                          .setSelectItem(item: str);
-                    },
-                    child: Icon(
-                      Icons.input,
-                      color: Colors.yellowAccent.withOpacity(0.6),
+          child: DefaultTextStyle(
+            style: TextStyle(fontSize: 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Text('${element.date.yyyymmdd}（$youbi）'),
+                        const SizedBox(width: 20),
+                        Text(element.time),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              Text(st3.join(' - ')),
-              Container(
-                alignment: Alignment.topRight,
-                child: Text(element.price.toString().toCurrency()),
-              ),
-            ],
+                    GestureDetector(
+                      onTap: () {
+                        _ref
+                            .watch(monthlySpendCheckProvider(date).notifier)
+                            .setSelectItem(item: str);
+                      },
+                      child: Icon(
+                        Icons.input,
+                        color: Colors.yellowAccent.withOpacity(0.6),
+                      ),
+                    ),
+                  ],
+                ),
+                Text(st3.join(' - ')),
+                Container(
+                  alignment: Alignment.topRight,
+                  child: Text(element.price.toString().toCurrency()),
+                ),
+              ],
+            ),
           ),
         ),
       );
