@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -35,10 +35,11 @@ class MonthlyUnitSpendAlert extends ConsumerWidget {
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
-    final appParamState = _ref.watch(appParamProvider);
+    final MonthlyUnitSpendAlertSelectYear = _ref.watch(
+      appParamProvider.select((value) => value.MonthlyUnitSpendAlertSelectYear),
+    );
 
-    final dt = '${appParamState.MonthlyUnitSpendAlertSelectYear}-01-01 00:00:00'
-        .toDateTime();
+    final dt = '$MonthlyUnitSpendAlertSelectYear-01-01 00:00:00'.toDateTime();
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -93,7 +94,9 @@ class MonthlyUnitSpendAlert extends ConsumerWidget {
 
   ///
   List<Widget> makeYearWidgetList() {
-    final appParamState = _ref.watch(appParamProvider);
+    final MonthlyUnitSpendAlertSelectYear = _ref.watch(
+      appParamProvider.select((value) => value.MonthlyUnitSpendAlertSelectYear),
+    );
 
     final yearList = <Widget>[];
     for (var i = date.yyyy.toInt(); i >= 2020; i--) {
@@ -113,7 +116,7 @@ class MonthlyUnitSpendAlert extends ConsumerWidget {
             margin: const EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white.withOpacity(0.5)),
-              color: (i == appParamState.MonthlyUnitSpendAlertSelectYear)
+              color: (i == MonthlyUnitSpendAlertSelectYear)
                   ? Colors.yellowAccent.withOpacity(0.2)
                   : null,
             ),

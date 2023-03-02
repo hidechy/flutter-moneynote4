@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -68,7 +68,9 @@ class AmazonAlert extends HookConsumerWidget {
 
   ///
   List<Widget> makeYearWidgetList() {
-    final appParamState = _ref.watch(appParamProvider);
+    final AmazonAlertSelectYear = _ref.watch(
+      appParamProvider.select((value) => value.AmazonAlertSelectYear),
+    );
 
     final yearList = <Widget>[];
     for (var i = date.yyyy.toInt(); i >= 2020; i--) {
@@ -84,7 +86,7 @@ class AmazonAlert extends HookConsumerWidget {
             margin: const EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white.withOpacity(0.5)),
-              color: (i == appParamState.AmazonAlertSelectYear)
+              color: (i == AmazonAlertSelectYear)
                   ? Colors.yellowAccent.withOpacity(0.2)
                   : null,
             ),
@@ -99,11 +101,13 @@ class AmazonAlert extends HookConsumerWidget {
 
   ///
   Widget displayAmazonPurchase() {
-    final appParamState = _ref.watch(appParamProvider);
+    final AmazonAlertSelectYear = _ref.watch(
+      appParamProvider.select((value) => value.AmazonAlertSelectYear),
+    );
 
     final amazonPurchaseState = _ref.watch(
       amazonPurchaseProvider(
-        '${appParamState.AmazonAlertSelectYear}-01-01 00:00:00'.toDateTime(),
+        '$AmazonAlertSelectYear-01-01 00:00:00'.toDateTime(),
       ),
     );
 

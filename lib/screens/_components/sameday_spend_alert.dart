@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -94,7 +94,9 @@ class SamedaySpendAlert extends ConsumerWidget {
 
   ///
   Widget displayDaySelect() {
-    final appParamState = _ref.watch(appParamProvider);
+    final SamedaySpendAlertDay = _ref.watch(
+      appParamProvider.select((value) => value.SamedaySpendAlertDay),
+    );
 
     final list = <Widget>[];
 
@@ -119,7 +121,7 @@ class SamedaySpendAlert extends ConsumerWidget {
             alignment: Alignment.center,
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white),
-              color: (i == appParamState.SamedaySpendAlertDay)
+              color: (i == SamedaySpendAlertDay)
                   ? Colors.yellowAccent.withOpacity(0.2)
                   : null,
             ),

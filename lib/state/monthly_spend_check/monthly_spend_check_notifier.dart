@@ -41,7 +41,7 @@ class MonthlySpendCheckNotifier extends StateNotifier<MonthlySpendCheckState> {
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         list.add(value['data'][i] as String);
 
-        var exValue = value['data'][i].toString().split('|');
+        final exValue = value['data'][i].toString().split('|');
         monthTotal += exValue[2].toInt();
       }
 
@@ -54,12 +54,21 @@ class MonthlySpendCheckNotifier extends StateNotifier<MonthlySpendCheckState> {
   ///
   Future<void> setSelectItem({required String item}) async {
     final items = [...state.selectItem];
+    var monthTotal = state.monthTotal;
+
+    final exItem = item.split('|');
+
     if (items.contains(item)) {
       items.remove(item);
+
+      monthTotal -= exItem[2].toInt();
     } else {
       items.add(item);
+
+      monthTotal += exItem[2].toInt();
     }
-    state = state.copyWith(selectItem: items);
+
+    state = state.copyWith(selectItem: items, monthTotal: monthTotal);
   }
 
   ///

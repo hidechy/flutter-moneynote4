@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -34,11 +34,12 @@ class SpendSummaryAlert extends ConsumerWidget {
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
-    final appParamState = ref.watch(appParamProvider);
+    final SpendSummaryAlertSelectYear = ref.watch(
+      appParamProvider.select((value) => value.SpendSummaryAlertSelectYear),
+    );
 
     final spendSummaryState = ref.watch(spendSummaryProvider(
-        '${appParamState.SpendSummaryAlertSelectYear}-01-01 00:00:00'
-            .toDateTime()));
+        '$SpendSummaryAlertSelectYear-01-01 00:00:00'.toDateTime()));
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -101,7 +102,9 @@ class SpendSummaryAlert extends ConsumerWidget {
 
   ///
   List<Widget> makeYearWidgetList() {
-    final appParamState = _ref.watch(appParamProvider);
+    final SpendSummaryAlertSelectYear = _ref.watch(
+      appParamProvider.select((value) => value.SpendSummaryAlertSelectYear),
+    );
 
     final yearList = <Widget>[];
     for (var i = date.yyyy.toInt(); i >= 2020; i--) {
@@ -117,7 +120,7 @@ class SpendSummaryAlert extends ConsumerWidget {
             margin: const EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white.withOpacity(0.5)),
-              color: (i == appParamState.SpendSummaryAlertSelectYear)
+              color: (i == SpendSummaryAlertSelectYear)
                   ? Colors.yellowAccent.withOpacity(0.2)
                   : null,
             ),
@@ -134,11 +137,15 @@ class SpendSummaryAlert extends ConsumerWidget {
   Widget displaySpendSummary() {
     final oneWidth = _context.screenSize.width / 6.5;
 
-    final appParamState = _ref.watch(appParamProvider);
+    final SpendSummaryAlertSelectYear = _ref.watch(
+      appParamProvider.select((value) => value.SpendSummaryAlertSelectYear),
+    );
 
-    final spendSummaryState = _ref.watch(spendSummaryProvider(
-        '${appParamState.SpendSummaryAlertSelectYear}-01-01 00:00:00'
-            .toDateTime()));
+    final spendSummaryState = _ref.watch(
+      spendSummaryProvider(
+        '$SpendSummaryAlertSelectYear-01-01 00:00:00'.toDateTime(),
+      ),
+    );
 
     //--------------------------------------------------//
     final itemSumMap = <String, int>{};

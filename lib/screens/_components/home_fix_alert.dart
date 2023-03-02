@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, prefer_const_constructors
+// ignore_for_file: must_be_immutable, prefer_const_constructors, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -69,7 +69,9 @@ class HomeFixAlert extends ConsumerWidget {
 
   ///
   List<Widget> makeYearWidgetList() {
-    final appParamState = _ref.watch(appParamProvider);
+    final HomeFixAlertSelectYear = _ref.watch(
+      appParamProvider.select((value) => value.HomeFixAlertSelectYear),
+    );
 
     final yearList = <Widget>[];
     for (var i = date.yyyy.toInt(); i >= 2020; i--) {
@@ -85,7 +87,7 @@ class HomeFixAlert extends ConsumerWidget {
             margin: const EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white.withOpacity(0.5)),
-              color: (i == appParamState.HomeFixAlertSelectYear)
+              color: (i == HomeFixAlertSelectYear)
                   ? Colors.yellowAccent.withOpacity(0.2)
                   : null,
             ),
@@ -102,11 +104,13 @@ class HomeFixAlert extends ConsumerWidget {
   Widget displayHomeFix() {
     final list = <Widget>[];
 
-    final appParamState = _ref.watch(appParamProvider);
+    final HomeFixAlertSelectYear = _ref.watch(
+      appParamProvider.select((value) => value.HomeFixAlertSelectYear),
+    );
 
     final homeFixState = _ref.watch(
       homeFixProvider(
-        '${appParamState.HomeFixAlertSelectYear}-01-01 00:00:00'.toDateTime(),
+        '$HomeFixAlertSelectYear-01-01 00:00:00'.toDateTime(),
       ),
     );
 

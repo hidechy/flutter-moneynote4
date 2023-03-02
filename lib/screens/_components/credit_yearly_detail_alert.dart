@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -92,7 +92,10 @@ class CreditYearlyDetailAlert extends ConsumerWidget {
 
   ///
   List<Widget> makeMonthWidgetList() {
-    final appParamState = _ref.watch(appParamProvider);
+    final CreditYearlyDetailAlertSelectMonth = _ref.watch(
+      appParamProvider
+          .select((value) => value.CreditYearlyDetailAlertSelectMonth),
+    );
 
     final monthList = <Widget>[];
     for (var i = 1; i <= 12; i++) {
@@ -108,7 +111,7 @@ class CreditYearlyDetailAlert extends ConsumerWidget {
             margin: const EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white.withOpacity(0.5)),
-              color: (i == appParamState.CreditYearlyDetailAlertSelectMonth)
+              color: (i == CreditYearlyDetailAlertSelectMonth)
                   ? Colors.yellowAccent.withOpacity(0.2)
                   : null,
             ),
@@ -123,13 +126,19 @@ class CreditYearlyDetailAlert extends ConsumerWidget {
 
   ///
   Widget displaySpendYearlyDetail() {
-    final appParamState = _ref.watch(appParamProvider);
+    final CreditYearlyDetailAlertSelectMonth = _ref.watch(
+      appParamProvider
+          .select((value) => value.CreditYearlyDetailAlertSelectMonth),
+    );
 
     final list = <Widget>[];
 
-    final creditSummaryDetailState = _ref.watch(creditSummaryDetailProvider(
-        '${date.yyyy}-${appParamState.CreditYearlyDetailAlertSelectMonth.toString().padLeft(2, '0')}-01 00:00:00'
-            .toDateTime()));
+    final creditSummaryDetailState = _ref.watch(
+      creditSummaryDetailProvider(
+        '${date.yyyy}-${CreditYearlyDetailAlertSelectMonth.toString().padLeft(2, '0')}-01 00:00:00'
+            .toDateTime(),
+      ),
+    );
 
     var sum = 0;
     for (var i = 0; i < creditSummaryDetailState.length; i++) {
@@ -222,7 +231,10 @@ class CreditYearlyDetailAlert extends ConsumerWidget {
 
   ///
   Widget getLinkIcon({required String item, required int price}) {
-    final appParamState = _ref.watch(appParamProvider);
+    final CreditYearlyDetailAlertSelectMonth = _ref.watch(
+      appParamProvider
+          .select((value) => value.CreditYearlyDetailAlertSelectMonth),
+    );
 
     switch (item) {
       case 'UDEMY':
@@ -232,7 +244,7 @@ class CreditYearlyDetailAlert extends ConsumerWidget {
               context: _context,
               widget: CreditUdemyAlert(
                 date:
-                    '${date.yyyy}-${appParamState.CreditYearlyDetailAlertSelectMonth}-01 00:00:00'
+                    '${date.yyyy}-$CreditYearlyDetailAlertSelectMonth-01 00:00:00'
                         .toDateTime(),
                 price: price,
               ),

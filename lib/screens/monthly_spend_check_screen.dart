@@ -39,7 +39,9 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
 
     makeBankMonthlySpendMap();
 
-    final monthlySpendCheckState = ref.watch(monthlySpendCheckProvider(date));
+    final monthTotal = ref.watch(
+      monthlySpendCheckProvider(date).select((value) => value.monthTotal),
+    );
 
     return Scaffold(
       body: Stack(
@@ -59,11 +61,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(date.yyyymm),
-                        Text(
-                          monthlySpendCheckState.monthTotal
-                              .toString()
-                              .toCurrency(),
-                        ),
+                        Text(monthTotal.toString().toCurrency()),
                       ],
                     ),
                     Row(

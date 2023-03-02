@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -30,11 +30,12 @@ class CreditSummaryAlert extends ConsumerWidget {
 
     final yearWidgetList = makeYearWidgetList();
 
-    final appParamState = _ref.watch(appParamProvider);
+    final CreditSummaryAlertSelectYear = _ref.watch(
+      appParamProvider.select((value) => value.CreditSummaryAlertSelectYear),
+    );
 
     final creditSummaryState = _ref.watch(creditSummaryProvider(
-        '${appParamState.CreditSummaryAlertSelectYear}-01-01 00:00:00'
-            .toDateTime()));
+        '$CreditSummaryAlertSelectYear-01-01 00:00:00'.toDateTime()));
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
@@ -85,7 +86,9 @@ class CreditSummaryAlert extends ConsumerWidget {
 
   ///
   List<Widget> makeYearWidgetList() {
-    final appParamState = _ref.watch(appParamProvider);
+    final CreditSummaryAlertSelectYear = _ref.watch(
+      appParamProvider.select((value) => value.CreditSummaryAlertSelectYear),
+    );
 
     final yearList = <Widget>[];
     for (var i = date.yyyy.toInt(); i >= 2020; i--) {
@@ -101,7 +104,7 @@ class CreditSummaryAlert extends ConsumerWidget {
             margin: const EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white.withOpacity(0.5)),
-              color: (i == appParamState.CreditSummaryAlertSelectYear)
+              color: (i == CreditSummaryAlertSelectYear)
                   ? Colors.yellowAccent.withOpacity(0.2)
                   : null,
             ),
@@ -118,11 +121,15 @@ class CreditSummaryAlert extends ConsumerWidget {
   Widget displayCreditSummary() {
     final oneWidth = _context.screenSize.width / 6.5;
 
-    final appParamState = _ref.watch(appParamProvider);
+    final CreditSummaryAlertSelectYear = _ref.watch(
+      appParamProvider.select((value) => value.CreditSummaryAlertSelectYear),
+    );
 
-    final creditSummaryState = _ref.watch(creditSummaryProvider(
-        '${appParamState.CreditSummaryAlertSelectYear}-01-01 00:00:00'
-            .toDateTime()));
+    final creditSummaryState = _ref.watch(
+      creditSummaryProvider(
+        '$CreditSummaryAlertSelectYear-01-01 00:00:00'.toDateTime(),
+      ),
+    );
 
     //--------------------------------------------------//
     final itemSumMap = <String, int>{};

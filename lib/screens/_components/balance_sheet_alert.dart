@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -65,7 +65,9 @@ class BalanceSheetAlert extends ConsumerWidget {
 
   ///
   List<Widget> makeYearWidgetList() {
-    final appParamState = _ref.watch(appParamProvider);
+    final BalanceSheetAlertSelectYear = _ref.watch(
+      appParamProvider.select((value) => value.BalanceSheetAlertSelectYear),
+    );
 
     final yearList = <Widget>[];
     for (var i = date.yyyy.toInt(); i >= 2020; i--) {
@@ -81,7 +83,7 @@ class BalanceSheetAlert extends ConsumerWidget {
             margin: const EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white.withOpacity(0.5)),
-              color: (i == appParamState.BalanceSheetAlertSelectYear)
+              color: (i == BalanceSheetAlertSelectYear)
                   ? Colors.yellowAccent.withOpacity(0.2)
                   : null,
             ),
@@ -98,11 +100,15 @@ class BalanceSheetAlert extends ConsumerWidget {
   Widget displayBalanceSheet() {
     final list = <Widget>[];
 
-    final appParamState = _ref.watch(appParamProvider);
+    final BalanceSheetAlertSelectYear = _ref.watch(
+      appParamProvider.select((value) => value.BalanceSheetAlertSelectYear),
+    );
 
-    final balanceSheetState = _ref.watch(balanceSheetProvider(
-        '${appParamState.BalanceSheetAlertSelectYear}-01-01 00:00:00'
-            .toDateTime()));
+    final balanceSheetState = _ref.watch(
+      balanceSheetProvider(
+        '$BalanceSheetAlertSelectYear-01-01 00:00:00'.toDateTime(),
+      ),
+    );
 
     for (var i = 0; i < balanceSheetState.length; i++) {
       final data = balanceSheetState[i];

@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -72,7 +72,9 @@ class WellsReserveAlert extends ConsumerWidget {
 
   ///
   List<Widget> makeYearWidgetList() {
-    final appParamState = _ref.watch(appParamProvider);
+    final WellsReserveAlertYear = _ref.watch(
+      appParamProvider.select((value) => value.WellsReserveAlertYear),
+    );
 
     final yearList = <Widget>[];
     for (var i = date.yyyy.toInt(); i >= 2014; i--) {
@@ -92,7 +94,7 @@ class WellsReserveAlert extends ConsumerWidget {
             margin: const EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white.withOpacity(0.5)),
-              color: (i == appParamState.WellsReserveAlertYear)
+              color: (i == WellsReserveAlertYear)
                   ? Colors.yellowAccent.withOpacity(0.2)
                   : null,
             ),

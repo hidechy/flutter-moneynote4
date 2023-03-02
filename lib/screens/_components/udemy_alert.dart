@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, inference_failure_on_collection_literal
+// ignore_for_file: must_be_immutable, inference_failure_on_collection_literal, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -79,7 +79,9 @@ class UdemyAlert extends ConsumerWidget {
 
   ///
   List<Widget> makeYearWidgetList() {
-    final appParamState = _ref.watch(appParamProvider);
+    final UdemyAlertSelectYear = _ref.watch(
+      appParamProvider.select((value) => value.UdemyAlertSelectYear),
+    );
 
     final yearList = <Widget>[];
     for (var i = date.yyyy.toInt(); i >= 2019; i--) {
@@ -97,7 +99,7 @@ class UdemyAlert extends ConsumerWidget {
             margin: const EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white.withOpacity(0.5)),
-              color: (i == appParamState.UdemyAlertSelectYear)
+              color: (i == UdemyAlertSelectYear)
                   ? Colors.yellowAccent.withOpacity(0.2)
                   : null,
             ),
@@ -113,7 +115,9 @@ class UdemyAlert extends ConsumerWidget {
   ///
 
   List<Widget> makeCategoryWidgetList() {
-    final appParamState = _ref.watch(appParamProvider);
+    final UdemyAlertSelectYear = _ref.watch(
+      appParamProvider.select((value) => value.UdemyAlertSelectYear),
+    );
 
     final udemyState = _ref.watch(udemyProvider);
 
@@ -130,7 +134,7 @@ class UdemyAlert extends ConsumerWidget {
                   );
 
               _ref.watch(udemyProvider.notifier).getYearCategoryUdemy(
-                    year: appParamState.UdemyAlertSelectYear,
+                    year: UdemyAlertSelectYear,
                     category: udemyState[i].category,
                   );
             },

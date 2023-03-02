@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, sized_box_shrink_expand
+// ignore_for_file: must_be_immutable, sized_box_shrink_expand, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -35,7 +35,13 @@ class SeiyuAlert extends ConsumerWidget {
 
     final yearDateList = makeYearDateList();
 
-    final appParamState = ref.watch(appParamProvider);
+    final SeiyuAlertSelectYear = ref.watch(
+      appParamProvider.select((value) => value.SeiyuAlertSelectYear),
+    );
+
+    final SeiyuAlertSelectDate = ref.watch(
+      appParamProvider.select((value) => value.SeiyuAlertSelectDate),
+    );
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
@@ -80,8 +86,7 @@ class SeiyuAlert extends ConsumerWidget {
                             ref
                                 .watch(seiyuPurchaseDateProvider.notifier)
                                 .getSeiyuPurchaseList(
-                                  date:
-                                      '${appParamState.SeiyuAlertSelectYear}-$val',
+                                  date: '$SeiyuAlertSelectYear-$val',
                                 );
                           },
                           child: Container(
@@ -94,7 +99,7 @@ class SeiyuAlert extends ConsumerWidget {
                               border: Border.all(
                                 color: Colors.white.withOpacity(0.5),
                               ),
-                              color: (appParamState.SeiyuAlertSelectDate == val)
+                              color: (SeiyuAlertSelectDate == val)
                                   ? Colors.yellowAccent.withOpacity(0.3)
                                   : null,
                             ),
@@ -122,7 +127,9 @@ class SeiyuAlert extends ConsumerWidget {
 
   ///
   List<Widget> makeYearWidgetList() {
-    final appParamState = _ref.watch(appParamProvider);
+    final SeiyuAlertSelectYear = _ref.watch(
+      appParamProvider.select((value) => value.SeiyuAlertSelectYear),
+    );
 
     final yearList = <Widget>[];
     for (var i = date.yyyy.toInt(); i >= 2020; i--) {
@@ -142,7 +149,7 @@ class SeiyuAlert extends ConsumerWidget {
             margin: const EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white.withOpacity(0.5)),
-              color: (i == appParamState.SeiyuAlertSelectYear)
+              color: (i == SeiyuAlertSelectYear)
                   ? Colors.yellowAccent.withOpacity(0.2)
                   : null,
             ),

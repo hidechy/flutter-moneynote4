@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -66,7 +66,9 @@ class CreditCompanyAlert extends ConsumerWidget {
 
   ///
   List<Widget> makeYearWidgetList() {
-    final appParamState = _ref.watch(appParamProvider);
+    final CreditCompanyAlertSelectYear = _ref.watch(
+      appParamProvider.select((value) => value.CreditCompanyAlertSelectYear),
+    );
 
     final yearList = <Widget>[];
     for (var i = date.yyyy.toInt(); i >= 2020; i--) {
@@ -82,7 +84,7 @@ class CreditCompanyAlert extends ConsumerWidget {
             margin: const EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white.withOpacity(0.5)),
-              color: (i == appParamState.CreditCompanyAlertSelectYear)
+              color: (i == CreditCompanyAlertSelectYear)
                   ? Colors.yellowAccent.withOpacity(0.2)
                   : null,
             ),
@@ -97,11 +99,15 @@ class CreditCompanyAlert extends ConsumerWidget {
 
   ///
   Widget displayCreditCompany() {
-    final appParamState = _ref.watch(appParamProvider);
+    final CreditCompanyAlertSelectYear = _ref.watch(
+      appParamProvider.select((value) => value.CreditCompanyAlertSelectYear),
+    );
 
-    final creditCompanyState = _ref.watch(creditCompanyProvider(
-        '${appParamState.CreditCompanyAlertSelectYear}-01-01 00:00:00'
-            .toDateTime()));
+    final creditCompanyState = _ref.watch(
+      creditCompanyProvider(
+        '$CreditCompanyAlertSelectYear-01-01 00:00:00'.toDateTime(),
+      ),
+    );
 
     final list = <Widget>[];
 
