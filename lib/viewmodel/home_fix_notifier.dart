@@ -37,16 +37,6 @@ class HomeFixNotifier extends StateNotifier<List<HomeFix>> {
         if (date.yyyy ==
             '${value['data'][i]['ym']}-01 00:00:00'.toDateTime().yyyy) {
           list.add(
-            // HomeFix(
-            //   ym: value['data'][i]['ym'].toString(),
-            //   yachin: value['data'][i]['yachin'].toString(),
-            //   wifi: value['data'][i]['wifi'].toString(),
-            //   mobile: value['data'][i]['mobile'].toString(),
-            //   gas: value['data'][i]['gas'].toString(),
-            //   denki: value['data'][i]['denki'].toString(),
-            //   suidou: value['data'][i]['suidou'].toString(),
-            // ),
-
             HomeFix.fromJson(value['data'][i] as Map<String, dynamic>),
           );
         }

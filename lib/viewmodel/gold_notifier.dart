@@ -52,20 +52,6 @@ class GoldLastNotifier extends StateNotifier<Gold> {
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         if (value['data'][i]['gold_price'] != '-') {
-          // gold = Gold(
-          //   year: value['data'][i]['year'].toString(),
-          //   month: value['data'][i]['month'].toString(),
-          //   day: value['data'][i]['day'].toString(),
-          //   goldTanka: value['data'][i]['gold_tanka'].toString(),
-          //   upDown: value['data'][i]['up_down'].toString(),
-          //   diff: value['data'][i]['diff'].toString(),
-          //   gramNum: value['data'][i]['gram_num'].toString(),
-          //   totalGram: value['data'][i]['total_gram'].toString(),
-          //   goldValue: value['data'][i]['gold_value'].toString(),
-          //   goldPrice: value['data'][i]['gold_price'].toString(),
-          //   payPrice: value['data'][i]['pay_price'].toString(),
-          // );
-
           gold = Gold.fromJson(value['data'][i] as Map<String, dynamic>);
         }
       }
@@ -102,20 +88,6 @@ class GoldListNotifier extends StateNotifier<List<Gold>> {
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         list.add(
-          // Gold(
-          //   year: value['data'][i]['year'].toString(),
-          //   month: value['data'][i]['month'].toString(),
-          //   day: value['data'][i]['day'].toString(),
-          //   goldTanka: value['data'][i]['gold_tanka'].toString(),
-          //   upDown: value['data'][i]['up_down'].toString(),
-          //   diff: value['data'][i]['diff'].toString(),
-          //   gramNum: value['data'][i]['gram_num'].toString(),
-          //   totalGram: value['data'][i]['total_gram'].toString(),
-          //   goldValue: value['data'][i]['gold_value'].toString(),
-          //   goldPrice: value['data'][i]['gold_price'].toString(),
-          //   payPrice: value['data'][i]['pay_price'].toString(),
-          // ),
-
           Gold.fromJson(value['data'][i] as Map<String, dynamic>),
         );
       }

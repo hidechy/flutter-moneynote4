@@ -1,8 +1,6 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/models/spend_yearly_detail.dart';
-import 'package:moneynote4/state/credit_summary/credit_summary_state.dart';
 
 import '../../extensions/extensions.dart';
 import '../data/http/client.dart';
@@ -11,6 +9,8 @@ import '../models/credit_company.dart';
 import '../models/credit_spend_all.dart';
 import '../models/credit_spend_monthly.dart';
 import '../models/credit_summary.dart';
+import '../models/spend_yearly_detail.dart';
+import '../state/credit_summary/credit_summary_state.dart';
 import '../utility/utility.dart';
 
 /*
@@ -157,52 +157,16 @@ class CreditCompanyNotifier extends StateNotifier<List<CreditCompany>> {
 
       var keepYm = '';
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        //
-        // final list2 = <CreditCompanyRecord>[];
-        //
-
         for (var j = 0;
             j < value['data'][i]['list'].length.toString().toInt();
             j++) {
           if (keepYm != value['data'][i]['ym'].toString()) {
             list.add(
-              // CreditCompany(
-              //   ym: value['data'][i]['ym'].toString(),
-              //   list: list2,
-              // ),
-
               CreditCompany.fromJson(value['data'][i] as Map<String, dynamic>),
             );
           }
 
           keepYm = value['data'][i]['ym'].toString();
-
-          /*
-
-
-
-          list2.add(
-            CreditCompanyRecord(
-              company: value['data'][i]['list'][j]['company'].toString(),
-              sum: value['data'][i]['list'][j]['sum'].toString().toInt(),
-            ),
-          );
-
-          if (keepYm != value['data'][i]['ym'].toString()) {
-            list.add(
-              CreditCompany(
-                ym: value['data'][i]['ym'].toString(),
-                list: list2,
-              ),
-            );
-          }
-
-          keepYm = value['data'][i]['ym'].toString();
-
-
-
-          */
-
         }
       }
 

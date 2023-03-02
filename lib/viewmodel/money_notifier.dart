@@ -1,11 +1,11 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/models/benefit.dart';
 
 import '../data/http/client.dart';
 import '../data/http/path.dart';
 import '../extensions/extensions.dart';
+import '../models/benefit.dart';
 import '../models/money.dart';
 import '../models/money_everyday.dart';
 import '../models/money_score.dart';
@@ -15,27 +15,7 @@ import 'benefit_notifier.dart';
 /*
 moneyProvider       Money
 moneyEverydayProvider       List<MoneyEveryday>
-
-
-
-
-
-//
-//
-//
-// moneyScoreProvider        MoneyScoreState       *
-//
-//
-//
-
-
-
-
-
-
-
-
-
+moneyScoreProvider        List<MoneyScore>
 */
 
 ////////////////////////////////////////////////

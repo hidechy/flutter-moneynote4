@@ -171,6 +171,8 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
       }
 
       if (j == 0) {
+        final youbi = _utility.getYoubi(youbiStr: element.date.youbiStr);
+
         /////////////////////////////////////////// credit
         if (creditSpendMap[element.date.yyyymmdd] != null) {
           creditSpendMap[element.date.yyyymmdd]?.forEach((element2) {
@@ -182,8 +184,6 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
             st.add('credit');
             final str = st.join('|');
             //---------------------------------//
-
-            final youbi = _utility.getYoubi(youbiStr: element2.date.youbiStr);
 
             list.add(Container(
               padding: const EdgeInsets.all(10),
@@ -232,6 +232,67 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
           });
         }
         /////////////////////////////////////////// credit
+
+        /////////////////////////////////////////// bank
+        if (bankMonthlySpendMap[element.date.yyyymmdd] != null) {
+          bankMonthlySpendMap[element.date.yyyymmdd]?.forEach((element2) {
+            //---------------------------------//
+            final st = <String>[];
+            st.add(element.date.yyyymmdd);
+            st.add(element2.item.trim());
+            st.add(element2.price.trim());
+            st.add('bank');
+            final str = st.join('|');
+            //---------------------------------//
+
+            list.add(Container(
+              padding: const EdgeInsets.all(10),
+              margin: const EdgeInsets.only(bottom: 10),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Colors.white.withOpacity(0.3),
+                  ),
+                ),
+                color: (monthlySpendCheckState.selectItem.contains(str))
+                    ? Colors.yellowAccent.withOpacity(0.2)
+                    : Colors.transparent,
+              ),
+              child: DefaultTextStyle(
+                style: const TextStyle(color: Colors.lightBlueAccent),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('${element.date.yyyymmdd}（$youbi）'),
+                        GestureDetector(
+                          onTap: () {
+                            _ref
+                                .watch(monthlySpendCheckProvider(date).notifier)
+                                .setSelectItem(item: str);
+                          },
+                          child: Icon(
+                            Icons.input,
+                            color: Colors.yellowAccent.withOpacity(0.6),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text('${element2.item} - ${element2.bank}'),
+                    Container(
+                      alignment: Alignment.topRight,
+                      child: Text(element2.price),
+                    )
+                  ],
+                ),
+              ),
+            ));
+          });
+        }
+        /////////////////////////////////////////// bank
+
       }
 
       var item = '';

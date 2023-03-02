@@ -9,7 +9,8 @@ import '../models/spend_timeplace.dart';
 import '../utility/utility.dart';
 
 /*
-timeplaceProvider       List<SpendTimeplace>
+onedayTimeplaceProvider       List<SpendTimeplace>
+monthlyTimeplaceProvider        List<SpendTimeplace>
 */
 
 ////////////////////////////////////////////////

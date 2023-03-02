@@ -40,12 +40,6 @@ class DutyNotifier extends StateNotifier<List<Duty>> {
         if (date.yyyy ==
             '${value['data'][i]['date']} 00:00:00'.toDateTime().yyyy) {
           list.add(
-            // Duty(
-            //   date: value['data'][i]['date'].toString(),
-            //   duty: value['data'][i]['duty'].toString(),
-            //   price: value['data'][i]['price'].toString().toInt(),
-            // ),
-
             Duty.fromJson(value['data'][i] as Map<String, dynamic>),
           );
         }
