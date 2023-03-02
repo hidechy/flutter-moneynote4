@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$MonthlySpendCheckState {
   List<String> get selectItem => throw _privateConstructorUsedError;
+  int get monthTotal => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $MonthlySpendCheckStateCopyWith<MonthlySpendCheckState> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $MonthlySpendCheckStateCopyWith<$Res> {
           $Res Function(MonthlySpendCheckState) then) =
       _$MonthlySpendCheckStateCopyWithImpl<$Res, MonthlySpendCheckState>;
   @useResult
-  $Res call({List<String> selectItem});
+  $Res call({List<String> selectItem, int monthTotal});
 }
 
 /// @nodoc
@@ -47,12 +48,17 @@ class _$MonthlySpendCheckStateCopyWithImpl<$Res,
   @override
   $Res call({
     Object? selectItem = null,
+    Object? monthTotal = null,
   }) {
     return _then(_value.copyWith(
       selectItem: null == selectItem
           ? _value.selectItem
           : selectItem // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      monthTotal: null == monthTotal
+          ? _value.monthTotal
+          : monthTotal // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -65,7 +71,7 @@ abstract class _$$_MonthlySpendCheckStateCopyWith<$Res>
       __$$_MonthlySpendCheckStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<String> selectItem});
+  $Res call({List<String> selectItem, int monthTotal});
 }
 
 /// @nodoc
@@ -81,12 +87,17 @@ class __$$_MonthlySpendCheckStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? selectItem = null,
+    Object? monthTotal = null,
   }) {
     return _then(_$_MonthlySpendCheckState(
       selectItem: null == selectItem
           ? _value._selectItem
           : selectItem // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      monthTotal: null == monthTotal
+          ? _value.monthTotal
+          : monthTotal // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -94,7 +105,8 @@ class __$$_MonthlySpendCheckStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_MonthlySpendCheckState implements _MonthlySpendCheckState {
-  const _$_MonthlySpendCheckState({final List<String> selectItem = const []})
+  const _$_MonthlySpendCheckState(
+      {final List<String> selectItem = const [], this.monthTotal = 0})
       : _selectItem = selectItem;
 
   final List<String> _selectItem;
@@ -106,8 +118,12 @@ class _$_MonthlySpendCheckState implements _MonthlySpendCheckState {
   }
 
   @override
+  @JsonKey()
+  final int monthTotal;
+
+  @override
   String toString() {
-    return 'MonthlySpendCheckState(selectItem: $selectItem)';
+    return 'MonthlySpendCheckState(selectItem: $selectItem, monthTotal: $monthTotal)';
   }
 
   @override
@@ -116,12 +132,14 @@ class _$_MonthlySpendCheckState implements _MonthlySpendCheckState {
         (other.runtimeType == runtimeType &&
             other is _$_MonthlySpendCheckState &&
             const DeepCollectionEquality()
-                .equals(other._selectItem, _selectItem));
+                .equals(other._selectItem, _selectItem) &&
+            (identical(other.monthTotal, monthTotal) ||
+                other.monthTotal == monthTotal));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_selectItem));
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_selectItem), monthTotal);
 
   @JsonKey(ignore: true)
   @override
@@ -132,11 +150,14 @@ class _$_MonthlySpendCheckState implements _MonthlySpendCheckState {
 }
 
 abstract class _MonthlySpendCheckState implements MonthlySpendCheckState {
-  const factory _MonthlySpendCheckState({final List<String> selectItem}) =
-      _$_MonthlySpendCheckState;
+  const factory _MonthlySpendCheckState(
+      {final List<String> selectItem,
+      final int monthTotal}) = _$_MonthlySpendCheckState;
 
   @override
   List<String> get selectItem;
+  @override
+  int get monthTotal;
   @override
   @JsonKey(ignore: true)
   _$$_MonthlySpendCheckStateCopyWith<_$_MonthlySpendCheckState> get copyWith =>

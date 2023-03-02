@@ -37,11 +37,15 @@ class MonthlySpendCheckNotifier extends StateNotifier<MonthlySpendCheckState> {
     ).then((value) {
       final list = <String>[];
 
+      var monthTotal = 0;
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         list.add(value['data'][i] as String);
+
+        var exValue = value['data'][i].toString().split('|');
+        monthTotal += exValue[2].toInt();
       }
 
-      state = state.copyWith(selectItem: list);
+      state = state.copyWith(selectItem: list, monthTotal: monthTotal);
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });

@@ -6,5 +6,6 @@ part 'monthly_spend_check_state.freezed.dart';
 class MonthlySpendCheckState with _$MonthlySpendCheckState {
   const factory MonthlySpendCheckState({
     @Default([]) List<String> selectItem,
+    @Default(0) int monthTotal,
   }) = _MonthlySpendCheckState;
 }
