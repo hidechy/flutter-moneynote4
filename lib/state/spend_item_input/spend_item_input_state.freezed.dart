@@ -160,18 +160,19 @@ class __$$_SpendItemInputStateCopyWithImpl<$Res>
 
 class _$_SpendItemInputState implements _SpendItemInputState {
   const _$_SpendItemInputState(
-      {required final List<String> spendItem,
-      required final List<int> spendPrice,
-      required this.itemPos,
-      required this.baseDiff,
-      required this.diff,
-      required final List<bool> minusCheck})
+      {final List<String> spendItem = const [],
+      final List<int> spendPrice = const [],
+      this.itemPos = 0,
+      this.baseDiff = '',
+      this.diff = 0,
+      final List<bool> minusCheck = const []})
       : _spendItem = spendItem,
         _spendPrice = spendPrice,
         _minusCheck = minusCheck;
 
   final List<String> _spendItem;
   @override
+  @JsonKey()
   List<String> get spendItem {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_spendItem);
@@ -179,19 +180,24 @@ class _$_SpendItemInputState implements _SpendItemInputState {
 
   final List<int> _spendPrice;
   @override
+  @JsonKey()
   List<int> get spendPrice {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_spendPrice);
   }
 
   @override
+  @JsonKey()
   final int itemPos;
   @override
+  @JsonKey()
   final String baseDiff;
   @override
+  @JsonKey()
   final int diff;
   final List<bool> _minusCheck;
   @override
+  @JsonKey()
   List<bool> get minusCheck {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_minusCheck);
@@ -239,12 +245,12 @@ class _$_SpendItemInputState implements _SpendItemInputState {
 
 abstract class _SpendItemInputState implements SpendItemInputState {
   const factory _SpendItemInputState(
-      {required final List<String> spendItem,
-      required final List<int> spendPrice,
-      required final int itemPos,
-      required final String baseDiff,
-      required final int diff,
-      required final List<bool> minusCheck}) = _$_SpendItemInputState;
+      {final List<String> spendItem,
+      final List<int> spendPrice,
+      final int itemPos,
+      final String baseDiff,
+      final int diff,
+      final List<bool> minusCheck}) = _$_SpendItemInputState;
 
   @override
   List<String> get spendItem;

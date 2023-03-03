@@ -5,8 +5,8 @@ part 'device_info_response_state.freezed.dart';
 @freezed
 class DeviceInfoResponseState with _$DeviceInfoResponseState {
   const factory DeviceInfoResponseState({
-    required String name,
-    required String systemName,
-    required String model,
+    @Default('') String name,
+    @Default('') String systemName,
+    @Default('') String model,
   }) = _DeviceInfoResponseState;
 }

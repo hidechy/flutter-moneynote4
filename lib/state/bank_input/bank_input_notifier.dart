@@ -13,18 +13,7 @@ final bankInputProvider =
 
   final utility = Utility();
 
-  return BankInputNotifier(
-      const BankInputState(
-          bankMoney: '',
-          selectBank: '',
-          selectDate: '',
-          selectInOutFlag: 0,
-          outArrowBank: '',
-          outArrowDate: '',
-          inArrowBank: '',
-          inArrowDate: ''),
-      client,
-      utility);
+  return BankInputNotifier(const BankInputState(), client, utility);
 });
 
 class BankInputNotifier extends StateNotifier<BankInputState> {

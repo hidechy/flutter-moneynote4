@@ -6,6 +6,6 @@ part 'seiyu_purchase_item_request_state.freezed.dart';
 class SeiyuPurchaseItemRequestState with _$SeiyuPurchaseItemRequestState {
   const factory SeiyuPurchaseItemRequestState({
     required DateTime date,
-    required String item,
+    @Default('') String item,
   }) = _SeiyuPurchaseItemRequestState;
 }

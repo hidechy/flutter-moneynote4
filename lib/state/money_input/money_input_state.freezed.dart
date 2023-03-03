@@ -360,75 +360,96 @@ class __$$_MoneyInputStateCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_MoneyInputState implements _MoneyInputState {
   const _$_MoneyInputState(
-      {required this.date,
-      required this.yen10000,
-      required this.yen5000,
-      required this.yen2000,
-      required this.yen1000,
-      required this.yen500,
-      required this.yen100,
-      required this.yen50,
-      required this.yen10,
-      required this.yen5,
-      required this.yen1,
-      required this.bankA,
-      required this.bankB,
-      required this.bankC,
-      required this.bankD,
-      required this.bankE,
-      required this.payA,
-      required this.payB,
-      required this.payC,
-      required this.payD,
-      required this.payE});
+      {this.date = '',
+      this.yen10000 = '',
+      this.yen5000 = '',
+      this.yen2000 = '',
+      this.yen1000 = '',
+      this.yen500 = '',
+      this.yen100 = '',
+      this.yen50 = '',
+      this.yen10 = '',
+      this.yen5 = '',
+      this.yen1 = '',
+      this.bankA = '',
+      this.bankB = '',
+      this.bankC = '',
+      this.bankD = '',
+      this.bankE = '',
+      this.payA = '',
+      this.payB = '',
+      this.payC = '',
+      this.payD = '',
+      this.payE = ''});
 
   factory _$_MoneyInputState.fromJson(Map<String, dynamic> json) =>
       _$$_MoneyInputStateFromJson(json);
 
   @override
+  @JsonKey()
   final String date;
 //
   @override
+  @JsonKey()
   final String yen10000;
   @override
+  @JsonKey()
   final String yen5000;
   @override
+  @JsonKey()
   final String yen2000;
   @override
+  @JsonKey()
   final String yen1000;
   @override
+  @JsonKey()
   final String yen500;
   @override
+  @JsonKey()
   final String yen100;
   @override
+  @JsonKey()
   final String yen50;
   @override
+  @JsonKey()
   final String yen10;
   @override
+  @JsonKey()
   final String yen5;
   @override
+  @JsonKey()
   final String yen1;
 //
   @override
+  @JsonKey()
   final String bankA;
   @override
+  @JsonKey()
   final String bankB;
   @override
+  @JsonKey()
   final String bankC;
   @override
+  @JsonKey()
   final String bankD;
   @override
+  @JsonKey()
   final String bankE;
 //
   @override
+  @JsonKey()
   final String payA;
   @override
+  @JsonKey()
   final String payB;
   @override
+  @JsonKey()
   final String payC;
   @override
+  @JsonKey()
   final String payD;
   @override
+  @JsonKey()
   final String payE;
 
   @override
@@ -508,27 +529,27 @@ class _$_MoneyInputState implements _MoneyInputState {
 
 abstract class _MoneyInputState implements MoneyInputState {
   const factory _MoneyInputState(
-      {required final String date,
-      required final String yen10000,
-      required final String yen5000,
-      required final String yen2000,
-      required final String yen1000,
-      required final String yen500,
-      required final String yen100,
-      required final String yen50,
-      required final String yen10,
-      required final String yen5,
-      required final String yen1,
-      required final String bankA,
-      required final String bankB,
-      required final String bankC,
-      required final String bankD,
-      required final String bankE,
-      required final String payA,
-      required final String payB,
-      required final String payC,
-      required final String payD,
-      required final String payE}) = _$_MoneyInputState;
+      {final String date,
+      final String yen10000,
+      final String yen5000,
+      final String yen2000,
+      final String yen1000,
+      final String yen500,
+      final String yen100,
+      final String yen50,
+      final String yen10,
+      final String yen5,
+      final String yen1,
+      final String bankA,
+      final String bankB,
+      final String bankC,
+      final String bankD,
+      final String bankE,
+      final String payA,
+      final String payB,
+      final String payC,
+      final String payD,
+      final String payE}) = _$_MoneyInputState;
 
   factory _MoneyInputState.fromJson(Map<String, dynamic> json) =
       _$_MoneyInputState.fromJson;

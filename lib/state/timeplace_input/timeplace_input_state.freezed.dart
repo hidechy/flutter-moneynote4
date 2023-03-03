@@ -173,13 +173,13 @@ class __$$_TimeplaceInputStateCopyWithImpl<$Res>
 
 class _$_TimeplaceInputState implements _TimeplaceInputState {
   const _$_TimeplaceInputState(
-      {required final List<String> time,
-      required final List<String> place,
-      required final List<int> spendPrice,
-      required this.itemPos,
-      required this.baseDiff,
-      required this.diff,
-      required final List<bool> minusCheck})
+      {final List<String> time = const [],
+      final List<String> place = const [],
+      final List<int> spendPrice = const [],
+      this.itemPos = 0,
+      this.baseDiff = '',
+      this.diff = 0,
+      final List<bool> minusCheck = const []})
       : _time = time,
         _place = place,
         _spendPrice = spendPrice,
@@ -187,6 +187,7 @@ class _$_TimeplaceInputState implements _TimeplaceInputState {
 
   final List<String> _time;
   @override
+  @JsonKey()
   List<String> get time {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_time);
@@ -194,6 +195,7 @@ class _$_TimeplaceInputState implements _TimeplaceInputState {
 
   final List<String> _place;
   @override
+  @JsonKey()
   List<String> get place {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_place);
@@ -201,19 +203,24 @@ class _$_TimeplaceInputState implements _TimeplaceInputState {
 
   final List<int> _spendPrice;
   @override
+  @JsonKey()
   List<int> get spendPrice {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_spendPrice);
   }
 
   @override
+  @JsonKey()
   final int itemPos;
   @override
+  @JsonKey()
   final String baseDiff;
   @override
+  @JsonKey()
   final int diff;
   final List<bool> _minusCheck;
   @override
+  @JsonKey()
   List<bool> get minusCheck {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_minusCheck);
@@ -262,13 +269,13 @@ class _$_TimeplaceInputState implements _TimeplaceInputState {
 
 abstract class _TimeplaceInputState implements TimeplaceInputState {
   const factory _TimeplaceInputState(
-      {required final List<String> time,
-      required final List<String> place,
-      required final List<int> spendPrice,
-      required final int itemPos,
-      required final String baseDiff,
-      required final int diff,
-      required final List<bool> minusCheck}) = _$_TimeplaceInputState;
+      {final List<String> time,
+      final List<String> place,
+      final List<int> spendPrice,
+      final int itemPos,
+      final String baseDiff,
+      final int diff,
+      final List<bool> minusCheck}) = _$_TimeplaceInputState;
 
   @override
   List<String> get time;

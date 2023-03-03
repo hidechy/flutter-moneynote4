@@ -1,35 +1,11 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../extensions/extensions.dart';
-
 import 'app_param_state.dart';
 
 ////////////////////////////////////////////////
 final appParamProvider =
     StateNotifierProvider.autoDispose<AppParamNotifier, AppParamState>((ref) {
-  final year = DateTime.now().yyyy;
-
-  return AppParamNotifier(
-    AppParamState(
-      AmazonAlertSelectYear: year.toInt(),
-      CreditCompanyAlertSelectYear: year.toInt(),
-      CreditSummaryAlertSelectYear: year.toInt(),
-      CreditYearlyDetailAlertSelectMonth: 1,
-      DutyAlertSelectYear: year.toInt(),
-      HomeFixAlertSelectYear: year.toInt(),
-      SeiyuAlertSelectYear: year.toInt(),
-      SeiyuAlertSelectDate: '',
-      SpendSummaryAlertSelectYear: year.toInt(),
-      SpendYearlyAlertSelectYear: year.toInt(),
-      TrainAlertSelectYear: year.toInt(),
-      UdemyAlertSelectYear: year.toInt(),
-      UdemyAlertSelectCategory: '',
-      BalanceSheetAlertSelectYear: year.toInt(),
-      MonthlyUnitSpendAlertSelectYear: year.toInt(),
-      SamedaySpendAlertDay: DateTime.now().dd.toInt(),
-      WellsReserveAlertYear: year.toInt(),
-    ),
-  );
+  return AppParamNotifier(const AppParamState());
 });
 
 class AppParamNotifier extends StateNotifier<AppParamState> {

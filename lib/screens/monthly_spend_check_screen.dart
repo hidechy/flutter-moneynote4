@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/_money_dialog.dart';
 
 import '../extensions/extensions.dart';
 import '../models/bank_monthly_spend.dart';
@@ -12,6 +13,7 @@ import '../viewmodel/bank_notifier.dart';
 import '../viewmodel/credit_notifier.dart';
 import '../viewmodel/spend_notifier.dart';
 import '../viewmodel/timeplace_notifier.dart';
+import '_components/keihi_setting_alert.dart';
 
 class MonthlySpendCheckScreen extends ConsumerWidget {
   MonthlySpendCheckScreen({super.key, required this.date});
@@ -31,11 +33,13 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
   DateTime? prevMonth;
   DateTime? nextMonth;
 
+  late BuildContext _context;
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    _context = context;
     _ref = ref;
 
     prevMonth = DateTime(date.year, date.month - 1);
@@ -271,7 +275,13 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                             if (itemIdsMap[str] != null) ...[
                               GestureDetector(
                                 onTap: () {
-                                  print(itemIdsMap[str]);
+                                  MoneyDialog(
+                                    context: _context,
+                                    widget: KeihiSettingAlert(
+                                      id: itemIdsMap[str].toString().toInt(),
+                                      str: str,
+                                    ),
+                                  );
                                 },
                                 child: Icon(
                                   Icons.ac_unit,
@@ -350,7 +360,13 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                             if (itemIdsMap[str] != null) ...[
                               GestureDetector(
                                 onTap: () {
-                                  print(itemIdsMap[str]);
+                                  MoneyDialog(
+                                    context: _context,
+                                    widget: KeihiSettingAlert(
+                                      id: itemIdsMap[str].toString().toInt(),
+                                      str: str,
+                                    ),
+                                  );
                                 },
                                 child: Icon(
                                   Icons.ac_unit,
@@ -461,7 +477,13 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                         if (itemIdsMap[str] != null) ...[
                           GestureDetector(
                             onTap: () {
-                              print(itemIdsMap[str]);
+                              MoneyDialog(
+                                context: _context,
+                                widget: KeihiSettingAlert(
+                                  id: itemIdsMap[str].toString().toInt(),
+                                  str: str,
+                                ),
+                              );
                             },
                             child: Icon(
                               Icons.ac_unit,

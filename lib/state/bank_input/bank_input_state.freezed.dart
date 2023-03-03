@@ -186,33 +186,41 @@ class __$$_BankInputStateCopyWithImpl<$Res>
 
 class _$_BankInputState implements _BankInputState {
   const _$_BankInputState(
-      {required this.bankMoney,
-      required this.selectBank,
-      required this.selectDate,
-      required this.selectInOutFlag,
-      required this.outArrowBank,
-      required this.outArrowDate,
-      required this.inArrowBank,
-      required this.inArrowDate});
+      {this.bankMoney = '',
+      this.selectBank = '',
+      this.selectDate = '',
+      this.selectInOutFlag = 0,
+      this.outArrowBank = '',
+      this.outArrowDate = '',
+      this.inArrowBank = '',
+      this.inArrowDate = ''});
 
   @override
+  @JsonKey()
   final String bankMoney;
 //
   @override
+  @JsonKey()
   final String selectBank;
   @override
+  @JsonKey()
   final String selectDate;
 //
   @override
+  @JsonKey()
   final int selectInOutFlag;
 //
   @override
+  @JsonKey()
   final String outArrowBank;
   @override
+  @JsonKey()
   final String outArrowDate;
   @override
+  @JsonKey()
   final String inArrowBank;
   @override
+  @JsonKey()
   final String inArrowDate;
 
   @override
@@ -264,14 +272,14 @@ class _$_BankInputState implements _BankInputState {
 
 abstract class _BankInputState implements BankInputState {
   const factory _BankInputState(
-      {required final String bankMoney,
-      required final String selectBank,
-      required final String selectDate,
-      required final int selectInOutFlag,
-      required final String outArrowBank,
-      required final String outArrowDate,
-      required final String inArrowBank,
-      required final String inArrowDate}) = _$_BankInputState;
+      {final String bankMoney,
+      final String selectBank,
+      final String selectDate,
+      final int selectInOutFlag,
+      final String outArrowBank,
+      final String outArrowDate,
+      final String inArrowBank,
+      final String inArrowDate}) = _$_BankInputState;
 
   @override
   String get bankMoney;

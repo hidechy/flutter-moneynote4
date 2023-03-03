@@ -5,16 +5,16 @@ part 'bank_input_state.freezed.dart';
 @freezed
 class BankInputState with _$BankInputState {
   const factory BankInputState({
-    required String bankMoney,
+    @Default('') String bankMoney,
     //
-    required String selectBank,
-    required String selectDate,
+    @Default('') String selectBank,
+    @Default('') String selectDate,
     //
-    required int selectInOutFlag,
+    @Default(0) int selectInOutFlag,
     //
-    required String outArrowBank,
-    required String outArrowDate,
-    required String inArrowBank,
-    required String inArrowDate,
+    @Default('') String outArrowBank,
+    @Default('') String outArrowDate,
+    @Default('') String inArrowBank,
+    @Default('') String inArrowDate,
   }) = _BankInputState;
 }

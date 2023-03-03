@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SpendYearlyItemState {
-  DateTime get date => throw _privateConstructorUsedError;
+  DateTime? get date => throw _privateConstructorUsedError;
   String get item => throw _privateConstructorUsedError;
   int? get price => throw _privateConstructorUsedError;
 
@@ -31,7 +31,7 @@ abstract class $SpendYearlyItemStateCopyWith<$Res> {
           $Res Function(SpendYearlyItemState) then) =
       _$SpendYearlyItemStateCopyWithImpl<$Res, SpendYearlyItemState>;
   @useResult
-  $Res call({DateTime date, String item, int? price});
+  $Res call({DateTime? date, String item, int? price});
 }
 
 /// @nodoc
@@ -48,15 +48,15 @@ class _$SpendYearlyItemStateCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? date = null,
+    Object? date = freezed,
     Object? item = null,
     Object? price = freezed,
   }) {
     return _then(_value.copyWith(
-      date: null == date
+      date: freezed == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
       item: null == item
           ? _value.item
           : item // ignore: cast_nullable_to_non_nullable
@@ -77,7 +77,7 @@ abstract class _$$_SpendYearlyItemStateCopyWith<$Res>
       __$$_SpendYearlyItemStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({DateTime date, String item, int? price});
+  $Res call({DateTime? date, String item, int? price});
 }
 
 /// @nodoc
@@ -91,15 +91,15 @@ class __$$_SpendYearlyItemStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? date = null,
+    Object? date = freezed,
     Object? item = null,
     Object? price = freezed,
   }) {
     return _then(_$_SpendYearlyItemState(
-      date: null == date
+      date: freezed == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
       item: null == item
           ? _value.item
           : item // ignore: cast_nullable_to_non_nullable
@@ -115,12 +115,12 @@ class __$$_SpendYearlyItemStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_SpendYearlyItemState implements _SpendYearlyItemState {
-  const _$_SpendYearlyItemState(
-      {required this.date, required this.item, this.price});
+  const _$_SpendYearlyItemState({this.date, this.item = '', this.price});
 
   @override
-  final DateTime date;
+  final DateTime? date;
   @override
+  @JsonKey()
   final String item;
   @override
   final int? price;
@@ -153,12 +153,12 @@ class _$_SpendYearlyItemState implements _SpendYearlyItemState {
 
 abstract class _SpendYearlyItemState implements SpendYearlyItemState {
   const factory _SpendYearlyItemState(
-      {required final DateTime date,
-      required final String item,
+      {final DateTime? date,
+      final String item,
       final int? price}) = _$_SpendYearlyItemState;
 
   @override
-  DateTime get date;
+  DateTime? get date;
   @override
   String get item;
   @override

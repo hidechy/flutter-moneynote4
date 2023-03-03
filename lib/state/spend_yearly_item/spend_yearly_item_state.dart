@@ -5,8 +5,8 @@ part 'spend_yearly_item_state.freezed.dart';
 @freezed
 class SpendYearlyItemState with _$SpendYearlyItemState {
   const factory SpendYearlyItemState({
-    required DateTime date,
-    required String item,
+    DateTime? date,
+    @Default('') String item,
     int? price,
   }) = _SpendYearlyItemState;
 }

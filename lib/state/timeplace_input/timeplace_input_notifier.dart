@@ -14,29 +14,7 @@ final timeplaceInputProvider = StateNotifierProvider.autoDispose
 
   final utility = Utility();
 
-  final list = <String>[];
-  final list2 = <int>[];
-  final list3 = <bool>[];
-  final list4 = <String>[];
-  for (var i = 0; i < 10; i++) {
-    list.add('');
-    list2.add(0);
-    list3.add(false);
-    list4.add('');
-  }
-
-  return TimeplaceInputNotifier(
-      TimeplaceInputState(
-        baseDiff: baseDiff,
-        diff: 0,
-        itemPos: 0,
-        time: list,
-        place: list4,
-        spendPrice: list2,
-        minusCheck: list3,
-      ),
-      client,
-      utility);
+  return TimeplaceInputNotifier(const TimeplaceInputState(), client, utility);
 });
 
 class TimeplaceInputNotifier extends StateNotifier<TimeplaceInputState> {

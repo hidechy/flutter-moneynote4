@@ -103,11 +103,13 @@ class __$$_HomeMenuStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_HomeMenuState implements _HomeMenuState {
-  const _$_HomeMenuState({required this.menuFlag, required this.menuName});
+  const _$_HomeMenuState({this.menuFlag = '', this.menuName = ''});
 
   @override
+  @JsonKey()
   final String menuFlag;
   @override
+  @JsonKey()
   final String menuName;
 
   @override
@@ -137,9 +139,8 @@ class _$_HomeMenuState implements _HomeMenuState {
 }
 
 abstract class _HomeMenuState implements HomeMenuState {
-  const factory _HomeMenuState(
-      {required final String menuFlag,
-      required final String menuName}) = _$_HomeMenuState;
+  const factory _HomeMenuState({final String menuFlag, final String menuName}) =
+      _$_HomeMenuState;
 
   @override
   String get menuFlag;

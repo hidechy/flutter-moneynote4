@@ -7,30 +7,30 @@ part 'money_input_state.g.dart';
 @freezed
 class MoneyInputState with _$MoneyInputState {
   const factory MoneyInputState({
-    required String date,
+    @Default('') String date,
     //
-    required String yen10000,
-    required String yen5000,
-    required String yen2000,
-    required String yen1000,
-    required String yen500,
-    required String yen100,
-    required String yen50,
-    required String yen10,
-    required String yen5,
-    required String yen1,
+    @Default('') String yen10000,
+    @Default('') String yen5000,
+    @Default('') String yen2000,
+    @Default('') String yen1000,
+    @Default('') String yen500,
+    @Default('') String yen100,
+    @Default('') String yen50,
+    @Default('') String yen10,
+    @Default('') String yen5,
+    @Default('') String yen1,
     //
-    required String bankA,
-    required String bankB,
-    required String bankC,
-    required String bankD,
-    required String bankE,
+    @Default('') String bankA,
+    @Default('') String bankB,
+    @Default('') String bankC,
+    @Default('') String bankD,
+    @Default('') String bankE,
     //
-    required String payA,
-    required String payB,
-    required String payC,
-    required String payD,
-    required String payE,
+    @Default('') String payA,
+    @Default('') String payB,
+    @Default('') String payC,
+    @Default('') String payD,
+    @Default('') String payE,
   }) = _MoneyInputState;
 
   factory MoneyInputState.fromJson(Map<String, dynamic> json) =>

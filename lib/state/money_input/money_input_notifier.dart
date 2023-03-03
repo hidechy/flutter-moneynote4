@@ -50,32 +50,7 @@ final moneyInputProvider =
 
   final utility = Utility();
 
-  return MoneyInputNotifier(
-      const MoneyInputState(
-        date: '',
-        yen10000: '',
-        yen5000: '',
-        yen2000: '',
-        yen1000: '',
-        yen500: '',
-        yen100: '',
-        yen50: '',
-        yen10: '',
-        yen5: '',
-        yen1: '',
-        bankA: '',
-        bankB: '',
-        bankC: '',
-        bankD: '',
-        bankE: '',
-        payA: '',
-        payB: '',
-        payC: '',
-        payD: '',
-        payE: '',
-      ),
-      client,
-      utility);
+  return MoneyInputNotifier(const MoneyInputState(), client, utility);
 });
 
 class MoneyInputNotifier extends StateNotifier<MoneyInputState> {

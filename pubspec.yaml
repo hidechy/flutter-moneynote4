@@ -49,6 +49,7 @@ flutter:
   assets:
     - assets/images/
     - assets/sounds/
+    - assets/csv/
 
 flutter_native_splash:
   image: "assets/images/money.png"

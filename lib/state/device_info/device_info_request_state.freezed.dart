@@ -117,13 +117,16 @@ class __$$_DeviceInfoRequestStateCopyWithImpl<$Res>
 
 class _$_DeviceInfoRequestState implements _DeviceInfoRequestState {
   const _$_DeviceInfoRequestState(
-      {required this.name, required this.systemName, required this.model});
+      {this.name = '', this.systemName = '', this.model = ''});
 
   @override
+  @JsonKey()
   final String name;
   @override
+  @JsonKey()
   final String systemName;
   @override
+  @JsonKey()
   final String model;
 
   @override
@@ -155,9 +158,9 @@ class _$_DeviceInfoRequestState implements _DeviceInfoRequestState {
 
 abstract class _DeviceInfoRequestState implements DeviceInfoRequestState {
   const factory _DeviceInfoRequestState(
-      {required final String name,
-      required final String systemName,
-      required final String model}) = _$_DeviceInfoRequestState;
+      {final String name,
+      final String systemName,
+      final String model}) = _$_DeviceInfoRequestState;
 
   @override
   String get name;

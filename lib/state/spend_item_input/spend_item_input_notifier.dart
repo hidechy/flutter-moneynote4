@@ -14,26 +14,7 @@ final spendItemInputProvider = StateNotifierProvider.autoDispose
 
   final utility = Utility();
 
-  final list = <String>[];
-  final list2 = <int>[];
-  final list3 = <bool>[];
-  for (var i = 0; i < 10; i++) {
-    list.add('');
-    list2.add(0);
-    list3.add(false);
-  }
-
-  return SpendItemInputNotifier(
-      SpendItemInputState(
-        baseDiff: baseDiff,
-        diff: 0,
-        itemPos: 0,
-        spendItem: list,
-        spendPrice: list2,
-        minusCheck: list3,
-      ),
-      client,
-      utility);
+  return SpendItemInputNotifier(const SpendItemInputState(), client, utility);
 });
 
 class SpendItemInputNotifier extends StateNotifier<SpendItemInputState> {

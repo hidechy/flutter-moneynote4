@@ -5,7 +5,7 @@ part 'home_menu_state.freezed.dart';
 @freezed
 class HomeMenuState with _$HomeMenuState {
   const factory HomeMenuState({
-    required String menuFlag,
-    required String menuName,
+    @Default('') String menuFlag,
+    @Default('') String menuName,
   }) = _HomeMenuState;
 }

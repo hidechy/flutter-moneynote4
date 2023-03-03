@@ -101,7 +101,7 @@ class SpendYearlyItemAlert extends ConsumerWidget {
 
     for (var i = 0; i < spendYearlyItemState.length; i++) {
       final youbi = _utility.getYoubi(
-        youbiStr: spendYearlyItemState[i].date.youbiStr,
+        youbiStr: spendYearlyItemState[i].date!.youbiStr,
       );
 
       list.add(
@@ -114,15 +114,15 @@ class SpendYearlyItemAlert extends ConsumerWidget {
               ),
             ),
             color: _utility.getYoubiColor(
-              date: spendYearlyItemState[i].date,
-              youbiStr: spendYearlyItemState[i].date.youbiStr,
+              date: spendYearlyItemState[i].date!,
+              youbiStr: spendYearlyItemState[i].date!.youbiStr,
               holiday: holidayState.data,
             ),
           ),
           child: Row(
             children: [
               Expanded(
-                child: Text('${spendYearlyItemState[i].date.mmdd}（$youbi）'),
+                child: Text('${spendYearlyItemState[i].date!.mmdd}（$youbi）'),
               ),
               Expanded(
                 child: Text(spendYearlyItemState[i].item),
@@ -142,7 +142,7 @@ class SpendYearlyItemAlert extends ConsumerWidget {
                         MoneyDialog(
                           context: _context,
                           widget: SpendTimeplaceAlert(
-                            date: spendYearlyItemState[i].date,
+                            date: spendYearlyItemState[i].date!,
                             item: item,
                             price: spendYearlyItemState[i].price!,
                           ),

@@ -273,7 +273,7 @@ class SpendYearlyItemNotifier
   Future<void> getSpendYearlyItem({required SpendYearlyItemState param}) async {
     await client.post(
       path: APIPath.getYearSpend,
-      body: {'date': param.date.yyyymmdd},
+      body: {'date': param.date!.yyyymmdd},
     ).then((value) {
       final list = <SpendYearlyItemState>[];
 

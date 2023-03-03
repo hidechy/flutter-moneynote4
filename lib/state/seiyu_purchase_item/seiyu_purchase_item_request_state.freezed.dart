@@ -110,12 +110,12 @@ class __$$_SeiyuPurchaseItemRequestStateCopyWithImpl<$Res>
 
 class _$_SeiyuPurchaseItemRequestState
     implements _SeiyuPurchaseItemRequestState {
-  const _$_SeiyuPurchaseItemRequestState(
-      {required this.date, required this.item});
+  const _$_SeiyuPurchaseItemRequestState({required this.date, this.item = ''});
 
   @override
   final DateTime date;
   @override
+  @JsonKey()
   final String item;
 
   @override
@@ -147,7 +147,7 @@ abstract class _SeiyuPurchaseItemRequestState
     implements SeiyuPurchaseItemRequestState {
   const factory _SeiyuPurchaseItemRequestState(
       {required final DateTime date,
-      required final String item}) = _$_SeiyuPurchaseItemRequestState;
+      final String item}) = _$_SeiyuPurchaseItemRequestState;
 
   @override
   DateTime get date;

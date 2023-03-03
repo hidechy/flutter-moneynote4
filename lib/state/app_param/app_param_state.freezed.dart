@@ -306,57 +306,74 @@ class __$$_AppParamStateCopyWithImpl<$Res>
 
 class _$_AppParamState implements _AppParamState {
   const _$_AppParamState(
-      {required this.AmazonAlertSelectYear,
-      required this.CreditCompanyAlertSelectYear,
-      required this.CreditSummaryAlertSelectYear,
-      required this.CreditYearlyDetailAlertSelectMonth,
-      required this.DutyAlertSelectYear,
-      required this.HomeFixAlertSelectYear,
-      required this.SeiyuAlertSelectYear,
-      required this.SeiyuAlertSelectDate,
-      required this.SpendSummaryAlertSelectYear,
-      required this.SpendYearlyAlertSelectYear,
-      required this.TrainAlertSelectYear,
-      required this.UdemyAlertSelectYear,
-      required this.UdemyAlertSelectCategory,
-      required this.BalanceSheetAlertSelectYear,
-      required this.MonthlyUnitSpendAlertSelectYear,
-      required this.SamedaySpendAlertDay,
-      required this.WellsReserveAlertYear});
+      {this.AmazonAlertSelectYear = 0,
+      this.CreditCompanyAlertSelectYear = 0,
+      this.CreditSummaryAlertSelectYear = 0,
+      this.CreditYearlyDetailAlertSelectMonth = 0,
+      this.DutyAlertSelectYear = 0,
+      this.HomeFixAlertSelectYear = 0,
+      this.SeiyuAlertSelectYear = 0,
+      this.SeiyuAlertSelectDate = '',
+      this.SpendSummaryAlertSelectYear = 0,
+      this.SpendYearlyAlertSelectYear = 0,
+      this.TrainAlertSelectYear = 0,
+      this.UdemyAlertSelectYear = 0,
+      this.UdemyAlertSelectCategory = '',
+      this.BalanceSheetAlertSelectYear = 0,
+      this.MonthlyUnitSpendAlertSelectYear = 0,
+      this.SamedaySpendAlertDay = 0,
+      this.WellsReserveAlertYear = 0});
 
   @override
+  @JsonKey()
   final int AmazonAlertSelectYear;
   @override
+  @JsonKey()
   final int CreditCompanyAlertSelectYear;
   @override
+  @JsonKey()
   final int CreditSummaryAlertSelectYear;
   @override
+  @JsonKey()
   final int CreditYearlyDetailAlertSelectMonth;
   @override
+  @JsonKey()
   final int DutyAlertSelectYear;
   @override
+  @JsonKey()
   final int HomeFixAlertSelectYear;
   @override
+  @JsonKey()
   final int SeiyuAlertSelectYear;
   @override
+  @JsonKey()
   final String SeiyuAlertSelectDate;
   @override
+  @JsonKey()
   final int SpendSummaryAlertSelectYear;
   @override
+  @JsonKey()
   final int SpendYearlyAlertSelectYear;
   @override
+  @JsonKey()
   final int TrainAlertSelectYear;
   @override
+  @JsonKey()
   final int UdemyAlertSelectYear;
   @override
+  @JsonKey()
   final String UdemyAlertSelectCategory;
   @override
+  @JsonKey()
   final int BalanceSheetAlertSelectYear;
   @override
+  @JsonKey()
   final int MonthlyUnitSpendAlertSelectYear;
   @override
+  @JsonKey()
   final int SamedaySpendAlertDay;
   @override
+  @JsonKey()
   final int WellsReserveAlertYear;
 
   @override
@@ -443,23 +460,23 @@ class _$_AppParamState implements _AppParamState {
 
 abstract class _AppParamState implements AppParamState {
   const factory _AppParamState(
-      {required final int AmazonAlertSelectYear,
-      required final int CreditCompanyAlertSelectYear,
-      required final int CreditSummaryAlertSelectYear,
-      required final int CreditYearlyDetailAlertSelectMonth,
-      required final int DutyAlertSelectYear,
-      required final int HomeFixAlertSelectYear,
-      required final int SeiyuAlertSelectYear,
-      required final String SeiyuAlertSelectDate,
-      required final int SpendSummaryAlertSelectYear,
-      required final int SpendYearlyAlertSelectYear,
-      required final int TrainAlertSelectYear,
-      required final int UdemyAlertSelectYear,
-      required final String UdemyAlertSelectCategory,
-      required final int BalanceSheetAlertSelectYear,
-      required final int MonthlyUnitSpendAlertSelectYear,
-      required final int SamedaySpendAlertDay,
-      required final int WellsReserveAlertYear}) = _$_AppParamState;
+      {final int AmazonAlertSelectYear,
+      final int CreditCompanyAlertSelectYear,
+      final int CreditSummaryAlertSelectYear,
+      final int CreditYearlyDetailAlertSelectMonth,
+      final int DutyAlertSelectYear,
+      final int HomeFixAlertSelectYear,
+      final int SeiyuAlertSelectYear,
+      final String SeiyuAlertSelectDate,
+      final int SpendSummaryAlertSelectYear,
+      final int SpendYearlyAlertSelectYear,
+      final int TrainAlertSelectYear,
+      final int UdemyAlertSelectYear,
+      final String UdemyAlertSelectCategory,
+      final int BalanceSheetAlertSelectYear,
+      final int MonthlyUnitSpendAlertSelectYear,
+      final int SamedaySpendAlertDay,
+      final int WellsReserveAlertYear}) = _$_AppParamState;
 
   @override
   int get AmazonAlertSelectYear;
