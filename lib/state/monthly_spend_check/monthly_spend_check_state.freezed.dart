@@ -21,6 +21,7 @@ mixin _$MonthlySpendCheckState {
       throw _privateConstructorUsedError;
   int get monthTotal => throw _privateConstructorUsedError;
   dynamic get selectedCategory => throw _privateConstructorUsedError;
+  dynamic get errorMsg => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $MonthlySpendCheckStateCopyWith<MonthlySpendCheckState> get copyWith =>
@@ -37,7 +38,8 @@ abstract class $MonthlySpendCheckStateCopyWith<$Res> {
       {List<String> selectItems,
       List<Map<String, dynamic>> checkItems,
       int monthTotal,
-      dynamic selectedCategory});
+      dynamic selectedCategory,
+      dynamic errorMsg});
 }
 
 /// @nodoc
@@ -58,6 +60,7 @@ class _$MonthlySpendCheckStateCopyWithImpl<$Res,
     Object? checkItems = null,
     Object? monthTotal = null,
     Object? selectedCategory = null,
+    Object? errorMsg = null,
   }) {
     return _then(_value.copyWith(
       selectItems: null == selectItems
@@ -76,6 +79,10 @@ class _$MonthlySpendCheckStateCopyWithImpl<$Res,
           ? _value.selectedCategory
           : selectedCategory // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      errorMsg: null == errorMsg
+          ? _value.errorMsg
+          : errorMsg // ignore: cast_nullable_to_non_nullable
+              as dynamic,
     ) as $Val);
   }
 }
@@ -92,7 +99,8 @@ abstract class _$$_MonthlySpendCheckStateCopyWith<$Res>
       {List<String> selectItems,
       List<Map<String, dynamic>> checkItems,
       int monthTotal,
-      dynamic selectedCategory});
+      dynamic selectedCategory,
+      dynamic errorMsg});
 }
 
 /// @nodoc
@@ -111,6 +119,7 @@ class __$$_MonthlySpendCheckStateCopyWithImpl<$Res>
     Object? checkItems = null,
     Object? monthTotal = null,
     Object? selectedCategory = null,
+    Object? errorMsg = null,
   }) {
     return _then(_$_MonthlySpendCheckState(
       selectItems: null == selectItems
@@ -127,6 +136,7 @@ class __$$_MonthlySpendCheckStateCopyWithImpl<$Res>
               as int,
       selectedCategory:
           null == selectedCategory ? _value.selectedCategory : selectedCategory,
+      errorMsg: null == errorMsg ? _value.errorMsg : errorMsg,
     ));
   }
 }
@@ -138,7 +148,8 @@ class _$_MonthlySpendCheckState implements _MonthlySpendCheckState {
       {final List<String> selectItems = const [],
       final List<Map<String, dynamic>> checkItems = const [],
       this.monthTotal = 0,
-      this.selectedCategory = ''})
+      this.selectedCategory = '',
+      this.errorMsg = ''})
       : _selectItems = selectItems,
         _checkItems = checkItems;
 
@@ -164,10 +175,13 @@ class _$_MonthlySpendCheckState implements _MonthlySpendCheckState {
   @override
   @JsonKey()
   final dynamic selectedCategory;
+  @override
+  @JsonKey()
+  final dynamic errorMsg;
 
   @override
   String toString() {
-    return 'MonthlySpendCheckState(selectItems: $selectItems, checkItems: $checkItems, monthTotal: $monthTotal, selectedCategory: $selectedCategory)';
+    return 'MonthlySpendCheckState(selectItems: $selectItems, checkItems: $checkItems, monthTotal: $monthTotal, selectedCategory: $selectedCategory, errorMsg: $errorMsg)';
   }
 
   @override
@@ -182,7 +196,8 @@ class _$_MonthlySpendCheckState implements _MonthlySpendCheckState {
             (identical(other.monthTotal, monthTotal) ||
                 other.monthTotal == monthTotal) &&
             const DeepCollectionEquality()
-                .equals(other.selectedCategory, selectedCategory));
+                .equals(other.selectedCategory, selectedCategory) &&
+            const DeepCollectionEquality().equals(other.errorMsg, errorMsg));
   }
 
   @override
@@ -191,7 +206,8 @@ class _$_MonthlySpendCheckState implements _MonthlySpendCheckState {
       const DeepCollectionEquality().hash(_selectItems),
       const DeepCollectionEquality().hash(_checkItems),
       monthTotal,
-      const DeepCollectionEquality().hash(selectedCategory));
+      const DeepCollectionEquality().hash(selectedCategory),
+      const DeepCollectionEquality().hash(errorMsg));
 
   @JsonKey(ignore: true)
   @override
@@ -206,7 +222,8 @@ abstract class _MonthlySpendCheckState implements MonthlySpendCheckState {
       {final List<String> selectItems,
       final List<Map<String, dynamic>> checkItems,
       final int monthTotal,
-      final dynamic selectedCategory}) = _$_MonthlySpendCheckState;
+      final dynamic selectedCategory,
+      final dynamic errorMsg}) = _$_MonthlySpendCheckState;
 
   @override
   List<String> get selectItems;
@@ -216,6 +233,8 @@ abstract class _MonthlySpendCheckState implements MonthlySpendCheckState {
   int get monthTotal;
   @override
   dynamic get selectedCategory;
+  @override
+  dynamic get errorMsg;
   @override
   @JsonKey(ignore: true)
   _$$_MonthlySpendCheckStateCopyWith<_$_MonthlySpendCheckState> get copyWith =>

@@ -38,7 +38,8 @@ enum APIPath {
   timeplacezerousedate,
   uccardspend,
   updateBankMoney,
-  yearsummary
+  yearsummary,
+  updateKeihiCategory
 }
 
 extension APIPathExtension on APIPath {
@@ -124,6 +125,8 @@ extension APIPathExtension on APIPath {
         return 'getSpendCheckItem';
       case APIPath.getMonthlyBankRecord:
         return 'getMonthlyBankRecord';
+      case APIPath.updateKeihiCategory:
+        return 'updateKeihiCategory';
     }
   }
 }

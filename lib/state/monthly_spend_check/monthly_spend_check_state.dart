@@ -9,5 +9,6 @@ class MonthlySpendCheckState with _$MonthlySpendCheckState {
     @Default([]) List<Map<String, dynamic>> checkItems,
     @Default(0) int monthTotal,
     @Default('') selectedCategory,
+    @Default('') errorMsg,
   }) = _MonthlySpendCheckState;
 }

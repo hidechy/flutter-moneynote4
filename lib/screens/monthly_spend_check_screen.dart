@@ -30,6 +30,8 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
 
   Map<String, dynamic> itemIdsMap = {};
 
+  Map<String, dynamic> itemCategoryMap = {};
+
   DateTime? prevMonth;
   DateTime? nextMonth;
 
@@ -274,8 +276,18 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                           children: [
                             if (itemIdsMap[str] != null) ...[
                               GestureDetector(
-                                onTap: () {
-                                  MoneyDialog(
+                                onTap: () async {
+                                  await _ref
+                                      .watch(monthlySpendCheckProvider(date)
+                                          .notifier)
+                                      .setSelectCategory(category: '');
+
+                                  await _ref
+                                      .watch(monthlySpendCheckProvider(date)
+                                          .notifier)
+                                      .setErrorMsg(error: '');
+
+                                  await MoneyDialog(
                                     context: _context,
                                     widget: KeihiSettingAlert(
                                       date: date,
@@ -308,10 +320,25 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                       ],
                     ),
                     Text(element2.item),
-                    Container(
-                      alignment: Alignment.topRight,
-                      child: Text(element2.price.toCurrency()),
-                    )
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        (itemCategoryMap[str] != null)
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '[${itemCategoryMap[str].toString().split('|')[0]}]',
+                                  ),
+                                  Text(
+                                    '[${itemCategoryMap[str].toString().split('|')[1]}]',
+                                  ),
+                                ],
+                              )
+                            : Container(),
+                        Text(element2.price.toCurrency()),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -360,8 +387,18 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                           children: [
                             if (itemIdsMap[str] != null) ...[
                               GestureDetector(
-                                onTap: () {
-                                  MoneyDialog(
+                                onTap: () async {
+                                  await _ref
+                                      .watch(monthlySpendCheckProvider(date)
+                                          .notifier)
+                                      .setSelectCategory(category: '');
+
+                                  await _ref
+                                      .watch(monthlySpendCheckProvider(date)
+                                          .notifier)
+                                      .setErrorMsg(error: '');
+
+                                  await MoneyDialog(
                                     context: _context,
                                     widget: KeihiSettingAlert(
                                       date: date,
@@ -394,10 +431,25 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                       ],
                     ),
                     Text('${element2.item} - ${element2.bank}'),
-                    Container(
-                      alignment: Alignment.topRight,
-                      child: Text(element2.price.toCurrency()),
-                    )
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        (itemCategoryMap[str] != null)
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '[${itemCategoryMap[str].toString().split('|')[0]}]',
+                                  ),
+                                  Text(
+                                    '[${itemCategoryMap[str].toString().split('|')[1]}]',
+                                  ),
+                                ],
+                              )
+                            : Container(),
+                        Text(element2.price.toCurrency()),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -478,8 +530,18 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                       children: [
                         if (itemIdsMap[str] != null) ...[
                           GestureDetector(
-                            onTap: () {
-                              MoneyDialog(
+                            onTap: () async {
+                              await _ref
+                                  .watch(
+                                      monthlySpendCheckProvider(date).notifier)
+                                  .setSelectCategory(category: '');
+
+                              await _ref
+                                  .watch(
+                                      monthlySpendCheckProvider(date).notifier)
+                                  .setErrorMsg(error: '');
+
+                              await MoneyDialog(
                                 context: _context,
                                 widget: KeihiSettingAlert(
                                   date: date,
@@ -511,9 +573,24 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                   ],
                 ),
                 Text(st3.join(' - ')),
-                Container(
-                  alignment: Alignment.topRight,
-                  child: Text(element.price.toString().toCurrency()),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    (itemCategoryMap[str] != null)
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '[${itemCategoryMap[str].toString().split('|')[0]}]',
+                              ),
+                              Text(
+                                '[${itemCategoryMap[str].toString().split('|')[1]}]',
+                              ),
+                            ],
+                          )
+                        : Container(),
+                    Text(element.price.toString().toCurrency()),
+                  ],
                 ),
               ],
             ),
@@ -579,6 +656,10 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
       selectItems.forEach((element2) {
         if (element['item'] == element2) {
           itemIdsMap[element2] = element['id'];
+
+          if (element['cate'] != '' && element['cate'] != '|') {
+            itemCategoryMap[element2] = element['cate'];
+          }
         }
       });
     });

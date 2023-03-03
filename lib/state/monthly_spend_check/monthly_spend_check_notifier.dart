@@ -44,7 +44,11 @@ class MonthlySpendCheckNotifier extends StateNotifier<MonthlySpendCheckState> {
         final exValueData = value['data'][i].toString().split(';');
         list.add(exValueData[0]);
 
-        list2.add({'id': exValueData[1], 'item': exValueData[0]});
+        list2.add({
+          'id': exValueData[1],
+          'item': exValueData[0],
+          'cate': exValueData[2],
+        });
 
         final exValue = value['data'][i].toString().split('|');
         monthTotal += exValue[2].toInt();
@@ -86,6 +90,11 @@ class MonthlySpendCheckNotifier extends StateNotifier<MonthlySpendCheckState> {
   }
 
   ///
+  Future<void> setErrorMsg({required String error}) async {
+    state = state.copyWith(errorMsg: error);
+  }
+
+  ///
   Future<void> inputCheckItem({required DateTime date}) async {
     final items = [...state.selectItems];
 
@@ -95,6 +104,23 @@ class MonthlySpendCheckNotifier extends StateNotifier<MonthlySpendCheckState> {
 
     await client
         .post(path: APIPath.inputSpendCheckItem, body: uploadData)
+        .then((value) {})
+        .catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
+  }
+
+  ///
+  Future<void> updateKeihiCategory({required int id}) async {
+    final exSelectedCategory = state.selectedCategory.toString().split('|');
+
+    final uploadData = <String, dynamic>{};
+    uploadData['category1'] = exSelectedCategory[0];
+    uploadData['category2'] = exSelectedCategory[1];
+    uploadData['id'] = id;
+
+    await client
+        .post(path: APIPath.updateKeihiCategory, body: uploadData)
         .then((value) {})
         .catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');

@@ -1,4 +1,4 @@
-// ignore_for_file: cast_nullable_to_non_nullable, strict_raw_type, must_be_immutable
+// ignore_for_file: cast_nullable_to_non_nullable, strict_raw_type, must_be_immutable, use_build_context_synchronously
 
 import 'dart:async';
 
@@ -29,6 +29,18 @@ class KeihiSettingAlert extends ConsumerWidget {
     _ref = ref;
 
     final deviceInfoState = ref.read(deviceInfoProvider);
+
+    final selectedCategory = ref.watch(
+      monthlySpendCheckProvider(date).select(
+        (value) => value.selectedCategory,
+      ),
+    );
+
+    final errorMsg = ref.watch(
+      monthlySpendCheckProvider(date).select(
+        (value) => value.errorMsg,
+      ),
+    );
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -63,6 +75,7 @@ class KeihiSettingAlert extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text(id.toString()),
                     Text(str.split('|')[0]),
                     Text(str.split('|')[1]),
                     Container(
@@ -76,10 +89,29 @@ class KeihiSettingAlert extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(),
+                  Text(
+                    errorMsg.toString(),
+                    style: const TextStyle(color: Colors.yellowAccent),
+                  ),
                   IconButton(
-                    onPressed: () {
-                      print(id);
+                    onPressed: () async {
+                      if (selectedCategory == '') {
+                        await ref
+                            .watch(monthlySpendCheckProvider(date).notifier)
+                            .setErrorMsg(error: 'no category set');
+
+                        return;
+                      }
+
+                      await ref
+                          .watch(monthlySpendCheckProvider(date).notifier)
+                          .updateKeihiCategory(id: id);
+
+                      await ref
+                          .watch(monthlySpendCheckProvider(date).notifier)
+                          .getSpendCheckItem(date: date);
+
+                      Navigator.pop(context);
                     },
                     icon: Icon(
                       Icons.input,
@@ -177,16 +209,10 @@ class KeihiSettingAlert extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Expanded(child: Text(element.category1)),
-                        Expanded(
-                          child: Text(
-                            element.category2,
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        ),
-                      ],
+                    Text(element.category1),
+                    Text(
+                      element.category2,
+                      style: const TextStyle(fontSize: 16),
                     ),
                     Text(element.explanation),
                   ],
