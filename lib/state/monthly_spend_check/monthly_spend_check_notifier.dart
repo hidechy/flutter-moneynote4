@@ -17,7 +17,7 @@ final monthlySpendCheckProvider = StateNotifierProvider.autoDispose
   final utility = Utility();
 
   return MonthlySpendCheckNotifier(
-    const MonthlySpendCheckState(selectItem: []),
+    const MonthlySpendCheckState(selectItems: []),
     client,
     utility,
   )..getSpendCheckItem(date: date);
@@ -45,7 +45,7 @@ class MonthlySpendCheckNotifier extends StateNotifier<MonthlySpendCheckState> {
         monthTotal += exValue[2].toInt();
       }
 
-      state = state.copyWith(selectItem: list, monthTotal: monthTotal);
+      state = state.copyWith(selectItems: list, monthTotal: monthTotal);
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
@@ -53,7 +53,7 @@ class MonthlySpendCheckNotifier extends StateNotifier<MonthlySpendCheckState> {
 
   ///
   Future<void> setSelectItem({required String item}) async {
-    final items = [...state.selectItem];
+    final items = [...state.selectItems];
     var monthTotal = state.monthTotal;
 
     final exItem = item.split('|');
@@ -68,12 +68,12 @@ class MonthlySpendCheckNotifier extends StateNotifier<MonthlySpendCheckState> {
       monthTotal += exItem[2].toInt();
     }
 
-    state = state.copyWith(selectItem: items, monthTotal: monthTotal);
+    state = state.copyWith(selectItems: items, monthTotal: monthTotal);
   }
 
   ///
   Future<void> inputCheckItem({required DateTime date}) async {
-    final items = [...state.selectItem];
+    final items = [...state.selectItems];
 
     final uploadData = <String, dynamic>{};
     uploadData['date'] = date.yyyymmdd;

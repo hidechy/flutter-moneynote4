@@ -26,12 +26,18 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
 
   Map<String, List<BankMonthlySpend>> bankMonthlySpendMap = {};
 
+  DateTime? prevMonth;
+  DateTime? nextMonth;
+
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
+
+    prevMonth = DateTime(date.year, date.month - 1);
+    nextMonth = DateTime(date.year, date.month + 1);
 
     makeMonthlySpendMap();
 
@@ -57,11 +63,47 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Row(
                       children: [
-                        Text(date.yyyymm),
-                        Text(monthTotal.toString().toCurrency()),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(date.yyyymm),
+                            Text(monthTotal.toString().toCurrency()),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        MonthlySpendCheckScreen(
+                                      date: prevMonth!,
+                                    ),
+                                  ),
+                                );
+                              },
+                              icon: const Icon(Icons.skip_previous),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        MonthlySpendCheckScreen(
+                                      date: nextMonth!,
+                                    ),
+                                  ),
+                                );
+                              },
+                              icon: const Icon(Icons.skip_next),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                     Row(
@@ -204,7 +246,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                     color: Colors.white.withOpacity(0.3),
                   ),
                 ),
-                color: (monthlySpendCheckState.selectItem.contains(str))
+                color: (monthlySpendCheckState.selectItems.contains(str))
                     ? Colors.yellowAccent.withOpacity(0.2)
                     : Colors.transparent,
               ),
@@ -266,7 +308,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                     color: Colors.white.withOpacity(0.3),
                   ),
                 ),
-                color: (monthlySpendCheckState.selectItem.contains(str))
+                color: (monthlySpendCheckState.selectItems.contains(str))
                     ? Colors.yellowAccent.withOpacity(0.2)
                     : Colors.transparent,
               ),
@@ -357,12 +399,12 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                 color: Colors.white.withOpacity(0.3),
               ),
             ),
-            color: (monthlySpendCheckState.selectItem.contains(str))
+            color: (monthlySpendCheckState.selectItems.contains(str))
                 ? Colors.yellowAccent.withOpacity(0.2)
                 : Colors.transparent,
           ),
           child: DefaultTextStyle(
-            style: TextStyle(fontSize: 12),
+            style: const TextStyle(fontSize: 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
