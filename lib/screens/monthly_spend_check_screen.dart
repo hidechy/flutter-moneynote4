@@ -26,6 +26,8 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
 
   Map<String, List<BankMonthlySpend>> bankMonthlySpendMap = {};
 
+  Map<String, dynamic> itemIdsMap = {};
+
   DateTime? prevMonth;
   DateTime? nextMonth;
 
@@ -38,6 +40,8 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
 
     prevMonth = DateTime(date.year, date.month - 1);
     nextMonth = DateTime(date.year, date.month + 1);
+
+    makeItemIdsMap();
 
     makeMonthlySpendMap();
 
@@ -262,16 +266,33 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text('${element2.date.yyyymmdd}（$youbi）'),
-                        GestureDetector(
-                          onTap: () {
-                            _ref
-                                .watch(monthlySpendCheckProvider(date).notifier)
-                                .setSelectItem(item: str);
-                          },
-                          child: Icon(
-                            Icons.input,
-                            color: Colors.yellowAccent.withOpacity(0.6),
-                          ),
+                        Row(
+                          children: [
+                            if (itemIdsMap[str] != null) ...[
+                              GestureDetector(
+                                onTap: () {
+                                  print(itemIdsMap[str]);
+                                },
+                                child: Icon(
+                                  Icons.ac_unit,
+                                  color: Colors.white.withOpacity(0.8),
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                            ],
+                            GestureDetector(
+                              onTap: () {
+                                _ref
+                                    .watch(monthlySpendCheckProvider(date)
+                                        .notifier)
+                                    .setSelectItem(item: str);
+                              },
+                              child: Icon(
+                                Icons.input,
+                                color: Colors.yellowAccent.withOpacity(0.6),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -324,16 +345,33 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text('${element.date.yyyymmdd}（$youbi）'),
-                        GestureDetector(
-                          onTap: () {
-                            _ref
-                                .watch(monthlySpendCheckProvider(date).notifier)
-                                .setSelectItem(item: str);
-                          },
-                          child: Icon(
-                            Icons.input,
-                            color: Colors.yellowAccent.withOpacity(0.6),
-                          ),
+                        Row(
+                          children: [
+                            if (itemIdsMap[str] != null) ...[
+                              GestureDetector(
+                                onTap: () {
+                                  print(itemIdsMap[str]);
+                                },
+                                child: Icon(
+                                  Icons.ac_unit,
+                                  color: Colors.white.withOpacity(0.8),
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                            ],
+                            GestureDetector(
+                              onTap: () {
+                                _ref
+                                    .watch(monthlySpendCheckProvider(date)
+                                        .notifier)
+                                    .setSelectItem(item: str);
+                              },
+                              child: Icon(
+                                Icons.input,
+                                color: Colors.yellowAccent.withOpacity(0.6),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -418,16 +456,32 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                         Text(element.time),
                       ],
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        _ref
-                            .watch(monthlySpendCheckProvider(date).notifier)
-                            .setSelectItem(item: str);
-                      },
-                      child: Icon(
-                        Icons.input,
-                        color: Colors.yellowAccent.withOpacity(0.6),
-                      ),
+                    Row(
+                      children: [
+                        if (itemIdsMap[str] != null) ...[
+                          GestureDetector(
+                            onTap: () {
+                              print(itemIdsMap[str]);
+                            },
+                            child: Icon(
+                              Icons.ac_unit,
+                              color: Colors.white.withOpacity(0.8),
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                        ],
+                        GestureDetector(
+                          onTap: () {
+                            _ref
+                                .watch(monthlySpendCheckProvider(date).notifier)
+                                .setSelectItem(item: str);
+                          },
+                          child: Icon(
+                            Icons.input,
+                            color: Colors.yellowAccent.withOpacity(0.6),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -483,6 +537,25 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
       bankMonthlySpendMap['${date.yyyymm}-${element.day}'] = list;
 
       keepDay = element.day;
+    });
+  }
+
+  ///
+  void makeItemIdsMap() {
+    final checkItems = _ref.watch(
+      monthlySpendCheckProvider(date).select((value) => value.checkItems),
+    );
+
+    final selectItems = _ref.watch(
+      monthlySpendCheckProvider(date).select((value) => value.selectItems),
+    );
+
+    checkItems.forEach((element) {
+      selectItems.forEach((element2) {
+        if (element['item'] == element2) {
+          itemIdsMap[element2] = element['id'];
+        }
+      });
     });
   }
 }
