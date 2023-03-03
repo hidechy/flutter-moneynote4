@@ -1,4 +1,4 @@
-// ignore_for_file: cast_nullable_to_non_nullable, strict_raw_type
+// ignore_for_file: cast_nullable_to_non_nullable, strict_raw_type, must_be_immutable
 
 import 'dart:async';
 
@@ -8,19 +8,26 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
+import '../../state/monthly_spend_check/monthly_spend_check_notifier.dart';
 import '../../utility/utility.dart';
 
 class KeihiSettingAlert extends ConsumerWidget {
-  KeihiSettingAlert({super.key, required this.id, required this.str});
+  KeihiSettingAlert(
+      {super.key, required this.id, required this.str, required this.date});
 
+  final DateTime date;
   final int id;
   final String str;
 
   final Utility _utility = Utility();
 
+  late WidgetRef _ref;
+
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    _ref = ref;
+
     final deviceInfoState = ref.read(deviceInfoProvider);
 
     return AlertDialog(
@@ -88,12 +95,11 @@ class KeihiSettingAlert extends ConsumerWidget {
                 child: FutureBuilder(
                   future: getCsvData(path: 'assets/csv/money_classify.csv'),
                   builder: (context, snapshot) {
-                    final list = snapshot.data as List<CsvData>;
-
                     if (!snapshot.hasData) {
                       return const Center(child: CircularProgressIndicator());
                     }
 
+                    final list = snapshot.data as List<CsvData>;
                     return displayCategoryList(data: list);
                   },
                 ),
@@ -129,6 +135,12 @@ class KeihiSettingAlert extends ConsumerWidget {
   Widget displayCategoryList({required List<CsvData> data}) {
     final list = <Widget>[];
 
+    final selectedCategory = _ref.watch(
+      monthlySpendCheckProvider(date).select(
+        (value) => value.selectedCategory,
+      ),
+    );
+
     data.forEach((element) {
       list.add(
         Container(
@@ -140,11 +152,21 @@ class KeihiSettingAlert extends ConsumerWidget {
                 color: Colors.white.withOpacity(0.3),
               ),
             ),
+            color: (selectedCategory ==
+                    '${element.category1}|${element.category2}')
+                ? Colors.yellowAccent.withOpacity(0.2)
+                : Colors.transparent,
           ),
           child: Row(
             children: [
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  _ref
+                      .watch(monthlySpendCheckProvider(date).notifier)
+                      .setSelectCategory(
+                        category: '${element.category1}|${element.category2}',
+                      );
+                },
                 child: Icon(
                   Icons.ac_unit_outlined,
                   color: Colors.white.withOpacity(0.8),
@@ -158,7 +180,12 @@ class KeihiSettingAlert extends ConsumerWidget {
                     Row(
                       children: [
                         Expanded(child: Text(element.category1)),
-                        Expanded(child: Text(element.category2)),
+                        Expanded(
+                          child: Text(
+                            element.category2,
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                        ),
                       ],
                     ),
                     Text(element.explanation),

@@ -278,6 +278,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                                   MoneyDialog(
                                     context: _context,
                                     widget: KeihiSettingAlert(
+                                      date: date,
                                       id: itemIdsMap[str].toString().toInt(),
                                       str: str,
                                     ),
@@ -363,6 +364,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                                   MoneyDialog(
                                     context: _context,
                                     widget: KeihiSettingAlert(
+                                      date: date,
                                       id: itemIdsMap[str].toString().toInt(),
                                       str: str,
                                     ),
@@ -480,6 +482,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                               MoneyDialog(
                                 context: _context,
                                 widget: KeihiSettingAlert(
+                                  date: date,
                                   id: itemIdsMap[str].toString().toInt(),
                                   str: str,
                                 ),

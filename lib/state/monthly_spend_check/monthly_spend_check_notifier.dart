@@ -81,6 +81,11 @@ class MonthlySpendCheckNotifier extends StateNotifier<MonthlySpendCheckState> {
   }
 
   ///
+  Future<void> setSelectCategory({required String category}) async {
+    state = state.copyWith(selectedCategory: category);
+  }
+
+  ///
   Future<void> inputCheckItem({required DateTime date}) async {
     final items = [...state.selectItems];
 
