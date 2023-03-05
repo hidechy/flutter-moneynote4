@@ -27,6 +27,8 @@ final appParamProvider =
       MonthlyUnitSpendAlertSelectYear: year.toInt(),
       SamedaySpendAlertDay: DateTime.now().dd.toInt(),
       WellsReserveAlertYear: year.toInt(),
+      KeihiListAlertSelectYear: year.toInt(),
+      KeihiListAlertSelectOrder: '',
     ),
   );
 });
@@ -85,6 +87,12 @@ class AppParamNotifier extends StateNotifier<AppParamState> {
 
   Future<void> setWellsReserveAlertYear({required int year}) async =>
       state = state.copyWith(WellsReserveAlertYear: year);
+
+  Future<void> setKeihiListAlertSelectYear({required int year}) async =>
+      state = state.copyWith(KeihiListAlertSelectYear: year);
+
+  Future<void> setKeihiListAlertSelectOrder({required String order}) async =>
+      state = state.copyWith(KeihiListAlertSelectOrder: order);
 }
 
 ////////////////////////////////////////////////

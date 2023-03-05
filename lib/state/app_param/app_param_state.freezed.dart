@@ -34,6 +34,8 @@ mixin _$AppParamState {
   int get MonthlyUnitSpendAlertSelectYear => throw _privateConstructorUsedError;
   int get SamedaySpendAlertDay => throw _privateConstructorUsedError;
   int get WellsReserveAlertYear => throw _privateConstructorUsedError;
+  int get KeihiListAlertSelectYear => throw _privateConstructorUsedError;
+  String get KeihiListAlertSelectOrder => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AppParamStateCopyWith<AppParamState> get copyWith =>
@@ -63,7 +65,9 @@ abstract class $AppParamStateCopyWith<$Res> {
       int BalanceSheetAlertSelectYear,
       int MonthlyUnitSpendAlertSelectYear,
       int SamedaySpendAlertDay,
-      int WellsReserveAlertYear});
+      int WellsReserveAlertYear,
+      int KeihiListAlertSelectYear,
+      String KeihiListAlertSelectOrder});
 }
 
 /// @nodoc
@@ -96,6 +100,8 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
     Object? MonthlyUnitSpendAlertSelectYear = null,
     Object? SamedaySpendAlertDay = null,
     Object? WellsReserveAlertYear = null,
+    Object? KeihiListAlertSelectYear = null,
+    Object? KeihiListAlertSelectOrder = null,
   }) {
     return _then(_value.copyWith(
       AmazonAlertSelectYear: null == AmazonAlertSelectYear
@@ -167,6 +173,14 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
           ? _value.WellsReserveAlertYear
           : WellsReserveAlertYear // ignore: cast_nullable_to_non_nullable
               as int,
+      KeihiListAlertSelectYear: null == KeihiListAlertSelectYear
+          ? _value.KeihiListAlertSelectYear
+          : KeihiListAlertSelectYear // ignore: cast_nullable_to_non_nullable
+              as int,
+      KeihiListAlertSelectOrder: null == KeihiListAlertSelectOrder
+          ? _value.KeihiListAlertSelectOrder
+          : KeihiListAlertSelectOrder // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -196,7 +210,9 @@ abstract class _$$_AppParamStateCopyWith<$Res>
       int BalanceSheetAlertSelectYear,
       int MonthlyUnitSpendAlertSelectYear,
       int SamedaySpendAlertDay,
-      int WellsReserveAlertYear});
+      int WellsReserveAlertYear,
+      int KeihiListAlertSelectYear,
+      String KeihiListAlertSelectOrder});
 }
 
 /// @nodoc
@@ -227,6 +243,8 @@ class __$$_AppParamStateCopyWithImpl<$Res>
     Object? MonthlyUnitSpendAlertSelectYear = null,
     Object? SamedaySpendAlertDay = null,
     Object? WellsReserveAlertYear = null,
+    Object? KeihiListAlertSelectYear = null,
+    Object? KeihiListAlertSelectOrder = null,
   }) {
     return _then(_$_AppParamState(
       AmazonAlertSelectYear: null == AmazonAlertSelectYear
@@ -298,6 +316,14 @@ class __$$_AppParamStateCopyWithImpl<$Res>
           ? _value.WellsReserveAlertYear
           : WellsReserveAlertYear // ignore: cast_nullable_to_non_nullable
               as int,
+      KeihiListAlertSelectYear: null == KeihiListAlertSelectYear
+          ? _value.KeihiListAlertSelectYear
+          : KeihiListAlertSelectYear // ignore: cast_nullable_to_non_nullable
+              as int,
+      KeihiListAlertSelectOrder: null == KeihiListAlertSelectOrder
+          ? _value.KeihiListAlertSelectOrder
+          : KeihiListAlertSelectOrder // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -322,7 +348,9 @@ class _$_AppParamState implements _AppParamState {
       this.BalanceSheetAlertSelectYear = 0,
       this.MonthlyUnitSpendAlertSelectYear = 0,
       this.SamedaySpendAlertDay = 0,
-      this.WellsReserveAlertYear = 0});
+      this.WellsReserveAlertYear = 0,
+      this.KeihiListAlertSelectYear = 0,
+      this.KeihiListAlertSelectOrder = ''});
 
   @override
   @JsonKey()
@@ -375,10 +403,16 @@ class _$_AppParamState implements _AppParamState {
   @override
   @JsonKey()
   final int WellsReserveAlertYear;
+  @override
+  @JsonKey()
+  final int KeihiListAlertSelectYear;
+  @override
+  @JsonKey()
+  final String KeihiListAlertSelectOrder;
 
   @override
   String toString() {
-    return 'AppParamState(AmazonAlertSelectYear: $AmazonAlertSelectYear, CreditCompanyAlertSelectYear: $CreditCompanyAlertSelectYear, CreditSummaryAlertSelectYear: $CreditSummaryAlertSelectYear, CreditYearlyDetailAlertSelectMonth: $CreditYearlyDetailAlertSelectMonth, DutyAlertSelectYear: $DutyAlertSelectYear, HomeFixAlertSelectYear: $HomeFixAlertSelectYear, SeiyuAlertSelectYear: $SeiyuAlertSelectYear, SeiyuAlertSelectDate: $SeiyuAlertSelectDate, SpendSummaryAlertSelectYear: $SpendSummaryAlertSelectYear, SpendYearlyAlertSelectYear: $SpendYearlyAlertSelectYear, TrainAlertSelectYear: $TrainAlertSelectYear, UdemyAlertSelectYear: $UdemyAlertSelectYear, UdemyAlertSelectCategory: $UdemyAlertSelectCategory, BalanceSheetAlertSelectYear: $BalanceSheetAlertSelectYear, MonthlyUnitSpendAlertSelectYear: $MonthlyUnitSpendAlertSelectYear, SamedaySpendAlertDay: $SamedaySpendAlertDay, WellsReserveAlertYear: $WellsReserveAlertYear)';
+    return 'AppParamState(AmazonAlertSelectYear: $AmazonAlertSelectYear, CreditCompanyAlertSelectYear: $CreditCompanyAlertSelectYear, CreditSummaryAlertSelectYear: $CreditSummaryAlertSelectYear, CreditYearlyDetailAlertSelectMonth: $CreditYearlyDetailAlertSelectMonth, DutyAlertSelectYear: $DutyAlertSelectYear, HomeFixAlertSelectYear: $HomeFixAlertSelectYear, SeiyuAlertSelectYear: $SeiyuAlertSelectYear, SeiyuAlertSelectDate: $SeiyuAlertSelectDate, SpendSummaryAlertSelectYear: $SpendSummaryAlertSelectYear, SpendYearlyAlertSelectYear: $SpendYearlyAlertSelectYear, TrainAlertSelectYear: $TrainAlertSelectYear, UdemyAlertSelectYear: $UdemyAlertSelectYear, UdemyAlertSelectCategory: $UdemyAlertSelectCategory, BalanceSheetAlertSelectYear: $BalanceSheetAlertSelectYear, MonthlyUnitSpendAlertSelectYear: $MonthlyUnitSpendAlertSelectYear, SamedaySpendAlertDay: $SamedaySpendAlertDay, WellsReserveAlertYear: $WellsReserveAlertYear, KeihiListAlertSelectYear: $KeihiListAlertSelectYear, KeihiListAlertSelectOrder: $KeihiListAlertSelectOrder)';
   }
 
   @override
@@ -415,8 +449,7 @@ class _$_AppParamState implements _AppParamState {
                 other.TrainAlertSelectYear == TrainAlertSelectYear) &&
             (identical(other.UdemyAlertSelectYear, UdemyAlertSelectYear) ||
                 other.UdemyAlertSelectYear == UdemyAlertSelectYear) &&
-            (identical(
-                    other.UdemyAlertSelectCategory, UdemyAlertSelectCategory) ||
+            (identical(other.UdemyAlertSelectCategory, UdemyAlertSelectCategory) ||
                 other.UdemyAlertSelectCategory == UdemyAlertSelectCategory) &&
             (identical(other.BalanceSheetAlertSelectYear, BalanceSheetAlertSelectYear) ||
                 other.BalanceSheetAlertSelectYear ==
@@ -427,29 +460,35 @@ class _$_AppParamState implements _AppParamState {
             (identical(other.SamedaySpendAlertDay, SamedaySpendAlertDay) ||
                 other.SamedaySpendAlertDay == SamedaySpendAlertDay) &&
             (identical(other.WellsReserveAlertYear, WellsReserveAlertYear) ||
-                other.WellsReserveAlertYear == WellsReserveAlertYear));
+                other.WellsReserveAlertYear == WellsReserveAlertYear) &&
+            (identical(other.KeihiListAlertSelectYear, KeihiListAlertSelectYear) ||
+                other.KeihiListAlertSelectYear == KeihiListAlertSelectYear) &&
+            (identical(other.KeihiListAlertSelectOrder, KeihiListAlertSelectOrder) || other.KeihiListAlertSelectOrder == KeihiListAlertSelectOrder));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      AmazonAlertSelectYear,
-      CreditCompanyAlertSelectYear,
-      CreditSummaryAlertSelectYear,
-      CreditYearlyDetailAlertSelectMonth,
-      DutyAlertSelectYear,
-      HomeFixAlertSelectYear,
-      SeiyuAlertSelectYear,
-      SeiyuAlertSelectDate,
-      SpendSummaryAlertSelectYear,
-      SpendYearlyAlertSelectYear,
-      TrainAlertSelectYear,
-      UdemyAlertSelectYear,
-      UdemyAlertSelectCategory,
-      BalanceSheetAlertSelectYear,
-      MonthlyUnitSpendAlertSelectYear,
-      SamedaySpendAlertDay,
-      WellsReserveAlertYear);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        AmazonAlertSelectYear,
+        CreditCompanyAlertSelectYear,
+        CreditSummaryAlertSelectYear,
+        CreditYearlyDetailAlertSelectMonth,
+        DutyAlertSelectYear,
+        HomeFixAlertSelectYear,
+        SeiyuAlertSelectYear,
+        SeiyuAlertSelectDate,
+        SpendSummaryAlertSelectYear,
+        SpendYearlyAlertSelectYear,
+        TrainAlertSelectYear,
+        UdemyAlertSelectYear,
+        UdemyAlertSelectCategory,
+        BalanceSheetAlertSelectYear,
+        MonthlyUnitSpendAlertSelectYear,
+        SamedaySpendAlertDay,
+        WellsReserveAlertYear,
+        KeihiListAlertSelectYear,
+        KeihiListAlertSelectOrder
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -476,7 +515,9 @@ abstract class _AppParamState implements AppParamState {
       final int BalanceSheetAlertSelectYear,
       final int MonthlyUnitSpendAlertSelectYear,
       final int SamedaySpendAlertDay,
-      final int WellsReserveAlertYear}) = _$_AppParamState;
+      final int WellsReserveAlertYear,
+      final int KeihiListAlertSelectYear,
+      final String KeihiListAlertSelectOrder}) = _$_AppParamState;
 
   @override
   int get AmazonAlertSelectYear;
@@ -512,6 +553,10 @@ abstract class _AppParamState implements AppParamState {
   int get SamedaySpendAlertDay;
   @override
   int get WellsReserveAlertYear;
+  @override
+  int get KeihiListAlertSelectYear;
+  @override
+  String get KeihiListAlertSelectOrder;
   @override
   @JsonKey(ignore: true)
   _$$_AppParamStateCopyWith<_$_AppParamState> get copyWith =>

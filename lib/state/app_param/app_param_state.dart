@@ -24,5 +24,7 @@ class AppParamState with _$AppParamState {
     @Default(0) int MonthlyUnitSpendAlertSelectYear,
     @Default(0) int SamedaySpendAlertDay,
     @Default(0) int WellsReserveAlertYear,
+    @Default(0) int KeihiListAlertSelectYear,
+    @Default('') String KeihiListAlertSelectOrder,
   }) = _AppParamState;
 }
