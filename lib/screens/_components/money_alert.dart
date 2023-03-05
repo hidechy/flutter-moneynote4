@@ -215,7 +215,14 @@ class MoneyAlert extends ConsumerWidget {
                   child: const Text('CURRENCY'),
                 ),
               ),
-              Expanded(child: Container()),
+              Expanded(
+                  child: Container(
+                alignment: Alignment.topRight,
+                child: Text(
+                  data.currency.toString().toCurrency(),
+                  style: const TextStyle(color: Colors.yellowAccent),
+                ),
+              )),
             ],
           ),
           const SizedBox(height: 10),

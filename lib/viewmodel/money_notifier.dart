@@ -51,6 +51,7 @@ final moneyProvider = StateNotifierProvider.autoDispose
       payD: '',
       payE: '',
       sum: '',
+      currency: 0,
     ),
     client,
     utility,
@@ -68,6 +69,51 @@ class MoneyNotifier extends StateNotifier<Money> {
       path: APIPath.moneydl,
       body: {'date': date.yyyymmdd},
     ).then((value) {
+      var currency = 0;
+
+      final currencyVal = <int>[];
+      final currencyKey = [10000, 5000, 2000, 1000, 500, 100, 50, 10, 5, 1];
+      currencyVal
+        ..add(value['data']['yen_10000'] != null
+            ? value['data']['yen_10000'].toString().toInt()
+            : 0)
+        ..add(value['data']['yen_5000'] != null
+            ? value['data']['yen_5000'].toString().toInt()
+            : 0)
+        ..add(value['data']['yen_2000'] != null
+            ? value['data']['yen_2000'].toString().toInt()
+            : 0)
+        ..add(value['data']['yen_1000'] != null
+            ? value['data']['yen_1000'].toString().toInt()
+            : 0)
+        ..add(value['data']['yen_500'] != null
+            ? value['data']['yen_500'].toString().toInt()
+            : 0)
+        ..add(value['data']['yen_100'] != null
+            ? value['data']['yen_100'].toString().toInt()
+            : 0)
+        ..add(value['data']['yen_50'] != null
+            ? value['data']['yen_50'].toString().toInt()
+            : 0)
+        ..add(value['data']['yen_10'] != null
+            ? value['data']['yen_10'].toString().toInt()
+            : 0)
+        ..add(value['data']['yen_5'] != null
+            ? value['data']['yen_5'].toString().toInt()
+            : 0)
+        ..add(value['data']['yen_1'] != null
+            ? value['data']['yen_1'].toString().toInt()
+            : 0);
+
+      var i = 0;
+      currencyVal.forEach((element) {
+        if (element != 0) {
+          currency += currencyKey[i] * element;
+        }
+
+        i++;
+      });
+
       state = Money(
         date: date,
         ym: date.yyyymm,
@@ -92,6 +138,7 @@ class MoneyNotifier extends StateNotifier<Money> {
         payD: value['data']['pay_d'].toString(),
         payE: value['data']['pay_e'].toString(),
         sum: value['data']['sum'].toString(),
+        currency: currency,
       );
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');

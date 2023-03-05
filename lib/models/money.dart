@@ -58,6 +58,7 @@ class Money {
     required this.payD,
     required this.payE,
     required this.sum,
+    required this.currency,
   });
 
   factory Money.fromJson(Map<String, dynamic> json) => Money(
@@ -84,6 +85,7 @@ class Money {
         payD: json['pay_d'].toString(),
         payE: json['pay_e'].toString(),
         sum: json['sum'].toString(),
+        currency: 0,
       );
 
   DateTime date;
@@ -109,6 +111,7 @@ class Money {
   String payD;
   String payE;
   String sum;
+  int currency;
 
   Map<String, dynamic> toJson() => {
         'date':
@@ -135,5 +138,6 @@ class Money {
         'pay_d': payD,
         'pay_e': payE,
         'sum': sum,
+        'currency': currency,
       };
 }

@@ -49,6 +49,7 @@ class MoneyInputScreen extends ConsumerWidget {
     payD: '',
     payE: '',
     sum: '',
+    currency: 0,
   );
 
   TextEditingController tecYen10000 = TextEditingController(text: '0');
