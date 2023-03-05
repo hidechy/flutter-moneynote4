@@ -126,7 +126,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                               widget: KeihiListAlert(date: date),
                             );
                           },
-                          icon: Icon(Icons.list),
+                          icon: const Icon(Icons.list),
                         ),
                         IconButton(
                           onPressed: () {

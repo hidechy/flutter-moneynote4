@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../data/http/client.dart';
@@ -15,7 +17,8 @@ final keihiListProvider =
 
   final utility = Utility();
 
-  return KeihiListNotifier([], client, utility);
+  return KeihiListNotifier([], client, utility)
+    ..getKeihiList(param: const KeihiListRequestState());
 });
 
 class KeihiListNotifier extends StateNotifier<List<Keihi>> {

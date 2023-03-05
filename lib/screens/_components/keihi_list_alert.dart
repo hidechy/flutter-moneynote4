@@ -1,15 +1,17 @@
+// ignore_for_file: must_be_immutable, non_constant_identifier_names, cascade_invocations
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/state/keihi_list/keihi_list_request_state.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../state/keihi_list/keihi_list_notifier.dart';
+import '../../state/keihi_list/keihi_list_request_state.dart';
 import '../../utility/utility.dart';
 
 class KeihiListAlert extends ConsumerWidget {
-  KeihiListAlert({Key? key, required this.date}) : super(key: key);
+  KeihiListAlert({super.key, required this.date});
 
   final DateTime date;
 
@@ -77,7 +79,7 @@ class KeihiListAlert extends ConsumerWidget {
 
             final date = '$i-01-01 00:00:00'.toDateTime();
 
-            var param = KeihiListRequestState(
+            final param = KeihiListRequestState(
               selectDate: date,
               selectOrder: '',
             );
@@ -104,7 +106,62 @@ class KeihiListAlert extends ConsumerWidget {
 
   ///
   Widget displayKeihiList() {
-    List<Widget> list = [];
+    final list = <Widget>[];
+
+    final keihiListState = _ref.watch(keihiListProvider);
+    var sum = 0;
+    keihiListState.forEach((element) {
+      list.add(Container(
+        padding: const EdgeInsets.all(10),
+        margin: const EdgeInsets.only(bottom: 10),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.white.withOpacity(0.3),
+            ),
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(element.date.yyyymmdd),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(flex: 5, child: Text(element.category1)),
+                Expanded(flex: 5, child: Text(element.category2)),
+                Expanded(child: Container()),
+              ],
+            ),
+            Text(element.item),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(),
+                Text(element.price.toString().toCurrency()),
+              ],
+            ),
+          ],
+        ),
+      ));
+
+      sum += element.price;
+    });
+
+    list.add(Container(
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.only(bottom: 10),
+      decoration: BoxDecoration(
+        color: Colors.yellowAccent.withOpacity(0.1),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text('SUM'),
+          Text(sum.toString().toCurrency()),
+        ],
+      ),
+    ));
 
     return SingleChildScrollView(
       child: Column(children: list),
