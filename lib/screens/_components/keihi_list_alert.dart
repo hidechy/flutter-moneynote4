@@ -124,13 +124,27 @@ class KeihiListAlert extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(element.date.yyyymmdd),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(flex: 5, child: Text(element.category1)),
-                Expanded(flex: 5, child: Text(element.category2)),
-                Expanded(child: Container()),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(element.date.yyyymmdd),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(child: Text(element.category1)),
+                          Expanded(child: Text(element.category2)),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(
+                  Icons.input,
+                  color: Colors.white.withOpacity(0.8),
+                ),
               ],
             ),
             Text(element.item),
