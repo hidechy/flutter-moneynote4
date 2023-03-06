@@ -8,12 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/balance_sheet_alert.dart';
-import 'package:moneynote4/screens/_components/food_expenses_alert.dart';
-import 'package:moneynote4/screens/_components/sameday_spend_alert.dart';
-import 'package:moneynote4/screens/_components/spend_halfyear_summary_alert.dart';
-import 'package:moneynote4/screens/_components/udemy_alert.dart';
-import 'package:moneynote4/screens/_components/wells_reserve_alert.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../extensions/extensions.dart';
@@ -25,21 +19,28 @@ import '../utility/utility.dart';
 import '../viewmodel/spend_notifier.dart';
 import '_components/_money_dialog.dart';
 import '_components/amazon_alert.dart';
+import '_components/balance_sheet_alert.dart';
 import '_components/benefit_alert.dart';
 import '_components/credit_alert.dart';
 import '_components/credit_company_alert.dart';
 import '_components/credit_summary_alert.dart';
 import '_components/duty_alert.dart';
+import '_components/food_expenses_alert.dart';
 import '_components/home_fix_alert.dart';
 import '_components/mercari_alert.dart';
 import '_components/money_alert.dart';
 import '_components/money_score_alert.dart';
 import '_components/monthly_spend_alert.dart';
 import '_components/monthly_unit_spend_alert.dart';
+import '_components/sameday_spend_alert.dart';
 import '_components/seiyu_alert.dart';
+import '_components/spend_halfyear_summary_alert.dart';
 import '_components/spend_summary_alert.dart';
 import '_components/spend_yearly_alert.dart';
+import '_components/tax_payment_display_alert.dart';
 import '_components/train_alert.dart';
+import '_components/udemy_alert.dart';
+import '_components/wells_reserve_alert.dart';
 
 class HomeScreen extends ConsumerWidget {
   HomeScreen({super.key});
@@ -555,6 +556,24 @@ class HomeScreen extends ConsumerWidget {
       IconButton(
         onPressed: () {
           _ref.watch(homeMenuProvider.notifier).setHomeMenu(
+                menuFlag: 'tax_payment',
+                menuName: '確定申告資料',
+              );
+        },
+        icon: Icon(
+          Icons.publish,
+          color: (homeMenuState.menuFlag == 'tax_payment')
+              ? Colors.lightBlueAccent
+              : Colors.white,
+          size: 14,
+        ),
+      ),
+    );
+
+    list.add(
+      IconButton(
+        onPressed: () {
+          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
                 menuFlag: 'money_score',
                 menuName: 'マネースコア',
               );
@@ -804,6 +823,13 @@ class HomeScreen extends ConsumerWidget {
         MoneyDialog(
           context: _context,
           widget: SpendYearlyAlert(date: focusDayState),
+        );
+        break;
+
+      case 'tax_payment':
+        MoneyDialog(
+          context: _context,
+          widget: TaxPaymentDisplayAlert(date: focusDayState),
         );
         break;
 

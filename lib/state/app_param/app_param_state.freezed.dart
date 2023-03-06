@@ -36,6 +36,7 @@ mixin _$AppParamState {
   int get WellsReserveAlertYear => throw _privateConstructorUsedError;
   int get KeihiListAlertSelectYear => throw _privateConstructorUsedError;
   String get KeihiListAlertSelectOrder => throw _privateConstructorUsedError;
+  int get TaxPaymentAlertSelectYear => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AppParamStateCopyWith<AppParamState> get copyWith =>
@@ -67,7 +68,8 @@ abstract class $AppParamStateCopyWith<$Res> {
       int SamedaySpendAlertDay,
       int WellsReserveAlertYear,
       int KeihiListAlertSelectYear,
-      String KeihiListAlertSelectOrder});
+      String KeihiListAlertSelectOrder,
+      int TaxPaymentAlertSelectYear});
 }
 
 /// @nodoc
@@ -102,6 +104,7 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
     Object? WellsReserveAlertYear = null,
     Object? KeihiListAlertSelectYear = null,
     Object? KeihiListAlertSelectOrder = null,
+    Object? TaxPaymentAlertSelectYear = null,
   }) {
     return _then(_value.copyWith(
       AmazonAlertSelectYear: null == AmazonAlertSelectYear
@@ -181,6 +184,10 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
           ? _value.KeihiListAlertSelectOrder
           : KeihiListAlertSelectOrder // ignore: cast_nullable_to_non_nullable
               as String,
+      TaxPaymentAlertSelectYear: null == TaxPaymentAlertSelectYear
+          ? _value.TaxPaymentAlertSelectYear
+          : TaxPaymentAlertSelectYear // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -212,7 +219,8 @@ abstract class _$$_AppParamStateCopyWith<$Res>
       int SamedaySpendAlertDay,
       int WellsReserveAlertYear,
       int KeihiListAlertSelectYear,
-      String KeihiListAlertSelectOrder});
+      String KeihiListAlertSelectOrder,
+      int TaxPaymentAlertSelectYear});
 }
 
 /// @nodoc
@@ -245,6 +253,7 @@ class __$$_AppParamStateCopyWithImpl<$Res>
     Object? WellsReserveAlertYear = null,
     Object? KeihiListAlertSelectYear = null,
     Object? KeihiListAlertSelectOrder = null,
+    Object? TaxPaymentAlertSelectYear = null,
   }) {
     return _then(_$_AppParamState(
       AmazonAlertSelectYear: null == AmazonAlertSelectYear
@@ -324,6 +333,10 @@ class __$$_AppParamStateCopyWithImpl<$Res>
           ? _value.KeihiListAlertSelectOrder
           : KeihiListAlertSelectOrder // ignore: cast_nullable_to_non_nullable
               as String,
+      TaxPaymentAlertSelectYear: null == TaxPaymentAlertSelectYear
+          ? _value.TaxPaymentAlertSelectYear
+          : TaxPaymentAlertSelectYear // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -350,7 +363,8 @@ class _$_AppParamState implements _AppParamState {
       this.SamedaySpendAlertDay = 0,
       this.WellsReserveAlertYear = 0,
       this.KeihiListAlertSelectYear = 0,
-      this.KeihiListAlertSelectOrder = ''});
+      this.KeihiListAlertSelectOrder = '',
+      this.TaxPaymentAlertSelectYear = 0});
 
   @override
   @JsonKey()
@@ -409,10 +423,13 @@ class _$_AppParamState implements _AppParamState {
   @override
   @JsonKey()
   final String KeihiListAlertSelectOrder;
+  @override
+  @JsonKey()
+  final int TaxPaymentAlertSelectYear;
 
   @override
   String toString() {
-    return 'AppParamState(AmazonAlertSelectYear: $AmazonAlertSelectYear, CreditCompanyAlertSelectYear: $CreditCompanyAlertSelectYear, CreditSummaryAlertSelectYear: $CreditSummaryAlertSelectYear, CreditYearlyDetailAlertSelectMonth: $CreditYearlyDetailAlertSelectMonth, DutyAlertSelectYear: $DutyAlertSelectYear, HomeFixAlertSelectYear: $HomeFixAlertSelectYear, SeiyuAlertSelectYear: $SeiyuAlertSelectYear, SeiyuAlertSelectDate: $SeiyuAlertSelectDate, SpendSummaryAlertSelectYear: $SpendSummaryAlertSelectYear, SpendYearlyAlertSelectYear: $SpendYearlyAlertSelectYear, TrainAlertSelectYear: $TrainAlertSelectYear, UdemyAlertSelectYear: $UdemyAlertSelectYear, UdemyAlertSelectCategory: $UdemyAlertSelectCategory, BalanceSheetAlertSelectYear: $BalanceSheetAlertSelectYear, MonthlyUnitSpendAlertSelectYear: $MonthlyUnitSpendAlertSelectYear, SamedaySpendAlertDay: $SamedaySpendAlertDay, WellsReserveAlertYear: $WellsReserveAlertYear, KeihiListAlertSelectYear: $KeihiListAlertSelectYear, KeihiListAlertSelectOrder: $KeihiListAlertSelectOrder)';
+    return 'AppParamState(AmazonAlertSelectYear: $AmazonAlertSelectYear, CreditCompanyAlertSelectYear: $CreditCompanyAlertSelectYear, CreditSummaryAlertSelectYear: $CreditSummaryAlertSelectYear, CreditYearlyDetailAlertSelectMonth: $CreditYearlyDetailAlertSelectMonth, DutyAlertSelectYear: $DutyAlertSelectYear, HomeFixAlertSelectYear: $HomeFixAlertSelectYear, SeiyuAlertSelectYear: $SeiyuAlertSelectYear, SeiyuAlertSelectDate: $SeiyuAlertSelectDate, SpendSummaryAlertSelectYear: $SpendSummaryAlertSelectYear, SpendYearlyAlertSelectYear: $SpendYearlyAlertSelectYear, TrainAlertSelectYear: $TrainAlertSelectYear, UdemyAlertSelectYear: $UdemyAlertSelectYear, UdemyAlertSelectCategory: $UdemyAlertSelectCategory, BalanceSheetAlertSelectYear: $BalanceSheetAlertSelectYear, MonthlyUnitSpendAlertSelectYear: $MonthlyUnitSpendAlertSelectYear, SamedaySpendAlertDay: $SamedaySpendAlertDay, WellsReserveAlertYear: $WellsReserveAlertYear, KeihiListAlertSelectYear: $KeihiListAlertSelectYear, KeihiListAlertSelectOrder: $KeihiListAlertSelectOrder, TaxPaymentAlertSelectYear: $TaxPaymentAlertSelectYear)';
   }
 
   @override
@@ -463,7 +480,8 @@ class _$_AppParamState implements _AppParamState {
                 other.WellsReserveAlertYear == WellsReserveAlertYear) &&
             (identical(other.KeihiListAlertSelectYear, KeihiListAlertSelectYear) ||
                 other.KeihiListAlertSelectYear == KeihiListAlertSelectYear) &&
-            (identical(other.KeihiListAlertSelectOrder, KeihiListAlertSelectOrder) || other.KeihiListAlertSelectOrder == KeihiListAlertSelectOrder));
+            (identical(other.KeihiListAlertSelectOrder, KeihiListAlertSelectOrder) || other.KeihiListAlertSelectOrder == KeihiListAlertSelectOrder) &&
+            (identical(other.TaxPaymentAlertSelectYear, TaxPaymentAlertSelectYear) || other.TaxPaymentAlertSelectYear == TaxPaymentAlertSelectYear));
   }
 
   @override
@@ -487,7 +505,8 @@ class _$_AppParamState implements _AppParamState {
         SamedaySpendAlertDay,
         WellsReserveAlertYear,
         KeihiListAlertSelectYear,
-        KeihiListAlertSelectOrder
+        KeihiListAlertSelectOrder,
+        TaxPaymentAlertSelectYear
       ]);
 
   @JsonKey(ignore: true)
@@ -517,7 +536,8 @@ abstract class _AppParamState implements AppParamState {
       final int SamedaySpendAlertDay,
       final int WellsReserveAlertYear,
       final int KeihiListAlertSelectYear,
-      final String KeihiListAlertSelectOrder}) = _$_AppParamState;
+      final String KeihiListAlertSelectOrder,
+      final int TaxPaymentAlertSelectYear}) = _$_AppParamState;
 
   @override
   int get AmazonAlertSelectYear;
@@ -557,6 +577,8 @@ abstract class _AppParamState implements AppParamState {
   int get KeihiListAlertSelectYear;
   @override
   String get KeihiListAlertSelectOrder;
+  @override
+  int get TaxPaymentAlertSelectYear;
   @override
   @JsonKey(ignore: true)
   _$$_AppParamStateCopyWith<_$_AppParamState> get copyWith =>
