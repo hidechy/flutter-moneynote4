@@ -142,7 +142,7 @@ class KeihiListAlert extends ConsumerWidget {
                   ),
                 ),
                 Icon(
-                  Icons.input,
+                  Icons.settings,
                   color: Colors.white.withOpacity(0.8),
                 ),
               ],
