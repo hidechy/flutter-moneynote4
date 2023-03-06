@@ -9,6 +9,8 @@ import '../../state/device_info/device_info_notifier.dart';
 import '../../state/keihi_list/keihi_list_notifier.dart';
 import '../../state/keihi_list/keihi_list_request_state.dart';
 import '../../utility/utility.dart';
+import '_money_dialog.dart';
+import 'keihi_setting_alert.dart';
 
 class KeihiListAlert extends ConsumerWidget {
   KeihiListAlert({super.key, required this.date});
@@ -17,11 +19,13 @@ class KeihiListAlert extends ConsumerWidget {
 
   final Utility _utility = Utility();
 
+  late BuildContext _context;
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    _context = context;
     _ref = ref;
 
     final yearWidgetList = makeYearWidgetList();
@@ -141,9 +145,28 @@ class KeihiListAlert extends ConsumerWidget {
                     ],
                   ),
                 ),
-                Icon(
-                  Icons.settings,
-                  color: Colors.white.withOpacity(0.8),
+                GestureDetector(
+                  onTap: () {
+                    final st = <String>[];
+                    st.add(element.date.yyyymmdd);
+                    st.add(element.item);
+                    st.add(element.price.toString());
+                    st.add(element.flag);
+                    final str = st.join('|');
+
+                    MoneyDialog(
+                      context: _context,
+                      widget: KeihiSettingAlert(
+                        id: element.id,
+                        str: str,
+                        date: element.date,
+                      ),
+                    );
+                  },
+                  child: Icon(
+                    Icons.settings,
+                    color: Colors.white.withOpacity(0.6),
+                  ),
                 ),
               ],
             ),
