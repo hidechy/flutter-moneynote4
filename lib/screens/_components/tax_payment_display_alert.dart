@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, non_constant_identifier_names, cast_nullable_to_non_nullable
+// ignore_for_file: must_be_immutable, non_constant_identifier_names, cast_nullable_to_non_nullable, parameter_assignments
 
 import 'dart:async';
 
@@ -214,7 +214,7 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
       '第3期分の税額（還付金額）',
     ];
 
-    var calculationItem = [
+    final calculationItem = [
       '事業所得',
       '課税される所得金額',
       '課税される所得金額に対する税額',
@@ -228,7 +228,7 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
       color = Colors.lightBlueAccent;
     }
 
-    var resultItem = ['第3期分の税額（納付金額）', '第3期分の税額（還付金額）'];
+    final resultItem = ['第3期分の税額（納付金額）', '第3期分の税額（還付金額）'];
 
     if (resultItem.contains(category2)) {
       color = Colors.greenAccent;
@@ -291,8 +291,8 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
-            Text('事業所得 - （差し引かれる金額） / 1000'),
-            Text(' ⇨　端数切る'),
+            Text('事業所得 - （差し引かれる金額）'),
+            Text(' ⇨　1000円以下の端数を切る'),
           ],
         );
 
@@ -313,7 +313,7 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
             Text('所得税及び復興特別所得税の額 - 源泉徴収税額 '),
-            Text(' ⇨　端数を切る'),
+            Text(' ⇨　100円以下の端数を切る'),
           ],
         );
 
@@ -328,7 +328,7 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
   }
 
   ///
-  void makeTaxPaymentDisplayValue() {
+  Future<void> makeTaxPaymentDisplayValue() async {
     taxPaymentDisplayValue['青色申告特別控除額'] = 650000;
     taxPaymentDisplayValue['生命保険料控除'] = 40000;
     taxPaymentDisplayValue['基礎控除'] = 480000;
