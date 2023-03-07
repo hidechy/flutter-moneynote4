@@ -6,9 +6,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../extensions/extensions.dart';
 import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
-import '../../state/keihi_list/keihi_list_notifier.dart';
-import '../../state/keihi_list/keihi_list_request_state.dart';
 import '../../utility/utility.dart';
+import '../../viewmodel/keihi_list_notifier.dart';
 import '_money_dialog.dart';
 import 'keihi_setting_alert.dart';
 
@@ -83,12 +82,9 @@ class KeihiListAlert extends ConsumerWidget {
 
             final date = '$i-01-01 00:00:00'.toDateTime();
 
-            final param = KeihiListRequestState(
-              selectDate: date,
-              selectOrder: '',
-            );
-
-            _ref.watch(keihiListProvider.notifier).getKeihiList(param: param);
+            _ref
+                .watch(keihiListProvider(date).notifier)
+                .getKeihiList(date: date);
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
@@ -112,7 +108,7 @@ class KeihiListAlert extends ConsumerWidget {
   Widget displayKeihiList() {
     final list = <Widget>[];
 
-    final keihiListState = _ref.watch(keihiListProvider);
+    final keihiListState = _ref.watch(keihiListProvider(date));
     var sum = 0;
     keihiListState.forEach((element) {
       list.add(Container(
