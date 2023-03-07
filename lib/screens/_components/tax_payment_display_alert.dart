@@ -94,7 +94,7 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
     );
 
     final yearList = <Widget>[];
-    for (var i = date.yyyy.toInt(); i >= 2023; i--) {
+    for (var i = date.yyyy.toInt(); i >= 2022; i--) {
       yearList.add(
         GestureDetector(
           onTap: () async {
@@ -214,6 +214,26 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
       '第3期分の税額（還付金額）',
     ];
 
+    var calculationItem = [
+      '事業所得',
+      '課税される所得金額',
+      '課税される所得金額に対する税額',
+      '差引所得税額',
+      '復興特別所得税額',
+      '所得税及び復興特別所得税の額',
+      '申告納税額'
+    ];
+
+    if (calculationItem.contains(category2)) {
+      color = Colors.lightBlueAccent;
+    }
+
+    var resultItem = ['第3期分の税額（納付金額）', '第3期分の税額（還付金額）'];
+
+    if (resultItem.contains(category2)) {
+      color = Colors.greenAccent;
+    }
+
     return Container(
       width: _context.screenSize.width,
       padding: const EdgeInsets.all(10),
@@ -224,6 +244,9 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
             color: Colors.white.withOpacity(0.3),
           ),
         ),
+        color: (category2 == '申告納税額')
+            ? Colors.pinkAccent.withOpacity(0.1)
+            : Colors.transparent,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -268,8 +291,8 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
-            Text('引く数: 社会保険料控除 + 生命保険料控除 + 基礎控除'),
-            Text('事業所得 - 引く数 / 1000 ⇨　端数切る'),
+            Text('事業所得 - （差し引かれる金額） / 1000'),
+            Text(' ⇨　端数切る'),
           ],
         );
 
@@ -311,9 +334,10 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
     taxPaymentDisplayValue['基礎控除'] = 480000;
 
     taxPaymentDisplayValue['事業収入'] = getBenefit();
-    taxPaymentDisplayValue['経費'] = getKeihi();
     taxPaymentDisplayValue['社会保険料控除'] = getShakaiHoken();
     taxPaymentDisplayValue['予定納税額'] = getYoteiNouzei();
+
+    taxPaymentDisplayValue['経費'] = getKeihi();
 
     // remake
     taxPaymentDisplayValue['収入金額配当'] = 0;
@@ -321,15 +345,30 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
     // remake
     taxPaymentDisplayValue['所得金額配当'] = 0;
 
-    taxPaymentDisplayValue['事業所得'] = taxPaymentDisplayValue['事業収入']! -
-        taxPaymentDisplayValue['経費']! -
-        taxPaymentDisplayValue['青色申告特別控除額']!;
-
     // remake
     taxPaymentDisplayValue['配当控除'] = 0;
 
     // remake
     taxPaymentDisplayValue['源泉徴収税額'] = 0;
+
+    //////////////////////////////////////////////////////// s
+    final TaxPaymentAlertSelectYear = _ref.watch(
+      appParamProvider.select((value) => value.TaxPaymentAlertSelectYear),
+    );
+
+    if (TaxPaymentAlertSelectYear == 2022) {
+      taxPaymentDisplayValue['経費'] = 1269709;
+
+      taxPaymentDisplayValue['収入金額配当'] = 408;
+      taxPaymentDisplayValue['所得金額配当'] = 408;
+      taxPaymentDisplayValue['配当控除'] = 41;
+      taxPaymentDisplayValue['源泉徴収税額'] = 57;
+    }
+    //////////////////////////////////////////////////////// e
+
+    taxPaymentDisplayValue['事業所得'] = taxPaymentDisplayValue['事業収入']! -
+        taxPaymentDisplayValue['経費']! -
+        taxPaymentDisplayValue['青色申告特別控除額']!;
 
     final sashihikare = taxPaymentDisplayValue['社会保険料控除']! +
         taxPaymentDisplayValue['生命保険料控除']! +
@@ -427,13 +466,13 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
     final TaxPaymentAlertSelectYear = _ref.watch(
         appParamProvider.select((value) => value.TaxPaymentAlertSelectYear));
 
-    final august = DateTime(TaxPaymentAlertSelectYear - 1, 8);
-    final november = DateTime(TaxPaymentAlertSelectYear - 1, 11);
+    final august = DateTime(TaxPaymentAlertSelectYear, 8);
+    final november = DateTime(TaxPaymentAlertSelectYear, 11);
 
     final yoteiYearMonth = [august.yyyymm, november.yyyymm];
 
-    final dutyState = _ref.watch(dutyProvider(
-        '${TaxPaymentAlertSelectYear - 1}-01-01 00:00:00'.toDateTime()));
+    final dutyState = _ref.watch(
+        dutyProvider('$TaxPaymentAlertSelectYear-01-01 00:00:00'.toDateTime()));
 
     var ret = 0;
 
@@ -470,6 +509,9 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
 
   ///
   void makeNoufuKanpu({int? shinkoku, int? yotei}) {
+    taxPaymentDisplayValue['第3期分の税額（納付金額）'] = 0;
+    taxPaymentDisplayValue['第3期分の税額（還付金額）'] = 0;
+
     if (shinkoku! > yotei!) {
       taxPaymentDisplayValue['第3期分の税額（納付金額）'] = shinkoku - yotei;
     } else {
