@@ -76,7 +76,7 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
 
                     csvDataList = snapshot.data as List<CsvData>;
 
-                    return displayTaxPaymentList();
+                    return displayCategoryList();
                   },
                 ),
               ),
@@ -154,7 +154,7 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
   }
 
   ///
-  Widget displayTaxPaymentList() {
+  Widget displayCategoryList() {
     final list = <Widget>[];
 
     var keepCategory1 = '';
@@ -213,22 +213,6 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
       '第3期分の税額（納付金額）',
       '第3期分の税額（還付金額）',
     ];
-
-    var calculateItems = [
-      '事業所得',
-      '課税される所得金額',
-      '課税される所得金額に対する税額',
-      '差引所得税額',
-      '復興特別所得税額',
-      '所得税及び復興特別所得税の額',
-      '申告納税額',
-      '第3期分の税額（納付金額）',
-      '第3期分の税額（還付金額）',
-    ];
-
-    if (calculateItems.contains(category2)) {
-      color = Colors.lightBlueAccent;
-    }
 
     return Container(
       width: _context.screenSize.width,
@@ -322,8 +306,6 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
 
   ///
   void makeTaxPaymentDisplayValue() {
-    taxPaymentDisplayValue = {};
-
     taxPaymentDisplayValue['青色申告特別控除額'] = 650000;
     taxPaymentDisplayValue['生命保険料控除'] = 40000;
     taxPaymentDisplayValue['基礎控除'] = 480000;
@@ -339,15 +321,15 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
     // remake
     taxPaymentDisplayValue['所得金額配当'] = 0;
 
+    taxPaymentDisplayValue['事業所得'] = taxPaymentDisplayValue['事業収入']! -
+        taxPaymentDisplayValue['経費']! -
+        taxPaymentDisplayValue['青色申告特別控除額']!;
+
     // remake
     taxPaymentDisplayValue['配当控除'] = 0;
 
     // remake
     taxPaymentDisplayValue['源泉徴収税額'] = 0;
-
-    taxPaymentDisplayValue['事業所得'] = taxPaymentDisplayValue['事業収入']! -
-        taxPaymentDisplayValue['経費']! -
-        taxPaymentDisplayValue['青色申告特別控除額']!;
 
     final sashihikare = taxPaymentDisplayValue['社会保険料控除']! +
         taxPaymentDisplayValue['生命保険料控除']! +
