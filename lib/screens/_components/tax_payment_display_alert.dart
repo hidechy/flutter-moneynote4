@@ -427,8 +427,8 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
     final TaxPaymentAlertSelectYear = _ref.watch(
         appParamProvider.select((value) => value.TaxPaymentAlertSelectYear));
 
-    var august = DateTime(TaxPaymentAlertSelectYear - 1, 8);
-    var november = DateTime(TaxPaymentAlertSelectYear - 1, 11);
+    final august = DateTime(TaxPaymentAlertSelectYear - 1, 8);
+    final november = DateTime(TaxPaymentAlertSelectYear - 1, 11);
 
     final yoteiYearMonth = [august.yyyymm, november.yyyymm];
 
@@ -439,7 +439,7 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
 
     dutyState.forEach((element) {
       if (element.duty == '所得税') {
-        var ym = '${element.date} 00:00:00'.toDateTime().yyyymm;
+        final ym = '${element.date} 00:00:00'.toDateTime().yyyymm;
         if (yoteiYearMonth.contains(ym)) {
           ret += element.price;
         }
