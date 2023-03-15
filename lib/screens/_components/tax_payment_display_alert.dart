@@ -145,6 +145,7 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
       final rowData = CsvData(
         category1: rows[0].trim(),
         category2: rows[1].trim(),
+        taxItem: rows[2].trim().toInt(),
       );
 
       list.add(rowData);
@@ -525,8 +526,10 @@ class CsvData {
   CsvData({
     required this.category1,
     required this.category2,
+    required this.taxItem,
   });
 
   String category1;
   String category2;
+  int taxItem;
 }
