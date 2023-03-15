@@ -13,6 +13,8 @@ import '../../utility/utility.dart';
 import '../../viewmodel/benefit_notifier.dart';
 import '../../viewmodel/duty_notifier.dart';
 import '../../viewmodel/keihi_list_notifier.dart';
+import '_money_dialog.dart';
+import 'tax_payment_item_edit_alert.dart';
 
 class TaxPaymentDisplayAlert extends ConsumerWidget {
   TaxPaymentDisplayAlert({super.key, required this.date});
@@ -63,6 +65,24 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
               //----------//
 
               Row(children: yearWidgetList),
+
+              const SizedBox(height: 20),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(),
+                  GestureDetector(
+                    onTap: () {
+                      MoneyDialog(
+                        context: context,
+                        widget: TaxPaymentItemEditAlert(),
+                      );
+                    },
+                    child: const Icon(Icons.edit),
+                  ),
+                ],
+              ),
 
               const SizedBox(height: 20),
 
