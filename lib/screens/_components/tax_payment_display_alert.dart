@@ -214,6 +214,27 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
 
       list.add(getDisplayRow(category2: element.category2));
 
+      ///////////////////////////////////////////////
+      if (element.category2 == '所得金額配当') {
+        list.add(
+          getDisplayRow(
+            category2: '所得金額合計',
+            color: const Color(0xFFFBB6CE),
+          ),
+        );
+      }
+
+      if (element.category2 == '寄附金控除') {
+        list.add(
+          getDisplayRow(
+            category2: '所得から差し引かれる金額合計',
+            color: const Color(0xFFFBB6CE),
+          ),
+        );
+      }
+
+      ///////////////////////////////////////////////
+
       keepCategory1 = element.category1;
     });
 
@@ -368,22 +389,22 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
       appParamProvider.select((value) => value.TaxPaymentAlertSelectYear),
     );
 
-    if (TaxPaymentAlertSelectYear == 2023) {
+    if (TaxPaymentAlertSelectYear == DateTime.now().year) {
       taxPaymentDisplayValue['社会保険料控除'] = getShakaiHoken(); //XXX
 
       taxPaymentDisplayValue['生命保険料控除'] = 40000; //XXX
 
-      // remake
       taxPaymentDisplayValue['収入金額配当'] = 0;
 
-      // remake
       taxPaymentDisplayValue['所得金額配当'] = 0;
 
-      // remake
       taxPaymentDisplayValue['配当控除'] = 0;
 
-      // remake
       taxPaymentDisplayValue['源泉徴収税額'] = 0;
+
+      taxPaymentDisplayValue['小規模企業共済等掛金控除'] = 0;
+
+      taxPaymentDisplayValue['寄附金控除'] = 0;
 
       taxPaymentDisplayValue['経費'] = getKeihi();
     }
@@ -393,12 +414,33 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
         taxPaymentDisplayValue['経費']! -
         taxPaymentDisplayValue['青色申告特別控除額']!;
 
-    final sashihikare = taxPaymentDisplayValue['社会保険料控除']! +
-        taxPaymentDisplayValue['生命保険料控除']! +
-        taxPaymentDisplayValue['基礎控除']!;
+    //////////////////////////////////////////////////
 
-    taxPaymentDisplayValue['課税される所得金額'] =
-        ((taxPaymentDisplayValue['事業所得']! - sashihikare) / 1000).floor() * 1000;
+    final shotokuSumList = [
+      taxPaymentDisplayValue['事業所得'],
+      taxPaymentDisplayValue['所得金額配当']
+    ];
+
+    taxPaymentDisplayValue['所得金額合計'] =
+        shotokuSumList.reduce((a, b) => a! + b!)!;
+
+    final sashihikareSumList = [
+      taxPaymentDisplayValue['社会保険料控除'],
+      taxPaymentDisplayValue['小規模企業共済等掛金控除'],
+      taxPaymentDisplayValue['生命保険料控除'],
+      taxPaymentDisplayValue['基礎控除'],
+      taxPaymentDisplayValue['寄附金控除']
+    ];
+
+    taxPaymentDisplayValue['所得から差し引かれる金額合計'] =
+        sashihikareSumList.reduce((a, b) => a! + b!)!;
+
+    //////////////////////////////////////////////////
+
+    final aaa = taxPaymentDisplayValue['所得金額合計']! -
+        taxPaymentDisplayValue['所得から差し引かれる金額合計']!;
+
+    taxPaymentDisplayValue['課税される所得金額'] = (aaa / 1000).floor() * 1000;
 
     taxPaymentDisplayValue['課税される所得金額に対する税額'] = makeKazeiShotokuKingaku(
         kazeiShotoku: taxPaymentDisplayValue['課税される所得金額']);
