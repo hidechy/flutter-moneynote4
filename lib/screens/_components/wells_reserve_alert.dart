@@ -85,9 +85,9 @@ class WellsReserveAlert extends ConsumerWidget {
                 .watch(appParamProvider.notifier)
                 .setWellsReserveAlertYear(year: i);
 
-            _ref.watch(wellsReserveProvider.notifier).getWellsReserveNotifier(
-                  date: '$i-01-01 00:00:00'.toDateTime(),
-                );
+            _ref
+                .watch(wellsReserveProvider.notifier)
+                .getWellsReserveNotifier(date: DateTime(i));
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),

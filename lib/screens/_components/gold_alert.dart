@@ -123,7 +123,11 @@ class GoldAlert extends ConsumerWidget {
                 ? SizedBox(
                     width: double.infinity,
                     child: Text(
-                      '$date（${_utility.getYoubi(youbiStr: '$date 00:00:00'.toDateTime().youbiStr)}）',
+                      '$date（${_utility.getYoubi(youbiStr: DateTime(
+                        date.split('-')[0].toInt(),
+                        date.split('-')[1].toInt(),
+                        date.split('-')[2].toInt(),
+                      ).youbiStr)}）',
                       style: const TextStyle(color: Colors.grey),
                     ),
                   )
@@ -136,7 +140,11 @@ class GoldAlert extends ConsumerWidget {
                           SizedBox(
                             width: 140,
                             child: Text(
-                              '$date（${_utility.getYoubi(youbiStr: '$date 00:00:00'.toDateTime().youbiStr)}）',
+                              '$date（${_utility.getYoubi(youbiStr: DateTime(
+                                date.split('-')[0].toInt(),
+                                date.split('-')[1].toInt(),
+                                date.split('-')[2].toInt(),
+                              ).youbiStr)}）',
                             ),
                           ),
                           const Text('1g'),

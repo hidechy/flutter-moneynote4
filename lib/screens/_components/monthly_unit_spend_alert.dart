@@ -39,8 +39,6 @@ class MonthlyUnitSpendAlert extends ConsumerWidget {
       appParamProvider.select((value) => value.MonthlyUnitSpendAlertSelectYear),
     );
 
-    final dt = '$MonthlyUnitSpendAlertSelectYear-01-01 00:00:00'.toDateTime();
-
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.zero,
@@ -74,7 +72,8 @@ class MonthlyUnitSpendAlert extends ConsumerWidget {
                     onTap: () {
                       MoneyDialog(
                         context: context,
-                        widget: MonthlyUnitSpendGraphAlert(date: dt),
+                        widget: MonthlyUnitSpendGraphAlert(
+                            date: DateTime(MonthlyUnitSpendAlertSelectYear)),
                       );
                     },
                     child: const Icon(Icons.graphic_eq),
@@ -109,7 +108,7 @@ class MonthlyUnitSpendAlert extends ConsumerWidget {
 
             _ref
                 .watch(spendMonthUnitProvider(date).notifier)
-                .getSpendMonthUnit(date: '$i-01-01 00:00:00'.toDateTime());
+                .getSpendMonthUnit(date: DateTime(i));
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
@@ -159,7 +158,10 @@ class MonthlyUnitSpendAlert extends ConsumerWidget {
                         MoneyDialog(
                           context: _context,
                           widget: MonthlySpendAlert(
-                            date: '${e.key}-01 00:00:00'.toDateTime(),
+                            date: DateTime(
+                              e.key.split('-')[0].toInt(),
+                              e.key.split('-')[1].toInt(),
+                            ),
                           ),
                         );
                       },

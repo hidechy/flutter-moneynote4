@@ -106,9 +106,7 @@ class DutyAlert extends ConsumerWidget {
     );
 
     final dutyState = _ref.watch(
-      dutyProvider(
-        '$DutyAlertSelectYear-01-01 00:00:00'.toDateTime(),
-      ),
+      dutyProvider(DateTime(DutyAlertSelectYear)),
     );
 
     final list = <Widget>[];

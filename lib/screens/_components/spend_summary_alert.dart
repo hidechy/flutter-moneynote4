@@ -38,8 +38,8 @@ class SpendSummaryAlert extends ConsumerWidget {
       appParamProvider.select((value) => value.SpendSummaryAlertSelectYear),
     );
 
-    final spendSummaryState = ref.watch(spendSummaryProvider(
-        '$SpendSummaryAlertSelectYear-01-01 00:00:00'.toDateTime()));
+    final spendSummaryState =
+        ref.watch(spendSummaryProvider(DateTime(SpendSummaryAlertSelectYear)));
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -142,9 +142,7 @@ class SpendSummaryAlert extends ConsumerWidget {
     );
 
     final spendSummaryState = _ref.watch(
-      spendSummaryProvider(
-        '$SpendSummaryAlertSelectYear-01-01 00:00:00'.toDateTime(),
-      ),
+      spendSummaryProvider(DateTime(SpendSummaryAlertSelectYear)),
     );
 
     //--------------------------------------------------//

@@ -143,7 +143,10 @@ class MonthlyUnitSpendGraphAlert extends ConsumerWidget {
       barGroups: spendMonthUnitState.entries.map(
         (e) {
           return BarChartGroupData(
-            x: '${e.key}-01 00:00:00'.toDateTime().mm.toInt(),
+            x: DateTime(
+              e.key.split('-')[0].toInt(),
+              e.key.split('-')[1].toInt(),
+            ).month,
             barRods: [
               BarChartRodData(toY: e.value.toString().toDouble()),
             ],

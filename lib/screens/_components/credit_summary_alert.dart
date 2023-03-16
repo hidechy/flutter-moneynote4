@@ -35,7 +35,8 @@ class CreditSummaryAlert extends ConsumerWidget {
     );
 
     final creditSummaryState = _ref.watch(creditSummaryProvider(
-        '$CreditSummaryAlertSelectYear-01-01 00:00:00'.toDateTime()));
+      DateTime(CreditSummaryAlertSelectYear),
+    ));
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
@@ -126,9 +127,7 @@ class CreditSummaryAlert extends ConsumerWidget {
     );
 
     final creditSummaryState = _ref.watch(
-      creditSummaryProvider(
-        '$CreditSummaryAlertSelectYear-01-01 00:00:00'.toDateTime(),
-      ),
+      creditSummaryProvider(DateTime(CreditSummaryAlertSelectYear)),
     );
 
     //--------------------------------------------------//

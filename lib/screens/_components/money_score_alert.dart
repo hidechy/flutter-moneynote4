@@ -93,7 +93,11 @@ class MoneyScoreAlert extends ConsumerWidget {
     var keepYear = 0;
     var total = 0;
     for (var i = 1; i < moneyScoreState.length; i++) {
-      final year = '${moneyScoreState[i].ym}-01 00:00:00'.toDateTime().year;
+      final year = DateTime(
+        moneyScoreState[i].ym.split('-')[0].toInt(),
+        moneyScoreState[i].ym.split('-')[1].toInt(),
+      ).year;
+
       if (year != keepYear) {
         total = 0;
       }
@@ -113,7 +117,10 @@ class MoneyScoreAlert extends ConsumerWidget {
 
       totalMap[year.toString()] = total;
 
-      keepYear = '${moneyScoreState[i].ym}-01 00:00:00'.toDateTime().year;
+      keepYear = DateTime(
+        moneyScoreState[i].ym.split('-')[0].toInt(),
+        moneyScoreState[i].ym.split('-')[1].toInt(),
+      ).year;
     }
     //-----------------------------------------------
 
@@ -128,9 +135,15 @@ class MoneyScoreAlert extends ConsumerWidget {
           ? (moneyScoreState[i].benefit - sagaku)
           : moneyScoreState[i].benefit + sagaku;
 
-      final year = '${moneyScoreState[i].ym}-01 00:00:00'.toDateTime().year;
+      final year = DateTime(
+        moneyScoreState[i].ym.split('-')[0].toInt(),
+        moneyScoreState[i].ym.split('-')[1].toInt(),
+      ).year;
 
-      final month = '${moneyScoreState[i].ym}-01 00:00:00'.toDateTime().month;
+      final month = DateTime(
+        moneyScoreState[i].ym.split('-')[0].toInt(),
+        moneyScoreState[i].ym.split('-')[1].toInt(),
+      ).month;
 
       if ((year != 2014 && month == 1) || (year == 2014 && month == 7)) {
         final ttl = totalMap[year.toString()].toString().toCurrency();

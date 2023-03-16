@@ -104,9 +104,7 @@ class CreditCompanyAlert extends ConsumerWidget {
     );
 
     final creditCompanyState = _ref.watch(
-      creditCompanyProvider(
-        '$CreditCompanyAlertSelectYear-01-01 00:00:00'.toDateTime(),
-      ),
+      creditCompanyProvider(DateTime(CreditCompanyAlertSelectYear)),
     );
 
     final list = <Widget>[];

@@ -41,7 +41,11 @@ class MercariNotifier extends StateNotifier<List<MercariRecord>> {
 
           list.add(
             MercariRecord(
-              date: '${value['data'][i]['date']} 00:00:00'.toDateTime(),
+              date: DateTime(
+                value['data'][i]['date'].toString().split('-')[0].toInt(),
+                value['data'][i]['date'].toString().split('-')[1].toInt(),
+                value['data'][i]['date'].toString().split('-')[2].toInt(),
+              ),
               buySell: exData[0],
               title: exData[1],
               cellPrice: exData[2].toInt(),

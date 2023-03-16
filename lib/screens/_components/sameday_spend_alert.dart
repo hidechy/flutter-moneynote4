@@ -109,9 +109,11 @@ class SamedaySpendAlert extends ConsumerWidget {
                 .setSamedaySpendAlertDay(day: i);
 
             _ref.watch(samedaySpendProvider(date).notifier).getSamedaySpend(
-                  date:
-                      '${date.yyyymm}-${i.toString().padLeft(2, '0')} 00:00:00'
-                          .toDateTime(),
+                  date: DateTime(
+                    date.yyyymm.split('-')[0].toInt(),
+                    date.yyyymm.split('-')[1].toInt(),
+                    i,
+                  ),
                 );
           },
           child: Container(
@@ -171,8 +173,10 @@ class SamedaySpendAlert extends ConsumerWidget {
                           MoneyDialog(
                             context: _context,
                             widget: MonthlySpendAlert(
-                              date: '${samedaySpendState[i].ym}-01 00:00:00'
-                                  .toDateTime(),
+                              date: DateTime(
+                                samedaySpendState[i].ym.split('-')[0].toInt(),
+                                samedaySpendState[i].ym.split('-')[1].toInt(),
+                              ),
                             ),
                           );
                         },
@@ -187,8 +191,10 @@ class SamedaySpendAlert extends ConsumerWidget {
                           MoneyDialog(
                             context: _context,
                             widget: SamedaySpendGraphAlert(
-                              date: '${samedaySpendState[i].ym}-01 00:00:00'
-                                  .toDateTime(),
+                              date: DateTime(
+                                samedaySpendState[i].ym.split('-')[0].toInt(),
+                                samedaySpendState[i].ym.split('-')[1].toInt(),
+                              ),
                             ),
                           );
                         },

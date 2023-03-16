@@ -80,9 +80,7 @@ class TrainAlert extends ConsumerWidget {
                 .watch(appParamProvider.notifier)
                 .setTrainAlertSelectYear(year: i);
 
-            final date = '$i-01-01 00:00:00'.toDateTime();
-
-            _ref.watch(trainProvider.notifier).getYearTrain(date: date);
+            _ref.watch(trainProvider.notifier).getYearTrain(date: DateTime(i));
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),

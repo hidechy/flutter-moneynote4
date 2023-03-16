@@ -75,7 +75,12 @@ class FoodExpensesAlert extends ConsumerWidget {
     var keepDate = '';
     var ttl = 0;
     for (var i = 0; i < state.length; i++) {
-      if (date.yyyymm == '${state[i].date} 00:00:00'.toDateTime().yyyymm) {
+      if (date.yyyymm ==
+          DateTime(
+            state[i].date.split('-')[0].toInt(),
+            state[i].date.split('-')[1].toInt(),
+            state[i].date.split('-')[2].toInt(),
+          ).yyyymm) {
         if (state[i].date != keepDate) {
           ttl = 0;
         }
@@ -153,7 +158,11 @@ class FoodExpensesAlert extends ConsumerWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('$key 00:00:00'.toDateTime().mmdd),
+            Text(DateTime(
+              key.split('-')[0].toInt(),
+              key.split('-')[1].toInt(),
+              key.split('-')[2].toInt(),
+            ).mmdd),
             const SizedBox(width: 20),
             Text(value.toString().toCurrency()),
           ],

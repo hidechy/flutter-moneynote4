@@ -106,15 +106,17 @@ class AmazonAlert extends HookConsumerWidget {
     );
 
     final amazonPurchaseState = _ref.watch(
-      amazonPurchaseProvider(
-        '$AmazonAlertSelectYear-01-01 00:00:00'.toDateTime(),
-      ),
+      amazonPurchaseProvider(DateTime(AmazonAlertSelectYear)),
     );
 
     final list = <Widget>[];
 
     for (var i = 0; i < amazonPurchaseState.length; i++) {
-      final month = '${amazonPurchaseState[i].date} 00:00:00'.toDateTime().mm;
+      final month = DateTime(
+        amazonPurchaseState[i].date.split('-')[0].toInt(),
+        amazonPurchaseState[i].date.split('-')[1].toInt(),
+        amazonPurchaseState[i].date.split('-')[2].toInt(),
+      ).mm;
 
       list.add(
         Container(

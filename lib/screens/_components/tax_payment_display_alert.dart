@@ -130,11 +130,9 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
                 .watch(appParamProvider.notifier)
                 .setTaxPaymentAlertSelectYear(year: i);
 
-            final date = '$i-01-01 00:00:00'.toDateTime();
-
             await _ref
                 .watch(keihiListProvider(date).notifier)
-                .getKeihiList(date: date);
+                .getKeihiList(date: DateTime(i));
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
@@ -461,8 +459,8 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
     final TaxPaymentAlertSelectYear = _ref.watch(
         appParamProvider.select((value) => value.TaxPaymentAlertSelectYear));
 
-    final keihiListState = _ref.watch(keihiListProvider(
-        '$TaxPaymentAlertSelectYear-01-01 00:00:00'.toDateTime()));
+    final keihiListState =
+        _ref.watch(keihiListProvider(DateTime(TaxPaymentAlertSelectYear)));
 
     var ret = 0;
 

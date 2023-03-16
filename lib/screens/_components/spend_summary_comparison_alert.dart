@@ -73,7 +73,7 @@ class SpendSummaryComparisonAlert extends ConsumerWidget {
 
     for (var i = 2020; i <= DateTime.now().yyyy.toInt(); i++) {
       final spendSummaryState = _ref.watch(
-        spendSummaryProvider('$i-01-01 00:00:00'.toDateTime()),
+        spendSummaryProvider(DateTime(i)),
       );
 
       final map2 = <String, int>{};

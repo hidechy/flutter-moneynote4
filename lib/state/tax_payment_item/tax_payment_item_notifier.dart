@@ -79,7 +79,7 @@ class TaxPaymentItemNotifier extends StateNotifier<TaxPaymentItemState> {
     }
 
     final uploadData = <String, dynamic>{};
-    uploadData['date'] = DateTime(taxPaymentItemAlertSelectYear);
+    uploadData['date'] = DateTime(taxPaymentItemAlertSelectYear).yyyymmdd;
     uploadData['items'] = items;
 
     await client

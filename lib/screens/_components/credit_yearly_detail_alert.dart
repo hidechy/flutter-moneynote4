@@ -135,8 +135,10 @@ class CreditYearlyDetailAlert extends ConsumerWidget {
 
     final creditSummaryDetailState = _ref.watch(
       creditSummaryDetailProvider(
-        '${date.yyyy}-${CreditYearlyDetailAlertSelectMonth.toString().padLeft(2, '0')}-01 00:00:00'
-            .toDateTime(),
+        DateTime(
+          date.yyyy.toInt(),
+          CreditYearlyDetailAlertSelectMonth,
+        ),
       ),
     );
 
@@ -243,9 +245,10 @@ class CreditYearlyDetailAlert extends ConsumerWidget {
             MoneyDialog(
               context: _context,
               widget: CreditUdemyAlert(
-                date:
-                    '${date.yyyy}-$CreditYearlyDetailAlertSelectMonth-01 00:00:00'
-                        .toDateTime(),
+                date: DateTime(
+                  date.yyyy.toInt(),
+                  CreditYearlyDetailAlertSelectMonth,
+                ),
                 price: price,
               ),
             );

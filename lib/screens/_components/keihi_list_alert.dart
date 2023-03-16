@@ -80,11 +80,9 @@ class KeihiListAlert extends ConsumerWidget {
                 .watch(appParamProvider.notifier)
                 .setKeihiListAlertSelectYear(year: i);
 
-            final date = '$i-01-01 00:00:00'.toDateTime();
-
             _ref
                 .watch(keihiListProvider(date).notifier)
-                .getKeihiList(date: date);
+                .getKeihiList(date: DateTime(i));
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),

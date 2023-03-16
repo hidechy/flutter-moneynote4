@@ -73,22 +73,36 @@ class BenefitAlert extends ConsumerWidget {
     var yb = 0;
     var keepYear = '';
     benefitState.forEach((val) {
-      if (keepYear != '${val.ym}-01 00:00:00'.toDateTime().yyyy) {
+      if (keepYear !=
+          DateTime(
+            val.ym.split('-')[0].toInt(),
+            val.ym.split('-')[1].toInt(),
+          ).yyyy) {
         yb = 0;
       }
 
       yb += val.salary.toInt();
 
-      yearBenefit['${val.ym}-01 00:00:00'.toDateTime().yyyy] = yb;
+      yearBenefit[DateTime(
+        val.ym.split('-')[0].toInt(),
+        val.ym.split('-')[1].toInt(),
+      ).yyyy] = yb;
 
-      keepYear = '${val.ym}-01 00:00:00'.toDateTime().yyyy;
+      keepYear = DateTime(
+        val.ym.split('-')[0].toInt(),
+        val.ym.split('-')[1].toInt(),
+      ).yyyy;
     });
 
     //////////////////////////////////////////////
 
     keepYear = '';
     for (var i = 0; i < benefitState.length; i++) {
-      if (keepYear != '${benefitState[i].ym}-01 00:00:00'.toDateTime().yyyy) {
+      if (keepYear !=
+          DateTime(
+            benefitState[i].ym.split('-')[0].toInt(),
+            benefitState[i].ym.split('-')[1].toInt(),
+          ).yyyy) {
         list.add(
           Container(
             margin: const EdgeInsets.only(top: 30),
@@ -105,17 +119,19 @@ class BenefitAlert extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: Text(
-                    '${benefitState[i].ym}-01 00:00:00'.toDateTime().yyyy,
-                  ),
+                  child: Text(DateTime(
+                    benefitState[i].ym.split('-')[0].toInt(),
+                    benefitState[i].ym.split('-')[1].toInt(),
+                  ).yyyy),
                 ),
                 Expanded(
                   child: Container(
                     alignment: Alignment.topRight,
                     child: Text(
-                      yearBenefit['${benefitState[i].ym}-01 00:00:00'
-                              .toDateTime()
-                              .yyyy]
+                      yearBenefit[DateTime(
+                        benefitState[i].ym.split('-')[0].toInt(),
+                        benefitState[i].ym.split('-')[1].toInt(),
+                      ).yyyy]
                           .toString(),
                     ),
                   ),
@@ -155,7 +171,10 @@ class BenefitAlert extends ConsumerWidget {
         ),
       );
 
-      keepYear = '${benefitState[i].ym}-01 00:00:00'.toDateTime().yyyy;
+      keepYear = DateTime(
+        benefitState[i].ym.split('-')[0].toInt(),
+        benefitState[i].ym.split('-')[1].toInt(),
+      ).yyyy;
     }
 
     return SingleChildScrollView(

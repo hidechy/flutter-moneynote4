@@ -37,7 +37,11 @@ class TrainNotifier extends StateNotifier<List<Train>> {
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         list.add(
           Train(
-            date: '${value['data'][i]['date']} 00:00:00'.toDateTime(),
+            date: DateTime(
+              value['data'][i]['date'].toString().split('-')[0].toInt(),
+              value['data'][i]['date'].toString().split('-')[1].toInt(),
+              value['data'][i]['date'].toString().split('-')[2].toInt(),
+            ),
             station: value['data'][i]['station'].toString(),
             price: value['data'][i]['price'].toString(),
             oufuku: value['data'][i]['oufuku'].toString(),
@@ -56,10 +60,18 @@ class TrainNotifier extends StateNotifier<List<Train>> {
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         if (date.yyyy ==
-            '${value['data'][i]['date']} 00:00:00'.toDateTime().yyyy) {
+            DateTime(
+              value['data'][i]['date'].toString().split('-')[0].toInt(),
+              value['data'][i]['date'].toString().split('-')[1].toInt(),
+              value['data'][i]['date'].toString().split('-')[2].toInt(),
+            ).yyyy) {
           list.add(
             Train(
-              date: '${value['data'][i]['date']} 00:00:00'.toDateTime(),
+              date: DateTime(
+                value['data'][i]['date'].toString().split('-')[0].toInt(),
+                value['data'][i]['date'].toString().split('-')[1].toInt(),
+                value['data'][i]['date'].toString().split('-')[2].toInt(),
+              ),
               station: value['data'][i]['station'].toString(),
               price: value['data'][i]['price'].toString(),
               oufuku: value['data'][i]['oufuku'].toString(),

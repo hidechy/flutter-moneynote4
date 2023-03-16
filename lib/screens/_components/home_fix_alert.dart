@@ -109,9 +109,7 @@ class HomeFixAlert extends ConsumerWidget {
     );
 
     final homeFixState = _ref.watch(
-      homeFixProvider(
-        '$HomeFixAlertSelectYear-01-01 00:00:00'.toDateTime(),
-      ),
+      homeFixProvider(DateTime(HomeFixAlertSelectYear)),
     );
 
     for (var i = 0; i < homeFixState.length; i++) {

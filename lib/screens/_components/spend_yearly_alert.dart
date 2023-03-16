@@ -107,9 +107,7 @@ class SpendYearlyAlert extends ConsumerWidget {
     );
 
     final spendYearSummaryState = _ref.watch(
-      spendYearSummaryProvider(
-        '$SpendYearlyAlertSelectYear-01-01 00:00:00'.toDateTime(),
-      ),
+      spendYearSummaryProvider(DateTime(SpendYearlyAlertSelectYear)),
     );
 
     final list = <Widget>[];
@@ -265,8 +263,7 @@ class SpendYearlyAlert extends ConsumerWidget {
             MoneyDialog(
               context: _context,
               widget: CreditYearlyDetailAlert(
-                date: '$SpendYearlyAlertSelectYear-01-01 00:00:00'.toDateTime(),
-              ),
+                  date: DateTime(SpendYearlyAlertSelectYear)),
             );
           },
           child: Icon(
@@ -280,7 +277,7 @@ class SpendYearlyAlert extends ConsumerWidget {
             MoneyDialog(
               context: _context,
               widget: SpendYearlyItemAlert(
-                date: '$SpendYearlyAlertSelectYear-01-01 00:00:00'.toDateTime(),
+                date: DateTime(SpendYearlyAlertSelectYear),
                 item: item,
               ),
             );

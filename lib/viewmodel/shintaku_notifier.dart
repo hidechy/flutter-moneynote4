@@ -50,8 +50,12 @@ class ShintakuNotifier extends StateNotifier<Shintaku> {
       for (var i = 0;
           i < value['data']['record'].length.toString().toInt();
           i++) {
-        final dt =
-            '${value['data']['record'][i]['date']} 00:00:00'.toDateTime();
+        final dt = DateTime(
+          value['data']['record'][i]['date'].toString().split('-')[0].toInt(),
+          value['data']['record'][i]['date'].toString().split('-')[1].toInt(),
+          value['data']['record'][i]['date'].toString().split('-')[2].toInt(),
+        );
+
         if (dt.isAfter(keepDate)) {
           maxDate = dt;
         }
@@ -139,7 +143,20 @@ class ShintakuRecordNotifier extends StateNotifier<ShintakuRecord> {
         if (i == flag) {
           shintakuRecord = ShintakuRecord(
             name: value['data']['record'][i]['name'].toString(),
-            date: '${value['data']['record'][i]['date']} 00:00:00'.toDateTime(),
+            date: DateTime(
+              value['data']['record'][i]['date']
+                  .toString()
+                  .split('-')[0]
+                  .toInt(),
+              value['data']['record'][i]['date']
+                  .toString()
+                  .split('-')[1]
+                  .toInt(),
+              value['data']['record'][i]['date']
+                  .toString()
+                  .split('-')[2]
+                  .toInt(),
+            ),
             num: value['data']['record'][i]['num'].toString(),
             shutoku: value['data']['record'][i]['shutoku'].toString(),
             cost: value['data']['record'][i]['cost'].toString(),

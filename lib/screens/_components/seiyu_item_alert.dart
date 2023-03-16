@@ -67,7 +67,7 @@ class SeiyuItemAlert extends ConsumerWidget {
 
     for (var i = 2020; i <= date.year; i++) {
       final param = SeiyuPurchaseItemRequestState(
-        date: '$i-01-01 00:00:00'.toDateTime(),
+        date: DateTime(i),
         item: item,
       );
 

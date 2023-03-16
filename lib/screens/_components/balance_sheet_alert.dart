@@ -105,9 +105,7 @@ class BalanceSheetAlert extends ConsumerWidget {
     );
 
     final balanceSheetState = _ref.watch(
-      balanceSheetProvider(
-        '$BalanceSheetAlertSelectYear-01-01 00:00:00'.toDateTime(),
-      ),
+      balanceSheetProvider(DateTime(BalanceSheetAlertSelectYear)),
     );
 
     for (var i = 0; i < balanceSheetState.length; i++) {

@@ -41,7 +41,11 @@ class AmazonPurchaseNotifier extends StateNotifier<List<AmazonPurchase>> {
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         if (date.yyyy ==
-            '${value['data'][i]['date']} 00:00:00'.toDateTime().yyyy) {
+            DateTime(
+              value['data'][i]['date'].toString().split('-')[0].toInt(),
+              value['data'][i]['date'].toString().split('-')[1].toInt(),
+              value['data'][i]['date'].toString().split('-')[2].toInt(),
+            ).yyyy) {
           list.add(
             AmazonPurchase.fromJson(value['data'][i] as Map<String, dynamic>),
           );
