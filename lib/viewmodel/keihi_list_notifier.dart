@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/models/tax_payment_item.dart';
 
 import '../data/http/client.dart';
 import '../data/http/path.dart';
@@ -43,47 +44,35 @@ class KeihiListNotifier extends StateNotifier<List<Keihi>> {
 
 ////////////////////////////////////////////////
 
-/*
-
-
-
-
-
-import '../state/keihi_list/keihi_list_request_state.dart';
-
 ////////////////////////////////////////////////
 
-final keihiListProvider =
-    StateNotifierProvider.autoDispose<KeihiListNotifier, List<Keihi>>((ref) {
+final taxPaymentItemProvider = StateNotifierProvider.autoDispose
+    .family<TaxPaymentItemNotifier, List<TaxPaymentItem>, DateTime>(
+        (ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return KeihiListNotifier([], client, utility)
-    ..getKeihiList(param: const KeihiListRequestState());
+  return TaxPaymentItemNotifier([], client, utility)
+    ..getTaxPaymentItem(date: date);
 });
 
-class KeihiListNotifier extends StateNotifier<List<Keihi>> {
-  KeihiListNotifier(super.state, this.client, this.utility);
+class TaxPaymentItemNotifier extends StateNotifier<List<TaxPaymentItem>> {
+  TaxPaymentItemNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
   final Utility utility;
 
-  ///
-  Future<void> getKeihiList({required KeihiListRequestState param}) async {
-    final uploadData = <String, dynamic>{};
-    uploadData['order'] = param.selectOrder;
-
-    await client.post(path: APIPath.selectSpendCheckItem).then((value) {
-      final list = <Keihi>[];
+  Future<void> getTaxPaymentItem({required DateTime date}) async {
+    await client.post(
+      path: APIPath.getTaxPaymentItem,
+      body: {'date': date.yyyymmdd},
+    ).then((value) {
+      final list = <TaxPaymentItem>[];
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        if (param.selectDate != null) {
-          if ('${value['data'][i]['date']} 00:00:00'.toDateTime().yyyy ==
-              param.selectDate!.yyyy) {
-            list.add(Keihi.fromJson(value['data'][i] as Map<String, dynamic>));
-          }
-        }
+        list.add(
+            TaxPaymentItem.fromJson(value['data'][i] as Map<String, dynamic>));
       }
 
       state = list;
@@ -92,12 +81,3 @@ class KeihiListNotifier extends StateNotifier<List<Keihi>> {
 }
 
 ////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-*/

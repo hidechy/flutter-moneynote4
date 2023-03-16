@@ -30,6 +30,7 @@ final appParamProvider =
       KeihiListAlertSelectYear: year.toInt(),
       KeihiListAlertSelectOrder: '',
       TaxPaymentAlertSelectYear: year.toInt(),
+      TaxPaymentItemAlertSelectYear: year.toInt(),
     ),
   );
 });
@@ -97,6 +98,9 @@ class AppParamNotifier extends StateNotifier<AppParamState> {
 
   Future<void> setTaxPaymentAlertSelectYear({required int year}) async =>
       state = state.copyWith(TaxPaymentAlertSelectYear: year);
+
+  Future<void> setTaxPaymentItemAlertSelectYear({required int year}) async =>
+      state = state.copyWith(TaxPaymentItemAlertSelectYear: year);
 }
 
 ////////////////////////////////////////////////

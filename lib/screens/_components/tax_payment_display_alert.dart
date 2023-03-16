@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, non_constant_identifier_names, cast_nullable_to_non_nullable, parameter_assignments
+// ignore_for_file: must_be_immutable, non_constant_identifier_names, cast_nullable_to_non_nullable, parameter_assignments, cascade_invocations
 
 import 'dart:async';
 
@@ -13,8 +13,7 @@ import '../../utility/utility.dart';
 import '../../viewmodel/benefit_notifier.dart';
 import '../../viewmodel/duty_notifier.dart';
 import '../../viewmodel/keihi_list_notifier.dart';
-import '_money_dialog.dart';
-import 'tax_payment_item_edit_alert.dart';
+import '../tax_payment_item_input_screen.dart';
 
 class TaxPaymentDisplayAlert extends ConsumerWidget {
   TaxPaymentDisplayAlert({super.key, required this.date});
@@ -24,6 +23,8 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
   final Utility _utility = Utility();
 
   Map<String, int> taxPaymentDisplayValue = {};
+
+  Map<String, int> taxPaymentItemValue = {};
 
   List<CsvData> csvDataList = [];
 
@@ -37,6 +38,8 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
     _ref = ref;
 
     makeTaxPaymentDisplayValue();
+
+    makeTaxPaymentItemValue();
 
     final yearWidgetList = makeYearWidgetList();
 
@@ -74,9 +77,12 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
                   Container(),
                   GestureDetector(
                     onTap: () {
-                      MoneyDialog(
-                        context: context,
-                        widget: TaxPaymentItemEditAlert(),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              TaxPaymentItemInputScreen(date: date),
+                        ),
                       );
                     },
                     child: const Icon(Icons.edit),
@@ -350,15 +356,21 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
 
   ///
   Future<void> makeTaxPaymentDisplayValue() async {
+    makeTaxPaymentItemValue();
+
     taxPaymentDisplayValue['青色申告特別控除額'] = 650000;
-    taxPaymentDisplayValue['生命保険料控除'] = 40000;
+
     taxPaymentDisplayValue['基礎控除'] = 480000;
 
     taxPaymentDisplayValue['事業収入'] = getBenefit();
-    taxPaymentDisplayValue['社会保険料控除'] = getShakaiHoken();
     taxPaymentDisplayValue['予定納税額'] = getYoteiNouzei();
 
     taxPaymentDisplayValue['経費'] = getKeihi();
+
+    taxPaymentDisplayValue['社会保険料控除'] = getShakaiHoken(); //XXX
+
+    // remake
+    taxPaymentDisplayValue['生命保険料控除'] = 40000; //XXX
 
     // remake
     taxPaymentDisplayValue['収入金額配当'] = 0;
@@ -378,12 +390,12 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
     );
 
     if (TaxPaymentAlertSelectYear == 2022) {
-      taxPaymentDisplayValue['経費'] = 1269709;
+      taxPaymentDisplayValue['経費'] = 1269709; //XXX
 
-      taxPaymentDisplayValue['収入金額配当'] = 408;
-      taxPaymentDisplayValue['所得金額配当'] = 408;
-      taxPaymentDisplayValue['配当控除'] = 41;
-      taxPaymentDisplayValue['源泉徴収税額'] = 57;
+      taxPaymentDisplayValue['収入金額配当'] = 408; //XXX
+      taxPaymentDisplayValue['所得金額配当'] = 408; //XXX
+      taxPaymentDisplayValue['配当控除'] = 41; //XXX
+      taxPaymentDisplayValue['源泉徴収税額'] = 57; //XXX
     }
     //////////////////////////////////////////////////////// e
 
@@ -538,6 +550,15 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
     } else {
       taxPaymentDisplayValue['第3期分の税額（還付金額）'] = yotei - shinkoku;
     }
+  }
+
+  ///
+  void makeTaxPaymentItemValue() {
+    final taxPaymentItemState = _ref.watch(taxPaymentItemProvider(date));
+
+    taxPaymentItemState.forEach((element) {
+      taxPaymentDisplayValue[element.item] = element.price;
+    });
   }
 }
 

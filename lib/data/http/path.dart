@@ -41,6 +41,8 @@ enum APIPath {
   yearsummary,
   updateKeihiCategory,
   selectSpendCheckItem,
+  inputTaxPaymentItem,
+  getTaxPaymentItem,
 }
 
 extension APIPathExtension on APIPath {
@@ -130,6 +132,10 @@ extension APIPathExtension on APIPath {
         return 'updateKeihiCategory';
       case APIPath.selectSpendCheckItem:
         return 'selectSpendCheckItem';
+      case APIPath.inputTaxPaymentItem:
+        return 'inputTaxPaymentItem';
+      case APIPath.getTaxPaymentItem:
+        return 'getTaxPaymentItem';
     }
   }
 }
