@@ -256,9 +256,11 @@ class MoneyInputScreen extends ConsumerWidget {
       moneyState = _ref.watch(moneyProvider(date));
     } else {
       moneyState = _ref.watch(
-        moneyProvider(
-          '$lastInputDate 00:00:00'.toDateTime(),
-        ),
+        moneyProvider(DateTime(
+          lastInputDate.split('-')[0].toInt(),
+          lastInputDate.split('-')[1].toInt(),
+          lastInputDate.split('-')[2].toInt(),
+        )),
       );
     }
 

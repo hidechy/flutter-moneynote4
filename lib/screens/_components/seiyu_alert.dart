@@ -142,7 +142,7 @@ class SeiyuAlert extends ConsumerWidget {
 
             _ref
                 .watch(seiyuAllProvider(date).notifier)
-                .getSeiyuDateList(date: '$i-01-01 00:00:00'.toDateTime());
+                .getSeiyuDateList(date: DateTime(i));
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
@@ -171,7 +171,11 @@ class SeiyuAlert extends ConsumerWidget {
 
     for (var i = 0; i < seiyuAllState.length; i++) {
       if (keepDate != seiyuAllState[i].date) {
-        list.add('${seiyuAllState[i].date} 00:00:00'.toDateTime().mmdd);
+        list.add(DateTime(
+          seiyuAllState[i].date.split('-')[0].toInt(),
+          seiyuAllState[i].date.split('-')[1].toInt(),
+          seiyuAllState[i].date.split('-')[2].toInt(),
+        ).mmdd);
       }
 
       keepDate = seiyuAllState[i].date;

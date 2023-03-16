@@ -58,7 +58,12 @@ class UdemyNotifier extends StateNotifier<List<Udemy>> {
       final list2 = <Udemy>[];
 
       for (var i = 0; i < list.length; i++) {
-        if ('${list[i].date} 00:00:00'.toDateTime().yyyy.toInt() == year) {
+        if (DateTime(
+              list[i].date.split('-')[0].toInt(),
+              list[i].date.split('-')[1].toInt(),
+              list[i].date.split('-')[2].toInt(),
+            ).year ==
+            year) {
           list2.add(list[i]);
         }
       }
@@ -82,7 +87,12 @@ class UdemyNotifier extends StateNotifier<List<Udemy>> {
       final list2 = <Udemy>[];
 
       for (var i = 0; i < list.length; i++) {
-        if ('${list[i].date} 00:00:00'.toDateTime().yyyy.toInt() == year) {
+        if (DateTime(
+              list[i].date.split('-')[0].toInt(),
+              list[i].date.split('-')[1].toInt(),
+              list[i].date.split('-')[2].toInt(),
+            ).year ==
+            year) {
           if (list[i].category == category) {
             list2.add(list[i]);
           }

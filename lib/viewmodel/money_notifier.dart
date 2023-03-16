@@ -172,7 +172,11 @@ class MoneyEverydayNotifier extends StateNotifier<List<MoneyEveryday>> {
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         list.add(
           MoneyEveryday(
-            date: '${value['data'][i]['date']} 00:00:00'.toDateTime(),
+            date: DateTime(
+              value['data'][i]['date'].toString().split('-')[0].toInt(),
+              value['data'][i]['date'].toString().split('-')[1].toInt(),
+              value['data'][i]['date'].toString().split('-')[2].toInt(),
+            ),
             youbiNum: value['data'][i]['youbiNum'].toString(),
             sum: value['data'][i]['sum'].toString(),
             spend: value['data'][i]['spend'].toString(),

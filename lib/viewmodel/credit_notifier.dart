@@ -224,9 +224,17 @@ class CreditYearlyTotalNotifier extends StateNotifier<List<CreditSpendAll>> {
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         if (date.yyyy ==
-            '${value['data'][i]['pay_month']}-01 00:00:00'.toDateTime().yyyy) {
+            DateTime(
+              value['data'][i]['pay_month'].toString().split('-')[0].toInt(),
+              value['data'][i]['pay_month'].toString().split('-')[1].toInt(),
+            ).yyyy) {
           final item = value['data'][i]['item'].toString();
-          final date = '${value['data'][i]['date']} 00:00:00'.toDateTime();
+
+          final date = DateTime(
+            value['data'][i]['date'].toString().split('-')[0].toInt(),
+            value['data'][i]['date'].toString().split('-')[1].toInt(),
+            value['data'][i]['date'].toString().split('-')[2].toInt(),
+          );
 
           list.add(
             CreditSpendAll(

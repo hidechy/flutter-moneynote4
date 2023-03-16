@@ -103,7 +103,11 @@ class SpendItemDailyNotifier extends StateNotifier<SpendItemDaily> {
       );
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        if ('${value['data'][i]['date']} 00:00:00'.toDateTime().yyyymmdd ==
+        if (DateTime(
+              value['data'][i]['date'].toString().split('-')[0].toInt(),
+              value['data'][i]['date'].toString().split('-')[1].toInt(),
+              value['data'][i]['date'].toString().split('-')[2].toInt(),
+            ).yyyymmdd ==
             date.yyyymmdd) {
           final list = <String>[];
           for (var j = 0;
@@ -156,7 +160,11 @@ class SpendMonthDetailNotifier extends StateNotifier<MonthlySpendState> {
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         if (date.yyyymm ==
-            '${value['data'][i]['date']} 00:00:00'.toDateTime().yyyymm) {
+            DateTime(
+              value['data'][i]['date'].toString().split('-')[0].toInt(),
+              value['data'][i]['date'].toString().split('-')[1].toInt(),
+              value['data'][i]['date'].toString().split('-')[2].toInt(),
+            ).yyyymm) {
           final list2 = <SpendYearlyItem>[];
 
           for (var j = 0;
@@ -225,8 +233,18 @@ class SpendMonthUnitNotifier extends StateNotifier<Map<String, int>> {
       }
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        if (year == '${value['data'][i]['date']} 00:00:00'.toDateTime().yyyy) {
-          final month = '${value['data'][i]['date']} 00:00:00'.toDateTime().mm;
+        if (year ==
+            DateTime(
+              value['data'][i]['date'].toString().split('-')[0].toInt(),
+              value['data'][i]['date'].toString().split('-')[1].toInt(),
+              value['data'][i]['date'].toString().split('-')[2].toInt(),
+            ).yyyy) {
+          final month = DateTime(
+            value['data'][i]['date'].toString().split('-')[0].toInt(),
+            value['data'][i]['date'].toString().split('-')[1].toInt(),
+            value['data'][i]['date'].toString().split('-')[2].toInt(),
+          ).mm;
+
           map2[month.toInt()]?.add(
             value['data'][i]['spend'].toString().toInt(),
           );
@@ -286,7 +304,11 @@ class SpendYearlyItemNotifier
             if (value['data'][i]['item'][j]['price'].toString().toInt() > 0) {
               list.add(
                 SpendYearlyItemState(
-                  date: '$date 00:00:00'.toDateTime(),
+                  date: DateTime(
+                    date.split('-')[0].toInt(),
+                    date.split('-')[1].toInt(),
+                    date.split('-')[2].toInt(),
+                  ),
                   item: value['data'][i]['item'][j]['item'].toString(),
                   price:
                       value['data'][i]['item'][j]['price'].toString().toInt(),

@@ -125,7 +125,20 @@ class StockRecordNotifier extends StateNotifier<StockRecord> {
         if (i == flag) {
           stockRecord = StockRecord(
             name: value['data']['record'][i]['name'].toString(),
-            date: '${value['data']['record'][i]['date']} 00:00:00'.toDateTime(),
+            date: DateTime(
+              value['data']['record'][i]['date']
+                  .toString()
+                  .split('-')[0]
+                  .toInt(),
+              value['data']['record'][i]['date']
+                  .toString()
+                  .split('-')[1]
+                  .toInt(),
+              value['data']['record'][i]['date']
+                  .toString()
+                  .split('-')[2]
+                  .toInt(),
+            ),
             num: value['data']['record'][i]['num'].toString().toInt(),
             oneStock: value['data']['record'][i]['oneStock'].toString(),
             cost: value['data']['record'][i]['cost'].toString().toInt(),
