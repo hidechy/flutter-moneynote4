@@ -363,37 +363,29 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
     taxPaymentDisplayValue['事業収入'] = getBenefit();
     taxPaymentDisplayValue['予定納税額'] = getYoteiNouzei();
 
-    taxPaymentDisplayValue['経費'] = getKeihi();
-
-    taxPaymentDisplayValue['社会保険料控除'] = getShakaiHoken(); //XXX
-
-    // remake
-    taxPaymentDisplayValue['生命保険料控除'] = 40000; //XXX
-
-    // remake
-    taxPaymentDisplayValue['収入金額配当'] = 0;
-
-    // remake
-    taxPaymentDisplayValue['所得金額配当'] = 0;
-
-    // remake
-    taxPaymentDisplayValue['配当控除'] = 0;
-
-    // remake
-    taxPaymentDisplayValue['源泉徴収税額'] = 0;
-
     //////////////////////////////////////////////////////// s
     final TaxPaymentAlertSelectYear = _ref.watch(
       appParamProvider.select((value) => value.TaxPaymentAlertSelectYear),
     );
 
-    if (TaxPaymentAlertSelectYear == 2022) {
-      taxPaymentDisplayValue['経費'] = 1269709; //XXX
+    if (TaxPaymentAlertSelectYear == 2023) {
+      taxPaymentDisplayValue['社会保険料控除'] = getShakaiHoken(); //XXX
 
-      taxPaymentDisplayValue['収入金額配当'] = 408; //XXX
-      taxPaymentDisplayValue['所得金額配当'] = 408; //XXX
-      taxPaymentDisplayValue['配当控除'] = 41; //XXX
-      taxPaymentDisplayValue['源泉徴収税額'] = 57; //XXX
+      taxPaymentDisplayValue['生命保険料控除'] = 40000; //XXX
+
+      // remake
+      taxPaymentDisplayValue['収入金額配当'] = 0;
+
+      // remake
+      taxPaymentDisplayValue['所得金額配当'] = 0;
+
+      // remake
+      taxPaymentDisplayValue['配当控除'] = 0;
+
+      // remake
+      taxPaymentDisplayValue['源泉徴収税額'] = 0;
+
+      taxPaymentDisplayValue['経費'] = getKeihi();
     }
     //////////////////////////////////////////////////////// e
 
@@ -552,7 +544,11 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
 
   ///
   void makeTaxPaymentItemValue() {
-    final taxPaymentItemState = _ref.watch(taxPaymentItemProvider(date));
+    final TaxPaymentAlertSelectYear = _ref.watch(
+        appParamProvider.select((value) => value.TaxPaymentAlertSelectYear));
+
+    final taxPaymentItemState =
+        _ref.watch(taxPaymentItemProvider(DateTime(TaxPaymentAlertSelectYear)));
 
     taxPaymentItemState.forEach((element) {
       taxPaymentDisplayValue[element.item] = element.price;

@@ -83,6 +83,9 @@ class TaxPaymentItemInputScreen extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    Container(),
+
+                    /*
                     GestureDetector(
                       onTap: () {
                         final list = ['経費'];
@@ -117,6 +120,8 @@ class TaxPaymentItemInputScreen extends ConsumerWidget {
                       },
                       child: const Icon(Icons.ac_unit),
                     ),
+                    */
+
                     GestureDetector(
                       onTap: () {
                         _ref
