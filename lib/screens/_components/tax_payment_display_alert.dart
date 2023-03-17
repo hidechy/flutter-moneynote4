@@ -71,26 +71,26 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
 
               const SizedBox(height: 20),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              TaxPaymentItemInputScreen(date: date),
-                        ),
-                      );
-                    },
-                    child: const Icon(Icons.edit),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 20),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     Container(),
+              //     GestureDetector(
+              //       onTap: () {
+              //         Navigator.push(
+              //           context,
+              //           MaterialPageRoute(
+              //             builder: (context) =>
+              //                 TaxPaymentItemInputScreen(date: date),
+              //           ),
+              //         );
+              //       },
+              //       child: const Icon(Icons.edit),
+              //     ),
+              //   ],
+              // ),
+              //
+              // const SizedBox(height: 20),
 
               Expanded(
                 child: FutureBuilder(

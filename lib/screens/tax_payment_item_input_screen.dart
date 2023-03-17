@@ -84,8 +84,6 @@ class TaxPaymentItemInputScreen extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(),
-
-                    /*
                     GestureDetector(
                       onTap: () {
                         final list = ['経費'];
@@ -95,15 +93,15 @@ class TaxPaymentItemInputScreen extends ConsumerWidget {
                         }
 
                         final list2 = [
-                          '1312459',
-                          '2115',
-                          '2115',
-                          '909390',
+                          '1254692',
+                          '408',
+                          '408',
+                          '908020',
                           '0',
-                          '71361',
+                          '40000',
                           '0',
-                          '212',
-                          '292'
+                          '41',
+                          '57'
                         ];
 
                         for (var i = 0; i < list.length; i++) {
@@ -120,8 +118,6 @@ class TaxPaymentItemInputScreen extends ConsumerWidget {
                       },
                       child: const Icon(Icons.ac_unit),
                     ),
-                    */
-
                     GestureDetector(
                       onTap: () {
                         _ref
