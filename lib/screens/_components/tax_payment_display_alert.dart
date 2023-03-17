@@ -11,9 +11,11 @@ import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/benefit_notifier.dart';
+
+//import '../../viewmodel/duty_notifier.dart';
 import '../../viewmodel/duty_notifier.dart';
 import '../../viewmodel/keihi_list_notifier.dart';
-import '../tax_payment_item_input_screen.dart';
+//import '../tax_payment_item_input_screen.dart';
 
 class TaxPaymentDisplayAlert extends ConsumerWidget {
   TaxPaymentDisplayAlert({super.key, required this.date});
@@ -39,7 +41,14 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
 
     makeTaxPaymentDisplayValue();
 
-    makeTaxPaymentItemValue();
+    //
+    //
+    //
+    // makeTaxPaymentItemValue();
+    //
+    //
+    //
+    //
 
     final yearWidgetList = makeYearWidgetList();
 
@@ -71,27 +80,6 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
 
               const SizedBox(height: 20),
 
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     Container(),
-              //     GestureDetector(
-              //       onTap: () {
-              //         Navigator.push(
-              //           context,
-              //           MaterialPageRoute(
-              //             builder: (context) =>
-              //                 TaxPaymentItemInputScreen(date: date),
-              //           ),
-              //         );
-              //       },
-              //       child: const Icon(Icons.edit),
-              //     ),
-              //   ],
-              // ),
-              //
-              // const SizedBox(height: 20),
-
               Expanded(
                 child: FutureBuilder(
                   future: getCsvData(path: 'assets/csv/tax_payment.csv'),
@@ -120,7 +108,7 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
     );
 
     final yearList = <Widget>[];
-    for (var i = date.yyyy.toInt(); i >= 2021; i--) {
+    for (var i = date.yyyy.toInt(); i >= 2020; i--) {
       yearList.add(
         GestureDetector(
           onTap: () async {
@@ -130,9 +118,16 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
                 .watch(appParamProvider.notifier)
                 .setTaxPaymentAlertSelectYear(year: i);
 
-            await _ref
-                .watch(keihiListProvider(date).notifier)
-                .getKeihiList(date: DateTime(i));
+            //
+            //
+            //
+            // await _ref
+            //     .watch(keihiListProvider(date).notifier)
+            //     .getKeihiList(date: DateTime(i));
+            //
+            //
+            //
+            //
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
@@ -377,44 +372,24 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
   Future<void> makeTaxPaymentDisplayValue() async {
     makeTaxPaymentItemValue();
 
-    taxPaymentDisplayValue['青色申告特別控除額'] = 650000;
-
     taxPaymentDisplayValue['基礎控除'] = 480000;
 
-    taxPaymentDisplayValue['事業収入'] = getBenefit();
-    taxPaymentDisplayValue['予定納税額'] = getYoteiNouzei();
-
-    //////////////////////////////////////////////////////// s
+    //-----------------------------------//
     final TaxPaymentAlertSelectYear = _ref.watch(
       appParamProvider.select((value) => value.TaxPaymentAlertSelectYear),
     );
 
     if (TaxPaymentAlertSelectYear == DateTime.now().year) {
-      taxPaymentDisplayValue['社会保険料控除'] = getShakaiHoken(); //XXX
-
-      taxPaymentDisplayValue['生命保険料控除'] = 40000; //XXX
-
-      taxPaymentDisplayValue['収入金額配当'] = 0;
-
-      taxPaymentDisplayValue['所得金額配当'] = 0;
-
-      taxPaymentDisplayValue['配当控除'] = 0;
-
-      taxPaymentDisplayValue['源泉徴収税額'] = 0;
-
-      taxPaymentDisplayValue['小規模企業共済等掛金控除'] = 0;
-
-      taxPaymentDisplayValue['寄附金控除'] = 0;
-
+      taxPaymentDisplayValue['事業収入'] = getBenefit();
+      taxPaymentDisplayValue['予定納税額'] = getYoteiNouzei();
       taxPaymentDisplayValue['経費'] = getKeihi();
+      taxPaymentDisplayValue['社会保険料控除'] = getShakaiHoken();
     }
-    //////////////////////////////////////////////////////// e
+    //-----------------------------------//
 
     taxPaymentDisplayValue['事業所得'] = taxPaymentDisplayValue['事業収入']! -
         taxPaymentDisplayValue['経費']! -
         taxPaymentDisplayValue['青色申告特別控除額']!;
-
-    //////////////////////////////////////////////////
 
     final shotokuSumList = [
       taxPaymentDisplayValue['事業所得'],
@@ -434,8 +409,6 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
 
     taxPaymentDisplayValue['所得から差し引かれる金額合計'] =
         sashihikareSumList.reduce((a, b) => a! + b!)!;
-
-    //////////////////////////////////////////////////
 
     final aaa = taxPaymentDisplayValue['所得金額合計']! -
         taxPaymentDisplayValue['所得から差し引かれる金額合計']!;
@@ -465,6 +438,8 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
                 .floor() *
             100;
 
+    taxPaymentDisplayValue['予定納税額'] = getYoteiNouzei();
+
     makeNoufuKanpu(
       shinkoku: taxPaymentDisplayValue['申告納税額'],
       yotei: taxPaymentDisplayValue['予定納税額'],
@@ -480,13 +455,107 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
 
     var ret = 0;
     benefitState.forEach((element) {
-      if (element.date.yyyy == TaxPaymentAlertSelectYear.toString()) {
+      if (element.date.year == TaxPaymentAlertSelectYear) {
         ret += element.salary.toInt();
       }
     });
 
     return ret;
   }
+
+  ///
+  void makeTaxPaymentItemValue() {
+    final TaxPaymentAlertSelectYear = _ref.watch(
+        appParamProvider.select((value) => value.TaxPaymentAlertSelectYear));
+
+    final taxPaymentItemState =
+        _ref.watch(taxPaymentItemProvider(DateTime(TaxPaymentAlertSelectYear)));
+
+    taxPaymentDisplayValue['事業収入'] = taxPaymentItemState.businessIncome;
+    taxPaymentDisplayValue['収入金額配当'] = taxPaymentItemState.incomeDividend;
+    taxPaymentDisplayValue['給与収入'] = taxPaymentItemState.salaryIncome;
+    taxPaymentDisplayValue['経費'] = taxPaymentItemState.expenses;
+    taxPaymentDisplayValue['所得金額配当'] = taxPaymentItemState.incomeAmountDividend;
+    taxPaymentDisplayValue['社会保険料控除'] =
+        taxPaymentItemState.socialInsuranceDeduction;
+    taxPaymentDisplayValue['小規模企業共済等掛金控除'] =
+        taxPaymentItemState.smallBusinessDeduction;
+    taxPaymentDisplayValue['生命保険料控除'] =
+        taxPaymentItemState.lifeInsuranceDeduction;
+    taxPaymentDisplayValue['寄附金控除'] = taxPaymentItemState.donationDeduction;
+    taxPaymentDisplayValue['配当控除'] = taxPaymentItemState.dividendDeduction;
+    taxPaymentDisplayValue['源泉徴収税額'] = taxPaymentItemState.withholdingTaxAmount;
+    taxPaymentDisplayValue['青色申告特別控除額'] =
+        taxPaymentItemState.blueSpecialDeduction;
+
+    //
+//    taxPaymentDisplayValue['給与所得'] = taxPaymentItemState.employmentIncome;
+  }
+
+  ///
+  int makeKazeiShotokuKingaku({int? kazeiShotoku}) {
+    if (kazeiShotoku! >= 1000 && kazeiShotoku <= 1949000) {
+      final x = kazeiShotoku * 0.05;
+      return x.toString().split('.')[0].toInt();
+    } else if (kazeiShotoku >= 1950000 && kazeiShotoku <= 3299999) {
+      final x = kazeiShotoku * 0.1;
+      return x.toString().split('.')[0].toInt() - 97500;
+    } else if (kazeiShotoku >= 3300000 && kazeiShotoku <= 6949000) {
+      final x = kazeiShotoku * 0.2;
+      return x.toString().split('.')[0].toInt() - 427500;
+    } else if (kazeiShotoku > 6950000 && kazeiShotoku <= 8999000) {
+      final x = kazeiShotoku * 0.23;
+      return x.toString().split('.')[0].toInt() - 436000;
+    }
+
+    return 0;
+  }
+
+  ///
+  void makeNoufuKanpu({int? shinkoku, int? yotei}) {
+    taxPaymentDisplayValue['第3期分の税額（納付金額）'] = 0;
+    taxPaymentDisplayValue['第3期分の税額（還付金額）'] = 0;
+
+    if (shinkoku! > yotei!) {
+      taxPaymentDisplayValue['第3期分の税額（納付金額）'] = shinkoku - yotei;
+    } else {
+      taxPaymentDisplayValue['第3期分の税額（還付金額）'] = yotei - shinkoku;
+    }
+  }
+
+  ///
+  int getYoteiNouzei() {
+    final TaxPaymentAlertSelectYear = _ref.watch(
+        appParamProvider.select((value) => value.TaxPaymentAlertSelectYear));
+
+    final august = DateTime(TaxPaymentAlertSelectYear, 8);
+    final november = DateTime(TaxPaymentAlertSelectYear, 11);
+
+    final yoteiYearMonth = [august.yyyymm, november.yyyymm];
+
+    final dutyState =
+        _ref.watch(dutyProvider(DateTime(TaxPaymentAlertSelectYear)));
+
+    var ret = 0;
+
+    dutyState.forEach((element) {
+      if (element.duty == '所得税') {
+        final ym = DateTime(
+          element.date.split('-')[0].toInt(),
+          element.date.split('-')[1].toInt(),
+          element.date.split('-')[2].toInt(),
+        ).yyyymm;
+
+        if (yoteiYearMonth.contains(ym)) {
+          ret += element.price;
+        }
+      }
+    });
+
+    return ret;
+  }
+
+  //--------------------------------------//
 
   ///
   int getKeihi() {
@@ -526,81 +595,8 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
     return ret;
   }
 
-  ///
-  int getYoteiNouzei() {
-    final TaxPaymentAlertSelectYear = _ref.watch(
-        appParamProvider.select((value) => value.TaxPaymentAlertSelectYear));
+//--------------------------------------//
 
-    final august = DateTime(TaxPaymentAlertSelectYear, 8);
-    final november = DateTime(TaxPaymentAlertSelectYear, 11);
-
-    final yoteiYearMonth = [august.yyyymm, november.yyyymm];
-
-    final dutyState =
-        _ref.watch(dutyProvider(DateTime(TaxPaymentAlertSelectYear)));
-
-    var ret = 0;
-
-    dutyState.forEach((element) {
-      if (element.duty == '所得税') {
-        final ym = DateTime(
-          element.date.split('-')[0].toInt(),
-          element.date.split('-')[1].toInt(),
-          element.date.split('-')[2].toInt(),
-        ).yyyymm;
-
-        if (yoteiYearMonth.contains(ym)) {
-          ret += element.price;
-        }
-      }
-    });
-
-    return ret;
-  }
-
-  ///
-  int makeKazeiShotokuKingaku({int? kazeiShotoku}) {
-    if (kazeiShotoku! >= 1000 && kazeiShotoku <= 1949000) {
-      final x = kazeiShotoku * 0.05;
-      return x.toString().split('.')[0].toInt();
-    } else if (kazeiShotoku >= 1950000 && kazeiShotoku <= 3299999) {
-      final x = kazeiShotoku * 0.1;
-      return x.toString().split('.')[0].toInt() - 97500;
-    } else if (kazeiShotoku >= 3300000 && kazeiShotoku <= 6949000) {
-      final x = kazeiShotoku * 0.2;
-      return x.toString().split('.')[0].toInt() - 427500;
-    } else if (kazeiShotoku > 6950000 && kazeiShotoku <= 8999000) {
-      final x = kazeiShotoku * 0.23;
-      return x.toString().split('.')[0].toInt() - 436000;
-    }
-
-    return 0;
-  }
-
-  ///
-  void makeNoufuKanpu({int? shinkoku, int? yotei}) {
-    taxPaymentDisplayValue['第3期分の税額（納付金額）'] = 0;
-    taxPaymentDisplayValue['第3期分の税額（還付金額）'] = 0;
-
-    if (shinkoku! > yotei!) {
-      taxPaymentDisplayValue['第3期分の税額（納付金額）'] = shinkoku - yotei;
-    } else {
-      taxPaymentDisplayValue['第3期分の税額（還付金額）'] = yotei - shinkoku;
-    }
-  }
-
-  ///
-  void makeTaxPaymentItemValue() {
-    final TaxPaymentAlertSelectYear = _ref.watch(
-        appParamProvider.select((value) => value.TaxPaymentAlertSelectYear));
-
-    final taxPaymentItemState =
-        _ref.watch(taxPaymentItemProvider(DateTime(TaxPaymentAlertSelectYear)));
-
-    taxPaymentItemState.forEach((element) {
-      taxPaymentDisplayValue[element.item] = element.price;
-    });
-  }
 }
 
 ///

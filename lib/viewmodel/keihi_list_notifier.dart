@@ -47,17 +47,33 @@ class KeihiListNotifier extends StateNotifier<List<Keihi>> {
 ////////////////////////////////////////////////
 
 final taxPaymentItemProvider = StateNotifierProvider.autoDispose
-    .family<TaxPaymentItemNotifier, List<TaxPaymentItem>, DateTime>(
-        (ref, date) {
+    .family<TaxPaymentItemNotifier, TaxPaymentItem, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return TaxPaymentItemNotifier([], client, utility)
+  return TaxPaymentItemNotifier(
+      TaxPaymentItem(
+          year: '',
+          businessIncome: 0,
+          incomeDividend: 0,
+          salaryIncome: 0,
+          expenses: 0,
+          incomeAmountDividend: 0,
+          employmentIncome: 0,
+          socialInsuranceDeduction: 0,
+          smallBusinessDeduction: 0,
+          lifeInsuranceDeduction: 0,
+          donationDeduction: 0,
+          dividendDeduction: 0,
+          withholdingTaxAmount: 0,
+          blueSpecialDeduction: 0),
+      client,
+      utility)
     ..getTaxPaymentItem(date: date);
 });
 
-class TaxPaymentItemNotifier extends StateNotifier<List<TaxPaymentItem>> {
+class TaxPaymentItemNotifier extends StateNotifier<TaxPaymentItem> {
   TaxPaymentItemNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
@@ -68,14 +84,7 @@ class TaxPaymentItemNotifier extends StateNotifier<List<TaxPaymentItem>> {
       path: APIPath.getTaxPaymentItem,
       body: {'date': date.yyyymmdd},
     ).then((value) {
-      final list = <TaxPaymentItem>[];
-
-      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        list.add(
-            TaxPaymentItem.fromJson(value['data'][i] as Map<String, dynamic>));
-      }
-
-      state = list;
+      state = TaxPaymentItem.fromJson(value['data'] as Map<String, dynamic>);
     });
   }
 }
