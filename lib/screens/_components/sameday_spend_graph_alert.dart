@@ -1,10 +1,11 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, non_constant_identifier_names
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
+import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/spend_notifier.dart';
@@ -166,6 +167,12 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
     });
     //---------------------------------------(3)
 
+    final SamedaySpendAlertDay = _ref.watch(
+      appParamProvider.select((value) => value.SamedaySpendAlertDay),
+    );
+
+    final yearmonth = DateTime.now().yyyymm;
+
     graphData = LineChartData(
       ///
       minX: 1,
@@ -203,9 +210,22 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
             getTitlesWidget: (value, meta) {
               return SideTitleWidget(
                 axisSide: meta.axisSide,
-                child: Text(
-                  value.toInt().toString(),
-                  style: const TextStyle(fontSize: 12),
+                child: Column(
+                  children: [
+                    Text(
+                      value.toInt().toString(),
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                    if (date.yyyymm == yearmonth &&
+                        value == SamedaySpendAlertDay)
+                      const Text(
+                        'today',
+                        style: TextStyle(
+                          fontSize: 8,
+                          color: Colors.yellowAccent,
+                        ),
+                      ),
+                  ],
                 ),
               );
             },
