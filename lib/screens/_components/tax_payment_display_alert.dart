@@ -540,13 +540,7 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
 
     dutyState.forEach((element) {
       if (element.duty == '所得税') {
-        final ym = DateTime(
-          element.date.split('-')[0].toInt(),
-          element.date.split('-')[1].toInt(),
-          element.date.split('-')[2].toInt(),
-        ).yyyymm;
-
-        if (yoteiYearMonth.contains(ym)) {
+        if (yoteiYearMonth.contains(DateTime.parse(element.date).yyyymm)) {
           ret += element.price;
         }
       }

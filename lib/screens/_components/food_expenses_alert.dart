@@ -75,12 +75,7 @@ class FoodExpensesAlert extends ConsumerWidget {
     var keepDate = '';
     var ttl = 0;
     for (var i = 0; i < state.length; i++) {
-      if (date.yyyymm ==
-          DateTime(
-            state[i].date.split('-')[0].toInt(),
-            state[i].date.split('-')[1].toInt(),
-            state[i].date.split('-')[2].toInt(),
-          ).yyyymm) {
+      if (date.yyyymm == DateTime.parse(state[i].date).yyyymm) {
         if (state[i].date != keepDate) {
           ttl = 0;
         }

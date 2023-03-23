@@ -111,12 +111,8 @@ class AmazonAlert extends HookConsumerWidget {
 
     final list = <Widget>[];
 
-    for (var i = 0; i < amazonPurchaseState.length; i++) {
-      final month = DateTime(
-        amazonPurchaseState[i].date.split('-')[0].toInt(),
-        amazonPurchaseState[i].date.split('-')[1].toInt(),
-        amazonPurchaseState[i].date.split('-')[2].toInt(),
-      ).mm;
+    amazonPurchaseState.forEach((element) {
+      final month = DateTime.parse(element.date).mm;
 
       list.add(
         Container(
@@ -144,18 +140,18 @@ class AmazonAlert extends HookConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(amazonPurchaseState[i].item),
+                    Text(element.item),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(),
                         Row(
                           children: [
-                            Text(amazonPurchaseState[i].price.toCurrency()),
+                            Text(element.price.toCurrency()),
                             const SizedBox(width: 10),
                             const Text('/'),
                             const SizedBox(width: 10),
-                            Text(amazonPurchaseState[i].date),
+                            Text(element.date),
                           ],
                         ),
                       ],
@@ -167,7 +163,7 @@ class AmazonAlert extends HookConsumerWidget {
           ),
         ),
       );
-    }
+    });
 
     return SingleChildScrollView(
       key: PageStorageKey(uuid.v1()),

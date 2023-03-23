@@ -171,11 +171,7 @@ class SeiyuAlert extends ConsumerWidget {
 
     for (var i = 0; i < seiyuAllState.length; i++) {
       if (keepDate != seiyuAllState[i].date) {
-        list.add(DateTime(
-          seiyuAllState[i].date.split('-')[0].toInt(),
-          seiyuAllState[i].date.split('-')[1].toInt(),
-          seiyuAllState[i].date.split('-')[2].toInt(),
-        ).mmdd);
+        list.add(DateTime.parse(seiyuAllState[i].date).mmdd);
       }
 
       keepDate = seiyuAllState[i].date;
