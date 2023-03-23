@@ -109,27 +109,23 @@ class CreditCompanyAlert extends ConsumerWidget {
 
     final list = <Widget>[];
 
-    for (var i = 0; i < creditCompanyState.length; i++) {
+    creditCompanyState.forEach((element) {
       final list2 = <Widget>[];
 
       var total = 0;
-      for (var j = 0; j < creditCompanyState[i].list.length; j++) {
+      element.list.forEach((element2) {
         list2.add(
           Container(
             padding: const EdgeInsets.symmetric(vertical: 5),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(creditCompanyState[i].list[j].company),
+                Text(element2.company),
                 Row(
                   children: [
-                    Text(creditCompanyState[i]
-                        .list[j]
-                        .sum
-                        .toString()
-                        .toCurrency()),
+                    Text(element2.sum.toString().toCurrency()),
                     const SizedBox(width: 20),
-                    getCreditMark(kind: creditCompanyState[i].list[j].company),
+                    getCreditMark(kind: element2.company),
                   ],
                 ),
               ],
@@ -137,8 +133,8 @@ class CreditCompanyAlert extends ConsumerWidget {
           ),
         );
 
-        total += creditCompanyState[i].list[j].sum;
-      }
+        total += element2.sum;
+      });
 
       list2
         ..add(
@@ -174,7 +170,7 @@ class CreditCompanyAlert extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(creditCompanyState[i].ym),
+              Text(element.ym),
               Row(
                 children: [
                   Container(width: 20),
@@ -189,7 +185,7 @@ class CreditCompanyAlert extends ConsumerWidget {
           ),
         ),
       );
-    }
+    });
 
     return SingleChildScrollView(
       child: Column(

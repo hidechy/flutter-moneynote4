@@ -72,10 +72,9 @@ class CreditYearlyTotalAlert extends ConsumerWidget {
 
     final list = <Widget>[];
 
-    for (var i = 0; i < creditYearlyTotalState.length; i++) {
-      final color = (creditYearlyTotalState[i].price.toInt() >= 3000)
-          ? Colors.yellowAccent
-          : Colors.white;
+    creditYearlyTotalState.forEach((element) {
+      final color =
+          (element.price.toInt() >= 3000) ? Colors.yellowAccent : Colors.white;
 
       list.add(
         GestureDetector(
@@ -87,10 +86,8 @@ class CreditYearlyTotalAlert extends ConsumerWidget {
 
             await showDialog(
               context: _context,
-              builder: (_) => CreditDetailDialog(
-                date: date,
-                creditDetail: creditYearlyTotalState[i],
-              ),
+              builder: (_) =>
+                  CreditDetailDialog(date: date, creditDetail: element),
             );
           },
           child: Container(
@@ -114,7 +111,7 @@ class CreditYearlyTotalAlert extends ConsumerWidget {
                   SizedBox(
                     width: _context.screenSize.width * 0.55,
                     child: Text(
-                      creditYearlyTotalState[i].item,
+                      element.item,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -122,9 +119,7 @@ class CreditYearlyTotalAlert extends ConsumerWidget {
                   Container(
                     width: 60,
                     alignment: Alignment.topRight,
-                    child: Text(
-                      creditYearlyTotalState[i].date.yyyymm,
-                    ),
+                    child: Text(element.date.yyyymm),
                   ),
                 ],
               ),
@@ -132,7 +127,7 @@ class CreditYearlyTotalAlert extends ConsumerWidget {
           ),
         ),
       );
-    }
+    });
 
     return SingleChildScrollView(
       child: Column(

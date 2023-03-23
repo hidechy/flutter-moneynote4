@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, prefer_const_constructors, non_constant_identifier_names
+// ignore_for_file: must_be_immutable, prefer_const_constructors, non_constant_identifier_names, cascade_invocations
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -112,38 +112,34 @@ class HomeFixAlert extends ConsumerWidget {
       homeFixProvider(DateTime(HomeFixAlertSelectYear)),
     );
 
-    for (var i = 0; i < homeFixState.length; i++) {
+    homeFixState.forEach((element) {
       //--------------------------------
       final datas = [
         {
           'icon': FontAwesomeIcons.house,
           'title': 'yachin',
-          'data': homeFixState[i].yachin
+          'data': element.yachin
         },
-        {
-          'icon': FontAwesomeIcons.wifi,
-          'title': 'wifi',
-          'data': homeFixState[i].wifi
-        },
+        {'icon': FontAwesomeIcons.wifi, 'title': 'wifi', 'data': element.wifi},
         {
           'icon': FontAwesomeIcons.mobileScreenButton,
           'title': 'mobile',
-          'data': homeFixState[i].mobile
+          'data': element.mobile
         },
         {
           'icon': FontAwesomeIcons.fireFlameSimple,
           'title': 'gas',
-          'data': homeFixState[i].gas
+          'data': element.gas
         },
         {
           'icon': FontAwesomeIcons.bolt,
           'title': 'denki',
-          'data': homeFixState[i].denki
+          'data': element.denki
         },
         {
           'icon': FontAwesomeIcons.droplet,
           'title': 'suidou',
-          'data': homeFixState[i].suidou
+          'data': element.suidou
         },
       ];
       //--------------------------------
@@ -173,8 +169,10 @@ class HomeFixAlert extends ConsumerWidget {
                     ],
                   ),
                 ),
-                child: Text(homeFixState[i].ym),
+                child: Text(element.ym),
               ),
+
+              //forで仕方ない
               for (var i = 0; i < datas.length; i++) ...[
                 SizedBox(height: 20),
                 dispData(
@@ -187,7 +185,7 @@ class HomeFixAlert extends ConsumerWidget {
           ),
         ),
       );
-    }
+    });
 
     return SingleChildScrollView(
       key: PageStorageKey(uuid.v1()),

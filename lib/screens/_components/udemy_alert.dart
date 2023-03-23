@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, inference_failure_on_collection_literal, non_constant_identifier_names
+// ignore_for_file: must_be_immutable, inference_failure_on_collection_literal, non_constant_identifier_names, cascade_invocations
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -124,18 +124,19 @@ class UdemyAlert extends ConsumerWidget {
     final categoryList = <Widget>[];
 
     final keepCategory = [];
-    for (var i = 0; i < udemyState.length; i++) {
-      if (!keepCategory.contains(udemyState[i].category)) {
+
+    udemyState.forEach((element) {
+      if (!keepCategory.contains(element.category)) {
         categoryList.add(
           GestureDetector(
             onTap: () {
               _ref.watch(appParamProvider.notifier).setUdemyAlertSelectCategory(
-                    category: udemyState[i].category,
+                    category: element.category,
                   );
 
               _ref.watch(udemyProvider.notifier).getYearCategoryUdemy(
                     year: UdemyAlertSelectYear,
-                    category: udemyState[i].category,
+                    category: element.category,
                   );
             },
             child: Container(
@@ -144,14 +145,14 @@ class UdemyAlert extends ConsumerWidget {
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.white.withOpacity(0.5)),
               ),
-              child: Text(udemyState[i].category),
+              child: Text(element.category),
             ),
           ),
         );
       }
 
-      keepCategory.add(udemyState[i].category);
-    }
+      keepCategory.add(element.category);
+    });
 
     return categoryList;
   }
@@ -162,9 +163,9 @@ class UdemyAlert extends ConsumerWidget {
 
     final udemyState = _ref.watch(udemyProvider);
 
-    for (var i = 0; i < udemyState.length; i++) {
-      list.add(UdemyBox(udemy: udemyState[i]));
-    }
+    udemyState.forEach((element) {
+      list.add(UdemyBox(udemy: element));
+    });
 
     return SingleChildScrollView(
       child: Column(

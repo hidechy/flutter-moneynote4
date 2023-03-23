@@ -266,6 +266,7 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
 
       ///
       lineBarsData: [
+        //forで仕方ない
         for (var i = 0; i < flspotsList.length; i++)
           LineChartBarData(
             spots: flspotsList[i],

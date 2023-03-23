@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, non_constant_identifier_names
+// ignore_for_file: must_be_immutable, non_constant_identifier_names, cascade_invocations
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -108,33 +108,31 @@ class BalanceSheetAlert extends ConsumerWidget {
       balanceSheetProvider(DateTime(BalanceSheetAlertSelectYear)),
     );
 
-    for (var i = 0; i < balanceSheetState.length; i++) {
-      final data = balanceSheetState[i];
-
+    balanceSheetState.forEach((element) {
       list.add(
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
               margin: const EdgeInsets.symmetric(vertical: 10),
-              child: Text(data.ym),
+              child: Text(element.ym),
             ),
-            getAssetsWidget(data: data),
+            getAssetsWidget(data: element),
             Container(
               alignment: Alignment.topRight,
               padding: const EdgeInsets.only(right: 10),
-              child: Text(data.assetsTotal.toString().toCurrency()),
+              child: Text(element.assetsTotal.toString().toCurrency()),
             ),
-            getCapitalWidget(data: data),
+            getCapitalWidget(data: element),
             Container(
               alignment: Alignment.topRight,
               padding: const EdgeInsets.only(right: 10),
-              child: Text(data.capitalTotal.toString().toCurrency()),
+              child: Text(element.capitalTotal.toString().toCurrency()),
             ),
           ],
         ),
       );
-    }
+    });
 
     return SingleChildScrollView(
       child: Column(

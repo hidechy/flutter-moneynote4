@@ -154,6 +154,8 @@ class ShintakuAlert extends ConsumerWidget {
     final exData = shintakuRecordState.data.split('/');
 
     var keepNum = 0;
+
+    //forで仕方ない
     for (var i = 0; i < exData.length; i++) {
       final exOne = exData[i].split('|');
 

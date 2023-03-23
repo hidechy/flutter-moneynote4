@@ -92,21 +92,21 @@ class MoneyScoreAlert extends ConsumerWidget {
     final totalMap = <String, int>{};
     var keepYear = 0;
     var total = 0;
-    for (var i = 1; i < moneyScoreState.length; i++) {
+
+    moneyScoreState.forEach((element) {
       final year = DateTime(
-        moneyScoreState[i].ym.split('-')[0].toInt(),
-        moneyScoreState[i].ym.split('-')[1].toInt(),
+        element.ym.split('-')[0].toInt(),
+        element.ym.split('-')[1].toInt(),
       ).year;
 
       if (year != keepYear) {
         total = 0;
       }
 
-      final sagaku = (moneyScoreState[i].updown == 1)
-          ? moneyScoreState[i].sagaku * -1
-          : moneyScoreState[i].sagaku;
+      final sagaku =
+          (element.updown == 1) ? element.sagaku * -1 : element.sagaku;
 
-      switch (moneyScoreState[i].updown) {
+      switch (element.updown) {
         case 0:
           total -= sagaku;
           break;
@@ -118,14 +118,16 @@ class MoneyScoreAlert extends ConsumerWidget {
       totalMap[year.toString()] = total;
 
       keepYear = DateTime(
-        moneyScoreState[i].ym.split('-')[0].toInt(),
-        moneyScoreState[i].ym.split('-')[1].toInt(),
+        element.ym.split('-')[0].toInt(),
+        element.ym.split('-')[1].toInt(),
       ).year;
-    }
+    });
+
     //-----------------------------------------------
 
     final list = <Widget>[];
 
+    //forで仕方ない
     for (var i = 1; i < moneyScoreState.length; i++) {
       final sagaku = (moneyScoreState[i].updown == 1)
           ? moneyScoreState[i].sagaku * -1

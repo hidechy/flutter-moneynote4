@@ -147,22 +147,28 @@ class SpendSummaryAlert extends ConsumerWidget {
 
     //--------------------------------------------------//
     final itemSumMap = <String, int>{};
-    for (var i = 0; i < spendSummaryState.list.length; i++) {
+
+    spendSummaryState.list.forEach((element) {
       var sum = 0;
-      for (var j = 0; j < spendSummaryState.list[i].list.length; j++) {
-        sum += spendSummaryState.list[i].list[j].price.toString().toInt();
-      }
-      itemSumMap[spendSummaryState.list[i].item] = sum;
-    }
+
+      element.list.forEach((element2) {
+        sum += element2.price.toString().toInt();
+      });
+
+      itemSumMap[element.item] = sum;
+    });
+
     //--------------------------------------------------//
 
     final list = <Widget>[];
 
     var total = 0;
 
+    //forで仕方ない
     for (var i = 0; i < spendSummaryState.list.length; i++) {
       final list2 = <Widget>[];
-      for (var j = 0; j < spendSummaryState.list[i].list.length; j++) {
+
+      spendSummaryState.list[i].list.forEach((element) {
         list2.add(
           Container(
             width: oneWidth,
@@ -174,20 +180,18 @@ class SpendSummaryAlert extends ConsumerWidget {
             child: Stack(
               children: [
                 Text(
-                  spendSummaryState.list[i].list[j].month,
+                  element.month,
                   style: const TextStyle(color: Colors.grey),
                 ),
                 Container(
                   alignment: Alignment.topRight,
-                  child: Text(spendSummaryState.list[i].list[j].price
-                      .toString()
-                      .toCurrency()),
+                  child: Text(element.price.toString().toCurrency()),
                 ),
               ],
             ),
           ),
         );
-      }
+      });
 
       total += itemSumMap[spendSummaryState.list[i].item].toString().toInt();
 

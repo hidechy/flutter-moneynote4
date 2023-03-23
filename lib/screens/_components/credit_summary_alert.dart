@@ -92,6 +92,8 @@ class CreditSummaryAlert extends ConsumerWidget {
     );
 
     final yearList = <Widget>[];
+
+    //forで仕方ない
     for (var i = date.yyyy.toInt(); i >= 2020; i--) {
       yearList.add(
         GestureDetector(
@@ -132,22 +134,23 @@ class CreditSummaryAlert extends ConsumerWidget {
 
     //--------------------------------------------------//
     final itemSumMap = <String, int>{};
-    for (var i = 0; i < creditSummaryState.list.length; i++) {
+    creditSummaryState.list.forEach((element) {
       var sum = 0;
-      for (var j = 0; j < creditSummaryState.list[i].list.length; j++) {
-        sum += creditSummaryState.list[i].list[j].price.toString().toInt();
-      }
-      itemSumMap[creditSummaryState.list[i].item] = sum;
-    }
+      element.list.forEach((element2) {
+        sum += element2.price.toString().toInt();
+      });
+
+      itemSumMap[element.item] = sum;
+    });
     //--------------------------------------------------//
 
     final list = <Widget>[];
 
     var total = 0;
 
-    for (var i = 0; i < creditSummaryState.list.length; i++) {
+    creditSummaryState.list.forEach((element) {
       final list2 = <Widget>[];
-      for (var j = 0; j < creditSummaryState.list[i].list.length; j++) {
+      element.list.forEach((element2) {
         list2.add(
           Container(
             width: oneWidth,
@@ -159,24 +162,22 @@ class CreditSummaryAlert extends ConsumerWidget {
             child: Stack(
               children: [
                 Text(
-                  creditSummaryState.list[i].list[j].month,
+                  element2.month,
                   style: const TextStyle(color: Colors.grey),
                 ),
                 Container(
                   alignment: Alignment.topRight,
                   child: Text(
-                    creditSummaryState.list[i].list[j].price
-                        .toString()
-                        .toCurrency(),
+                    element2.price.toString().toCurrency(),
                   ),
                 ),
               ],
             ),
           ),
         );
-      }
+      });
 
-      total += itemSumMap[creditSummaryState.list[i].item].toString().toInt();
+      total += itemSumMap[element.item].toString().toInt();
 
       list.add(
         Container(
@@ -207,7 +208,7 @@ class CreditSummaryAlert extends ConsumerWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        creditSummaryState.list[i].item,
+                        element.item,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
@@ -215,9 +216,7 @@ class CreditSummaryAlert extends ConsumerWidget {
                       width: 60,
                       alignment: Alignment.topRight,
                       child: Text(
-                        itemSumMap[creditSummaryState.list[i].item]
-                            .toString()
-                            .toCurrency(),
+                        itemSumMap[element.item].toString().toCurrency(),
                       ),
                     ),
                   ],
@@ -236,7 +235,7 @@ class CreditSummaryAlert extends ConsumerWidget {
           ),
         ),
       );
-    }
+    });
 
     return SingleChildScrollView(
       key: PageStorageKey(uuid.v1()),

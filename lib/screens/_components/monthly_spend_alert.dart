@@ -140,21 +140,21 @@ class MonthlySpendAlert extends ConsumerWidget {
     list = <CreditSpendMonthly>[];
     keepDate = '';
 
-    for (var i = 0; i < creditSpendMonthlyState1.length; i++) {
-      if (keepDate != creditSpendMonthlyState1[i].date.yyyymmdd) {
+    creditSpendMonthlyState1.forEach((element) {
+      if (keepDate != element.date.yyyymmdd) {
         list = [];
       }
 
-      if (date.yyyymm == creditSpendMonthlyState1[i].date.yyyymm) {
-        list.add(creditSpendMonthlyState1[i]);
+      if (date.yyyymm == element.date.yyyymm) {
+        list.add(element);
       }
 
       if (list.isNotEmpty) {
-        creditSpendMap[creditSpendMonthlyState1[i].date.yyyymmdd] = list;
+        creditSpendMap[element.date.yyyymmdd] = list;
       }
 
-      keepDate = creditSpendMonthlyState1[i].date.yyyymmdd;
-    }
+      keepDate = element.date.yyyymmdd;
+    });
     //---------------------//
 
     //---------------------//
@@ -168,21 +168,21 @@ class MonthlySpendAlert extends ConsumerWidget {
     list = <CreditSpendMonthly>[];
     keepDate = '';
 
-    for (var i = 0; i < creditSpendMonthlyState2.length; i++) {
-      if (keepDate != creditSpendMonthlyState2[i].date.yyyymmdd) {
+    creditSpendMonthlyState2.forEach((element) {
+      if (keepDate != element.date.yyyymmdd) {
         list = [];
       }
 
-      if (date.yyyymm == creditSpendMonthlyState2[i].date.yyyymm) {
-        list.add(creditSpendMonthlyState2[i]);
+      if (date.yyyymm == element.date.yyyymm) {
+        list.add(element);
       }
 
       if (list.isNotEmpty) {
-        creditSpendMap[creditSpendMonthlyState2[i].date.yyyymmdd] = list;
+        creditSpendMap[element.date.yyyymmdd] = list;
       }
 
-      keepDate = creditSpendMonthlyState2[i].date.yyyymmdd;
-    }
+      keepDate = element.date.yyyymmdd;
+    });
     //---------------------//
   }
 
@@ -204,16 +204,17 @@ class MonthlySpendAlert extends ConsumerWidget {
 
     final list = <Widget>[];
 
+    //forで仕方ない
     for (var i = 0; i < spendMonthDetailState.list.length; i++) {
       //--------------------------------------------- list2
       final list2 = <Widget>[];
 
       var daySum = 0;
-      for (var j = 0; j < spendMonthDetailState.list[i].item.length; j++) {
-        final color =
-            (spendMonthDetailState.list[i].item[j].flag.toString() == '1')
-                ? Colors.lightBlueAccent
-                : Colors.white;
+
+      spendMonthDetailState.list[i].item.forEach((element) {
+        final color = (element.flag.toString() == '1')
+            ? Colors.lightBlueAccent
+            : Colors.white;
 
         list2.add(
           Container(
@@ -231,25 +232,20 @@ class MonthlySpendAlert extends ConsumerWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(spendMonthDetailState.list[i].item[j].item),
-                  Text(spendMonthDetailState.list[i].item[j].price
-                      .toString()
-                      .toCurrency()),
+                  Text(element.item),
+                  Text(element.price.toString().toCurrency()),
                 ],
               ),
             ),
           ),
         );
 
-        daySum +=
-            spendMonthDetailState.list[i].item[j].price.toString().toInt();
-      }
+        daySum += element.price.toString().toInt();
+      });
 
       if (creditSpendMap[spendMonthDetailState.list[i].date.yyyymmdd] != null) {
-        final creditItemList =
-            creditSpendMap[spendMonthDetailState.list[i].date.yyyymmdd];
-
-        for (var j = 0; j < creditItemList!.length; j++) {
+        creditSpendMap[spendMonthDetailState.list[i].date.yyyymmdd]!
+            .forEach((element) {
           list2.add(
             Container(
               padding: const EdgeInsets.symmetric(vertical: 3),
@@ -271,7 +267,7 @@ class MonthlySpendAlert extends ConsumerWidget {
                     Expanded(
                       flex: 3,
                       child: Text(
-                        creditItemList[j].item,
+                        element.item,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                       ),
@@ -279,9 +275,7 @@ class MonthlySpendAlert extends ConsumerWidget {
                     Expanded(
                       child: Container(
                         alignment: Alignment.topRight,
-                        child: Text(
-                          creditItemList[j].price.toCurrency(),
-                        ),
+                        child: Text(element.price.toCurrency()),
                       ),
                     ),
                   ],
@@ -289,13 +283,14 @@ class MonthlySpendAlert extends ConsumerWidget {
               ),
             ),
           );
-        }
+        });
       }
 
       //////////////////////////////////////////////////////////////////
-      for (var j = 0; j < benefitState.length; j++) {
+
+      benefitState.forEach((element) {
         if (spendMonthDetailState.list[i].date.yyyymmdd ==
-            benefitState[j].date.yyyymmdd) {
+            element.date.yyyymmdd) {
           list2.add(
             Container(
               padding: const EdgeInsets.symmetric(vertical: 3),
@@ -325,7 +320,7 @@ class MonthlySpendAlert extends ConsumerWidget {
                     Expanded(
                       child: Container(
                         alignment: Alignment.topRight,
-                        child: Text(benefitState[j].salary.toCurrency()),
+                        child: Text(element.salary.toCurrency()),
                       ),
                     ),
                   ],
@@ -334,13 +329,15 @@ class MonthlySpendAlert extends ConsumerWidget {
             ),
           );
         }
-      }
+      });
+
       //////////////////////////////////////////////////////////////////
 
       //////////////////////////////////////////////////////////////////
-      for (var j = 0; j < bankMoveState.length; j++) {
+
+      bankMoveState.forEach((element) {
         if (spendMonthDetailState.list[i].date.yyyymmdd ==
-            bankMoveState[j].date.yyyymmdd) {
+            element.date.yyyymmdd) {
           list2.add(
             Container(
               padding: const EdgeInsets.symmetric(vertical: 3),
@@ -362,7 +359,7 @@ class MonthlySpendAlert extends ConsumerWidget {
                     Expanded(
                       flex: 3,
                       child: Text(
-                        'Bank Move - ${bankMoveState[j].bank} // ${bankMoveState[j].flag == 0 ? 'out' : 'in'}',
+                        'Bank Move - ${element.bank} // ${element.flag == 0 ? 'out' : 'in'}',
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                       ),
@@ -370,8 +367,7 @@ class MonthlySpendAlert extends ConsumerWidget {
                     Expanded(
                       child: Container(
                         alignment: Alignment.topRight,
-                        child: Text(
-                            bankMoveState[j].price.toString().toCurrency()),
+                        child: Text(element.price.toString().toCurrency()),
                       ),
                     ),
                   ],
@@ -380,7 +376,8 @@ class MonthlySpendAlert extends ConsumerWidget {
             ),
           );
         }
-      }
+      });
+
       //////////////////////////////////////////////////////////////////
 
       //--------------------------------------------- list2

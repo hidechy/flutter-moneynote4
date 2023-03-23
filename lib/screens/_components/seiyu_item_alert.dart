@@ -65,6 +65,7 @@ class SeiyuItemAlert extends ConsumerWidget {
   Widget displaySeiyuItem() {
     final list = <Widget>[];
 
+    //forで仕方ない
     for (var i = 2020; i <= date.year; i++) {
       final param = SeiyuPurchaseItemRequestState(
         date: DateTime(i),

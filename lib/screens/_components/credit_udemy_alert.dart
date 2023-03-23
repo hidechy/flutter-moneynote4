@@ -83,17 +83,17 @@ class CreditUdemyAlert extends ConsumerWidget {
 
     final title = <String>[];
 
-    for (var i = 0; i < creditUdemyState.length; i++) {
-      for (var j = 0; j < udemyState.length; j++) {
-        if (creditUdemyState[i].date.yyyymmdd == udemyState[j].date) {
-          if (!title.contains(udemyState[j].title)) {
-            list.add(udemyState[j]);
+    creditUdemyState.forEach((element) {
+      udemyState.forEach((element2) {
+        if (element.date.yyyymmdd == element2.date) {
+          if (!title.contains(element2.title)) {
+            list.add(element2);
           }
 
-          title.add(udemyState[j].title);
+          title.add(element2.title);
         }
-      }
-    }
+      });
+    });
 
     return list;
   }
@@ -110,9 +110,10 @@ class CreditUdemyAlert extends ConsumerWidget {
     );
 
     final list = <Widget>[];
-    for (var i = 0; i < udemyList.length; i++) {
-      list.add(UdemyBox(udemy: udemyList[i]));
-    }
+
+    udemyList.forEach((element) {
+      list.add(UdemyBox(udemy: element));
+    });
 
     return SingleChildScrollView(
       child: Column(

@@ -103,6 +103,7 @@ class BankAlert extends ConsumerWidget {
 
     final list = <Widget>[];
 
+    //forで仕方ない
     for (var i = 0; i < bankAllState.length; i++) {
       final youbi = _utility.getYoubi(youbiStr: bankAllState[i].date.youbiStr);
 
