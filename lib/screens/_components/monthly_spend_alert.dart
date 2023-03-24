@@ -595,7 +595,7 @@ class MonthlySpendAlert extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(color: Colors.white.withOpacity(0.1)),
       child: DefaultTextStyle(
-        style: TextStyle(fontSize: 12),
+        style: TextStyle(fontSize: 10),
         child: Column(
           children: [
             Row(
