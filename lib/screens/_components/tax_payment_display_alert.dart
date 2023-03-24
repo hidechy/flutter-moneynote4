@@ -384,6 +384,8 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
       taxPaymentDisplayValue['予定納税額'] = getYoteiNouzei();
       taxPaymentDisplayValue['経費'] = getKeihi();
       taxPaymentDisplayValue['社会保険料控除'] = getShakaiHoken();
+
+      taxPaymentDisplayValue['生命保険料控除'] = 71361;
     }
     //-----------------------------------//
 
