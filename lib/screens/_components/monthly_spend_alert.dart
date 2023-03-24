@@ -586,47 +586,54 @@ class MonthlySpendAlert extends ConsumerWidget {
 
   ///
   Widget displayHavingMoney({required String date}) {
+    if (allMoneyMap[date] == null) {
+      return Container();
+    }
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5),
       padding: const EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(color: Colors.white.withOpacity(0.1)),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              moneyDispParts(value: allMoneyMap[date]!.yen10000),
-              moneyDispParts(value: allMoneyMap[date]!.yen5000),
-              moneyDispParts(value: allMoneyMap[date]!.yen2000),
-              moneyDispParts(value: allMoneyMap[date]!.yen1000),
-              moneyDispParts(value: allMoneyMap[date]!.yen500),
-              moneyDispParts(value: allMoneyMap[date]!.yen100),
-              moneyDispParts(value: allMoneyMap[date]!.yen50),
-              moneyDispParts(value: allMoneyMap[date]!.yen10),
-              moneyDispParts(value: allMoneyMap[date]!.yen5),
-              moneyDispParts(value: allMoneyMap[date]!.yen1),
-            ],
-          ),
-          const SizedBox(height: 5),
-          Row(
-            children: [
-              moneyDispParts(value: allMoneyMap[date]!.bankA),
-              moneyDispParts(value: allMoneyMap[date]!.bankB),
-              moneyDispParts(value: allMoneyMap[date]!.bankC),
-              moneyDispParts(value: allMoneyMap[date]!.bankD),
-              moneyDispParts(value: allMoneyMap[date]!.bankE),
-            ],
-          ),
-          const SizedBox(height: 5),
-          Row(
-            children: [
-              moneyDispParts(value: allMoneyMap[date]!.payA),
-              moneyDispParts(value: allMoneyMap[date]!.payB),
-              moneyDispParts(value: allMoneyMap[date]!.payC),
-              moneyDispParts(value: allMoneyMap[date]!.payD),
-              moneyDispParts(value: allMoneyMap[date]!.payE),
-            ],
-          ),
-        ],
+      child: DefaultTextStyle(
+        style: TextStyle(fontSize: 12),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                moneyDispParts(value: allMoneyMap[date]!.yen10000),
+                moneyDispParts(value: allMoneyMap[date]!.yen5000),
+                moneyDispParts(value: allMoneyMap[date]!.yen2000),
+                moneyDispParts(value: allMoneyMap[date]!.yen1000),
+                moneyDispParts(value: allMoneyMap[date]!.yen500),
+                moneyDispParts(value: allMoneyMap[date]!.yen100),
+                moneyDispParts(value: allMoneyMap[date]!.yen50),
+                moneyDispParts(value: allMoneyMap[date]!.yen10),
+                moneyDispParts(value: allMoneyMap[date]!.yen5),
+                moneyDispParts(value: allMoneyMap[date]!.yen1),
+              ],
+            ),
+            const SizedBox(height: 5),
+            Row(
+              children: [
+                moneyDispParts(value: allMoneyMap[date]!.bankA),
+                moneyDispParts(value: allMoneyMap[date]!.bankB),
+                moneyDispParts(value: allMoneyMap[date]!.bankC),
+                moneyDispParts(value: allMoneyMap[date]!.bankD),
+                moneyDispParts(value: allMoneyMap[date]!.bankE),
+              ],
+            ),
+            const SizedBox(height: 5),
+            Row(
+              children: [
+                moneyDispParts(value: allMoneyMap[date]!.payA),
+                moneyDispParts(value: allMoneyMap[date]!.payB),
+                moneyDispParts(value: allMoneyMap[date]!.payC),
+                moneyDispParts(value: allMoneyMap[date]!.payD),
+                moneyDispParts(value: allMoneyMap[date]!.payE),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
