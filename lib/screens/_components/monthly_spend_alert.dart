@@ -6,6 +6,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/credit_spend_monthly.dart';
+import '../../models/money.dart';
 import '../../models/money_everyday.dart';
 import '../../models/zero_use_date.dart';
 import '../../state/device_info/device_info_notifier.dart';
@@ -36,6 +37,8 @@ class MonthlySpendAlert extends ConsumerWidget {
 
   Map<String, List<CreditSpendMonthly>> creditSpendMap = {};
 
+  Map<String, Money> allMoneyMap = {};
+
   late BuildContext _context;
   late WidgetRef _ref;
 
@@ -44,6 +47,8 @@ class MonthlySpendAlert extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _context = context;
     _ref = ref;
+
+    makeMoneyAll();
 
     getMonthlyTimeplaceDate();
 
@@ -459,66 +464,72 @@ class MonthlySpendAlert extends ConsumerWidget {
       MoneyEveryday? sum,
       int diff,
       int daySum) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
       children: [
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              '${spendMonthDetailState.list[i].date.yyyymmdd}（$youbi）',
-            ),
-            if (spendZeroFlag == 1)
-              Icon(
-                Icons.star,
-                color: Colors.yellowAccent.withOpacity(0.6),
-              ),
-          ],
-        ),
-        Row(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+            Row(
               children: [
-                if (sum != null)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text((sum.sum == '') ? '0' : sum.sum.toCurrency()),
-                      Text(sum.spend.toCurrency()),
-                    ],
-                  ),
-                if (diff != 0)
-                  Container(
-                    padding: const EdgeInsets.only(top: 3, bottom: 3, left: 20),
-                    decoration: BoxDecoration(
-                      color: Colors.yellowAccent.withOpacity(0.3),
-                    ),
-                    child: Text(diff.toString().toCurrency()),
+                Text(
+                  '${spendMonthDetailState.list[i].date.yyyymmdd}（$youbi）',
+                ),
+                if (spendZeroFlag == 1)
+                  Icon(
+                    Icons.star,
+                    color: Colors.yellowAccent.withOpacity(0.6),
                   ),
               ],
             ),
-            const SizedBox(width: 10),
-            GestureDetector(
-              onTap: () {
-                MoneyDialog(
-                  context: _context,
-                  widget: SpendAlert(
-                    date: spendMonthDetailState.list[i].date,
-                    diff: daySum.toString(),
+            Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    if (sum != null)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text((sum.sum == '') ? '0' : sum.sum.toCurrency()),
+                          Text(sum.spend.toCurrency()),
+                        ],
+                      ),
+                    if (diff != 0)
+                      Container(
+                        padding:
+                            const EdgeInsets.only(top: 3, bottom: 3, left: 20),
+                        decoration: BoxDecoration(
+                          color: Colors.yellowAccent.withOpacity(0.3),
+                        ),
+                        child: Text(diff.toString().toCurrency()),
+                      ),
+                  ],
+                ),
+                const SizedBox(width: 10),
+                GestureDetector(
+                  onTap: () {
+                    MoneyDialog(
+                      context: _context,
+                      widget: SpendAlert(
+                        date: spendMonthDetailState.list[i].date,
+                        diff: daySum.toString(),
+                      ),
+                    );
+                  },
+                  child: Icon(
+                    Icons.info_outline,
+                    color: (timeplaceDateList.contains(
+                            spendMonthDetailState.list[i].date.yyyymmdd))
+                        ? Colors.yellowAccent.withOpacity(0.8)
+                        : Colors.white.withOpacity(0.6),
                   ),
-                );
-              },
-              child: Icon(
-                Icons.info_outline,
-                color: (timeplaceDateList
-                        .contains(spendMonthDetailState.list[i].date.yyyymmdd))
-                    ? Colors.yellowAccent.withOpacity(0.8)
-                    : Colors.white.withOpacity(0.6),
-              ),
+                ),
+              ],
             ),
           ],
         ),
+        displayHavingMoney(date: spendMonthDetailState.list[i].date.yyyymmdd),
       ],
     );
   }
@@ -562,5 +573,71 @@ class MonthlySpendAlert extends ConsumerWidget {
     monthlyTimeplaceState.forEach((element) {
       timeplaceDateList.add(element.date.yyyymmdd);
     });
+  }
+
+  ///
+  void makeMoneyAll() {
+    final moneyAllState = _ref.watch(moneyAllProvider);
+
+    moneyAllState.forEach((element) {
+      allMoneyMap[element.date.yyyymmdd] = element;
+    });
+  }
+
+  ///
+  Widget displayHavingMoney({required String date}) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 5),
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      decoration: BoxDecoration(color: Colors.white.withOpacity(0.1)),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              moneyDispParts(value: allMoneyMap[date]!.yen10000),
+              moneyDispParts(value: allMoneyMap[date]!.yen5000),
+              moneyDispParts(value: allMoneyMap[date]!.yen2000),
+              moneyDispParts(value: allMoneyMap[date]!.yen1000),
+              moneyDispParts(value: allMoneyMap[date]!.yen500),
+              moneyDispParts(value: allMoneyMap[date]!.yen100),
+              moneyDispParts(value: allMoneyMap[date]!.yen50),
+              moneyDispParts(value: allMoneyMap[date]!.yen10),
+              moneyDispParts(value: allMoneyMap[date]!.yen5),
+              moneyDispParts(value: allMoneyMap[date]!.yen1),
+            ],
+          ),
+          const SizedBox(height: 5),
+          Row(
+            children: [
+              moneyDispParts(value: allMoneyMap[date]!.bankA),
+              moneyDispParts(value: allMoneyMap[date]!.bankB),
+              moneyDispParts(value: allMoneyMap[date]!.bankC),
+              moneyDispParts(value: allMoneyMap[date]!.bankD),
+              moneyDispParts(value: allMoneyMap[date]!.bankE),
+            ],
+          ),
+          const SizedBox(height: 5),
+          Row(
+            children: [
+              moneyDispParts(value: allMoneyMap[date]!.payA),
+              moneyDispParts(value: allMoneyMap[date]!.payB),
+              moneyDispParts(value: allMoneyMap[date]!.payC),
+              moneyDispParts(value: allMoneyMap[date]!.payD),
+              moneyDispParts(value: allMoneyMap[date]!.payE),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  ///
+  Widget moneyDispParts({required String value}) {
+    return Expanded(
+      child: Container(
+        alignment: Alignment.topRight,
+        child: Text(value.toCurrency()),
+      ),
+    );
   }
 }

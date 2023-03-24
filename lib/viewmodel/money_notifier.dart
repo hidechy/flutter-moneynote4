@@ -193,6 +193,69 @@ class MoneyEverydayNotifier extends StateNotifier<List<MoneyEveryday>> {
 
 ////////////////////////////////////////////////
 
+////////////////////////////////////////////////
+
+final moneyAllProvider =
+    StateNotifierProvider.autoDispose<MoneyAllNotifier, List<Money>>((ref) {
+  final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
+
+  return MoneyAllNotifier([], client, utility)..getMoneyAll();
+});
+
+class MoneyAllNotifier extends StateNotifier<List<Money>> {
+  MoneyAllNotifier(super.state, this.client, this.utility);
+
+  final HttpClient client;
+  final Utility utility;
+
+  Future<void> getMoneyAll() async {
+    await client.post(path: APIPath.getAllMoney).then((value) {
+      final list = <Money>[];
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        final exValue = value['data'][i].toString().split('|');
+
+        list.add(
+          Money(
+            date: DateTime.parse(exValue[0]),
+            ym: exValue[1],
+            yen10000: exValue[2],
+            yen5000: exValue[3],
+            yen2000: exValue[4],
+            yen1000: exValue[5],
+            yen500: exValue[6],
+            yen100: exValue[7],
+            yen50: exValue[8],
+            yen10: exValue[9],
+            yen5: exValue[10],
+            yen1: exValue[11],
+            bankA: exValue[12],
+            bankB: exValue[13],
+            bankC: exValue[14],
+            bankD: exValue[15],
+            bankE: exValue[16],
+            payA: exValue[17],
+            payB: exValue[18],
+            payC: exValue[19],
+            payD: exValue[20],
+            payE: exValue[21],
+            sum: '',
+            currency: 0,
+          ),
+        );
+      }
+
+      state = list;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
+  }
+}
+
+////////////////////////////////////////////////
+
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 final moneyScoreProvider =
