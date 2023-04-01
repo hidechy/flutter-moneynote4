@@ -10,6 +10,7 @@ import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../state/monthly_spend_check/monthly_spend_check_notifier.dart';
 import '../../utility/utility.dart';
+import '../../viewmodel/keihi_list_notifier.dart';
 
 class KeihiSettingAlert extends ConsumerWidget {
   KeihiSettingAlert(
@@ -110,6 +111,10 @@ class KeihiSettingAlert extends ConsumerWidget {
                       await ref
                           .watch(monthlySpendCheckProvider(date).notifier)
                           .getSpendCheckItem(date: date);
+
+                      await ref
+                          .watch(keihiListProvider(date).notifier)
+                          .getKeihiList(date: date);
 
                       Navigator.pop(context);
                     },

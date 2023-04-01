@@ -17,7 +17,9 @@ import '../../../viewmodel/holiday_notifier.dart';
 import '../../../viewmodel/money_notifier.dart';
 import '../../../viewmodel/spend_notifier.dart';
 import '../../../viewmodel/timeplace_notifier.dart';
+import '../../monthly_spend_check_screen.dart';
 import '../_money_dialog.dart';
+import '../monthly_spend_graph_alert.dart';
 import '../spend_alert.dart';
 
 class MonthlySpendPage extends ConsumerWidget {
@@ -56,7 +58,35 @@ class MonthlySpendPage extends ConsumerWidget {
               final pos = position - 1;
 
               if (position == 0) {
-                return const SizedBox(height: 10);
+                return Container(
+                  padding: const EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          MoneyDialog(
+                            context: context,
+                            widget: MonthlySpendGraphAlert(date: date),
+                          );
+                        },
+                        child: const Icon(Icons.graphic_eq),
+                      ),
+                      const SizedBox(width: 20),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  MonthlySpendCheckScreen(date: date),
+                            ),
+                          );
+                        },
+                        child: const Icon(Icons.check_box),
+                      ),
+                    ],
+                  ),
+                );
               }
 
               return displayMonthlySpendList[pos];
@@ -131,6 +161,8 @@ class MonthlySpendPage extends ConsumerWidget {
 
   ///
   void makeMonthlySpendData() {
+    displayMonthlySpendList = [];
+
     final spendMonthDetailState = _ref.watch(spendMonthDetailProvider(date));
 
     final holidayState = _ref.watch(holidayProvider);
