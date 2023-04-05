@@ -4,6 +4,8 @@ PODS:
   - Flutter (1.0.0)
   - flutter_native_splash (0.0.1):
     - Flutter
+  - shared_preferences (0.0.1):
+    - Flutter
   - soundpool (0.0.1):
     - Flutter
   - vibration (1.7.5):
@@ -13,6 +15,7 @@ DEPENDENCIES:
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - Flutter (from `Flutter`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
+  - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - soundpool (from `.symlinks/plugins/soundpool/ios`)
   - vibration (from `.symlinks/plugins/vibration/ios`)
 
@@ -23,6 +26,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_native_splash:
     :path: ".symlinks/plugins/flutter_native_splash/ios"
+  shared_preferences:
+    :path: ".symlinks/plugins/shared_preferences/ios"
   soundpool:
     :path: ".symlinks/plugins/soundpool/ios"
   vibration:
@@ -32,6 +37,7 @@ SPEC CHECKSUMS:
   device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
+  shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   soundpool: c7f4422ca206e77f8900ed3c4ee6a6ff5a0e38a9
   vibration: 7d883d141656a1c1a6d8d238616b2042a51a1241
 
