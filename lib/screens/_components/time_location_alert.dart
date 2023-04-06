@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, cascade_invocations
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -6,15 +6,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
-import '../../viewmodel/time_place_notifier.dart';
+import '../../viewmodel/time_location_notifier.dart';
 
-class SpendTimeplaceAlert extends ConsumerWidget {
-  SpendTimeplaceAlert(
-      {super.key, required this.date, required this.item, required this.price});
+class TimeLocationAlert extends ConsumerWidget {
+  TimeLocationAlert({super.key, required this.date});
 
   final DateTime date;
-  final String item;
-  final int price;
 
   final Utility _utility = Utility();
 
@@ -50,26 +47,7 @@ class SpendTimeplaceAlert extends ConsumerWidget {
                   _utility.getFileNameDebug(name: runtimeType.toString()),
                 //----------//
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(date.yyyymmdd),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(item),
-                        Text(price.toString().toCurrency()),
-                      ],
-                    ),
-                  ],
-                ),
-
-                Divider(
-                  color: Colors.white.withOpacity(0.5),
-                  thickness: 3,
-                ),
-
-                displaySpendTimeplace(),
+                displayTimeLocation(),
               ],
             ),
           ),
@@ -79,12 +57,12 @@ class SpendTimeplaceAlert extends ConsumerWidget {
   }
 
   ///
-  Widget displaySpendTimeplace() {
+  Widget displayTimeLocation() {
     final list = <Widget>[];
 
-    final timeplaceState = _ref.watch(onedayTimeplaceProvider(date));
+    final timeLocationState = _ref.watch(timeLocationProvider(date));
 
-    for (var i = 0; i < timeplaceState.length; i++) {
+    timeLocationState.forEach((element) {
       list.add(
         Container(
           padding: const EdgeInsets.symmetric(vertical: 3),
@@ -97,28 +75,17 @@ class SpendTimeplaceAlert extends ConsumerWidget {
           ),
           child: Row(
             children: [
-              Expanded(
-                child: Text(timeplaceState[i].time),
-              ),
-              Expanded(
-                child: Text(timeplaceState[i].place),
-              ),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.topRight,
-                  child: Text(timeplaceState[i].price.toString().toCurrency()),
-                ),
-              ),
+              Expanded(child: Text(element.time)),
+              Expanded(child: Text(element.latitude)),
+              Expanded(child: Text(element.longitude)),
             ],
           ),
         ),
       );
-    }
+    });
 
     return SingleChildScrollView(
-      child: Column(
-        children: list,
-      ),
+      child: Column(children: list),
     );
   }
 }

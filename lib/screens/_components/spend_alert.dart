@@ -2,12 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/_money_dialog.dart';
+import 'package:moneynote4/screens/_components/time_location_alert.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/spend_notifier.dart';
-import '../../viewmodel/timeplace_notifier.dart';
+import '../../viewmodel/time_place_notifier.dart';
 
 class SpendAlert extends ConsumerWidget {
   SpendAlert({super.key, required this.date, required this.diff});
@@ -91,10 +93,34 @@ class SpendAlert extends ConsumerWidget {
                   color: Colors.yellowAccent.withOpacity(0.2),
                   thickness: 5,
                 ),
+
                 SizedBox(
                   width: double.infinity,
                   height: context.screenSize.height * 0.2,
-                  child: displayTimeplace(),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: GestureDetector(
+                          onTap: () {
+                            MoneyDialog(
+                              context: context,
+                              widget: TimeLocationAlert(date: date),
+                            );
+                          },
+                          child: Icon(
+                            Icons.info_outline,
+                            color: Colors.white.withOpacity(0.6),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: displayTimeplace(),
+                      ),
+                    ],
+                  ),
                 ),
                 Divider(
                   color: Colors.yellowAccent.withOpacity(0.2),

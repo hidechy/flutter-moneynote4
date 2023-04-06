@@ -13,7 +13,7 @@ import '../utility/utility.dart';
 import '../viewmodel/bank_notifier.dart';
 import '../viewmodel/credit_notifier.dart';
 import '../viewmodel/spend_notifier.dart';
-import '../viewmodel/timeplace_notifier.dart';
+import '../viewmodel/time_place_notifier.dart';
 import '_components/keihi_setting_alert.dart';
 
 class MonthlySpendCheckScreen extends ConsumerWidget {

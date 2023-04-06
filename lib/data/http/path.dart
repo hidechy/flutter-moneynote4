@@ -44,6 +44,7 @@ enum APIPath {
   inputTaxPaymentItem,
   getTaxPaymentItem,
   getAllMoney,
+  getTimeLocation,
 }
 
 extension APIPathExtension on APIPath {
@@ -139,6 +140,8 @@ extension APIPathExtension on APIPath {
         return 'getTaxPaymentItem';
       case APIPath.getAllMoney:
         return 'getAllMoney';
+      case APIPath.getTimeLocation:
+        return 'getTimeLocation';
     }
   }
 }

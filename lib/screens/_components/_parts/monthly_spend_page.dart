@@ -16,7 +16,7 @@ import '../../../viewmodel/credit_notifier.dart';
 import '../../../viewmodel/holiday_notifier.dart';
 import '../../../viewmodel/money_notifier.dart';
 import '../../../viewmodel/spend_notifier.dart';
-import '../../../viewmodel/timeplace_notifier.dart';
+import '../../../viewmodel/time_place_notifier.dart';
 import '../../monthly_spend_check_screen.dart';
 import '../_money_dialog.dart';
 import '../monthly_spend_graph_alert.dart';
