@@ -2,8 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/time_location_map_screen.dart';
 
 import '../../extensions/extensions.dart';
+import '../../models/time_location.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/time_location_notifier.dart';
@@ -14,6 +16,8 @@ class TimeLocationAlert extends ConsumerWidget {
   final DateTime date;
 
   final Utility _utility = Utility();
+
+  List<TimeLocation> timeLocationList = [];
 
   late WidgetRef _ref;
 
@@ -33,23 +37,38 @@ class TimeLocationAlert extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         width: double.infinity,
         height: double.infinity,
-        child: SingleChildScrollView(
-          child: DefaultTextStyle(
-            style: const TextStyle(fontSize: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                Container(width: context.screenSize.width),
+        child: DefaultTextStyle(
+          style: const TextStyle(fontSize: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20),
+              Container(width: context.screenSize.width),
 
-                //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
-                //----------//
+              //----------//
+              if (deviceInfoState.model == 'iPhone')
+                _utility.getFileNameDebug(name: runtimeType.toString()),
+              //----------//
 
-                displayTimeLocation(),
-              ],
-            ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TimeLocationMapScreen(
+                        date: date,
+                        list: timeLocationList,
+                      ),
+                    ),
+                  );
+                },
+                child: const Icon(Icons.map),
+              ),
+
+              const SizedBox(height: 20),
+
+              displayTimeLocation(),
+            ],
           ),
         ),
       ),
@@ -61,6 +80,7 @@ class TimeLocationAlert extends ConsumerWidget {
     final list = <Widget>[];
 
     final timeLocationState = _ref.watch(timeLocationProvider(date));
+    timeLocationList = timeLocationState;
 
     timeLocationState.forEach((element) {
       list.add(

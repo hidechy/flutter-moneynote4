@@ -1,6 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.moneynote4">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyD9PkTM1Pur3YzmO-v4VzS0r8ZZ0jRJTIU" />
+
     <application
         android:label="Money Note"
         android:name="${applicationName}"
