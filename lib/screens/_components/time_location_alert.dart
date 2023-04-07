@@ -67,7 +67,7 @@ class TimeLocationAlert extends ConsumerWidget {
 
               const SizedBox(height: 20),
 
-              displayTimeLocation(),
+              Expanded(child: displayTimeLocation()),
             ],
           ),
         ),

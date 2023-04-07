@@ -10,15 +10,12 @@ import '../extensions/extensions.dart';
 import '../models/time_location.dart';
 import '../state/polyline/polyline_notifier.dart';
 import '../state/polyline/polyline_param_state.dart';
-import '../utility/utility.dart';
 
 class TimeLocationMapScreen extends ConsumerWidget {
   TimeLocationMapScreen({super.key, required this.date, required this.list});
 
   final DateTime date;
   final List<TimeLocation> list;
-
-  final Utility _utility = Utility();
 
   ///
   final Completer<GoogleMapController> _controller =
@@ -47,7 +44,7 @@ class TimeLocationMapScreen extends ConsumerWidget {
     return Scaffold(
       body: Column(
         children: [
-          const SizedBox(height: 50),
+          const SizedBox(height: 80),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -77,8 +74,6 @@ class TimeLocationMapScreen extends ConsumerWidget {
 
   ///
   Future<void> makePolyline() async {
-    final twelveColor = _utility.getTwelveColor();
-
     for (var i = 0; i < list.length - 1; i++) {
       final polylineState = _ref.watch(polylineProvider(
         PolylineParamState(
@@ -90,7 +85,7 @@ class TimeLocationMapScreen extends ConsumerWidget {
       polylineSet.add(
         Polyline(
           polylineId: PolylineId('overview_polyline{$i}'),
-          color: twelveColor[i % 12],
+          color: Colors.redAccent,
           width: 5,
           points: polylineState.polylinePoints
               .map((e) => LatLng(e.latitude, e.longitude))
