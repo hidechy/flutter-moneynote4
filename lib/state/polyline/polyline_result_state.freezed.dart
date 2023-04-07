@@ -16,10 +16,14 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$PolylineResultState {
-  LatLngBounds get bounds => throw _privateConstructorUsedError;
+  LatLngBounds? get bounds => throw _privateConstructorUsedError;
   String get distance => throw _privateConstructorUsedError;
   String get duration => throw _privateConstructorUsedError;
   List<PointLatLng> get polylinePoints => throw _privateConstructorUsedError;
+  dynamic get southwestLat => throw _privateConstructorUsedError;
+  dynamic get southwestLng => throw _privateConstructorUsedError;
+  dynamic get northeastLat => throw _privateConstructorUsedError;
+  dynamic get northeastLng => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PolylineResultStateCopyWith<PolylineResultState> get copyWith =>
@@ -33,10 +37,14 @@ abstract class $PolylineResultStateCopyWith<$Res> {
       _$PolylineResultStateCopyWithImpl<$Res, PolylineResultState>;
   @useResult
   $Res call(
-      {LatLngBounds bounds,
+      {LatLngBounds? bounds,
       String distance,
       String duration,
-      List<PointLatLng> polylinePoints});
+      List<PointLatLng> polylinePoints,
+      dynamic southwestLat,
+      dynamic southwestLng,
+      dynamic northeastLat,
+      dynamic northeastLng});
 }
 
 /// @nodoc
@@ -52,16 +60,20 @@ class _$PolylineResultStateCopyWithImpl<$Res, $Val extends PolylineResultState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? bounds = null,
+    Object? bounds = freezed,
     Object? distance = null,
     Object? duration = null,
     Object? polylinePoints = null,
+    Object? southwestLat = null,
+    Object? southwestLng = null,
+    Object? northeastLat = null,
+    Object? northeastLng = null,
   }) {
     return _then(_value.copyWith(
-      bounds: null == bounds
+      bounds: freezed == bounds
           ? _value.bounds
           : bounds // ignore: cast_nullable_to_non_nullable
-              as LatLngBounds,
+              as LatLngBounds?,
       distance: null == distance
           ? _value.distance
           : distance // ignore: cast_nullable_to_non_nullable
@@ -74,6 +86,22 @@ class _$PolylineResultStateCopyWithImpl<$Res, $Val extends PolylineResultState>
           ? _value.polylinePoints
           : polylinePoints // ignore: cast_nullable_to_non_nullable
               as List<PointLatLng>,
+      southwestLat: null == southwestLat
+          ? _value.southwestLat
+          : southwestLat // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      southwestLng: null == southwestLng
+          ? _value.southwestLng
+          : southwestLng // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      northeastLat: null == northeastLat
+          ? _value.northeastLat
+          : northeastLat // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      northeastLng: null == northeastLng
+          ? _value.northeastLng
+          : northeastLng // ignore: cast_nullable_to_non_nullable
+              as dynamic,
     ) as $Val);
   }
 }
@@ -87,10 +115,14 @@ abstract class _$$_PolylineResultStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {LatLngBounds bounds,
+      {LatLngBounds? bounds,
       String distance,
       String duration,
-      List<PointLatLng> polylinePoints});
+      List<PointLatLng> polylinePoints,
+      dynamic southwestLat,
+      dynamic southwestLng,
+      dynamic northeastLat,
+      dynamic northeastLng});
 }
 
 /// @nodoc
@@ -104,16 +136,20 @@ class __$$_PolylineResultStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? bounds = null,
+    Object? bounds = freezed,
     Object? distance = null,
     Object? duration = null,
     Object? polylinePoints = null,
+    Object? southwestLat = null,
+    Object? southwestLng = null,
+    Object? northeastLat = null,
+    Object? northeastLng = null,
   }) {
     return _then(_$_PolylineResultState(
-      bounds: null == bounds
+      bounds: freezed == bounds
           ? _value.bounds
           : bounds // ignore: cast_nullable_to_non_nullable
-              as LatLngBounds,
+              as LatLngBounds?,
       distance: null == distance
           ? _value.distance
           : distance // ignore: cast_nullable_to_non_nullable
@@ -126,6 +162,10 @@ class __$$_PolylineResultStateCopyWithImpl<$Res>
           ? _value._polylinePoints
           : polylinePoints // ignore: cast_nullable_to_non_nullable
               as List<PointLatLng>,
+      southwestLat: null == southwestLat ? _value.southwestLat : southwestLat,
+      southwestLng: null == southwestLng ? _value.southwestLng : southwestLng,
+      northeastLat: null == northeastLat ? _value.northeastLat : northeastLat,
+      northeastLng: null == northeastLng ? _value.northeastLng : northeastLng,
     ));
   }
 }
@@ -134,28 +174,48 @@ class __$$_PolylineResultStateCopyWithImpl<$Res>
 
 class _$_PolylineResultState implements _PolylineResultState {
   const _$_PolylineResultState(
-      {required this.bounds,
-      required this.distance,
-      required this.duration,
-      required final List<PointLatLng> polylinePoints})
+      {this.bounds,
+      this.distance = '',
+      this.duration = '',
+      final List<PointLatLng> polylinePoints = const [],
+      this.southwestLat = 0,
+      this.southwestLng = 0,
+      this.northeastLat = 0,
+      this.northeastLng = 0})
       : _polylinePoints = polylinePoints;
 
   @override
-  final LatLngBounds bounds;
+  final LatLngBounds? bounds;
   @override
+  @JsonKey()
   final String distance;
   @override
+  @JsonKey()
   final String duration;
   final List<PointLatLng> _polylinePoints;
   @override
+  @JsonKey()
   List<PointLatLng> get polylinePoints {
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_polylinePoints);
   }
 
   @override
+  @JsonKey()
+  final dynamic southwestLat;
+  @override
+  @JsonKey()
+  final dynamic southwestLng;
+  @override
+  @JsonKey()
+  final dynamic northeastLat;
+  @override
+  @JsonKey()
+  final dynamic northeastLng;
+
+  @override
   String toString() {
-    return 'PolylineResultState(bounds: $bounds, distance: $distance, duration: $duration, polylinePoints: $polylinePoints)';
+    return 'PolylineResultState(bounds: $bounds, distance: $distance, duration: $duration, polylinePoints: $polylinePoints, southwestLat: $southwestLat, southwestLng: $southwestLng, northeastLat: $northeastLat, northeastLng: $northeastLng)';
   }
 
   @override
@@ -169,12 +229,28 @@ class _$_PolylineResultState implements _PolylineResultState {
             (identical(other.duration, duration) ||
                 other.duration == duration) &&
             const DeepCollectionEquality()
-                .equals(other._polylinePoints, _polylinePoints));
+                .equals(other._polylinePoints, _polylinePoints) &&
+            const DeepCollectionEquality()
+                .equals(other.southwestLat, southwestLat) &&
+            const DeepCollectionEquality()
+                .equals(other.southwestLng, southwestLng) &&
+            const DeepCollectionEquality()
+                .equals(other.northeastLat, northeastLat) &&
+            const DeepCollectionEquality()
+                .equals(other.northeastLng, northeastLng));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, bounds, distance, duration,
-      const DeepCollectionEquality().hash(_polylinePoints));
+  int get hashCode => Object.hash(
+      runtimeType,
+      bounds,
+      distance,
+      duration,
+      const DeepCollectionEquality().hash(_polylinePoints),
+      const DeepCollectionEquality().hash(southwestLat),
+      const DeepCollectionEquality().hash(southwestLng),
+      const DeepCollectionEquality().hash(northeastLat),
+      const DeepCollectionEquality().hash(northeastLng));
 
   @JsonKey(ignore: true)
   @override
@@ -186,20 +262,31 @@ class _$_PolylineResultState implements _PolylineResultState {
 
 abstract class _PolylineResultState implements PolylineResultState {
   const factory _PolylineResultState(
-          {required final LatLngBounds bounds,
-          required final String distance,
-          required final String duration,
-          required final List<PointLatLng> polylinePoints}) =
-      _$_PolylineResultState;
+      {final LatLngBounds? bounds,
+      final String distance,
+      final String duration,
+      final List<PointLatLng> polylinePoints,
+      final dynamic southwestLat,
+      final dynamic southwestLng,
+      final dynamic northeastLat,
+      final dynamic northeastLng}) = _$_PolylineResultState;
 
   @override
-  LatLngBounds get bounds;
+  LatLngBounds? get bounds;
   @override
   String get distance;
   @override
   String get duration;
   @override
   List<PointLatLng> get polylinePoints;
+  @override
+  dynamic get southwestLat;
+  @override
+  dynamic get southwestLng;
+  @override
+  dynamic get northeastLat;
+  @override
+  dynamic get northeastLng;
   @override
   @JsonKey(ignore: true)
   _$$_PolylineResultStateCopyWith<_$_PolylineResultState> get copyWith =>

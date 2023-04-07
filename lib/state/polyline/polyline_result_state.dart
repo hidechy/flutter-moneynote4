@@ -7,9 +7,13 @@ part 'polyline_result_state.freezed.dart';
 @freezed
 class PolylineResultState with _$PolylineResultState {
   const factory PolylineResultState({
-    required LatLngBounds bounds,
-    required String distance,
-    required String duration,
-    required List<PointLatLng> polylinePoints,
+    LatLngBounds? bounds,
+    @Default('') String distance,
+    @Default('') String duration,
+    @Default([]) List<PointLatLng> polylinePoints,
+    @Default(0) southwestLat,
+    @Default(0) southwestLng,
+    @Default(0) northeastLat,
+    @Default(0) northeastLng,
   }) = _PolylineResultState;
 }

@@ -103,12 +103,13 @@ class __$$_PolylineParamStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_PolylineParamState implements _PolylineParamState {
-  const _$_PolylineParamState(
-      {required this.origin, required this.destination});
+  const _$_PolylineParamState({this.origin = '', this.destination = ''});
 
   @override
+  @JsonKey()
   final String origin;
   @override
+  @JsonKey()
   final String destination;
 
   @override
@@ -139,8 +140,7 @@ class _$_PolylineParamState implements _PolylineParamState {
 
 abstract class _PolylineParamState implements PolylineParamState {
   const factory _PolylineParamState(
-      {required final String origin,
-      required final String destination}) = _$_PolylineParamState;
+      {final String origin, final String destination}) = _$_PolylineParamState;
 
   @override
   String get origin;

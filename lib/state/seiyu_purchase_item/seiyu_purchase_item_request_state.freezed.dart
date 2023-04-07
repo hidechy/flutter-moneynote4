@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SeiyuPurchaseItemRequestState {
-  DateTime get date => throw _privateConstructorUsedError;
+  DateTime? get date => throw _privateConstructorUsedError;
   String get item => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -32,7 +32,7 @@ abstract class $SeiyuPurchaseItemRequestStateCopyWith<$Res> {
       _$SeiyuPurchaseItemRequestStateCopyWithImpl<$Res,
           SeiyuPurchaseItemRequestState>;
   @useResult
-  $Res call({DateTime date, String item});
+  $Res call({DateTime? date, String item});
 }
 
 /// @nodoc
@@ -49,14 +49,14 @@ class _$SeiyuPurchaseItemRequestStateCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? date = null,
+    Object? date = freezed,
     Object? item = null,
   }) {
     return _then(_value.copyWith(
-      date: null == date
+      date: freezed == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
       item: null == item
           ? _value.item
           : item // ignore: cast_nullable_to_non_nullable
@@ -74,7 +74,7 @@ abstract class _$$_SeiyuPurchaseItemRequestStateCopyWith<$Res>
       __$$_SeiyuPurchaseItemRequestStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({DateTime date, String item});
+  $Res call({DateTime? date, String item});
 }
 
 /// @nodoc
@@ -90,14 +90,14 @@ class __$$_SeiyuPurchaseItemRequestStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? date = null,
+    Object? date = freezed,
     Object? item = null,
   }) {
     return _then(_$_SeiyuPurchaseItemRequestState(
-      date: null == date
+      date: freezed == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
       item: null == item
           ? _value.item
           : item // ignore: cast_nullable_to_non_nullable
@@ -110,10 +110,10 @@ class __$$_SeiyuPurchaseItemRequestStateCopyWithImpl<$Res>
 
 class _$_SeiyuPurchaseItemRequestState
     implements _SeiyuPurchaseItemRequestState {
-  const _$_SeiyuPurchaseItemRequestState({required this.date, this.item = ''});
+  const _$_SeiyuPurchaseItemRequestState({this.date, this.item = ''});
 
   @override
-  final DateTime date;
+  final DateTime? date;
   @override
   @JsonKey()
   final String item;
@@ -146,11 +146,11 @@ class _$_SeiyuPurchaseItemRequestState
 abstract class _SeiyuPurchaseItemRequestState
     implements SeiyuPurchaseItemRequestState {
   const factory _SeiyuPurchaseItemRequestState(
-      {required final DateTime date,
+      {final DateTime? date,
       final String item}) = _$_SeiyuPurchaseItemRequestState;
 
   @override
-  DateTime get date;
+  DateTime? get date;
   @override
   String get item;
   @override

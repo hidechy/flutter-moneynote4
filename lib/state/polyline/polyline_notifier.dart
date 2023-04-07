@@ -85,6 +85,10 @@ class PolylineNotifier extends StateNotifier<PolylineResultState> {
             distance: distance,
             duration: duration,
             polylinePoints: polylinePoints,
+            southwestLat: sw['lat'],
+            southwestLng: sw['lng'],
+            northeastLat: ne['lat'],
+            northeastLng: ne['lng'],
           );
         }
       }

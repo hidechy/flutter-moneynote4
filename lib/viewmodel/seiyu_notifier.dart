@@ -120,7 +120,7 @@ class SeiyuPurchaseItemNotifier extends StateNotifier<List<SeiyuItem>> {
       {required SeiyuPurchaseItemRequestState param}) async {
     await client.post(
       path: APIPath.getSeiyuuPurchaseItemList,
-      body: {'date': param.date.yyyymmdd},
+      body: {'date': param.date!.yyyymmdd},
     ).then((value) {
       final list = <SeiyuItem>[];
 
