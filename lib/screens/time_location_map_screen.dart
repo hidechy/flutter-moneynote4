@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, inference_failure_on_untyped_parameter, avoid_dynamic_calls
 
 import 'dart:async';
 import 'dart:math';
@@ -6,13 +6,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/state/route_transit/route_transit_param_state.dart';
 
 import '../extensions/extensions.dart';
 import '../models/time_location.dart';
 import '../state/polyline/polyline_notifier.dart';
 import '../state/polyline/polyline_param_state.dart';
 import '../state/route_transit/route_transit_notifier.dart';
+import '../state/route_transit/route_transit_param_state.dart';
 import '../state/route_transit/route_transit_result_state.dart';
 
 class TimeLocationMapScreen extends ConsumerWidget {
@@ -27,10 +27,8 @@ class TimeLocationMapScreen extends ConsumerWidget {
 
   Set<Polyline> polylineSet = {};
 
-  List<double> southwestLatList = [];
-  List<double> southwestLngList = [];
-  List<double> northeastLatList = [];
-  List<double> northeastLngList = [];
+  List<double> latList = [];
+  List<double> lngList = [];
 
   late LatLngBounds bounds;
 
@@ -103,6 +101,11 @@ class TimeLocationMapScreen extends ConsumerWidget {
     );
   }
 
+  List<double> southwestLatList = [];
+  List<double> southwestLngList = [];
+  List<double> northeastLatList = [];
+  List<double> northeastLngList = [];
+
   ///
   Future<void> makePolyline() async {
     southwestLatList = [];
@@ -133,55 +136,6 @@ class TimeLocationMapScreen extends ConsumerWidget {
               .toList(),
         ),
       );
-
-      /*
-
-      final routeTransitState = _ref.watch(
-        routeTransitProvider(
-          RouteTransitParamState(
-            start: '${list[0].latitude},${list[0].longitude}',
-            goal: '${list[i + 1].latitude},${list[i + 1].longitude}',
-            startTime: '${list[0].date.yyyymmdd}T${list[0].time}',
-          ),
-        ),
-      );
-
-      for (var j = 0;
-          j < routeTransitState.list.length.toString().toInt() - 1;
-          j++) {
-        var origin = routeTransitState.list[j] as RouteTransitResultItemState;
-        var destination =
-            routeTransitState.list[j + 1] as RouteTransitResultItemState;
-
-        print('ori ${origin.latitude},${origin.longitude}');
-        print('des ${destination.latitude},${destination.longitude}');
-
-        final polylineState = _ref.watch(polylineProvider(
-          PolylineParamState(
-            origin: '${origin.latitude},${origin.longitude}',
-            destination: '${destination.latitude},${destination.longitude}',
-          ),
-        ));
-
-        southwestLatList.add(polylineState.southwestLat.toString().toDouble());
-        southwestLngList.add(polylineState.southwestLng.toString().toDouble());
-        northeastLatList.add(polylineState.northeastLat.toString().toDouble());
-        northeastLngList.add(polylineState.northeastLng.toString().toDouble());
-
-        polylineSet.add(
-          Polyline(
-            polylineId: PolylineId('overview_polyline{$i}'),
-            color: Colors.redAccent,
-            width: 5,
-            points: polylineState.polylinePoints
-                .map((e) => LatLng(e.latitude, e.longitude))
-                .toList(),
-          ),
-        );
-      }
-
-      */
-
     }
   }
 
@@ -203,4 +157,71 @@ class TimeLocationMapScreen extends ConsumerWidget {
       CameraUpdate.newLatLngBounds(bounds, 50),
     );
   }
+
+/*
+
+  ///
+  Future<void> makePolyline() async {
+    latList = [];
+    lngList = [];
+
+    for (var i = 0; i < list.length - 1; i++) {
+      final routeTransitState = _ref.watch(
+        routeTransitProvider(
+          RouteTransitParamState(
+            start: '${list[0].latitude},${list[0].longitude}',
+            goal: '${list[i + 1].latitude},${list[i + 1].longitude}',
+            startTime: '${list[0].date.yyyymmdd}T${list[0].time}',
+          ),
+        ),
+      );
+
+      final poly = <LatLng>[];
+
+      routeTransitState.list.forEach((element) {
+        final origin = element as RouteTransitResultItemState;
+
+        poly.add(
+          LatLng(origin.latitude.toDouble(), origin.longitude.toDouble()),
+        );
+
+        latList.add(origin.latitude.toDouble());
+        lngList.add(origin.longitude.toDouble());
+      });
+
+      polylineSet.add(
+        Polyline(
+          polylineId: PolylineId('overview_polyline{$i}'),
+          color: Colors.redAccent,
+          width: 5,
+          points: poly,
+        ),
+      );
+    }
+  }
+
+  ///
+  Future<void> makeBoundsLine() async {
+    if (latList.isNotEmpty && lngList.isNotEmpty) {
+      final minSouthwestLat = latList.reduce(min);
+      final maxNortheastLat = latList.reduce(max);
+
+      final minSouthwestLng = lngList.reduce(min);
+      final maxNortheastLng = lngList.reduce(max);
+
+      bounds = LatLngBounds(
+        southwest: LatLng(minSouthwestLat, minSouthwestLng),
+        northeast: LatLng(maxNortheastLat, maxNortheastLng),
+      );
+
+      final controller = await _controller.future;
+
+      await controller.animateCamera(
+        CameraUpdate.newLatLngBounds(bounds, 50),
+      );
+    }
+  }
+
+  */
+
 }
