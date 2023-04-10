@@ -38,6 +38,8 @@ class TimeLocationMapScreen extends ConsumerWidget {
 
   late CameraPosition basePoint;
 
+  int opacity = 0;
+
   late WidgetRef _ref;
 
   ///
@@ -46,6 +48,8 @@ class TimeLocationMapScreen extends ConsumerWidget {
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
         makeBoundsLine();
+
+        opacity = 1;
       },
     );
 
@@ -97,10 +101,15 @@ class TimeLocationMapScreen extends ConsumerWidget {
 
               //------------------------------------//
               Expanded(
-                child: GoogleMap(
-                  initialCameraPosition: basePoint,
-                  onMapCreated: _controller.complete,
-                  polylines: polylineSet,
+                child: AnimatedOpacity(
+                  opacity: opacity.toDouble(),
+                  curve: Curves.easeIn,
+                  duration: Duration(milliseconds: 2000),
+                  child: GoogleMap(
+                    initialCameraPosition: basePoint,
+                    onMapCreated: _controller.complete,
+                    polylines: polylineSet,
+                  ),
                 ),
               ),
               //------------------------------------//
