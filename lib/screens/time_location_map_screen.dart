@@ -4,7 +4,6 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -12,6 +11,7 @@ import '../extensions/extensions.dart';
 import '../models/time_location.dart';
 import '../state/polyline/polyline_notifier.dart';
 import '../state/polyline/polyline_param_state.dart';
+import '../utility/utility.dart';
 
 // import '../state/route_transit/route_transit_notifier.dart';
 // import '../state/route_transit/route_transit_param_state.dart';
@@ -22,6 +22,8 @@ class TimeLocationMapScreen extends ConsumerWidget {
 
   final DateTime date;
   final List<TimeLocation> list;
+
+  Utility utility = Utility();
 
   ///
   final Completer<GoogleMapController> _controller =
@@ -69,35 +71,41 @@ class TimeLocationMapScreen extends ConsumerWidget {
     }
 
     return Scaffold(
-      body: Column(
+      body: Stack(
+        fit: StackFit.expand,
         children: [
-          const SizedBox(height: 80),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          utility.getBackGround(),
+          Column(
             children: [
-              Container(),
+              const SizedBox(height: 80),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    child: const Icon(Icons.close),
+                  Container(),
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: const Icon(Icons.close),
+                      ),
+                      const SizedBox(width: 20),
+                    ],
                   ),
-                  const SizedBox(width: 20),
                 ],
               ),
+              const SizedBox(height: 20),
+
+              //------------------------------------//
+              Expanded(
+                child: GoogleMap(
+                  initialCameraPosition: basePoint,
+                  onMapCreated: _controller.complete,
+                  polylines: polylineSet,
+                ),
+              ),
+              //------------------------------------//
             ],
           ),
-          const SizedBox(height: 20),
-
-          //------------------------------------//
-          Expanded(
-            child: GoogleMap(
-              initialCameraPosition: basePoint,
-              onMapCreated: _controller.complete,
-              polylines: polylineSet,
-            ),
-          ),
-          //------------------------------------//
         ],
       ),
     );

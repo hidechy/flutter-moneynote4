@@ -2,13 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/time_location_map_screen.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/time_location.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/time_location_notifier.dart';
+import '../time_location_map_screen.dart';
 
 class TimeLocationAlert extends ConsumerWidget {
   TimeLocationAlert({super.key, required this.date});
