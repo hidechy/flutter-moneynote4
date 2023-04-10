@@ -15,17 +15,8 @@ import 'polyline_result_state.dart';
 final polylineProvider = StateNotifierProvider.family
     .autoDispose<PolylineNotifier, PolylineResultState, PolylineParamState>(
         (ref, param) {
-  return PolylineNotifier(
-    PolylineResultState(
-      bounds: LatLngBounds(
-        southwest: const LatLng(0, 0),
-        northeast: const LatLng(0, 0),
-      ),
-      distance: '',
-      duration: '',
-      polylinePoints: [],
-    ),
-  )..getPolyline(param: param);
+  return PolylineNotifier(const PolylineResultState())
+    ..getPolyline(param: param);
 });
 
 class PolylineNotifier extends StateNotifier<PolylineResultState> {

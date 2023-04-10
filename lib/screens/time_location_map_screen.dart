@@ -6,11 +6,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/state/route_transit/route_transit_param_state.dart';
 
 import '../extensions/extensions.dart';
 import '../models/time_location.dart';
 import '../state/polyline/polyline_notifier.dart';
 import '../state/polyline/polyline_param_state.dart';
+import '../state/route_transit/route_transit_notifier.dart';
 
 class TimeLocationMapScreen extends ConsumerWidget {
   TimeLocationMapScreen({super.key, required this.date, required this.list});
@@ -63,6 +65,18 @@ class TimeLocationMapScreen extends ConsumerWidget {
 
     if (list.length > 1) {
       makePolyline();
+    }
+
+    if (list.length > 2) {
+      final routeTransitState = ref.watch(
+        routeTransitProvider(
+          RouteTransitParamState(
+            start: '${list[0].latitude},${list[0].longitude}',
+            goal: '${list[1].latitude},${list[1].longitude}',
+            startTime: '${list[0].date.yyyymmdd}T${list[0].time}',
+          ),
+        ),
+      );
     }
 
     return Scaffold(
