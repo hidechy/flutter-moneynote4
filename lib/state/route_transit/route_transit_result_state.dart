@@ -3,11 +3,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'route_transit_result_state.freezed.dart';
 
 @freezed
-class RouteTransitResultState with _$RouteTransitResultState {
-  const factory RouteTransitResultState({
-    @Default([]) latlng,
-    @Default('') color,
-  }) = _RouteTransitResultState;
+class RouteTransitState with _$RouteTransitState {
+  const factory RouteTransitState({
+    @Default([]) list,
+  }) = _RouteTransitState;
 }
 
 @freezed

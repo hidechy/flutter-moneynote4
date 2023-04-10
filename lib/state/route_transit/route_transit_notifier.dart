@@ -11,13 +11,14 @@ import 'route_transit_result_state.dart';
 
 final routeTransitProvider = StateNotifierProvider.family.autoDispose<
     RouteTransitNotifier,
-    List<RouteTransitResultState>,
+    RouteTransitState,
     RouteTransitParamState>((ref, param) {
-  return RouteTransitNotifier([])..getRouteTransit(param: param);
+  return RouteTransitNotifier(
+    const RouteTransitState(),
+  )..getRouteTransit(param: param);
 });
 
-class RouteTransitNotifier
-    extends StateNotifier<List<RouteTransitResultState>> {
+class RouteTransitNotifier extends StateNotifier<RouteTransitState> {
   RouteTransitNotifier(super.state);
 
   Future<void> getRouteTransit({required RouteTransitParamState param}) async {
@@ -47,29 +48,20 @@ class RouteTransitNotifier
 
       final routeTransit = routeTransitFromJson(response.body);
 
-      final list = <RouteTransitResultState>[];
+      final list = <RouteTransitResultItemState>[];
 
       routeTransit.items[0].path.forEach((element) {
-        final list2 = <RouteTransitResultItemState>[];
-
         element.coords.forEach((element2) {
-          list2.add(
+          list.add(
             RouteTransitResultItemState(
               latitude: element2[0].toString(),
               longitude: element2[1].toString(),
             ),
           );
         });
-
-        list.add(
-          RouteTransitResultState(
-            latlng: list2,
-            color: element.color,
-          ),
-        );
       });
 
-      state = list;
+      state = state.copyWith(list: list);
     } catch (e) {
       throw e.toString();
     }

@@ -13,6 +13,7 @@ import '../models/time_location.dart';
 import '../state/polyline/polyline_notifier.dart';
 import '../state/polyline/polyline_param_state.dart';
 import '../state/route_transit/route_transit_notifier.dart';
+import '../state/route_transit/route_transit_result_state.dart';
 
 class TimeLocationMapScreen extends ConsumerWidget {
   TimeLocationMapScreen({super.key, required this.date, required this.list});
@@ -65,18 +66,6 @@ class TimeLocationMapScreen extends ConsumerWidget {
 
     if (list.length > 1) {
       makePolyline();
-    }
-
-    if (list.length > 2) {
-      final routeTransitState = ref.watch(
-        routeTransitProvider(
-          RouteTransitParamState(
-            start: '${list[0].latitude},${list[0].longitude}',
-            goal: '${list[1].latitude},${list[1].longitude}',
-            startTime: '${list[0].date.yyyymmdd}T${list[0].time}',
-          ),
-        ),
-      );
     }
 
     return Scaffold(
@@ -144,6 +133,55 @@ class TimeLocationMapScreen extends ConsumerWidget {
               .toList(),
         ),
       );
+
+      /*
+
+      final routeTransitState = _ref.watch(
+        routeTransitProvider(
+          RouteTransitParamState(
+            start: '${list[0].latitude},${list[0].longitude}',
+            goal: '${list[i + 1].latitude},${list[i + 1].longitude}',
+            startTime: '${list[0].date.yyyymmdd}T${list[0].time}',
+          ),
+        ),
+      );
+
+      for (var j = 0;
+          j < routeTransitState.list.length.toString().toInt() - 1;
+          j++) {
+        var origin = routeTransitState.list[j] as RouteTransitResultItemState;
+        var destination =
+            routeTransitState.list[j + 1] as RouteTransitResultItemState;
+
+        print('ori ${origin.latitude},${origin.longitude}');
+        print('des ${destination.latitude},${destination.longitude}');
+
+        final polylineState = _ref.watch(polylineProvider(
+          PolylineParamState(
+            origin: '${origin.latitude},${origin.longitude}',
+            destination: '${destination.latitude},${destination.longitude}',
+          ),
+        ));
+
+        southwestLatList.add(polylineState.southwestLat.toString().toDouble());
+        southwestLngList.add(polylineState.southwestLng.toString().toDouble());
+        northeastLatList.add(polylineState.northeastLat.toString().toDouble());
+        northeastLngList.add(polylineState.northeastLng.toString().toDouble());
+
+        polylineSet.add(
+          Polyline(
+            polylineId: PolylineId('overview_polyline{$i}'),
+            color: Colors.redAccent,
+            width: 5,
+            points: polylineState.polylinePoints
+                .map((e) => LatLng(e.latitude, e.longitude))
+                .toList(),
+          ),
+        );
+      }
+
+      */
+
     }
   }
 

@@ -15,29 +15,27 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$RouteTransitResultState {
-  dynamic get latlng => throw _privateConstructorUsedError;
-  dynamic get color => throw _privateConstructorUsedError;
+mixin _$RouteTransitState {
+  dynamic get list => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $RouteTransitResultStateCopyWith<RouteTransitResultState> get copyWith =>
+  $RouteTransitStateCopyWith<RouteTransitState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $RouteTransitResultStateCopyWith<$Res> {
-  factory $RouteTransitResultStateCopyWith(RouteTransitResultState value,
-          $Res Function(RouteTransitResultState) then) =
-      _$RouteTransitResultStateCopyWithImpl<$Res, RouteTransitResultState>;
+abstract class $RouteTransitStateCopyWith<$Res> {
+  factory $RouteTransitStateCopyWith(
+          RouteTransitState value, $Res Function(RouteTransitState) then) =
+      _$RouteTransitStateCopyWithImpl<$Res, RouteTransitState>;
   @useResult
-  $Res call({dynamic latlng, dynamic color});
+  $Res call({dynamic list});
 }
 
 /// @nodoc
-class _$RouteTransitResultStateCopyWithImpl<$Res,
-        $Val extends RouteTransitResultState>
-    implements $RouteTransitResultStateCopyWith<$Res> {
-  _$RouteTransitResultStateCopyWithImpl(this._value, this._then);
+class _$RouteTransitStateCopyWithImpl<$Res, $Val extends RouteTransitState>
+    implements $RouteTransitStateCopyWith<$Res> {
+  _$RouteTransitStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -47,108 +45,90 @@ class _$RouteTransitResultStateCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? latlng = null,
-    Object? color = null,
+    Object? list = null,
   }) {
     return _then(_value.copyWith(
-      latlng: null == latlng
-          ? _value.latlng
-          : latlng // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      color: null == color
-          ? _value.color
-          : color // ignore: cast_nullable_to_non_nullable
+      list: null == list
+          ? _value.list
+          : list // ignore: cast_nullable_to_non_nullable
               as dynamic,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$_RouteTransitResultStateCopyWith<$Res>
-    implements $RouteTransitResultStateCopyWith<$Res> {
-  factory _$$_RouteTransitResultStateCopyWith(_$_RouteTransitResultState value,
-          $Res Function(_$_RouteTransitResultState) then) =
-      __$$_RouteTransitResultStateCopyWithImpl<$Res>;
+abstract class _$$_RouteTransitStateCopyWith<$Res>
+    implements $RouteTransitStateCopyWith<$Res> {
+  factory _$$_RouteTransitStateCopyWith(_$_RouteTransitState value,
+          $Res Function(_$_RouteTransitState) then) =
+      __$$_RouteTransitStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({dynamic latlng, dynamic color});
+  $Res call({dynamic list});
 }
 
 /// @nodoc
-class __$$_RouteTransitResultStateCopyWithImpl<$Res>
-    extends _$RouteTransitResultStateCopyWithImpl<$Res,
-        _$_RouteTransitResultState>
-    implements _$$_RouteTransitResultStateCopyWith<$Res> {
-  __$$_RouteTransitResultStateCopyWithImpl(_$_RouteTransitResultState _value,
-      $Res Function(_$_RouteTransitResultState) _then)
+class __$$_RouteTransitStateCopyWithImpl<$Res>
+    extends _$RouteTransitStateCopyWithImpl<$Res, _$_RouteTransitState>
+    implements _$$_RouteTransitStateCopyWith<$Res> {
+  __$$_RouteTransitStateCopyWithImpl(
+      _$_RouteTransitState _value, $Res Function(_$_RouteTransitState) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? latlng = null,
-    Object? color = null,
+    Object? list = null,
   }) {
-    return _then(_$_RouteTransitResultState(
-      latlng: null == latlng ? _value.latlng : latlng,
-      color: null == color ? _value.color : color,
+    return _then(_$_RouteTransitState(
+      list: null == list ? _value.list : list,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_RouteTransitResultState implements _RouteTransitResultState {
-  const _$_RouteTransitResultState({this.latlng = const [], this.color = ''});
+class _$_RouteTransitState implements _RouteTransitState {
+  const _$_RouteTransitState({this.list = const []});
 
   @override
   @JsonKey()
-  final dynamic latlng;
-  @override
-  @JsonKey()
-  final dynamic color;
+  final dynamic list;
 
   @override
   String toString() {
-    return 'RouteTransitResultState(latlng: $latlng, color: $color)';
+    return 'RouteTransitState(list: $list)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_RouteTransitResultState &&
-            const DeepCollectionEquality().equals(other.latlng, latlng) &&
-            const DeepCollectionEquality().equals(other.color, color));
+            other is _$_RouteTransitState &&
+            const DeepCollectionEquality().equals(other.list, list));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(latlng),
-      const DeepCollectionEquality().hash(color));
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(list));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_RouteTransitResultStateCopyWith<_$_RouteTransitResultState>
-      get copyWith =>
-          __$$_RouteTransitResultStateCopyWithImpl<_$_RouteTransitResultState>(
-              this, _$identity);
+  _$$_RouteTransitStateCopyWith<_$_RouteTransitState> get copyWith =>
+      __$$_RouteTransitStateCopyWithImpl<_$_RouteTransitState>(
+          this, _$identity);
 }
 
-abstract class _RouteTransitResultState implements RouteTransitResultState {
-  const factory _RouteTransitResultState(
-      {final dynamic latlng, final dynamic color}) = _$_RouteTransitResultState;
+abstract class _RouteTransitState implements RouteTransitState {
+  const factory _RouteTransitState({final dynamic list}) = _$_RouteTransitState;
 
   @override
-  dynamic get latlng;
-  @override
-  dynamic get color;
+  dynamic get list;
   @override
   @JsonKey(ignore: true)
-  _$$_RouteTransitResultStateCopyWith<_$_RouteTransitResultState>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$_RouteTransitStateCopyWith<_$_RouteTransitState> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
