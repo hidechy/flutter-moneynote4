@@ -100,18 +100,15 @@ class TimeLocationMapScreen extends ConsumerWidget {
               const SizedBox(height: 20),
 
               //------------------------------------//
+
               Expanded(
-                child: AnimatedOpacity(
-                  opacity: opacity.toDouble(),
-                  curve: Curves.easeIn,
-                  duration: Duration(milliseconds: 2000),
-                  child: GoogleMap(
-                    initialCameraPosition: basePoint,
-                    onMapCreated: _controller.complete,
-                    polylines: polylineSet,
-                  ),
+                child: GoogleMap(
+                  initialCameraPosition: basePoint,
+                  onMapCreated: _controller.complete,
+                  polylines: polylineSet,
                 ),
               ),
+
               //------------------------------------//
             ],
           ),
