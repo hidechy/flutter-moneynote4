@@ -131,8 +131,8 @@ class TimeLocationMapScreen extends ConsumerWidget {
       child: Row(
         children: list.map((val) {
           return GestureDetector(
-            onTap: () {
-              _ref.watch(mapMarkerProvider.notifier).getMapMarker(
+            onTap: () async {
+              await _ref.watch(mapMarkerProvider.notifier).getMapMarker(
                     date: date,
                     time: val.time,
                   );
@@ -210,5 +210,8 @@ class TimeLocationMapScreen extends ConsumerWidget {
     await controller.animateCamera(
       CameraUpdate.newLatLngBounds(bounds, 50),
     );
+
+    const marker = MarkerId('marker');
+    await controller.showMarkerInfoWindow(marker);
   }
 }
