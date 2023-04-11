@@ -9,6 +9,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../extensions/extensions.dart';
 import '../models/time_location.dart';
+import '../state/lat_lng_address/lat_lng_address_notifier.dart';
+import '../state/lat_lng_address/lat_lng_address_param_state.dart';
 import '../state/map_marker/map_marker_notifier.dart';
 import '../state/polyline/polyline_notifier.dart';
 import '../state/polyline/polyline_param_state.dart';
@@ -67,6 +69,8 @@ class TimeLocationMapScreen extends ConsumerWidget {
 
     final mapMarkerState = ref.watch(mapMarkerProvider);
 
+    final latLngAddressState = ref.watch(latLngAddressProvider);
+
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
         makeBoundsLine();
@@ -110,7 +114,6 @@ class TimeLocationMapScreen extends ConsumerWidget {
 
               Expanded(
                 child: GoogleMap(
-                  mapType: MapType.terrain,
                   initialCameraPosition: basePoint,
                   onMapCreated: _controller.complete,
                   polylines: polylineSet,
@@ -122,7 +125,23 @@ class TimeLocationMapScreen extends ConsumerWidget {
 
               timeSelectButton(),
 
-              const SizedBox(height: 50),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      children: [
+                        Text(latLngAddressState.city),
+                        Text(latLngAddressState.town),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 30),
             ],
           ),
         ],
@@ -143,6 +162,13 @@ class TimeLocationMapScreen extends ConsumerWidget {
               await _ref.watch(mapMarkerProvider.notifier).getMapMarker(
                     date: date,
                     time: val.time,
+                  );
+
+              await _ref.watch(latLngAddressProvider.notifier).getLatLngAddress(
+                    param: LatLngAddressParamState(
+                      latitude: val.latitude,
+                      longitude: val.longitude,
+                    ),
                   );
             },
             child: Container(

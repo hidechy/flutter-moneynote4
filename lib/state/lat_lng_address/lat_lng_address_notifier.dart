@@ -8,10 +8,9 @@ import 'lat_lng_address_param_state.dart';
 
 //////////////////////////////////////////////////////
 
-final latLngAddressProvider = StateNotifierProvider.family.autoDispose<
-    LatLngAddressNotifier,
-    LocationAddress,
-    LatLngAddressParamState>((ref, param) {
+final latLngAddressProvider =
+    StateNotifierProvider.autoDispose<LatLngAddressNotifier, LocationAddress>(
+        (ref) {
   return LatLngAddressNotifier(
     LocationAddress(
       city: '',
@@ -24,7 +23,7 @@ final latLngAddressProvider = StateNotifierProvider.family.autoDispose<
       prefecture: '',
       postal: '',
     ),
-  )..getLatLngAddress(param: param);
+  );
 });
 
 class LatLngAddressNotifier extends StateNotifier<LocationAddress> {
