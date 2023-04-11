@@ -11,14 +11,14 @@ import 'route_transit_result_state.dart';
 
 final routeTransitProvider = StateNotifierProvider.family.autoDispose<
     RouteTransitNotifier,
-    RouteTransitState,
+    RouteTransitResultState,
     RouteTransitParamState>((ref, param) {
   return RouteTransitNotifier(
-    const RouteTransitState(),
+    const RouteTransitResultState(),
   )..getRouteTransit(param: param);
 });
 
-class RouteTransitNotifier extends StateNotifier<RouteTransitState> {
+class RouteTransitNotifier extends StateNotifier<RouteTransitResultState> {
   RouteTransitNotifier(super.state);
 
   Future<void> getRouteTransit({required RouteTransitParamState param}) async {

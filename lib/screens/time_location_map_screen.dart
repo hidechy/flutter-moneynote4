@@ -88,10 +88,8 @@ class TimeLocationMapScreen extends ConsumerWidget {
                     children: [
                       const SizedBox(width: 20),
                       GestureDetector(
-                        onTap: () {
-                          makeBoundsLine();
-                        },
-                        child: Icon(Icons.vignette_rounded),
+                        onTap: makeBoundsLine,
+                        child: const Icon(Icons.vignette_rounded),
                       ),
                     ],
                   ),

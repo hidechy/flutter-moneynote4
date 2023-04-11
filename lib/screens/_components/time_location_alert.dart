@@ -83,6 +83,15 @@ class TimeLocationAlert extends ConsumerWidget {
     timeLocationList = timeLocationState;
 
     timeLocationState.forEach((element) {
+      // final latLngAddressState = _ref.watch(
+      //   latLngAddressProvider(
+      //     LatLngAddressParamState(
+      //       latitude: element.latitude,
+      //       longitude: element.longitude,
+      //     ),
+      //   ),
+      // );
+
       list.add(
         Container(
           padding: const EdgeInsets.symmetric(vertical: 3),
@@ -102,6 +111,8 @@ class TimeLocationAlert extends ConsumerWidget {
           ),
         ),
       );
+
+//      sleep(Duration(milliseconds: 500));
     });
 
     return SingleChildScrollView(
