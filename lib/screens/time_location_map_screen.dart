@@ -42,12 +42,6 @@ class TimeLocationMapScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
 
-    WidgetsBinding.instance.addPostFrameCallback(
-      (timeStamp) {
-        makeBoundsLine();
-      },
-    );
-
     basePoint = CameraPosition(
       target: LatLng(
         list[0].latitude.toDouble(),
@@ -73,6 +67,12 @@ class TimeLocationMapScreen extends ConsumerWidget {
 
     final mapMarkerState = ref.watch(mapMarkerProvider);
 
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        makeBoundsLine();
+      },
+    );
+
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -84,7 +84,17 @@ class TimeLocationMapScreen extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(),
+                  Row(
+                    children: [
+                      const SizedBox(width: 20),
+                      GestureDetector(
+                        onTap: () {
+                          makeBoundsLine();
+                        },
+                        child: Icon(Icons.vignette_rounded),
+                      ),
+                    ],
+                  ),
                   Row(
                     children: [
                       GestureDetector(
