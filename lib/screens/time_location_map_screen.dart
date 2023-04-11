@@ -9,13 +9,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../extensions/extensions.dart';
 import '../models/time_location.dart';
+import '../state/map_marker/map_marker_notifier.dart';
 import '../state/polyline/polyline_notifier.dart';
 import '../state/polyline/polyline_param_state.dart';
 import '../utility/utility.dart';
-
-// import '../state/route_transit/route_transit_notifier.dart';
-// import '../state/route_transit/route_transit_param_state.dart';
-// import '../state/route_transit/route_transit_result_state.dart';
 
 class TimeLocationMapScreen extends ConsumerWidget {
   TimeLocationMapScreen({super.key, required this.date, required this.list});
@@ -37,8 +34,6 @@ class TimeLocationMapScreen extends ConsumerWidget {
   late LatLngBounds bounds;
 
   late CameraPosition basePoint;
-
-  final Set<Marker> markers = {};
 
   late WidgetRef _ref;
 
@@ -76,7 +71,7 @@ class TimeLocationMapScreen extends ConsumerWidget {
       makePolyline();
     }
 
-    makeMarker();
+    final mapMarkerState = ref.watch(mapMarkerProvider);
 
     return Scaffold(
       body: Stack(
@@ -111,14 +106,51 @@ class TimeLocationMapScreen extends ConsumerWidget {
                   initialCameraPosition: basePoint,
                   onMapCreated: _controller.complete,
                   polylines: polylineSet,
-                  markers: markers,
+                  markers: mapMarkerState.markers,
                 ),
               ),
 
               //------------------------------------//
+
+              timeSelectButton(),
+
+              const SizedBox(height: 50),
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  ///
+  Widget timeSelectButton() {
+    final mapMarkerState = _ref.watch(mapMarkerProvider);
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: list.map((val) {
+          return GestureDetector(
+            onTap: () {
+              _ref.watch(mapMarkerProvider.notifier).getMapMarker(
+                    date: date,
+                    time: val.time,
+                  );
+            },
+            child: Container(
+              margin: const EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.white.withOpacity(0.6),
+                  ),
+                  color: mapMarkerState.selectTime == val.time
+                      ? Colors.yellowAccent.withOpacity(0.2)
+                      : Colors.transparent),
+              child: Text(val.time),
+            ),
+          );
+        }).toList(),
       ),
     );
   }
@@ -178,25 +210,5 @@ class TimeLocationMapScreen extends ConsumerWidget {
     await controller.animateCamera(
       CameraUpdate.newLatLngBounds(bounds, 50),
     );
-  }
-
-  ///
-  void makeMarker() {
-    var i = 0;
-    list.forEach((element) {
-      markers.add(
-        Marker(
-          markerId: MarkerId('marker$i'),
-          position: LatLng(
-            double.parse(element.latitude),
-            double.parse(element.longitude),
-          ),
-          infoWindow: InfoWindow(title: element.time),
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose),
-        ),
-      );
-
-      i++;
-    });
   }
 }
