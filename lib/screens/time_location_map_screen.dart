@@ -25,13 +25,15 @@ class TimeLocationMapScreen extends ConsumerWidget {
   Utility utility = Utility();
 
   ///
-  final Completer<GoogleMapController> _controller =
+  final Completer<GoogleMapController> mapController =
       Completer<GoogleMapController>();
 
   Set<Polyline> polylineSet = {};
 
   List<double> latList = [];
   List<double> lngList = [];
+
+  final ScrollController scrollController = ScrollController();
 
   late LatLngBounds bounds;
 
@@ -115,7 +117,7 @@ class TimeLocationMapScreen extends ConsumerWidget {
               Expanded(
                 child: GoogleMap(
                   initialCameraPosition: basePoint,
-                  onMapCreated: _controller.complete,
+                  onMapCreated: mapController.complete,
                   polylines: polylineSet,
                   markers: mapMarkerState.markers,
                 ),
@@ -128,7 +130,21 @@ class TimeLocationMapScreen extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(),
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: () => scrollController
+                            .jumpTo(scrollController.position.maxScrollExtent),
+                        icon: Icon(Icons.skip_next),
+                      ),
+                      SizedBox(width: 20),
+                      IconButton(
+                        onPressed: () => scrollController
+                            .jumpTo(scrollController.position.minScrollExtent),
+                        icon: Icon(Icons.skip_previous),
+                      ),
+                    ],
+                  ),
                   Container(
                     padding: const EdgeInsets.all(10),
                     child: Row(
@@ -155,6 +171,7 @@ class TimeLocationMapScreen extends ConsumerWidget {
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
+      controller: scrollController,
       child: Row(
         children: list.map((val) {
           return GestureDetector(
@@ -239,7 +256,7 @@ class TimeLocationMapScreen extends ConsumerWidget {
       northeast: LatLng(maxNortheastLat, maxNortheastLng),
     );
 
-    final controller = await _controller.future;
+    final controller = await mapController.future;
 
     await controller.animateCamera(
       CameraUpdate.newLatLngBounds(bounds, 50),
