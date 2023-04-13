@@ -265,4 +265,58 @@ class TimeLocationMapScreen extends ConsumerWidget {
     const marker = MarkerId('marker');
     await controller.showMarkerInfoWindow(marker);
   }
+
+/*
+  ///
+  Future<void> makePolyline() async {
+    latList = [];
+    lngList = [];
+    for (var i = 0; i < list.length - 1; i++) {
+      final routeTransitState = _ref.watch(
+        routeTransitProvider(
+          RouteTransitParamState(
+            start: '${list[0].latitude},${list[0].longitude}',
+            goal: '${list[i + 1].latitude},${list[i + 1].longitude}',
+            startTime: '${list[0].date.yyyymmdd}T${list[0].time}',
+          ),
+        ),
+      );
+      final poly = <LatLng>[];
+      routeTransitState.list.forEach((element) {
+        final origin = element as RouteTransitResultItemState;
+        poly.add(
+          LatLng(origin.latitude.toDouble(), origin.longitude.toDouble()),
+        );
+        latList.add(origin.latitude.toDouble());
+        lngList.add(origin.longitude.toDouble());
+      });
+      polylineSet.add(
+        Polyline(
+          polylineId: PolylineId('overview_polyline{$i}'),
+          color: Colors.redAccent,
+          width: 5,
+          points: poly,
+        ),
+      );
+    }
+  }
+  ///
+  Future<void> makeBoundsLine() async {
+    if (latList.isNotEmpty && lngList.isNotEmpty) {
+      final minSouthwestLat = latList.reduce(min);
+      final maxNortheastLat = latList.reduce(max);
+      final minSouthwestLng = lngList.reduce(min);
+      final maxNortheastLng = lngList.reduce(max);
+      bounds = LatLngBounds(
+        southwest: LatLng(minSouthwestLat, minSouthwestLng),
+        northeast: LatLng(maxNortheastLat, maxNortheastLng),
+      );
+      final controller = await _controller.future;
+      await controller.animateCamera(
+        CameraUpdate.newLatLngBounds(bounds, 50),
+      );
+    }
+  }
+  */
+
 }
