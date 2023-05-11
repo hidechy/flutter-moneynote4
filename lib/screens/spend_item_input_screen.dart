@@ -37,6 +37,7 @@ class SpendItemInputScreen extends ConsumerWidget {
     makeSpendItem();
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -94,7 +95,10 @@ class SpendItemInputScreen extends ConsumerWidget {
 
                         Navigator.pop(_context);
                       },
-                      icon: const Icon(Icons.input),
+                      icon: const Icon(
+                        Icons.input,
+                        color: Colors.pinkAccent,
+                      ),
                     ),
                   ],
                 ),

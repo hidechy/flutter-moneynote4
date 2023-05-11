@@ -30,6 +30,7 @@ class BankInputScreen extends ConsumerWidget {
     final bankInputState = ref.watch(bankInputProvider);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         fit: StackFit.expand,
         children: [

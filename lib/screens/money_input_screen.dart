@@ -106,6 +106,7 @@ class MoneyInputScreen extends ConsumerWidget {
     final spendDiffState = ref.watch(spendDiffProvider);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -237,7 +238,10 @@ class MoneyInputScreen extends ConsumerWidget {
                       ),
                       IconButton(
                         onPressed: moneyInsert,
-                        icon: const Icon(Icons.input),
+                        icon: const Icon(
+                          Icons.input,
+                          color: Colors.pinkAccent,
+                        ),
                       ),
                     ],
                   ),

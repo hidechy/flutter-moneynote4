@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import 'package:vibration/vibration.dart';
 
 import '../extensions/extensions.dart';
@@ -34,6 +33,7 @@ class TimeplaceInputScreen extends ConsumerWidget {
     makeTecs();
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -80,7 +80,10 @@ class TimeplaceInputScreen extends ConsumerWidget {
 
                             Navigator.pop(_context);
                           },
-                          icon: const Icon(Icons.input),
+                          icon: const Icon(
+                            Icons.input,
+                            color: Colors.pinkAccent,
+                          ),
                         ),
                         const SizedBox(width: 20),
                         IconButton(
