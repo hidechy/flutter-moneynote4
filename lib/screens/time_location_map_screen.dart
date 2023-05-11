@@ -135,13 +135,13 @@ class TimeLocationMapScreen extends ConsumerWidget {
                       IconButton(
                         onPressed: () => scrollController
                             .jumpTo(scrollController.position.maxScrollExtent),
-                        icon: Icon(Icons.skip_next),
+                        icon: const Icon(Icons.skip_next),
                       ),
-                      SizedBox(width: 20),
+                      const SizedBox(width: 20),
                       IconButton(
                         onPressed: () => scrollController
                             .jumpTo(scrollController.position.minScrollExtent),
-                        icon: Icon(Icons.skip_previous),
+                        icon: const Icon(Icons.skip_previous),
                       ),
                     ],
                   ),
@@ -318,5 +318,4 @@ class TimeLocationMapScreen extends ConsumerWidget {
     }
   }
   */
-
 }

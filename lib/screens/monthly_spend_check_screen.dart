@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, cascade_invocations
+// ignore_for_file: must_be_immutable, cascade_invocations, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
