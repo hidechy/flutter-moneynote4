@@ -329,9 +329,9 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
         return const Text('事業収入 - 経費 - 青色申告特別控除額');
 
       case '課税される所得金額':
-        return Column(
+        return const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             Text('事業所得 - （差し引かれる金額）'),
             Text(' ⇨　1000円以下の端数を切る'),
           ],
@@ -350,9 +350,9 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
         return const Text('差引所得税額 + 復興特別所得税額');
 
       case '申告納税額':
-        return Column(
+        return const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             Text('所得税及び復興特別所得税の額 - 源泉徴収税額 '),
             Text(' ⇨　100円以下の端数を切る'),
           ],
@@ -592,7 +592,6 @@ class TaxPaymentDisplayAlert extends ConsumerWidget {
   }
 
 //--------------------------------------//
-
 }
 
 ///

@@ -17,7 +17,7 @@ final monthlySpendCheckProvider = StateNotifierProvider.autoDispose
   final utility = Utility();
 
   return MonthlySpendCheckNotifier(
-    const MonthlySpendCheckState(selectItems: []),
+    const MonthlySpendCheckState(),
     client,
     utility,
   )..getSpendCheckItem(date: date);

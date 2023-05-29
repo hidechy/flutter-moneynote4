@@ -45,6 +45,7 @@ enum APIPath {
   getTaxPaymentItem,
   getAllMoney,
   getTimeLocation,
+  getSameYearMonthDay,
 }
 
 extension APIPathExtension on APIPath {
@@ -142,6 +143,8 @@ extension APIPathExtension on APIPath {
         return 'getAllMoney';
       case APIPath.getTimeLocation:
         return 'getTimeLocation';
+      case APIPath.getSameYearMonthDay:
+        return 'getSameYearMonthDay';
     }
   }
 }

@@ -26,8 +26,6 @@ final spendItemInputProvider = StateNotifierProvider.autoDispose
   return SpendItemInputNotifier(
       SpendItemInputState(
         baseDiff: baseDiff,
-        diff: 0,
-        itemPos: 0,
         spendItem: list,
         spendPrice: list2,
         minusCheck: list3,

@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, unnecessary_null_comparison
+// ignore_for_file: must_be_immutable, unnecessary_null_comparison, cascade_invocations
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -11,6 +11,7 @@ import '../../../viewmodel/bank_notifier.dart';
 import '../../../viewmodel/gold_notifier.dart';
 import '../../../viewmodel/money_notifier.dart';
 import '../../../viewmodel/shintaku_notifier.dart';
+import '../../../viewmodel/spend_notifier.dart';
 import '../../../viewmodel/stock_notifier.dart';
 import '../../bank_input_screen.dart';
 import '../../money_input_screen.dart';
@@ -164,6 +165,8 @@ class MoneyPage extends ConsumerWidget {
                     ],
                   ),
                 ),
+                const SizedBox(height: 10),
+                displaySamedaySpendYearly(),
                 const SizedBox(height: 30),
                 displayMoney(data: moneyState),
                 const SizedBox(height: 30),
@@ -182,6 +185,69 @@ class MoneyPage extends ConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+
+  ///
+  Widget displaySamedaySpendYearly() {
+    final list = <Widget>[];
+
+    final samedaySpendYearlyState =
+        _ref.watch(samedaySpendYearlyProvider(date));
+
+    samedaySpendYearlyState.forEach((element) {
+      list.add(
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 3),
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.white.withOpacity(0.3),
+              ),
+            ),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: Text(
+                  '${element.year}-01-01 -> ${date.mmdd}',
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  alignment: Alignment.topRight,
+                  child: Text(
+                    element.spend.toString().toCurrency(),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  alignment: Alignment.topRight,
+                  child: Text(
+                    element.salary.toString().toCurrency(),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  alignment: Alignment.topRight,
+                  child: Text(
+                    (element.spend + element.salary).toString().toCurrency(),
+                    style: const TextStyle(color: Color(0xFFFBB6CE)),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    });
+
+    return DefaultTextStyle(
+      style: const TextStyle(fontSize: 8),
+      child: Column(children: list),
     );
   }
 

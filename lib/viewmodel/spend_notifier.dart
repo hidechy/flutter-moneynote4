@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls, literal_only_boolean_expressions
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/models/spend_sameday_yearly.dart';
 
 import '../data/http/client.dart';
 import '../data/http/path.dart';
@@ -477,6 +478,47 @@ class SamedaySpendNotifier extends StateNotifier<List<SpendSameday>> {
             ym: value['data'][i]['ym'].toString(),
             sum: value['data'][i]['sum'].toString().toInt(),
           ),
+        );
+      }
+
+      state = list;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
+  }
+}
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+final samedaySpendYearlyProvider = StateNotifierProvider.autoDispose
+    .family<SamedaySpendYearlyNotifier, List<SpendSamedayYearly>, DateTime>(
+        (ref, date) {
+  final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
+
+  return SamedaySpendYearlyNotifier([], client, utility)
+    ..getSamedaySpendYearly(date: date);
+});
+
+class SamedaySpendYearlyNotifier
+    extends StateNotifier<List<SpendSamedayYearly>> {
+  SamedaySpendYearlyNotifier(super.state, this.client, this.utility);
+
+  final HttpClient client;
+  final Utility utility;
+
+  Future<void> getSamedaySpendYearly({required DateTime date}) async {
+    await client.post(
+      path: APIPath.getSameYearMonthDay,
+      body: {'date': date.yyyymmdd},
+    ).then((value) {
+      final list = <SpendSamedayYearly>[];
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        list.add(
+          SpendSamedayYearly.fromJson(value['data'][i] as Map<String, dynamic>),
         );
       }
 

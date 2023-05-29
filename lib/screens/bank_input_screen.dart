@@ -299,9 +299,9 @@ class BankInputScreen extends ConsumerWidget {
               },
             ).toList(),
           ),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [Text('OUT'), Text('IN')],
+            children: [Text('OUT'), Text('IN')],
           ),
         ],
       ),

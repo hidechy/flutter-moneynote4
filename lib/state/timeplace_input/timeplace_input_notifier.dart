@@ -28,8 +28,6 @@ final timeplaceInputProvider = StateNotifierProvider.autoDispose
   return TimeplaceInputNotifier(
       TimeplaceInputState(
         baseDiff: baseDiff,
-        diff: 0,
-        itemPos: 0,
         time: list,
         place: list4,
         spendPrice: list2,
