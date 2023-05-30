@@ -246,7 +246,7 @@ class MoneyPage extends ConsumerWidget {
     });
 
     return DefaultTextStyle(
-      style: const TextStyle(fontSize: 8),
+      style: const TextStyle(fontSize: 10),
       child: Column(children: list),
     );
   }
