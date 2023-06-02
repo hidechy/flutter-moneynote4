@@ -50,9 +50,9 @@ class WellsReserveNotifier extends StateNotifier<List<Wells>> {
               Wells(
                 num: exv[0],
                 date: DateTime(
-                  exValue[0].split('-')[0].toInt(),
-                  exValue[0].split('-')[1].toInt(),
-                  exv[1].toInt(),
+                  exValue[0].toInt(),
+                  exv[1].split('-')[0].toInt(),
+                  exv[1].split('-')[1].toInt(),
                 ),
                 price: exv[2],
                 total: exv[3],
