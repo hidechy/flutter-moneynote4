@@ -37,6 +37,8 @@ class MonthlySpendPage extends ConsumerWidget {
 
   Map<String, Money> allMoneyMap = {};
 
+  int monthTotalSpend = 0;
+
   late BuildContext _context;
   late WidgetRef _ref;
 
@@ -61,29 +63,35 @@ class MonthlySpendPage extends ConsumerWidget {
                 return Container(
                   padding: const EdgeInsets.all(20),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          MoneyDialog(
-                            context: context,
-                            widget: MonthlySpendGraphAlert(date: date),
-                          );
-                        },
-                        child: const Icon(Icons.graphic_eq),
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              MoneyDialog(
+                                context: context,
+                                widget: MonthlySpendGraphAlert(date: date),
+                              );
+                            },
+                            child: const Icon(Icons.graphic_eq),
+                          ),
+                          const SizedBox(width: 20),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      MonthlySpendCheckScreen(date: date),
+                                ),
+                              );
+                            },
+                            child: const Icon(Icons.check_box),
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: 20),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  MonthlySpendCheckScreen(date: date),
-                            ),
-                          );
-                        },
-                        child: const Icon(Icons.check_box),
-                      ),
+                      Text(monthTotalSpend.toString().toCurrency()),
                     ],
                   ),
                 );
@@ -176,6 +184,8 @@ class MonthlySpendPage extends ConsumerWidget {
     final moneyEverydayState = _ref.watch(moneyEverydayProvider);
 
     final everydayStateMap = makeEverydayStateMap(state: moneyEverydayState);
+
+    monthTotalSpend = 0;
 
     //forで仕方ない
     for (var i = 0; i < spendMonthDetailState.list.length; i++) {
@@ -413,6 +423,8 @@ class MonthlySpendPage extends ConsumerWidget {
           ),
         ),
       );
+
+      monthTotalSpend += daySum;
     }
   }
 

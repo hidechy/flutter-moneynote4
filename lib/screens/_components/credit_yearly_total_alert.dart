@@ -73,60 +73,74 @@ class CreditYearlyTotalAlert extends ConsumerWidget {
     final list = <Widget>[];
 
     creditYearlyTotalState.forEach((element) {
-      final color =
-          (element.price.toInt() >= 3000) ? Colors.yellowAccent : Colors.white;
+      if (element.price != '') {
+        final color = (element.price.toInt() >= 3000)
+            ? Colors.yellowAccent
+            : Colors.white;
 
-      list.add(
-        GestureDetector(
-          onTap: () async {
-            Timer(
-              const Duration(seconds: 3),
-              () => Navigator.pop(_context),
-            );
+        list.add(
+          GestureDetector(
+            onTap: () async {
+              Timer(
+                const Duration(seconds: 3),
+                () => Navigator.pop(_context),
+              );
 
-            await showDialog(
-              context: _context,
-              builder: (_) =>
-                  CreditDetailDialog(date: date, creditDetail: element),
-            );
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            margin: const EdgeInsets.only(bottom: 10),
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Colors.white.withOpacity(0.3),
+              await showDialog(
+                context: _context,
+                builder: (_) =>
+                    CreditDetailDialog(date: date, creditDetail: element),
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              margin: const EdgeInsets.only(bottom: 10),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Colors.white.withOpacity(0.3),
+                  ),
+                ),
+              ),
+              child: DefaultTextStyle(
+                style: TextStyle(
+                  color: color,
+                  fontSize: 12,
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: _context.screenSize.width * 0.55,
+                          child: Text(
+                            element.item,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Container(
+                          width: 60,
+                          alignment: Alignment.topRight,
+                          child: Text(element.date.yyyymm),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(),
+                        Text(element.price.toCurrency()),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
-            child: DefaultTextStyle(
-              style: TextStyle(
-                color: color,
-                fontSize: 12,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: _context.screenSize.width * 0.55,
-                    child: Text(
-                      element.item,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Container(
-                    width: 60,
-                    alignment: Alignment.topRight,
-                    child: Text(element.date.yyyymm),
-                  ),
-                ],
-              ),
-            ),
           ),
-        ),
-      );
+        );
+      }
     });
 
     return SingleChildScrollView(
