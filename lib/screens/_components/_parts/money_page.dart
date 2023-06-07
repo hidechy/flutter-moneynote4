@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/extensions/extensions.dart';
+import 'package:moneynote4/screens/_components/spend_year_day_alert.dart';
 
 import '../../../models/money.dart';
 import '../../../state/device_info/device_info_notifier.dart';
@@ -199,6 +200,7 @@ class MoneyPage extends ConsumerWidget {
       list.add(
         Container(
           padding: const EdgeInsets.symmetric(vertical: 3),
+          margin: const EdgeInsets.only(bottom: 5),
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
@@ -209,9 +211,8 @@ class MoneyPage extends ConsumerWidget {
           child: Row(
             children: [
               Expanded(
-                flex: 2,
                 child: Text(
-                  '${element.year}-01-01 -> ${date.mmdd}',
+                  '${element.year}-01-01\n-> ${date.mmdd}',
                 ),
               ),
               Expanded(
@@ -238,6 +239,23 @@ class MoneyPage extends ConsumerWidget {
                     style: const TextStyle(color: Color(0xFFFBB6CE)),
                   ),
                 ),
+              ),
+              const SizedBox(width: 10),
+              GestureDetector(
+                onTap: () {
+                  MoneyDialog(
+                    context: _context,
+                    widget: SpendYearDayAlert(
+                      date: DateTime(
+                        element.year,
+                        date.mm.toInt(),
+                        date.dd.toInt(),
+                      ),
+                      spend: element.spend + element.salary,
+                    ),
+                  );
+                },
+                child: const Icon(Icons.info_outline),
               ),
             ],
           ),

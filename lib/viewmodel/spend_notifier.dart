@@ -202,6 +202,56 @@ class SpendMonthDetailNotifier extends StateNotifier<MonthlySpendState> {
 ////////////////////////////////////////////////
 
 ////////////////////////////////////////////////
+final spendYearDayProvider = StateNotifierProvider.autoDispose
+    .family<SpendYearDayNotifier, List<SpendYearly>, DateTime>((ref, date) {
+  final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
+
+  return SpendYearDayNotifier([], client, utility)
+    ..getSpendYearDayData(date: date);
+});
+
+class SpendYearDayNotifier extends StateNotifier<List<SpendYearly>> {
+  SpendYearDayNotifier(super.state, this.client, this.utility);
+
+  final HttpClient client;
+  final Utility utility;
+
+  Future<void> getSpendYearDayData({required DateTime date}) async {
+    await client.post(
+      path: APIPath.getYearSpend,
+      body: {'date': date.yyyymmdd},
+    ).then((value) {
+      final list = <SpendYearly>[];
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        if (date.yyyy ==
+            DateTime(
+              value['data'][i]['date'].toString().split('-')[0].toInt(),
+              value['data'][i]['date'].toString().split('-')[1].toInt(),
+              value['data'][i]['date'].toString().split('-')[2].toInt(),
+            ).yyyy) {
+          list.add(
+            SpendYearly(
+              date: DateTime.parse(value['data'][i]['date'].toString()),
+              spend: value['data'][i]['spend'].toString().toInt(),
+              item: [],
+            ),
+          );
+        }
+      }
+
+      state = list;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
+  }
+}
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
 final spendMonthUnitProvider = StateNotifierProvider.autoDispose
     .family<SpendMonthUnitNotifier, Map<String, int>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
