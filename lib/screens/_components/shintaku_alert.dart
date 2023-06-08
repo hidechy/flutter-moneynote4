@@ -46,41 +46,52 @@ class ShintakuAlert extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         width: double.infinity,
         height: double.infinity,
-        child: SingleChildScrollView(
-          child: DefaultTextStyle(
-            style: const TextStyle(fontSize: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                Container(width: context.screenSize.width),
+        child: DefaultTextStyle(
+          style: const TextStyle(fontSize: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20),
+              Container(width: context.screenSize.width),
 
-                //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
-                //----------//
+              //----------//
+              if (deviceInfoState.model == 'iPhone')
+                _utility.getFileNameDebug(name: runtimeType.toString()),
+              //----------//
 
-                SizedBox(
-                  height: context.screenSize.height * 0.15,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: shintakuState.record.asMap().entries.map((e) {
-                        return Container(
-                          width: context.screenSize.width * 0.7,
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: GestureDetector(
-                            onTap: () {
-                              ref
-                                  .watch(selectShintakuProvider.notifier)
-                                  .setSelectShintaku(selectShintaku: e.key);
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: DefaultTextStyle(
+                  style: const TextStyle(fontSize: 10),
+                  child: Row(
+                    children: shintakuState.record.asMap().entries.map((e) {
+                      return GestureDetector(
+                        onTap: () {
+                          ref
+                              .watch(selectShintakuProvider.notifier)
+                              .setSelectShintaku(selectShintaku: e.key);
 
-                              ref
-                                  .watch(shintakuRecordProvider.notifier)
-                                  .getShintakuRecord(flag: e.key);
+                          ref
+                              .watch(shintakuRecordProvider.notifier)
+                              .getShintakuRecord(flag: e.key);
 
-                              autoScrollController.scrollToIndex(0);
-                            },
+                          autoScrollController.scrollToIndex(0);
+                        },
+                        child: Container(
+                          width: context.screenSize.width * 0.4,
+                          margin: const EdgeInsets.all(5),
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: (selectShintakuState == e.key)
+                                  ? Colors.yellowAccent.withOpacity(0.6)
+                                  : Colors.white.withOpacity(0.6),
+                            ),
+                          ),
+                          child: ConstrainedBox(
+                            constraints: BoxConstraints(
+                              minHeight: context.screenSize.height / 10,
+                            ),
                             child: Text(
                               e.value.name,
                               style: TextStyle(
@@ -90,55 +101,58 @@ class ShintakuAlert extends ConsumerWidget {
                               ),
                             ),
                           ),
-                        );
-                      }).toList(),
-                    ),
+                        ),
+                      );
+                    }).toList(),
                   ),
                 ),
-                Divider(
-                  color: Colors.yellowAccent.withOpacity(0.2),
-                  thickness: 5,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        MoneyDialog(
-                          context: context,
-                          widget: ShintakuGraphAlert(date: date),
-                        );
-                      },
-                      child: const Icon(Icons.graphic_eq),
-                    ),
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            autoScrollController.scrollToIndex(
-                              exData.length,
-                            );
-                          },
-                          child: const Icon(Icons.arrow_downward),
-                        ),
-                        const SizedBox(width: 20),
-                        GestureDetector(
-                          onTap: () {
-                            autoScrollController.scrollToIndex(0);
-                          },
-                          child: const Icon(Icons.arrow_upward),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                SizedBox(
-                  height: context.screenSize.height * 0.55,
-                  child: displayShintaku(),
-                ),
-              ],
-            ),
+              ),
+
+              Divider(
+                color: Colors.yellowAccent.withOpacity(0.2),
+                thickness: 5,
+              ),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      MoneyDialog(
+                        context: context,
+                        widget: ShintakuGraphAlert(date: date),
+                      );
+                    },
+                    child: const Icon(Icons.graphic_eq),
+                  ),
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          autoScrollController.scrollToIndex(
+                            exData.length,
+                          );
+                        },
+                        child: const Icon(Icons.arrow_downward),
+                      ),
+                      const SizedBox(width: 20),
+                      GestureDetector(
+                        onTap: () {
+                          autoScrollController.scrollToIndex(0);
+                        },
+                        child: const Icon(Icons.arrow_upward),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 20),
+
+              Expanded(child: displayShintaku()),
+
+              const SizedBox(height: 20),
+            ],
           ),
         ),
       ),

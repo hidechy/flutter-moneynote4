@@ -42,40 +42,52 @@ class StockAlert extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         width: double.infinity,
         height: double.infinity,
-        child: SingleChildScrollView(
-          child: DefaultTextStyle(
-            style: const TextStyle(fontSize: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                Container(width: context.screenSize.width),
+        child: DefaultTextStyle(
+          style: const TextStyle(fontSize: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20),
+              Container(width: context.screenSize.width),
 
-                //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
-                //----------//
+              //----------//
+              if (deviceInfoState.model == 'iPhone')
+                _utility.getFileNameDebug(name: runtimeType.toString()),
+              //----------//
 
-                SizedBox(
-                  height: context.screenSize.height * 0.15,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: stockState.record.asMap().entries.map((e) {
-                        return Container(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: GestureDetector(
-                            onTap: () {
-                              ref
-                                  .watch(selectStockProvider.notifier)
-                                  .setSelectStock(selectStock: e.key);
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: DefaultTextStyle(
+                  style: const TextStyle(fontSize: 10),
+                  child: Row(
+                    children: stockState.record.asMap().entries.map((e) {
+                      return GestureDetector(
+                        onTap: () {
+                          ref
+                              .watch(selectStockProvider.notifier)
+                              .setSelectStock(selectStock: e.key);
 
-                              ref
-                                  .watch(stockRecordProvider.notifier)
-                                  .getStockRecord(flag: e.key);
+                          ref
+                              .watch(stockRecordProvider.notifier)
+                              .getStockRecord(flag: e.key);
 
-                              autoScrollController.scrollToIndex(0);
-                            },
+                          autoScrollController.scrollToIndex(0);
+                        },
+                        child: Container(
+                          width: context.screenSize.width * 0.4,
+                          margin: const EdgeInsets.all(5),
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: (selectStockState == e.key)
+                                  ? Colors.yellowAccent.withOpacity(0.6)
+                                  : Colors.white.withOpacity(0.6),
+                            ),
+                          ),
+                          child: ConstrainedBox(
+                            constraints: BoxConstraints(
+                              minHeight: context.screenSize.height / 10,
+                            ),
                             child: Text(
                               e.value.name,
                               style: TextStyle(
@@ -85,47 +97,49 @@ class StockAlert extends ConsumerWidget {
                               ),
                             ),
                           ),
-                        );
-                      }).toList(),
-                    ),
+                        ),
+                      );
+                    }).toList(),
                   ),
                 ),
-                Divider(
-                  color: Colors.yellowAccent.withOpacity(0.2),
-                  thickness: 5,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(),
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            autoScrollController.scrollToIndex(
-                              exData.length,
-                            );
-                          },
-                          child: const Icon(Icons.arrow_downward),
-                        ),
-                        const SizedBox(width: 20),
-                        GestureDetector(
-                          onTap: () {
-                            autoScrollController.scrollToIndex(0);
-                          },
-                          child: const Icon(Icons.arrow_upward),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                SizedBox(
-                  height: context.screenSize.height * 0.55,
-                  child: displayStock(),
-                ),
-              ],
-            ),
+              ),
+
+              Divider(
+                color: Colors.yellowAccent.withOpacity(0.2),
+                thickness: 5,
+              ),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(),
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          autoScrollController.scrollToIndex(
+                            exData.length,
+                          );
+                        },
+                        child: const Icon(Icons.arrow_downward),
+                      ),
+                      const SizedBox(width: 20),
+                      GestureDetector(
+                        onTap: () {
+                          autoScrollController.scrollToIndex(0);
+                        },
+                        child: const Icon(Icons.arrow_upward),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+
+              Expanded(child: displayStock()),
+
+              const SizedBox(height: 20),
+            ],
           ),
         ),
       ),
