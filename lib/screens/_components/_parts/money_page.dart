@@ -35,6 +35,8 @@ class MoneyPage extends ConsumerWidget {
   late BuildContext _context;
   late WidgetRef _ref;
 
+  List<int> notMoneyAsset = [];
+
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -54,6 +56,8 @@ class MoneyPage extends ConsumerWidget {
         : (yesterdayMoney.sum.toInt() - moneyState.sum.toInt()).toString();
 
     final deviceInfoState = ref.read(deviceInfoProvider);
+
+    notMoneyAsset = [];
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -174,12 +178,23 @@ class MoneyPage extends ConsumerWidget {
                 displayBank(data: moneyState),
                 const SizedBox(height: 30),
                 displayPay(data: moneyState),
-                const SizedBox(height: 30),
-                displayGold(),
-                const SizedBox(height: 30),
-                displayStock(),
-                const SizedBox(height: 30),
-                displayShintaku(),
+
+                if (date.yyyymmdd == DateTime.now().yyyymmdd) ...[
+                  const SizedBox(height: 30),
+                  Divider(
+                    color: Colors.deepPurple.withOpacity(0.3),
+                    thickness: 5,
+                  ),
+                  const SizedBox(height: 10),
+                  displayGold(),
+                  const SizedBox(height: 30),
+                  displayStock(),
+                  const SizedBox(height: 30),
+                  displayShintaku(),
+                  const SizedBox(height: 30),
+                  displayNotMoneyAsset(),
+                ],
+
                 const SizedBox(height: 50),
               ],
             ),
@@ -435,6 +450,10 @@ class MoneyPage extends ConsumerWidget {
 
     final bankName = _utility.getBankName();
 
+    final dayDiff = DateTime.now()
+        .difference(DateTime.parse('${dt.split(' ')[0]} 00:00:00'))
+        .inDays;
+
     return DefaultTextStyle(
       style: const TextStyle(fontSize: 12),
       child: Container(
@@ -446,34 +465,40 @@ class MoneyPage extends ConsumerWidget {
             ),
           ),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    MoneyDialog(
-                      context: _context,
-                      widget: BankAlert(name: name),
-                    );
-                  },
-                  child: const Icon(Icons.info_outline),
-                ),
-                const SizedBox(width: 20),
-                Text(bankName[name].toString()),
-              ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  (price == 'null') ? '0' : price.toCurrency(),
-                ),
-                Text(dt.split(' ')[0]),
-              ],
-            ),
-          ],
+        child: DefaultTextStyle(
+          style: TextStyle(
+            color: (dayDiff < 365) ? Colors.white : Colors.grey,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      MoneyDialog(
+                        context: _context,
+                        widget: BankAlert(name: name),
+                      );
+                    },
+                    child: Icon(
+                      Icons.info_outline,
+                      color: (dayDiff < 365) ? Colors.white : Colors.grey,
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  Text(bankName[name].toString()),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text((price == 'null') ? '0' : price.toCurrency()),
+                  Text(dt.split(' ')[0]),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -559,6 +584,8 @@ class MoneyPage extends ConsumerWidget {
     if (goldState.goldValue != null && goldState.payPrice != null) {
       goldDiff = goldState.goldValue.toString().toInt() -
           goldState.payPrice.toString().toInt();
+
+      notMoneyAsset.add(goldState.goldValue);
     }
 
     return DefaultTextStyle(
@@ -582,7 +609,7 @@ class MoneyPage extends ConsumerWidget {
                       child: Container(
                         padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
-                          color: Colors.indigo,
+                          color: Colors.deepPurple,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         alignment: Alignment.center,
@@ -606,7 +633,10 @@ class MoneyPage extends ConsumerWidget {
                         : Text(goldState.payPrice.toString().toCurrency()),
                     (goldState.goldValue == null)
                         ? Container()
-                        : Text(goldState.goldValue.toString().toCurrency()),
+                        : Text(
+                            goldState.goldValue.toString().toCurrency(),
+                            style: const TextStyle(color: Colors.yellowAccent),
+                          ),
                     Text(goldDiff.toString().toCurrency()),
                   ],
                 ),
@@ -635,6 +665,8 @@ class MoneyPage extends ConsumerWidget {
   Widget displayStock() {
     final stockState = _ref.watch(stockProvider);
 
+    notMoneyAsset.add(stockState.price);
+
     return DefaultTextStyle(
       style: const TextStyle(fontSize: 12),
       child: Column(
@@ -656,7 +688,7 @@ class MoneyPage extends ConsumerWidget {
                       child: Container(
                         padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
-                          color: Colors.indigo,
+                          color: Colors.deepPurple,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         alignment: Alignment.center,
@@ -676,7 +708,10 @@ class MoneyPage extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(stockState.cost.toString().toCurrency()),
-                    Text(stockState.price.toString().toCurrency()),
+                    Text(
+                      stockState.price.toString().toCurrency(),
+                      style: const TextStyle(color: Colors.yellowAccent),
+                    ),
                     Text(stockState.diff.toString().toCurrency()),
                   ],
                 ),
@@ -705,6 +740,8 @@ class MoneyPage extends ConsumerWidget {
   Widget displayShintaku() {
     final shintakuState = _ref.watch(shintakuProvider);
 
+    notMoneyAsset.add(shintakuState.price);
+
     return DefaultTextStyle(
       style: const TextStyle(fontSize: 12),
       child: Column(
@@ -726,7 +763,7 @@ class MoneyPage extends ConsumerWidget {
                       child: Container(
                         padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
-                          color: Colors.indigo,
+                          color: Colors.deepPurple,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         alignment: Alignment.center,
@@ -746,7 +783,10 @@ class MoneyPage extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(shintakuState.cost.toString().toCurrency()),
-                    Text(shintakuState.price.toString().toCurrency()),
+                    Text(
+                      shintakuState.price.toString().toCurrency(),
+                      style: const TextStyle(color: Colors.yellowAccent),
+                    ),
                     Text(shintakuState.diff.toString().toCurrency()),
                   ],
                 ),
@@ -764,6 +804,32 @@ class MoneyPage extends ConsumerWidget {
                 );
               },
               child: const Icon(Icons.info_outline),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  ///
+  Widget displayNotMoneyAsset() {
+    var price = 0;
+    notMoneyAsset.forEach((element) {
+      price += element;
+    });
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+      decoration: BoxDecoration(color: Colors.deepPurple.withOpacity(0.3)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(),
+          Text(
+            price.toString().toCurrency(),
+            style: const TextStyle(
+              fontSize: 12,
+              color: Colors.yellowAccent,
             ),
           ),
         ],
