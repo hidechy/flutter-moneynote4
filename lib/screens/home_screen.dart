@@ -173,11 +173,14 @@ class HomeScreen extends ConsumerWidget {
             ],
           ),
           ///////////// calendar
+
+          //
+
           Column(
             children: [
               Container(
                 width: double.infinity,
-                height: context.screenSize.height * 0.45,
+                height: context.screenSize.height * 0.4,
                 padding: const EdgeInsets.only(right: 70),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -266,7 +269,7 @@ class HomeScreen extends ConsumerWidget {
                 ),
               ),
               Container(
-                height: context.screenSize.height * 0.40,
+                height: context.screenSize.height * 0.48,
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -281,7 +284,6 @@ class HomeScreen extends ConsumerWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
             ],
           ),
         ],
