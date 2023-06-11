@@ -1,14 +1,18 @@
-// ignore_for_file: must_be_immutable, noop_primitive_operations
+// ignore_for_file: must_be_immutable, noop_primitive_operations, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/_money_dialog.dart';
+import 'package:moneynote4/screens/_components/seiyu_alert.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/credit_spend_monthly.dart';
+import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/credit_notifier.dart';
+import '../../viewmodel/seiyu_notifier.dart';
 
 class CreditAlert extends ConsumerWidget {
   CreditAlert({super.key, required this.date});
@@ -124,6 +128,8 @@ class CreditAlert extends ConsumerWidget {
     final creditSpendMonthlyState =
         _ref.watch(creditSpendMonthlyProvider(date));
 
+    final reg = RegExp('西友ネットスーパー');
+
     final list = <Widget>[];
 
     for (var i = 0; i < creditSpendMonthlyState.length; i++) {
@@ -152,12 +158,57 @@ class CreditAlert extends ConsumerWidget {
                   children: [
                     Text(creditSpendMonthlyState[i].date.yyyymmdd),
                     Text(creditSpendMonthlyState[i].item),
-                    Container(
-                      alignment: Alignment.topRight,
-                      padding: const EdgeInsets.only(right: 20),
-                      child: Text(
-                        creditSpendMonthlyState[i].price.toCurrency(),
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        (reg.firstMatch(creditSpendMonthlyState[i].item) !=
+                                null)
+                            ? GestureDetector(
+                                onTap: () async {
+                                  await _ref
+                                      .watch(appParamProvider.notifier)
+                                      .setSeiyuAlertSelectDate(
+                                        date: creditSpendMonthlyState[i]
+                                            .date
+                                            .mmdd,
+                                      );
+
+                                  await _ref
+                                      .watch(seiyuPurchaseDateProvider.notifier)
+                                      .getSeiyuPurchaseList(
+                                        date: creditSpendMonthlyState[i]
+                                            .date
+                                            .yyyymmdd,
+                                      );
+
+                                  await MoneyDialog(
+                                    context: _context,
+                                    widget: SeiyuAlert(
+                                      date: creditSpendMonthlyState[i].date,
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.indigoAccent.withOpacity(0.2),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                    vertical: 5,
+                                  ),
+                                  child: const Text(
+                                    'data display',
+                                    style: TextStyle(
+                                      color: Colors.lightBlueAccent,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : Container(),
+                        Text(
+                          creditSpendMonthlyState[i].price.toCurrency(),
+                        ),
+                      ],
                     ),
                   ],
                 ),
