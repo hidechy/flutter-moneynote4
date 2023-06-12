@@ -1,3 +1,207 @@
+// ignore_for_file: must_be_immutable
+
+import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../extensions/extensions.dart';
+import '../../state/device_info/device_info_notifier.dart';
+import '../../utility/utility.dart';
+import '../../viewmodel/stock_notifier.dart';
+
+class StockAlert extends ConsumerWidget {
+  StockAlert({super.key, required this.date});
+
+  final DateTime date;
+
+  final Utility _utility = Utility();
+
+  late BuildContext _context;
+  late WidgetRef _ref;
+
+  ///
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    _context = context;
+    _ref = ref;
+
+    final deviceInfoState = ref.read(deviceInfoProvider);
+
+    return AlertDialog(
+      titlePadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.zero,
+      backgroundColor: Colors.transparent,
+      insetPadding: EdgeInsets.zero,
+      content: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        width: double.infinity,
+        height: double.infinity,
+        child: DefaultTextStyle(
+          style: const TextStyle(fontSize: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20),
+              Text(date.yyyymmdd),
+
+              Container(width: context.screenSize.width),
+
+              //----------//
+              if (deviceInfoState.model == 'iPhone')
+                _utility.getFileNameDebug(name: runtimeType.toString()),
+              //----------//
+
+              displayItemName(),
+
+              Divider(
+                color: Colors.yellowAccent.withOpacity(0.2),
+                thickness: 5,
+              ),
+
+              Expanded(child: displayStock()),
+
+              const SizedBox(height: 20),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  ///
+  Widget displayItemName() {
+    final stockState = _ref.watch(stockProvider(date));
+
+    final selectStockState = _ref.watch(selectStockProvider);
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: DefaultTextStyle(
+        style: const TextStyle(fontSize: 10),
+        child: Row(
+          children: stockState.record.asMap().entries.map((e) {
+            return GestureDetector(
+              onTap: () {
+                _ref
+                    .watch(selectStockProvider.notifier)
+                    .setSelectStock(selectStock: e.key);
+
+                _ref
+                    .watch(stockRecordProvider.notifier)
+                    .getStockRecord(flag: e.key);
+              },
+              child: Container(
+                width: _context.screenSize.width * 0.4,
+                margin: const EdgeInsets.all(5),
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: (selectStockState == e.key)
+                        ? Colors.yellowAccent.withOpacity(0.6)
+                        : Colors.white.withOpacity(0.6),
+                  ),
+                ),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: _context.screenSize.height / 10,
+                  ),
+                  child: Text(
+                    e.value.name,
+                    style: TextStyle(
+                      color: (selectStockState == e.key)
+                          ? Colors.yellowAccent
+                          : Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+
+  ///
+  Widget displayStock() {
+    final stockState = _ref.watch(stockProvider(date));
+
+    final selectStockState = _ref.watch(selectStockProvider);
+
+    final list = <Widget>[];
+
+    if (stockState.record.isNotEmpty) {
+      final exData = stockState.record[selectStockState].data.split('/');
+
+      for (var i = 0; i < exData.length; i++) {
+        final exElement = exData[i].split('|');
+
+        list.add(
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.white.withOpacity(0.3),
+                ),
+              ),
+            ),
+            child: Table(
+              children: [
+                TableRow(children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(exElement[0]),
+                      Text('${exElement[1]}-${exElement[2]}'),
+                    ],
+                  ),
+                  Container(
+                    alignment: Alignment.topRight,
+                    child: Text(exElement[3].toCurrency()),
+                  ),
+                  Container(
+                    alignment: Alignment.topRight,
+                    child: Text(exElement[4].toCurrency()),
+                  ),
+                  Container(
+                    alignment: Alignment.topRight,
+                    child: Text(exElement[5].toCurrency()),
+                  ),
+                ]),
+              ],
+            ),
+          ),
+        );
+      }
+    }
+
+    return SingleChildScrollView(
+      child: Column(children: list),
+    );
+  }
+}
+
+////////////////////////////////////////////////
+
+final selectStockProvider =
+    StateNotifierProvider.autoDispose<SelectStockStateNotifier, int>((ref) {
+  return SelectStockStateNotifier();
+});
+
+class SelectStockStateNotifier extends StateNotifier<int> {
+  SelectStockStateNotifier() : super(0);
+
+  ///
+  Future<void> setSelectStock({required int selectStock}) async {
+    state = selectStock;
+  }
+}
+
+/*
+
+
+
+
 // ignore_for_file: must_be_immutable, sized_box_shrink_expand
 
 import 'package:flutter/material.dart';
@@ -232,3 +436,9 @@ class SelectStockStateNotifier extends StateNotifier<int> {
     state = selectStock;
   }
 }
+
+
+
+
+
+*/

@@ -1,10 +1,7 @@
-// ignore_for_file: must_be_immutable, sized_box_shrink_expand
+// ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/_money_dialog.dart';
-import 'package:moneynote4/screens/_components/shintaku_graph_alert.dart';
-import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
@@ -16,24 +13,16 @@ class ShintakuAlert extends ConsumerWidget {
 
   final DateTime date;
 
-  final autoScrollController = AutoScrollController();
-
   final Utility _utility = Utility();
 
+  late BuildContext _context;
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    _context = context;
     _ref = ref;
-
-    final shintakuState = ref.watch(shintakuProvider(date));
-
-    final shintakuRecordState = ref.watch(shintakuRecordProvider);
-
-    final exData = shintakuRecordState.data.split('/');
-
-    final selectShintakuState = ref.watch(selectShintakuProvider);
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
@@ -52,6 +41,8 @@ class ShintakuAlert extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
+              Text(date.yyyymmdd),
+
               Container(width: context.screenSize.width),
 
               //----------//
@@ -59,6 +50,14 @@ class ShintakuAlert extends ConsumerWidget {
                 _utility.getFileNameDebug(name: runtimeType.toString()),
               //----------//
 
+              displayItemName(),
+
+              Divider(
+                color: Colors.yellowAccent.withOpacity(0.2),
+                thickness: 5,
+              ),
+
+/*
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: DefaultTextStyle(
@@ -147,6 +146,11 @@ class ShintakuAlert extends ConsumerWidget {
                 ],
               ),
 
+
+
+
+              */
+
               const SizedBox(height: 20),
 
               Expanded(child: displayShintaku()),
@@ -160,41 +164,94 @@ class ShintakuAlert extends ConsumerWidget {
   }
 
   ///
+  Widget displayItemName() {
+    final shintakuState = _ref.watch(shintakuProvider(date));
+
+    final selectShintakuState = _ref.watch(selectShintakuProvider);
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: DefaultTextStyle(
+        style: const TextStyle(fontSize: 10),
+        child: Row(
+          children: shintakuState.record.asMap().entries.map((e) {
+            return GestureDetector(
+              onTap: () {
+                _ref
+                    .watch(selectShintakuProvider.notifier)
+                    .setSelectShintaku(selectShintaku: e.key);
+
+                _ref
+                    .watch(shintakuRecordProvider.notifier)
+                    .getShintakuRecord(flag: e.key);
+              },
+              child: Container(
+                width: _context.screenSize.width * 0.4,
+                margin: const EdgeInsets.all(5),
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: (selectShintakuState == e.key)
+                        ? Colors.yellowAccent.withOpacity(0.6)
+                        : Colors.white.withOpacity(0.6),
+                  ),
+                ),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: _context.screenSize.height / 10,
+                  ),
+                  child: Text(
+                    e.value.name,
+                    style: TextStyle(
+                      color: (selectShintakuState == e.key)
+                          ? Colors.yellowAccent
+                          : Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+
+  ///
   Widget displayShintaku() {
-    final shintakuRecordState = _ref.watch(shintakuRecordProvider);
+    final shintakuState = _ref.watch(shintakuProvider(date));
+
+    final selectShintakuState = _ref.watch(selectShintakuProvider);
 
     final list = <Widget>[];
 
-    final exData = shintakuRecordState.data.split('/');
+    if (shintakuState.record.isNotEmpty) {
+      final exData = shintakuState.record[selectShintakuState].data.split('/');
 
-    var keepNum = 0;
+      var keepNum = 0;
 
-    //forで仕方ない
-    for (var i = 0; i < exData.length; i++) {
-      final exOne = exData[i].split('|');
+      //forで仕方ない
+      for (var i = 0; i < exData.length; i++) {
+        final exOne = exData[i].split('|');
 
-      final exDate = exOne[0].split('-');
+        final exDate = exOne[0].split('-');
 
-      if (exDate.length == 1) {
-        continue;
-      }
+        if (exDate.length == 1) {
+          continue;
+        }
 
-      final diff = exOne[1].toInt() - keepNum;
+        final diff = exOne[1].toInt() - keepNum;
 
-      list.add(
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 3),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.white.withOpacity(0.3),
+        list.add(
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.white.withOpacity(0.3),
+                ),
               ),
             ),
-          ),
-          child: AutoScrollTag(
-            key: ValueKey(i),
-            index: i,
-            controller: autoScrollController,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -244,20 +301,280 @@ class ShintakuAlert extends ConsumerWidget {
               ],
             ),
           ),
-        ),
-      );
+        );
 
-      keepNum = exOne[1].toInt();
+        keepNum = exOne[1].toInt();
+      }
     }
 
     return SingleChildScrollView(
-      controller: autoScrollController,
       child: Column(
         children: list,
       ),
     );
   }
 }
+
+// // ignore_for_file: must_be_immutable, sized_box_shrink_expand
+//
+// import 'package:flutter/material.dart';
+// import 'package:hooks_riverpod/hooks_riverpod.dart';
+// import 'package:moneynote4/screens/_components/_money_dialog.dart';
+// import 'package:moneynote4/screens/_components/shintaku_graph_alert.dart';
+// import 'package:scroll_to_index/scroll_to_index.dart';
+//
+// import '../../extensions/extensions.dart';
+// import '../../state/device_info/device_info_notifier.dart';
+// import '../../utility/utility.dart';
+// import '../../viewmodel/shintaku_notifier.dart';
+//
+// class ShintakuAlert extends ConsumerWidget {
+//   ShintakuAlert({super.key, required this.date});
+//
+//   final DateTime date;
+//
+//   final autoScrollController = AutoScrollController();
+//
+//   final Utility _utility = Utility();
+//
+//   late WidgetRef _ref;
+//
+//   ///
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     _ref = ref;
+//
+//     final shintakuState = ref.watch(shintakuProvider(date));
+//
+//     final shintakuRecordState = ref.watch(shintakuRecordProvider);
+//
+//     final exData = shintakuRecordState.data.split('/');
+//
+//     final selectShintakuState = ref.watch(selectShintakuProvider);
+//
+//     final deviceInfoState = ref.read(deviceInfoProvider);
+//
+//     return AlertDialog(
+//       titlePadding: EdgeInsets.zero,
+//       contentPadding: EdgeInsets.zero,
+//       backgroundColor: Colors.transparent,
+//       insetPadding: EdgeInsets.zero,
+//       content: Container(
+//         padding: const EdgeInsets.symmetric(horizontal: 20),
+//         width: double.infinity,
+//         height: double.infinity,
+//         child: DefaultTextStyle(
+//           style: const TextStyle(fontSize: 12),
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               const SizedBox(height: 20),
+//               Container(width: context.screenSize.width),
+//
+//               //----------//
+//               if (deviceInfoState.model == 'iPhone')
+//                 _utility.getFileNameDebug(name: runtimeType.toString()),
+//               //----------//
+//
+//               SingleChildScrollView(
+//                 scrollDirection: Axis.horizontal,
+//                 child: DefaultTextStyle(
+//                   style: const TextStyle(fontSize: 10),
+//                   child: Row(
+//                     children: shintakuState.record.asMap().entries.map((e) {
+//                       return GestureDetector(
+//                         onTap: () {
+//                           ref
+//                               .watch(selectShintakuProvider.notifier)
+//                               .setSelectShintaku(selectShintaku: e.key);
+//
+//                           ref
+//                               .watch(shintakuRecordProvider.notifier)
+//                               .getShintakuRecord(flag: e.key);
+//
+//                           autoScrollController.scrollToIndex(0);
+//                         },
+//                         child: Container(
+//                           width: context.screenSize.width * 0.4,
+//                           margin: const EdgeInsets.all(5),
+//                           padding: const EdgeInsets.all(5),
+//                           decoration: BoxDecoration(
+//                             border: Border.all(
+//                               color: (selectShintakuState == e.key)
+//                                   ? Colors.yellowAccent.withOpacity(0.6)
+//                                   : Colors.white.withOpacity(0.6),
+//                             ),
+//                           ),
+//                           child: ConstrainedBox(
+//                             constraints: BoxConstraints(
+//                               minHeight: context.screenSize.height / 10,
+//                             ),
+//                             child: Text(
+//                               e.value.name,
+//                               style: TextStyle(
+//                                 color: (selectShintakuState == e.key)
+//                                     ? Colors.yellowAccent
+//                                     : Colors.white,
+//                               ),
+//                             ),
+//                           ),
+//                         ),
+//                       );
+//                     }).toList(),
+//                   ),
+//                 ),
+//               ),
+//
+//               Divider(
+//                 color: Colors.yellowAccent.withOpacity(0.2),
+//                 thickness: 5,
+//               ),
+//
+//               Row(
+//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                 children: [
+//                   GestureDetector(
+//                     onTap: () {
+//                       MoneyDialog(
+//                         context: context,
+//                         widget: ShintakuGraphAlert(date: date),
+//                       );
+//                     },
+//                     child: const Icon(Icons.graphic_eq),
+//                   ),
+//                   Row(
+//                     children: [
+//                       GestureDetector(
+//                         onTap: () {
+//                           autoScrollController.scrollToIndex(
+//                             exData.length,
+//                           );
+//                         },
+//                         child: const Icon(Icons.arrow_downward),
+//                       ),
+//                       const SizedBox(width: 20),
+//                       GestureDetector(
+//                         onTap: () {
+//                           autoScrollController.scrollToIndex(0);
+//                         },
+//                         child: const Icon(Icons.arrow_upward),
+//                       ),
+//                     ],
+//                   ),
+//                 ],
+//               ),
+//
+//               const SizedBox(height: 20),
+//
+//               Expanded(child: displayShintaku()),
+//
+//               const SizedBox(height: 20),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+//
+//   ///
+//   Widget displayShintaku() {
+//     final shintakuRecordState = _ref.watch(shintakuRecordProvider);
+//
+//     final list = <Widget>[];
+//
+//     final exData = shintakuRecordState.data.split('/');
+//
+//     var keepNum = 0;
+//
+//     //forで仕方ない
+//     for (var i = 0; i < exData.length; i++) {
+//       final exOne = exData[i].split('|');
+//
+//       final exDate = exOne[0].split('-');
+//
+//       if (exDate.length == 1) {
+//         continue;
+//       }
+//
+//       final diff = exOne[1].toInt() - keepNum;
+//
+//       list.add(
+//         Container(
+//           padding: const EdgeInsets.symmetric(vertical: 3),
+//           decoration: BoxDecoration(
+//             border: Border(
+//               bottom: BorderSide(
+//                 color: Colors.white.withOpacity(0.3),
+//               ),
+//             ),
+//           ),
+//           child: AutoScrollTag(
+//             key: ValueKey(i),
+//             index: i,
+//             controller: autoScrollController,
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 Text(exOne[0]),
+//                 Row(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     Expanded(
+//                       child: Container(
+//                         alignment: Alignment.topRight,
+//                         child: Text(exOne[3].toCurrency()),
+//                       ),
+//                     ),
+//                     Expanded(
+//                       child: Container(
+//                         alignment: Alignment.topRight,
+//                         child: Text(exOne[4].toCurrency()),
+//                       ),
+//                     ),
+//                     Expanded(
+//                       child: Container(
+//                         alignment: Alignment.topRight,
+//                         child: Text(exOne[5].toCurrency()),
+//                       ),
+//                     ),
+//                     Expanded(
+//                       child: Container(
+//                         alignment: Alignment.topRight,
+//                         child: Column(
+//                           crossAxisAlignment: CrossAxisAlignment.end,
+//                           children: [
+//                             Text(exOne[1].toCurrency()),
+//                             Text(
+//                               diff.toString(),
+//                               style: TextStyle(
+//                                 color: (diff == 0)
+//                                     ? Colors.grey
+//                                     : Colors.yellowAccent,
+//                               ),
+//                             ),
+//                           ],
+//                         ),
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ),
+//       );
+//
+//       keepNum = exOne[1].toInt();
+//     }
+//
+//     return SingleChildScrollView(
+//       controller: autoScrollController,
+//       child: Column(
+//         children: list,
+//       ),
+//     );
+//   }
+// }
 
 ///
 ////////////////////////////////////////////////

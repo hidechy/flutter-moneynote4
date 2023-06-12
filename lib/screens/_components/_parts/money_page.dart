@@ -723,7 +723,7 @@ class MoneyPage extends ConsumerWidget {
               onTap: () {
                 MoneyDialog(
                   context: _context,
-                  widget: StockAlert(),
+                  widget: StockAlert(date: stockState.date),
                 );
               },
               child: const Icon(Icons.info_outline),
@@ -798,7 +798,7 @@ class MoneyPage extends ConsumerWidget {
               onTap: () {
                 MoneyDialog(
                   context: _context,
-                  widget: ShintakuAlert(date: date),
+                  widget: ShintakuAlert(date: shintakuState.date),
                 );
               },
               child: const Icon(Icons.info_outline),
