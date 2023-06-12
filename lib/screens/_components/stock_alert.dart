@@ -23,7 +23,7 @@ class StockAlert extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
 
-    final stockState = ref.watch(stockProvider);
+    final stockState = ref.watch(stockProvider(DateTime.now()));
 
     final stockRecordState = ref.watch(stockRecordProvider);
 

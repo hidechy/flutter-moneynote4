@@ -15,8 +15,8 @@ goldListProvider        List<Gold>
 
 ////////////////////////////////////////////////
 
-final goldLastProvider =
-    StateNotifierProvider.autoDispose<GoldLastNotifier, Gold>((ref) {
+final goldLastProvider = StateNotifierProvider.autoDispose
+    .family<GoldLastNotifier, Gold, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
@@ -31,7 +31,7 @@ final goldLastProvider =
     ),
     client,
     utility,
-  )..getLastGold();
+  )..getLastGold(date: date);
 });
 
 class GoldLastNotifier extends StateNotifier<Gold> {
@@ -40,7 +40,7 @@ class GoldLastNotifier extends StateNotifier<Gold> {
   final HttpClient client;
   final Utility utility;
 
-  Future<void> getLastGold() async {
+  Future<void> getLastGold({required DateTime date}) async {
     await client.post(path: APIPath.getgolddata).then((value) {
       var gold = Gold(
         year: '',
@@ -52,7 +52,13 @@ class GoldLastNotifier extends StateNotifier<Gold> {
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         if (value['data'][i]['gold_price'] != '-') {
-          gold = Gold.fromJson(value['data'][i] as Map<String, dynamic>);
+          final val = Gold.fromJson(value['data'][i] as Map<String, dynamic>);
+
+          if ('${val.year}-${val.month}-${val.day} 00:00:00'
+              .toDateTime()
+              .isBefore(date)) {
+            gold = val;
+          }
         }
       }
 

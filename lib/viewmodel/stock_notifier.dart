@@ -15,8 +15,8 @@ stockRecordProvider       StockRecord
 */
 
 ////////////////////////////////////////////////
-final stockProvider =
-    StateNotifierProvider.autoDispose<StockNotifier, Stock>((ref) {
+final stockProvider = StateNotifierProvider.autoDispose
+    .family<StockNotifier, Stock, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
@@ -31,7 +31,7 @@ final stockProvider =
     ),
     client,
     utility,
-  )..getStock();
+  )..getStock(date: date);
 });
 
 class StockNotifier extends StateNotifier<Stock> {
@@ -40,8 +40,11 @@ class StockNotifier extends StateNotifier<Stock> {
   final HttpClient client;
   final Utility utility;
 
-  Future<void> getStock() async {
-    await client.post(path: APIPath.getDataStock).then((value) {
+  Future<void> getStock({required DateTime date}) async {
+    await client.post(
+      path: APIPath.getDataStock,
+      body: {'date': date.yyyymmdd},
+    ).then((value) {
       final list = <StockRecord>[];
       for (var i = 0;
           i < value['data']['record'].length.toString().toInt();

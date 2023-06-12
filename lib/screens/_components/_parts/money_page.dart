@@ -179,21 +179,19 @@ class MoneyPage extends ConsumerWidget {
                 const SizedBox(height: 30),
                 displayPay(data: moneyState),
 
-                if (date.yyyymmdd == DateTime.now().yyyymmdd) ...[
-                  const SizedBox(height: 30),
-                  Divider(
-                    color: Colors.deepPurple.withOpacity(0.3),
-                    thickness: 5,
-                  ),
-                  const SizedBox(height: 10),
-                  displayGold(),
-                  const SizedBox(height: 30),
-                  displayStock(),
-                  const SizedBox(height: 30),
-                  displayShintaku(),
-                  const SizedBox(height: 30),
-                  displayNotMoneyAsset(),
-                ],
+                const SizedBox(height: 30),
+                Divider(
+                  color: Colors.deepPurple.withOpacity(0.3),
+                  thickness: 5,
+                ),
+                const SizedBox(height: 10),
+                displayGold(),
+                const SizedBox(height: 30),
+                displayStock(),
+                const SizedBox(height: 30),
+                displayShintaku(),
+                const SizedBox(height: 30),
+                displayNotMoneyAsset(),
 
                 const SizedBox(height: 50),
               ],
@@ -572,7 +570,7 @@ class MoneyPage extends ConsumerWidget {
 
   ///
   Widget displayGold() {
-    final goldState = _ref.watch(goldLastProvider);
+    final goldState = _ref.watch(goldLastProvider(date));
 
     if (goldState == null) {
       return Container();
@@ -663,7 +661,7 @@ class MoneyPage extends ConsumerWidget {
 
   ///
   Widget displayStock() {
-    final stockState = _ref.watch(stockProvider);
+    final stockState = _ref.watch(stockProvider(date));
 
     notMoneyAsset.add(stockState.price);
 
@@ -738,7 +736,7 @@ class MoneyPage extends ConsumerWidget {
 
   ///
   Widget displayShintaku() {
-    final shintakuState = _ref.watch(shintakuProvider);
+    final shintakuState = _ref.watch(shintakuProvider(date));
 
     notMoneyAsset.add(shintakuState.price);
 

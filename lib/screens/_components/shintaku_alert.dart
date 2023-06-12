@@ -27,7 +27,7 @@ class ShintakuAlert extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
 
-    final shintakuState = ref.watch(shintakuProvider);
+    final shintakuState = ref.watch(shintakuProvider(date));
 
     final shintakuRecordState = ref.watch(shintakuRecordProvider);
 

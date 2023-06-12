@@ -112,7 +112,7 @@ class ShintakuGraphAlert extends ConsumerWidget {
     const rakutenIndexBefore = '楽天・全米株式インデックス・ファンド（楽天・バンガード・ファンド（全米株式））';
     const rakutenIndexAfter = '楽天・全米株式インデックス・ファンド(楽天・VTI)';
 
-    final shintakuState = _ref.watch(shintakuProvider);
+    final shintakuState = _ref.watch(shintakuProvider(date));
 
     //------------------------------------------(1)
     final nums = <int>[];

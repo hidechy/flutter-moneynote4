@@ -15,8 +15,8 @@ shintakuRecordProvider        ShintakuRecord
 */
 
 ////////////////////////////////////////////////
-final shintakuProvider =
-    StateNotifierProvider.autoDispose<ShintakuNotifier, Shintaku>((ref) {
+final shintakuProvider = StateNotifierProvider.autoDispose
+    .family<ShintakuNotifier, Shintaku, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
@@ -31,7 +31,7 @@ final shintakuProvider =
     ),
     client,
     utility,
-  )..getShintaku();
+  )..getShintaku(date: date);
 });
 
 class ShintakuNotifier extends StateNotifier<Shintaku> {
@@ -40,8 +40,11 @@ class ShintakuNotifier extends StateNotifier<Shintaku> {
   final HttpClient client;
   final Utility utility;
 
-  Future<void> getShintaku() async {
-    await client.post(path: APIPath.getDataShintaku).then((value) {
+  Future<void> getShintaku({required DateTime date}) async {
+    await client.post(
+      path: APIPath.getDataShintaku,
+      body: {'date': date.yyyymmdd},
+    ).then((value) {
       final list = <ShintakuRecord>[];
 
       var maxDate = DateTime(2020);
