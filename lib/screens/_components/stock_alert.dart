@@ -120,7 +120,7 @@ class StockAlert extends ConsumerWidget {
         style: const TextStyle(fontSize: 10),
         child: Row(
           children: stockState.record.asMap().entries.map((e) {
-            var exData = e.value.data.split('/');
+            final exData = e.value.data.split('/');
 
             var lastDate = '';
             for (var i = 0; i < exData.length; i++) {

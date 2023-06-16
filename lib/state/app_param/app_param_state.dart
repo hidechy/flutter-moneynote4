@@ -28,5 +28,6 @@ class AppParamState with _$AppParamState {
     @Default('') String KeihiListAlertSelectOrder,
     @Default(0) int TaxPaymentAlertSelectYear,
     @Default(0) int TaxPaymentItemAlertSelectYear,
+    @Default(true) bool openMoneyArea,
   }) = _AppParamState;
 }

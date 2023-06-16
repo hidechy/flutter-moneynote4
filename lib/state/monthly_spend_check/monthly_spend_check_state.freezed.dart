@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'monthly_spend_check_state.dart';
 
@@ -59,8 +59,8 @@ class _$MonthlySpendCheckStateCopyWithImpl<$Res,
     Object? selectItems = null,
     Object? checkItems = null,
     Object? monthTotal = null,
-    Object? selectedCategory = null,
-    Object? errorMsg = null,
+    Object? selectedCategory = freezed,
+    Object? errorMsg = freezed,
   }) {
     return _then(_value.copyWith(
       selectItems: null == selectItems
@@ -75,11 +75,11 @@ class _$MonthlySpendCheckStateCopyWithImpl<$Res,
           ? _value.monthTotal
           : monthTotal // ignore: cast_nullable_to_non_nullable
               as int,
-      selectedCategory: null == selectedCategory
+      selectedCategory: freezed == selectedCategory
           ? _value.selectedCategory
           : selectedCategory // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      errorMsg: null == errorMsg
+      errorMsg: freezed == errorMsg
           ? _value.errorMsg
           : errorMsg // ignore: cast_nullable_to_non_nullable
               as dynamic,
@@ -118,8 +118,8 @@ class __$$_MonthlySpendCheckStateCopyWithImpl<$Res>
     Object? selectItems = null,
     Object? checkItems = null,
     Object? monthTotal = null,
-    Object? selectedCategory = null,
-    Object? errorMsg = null,
+    Object? selectedCategory = freezed,
+    Object? errorMsg = freezed,
   }) {
     return _then(_$_MonthlySpendCheckState(
       selectItems: null == selectItems
@@ -134,9 +134,10 @@ class __$$_MonthlySpendCheckStateCopyWithImpl<$Res>
           ? _value.monthTotal
           : monthTotal // ignore: cast_nullable_to_non_nullable
               as int,
-      selectedCategory:
-          null == selectedCategory ? _value.selectedCategory : selectedCategory,
-      errorMsg: null == errorMsg ? _value.errorMsg : errorMsg,
+      selectedCategory: freezed == selectedCategory
+          ? _value.selectedCategory!
+          : selectedCategory,
+      errorMsg: freezed == errorMsg ? _value.errorMsg! : errorMsg,
     ));
   }
 }
@@ -157,6 +158,7 @@ class _$_MonthlySpendCheckState implements _MonthlySpendCheckState {
   @override
   @JsonKey()
   List<String> get selectItems {
+    if (_selectItems is EqualUnmodifiableListView) return _selectItems;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_selectItems);
   }
@@ -165,6 +167,7 @@ class _$_MonthlySpendCheckState implements _MonthlySpendCheckState {
   @override
   @JsonKey()
   List<Map<String, dynamic>> get checkItems {
+    if (_checkItems is EqualUnmodifiableListView) return _checkItems;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_checkItems);
   }

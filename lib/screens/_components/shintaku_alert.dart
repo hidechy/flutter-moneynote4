@@ -138,7 +138,7 @@ class ShintakuAlert extends ConsumerWidget {
               lastDate = exOne[0];
             }
 
-            var dateDiffInDays = '$lastDate 00:00:00'
+            final dateDiffInDays = '$lastDate 00:00:00'
                 .toDateTime()
                 .difference(DateTime.now())
                 .inDays;

@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/extensions/extensions.dart';
-import 'package:moneynote4/screens/_components/spend_year_day_alert.dart';
+import 'package:moneynote4/state/app_param/app_param_notifier.dart';
 
+import '../../../extensions/extensions.dart';
 import '../../../models/money.dart';
 import '../../../state/device_info/device_info_notifier.dart';
 import '../../../utility/utility.dart';
@@ -23,6 +23,7 @@ import '../bank_alert.dart';
 import '../gold_alert.dart';
 import '../shintaku_alert.dart';
 import '../spend_alert.dart';
+import '../spend_year_day_alert.dart';
 import '../stock_alert.dart';
 
 class MoneyPage extends ConsumerWidget {
@@ -57,6 +58,8 @@ class MoneyPage extends ConsumerWidget {
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
+    final appParamState = ref.watch(appParamProvider);
+
     notMoneyAsset = [];
 
     return AlertDialog(
@@ -82,109 +85,128 @@ class MoneyPage extends ConsumerWidget {
                   _utility.getFileNameDebug(name: runtimeType.toString()),
                 //----------//
 
-                SizedBox(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
+                ExpansionTile(
+                  initiallyExpanded: appParamState.openMoneyArea,
+                  iconColor: Colors.white,
+                  onExpansionChanged: (value) {
+                    ref
+                        .watch(appParamProvider.notifier)
+                        .setOpenMoneyArea(value: value);
+                  },
+                  title: Text(
+                    appParamState.openMoneyArea == false ? 'OPEN' : 'CLOSE',
+                    style: const TextStyle(
+                      fontSize: 10,
+                      color: Colors.white,
+                    ),
+                  ),
+                  children: [
+                    SizedBox(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return MoneyInputScreen(date: date);
-                                  },
-                                ),
-                              );
-                            },
-                            icon: const Icon(Icons.input),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return SpendItemInputScreen(
-                                      date: date,
-                                      diff: diff,
-                                    );
-                                  },
-                                ),
-                              );
-                            },
-                            icon: const Icon(Icons.list),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return TimeplaceInputScreen(
-                                      date: date,
-                                      diff: diff,
-                                    );
-                                  },
-                                ),
-                              );
-                            },
-                            icon: const Icon(Icons.access_time),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
+                          Row(
                             children: [
-                              Text(
-                                total.toCurrency(),
-                                style: const TextStyle(fontSize: 16),
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return MoneyInputScreen(date: date);
+                                      },
+                                    ),
+                                  );
+                                },
+                                icon: const Icon(Icons.input),
                               ),
-                              Text(
-                                diff.toCurrency(),
-                                style: const TextStyle(fontSize: 16),
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return SpendItemInputScreen(
+                                          date: date,
+                                          diff: diff,
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                icon: const Icon(Icons.list),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return TimeplaceInputScreen(
+                                          date: date,
+                                          diff: diff,
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                icon: const Icon(Icons.access_time),
                               ),
                             ],
                           ),
-                          const SizedBox(width: 20),
-                          (total == '0')
-                              ? Container()
-                              : GestureDetector(
-                                  onTap: () {
-                                    MoneyDialog(
-                                      context: context,
-                                      widget: SpendAlert(
-                                        date: date,
-                                        diff: diff,
-                                      ),
-                                    );
-                                  },
-                                  child: const Icon(Icons.info_outline),
-                                ),
+                          Row(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    total.toCurrency(),
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                  Text(
+                                    diff.toCurrency(),
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(width: 20),
+                              (total == '0')
+                                  ? Container()
+                                  : GestureDetector(
+                                      onTap: () {
+                                        MoneyDialog(
+                                          context: context,
+                                          widget: SpendAlert(
+                                            date: date,
+                                            diff: diff,
+                                          ),
+                                        );
+                                      },
+                                      child: const Icon(Icons.info_outline),
+                                    ),
+                            ],
+                          ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 10),
+                    displaySamedaySpendYearly(),
+                    const SizedBox(height: 30),
+                    displayMoney(data: moneyState),
+                    const SizedBox(height: 30),
+                    displayBank(data: moneyState),
+                    const SizedBox(height: 30),
+                    displayPay(data: moneyState),
+                    const SizedBox(height: 30),
+                  ],
                 ),
-                const SizedBox(height: 10),
-                displaySamedaySpendYearly(),
-                const SizedBox(height: 30),
-                displayMoney(data: moneyState),
-                const SizedBox(height: 30),
-                displayBank(data: moneyState),
-                const SizedBox(height: 30),
-                displayPay(data: moneyState),
 
-                const SizedBox(height: 30),
                 Divider(
                   color: Colors.deepPurple.withOpacity(0.3),
                   thickness: 5,
                 ),
                 const SizedBox(height: 10),
+
                 displayGold(),
                 const SizedBox(height: 30),
                 displayStock(),
@@ -579,11 +601,19 @@ class MoneyPage extends ConsumerWidget {
     final goldDate = '${goldState.year}-${goldState.month}-${goldState.day}';
 
     var goldDiff = 0;
+
+    var score = 0;
+
     if (goldState.goldValue != null && goldState.payPrice != null) {
       goldDiff = goldState.goldValue.toString().toInt() -
           goldState.payPrice.toString().toInt();
 
       notMoneyAsset.add(goldState.goldValue);
+
+      score = ((goldState.goldValue.toString().toInt() /
+                  goldState.payPrice.toString().toInt()) *
+              100)
+          .round();
     }
 
     return DefaultTextStyle(
@@ -636,6 +666,7 @@ class MoneyPage extends ConsumerWidget {
                             style: const TextStyle(color: Colors.yellowAccent),
                           ),
                     Text(goldDiff.toString().toCurrency()),
+                    Text('$score %'),
                   ],
                 ),
               ],
@@ -664,6 +695,16 @@ class MoneyPage extends ConsumerWidget {
     final stockState = _ref.watch(stockProvider(date));
 
     notMoneyAsset.add(stockState.price);
+
+    var score = '';
+
+    if (stockState.price != null && stockState.cost != null) {
+      score = ((stockState.price.toString().toInt() /
+                  stockState.cost.toString().toInt()) *
+              100)
+          .toString()
+          .split('.')[0];
+    }
 
     return DefaultTextStyle(
       style: const TextStyle(fontSize: 12),
@@ -711,6 +752,7 @@ class MoneyPage extends ConsumerWidget {
                       style: const TextStyle(color: Colors.yellowAccent),
                     ),
                     Text(stockState.diff.toString().toCurrency()),
+                    Text('$score %'),
                   ],
                 ),
               ],
@@ -739,6 +781,16 @@ class MoneyPage extends ConsumerWidget {
     final shintakuState = _ref.watch(shintakuProvider(date));
 
     notMoneyAsset.add(shintakuState.price);
+
+    var score = '';
+
+    if (shintakuState.price != null && shintakuState.cost != null) {
+      score = ((shintakuState.price.toString().toInt() /
+                  shintakuState.cost.toString().toInt()) *
+              100)
+          .toString()
+          .split('.')[0];
+    }
 
     return DefaultTextStyle(
       style: const TextStyle(fontSize: 12),
@@ -786,6 +838,7 @@ class MoneyPage extends ConsumerWidget {
                       style: const TextStyle(color: Colors.yellowAccent),
                     ),
                     Text(shintakuState.diff.toString().toCurrency()),
+                    Text('$score %'),
                   ],
                 ),
               ],

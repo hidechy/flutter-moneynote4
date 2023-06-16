@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'polyline_result_state.dart';
 
@@ -64,10 +64,10 @@ class _$PolylineResultStateCopyWithImpl<$Res, $Val extends PolylineResultState>
     Object? distance = null,
     Object? duration = null,
     Object? polylinePoints = null,
-    Object? southwestLat = null,
-    Object? southwestLng = null,
-    Object? northeastLat = null,
-    Object? northeastLng = null,
+    Object? southwestLat = freezed,
+    Object? southwestLng = freezed,
+    Object? northeastLat = freezed,
+    Object? northeastLng = freezed,
   }) {
     return _then(_value.copyWith(
       bounds: freezed == bounds
@@ -86,19 +86,19 @@ class _$PolylineResultStateCopyWithImpl<$Res, $Val extends PolylineResultState>
           ? _value.polylinePoints
           : polylinePoints // ignore: cast_nullable_to_non_nullable
               as List<PointLatLng>,
-      southwestLat: null == southwestLat
+      southwestLat: freezed == southwestLat
           ? _value.southwestLat
           : southwestLat // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      southwestLng: null == southwestLng
+      southwestLng: freezed == southwestLng
           ? _value.southwestLng
           : southwestLng // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      northeastLat: null == northeastLat
+      northeastLat: freezed == northeastLat
           ? _value.northeastLat
           : northeastLat // ignore: cast_nullable_to_non_nullable
               as dynamic,
-      northeastLng: null == northeastLng
+      northeastLng: freezed == northeastLng
           ? _value.northeastLng
           : northeastLng // ignore: cast_nullable_to_non_nullable
               as dynamic,
@@ -140,10 +140,10 @@ class __$$_PolylineResultStateCopyWithImpl<$Res>
     Object? distance = null,
     Object? duration = null,
     Object? polylinePoints = null,
-    Object? southwestLat = null,
-    Object? southwestLng = null,
-    Object? northeastLat = null,
-    Object? northeastLng = null,
+    Object? southwestLat = freezed,
+    Object? southwestLng = freezed,
+    Object? northeastLat = freezed,
+    Object? northeastLng = freezed,
   }) {
     return _then(_$_PolylineResultState(
       bounds: freezed == bounds
@@ -162,10 +162,14 @@ class __$$_PolylineResultStateCopyWithImpl<$Res>
           ? _value._polylinePoints
           : polylinePoints // ignore: cast_nullable_to_non_nullable
               as List<PointLatLng>,
-      southwestLat: null == southwestLat ? _value.southwestLat : southwestLat,
-      southwestLng: null == southwestLng ? _value.southwestLng : southwestLng,
-      northeastLat: null == northeastLat ? _value.northeastLat : northeastLat,
-      northeastLng: null == northeastLng ? _value.northeastLng : northeastLng,
+      southwestLat:
+          freezed == southwestLat ? _value.southwestLat! : southwestLat,
+      southwestLng:
+          freezed == southwestLng ? _value.southwestLng! : southwestLng,
+      northeastLat:
+          freezed == northeastLat ? _value.northeastLat! : northeastLat,
+      northeastLng:
+          freezed == northeastLng ? _value.northeastLng! : northeastLng,
     ));
   }
 }
@@ -196,6 +200,7 @@ class _$_PolylineResultState implements _PolylineResultState {
   @override
   @JsonKey()
   List<PointLatLng> get polylinePoints {
+    if (_polylinePoints is EqualUnmodifiableListView) return _polylinePoints;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_polylinePoints);
   }

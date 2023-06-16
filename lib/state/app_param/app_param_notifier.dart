@@ -98,6 +98,9 @@ class AppParamNotifier extends StateNotifier<AppParamState> {
 
   Future<void> setTaxPaymentItemAlertSelectYear({required int year}) async =>
       state = state.copyWith(TaxPaymentItemAlertSelectYear: year);
+
+  Future<void> setOpenMoneyArea({required bool value}) async =>
+      state = state.copyWith(openMoneyArea: value);
 }
 
 ////////////////////////////////////////////////
