@@ -1,149 +1,86 @@
-// ignore_for_file: must_be_immutable, non_constant_identifier_names
+// ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
-import '../../state/app_param/app_param_notifier.dart';
-import '../../state/device_info/device_info_notifier.dart';
-import '../../utility/utility.dart';
-import '../../viewmodel/duty_notifier.dart';
+import 'pages/duty_page.dart';
+
+class TabInfo {
+  TabInfo(this.label, this.widget);
+
+  String label;
+  Widget widget;
+}
 
 class DutyAlert extends ConsumerWidget {
   DutyAlert({super.key, required this.date});
 
   final DateTime date;
 
-  Uuid uuid = const Uuid();
-
-  final Utility _utility = Utility();
-
-  late BuildContext _context;
-  late WidgetRef _ref;
+  List<TabInfo> tabs = [];
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    _context = context;
-    _ref = ref;
+    makeTab();
 
-    final yearWidgetList = makeYearWidgetList();
-
-    final deviceInfoState = ref.read(deviceInfoProvider);
-
-    return AlertDialog(
-      titlePadding: EdgeInsets.zero,
-      contentPadding: EdgeInsets.zero,
-      backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.zero,
-      content: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        width: double.infinity,
-        height: double.infinity,
-        child: SingleChildScrollView(
-          child: DefaultTextStyle(
-            style: const TextStyle(fontSize: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                Container(width: context.screenSize.width),
-
-                //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
-                //----------//
-
-                Row(children: yearWidgetList),
-                const SizedBox(height: 20),
-                displayDuty(),
-              ],
+    return DefaultTabController(
+      length: tabs.length,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
+          child: AppBar(
+            backgroundColor: Colors.transparent,
+            //-------------------------//これを消すと「←」が出てくる（消さない）
+            leading: const Icon(
+              Icons.check_box_outline_blank,
+              color: Colors.transparent,
             ),
-          ),
-        ),
-      ),
-    );
-  }
+            //-------------------------//これを消すと「←」が出てくる（消さない）
 
-  ///
-  List<Widget> makeYearWidgetList() {
-    final DutyAlertSelectYear = _ref.watch(
-      appParamProvider.select((value) => value.DutyAlertSelectYear),
-    );
-
-    final yearList = <Widget>[];
-    for (var i = date.yyyy.toInt(); i >= 2020; i--) {
-      yearList.add(
-        GestureDetector(
-          onTap: () {
-            _ref
-                .watch(appParamProvider.notifier)
-                .setDutyAlertSelectYear(year: i);
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-            margin: const EdgeInsets.only(right: 10),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white.withOpacity(0.5)),
-              color: (i == DutyAlertSelectYear)
-                  ? Colors.yellowAccent.withOpacity(0.2)
-                  : null,
+            bottom: TabBar(
+              isScrollable: true,
+              indicatorColor: Colors.blueAccent,
+              tabs: tabs.map((TabInfo tab) {
+                return Tab(text: tab.label);
+              }).toList(),
             ),
-            child: Text(i.toString()),
-          ),
-        ),
-      );
-    }
 
-    return yearList;
-  }
-
-  ///
-  Widget displayDuty() {
-    final DutyAlertSelectYear = _ref.watch(
-      appParamProvider.select((value) => value.DutyAlertSelectYear),
-    );
-
-    final dutyState = _ref.watch(
-      dutyProvider(DateTime(DutyAlertSelectYear)),
-    );
-
-    final list = <Widget>[];
-
-    for (var i = 0; i < dutyState.length; i++) {
-      list.add(
-        Container(
-          width: _context.screenSize.width,
-          padding: const EdgeInsets.symmetric(vertical: 3),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.white.withOpacity(0.3),
+            flexibleSpace: const DecoratedBox(
+              decoration: BoxDecoration(
+                color: Colors.transparent,
               ),
             ),
           ),
-          child: Table(
-            children: [
-              TableRow(children: [
-                Text(dutyState[i].date),
-                Text(dutyState[i].duty),
-                Container(
-                  alignment: Alignment.topRight,
-                  child: Text(dutyState[i].price.toString().toCurrency()),
-                ),
-              ]),
-            ],
-          ),
         ),
-      );
-    }
-
-    return SingleChildScrollView(
-      key: PageStorageKey(uuid.v1()),
-      child: Column(
-        children: list,
+        body: TabBarView(
+          children: tabs.map((tab) => tab.widget).toList(),
+        ),
       ),
     );
+  }
+
+  ///
+  void makeTab() {
+    tabs = [];
+
+    final list = <String>[];
+
+    for (var i = 2020; i <= DateTime.now().year; i++) {
+      list.add(i.toString());
+    }
+
+    list
+      ..sort((a, b) => -1 * a.compareTo(b))
+      ..forEach((element) {
+        tabs.add(
+          TabInfo(
+            element,
+            DutyPage(date: DateTime(element.toInt())),
+          ),
+        );
+      });
   }
 }

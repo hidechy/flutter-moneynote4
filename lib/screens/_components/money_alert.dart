@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
-import '_parts/money_page.dart';
+import 'pages/money_page.dart';
 
 class TabInfo {
   TabInfo(this.label, this.widget);

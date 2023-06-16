@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import '../../extensions/extensions.dart';
-import '_parts/monthly_spend_page.dart';
+import 'pages/monthly_spend_page.dart';
 
 class TabInfo {
   TabInfo(this.label, this.widget);
