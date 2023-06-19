@@ -22,6 +22,8 @@ class SeiyuAlert extends ConsumerWidget {
 
   final Utility _utility = Utility();
 
+  Map<String, int> seiyuDateSumMap = {};
+
   late BuildContext _context;
   late WidgetRef _ref;
 
@@ -42,6 +44,8 @@ class SeiyuAlert extends ConsumerWidget {
     final SeiyuAlertSelectDate = ref.watch(
       appParamProvider.select((value) => value.SeiyuAlertSelectDate),
     );
+
+    print(seiyuDateSumMap);
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
@@ -164,18 +168,41 @@ class SeiyuAlert extends ConsumerWidget {
 
   ///
   List<String> makeYearDateList() {
+    final SeiyuAlertSelectYear = _ref.watch(
+      appParamProvider.select((value) => value.SeiyuAlertSelectYear),
+    );
+
     final seiyuAllState = _ref.watch(seiyuAllProvider(date));
 
     final list = <String>[];
     var keepDate = '';
 
+    final map = <String, List<int>>{};
+
     for (var i = 0; i < seiyuAllState.length; i++) {
       if (keepDate != seiyuAllState[i].date) {
         list.add(DateTime.parse(seiyuAllState[i].date).mmdd);
+
+        map[seiyuAllState[i].date] = [];
+      }
+
+      if (SeiyuAlertSelectYear == seiyuAllState[i].date.split('-')[0].toInt()) {
+        map[seiyuAllState[i].date]?.add(seiyuAllState[i].price.toInt());
       }
 
       keepDate = seiyuAllState[i].date;
     }
+
+    seiyuDateSumMap = {};
+
+    map.entries.forEach((element) {
+      var sum = 0;
+      element.value.forEach((element2) {
+        sum += element2;
+      });
+
+      seiyuDateSumMap[element.key] = sum;
+    });
 
     return list;
   }
