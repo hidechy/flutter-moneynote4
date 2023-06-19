@@ -9,9 +9,6 @@ import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/seiyu_notifier.dart';
-import '_money_dialog.dart';
-
-import 'seiyu_item_alert.dart';
 
 class SeiyuAlert extends ConsumerWidget {
   SeiyuAlert({super.key, required this.date});
@@ -24,28 +21,14 @@ class SeiyuAlert extends ConsumerWidget {
 
   Map<String, int> seiyuDateSumMap = {};
 
-  late BuildContext _context;
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    _context = context;
     _ref = ref;
 
     final yearWidgetList = makeYearWidgetList();
-
-    final yearDateList = makeYearDateList();
-
-    final SeiyuAlertSelectYear = ref.watch(
-      appParamProvider.select((value) => value.SeiyuAlertSelectYear),
-    );
-
-    final SeiyuAlertSelectDate = ref.watch(
-      appParamProvider.select((value) => value.SeiyuAlertSelectDate),
-    );
-
-    print(seiyuDateSumMap);
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
@@ -58,71 +41,24 @@ class SeiyuAlert extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         width: double.infinity,
         height: double.infinity,
-        child: SingleChildScrollView(
-          child: DefaultTextStyle(
-            style: const TextStyle(fontSize: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                Container(width: context.screenSize.width),
+        child: DefaultTextStyle(
+          style: const TextStyle(fontSize: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20),
+              Container(width: context.screenSize.width),
 
-                //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
-                //----------//
+              //----------//
+              if (deviceInfoState.model == 'iPhone')
+                _utility.getFileNameDebug(name: runtimeType.toString()),
+              //----------//
 
-                Row(children: yearWidgetList),
-                const SizedBox(height: 10),
-                SizedBox(
-                  height: 40,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: yearDateList.map((val) {
-                        final exVal = val.split('-');
-                        return GestureDetector(
-                          onTap: () {
-                            ref
-                                .watch(appParamProvider.notifier)
-                                .setSeiyuAlertSelectDate(date: val);
+              Row(children: yearWidgetList),
+              const SizedBox(height: 20),
 
-                            ref
-                                .watch(seiyuPurchaseDateProvider.notifier)
-                                .getSeiyuPurchaseList(
-                                  date: '$SeiyuAlertSelectYear-$val',
-                                );
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 3,
-                              horizontal: 5,
-                            ),
-                            margin: const EdgeInsets.only(right: 10),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.white.withOpacity(0.5),
-                              ),
-                              color: (SeiyuAlertSelectDate == val)
-                                  ? Colors.yellowAccent.withOpacity(0.3)
-                                  : null,
-                            ),
-                            child: Column(
-                              children: [
-                                Text(exVal[0]),
-                                Text(exVal[1]),
-                              ],
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                displaySeiyuPurchase(),
-              ],
-            ),
+              Expanded(child: displaySeiyuDateList()),
+            ],
           ),
         ),
       ),
@@ -181,7 +117,7 @@ class SeiyuAlert extends ConsumerWidget {
 
     for (var i = 0; i < seiyuAllState.length; i++) {
       if (keepDate != seiyuAllState[i].date) {
-        list.add(DateTime.parse(seiyuAllState[i].date).mmdd);
+        list.add(DateTime.parse(seiyuAllState[i].date).yyyymmdd);
 
         map[seiyuAllState[i].date] = [];
       }
@@ -208,37 +144,16 @@ class SeiyuAlert extends ConsumerWidget {
   }
 
   ///
-  Widget displaySeiyuPurchase() {
-    final seiyuPurchaseDateState = _ref.watch(seiyuPurchaseDateProvider);
+  Widget displaySeiyuDateList() {
+    final yearDateList = makeYearDateList();
 
     final list = <Widget>[];
 
-    var total = 0;
-
-    for (var i = 0; i < seiyuPurchaseDateState.length; i++) {
-      total += seiyuPurchaseDateState[i].price.toInt();
-    }
-
-    list.add(
-      Container(
-        width: double.infinity,
-        alignment: Alignment.topRight,
-        child: Column(
-          children: [
-            Text(
-              total.toString().toCurrency(),
-              style: const TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 20),
-          ],
-        ),
-      ),
-    );
-
-    for (var i = 0; i < seiyuPurchaseDateState.length; i++) {
+    yearDateList.forEach((element) {
       list.add(
         Container(
-          padding: const EdgeInsets.symmetric(vertical: 3),
+          padding: const EdgeInsets.all(10),
+          margin: const EdgeInsets.only(bottom: 10),
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
@@ -247,64 +162,18 @@ class SeiyuAlert extends ConsumerWidget {
             ),
           ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      alignment: Alignment.topRight,
-                      child: Text(seiyuPurchaseDateState[i].date),
-                    ),
-                    Text(
-                      seiyuPurchaseDateState[i].item,
-                      style: const TextStyle(
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Text(seiyuPurchaseDateState[i].tanka.toCurrency()),
-                        const SizedBox(width: 20),
-                        const Text('×'),
-                        const SizedBox(width: 20),
-                        Text(seiyuPurchaseDateState[i].kosuu),
-                        const SizedBox(width: 20),
-                        const Text('='),
-                        const SizedBox(width: 20),
-                        Text(seiyuPurchaseDateState[i].price.toCurrency()),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 10),
-              IconButton(
-                onPressed: () {
-                  MoneyDialog(
-                    context: _context,
-                    widget: SeiyuItemAlert(
-                      date: date,
-                      item: seiyuPurchaseDateState[i].item,
-                    ),
-                  );
-                },
-                icon: Icon(
-                  Icons.ac_unit,
-                  color: Colors.white.withOpacity(0.8),
-                ),
-              ),
+              Text(element),
+              Text(seiyuDateSumMap[element].toString().toCurrency()),
             ],
           ),
         ),
       );
-    }
+    });
 
     return SingleChildScrollView(
-      key: PageStorageKey(uuid.v1()),
-      child: Column(
-        children: list,
-      ),
+      child: Column(children: list),
     );
   }
 }
