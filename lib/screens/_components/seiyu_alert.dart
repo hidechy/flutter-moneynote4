@@ -9,6 +9,8 @@ import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/seiyu_notifier.dart';
+import '_money_dialog.dart';
+import 'pages/seiyu_tab_page.dart';
 
 class SeiyuAlert extends ConsumerWidget {
   SeiyuAlert({super.key, required this.date});
@@ -19,6 +21,7 @@ class SeiyuAlert extends ConsumerWidget {
 
   final Utility _utility = Utility();
 
+  List<String> seiyuDateList = [];
   Map<String, int> seiyuDateSumMap = {};
 
   late WidgetRef _ref;
@@ -55,7 +58,25 @@ class SeiyuAlert extends ConsumerWidget {
               //----------//
 
               Row(children: yearWidgetList),
-              const SizedBox(height: 20),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(),
+                  IconButton(
+                    onPressed: () {
+                      MoneyDialog(
+                        context: context,
+                        widget: SeiyuTabPage(list: seiyuDateList),
+                      );
+                    },
+                    icon: Icon(
+                      Icons.copy_sharp,
+                      color: Colors.white.withOpacity(0.6),
+                    ),
+                  ),
+                ],
+              ),
 
               Expanded(child: displaySeiyuDateList()),
             ],
@@ -139,6 +160,8 @@ class SeiyuAlert extends ConsumerWidget {
 
       seiyuDateSumMap[element.key] = sum;
     });
+
+    seiyuDateList = list;
 
     return list;
   }

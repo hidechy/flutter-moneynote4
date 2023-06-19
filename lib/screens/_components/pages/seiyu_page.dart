@@ -1,118 +1,171 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SeiyuPage extends StatelessWidget {
-  const SeiyuPage({super.key});
+import '../../../extensions/extensions.dart';
+import '../../../state/device_info/device_info_notifier.dart';
+import '../../../utility/utility.dart';
+import '../../../viewmodel/seiyu_notifier.dart';
+import '../_money_dialog.dart';
+import '../seiyu_item_alert.dart';
 
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
+class SeiyuPage extends ConsumerWidget {
+  SeiyuPage({super.key, required this.date});
 
-/*
+  final DateTime date;
 
+  final Utility _utility = Utility();
+
+  int total = 0;
+
+  late BuildContext _context;
+  late WidgetRef _ref;
 
   ///
-  Widget displaySeiyuPurchase() {
-    final seiyuPurchaseDateState = _ref.watch(seiyuPurchaseDateProvider);
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    _context = context;
+    _ref = ref;
 
-    final list = <Widget>[];
+    final seiyuAllState = _ref.watch(seiyuAllProvider(date));
 
-    var total = 0;
+    total = 0;
+    seiyuAllState.forEach((element) {
+      if (date.yyyymmdd == element.date) {
+        total += element.price.toInt();
+      }
+    });
 
-    for (var i = 0; i < seiyuPurchaseDateState.length; i++) {
-      total += seiyuPurchaseDateState[i].price.toInt();
-    }
+    final deviceInfoState = ref.read(deviceInfoProvider);
 
-    list.add(
-      Container(
+    return AlertDialog(
+      titlePadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.zero,
+      backgroundColor: Colors.transparent,
+      insetPadding: EdgeInsets.zero,
+      content: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         width: double.infinity,
-        alignment: Alignment.topRight,
-        child: Column(
-          children: [
-            Text(
-              total.toString().toCurrency(),
-              style: const TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 20),
-          ],
-        ),
-      ),
-    );
-
-    for (var i = 0; i < seiyuPurchaseDateState.length; i++) {
-      list.add(
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 3),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.white.withOpacity(0.3),
-              ),
-            ),
-          ),
-          child: Row(
+        height: double.infinity,
+        child: DefaultTextStyle(
+          style: const TextStyle(fontSize: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      alignment: Alignment.topRight,
-                      child: Text(seiyuPurchaseDateState[i].date),
-                    ),
-                    Text(
-                      seiyuPurchaseDateState[i].item,
-                      style: const TextStyle(
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Text(seiyuPurchaseDateState[i].tanka.toCurrency()),
-                        const SizedBox(width: 20),
-                        const Text('×'),
-                        const SizedBox(width: 20),
-                        Text(seiyuPurchaseDateState[i].kosuu),
-                        const SizedBox(width: 20),
-                        const Text('='),
-                        const SizedBox(width: 20),
-                        Text(seiyuPurchaseDateState[i].price.toCurrency()),
-                      ],
-                    ),
-                  ],
-                ),
+              const SizedBox(height: 20),
+              Container(width: context.screenSize.width),
+
+              //----------//
+              if (deviceInfoState.model == 'iPhone')
+                _utility.getFileNameDebug(name: runtimeType.toString()),
+              //----------//
+
+              const SizedBox(height: 10),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(),
+                  Text(total.toString().toCurrency()),
+                ],
               ),
-              const SizedBox(width: 10),
-              IconButton(
-                onPressed: () {
-                  MoneyDialog(
-                    context: _context,
-                    widget: SeiyuItemAlert(
-                      date: date,
-                      item: seiyuPurchaseDateState[i].item,
-                    ),
-                  );
-                },
-                icon: Icon(
-                  Icons.ac_unit,
-                  color: Colors.white.withOpacity(0.8),
-                ),
+
+              Divider(
+                color: Colors.yellowAccent.withOpacity(0.2),
+                thickness: 5,
               ),
+
+              const SizedBox(height: 10),
+
+              Expanded(child: displaySeiyuPurchase()),
             ],
           ),
         ),
-      );
-    }
-
-    return SingleChildScrollView(
-      key: PageStorageKey(uuid.v1()),
-      child: Column(
-        children: list,
       ),
     );
   }
 
+  ///
+  Widget displaySeiyuPurchase() {
+    final seiyuAllState = _ref.watch(seiyuAllProvider(date));
 
+    final list = <Widget>[];
 
-*/
+    seiyuAllState.forEach((element) {
+      if (date.yyyymmdd == element.date) {
+        list.add(
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.white.withOpacity(0.3),
+                ),
+              ),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        alignment: Alignment.topRight,
+                        child: Text(element.date),
+                      ),
+                      Text(
+                        element.item,
+                        style: const TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Text(element.tanka.toCurrency()),
+                          const SizedBox(width: 20),
+                          const Text('×'),
+                          const SizedBox(width: 20),
+                          Text(element.kosuu),
+                          const SizedBox(width: 20),
+                          const Text('='),
+                          const SizedBox(width: 20),
+                          Text(element.price.toCurrency()),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 10),
+                IconButton(
+                  onPressed: () {
+                    MoneyDialog(
+                      context: _context,
+                      widget: SeiyuItemAlert(
+                        date: date,
+                        item: element.item,
+                      ),
+                    );
+                  },
+                  icon: Icon(
+                    Icons.ac_unit,
+                    color: Colors.white.withOpacity(0.6),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+    });
+
+    return SingleChildScrollView(
+      child: DefaultTextStyle(
+        style: const TextStyle(fontSize: 12),
+        child: Column(
+          children: list,
+        ),
+      ),
+    );
+  }
+}
