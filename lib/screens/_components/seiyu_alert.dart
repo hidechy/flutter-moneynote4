@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, sized_box_shrink_expand, non_constant_identifier_names
+// ignore_for_file: must_be_immutable, sized_box_shrink_expand, non_constant_identifier_names, cascade_invocations
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -8,6 +8,7 @@ import '../../extensions/extensions.dart';
 import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
+import '../../viewmodel/credit_notifier.dart';
 import '../../viewmodel/seiyu_notifier.dart';
 import '_money_dialog.dart';
 import 'pages/seiyu_tab_page.dart';
@@ -24,6 +25,8 @@ class SeiyuAlert extends ConsumerWidget {
   List<String> seiyuDateList = [];
   Map<String, int> seiyuDateSumMap = {};
 
+  Map<String, int> seiyuCreditDataMap = {};
+
   late WidgetRef _ref;
 
   ///
@@ -32,6 +35,8 @@ class SeiyuAlert extends ConsumerWidget {
     _ref = ref;
 
     final yearWidgetList = makeYearWidgetList();
+
+    getSeiyuCreditMap();
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
@@ -172,6 +177,44 @@ class SeiyuAlert extends ConsumerWidget {
 
     final list = <Widget>[];
 
+    list.add(
+      Container(
+        padding: const EdgeInsets.all(10),
+        margin: const EdgeInsets.only(bottom: 10),
+        child: Row(
+          children: [
+            const Expanded(flex: 2, child: Text('')),
+            Expanded(
+              child: Container(
+                alignment: Alignment.topRight,
+                child: Text(
+                  'price',
+                  style: TextStyle(color: Colors.yellowAccent.withOpacity(0.6)),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                alignment: Alignment.topRight,
+                child: Text(
+                  'pay',
+                  style: TextStyle(color: Colors.yellowAccent.withOpacity(0.6)),
+                ),
+              ),
+            ),
+            Expanded(
+                child: Container(
+              alignment: Alignment.topRight,
+              child: Text(
+                'point',
+                style: TextStyle(color: Colors.yellowAccent.withOpacity(0.6)),
+              ),
+            )),
+          ],
+        ),
+      ),
+    );
+
     yearDateList.forEach((element) {
       list.add(
         Container(
@@ -185,10 +228,38 @@ class SeiyuAlert extends ConsumerWidget {
             ),
           ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(element),
-              Text(seiyuDateSumMap[element].toString().toCurrency()),
+              Expanded(flex: 2, child: Text(element)),
+              Expanded(
+                child: Container(
+                  alignment: Alignment.topRight,
+                  child: Text(
+                    seiyuDateSumMap[element].toString().toCurrency(),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  alignment: Alignment.topRight,
+                  child: Text(
+                    (seiyuCreditDataMap[element] != null)
+                        ? seiyuCreditDataMap[element].toString().toCurrency()
+                        : '',
+                  ),
+                ),
+              ),
+              Expanded(
+                  child: Container(
+                alignment: Alignment.topRight,
+                child: Text(
+                  (seiyuCreditDataMap[element] != null)
+                      ? (seiyuDateSumMap[element].toString().toInt() -
+                              seiyuCreditDataMap[element].toString().toInt())
+                          .toString()
+                          .toCurrency()
+                      : '',
+                ),
+              )),
             ],
           ),
         ),
@@ -198,5 +269,54 @@ class SeiyuAlert extends ConsumerWidget {
     return SingleChildScrollView(
       child: Column(children: list),
     );
+  }
+
+  ///
+  void getSeiyuCreditMap() {
+    seiyuCreditDataMap = {};
+
+    final SeiyuAlertSelectYear = _ref.watch(
+      appParamProvider.select((value) => value.SeiyuAlertSelectYear),
+    );
+
+    final reg = RegExp('西友ネットスーパー');
+
+    for (var i = 1; i <= 12; i++) {
+      final creditSpendMonthlyState = _ref.watch(
+        creditSpendMonthlyProvider(DateTime(SeiyuAlertSelectYear, i)),
+      );
+
+      creditSpendMonthlyState.forEach((element) {
+        if (reg.firstMatch(element.item) != null) {
+          if (element.date.year == SeiyuAlertSelectYear) {
+            seiyuCreditDataMap[element.date.yyyymmdd] = element.price.toInt();
+          }
+        }
+      });
+    }
+
+    //-----------// 1月
+    final creditSpendMonthlyState = _ref.watch(
+      creditSpendMonthlyProvider(DateTime(SeiyuAlertSelectYear + 1)),
+    );
+
+    creditSpendMonthlyState.forEach((element) {
+      if (reg.firstMatch(element.item) != null) {
+        seiyuCreditDataMap[element.date.yyyymmdd] = element.price.toInt();
+      }
+    });
+    //-----------// 1月
+
+    //==============// 仕方ないので
+    seiyuCreditDataMap['2020-12-29'] = 2518;
+    seiyuCreditDataMap['2021-01-19'] = 4610;
+    seiyuCreditDataMap['2021-02-10'] = 5420;
+    seiyuCreditDataMap['2021-07-19'] = 5647;
+    seiyuCreditDataMap['2021-08-21'] = 7415;
+    seiyuCreditDataMap['2021-11-03'] = 5576;
+    seiyuCreditDataMap['2021-11-06'] = 5571;
+    seiyuCreditDataMap['2021-11-15'] = 5653;
+    seiyuCreditDataMap['2021-11-19'] = 5734;
+    //==============// 仕方ないので
   }
 }
