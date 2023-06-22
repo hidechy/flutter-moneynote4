@@ -1,0 +1,130 @@
+// ignore_for_file: must_be_immutable
+
+import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/extensions/extensions.dart';
+
+import '../../../state/device_info/device_info_notifier.dart';
+import '../../../utility/utility.dart';
+import '../../../viewmodel/spend_notifier.dart';
+import '../_money_dialog.dart';
+import '../monthly_spend_alert.dart';
+import '../monthly_unit_spend_graph_alert.dart';
+
+class MonthlyUnitSpendPage extends ConsumerWidget {
+  MonthlyUnitSpendPage({super.key, required this.date});
+
+  final DateTime date;
+
+  final Utility _utility = Utility();
+
+  late BuildContext _context;
+  late WidgetRef _ref;
+
+  ///
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    _context = context;
+    _ref = ref;
+
+    final deviceInfoState = ref.read(deviceInfoProvider);
+
+    return AlertDialog(
+      titlePadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.zero,
+      backgroundColor: Colors.transparent,
+      insetPadding: EdgeInsets.zero,
+      content: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        width: double.infinity,
+        height: double.infinity,
+        child: DefaultTextStyle(
+          style: const TextStyle(fontSize: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20),
+              Container(width: context.screenSize.width),
+
+              //----------//
+              if (deviceInfoState.model == 'iPhone')
+                _utility.getFileNameDebug(name: runtimeType.toString()),
+              //----------//
+
+              Container(
+                alignment: Alignment.topRight,
+                child: GestureDetector(
+                  onTap: () {
+                    MoneyDialog(
+                      context: context,
+                      widget: MonthlyUnitSpendGraphAlert(date: date),
+                    );
+                  },
+                  child: const Icon(Icons.graphic_eq),
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              Expanded(
+                child: displayMonthlyUnitSpend(),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  ///
+  Widget displayMonthlyUnitSpend() {
+    final spendMonthUnitState = _ref.watch(spendMonthUnitProvider(date));
+
+    return SingleChildScrollView(
+      child: Column(
+        children: spendMonthUnitState.entries.map((e) {
+          return Container(
+            padding: const EdgeInsets.all(10),
+            margin: const EdgeInsets.only(bottom: 10),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.white.withOpacity(0.3),
+                ),
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(e.key),
+                Row(
+                  children: [
+                    Text(e.value.toString().toCurrency()),
+                    const SizedBox(width: 20),
+                    GestureDetector(
+                      onTap: () {
+                        MoneyDialog(
+                          context: _context,
+                          widget: MonthlySpendAlert(
+                            date: DateTime(
+                              e.key.split('-')[0].toInt(),
+                              e.key.split('-')[1].toInt(),
+                            ),
+                          ),
+                        );
+                      },
+                      child: Icon(
+                        Icons.details,
+                        color: Colors.white.withOpacity(0.8),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+}

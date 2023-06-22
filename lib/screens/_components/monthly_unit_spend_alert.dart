@@ -1,182 +1,85 @@
-// ignore_for_file: must_be_immutable, non_constant_identifier_names
+// ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:uuid/uuid.dart';
+import 'package:moneynote4/screens/_components/pages/monthly_unit_spend_page.dart';
 
-import '../../extensions/extensions.dart';
-import '../../state/app_param/app_param_notifier.dart';
-import '../../state/device_info/device_info_notifier.dart';
-import '../../utility/utility.dart';
-import '../../viewmodel/spend_notifier.dart';
-import '_money_dialog.dart';
-import 'monthly_spend_alert.dart';
-import 'monthly_unit_spend_graph_alert.dart';
+class TabInfo {
+  TabInfo(this.label, this.widget);
 
-class MonthlyUnitSpendAlert extends ConsumerWidget {
+  String label;
+  Widget widget;
+}
+
+class MonthlyUnitSpendAlert extends StatelessWidget {
   MonthlyUnitSpendAlert({super.key, required this.date});
 
   final DateTime date;
 
-  final Utility _utility = Utility();
-
-  Uuid uuid = const Uuid();
-
-  late BuildContext _context;
-  late WidgetRef _ref;
+  List<TabInfo> tabs = [];
 
   ///
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    _context = context;
-    _ref = ref;
+  Widget build(BuildContext context) {
+    makeTab();
 
-    final yearWidgetList = makeYearWidgetList();
-
-    final deviceInfoState = ref.read(deviceInfoProvider);
-
-    final MonthlyUnitSpendAlertSelectYear = _ref.watch(
-      appParamProvider.select((value) => value.MonthlyUnitSpendAlertSelectYear),
-    );
-
-    return AlertDialog(
-      titlePadding: EdgeInsets.zero,
-      contentPadding: EdgeInsets.zero,
-      backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.zero,
-      content: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        width: double.infinity,
-        height: double.infinity,
-        child: SingleChildScrollView(
-          child: DefaultTextStyle(
-            style: const TextStyle(fontSize: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                Container(width: context.screenSize.width),
-
-                //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
-                //----------//
-
-                Row(children: yearWidgetList),
-
-                const SizedBox(height: 20),
-
-                Container(
-                  alignment: Alignment.topRight,
-                  child: GestureDetector(
-                    onTap: () {
-                      MoneyDialog(
-                        context: context,
-                        widget: MonthlyUnitSpendGraphAlert(
-                            date: DateTime(MonthlyUnitSpendAlertSelectYear)),
-                      );
-                    },
-                    child: const Icon(Icons.graphic_eq),
-                  ),
-                ),
-
-                const SizedBox(height: 20),
-
-                displayMonthlyUnitSpend(),
-              ],
+    return DefaultTabController(
+      length: tabs.length,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
+          child: AppBar(
+            backgroundColor: Colors.transparent,
+            //-------------------------//これを消すと「←」が出てくる（消さない）
+            leading: const Icon(
+              Icons.check_box_outline_blank,
+              color: Colors.transparent,
             ),
-          ),
-        ),
-      ),
-    );
-  }
+            //-------------------------//これを消すと「←」が出てくる（消さない）
 
-  ///
-  List<Widget> makeYearWidgetList() {
-    final MonthlyUnitSpendAlertSelectYear = _ref.watch(
-      appParamProvider.select((value) => value.MonthlyUnitSpendAlertSelectYear),
-    );
-
-    final yearList = <Widget>[];
-    for (var i = date.yyyy.toInt(); i >= 2020; i--) {
-      yearList.add(
-        GestureDetector(
-          onTap: () {
-            _ref
-                .watch(appParamProvider.notifier)
-                .setMonthlyUnitSpendAlertSelectYear(year: i);
-
-            _ref
-                .watch(spendMonthUnitProvider(date).notifier)
-                .getSpendMonthUnit(date: DateTime(i));
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-            margin: const EdgeInsets.only(right: 10),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white.withOpacity(0.5)),
-              color: (i == MonthlyUnitSpendAlertSelectYear)
-                  ? Colors.yellowAccent.withOpacity(0.2)
-                  : null,
+            bottom: TabBar(
+              isScrollable: true,
+              indicatorColor: Colors.blueAccent,
+              tabs: tabs.map((TabInfo tab) {
+                return Tab(text: tab.label);
+              }).toList(),
             ),
-            child: Text(i.toString()),
-          ),
-        ),
-      );
-    }
 
-    return yearList;
-  }
-
-  ///
-  Widget displayMonthlyUnitSpend() {
-    final spendMonthUnitState = _ref.watch(spendMonthUnitProvider(date));
-
-    return SingleChildScrollView(
-      child: Column(
-        children: spendMonthUnitState.entries.map((e) {
-          return Container(
-            padding: const EdgeInsets.all(10),
-            margin: const EdgeInsets.only(bottom: 10),
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Colors.white.withOpacity(0.3),
-                ),
+            flexibleSpace: const DecoratedBox(
+              decoration: BoxDecoration(
+                color: Colors.transparent,
               ),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(e.key),
-                Row(
-                  children: [
-                    Text(e.value.toString().toCurrency()),
-                    const SizedBox(width: 20),
-                    GestureDetector(
-                      onTap: () {
-                        MoneyDialog(
-                          context: _context,
-                          widget: MonthlySpendAlert(
-                            date: DateTime(
-                              e.key.split('-')[0].toInt(),
-                              e.key.split('-')[1].toInt(),
-                            ),
-                          ),
-                        );
-                      },
-                      child: Icon(
-                        Icons.details,
-                        color: Colors.white.withOpacity(0.8),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
-        }).toList(),
+          ),
+        ),
+        body: TabBarView(
+          children: tabs.map((tab) => tab.widget).toList(),
+        ),
       ),
     );
+  }
+
+  ///
+  void makeTab() {
+    tabs = [];
+
+    final list = <int>[];
+
+    for (var i = 2020; i <= DateTime.now().year; i++) {
+      list.add(i);
+    }
+
+    list
+      ..sort((a, b) => -1 * a.compareTo(b))
+      ..forEach((element) {
+        tabs.add(
+          TabInfo(
+            element.toString(),
+            MonthlyUnitSpendPage(
+              date: DateTime(element),
+            ),
+          ),
+        );
+      });
   }
 }
