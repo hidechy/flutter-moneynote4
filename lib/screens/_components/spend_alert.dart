@@ -1,239 +1,82 @@
-// ignore_for_file: must_be_immutable, sized_box_shrink_expand
+// ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/_money_dialog.dart';
-import 'package:moneynote4/screens/_components/time_location_alert.dart';
 
 import '../../extensions/extensions.dart';
-import '../../state/device_info/device_info_notifier.dart';
-import '../../utility/utility.dart';
-import '../../viewmodel/spend_notifier.dart';
-import '../../viewmodel/time_place_notifier.dart';
+import 'pages/spend_page.dart';
 
-class SpendAlert extends ConsumerWidget {
+class TabInfo {
+  TabInfo(this.label, this.widget);
+
+  String label;
+  Widget widget;
+}
+
+class SpendAlert extends StatelessWidget {
   SpendAlert({super.key, required this.date, required this.diff});
 
   final DateTime date;
   final String diff;
 
-  final Utility _utility = Utility();
-
-  late WidgetRef _ref;
+  List<TabInfo> tabs = [];
 
   ///
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    _ref = ref;
+  Widget build(BuildContext context) {
+    makeTab();
 
-    final deviceInfoState = ref.read(deviceInfoProvider);
+    return DefaultTabController(
+      length: tabs.length,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
+          child: AppBar(
+            backgroundColor: Colors.transparent,
+            //-------------------------//これを消すと「←」が出てくる（消さない）
+            leading: const Icon(
+              Icons.check_box_outline_blank,
+              color: Colors.transparent,
+            ),
+            //-------------------------//これを消すと「←」が出てくる（消さない）
 
-    return AlertDialog(
-      titlePadding: EdgeInsets.zero,
-      contentPadding: EdgeInsets.zero,
-      backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.zero,
-      content: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        width: double.infinity,
-        height: double.infinity,
-        child: SingleChildScrollView(
-          child: DefaultTextStyle(
-            style: const TextStyle(fontSize: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                Container(width: context.screenSize.width),
+            bottom: TabBar(
+              isScrollable: true,
+              indicatorColor: Colors.blueAccent,
+              tabs: tabs.map((TabInfo tab) {
+                return Tab(text: tab.label);
+              }).toList(),
+            ),
 
-                //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
-                //----------//
-
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.indigo,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    date.toString().split(' ')[0],
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                ),
-                SizedBox(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(),
-                      Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                diff.toCurrency(),
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  height: context.screenSize.height * 0.2,
-                  child: displaySpendItem(),
-                ),
-                Divider(
-                  color: Colors.yellowAccent.withOpacity(0.2),
-                  thickness: 5,
-                ),
-
-                SizedBox(
-                  width: double.infinity,
-                  height: context.screenSize.height * 0.2,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: GestureDetector(
-                          onTap: () {
-                            MoneyDialog(
-                              context: context,
-                              widget: TimeLocationAlert(date: date),
-                            );
-                          },
-                          child: Icon(
-                            Icons.info_outline,
-                            color: Colors.white.withOpacity(0.6),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 20),
-                      Expanded(
-                        child: displayTimeplace(),
-                      ),
-                    ],
-                  ),
-                ),
-                Divider(
-                  color: Colors.yellowAccent.withOpacity(0.2),
-                  thickness: 5,
-                ),
-              ],
+            flexibleSpace: const DecoratedBox(
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+              ),
             ),
           ),
+        ),
+        body: TabBarView(
+          children: tabs.map((tab) => tab.widget).toList(),
         ),
       ),
     );
   }
 
   ///
-  Widget displaySpendItem() {
-    final spendItemDailyState = _ref.watch(spendItemDailyProvider(date));
+  void makeTab() {
+    tabs = [];
 
-    final list = <Widget>[];
+    for (var i = 0; i < 7; i++) {
+      final day = date.add(Duration(days: i * -1));
 
-    for (var i = 0; i < spendItemDailyState.item.length; i++) {
-      final exValue = spendItemDailyState.item[i].split('|');
-
-      final color = getRowTextColor(kind: exValue[1]);
-
-      list.add(
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 3),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.white.withOpacity(0.3),
-              ),
-            ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                exValue[0],
-                style: TextStyle(color: color),
-              ),
-              Text(
-                exValue[2].toCurrency(),
-                style: TextStyle(color: color),
-              ),
-            ],
+      tabs.add(
+        TabInfo(
+          day.yyyymmdd,
+          SpendPage(
+            date: day,
           ),
         ),
       );
     }
-
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: list,
-      ),
-    );
-  }
-
-  ///
-  Color getRowTextColor({required String kind}) {
-    switch (kind) {
-      case '(bank)':
-        return Colors.lightBlueAccent;
-      case '(income)':
-        return Colors.yellowAccent;
-      default:
-        return Colors.white;
-    }
-  }
-
-  ///
-  Widget displayTimeplace() {
-    final timeplaceState = _ref.watch(onedayTimeplaceProvider(date));
-
-    final list = <Widget>[];
-
-    for (var i = 0; i < timeplaceState.length; i++) {
-      list.add(
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 3),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.white.withOpacity(0.3),
-              ),
-            ),
-          ),
-          child: Row(
-            children: [
-              SizedBox(
-                width: 60,
-                child: Text(timeplaceState[i].time),
-              ),
-              Expanded(child: Text(timeplaceState[i].place)),
-              Container(
-                width: 50,
-                alignment: Alignment.topRight,
-                child: Text(
-                  timeplaceState[i].price.toString().toCurrency(),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: list,
-      ),
-    );
   }
 }
