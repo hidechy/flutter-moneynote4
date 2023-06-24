@@ -120,7 +120,7 @@ class SpendPage extends ConsumerWidget {
     for (var i = 0; i < spendItemDailyState.item.length; i++) {
       final exValue = spendItemDailyState.item[i].split('|');
 
-      if (exValue[0] == '収入' || exValue[0] == 'プラス') {
+      if (exValue[0] == '収入') {
         diff -= exValue[2].toInt();
       } else {
         diff += exValue[2].toInt();
