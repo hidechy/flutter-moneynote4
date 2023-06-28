@@ -52,9 +52,36 @@ class SpendItemInputScreen extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(date.yyyymmdd),
-                    IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: const Icon(Icons.close),
+                    Row(
+                      children: [
+                        Text(
+                          (spendItemInputState.diff != 0)
+                              ? spendItemInputState.diff.toString().toCurrency()
+                              : spendItemInputState.baseDiff.toCurrency(),
+                          style: TextStyle(
+                            color: (spendItemInputState.diff == 0) ? Colors.yellowAccent : Colors.white,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () async {
+                            await _ref.watch(spendItemInputProvider(diff).notifier).inputSpendItem(date: date);
+
+                            await Vibration.vibrate(
+                              pattern: [500, 1000, 500, 2000],
+                            );
+
+                            Navigator.pop(_context);
+                          },
+                          icon: const Icon(
+                            Icons.input,
+                            color: Colors.pinkAccent,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () => Navigator.pop(context),
+                          icon: const Icon(Icons.close),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -62,46 +89,12 @@ class SpendItemInputScreen extends ConsumerWidget {
                   thickness: 2,
                   color: Colors.white.withOpacity(0.4),
                 ),
-                Expanded(
-                  child: displayInputParts(),
-                ),
+                Expanded(child: displayInputParts()),
                 Divider(
                   thickness: 2,
                   color: Colors.white.withOpacity(0.4),
                 ),
                 displayNumSetPanel(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      (spendItemInputState.diff != 0)
-                          ? spendItemInputState.diff.toString().toCurrency()
-                          : spendItemInputState.baseDiff.toCurrency(),
-                      style: TextStyle(
-                        color: (spendItemInputState.diff == 0)
-                            ? Colors.yellowAccent
-                            : Colors.white,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () async {
-                        await _ref
-                            .watch(spendItemInputProvider(diff).notifier)
-                            .inputSpendItem(date: date);
-
-                        await Vibration.vibrate(
-                          pattern: [500, 1000, 500, 2000],
-                        );
-
-                        Navigator.pop(_context);
-                      },
-                      icon: const Icon(
-                        Icons.input,
-                        color: Colors.pinkAccent,
-                      ),
-                    ),
-                  ],
-                ),
                 const SizedBox(height: 20),
               ],
             ),
@@ -141,8 +134,7 @@ class SpendItemInputScreen extends ConsumerWidget {
     spendItem = [];
 
     [DateTime(date.year - 1), DateTime(date.year)].forEach((element) {
-      final spendMonthDetailState =
-          _ref.watch(spendMonthDetailProvider(element));
+      final spendMonthDetailState = _ref.watch(spendMonthDetailProvider(element));
 
       spendMonthDetailState.list.forEach((element2) {
         element2.item.forEach((element3) {
@@ -192,9 +184,7 @@ class SpendItemInputScreen extends ConsumerWidget {
                 activeColor: Colors.orangeAccent,
                 value: spendItemInputState.minusCheck[i],
                 onChanged: (check) {
-                  _ref
-                      .watch(spendItemInputProvider(diff).notifier)
-                      .setMinusCheck(pos: i);
+                  _ref.watch(spendItemInputProvider(diff).notifier).setMinusCheck(pos: i);
                 },
                 side: BorderSide(color: Colors.white.withOpacity(0.8)),
               ),
@@ -213,9 +203,7 @@ class SpendItemInputScreen extends ConsumerWidget {
                   ),
                   style: const TextStyle(fontSize: 12),
                   onChanged: (value) {
-                    _ref
-                        .watch(spendItemInputProvider(diff).notifier)
-                        .setSpendPrice(pos: i, price: value.toInt());
+                    _ref.watch(spendItemInputProvider(diff).notifier).setSpendPrice(pos: i, price: value.toInt());
                   },
                 ),
               ),
@@ -254,9 +242,7 @@ class SpendItemInputScreen extends ConsumerWidget {
                     selectedColor: Colors.yellowAccent.withOpacity(0.4),
                     selected: i == spendItemInputState.itemPos,
                     onSelected: (bool isSelected) {
-                      _ref
-                          .watch(spendItemInputProvider(diff).notifier)
-                          .setItemPos(pos: i);
+                      _ref.watch(spendItemInputProvider(diff).notifier).setItemPos(pos: i);
                     },
                   ),
                 )
@@ -270,12 +256,9 @@ class SpendItemInputScreen extends ConsumerWidget {
                 (e == '') ? '_ clear _' : e,
                 style: const TextStyle(fontSize: 12),
               ),
-              backgroundColor: (e == '')
-                  ? Colors.white.withOpacity(0.1)
-                  : Colors.black.withOpacity(0.1),
+              backgroundColor: (e == '') ? Colors.white.withOpacity(0.1) : Colors.black.withOpacity(0.1),
               selectedColor: Colors.black.withOpacity(0.1),
-              selected: e ==
-                  spendItemInputState.spendItem[spendItemInputState.itemPos],
+              selected: e == spendItemInputState.spendItem[spendItemInputState.itemPos],
               onSelected: (bool isSelected) {
                 _ref.watch(spendItemInputProvider(diff).notifier).setSpendItem(
                       pos: spendItemInputState.itemPos,
