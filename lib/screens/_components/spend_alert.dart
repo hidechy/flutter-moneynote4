@@ -69,9 +69,11 @@ class SpendAlert extends StatelessWidget {
     for (var i = 0; i < 7; i++) {
       final day = date.add(Duration(days: i * -1));
 
+      final youbi = day.youbiStr.substring(0, 3);
+
       tabs.add(
         TabInfo(
-          day.yyyymmdd,
+          '${day.yyyymmdd}($youbi)',
           SpendPage(
             date: day,
           ),
