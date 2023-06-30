@@ -1,157 +1,119 @@
-// ignore_for_file: must_be_immutable, non_constant_identifier_names
+// ignore_for_file: must_be_immutable, depend_on_referenced_packages, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:uuid/uuid.dart';
 
-import '../../extensions/extensions.dart';
 import '../../state/app_param/app_param_notifier.dart';
-import '../../state/device_info/device_info_notifier.dart';
-import '../../utility/utility.dart';
 import '../../viewmodel/wells_reserve_notifier.dart';
+import 'pages/wells_reserve_page.dart';
 
-class WellsReserveAlert extends ConsumerWidget {
+class TabInfo {
+  TabInfo(this.label, this.widget);
+
+  String label;
+  Widget widget;
+}
+
+class WellsReserveAlert extends HookConsumerWidget {
   WellsReserveAlert({super.key, required this.date});
 
   final DateTime date;
 
-  final Utility _utility = Utility();
-
-  Uuid uuid = const Uuid();
-
-  late WidgetRef _ref;
+  List<TabInfo> tabs = [];
+  List<int> years = [];
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    _ref = ref;
+    makeTab();
 
-    final yearWidgetList = makeYearWidgetList();
+    //================================//
+    final tabController = useTabController(initialLength: years.length);
+    tabController.addListener(() {
+      ref.watch(appParamProvider.notifier).setWellsReserveAlertYear(year: years[tabController.index]);
+      ref.watch(wellsReserveProvider.notifier).getWellsReserveNotifier(date: DateTime(years[tabController.index]));
+    });
+    //================================//
 
-    final deviceInfoState = ref.read(deviceInfoProvider);
+    //================================//
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final WellsReserveAlertYear = ref.watch(appParamProvider.select((value) => value.WellsReserveAlertYear));
+      if (WellsReserveAlertYear == DateTime.now().year) {
+        ref.watch(wellsReserveProvider.notifier).getWellsReserveNotifier(date: DateTime.now());
+      }
+    });
+    //================================//
 
-    return AlertDialog(
-      titlePadding: EdgeInsets.zero,
-      contentPadding: EdgeInsets.zero,
-      backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.zero,
-      content: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        width: double.infinity,
-        height: double.infinity,
-        child: SingleChildScrollView(
-          child: DefaultTextStyle(
-            style: const TextStyle(fontSize: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                Container(width: context.screenSize.width),
+    return DefaultTabController(
+      length: tabs.length,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
+          child: AppBar(
+            backgroundColor: Colors.transparent,
+            //-------------------------//これを消すと「←」が出てくる（消さない）
+            leading: const Icon(
+              Icons.check_box_outline_blank,
+              color: Colors.transparent,
+            ),
+            //-------------------------//これを消すと「←」が出てくる（消さない）
 
-                //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
-                //----------//
+            bottom: TabBar(
+              //================================//
+              controller: tabController,
+              //================================//
 
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: yearWidgetList,
-                  ),
-                ),
+              isScrollable: true,
 
-                const SizedBox(height: 20),
-                displayWellsReserve(),
-              ],
+              indicatorColor: Colors.blueAccent,
+              tabs: tabs.map((TabInfo tab) {
+                return Tab(text: tab.label);
+              }).toList(),
+            ),
+
+            flexibleSpace: const DecoratedBox(
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+              ),
             ),
           ),
+        ),
+        body: TabBarView(
+          //================================//
+          controller: tabController,
+          //================================//
+
+          children: tabs.map((tab) => tab.widget).toList(),
         ),
       ),
     );
   }
 
   ///
-  List<Widget> makeYearWidgetList() {
-    final WellsReserveAlertYear = _ref.watch(
-      appParamProvider.select((value) => value.WellsReserveAlertYear),
-    );
+  void makeTab() {
+    tabs = [];
 
-    final yearList = <Widget>[];
-    for (var i = date.yyyy.toInt(); i >= 2014; i--) {
-      yearList.add(
-        GestureDetector(
-          onTap: () {
-            _ref
-                .watch(appParamProvider.notifier)
-                .setWellsReserveAlertYear(year: i);
+    final list = <int>[];
 
-            _ref
-                .watch(wellsReserveProvider.notifier)
-                .getWellsReserveNotifier(date: DateTime(i));
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-            margin: const EdgeInsets.only(right: 10),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white.withOpacity(0.5)),
-              color: (i == WellsReserveAlertYear)
-                  ? Colors.yellowAccent.withOpacity(0.2)
-                  : null,
-            ),
-            child: Text(i.toString()),
-          ),
-        ),
-      );
+    for (var i = 2014; i <= DateTime.now().year; i++) {
+      list.add(i);
     }
 
-    return yearList;
-  }
-
-  ///
-  Widget displayWellsReserve() {
-    final wellsReserveState = _ref.watch(wellsReserveProvider);
-
-    final list = <Widget>[];
-
-    for (var i = 0; i < wellsReserveState.length; i++) {
-      list.add(
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 3),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.white.withOpacity(0.3),
-              ),
+    list
+      ..sort((a, b) => -1 * a.compareTo(b))
+      ..forEach((element) {
+        tabs.add(
+          TabInfo(
+            element.toString(),
+            WellsReservePage(
+              date: DateTime(element),
             ),
           ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Text(wellsReserveState[i].num),
-              ),
-              Expanded(
-                child: Text(wellsReserveState[i].date.yyyymmdd),
-              ),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.topRight,
-                  child: Text(wellsReserveState[i].price.toCurrency()),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.topRight,
-                  child: Text(wellsReserveState[i].total.toCurrency()),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
+        );
 
-    return SingleChildScrollView(
-      child: Column(children: list),
-    );
+        years.add(element);
+      });
   }
 }
