@@ -1,175 +1,86 @@
-// ignore_for_file: must_be_immutable, non_constant_identifier_names
+// ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:uuid/uuid.dart';
 
-import '../../extensions/extensions.dart';
-import '../../state/app_param/app_param_notifier.dart';
-import '../../state/device_info/device_info_notifier.dart';
-import '../../utility/utility.dart';
-import '../../viewmodel/amazon_notifier.dart';
+import 'pages/amazon_page.dart';
 
-class AmazonAlert extends HookConsumerWidget {
+class TabInfo {
+  TabInfo(this.label, this.widget);
+
+  String label;
+  Widget widget;
+}
+
+class AmazonAlert extends StatelessWidget {
   AmazonAlert({super.key, required this.date});
 
   final DateTime date;
 
-  final Utility _utility = Utility();
-
-  Uuid uuid = const Uuid();
-
-  late BuildContext _context;
-  late WidgetRef _ref;
+  List<TabInfo> tabs = [];
 
   ///
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    _context = context;
-    _ref = ref;
+  Widget build(BuildContext context) {
+    makeTab();
 
-    final yearWidgetList = makeYearWidgetList();
+    return DefaultTabController(
+      length: tabs.length,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
+          child: AppBar(
+            backgroundColor: Colors.transparent,
+            //-------------------------//これを消すと「←」が出てくる（消さない）
+            leading: const Icon(
+              Icons.check_box_outline_blank,
+              color: Colors.transparent,
+            ),
+            //-------------------------//これを消すと「←」が出てくる（消さない）
 
-    final deviceInfoState = ref.read(deviceInfoProvider);
+            bottom: TabBar(
+              isScrollable: true,
+              indicatorColor: Colors.blueAccent,
+              tabs: tabs.map((TabInfo tab) {
+                return Tab(text: tab.label);
+              }).toList(),
+            ),
 
-    return AlertDialog(
-      titlePadding: EdgeInsets.zero,
-      contentPadding: EdgeInsets.zero,
-      backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.zero,
-      content: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        width: double.infinity,
-        height: double.infinity,
-        child: SingleChildScrollView(
-          child: DefaultTextStyle(
-            style: const TextStyle(fontSize: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                Container(width: context.screenSize.width),
-
-                //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
-                //----------//
-
-                Row(children: yearWidgetList),
-                const SizedBox(height: 20),
-                displayAmazonPurchase(),
-              ],
+            flexibleSpace: const DecoratedBox(
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+              ),
             ),
           ),
+        ),
+        body: TabBarView(
+          children: tabs.map((tab) => tab.widget).toList(),
         ),
       ),
     );
   }
 
   ///
-  List<Widget> makeYearWidgetList() {
-    final AmazonAlertSelectYear = _ref.watch(
-      appParamProvider.select((value) => value.AmazonAlertSelectYear),
-    );
+  void makeTab() {
+    tabs = [];
 
-    final yearList = <Widget>[];
-    for (var i = date.yyyy.toInt(); i >= 2020; i--) {
-      yearList.add(
-        GestureDetector(
-          onTap: () {
-            _ref
-                .watch(appParamProvider.notifier)
-                .setAmazonAlertSelectYear(year: i);
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-            margin: const EdgeInsets.only(right: 10),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white.withOpacity(0.5)),
-              color: (i == AmazonAlertSelectYear)
-                  ? Colors.yellowAccent.withOpacity(0.2)
-                  : null,
-            ),
-            child: Text(i.toString()),
-          ),
-        ),
-      );
+    final list = <int>[];
+
+    for (var i = 2020; i <= DateTime.now().year; i++) {
+      list.add(i);
     }
 
-    return yearList;
-  }
-
-  ///
-  Widget displayAmazonPurchase() {
-    final AmazonAlertSelectYear = _ref.watch(
-      appParamProvider.select((value) => value.AmazonAlertSelectYear),
-    );
-
-    final amazonPurchaseState = _ref.watch(
-      amazonPurchaseProvider(DateTime(AmazonAlertSelectYear)),
-    );
-
-    final list = <Widget>[];
-
-    amazonPurchaseState.forEach((element) {
-      final month = DateTime.parse(element.date).mm;
-
-      list.add(
-        Container(
-          width: _context.screenSize.width,
-          padding: const EdgeInsets.symmetric(vertical: 3),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.white.withOpacity(0.3),
-              ),
+    list
+      ..sort((a, b) => -1 * a.compareTo(b))
+      ..forEach((element) {
+        tabs.add(
+          TabInfo(
+            element.toString(),
+            AmazonPage(
+              date: DateTime(element),
             ),
           ),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white.withOpacity(0.8)),
-                  color: _utility.getLeadingBgColor(month: month),
-                ),
-                child: Text(month),
-              ),
-              const SizedBox(width: 20),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(element.item),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(),
-                        Row(
-                          children: [
-                            Text(element.price.toCurrency()),
-                            const SizedBox(width: 10),
-                            const Text('/'),
-                            const SizedBox(width: 10),
-                            Text(element.date),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    });
-
-    return SingleChildScrollView(
-      key: PageStorageKey(uuid.v1()),
-      child: Column(
-        children: list,
-      ),
-    );
+        );
+      });
   }
 }
