@@ -12,6 +12,7 @@ import 'package:uuid/uuid.dart';
 import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
+import '../../viewmodel/money_notifier.dart';
 import '../../viewmodel/spend_notifier.dart';
 
 class SamedaySpendAlert extends ConsumerWidget {
@@ -53,8 +54,7 @@ class SamedaySpendAlert extends ConsumerWidget {
                 Container(width: context.screenSize.width),
 
                 //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
                 //----------//
 
                 GestureDetector(
@@ -104,9 +104,7 @@ class SamedaySpendAlert extends ConsumerWidget {
       list.add(
         GestureDetector(
           onTap: () {
-            _ref
-                .watch(appParamProvider.notifier)
-                .setSamedaySpendAlertDay(day: i);
+            _ref.watch(appParamProvider.notifier).setSamedaySpendAlertDay(day: i);
 
             _ref.watch(samedaySpendProvider(date).notifier).getSamedaySpend(
                   date: DateTime(
@@ -123,9 +121,7 @@ class SamedaySpendAlert extends ConsumerWidget {
             alignment: Alignment.center,
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white),
-              color: (i == SamedaySpendAlertDay)
-                  ? Colors.yellowAccent.withOpacity(0.2)
-                  : null,
+              color: (i == SamedaySpendAlertDay) ? Colors.yellowAccent.withOpacity(0.2) : null,
             ),
             child: Text(i.toString()),
           ),
@@ -146,6 +142,8 @@ class SamedaySpendAlert extends ConsumerWidget {
 
     final list = <Widget>[];
 
+    var j = 0;
+
     for (var i = samedaySpendState.length - 1; i >= 0; i--) {
       list.add(
         Container(
@@ -159,53 +157,71 @@ class SamedaySpendAlert extends ConsumerWidget {
             ),
           ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(samedaySpendState[i].ym),
+              Expanded(
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(samedaySpendState[i].ym),
+                        Text(samedaySpendState[i].sum.toString().toCurrency()),
+                      ],
+                    ),
+                    Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.only(top: 3),
+                      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+                      decoration: BoxDecoration(
+                        color: (j == 0) ? Colors.greenAccent.withOpacity(0.1) : Colors.blueAccent.withOpacity(0.1),
+                      ),
+                      child: (j == 0)
+                          ? displayThisMonthItem(sum: samedaySpendState[i].sum)
+                          : displayPastMonthItem(
+                              sum: samedaySpendState[i].sum,
+                              ym: samedaySpendState[i].ym,
+                            ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 10),
               Row(
                 children: [
-                  Text(samedaySpendState[i].sum.toString().toCurrency()),
-                  const SizedBox(width: 10),
-                  Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          final year =
-                              samedaySpendState[i].ym.split('-')[0].toInt();
-                          final month =
-                              samedaySpendState[i].ym.split('-')[1].toInt() + 1;
+                  GestureDetector(
+                    onTap: () {
+                      final year = samedaySpendState[i].ym.split('-')[0].toInt();
+                      final month = samedaySpendState[i].ym.split('-')[1].toInt() + 1;
 
-                          MoneyDialog(
-                            context: _context,
-                            widget: MonthlySpendAlert(
-                              date: DateTime(year, month),
-                            ),
-                          );
-                        },
-                        child: Icon(
-                          Icons.info_outline,
-                          color: Colors.white.withOpacity(0.6),
+                      MoneyDialog(
+                        context: _context,
+                        widget: MonthlySpendAlert(
+                          date: DateTime(year, month),
                         ),
-                      ),
-                      const SizedBox(width: 10),
-                      GestureDetector(
-                        onTap: () {
-                          MoneyDialog(
-                            context: _context,
-                            widget: SamedaySpendGraphAlert(
-                              date: DateTime(
-                                samedaySpendState[i].ym.split('-')[0].toInt(),
-                                samedaySpendState[i].ym.split('-')[1].toInt(),
-                              ),
-                            ),
-                          );
-                        },
-                        child: Icon(
-                          Icons.graphic_eq,
-                          color: Colors.white.withOpacity(0.6),
+                      );
+                    },
+                    child: Icon(
+                      Icons.info_outline,
+                      color: Colors.white.withOpacity(0.6),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  GestureDetector(
+                    onTap: () {
+                      MoneyDialog(
+                        context: _context,
+                        widget: SamedaySpendGraphAlert(
+                          date: DateTime(
+                            samedaySpendState[i].ym.split('-')[0].toInt(),
+                            samedaySpendState[i].ym.split('-')[1].toInt(),
+                          ),
                         ),
-                      ),
-                    ],
+                      );
+                    },
+                    child: Icon(
+                      Icons.graphic_eq,
+                      color: Colors.white.withOpacity(0.6),
+                    ),
                   ),
                 ],
               ),
@@ -213,12 +229,63 @@ class SamedaySpendAlert extends ConsumerWidget {
           ),
         ),
       );
+
+      j++;
     }
 
     return SingleChildScrollView(
       child: Column(
         children: list,
       ),
+    );
+  }
+
+  ///
+  Widget displayThisMonthItem({required int sum}) {
+    final SamedaySpendAlertDay = _ref.watch(
+      appParamProvider.select((value) => value.SamedaySpendAlertDay),
+    );
+
+    final wari = sum / SamedaySpendAlertDay;
+
+    final monthEnd = DateTime(date.year, date.month + 1, 0);
+
+    final estimate = wari.toString().split('.')[0].toInt() * monthEnd.day;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(wari.toString().split('.')[0].toCurrency()),
+        Text(estimate.toString().toCurrency()),
+      ],
+    );
+  }
+
+  ///
+  Widget displayPastMonthItem({required int sum, required String ym}) {
+    final moneyScoreState = _ref.watch(moneyScoreProvider);
+
+    var spend = 0;
+
+    //forで仕方ない
+    for (var i = 1; i < moneyScoreState.length; i++) {
+      if (moneyScoreState[i].ym == ym) {
+        final sagaku = (moneyScoreState[i].updown == 1) ? moneyScoreState[i].sagaku * -1 : moneyScoreState[i].sagaku;
+
+        spend = (moneyScoreState[i].updown == 1)
+            ? (moneyScoreState[i].benefit - sagaku)
+            : moneyScoreState[i].benefit + sagaku;
+      }
+    }
+
+    final wari = ((sum * 100) / spend).toString().split('.')[0];
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(spend.toString().toCurrency()),
+        Text('$wari %'),
+      ],
     );
   }
 }
