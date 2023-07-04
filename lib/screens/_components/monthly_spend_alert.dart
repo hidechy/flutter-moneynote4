@@ -68,7 +68,7 @@ class MonthlySpendAlert extends StatelessWidget {
 
     for (var i = 2020; i <= DateTime.now().year; i++) {
       for (var j = 1; j <= 12; j++) {
-        if (DateTime(i, j).isBefore(date)) {
+        if (!DateTime(i, j).isAfter(date)) {
           list.add('$i-${j.toString().padLeft(2, '0')}');
         }
       }
