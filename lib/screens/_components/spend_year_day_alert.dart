@@ -125,7 +125,7 @@ class SpendYearDayAlert extends ConsumerWidget {
                           ? Container()
                           : Text(
                               everydayMoney[element.date.yyyymmdd].toString().toCurrency(),
-                              style: TextStyle(color: Colors.grey),
+                              style: const TextStyle(color: Colors.grey),
                             ),
                     ),
                   ),

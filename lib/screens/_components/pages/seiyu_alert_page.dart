@@ -143,6 +143,18 @@ class SeiyuAlertPage extends ConsumerWidget {
           ),
           child: Row(
             children: [
+              CircleAvatar(
+                radius: 12,
+                backgroundColor: _utility.getLeadingBgColor(month: element.split('-')[1]),
+                child: Text(
+                  element.split('-')[1],
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
               Expanded(
                 flex: 2,
                 child: Text('$hiduke（$youbi）'),
@@ -162,16 +174,17 @@ class SeiyuAlertPage extends ConsumerWidget {
                 ),
               ),
               Expanded(
-                  child: Container(
-                alignment: Alignment.topRight,
-                child: Text(
-                  (seiyuCreditDataMap[element] != null)
-                      ? (seiyuDateSumMap[element].toString().toInt() - seiyuCreditDataMap[element].toString().toInt())
-                          .toString()
-                          .toCurrency()
-                      : '',
+                child: Container(
+                  alignment: Alignment.topRight,
+                  child: Text(
+                    (seiyuCreditDataMap[element] != null)
+                        ? (seiyuDateSumMap[element].toString().toInt() - seiyuCreditDataMap[element].toString().toInt())
+                            .toString()
+                            .toCurrency()
+                        : '',
+                  ),
                 ),
-              )),
+              ),
             ],
           ),
         ),
