@@ -191,7 +191,7 @@ class SamedaySpendAlert extends ConsumerWidget {
                   GestureDetector(
                     onTap: () {
                       final year = samedaySpendState[i].ym.split('-')[0].toInt();
-                      final month = samedaySpendState[i].ym.split('-')[1].toInt() + 1;
+                      final month = samedaySpendState[i].ym.split('-')[1].toInt();
 
                       MoneyDialog(
                         context: _context,

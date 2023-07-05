@@ -46,8 +46,7 @@ class MoneyPage extends ConsumerWidget {
 
     final moneyState = ref.watch(moneyProvider(date));
 
-    final yesterday = _utility.makeSpecialDate(
-        date: date, usage: 'day', plusminus: 'minus', num: 1);
+    final yesterday = _utility.makeSpecialDate(date: date, usage: 'day', plusminus: 'minus', num: 1);
 
     final yesterdayMoney = ref.watch(moneyProvider(yesterday!));
 
@@ -81,17 +80,14 @@ class MoneyPage extends ConsumerWidget {
                 Container(width: context.screenSize.width),
 
                 //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
                 //----------//
 
                 ExpansionTile(
                   initiallyExpanded: appParamState.openMoneyArea,
                   iconColor: Colors.white,
                   onExpansionChanged: (value) {
-                    ref
-                        .watch(appParamProvider.notifier)
-                        .setOpenMoneyArea(value: value);
+                    ref.watch(appParamProvider.notifier).setOpenMoneyArea(value: value);
                   },
                   title: Text(
                     appParamState.openMoneyArea == false ? 'OPEN' : 'CLOSE',
@@ -228,8 +224,7 @@ class MoneyPage extends ConsumerWidget {
   Widget displaySamedaySpendYearly() {
     final list = <Widget>[];
 
-    final samedaySpendYearlyState =
-        _ref.watch(samedaySpendYearlyProvider(date));
+    final samedaySpendYearlyState = _ref.watch(samedaySpendYearlyProvider(date));
 
     samedaySpendYearlyState.forEach((element) {
       list.add(
@@ -462,17 +457,14 @@ class MoneyPage extends ConsumerWidget {
   }
 
   ///
-  Widget getBankDispRow(
-      {required String name, required String price, required String dt}) {
+  Widget getBankDispRow({required String name, required String price, required String dt}) {
     if (name == '' || price == '' || dt == '') {
       return Container();
     }
 
     final bankName = _utility.getBankName();
 
-    final dayDiff = DateTime.now()
-        .difference(DateTime.parse('${dt.split(' ')[0]} 00:00:00'))
-        .inDays;
+    final dayDiff = DateTime.now().difference(DateTime.parse('${dt.split(' ')[0]} 00:00:00')).inDays;
 
     return DefaultTextStyle(
       style: const TextStyle(fontSize: 12),
@@ -605,15 +597,11 @@ class MoneyPage extends ConsumerWidget {
     var score = 0;
 
     if (goldState.goldValue != null && goldState.payPrice != null) {
-      goldDiff = goldState.goldValue.toString().toInt() -
-          goldState.payPrice.toString().toInt();
+      goldDiff = goldState.goldValue.toString().toInt() - goldState.payPrice.toString().toInt();
 
       notMoneyAsset.add(goldState.goldValue);
 
-      score = ((goldState.goldValue.toString().toInt() /
-                  goldState.payPrice.toString().toInt()) *
-              100)
-          .round();
+      score = ((goldState.goldValue.toString().toInt() / goldState.payPrice.toString().toInt()) * 100).round();
     }
 
     return DefaultTextStyle(
@@ -656,9 +644,7 @@ class MoneyPage extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    (goldState.payPrice == null)
-                        ? Container()
-                        : Text(goldState.payPrice.toString().toCurrency()),
+                    (goldState.payPrice == null) ? Container() : Text(goldState.payPrice.toString().toCurrency()),
                     (goldState.goldValue == null)
                         ? Container()
                         : Text(
@@ -699,11 +685,8 @@ class MoneyPage extends ConsumerWidget {
     var score = '';
 
     if (stockState.price != null && stockState.cost != null) {
-      score = ((stockState.price.toString().toInt() /
-                  stockState.cost.toString().toInt()) *
-              100)
-          .toString()
-          .split('.')[0];
+      score =
+          ((stockState.price.toString().toInt() / stockState.cost.toString().toInt()) * 100).toString().split('.')[0];
     }
 
     return DefaultTextStyle(
@@ -785,9 +768,7 @@ class MoneyPage extends ConsumerWidget {
     var score = '';
 
     if (shintakuState.price != null && shintakuState.cost != null) {
-      score = ((shintakuState.price.toString().toInt() /
-                  shintakuState.cost.toString().toInt()) *
-              100)
+      score = ((shintakuState.price.toString().toInt() / shintakuState.cost.toString().toInt()) * 100)
           .toString()
           .split('.')[0];
     }
