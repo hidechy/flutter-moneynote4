@@ -148,7 +148,7 @@ class SeiyuAlertPage extends ConsumerWidget {
                 backgroundColor: _utility.getLeadingBgColor(month: element.split('-')[1]),
                 child: Text(
                   element.split('-')[1],
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 10,
                     color: Colors.white,
                   ),

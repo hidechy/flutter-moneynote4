@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../models/credit_spend_monthly.dart';
+import '../../../models/keihi.dart';
 import '../../../models/money.dart';
 import '../../../models/money_everyday.dart';
 import '../../../models/zero_use_date.dart';
@@ -14,6 +15,7 @@ import '../../../viewmodel/bank_notifier.dart';
 import '../../../viewmodel/benefit_notifier.dart';
 import '../../../viewmodel/credit_notifier.dart';
 import '../../../viewmodel/holiday_notifier.dart';
+import '../../../viewmodel/keihi_list_notifier.dart';
 import '../../../viewmodel/money_notifier.dart';
 import '../../../viewmodel/spend_notifier.dart';
 import '../../../viewmodel/time_place_notifier.dart';
@@ -38,6 +40,8 @@ class MonthlySpendPage extends ConsumerWidget {
   Map<String, Money> allMoneyMap = {};
 
   int monthTotalSpend = 0;
+
+  Map<String, List<Keihi>> keihiListMap = {};
 
   late BuildContext _context;
   late WidgetRef _ref;
@@ -82,8 +86,7 @@ class MonthlySpendPage extends ConsumerWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      MonthlySpendCheckScreen(date: date),
+                                  builder: (context) => MonthlySpendCheckScreen(date: date),
                                 ),
                               );
                             },
@@ -112,11 +115,9 @@ class MonthlySpendPage extends ConsumerWidget {
     var keepDate = '';
 
     //---------------------//
-    final after1 = _utility.makeSpecialDate(
-        date: date, usage: 'month', plusminus: 'plus', num: 1);
+    final after1 = _utility.makeSpecialDate(date: date, usage: 'month', plusminus: 'plus', num: 1);
 
-    final creditSpendMonthlyState1 =
-        _ref.watch(creditSpendMonthlyProvider(after1!));
+    final creditSpendMonthlyState1 = _ref.watch(creditSpendMonthlyProvider(after1!));
 
     list = <CreditSpendMonthly>[];
     keepDate = '';
@@ -140,11 +141,9 @@ class MonthlySpendPage extends ConsumerWidget {
 
     //---------------------//
 
-    final after2 = _utility.makeSpecialDate(
-        date: date, usage: 'month', plusminus: 'plus', num: 2);
+    final after2 = _utility.makeSpecialDate(date: date, usage: 'month', plusminus: 'plus', num: 2);
 
-    final creditSpendMonthlyState2 =
-        _ref.watch(creditSpendMonthlyProvider(after2!));
+    final creditSpendMonthlyState2 = _ref.watch(creditSpendMonthlyProvider(after2!));
 
     list = <CreditSpendMonthly>[];
     keepDate = '';
@@ -171,6 +170,8 @@ class MonthlySpendPage extends ConsumerWidget {
   void makeMonthlySpendData() {
     displayMonthlySpendList = [];
 
+    makeKeihiListMap();
+
     final spendMonthDetailState = _ref.watch(spendMonthDetailProvider(date));
 
     final holidayState = _ref.watch(holidayProvider);
@@ -195,9 +196,7 @@ class MonthlySpendPage extends ConsumerWidget {
       var daySum = 0;
 
       spendMonthDetailState.list[i].item.forEach((element) {
-        final color = (element.flag.toString() == '1')
-            ? Colors.lightBlueAccent
-            : Colors.white;
+        final color = (element.flag.toString() == '1') ? Colors.lightBlueAccent : Colors.white;
 
         list2.add(
           Container(
@@ -227,8 +226,7 @@ class MonthlySpendPage extends ConsumerWidget {
       });
 
       if (creditSpendMap[spendMonthDetailState.list[i].date.yyyymmdd] != null) {
-        creditSpendMap[spendMonthDetailState.list[i].date.yyyymmdd]!
-            .forEach((element) {
+        creditSpendMap[spendMonthDetailState.list[i].date.yyyymmdd]!.forEach((element) {
           list2.add(
             Container(
               padding: const EdgeInsets.symmetric(vertical: 3),
@@ -272,8 +270,7 @@ class MonthlySpendPage extends ConsumerWidget {
       //////////////////////////////////////////////////////////////////
 
       benefitState.forEach((element) {
-        if (spendMonthDetailState.list[i].date.yyyymmdd ==
-            element.date.yyyymmdd) {
+        if (spendMonthDetailState.list[i].date.yyyymmdd == element.date.yyyymmdd) {
           list2.add(
             Container(
               padding: const EdgeInsets.symmetric(vertical: 3),
@@ -319,8 +316,7 @@ class MonthlySpendPage extends ConsumerWidget {
       //////////////////////////////////////////////////////////////////
 
       bankMoveState.forEach((element) {
-        if (spendMonthDetailState.list[i].date.yyyymmdd ==
-            element.date.yyyymmdd) {
+        if (spendMonthDetailState.list[i].date.yyyymmdd == element.date.yyyymmdd) {
           list2.add(
             Container(
               padding: const EdgeInsets.symmetric(vertical: 3),
@@ -414,7 +410,46 @@ class MonthlySpendPage extends ConsumerWidget {
                   const SizedBox(width: 30),
                   Expanded(
                     child: Column(
-                      children: list2,
+                      children: [
+                        Column(children: list2),
+
+                        /////
+
+                        if (keihiListMap[spendMonthDetailState.list[i].date.yyyymmdd] != null)
+                          DefaultTextStyle(
+                            style: const TextStyle(fontSize: 10),
+                            child: Container(
+                              margin: const EdgeInsets.only(top: 10),
+                              padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
+                              decoration: BoxDecoration(color: Colors.white.withOpacity(0.1)),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [const Text('＜経費＞'), Container()],
+                                  ),
+                                  Column(
+                                    children: keihiListMap[spendMonthDetailState.list[i].date.yyyymmdd]!.map((e) {
+                                      return Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            e.item,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                          ),
+                                          Text(e.price.toString().toCurrency()),
+                                        ],
+                                      );
+                                    }).toList(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+
+                        /////
+                      ],
                     ),
                   ),
                 ],
@@ -429,8 +464,7 @@ class MonthlySpendPage extends ConsumerWidget {
   }
 
   ///
-  Map<String, MoneyEveryday> makeEverydayStateMap(
-      {required List<MoneyEveryday> state}) {
+  Map<String, MoneyEveryday> makeEverydayStateMap({required List<MoneyEveryday> state}) {
     final map = <String, MoneyEveryday>{};
 
     for (var i = 0; i < state.length; i++) {
@@ -462,13 +496,14 @@ class MonthlySpendPage extends ConsumerWidget {
 
   ///
   Widget getMidashiDate(
-      MonthlySpendState spendMonthDetailState,
-      int i,
-      String youbi,
-      int spendZeroFlag,
-      MoneyEveryday? sum,
-      int diff,
-      int daySum) {
+    MonthlySpendState spendMonthDetailState,
+    int i,
+    String youbi,
+    int spendZeroFlag,
+    MoneyEveryday? sum,
+    int diff,
+    int daySum,
+  ) {
     return Column(
       children: [
         Row(
@@ -502,8 +537,7 @@ class MonthlySpendPage extends ConsumerWidget {
                       ),
                     if (diff != 0)
                       Container(
-                        padding:
-                            const EdgeInsets.only(top: 3, bottom: 3, left: 20),
+                        padding: const EdgeInsets.only(top: 3, bottom: 3, left: 20),
                         decoration: BoxDecoration(
                           color: Colors.yellowAccent.withOpacity(0.3),
                         ),
@@ -524,8 +558,7 @@ class MonthlySpendPage extends ConsumerWidget {
                   },
                   child: Icon(
                     Icons.info_outline,
-                    color: (timeplaceDateList.contains(
-                            spendMonthDetailState.list[i].date.yyyymmdd))
+                    color: (timeplaceDateList.contains(spendMonthDetailState.list[i].date.yyyymmdd))
                         ? Colors.yellowAccent.withOpacity(0.8)
                         : Colors.white.withOpacity(0.6),
                   ),
@@ -610,5 +643,25 @@ class MonthlySpendPage extends ConsumerWidget {
         child: Text(value.toCurrency()),
       ),
     );
+  }
+
+  ///
+  void makeKeihiListMap() {
+    keihiListMap = {};
+
+    final keihiListState = _ref.watch(keihiListProvider(date));
+
+    var keepDate = '';
+    keihiListState.forEach((element) {
+      if (date.yyyymm == element.date.yyyymm) {
+        if (element.date.yyyymmdd != keepDate) {
+          keihiListMap[element.date.yyyymmdd] = [];
+        }
+
+        keihiListMap[element.date.yyyymmdd]?.add(element);
+
+        keepDate = element.date.yyyymmdd;
+      }
+    });
   }
 }

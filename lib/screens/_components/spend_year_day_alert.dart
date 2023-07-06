@@ -90,9 +90,28 @@ class SpendYearDayAlert extends ConsumerWidget {
 
     final spendYearDayState = _ref.watch(spendYearDayProvider(date));
 
+    //====================================//
+    final totalMap = <String, int>{};
+    var total = 0;
+    var keepMonth = '';
+    spendYearDayState.forEach((element) {
+      if (keepMonth != element.date.yyyymm) {
+        total = 0;
+      }
+
+      total += element.spend;
+
+      totalMap[element.date.yyyymm] = total;
+
+      keepMonth = element.date.yyyymm;
+    });
+    //====================================//
+
     spendYearDayState.forEach((element) {
       if (date.isBefore(element.date)) {
       } else {
+        final exDate = element.date.yyyymmdd.split('-');
+
         list.add(
           Container(
             padding: const EdgeInsets.all(5),
@@ -114,8 +133,29 @@ class SpendYearDayAlert extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: Text(
-                      '${element.date.yyyymmdd}（${_utility.getYoubi(youbiStr: element.date.youbiStr)}）',
+                    flex: 2,
+                    child: Row(
+                      children: [
+                        Text(
+                          '${element.date.yyyymmdd}（${_utility.getYoubi(youbiStr: element.date.youbiStr)}）',
+                        ),
+                        if (exDate[2] == '01') ...[
+                          const SizedBox(width: 10),
+                          Tooltip(
+                            message: totalMap[element.date.yyyymm].toString().toCurrency(),
+                            textStyle: const TextStyle(color: Colors.white),
+                            decoration: BoxDecoration(
+                              color: Colors.yellowAccent.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            showDuration: const Duration(seconds: 2),
+                            child: Icon(
+                              Icons.comment,
+                              color: Colors.white.withOpacity(0.3),
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
                   ),
                   Expanded(
@@ -123,10 +163,7 @@ class SpendYearDayAlert extends ConsumerWidget {
                       alignment: Alignment.topRight,
                       child: (everydayMoney[element.date.yyyymmdd] == null)
                           ? Container()
-                          : Text(
-                              everydayMoney[element.date.yyyymmdd].toString().toCurrency(),
-                              style: const TextStyle(color: Colors.grey),
-                            ),
+                          : Text(everydayMoney[element.date.yyyymmdd].toString().toCurrency()),
                     ),
                   ),
                   Expanded(
