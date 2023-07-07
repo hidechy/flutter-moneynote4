@@ -9,8 +9,8 @@ import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/spend_notifier.dart';
 
-class SpendHalfyearSummaryAlert extends ConsumerWidget {
-  SpendHalfyearSummaryAlert({super.key, required this.date});
+class SpendSummaryItemAlert extends ConsumerWidget {
+  SpendSummaryItemAlert({super.key, required this.date});
 
   final DateTime date;
 
@@ -47,8 +47,7 @@ class SpendHalfyearSummaryAlert extends ConsumerWidget {
               Container(width: context.screenSize.width),
 
               //----------//
-              if (deviceInfoState.model == 'iPhone')
-                _utility.getFileNameDebug(name: runtimeType.toString()),
+              if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
               //----------//
 
               displaySpendHalfyearSummaryData(),
@@ -84,8 +83,7 @@ class SpendHalfyearSummaryAlert extends ConsumerWidget {
     //---------------------------------------(1)
 
     ymList.forEach((element) {
-      final spendMonthSummaryState =
-          _ref.watch(spendMonthSummaryProvider(element));
+      final spendMonthSummaryState = _ref.watch(spendMonthSummaryProvider(element));
 
       dataMap[element.yyyymm] = spendMonthSummaryState;
 
@@ -124,8 +122,7 @@ class SpendHalfyearSummaryAlert extends ConsumerWidget {
                 const SizedBox(height: 10),
                 Column(
                   children: element.value.map((e) {
-                    final textColor =
-                        (e.sum >= 10000) ? Colors.yellowAccent : Colors.white;
+                    final textColor = (e.sum >= 10000) ? Colors.yellowAccent : Colors.white;
 
                     return Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10),

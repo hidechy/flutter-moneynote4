@@ -34,7 +34,7 @@ import '_components/monthly_spend_alert.dart';
 import '_components/monthly_unit_spend_alert.dart';
 import '_components/sameday_spend_alert.dart';
 import '_components/seiyu_alert.dart';
-import '_components/spend_halfyear_summary_alert.dart';
+import '_components/spend_summary_item_alert.dart';
 import '_components/spend_summary_alert.dart';
 import '_components/spend_yearly_alert.dart';
 import '_components/tax_payment_display_alert.dart';
@@ -188,13 +188,9 @@ class HomeScreen extends ConsumerWidget {
                     const SizedBox(height: 60),
                     GestureDetector(
                       onTap: () {
-                        ref
-                            .watch(focusDayProvider.notifier)
-                            .setDateTime(dateTime: DateTime.now());
+                        ref.watch(focusDayProvider.notifier).setDateTime(dateTime: DateTime.now());
 
-                        ref
-                            .watch(blueBallProvider.notifier)
-                            .setDateTime(dateTime: DateTime.now());
+                        ref.watch(blueBallProvider.notifier).setDateTime(dateTime: DateTime.now());
 
                         Navigator.pushReplacement(
                           context,
@@ -248,7 +244,7 @@ class HomeScreen extends ConsumerWidget {
                           onTap: () {
                             MoneyDialog(
                               context: context,
-                              widget: SpendHalfyearSummaryAlert(
+                              widget: SpendSummaryItemAlert(
                                 date: focusDayState,
                               ),
                             );
@@ -358,8 +354,7 @@ class HomeScreen extends ConsumerWidget {
     for (var i = 0; i < spendMonthSummaryState.length; i++) {
       final spend = spendMonthSummaryState[i];
 
-      final textColor =
-          (spend.sum >= 10000) ? Colors.yellowAccent : Colors.white;
+      final textColor = (spend.sum >= 10000) ? Colors.yellowAccent : Colors.white;
 
       list.add(
         DefaultTextStyle(
@@ -438,9 +433,7 @@ class HomeScreen extends ConsumerWidget {
         },
         icon: Icon(
           Icons.details,
-          color: (homeMenuState.menuFlag == 'monthly_spend')
-              ? Colors.lightBlueAccent
-              : Colors.white,
+          color: (homeMenuState.menuFlag == 'monthly_spend') ? Colors.lightBlueAccent : Colors.white,
           size: 14,
         ),
       ),
@@ -456,9 +449,7 @@ class HomeScreen extends ConsumerWidget {
         },
         icon: Icon(
           Icons.account_tree,
-          color: (homeMenuState.menuFlag == 'sameday_spend')
-              ? Colors.lightBlueAccent
-              : Colors.white,
+          color: (homeMenuState.menuFlag == 'sameday_spend') ? Colors.lightBlueAccent : Colors.white,
           size: 14,
         ),
       ),
@@ -474,9 +465,7 @@ class HomeScreen extends ConsumerWidget {
         },
         icon: Icon(
           Icons.bar_chart_sharp,
-          color: (homeMenuState.menuFlag == 'monthly_unit_spend')
-              ? Colors.lightBlueAccent
-              : Colors.white,
+          color: (homeMenuState.menuFlag == 'monthly_unit_spend') ? Colors.lightBlueAccent : Colors.white,
           size: 14,
         ),
       ),
@@ -492,9 +481,7 @@ class HomeScreen extends ConsumerWidget {
         },
         icon: Icon(
           FontAwesomeIcons.calculator,
-          color: (homeMenuState.menuFlag == 'yearly_spend')
-              ? Colors.lightBlueAccent
-              : Colors.white,
+          color: (homeMenuState.menuFlag == 'yearly_spend') ? Colors.lightBlueAccent : Colors.white,
           size: 14,
         ),
       ),
@@ -510,9 +497,7 @@ class HomeScreen extends ConsumerWidget {
         },
         icon: Icon(
           Icons.select_all,
-          color: (homeMenuState.menuFlag == 'spend_summary')
-              ? Colors.lightBlueAccent
-              : Colors.white,
+          color: (homeMenuState.menuFlag == 'spend_summary') ? Colors.lightBlueAccent : Colors.white,
           size: 14,
         ),
       ),
@@ -528,9 +513,7 @@ class HomeScreen extends ConsumerWidget {
         },
         icon: Icon(
           Icons.list,
-          color: (homeMenuState.menuFlag == 'credit_summary')
-              ? Colors.lightBlueAccent
-              : Colors.white,
+          color: (homeMenuState.menuFlag == 'credit_summary') ? Colors.lightBlueAccent : Colors.white,
           size: 14,
         ),
       ),
@@ -546,9 +529,7 @@ class HomeScreen extends ConsumerWidget {
         },
         icon: Icon(
           Icons.calendar_view_month_rounded,
-          color: (homeMenuState.menuFlag == 'credit_company')
-              ? Colors.lightBlueAccent
-              : Colors.white,
+          color: (homeMenuState.menuFlag == 'credit_company') ? Colors.lightBlueAccent : Colors.white,
           size: 14,
         ),
       ),
@@ -564,9 +545,7 @@ class HomeScreen extends ConsumerWidget {
         },
         icon: Icon(
           Icons.publish,
-          color: (homeMenuState.menuFlag == 'tax_payment')
-              ? Colors.lightBlueAccent
-              : Colors.white,
+          color: (homeMenuState.menuFlag == 'tax_payment') ? Colors.lightBlueAccent : Colors.white,
           size: 14,
         ),
       ),
@@ -582,9 +561,7 @@ class HomeScreen extends ConsumerWidget {
         },
         icon: Icon(
           Icons.trending_up,
-          color: (homeMenuState.menuFlag == 'money_score')
-              ? Colors.lightBlueAccent
-              : Colors.white,
+          color: (homeMenuState.menuFlag == 'money_score') ? Colors.lightBlueAccent : Colors.white,
           size: 14,
         ),
       ),
@@ -600,9 +577,7 @@ class HomeScreen extends ConsumerWidget {
         },
         icon: Icon(
           Icons.monetization_on,
-          color: (homeMenuState.menuFlag == 'benefit')
-              ? Colors.lightBlueAccent
-              : Colors.white,
+          color: (homeMenuState.menuFlag == 'benefit') ? Colors.lightBlueAccent : Colors.white,
           size: 14,
         ),
       ),
@@ -618,9 +593,7 @@ class HomeScreen extends ConsumerWidget {
         },
         icon: Icon(
           FontAwesomeIcons.biohazard,
-          color: (homeMenuState.menuFlag == 'duty_paid')
-              ? Colors.lightBlueAccent
-              : Colors.white,
+          color: (homeMenuState.menuFlag == 'duty_paid') ? Colors.lightBlueAccent : Colors.white,
           size: 14,
         ),
       ),
@@ -636,9 +609,7 @@ class HomeScreen extends ConsumerWidget {
         },
         icon: Icon(
           FontAwesomeIcons.house,
-          color: (homeMenuState.menuFlag == 'home_fix')
-              ? Colors.lightBlueAccent
-              : Colors.white,
+          color: (homeMenuState.menuFlag == 'home_fix') ? Colors.lightBlueAccent : Colors.white,
           size: 14,
         ),
       ),
@@ -654,9 +625,7 @@ class HomeScreen extends ConsumerWidget {
         },
         icon: Icon(
           Icons.fastfood,
-          color: (homeMenuState.menuFlag == 'food_expenses')
-              ? Colors.lightBlueAccent
-              : Colors.white,
+          color: (homeMenuState.menuFlag == 'food_expenses') ? Colors.lightBlueAccent : Colors.white,
           size: 14,
         ),
       ),
@@ -672,9 +641,7 @@ class HomeScreen extends ConsumerWidget {
         },
         icon: Icon(
           FontAwesomeIcons.bullseye,
-          color: (homeMenuState.menuFlag == 'seiyuu_purchase')
-              ? Colors.lightBlueAccent
-              : Colors.white,
+          color: (homeMenuState.menuFlag == 'seiyuu_purchase') ? Colors.lightBlueAccent : Colors.white,
           size: 14,
         ),
       ),
@@ -690,9 +657,7 @@ class HomeScreen extends ConsumerWidget {
         },
         icon: Icon(
           FontAwesomeIcons.amazon,
-          color: (homeMenuState.menuFlag == 'amazon_purchase')
-              ? Colors.lightBlueAccent
-              : Colors.white,
+          color: (homeMenuState.menuFlag == 'amazon_purchase') ? Colors.lightBlueAccent : Colors.white,
           size: 14,
         ),
       ),
@@ -708,9 +673,7 @@ class HomeScreen extends ConsumerWidget {
         },
         icon: Icon(
           Icons.train,
-          color: (homeMenuState.menuFlag == 'train')
-              ? Colors.lightBlueAccent
-              : Colors.white,
+          color: (homeMenuState.menuFlag == 'train') ? Colors.lightBlueAccent : Colors.white,
           size: 14,
         ),
       ),
@@ -726,9 +689,7 @@ class HomeScreen extends ConsumerWidget {
         },
         icon: Icon(
           FontAwesomeIcons.handshake,
-          color: (homeMenuState.menuFlag == 'mercari')
-              ? Colors.lightBlueAccent
-              : Colors.white,
+          color: (homeMenuState.menuFlag == 'mercari') ? Colors.lightBlueAccent : Colors.white,
           size: 14,
         ),
       ),
@@ -744,9 +705,7 @@ class HomeScreen extends ConsumerWidget {
         },
         icon: Icon(
           FontAwesomeIcons.u,
-          color: (homeMenuState.menuFlag == 'udemy')
-              ? Colors.lightBlueAccent
-              : Colors.white,
+          color: (homeMenuState.menuFlag == 'udemy') ? Colors.lightBlueAccent : Colors.white,
           size: 14,
         ),
       ),
@@ -762,9 +721,7 @@ class HomeScreen extends ConsumerWidget {
         },
         icon: Icon(
           FontAwesomeIcons.balanceScale,
-          color: (homeMenuState.menuFlag == 'balanceSheet')
-              ? Colors.lightBlueAccent
-              : Colors.white,
+          color: (homeMenuState.menuFlag == 'balanceSheet') ? Colors.lightBlueAccent : Colors.white,
           size: 14,
         ),
       ),
@@ -780,9 +737,7 @@ class HomeScreen extends ConsumerWidget {
         },
         icon: Icon(
           FontAwesomeIcons.pagelines,
-          color: (homeMenuState.menuFlag == 'wells_reserve')
-              ? Colors.lightBlueAccent
-              : Colors.white,
+          color: (homeMenuState.menuFlag == 'wells_reserve') ? Colors.lightBlueAccent : Colors.white,
           size: 14,
         ),
       ),
@@ -945,8 +900,7 @@ class HomeScreen extends ConsumerWidget {
 }
 
 ////////////////////////////////////////////////////////////
-final focusDayProvider =
-    StateNotifierProvider.autoDispose<FocusDayStateNotifier, DateTime>((ref) {
+final focusDayProvider = StateNotifierProvider.autoDispose<FocusDayStateNotifier, DateTime>((ref) {
   return FocusDayStateNotifier();
 });
 
@@ -960,8 +914,7 @@ class FocusDayStateNotifier extends StateNotifier<DateTime> {
 }
 
 ////////////////////////////////////////////////////////////
-final blueBallProvider =
-    StateNotifierProvider.autoDispose<BlueBallStateNotifier, DateTime>((ref) {
+final blueBallProvider = StateNotifierProvider.autoDispose<BlueBallStateNotifier, DateTime>((ref) {
   return BlueBallStateNotifier();
 });
 
