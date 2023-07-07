@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../extensions/extensions.dart';
+import '../../../models/amazon_purchase.dart';
 import '../../../models/credit_spend_monthly.dart';
 import '../../../models/keihi.dart';
 import '../../../models/money.dart';
@@ -11,6 +12,7 @@ import '../../../models/money_everyday.dart';
 import '../../../models/zero_use_date.dart';
 import '../../../state/monthly_spend/monthly_spend_state.dart';
 import '../../../utility/utility.dart';
+import '../../../viewmodel/amazon_notifier.dart';
 import '../../../viewmodel/bank_notifier.dart';
 import '../../../viewmodel/benefit_notifier.dart';
 import '../../../viewmodel/credit_notifier.dart';
@@ -42,6 +44,8 @@ class MonthlySpendPage extends ConsumerWidget {
   int monthTotalSpend = 0;
 
   Map<String, List<Keihi>> keihiListMap = {};
+
+  Map<String, List<AmazonPurchase>> amazonListMap = {};
 
   late BuildContext _context;
   late WidgetRef _ref;
@@ -171,6 +175,8 @@ class MonthlySpendPage extends ConsumerWidget {
     displayMonthlySpendList = [];
 
     makeKeihiListMap();
+
+    makeAmazonListMap();
 
     final spendMonthDetailState = _ref.watch(spendMonthDetailProvider(date));
 
@@ -431,14 +437,53 @@ class MonthlySpendPage extends ConsumerWidget {
                                   Column(
                                     children: keihiListMap[spendMonthDetailState.list[i].date.yyyymmdd]!.map((e) {
                                       return Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(
-                                            e.item,
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
+                                          Expanded(
+                                            child: Text(
+                                              e.item,
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                            ),
                                           ),
+                                          const SizedBox(width: 20),
                                           Text(e.price.toString().toCurrency()),
+                                        ],
+                                      );
+                                    }).toList(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+
+                        /////
+
+                        if (amazonListMap[spendMonthDetailState.list[i].date.yyyymmdd] != null)
+                          DefaultTextStyle(
+                            style: const TextStyle(fontSize: 10),
+                            child: Container(
+                              margin: const EdgeInsets.only(top: 10),
+                              padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
+                              decoration: BoxDecoration(color: Colors.purpleAccent.withOpacity(0.1)),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [const Text('＜Amazon＞'), Container()],
+                                  ),
+                                  Column(
+                                    children: amazonListMap[spendMonthDetailState.list[i].date.yyyymmdd]!.map((e) {
+                                      return Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              e.item,
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 20),
+                                          Text(e.price.toCurrency()),
                                         ],
                                       );
                                     }).toList(),
@@ -662,6 +707,25 @@ class MonthlySpendPage extends ConsumerWidget {
 
         keepDate = element.date.yyyymmdd;
       }
+    });
+  }
+
+  ///
+  void makeAmazonListMap() {
+    amazonListMap = {};
+
+    final amazonPurchaseState = _ref.watch(amazonPurchaseProvider(date));
+
+    var keepDate = '';
+
+    amazonPurchaseState.forEach((element) {
+      if (element.date != keepDate) {
+        amazonListMap[element.date] = [];
+      }
+
+      amazonListMap[element.date]?.add(element);
+
+      keepDate = element.date;
     });
   }
 }
