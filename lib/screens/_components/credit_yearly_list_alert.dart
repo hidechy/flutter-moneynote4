@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
-import '../../models/credit_spend_all.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/credit_notifier.dart';
+import '../../viewmodel/keihi_list_notifier.dart';
 
 class CreditYearlyListAlert extends ConsumerWidget {
   CreditYearlyListAlert({super.key, required this.date});
@@ -15,6 +15,8 @@ class CreditYearlyListAlert extends ConsumerWidget {
   final DateTime date;
 
   final Utility _utility = Utility();
+
+  List<String> keihiList = [];
 
   late BuildContext _context;
   late WidgetRef _ref;
@@ -24,6 +26,17 @@ class CreditYearlyListAlert extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _context = context;
     _ref = ref;
+
+    makeKeihiListMap();
+
+    //=======================//
+    final creditYearlyTotalState = ref.watch(creditYearlyTotalProvider(date));
+
+    var sum = 0;
+    creditYearlyTotalState.forEach((element) {
+      sum += element.price.toInt();
+    });
+    //=======================//
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
@@ -48,7 +61,15 @@ class CreditYearlyListAlert extends ConsumerWidget {
               if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
               //----------//
 
-              Text(date.yyyy),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(date.yyyy),
+                  Text(sum.toString().toCurrency()),
+                ],
+              ),
+
+              const SizedBox(height: 20),
 
               Expanded(
                 child: displayCreditYearlyList(),
@@ -66,12 +87,13 @@ class CreditYearlyListAlert extends ConsumerWidget {
 
     final creditYearlyTotalState = _ref.watch(creditYearlyTotalProvider(date));
 
-    final yearlyAllCredit = <CreditSpendAll>[];
+    final yearlyAllCredit = <CreditSpendAllDisp>[];
     creditYearlyTotalState.forEach((element) {
       yearlyAllCredit.add(
-        CreditSpendAll(
+        CreditSpendAllDisp(
           payMonth: element.payMonth,
           item: getListItem(item: element.item),
+          baseItem: element.item,
           price: element.price,
           date: element.date,
           kind: element.kind,
@@ -84,9 +106,16 @@ class CreditYearlyListAlert extends ConsumerWidget {
     yearlyAllCredit
       ..sort((a, b) => '${a.item}|${a.date.yyyymmdd}'.compareTo('${b.item}|${b.date.yyyymmdd}'))
       ..forEach((element) {
+        final color = (element.price.toInt() >= 10000) ? Colors.yellowAccent : Colors.white;
+
         list.add(
-          SizedBox(
+          Container(
             width: _context.screenSize.width,
+            decoration: BoxDecoration(
+              color: (keihiList.contains('${element.baseItem}|${element.date.yyyymmdd}'))
+                  ? Colors.yellowAccent.withOpacity(0.1)
+                  : Colors.transparent,
+            ),
             child: DefaultTextStyle(
               style: const TextStyle(fontSize: 10),
               child: Column(
@@ -100,19 +129,12 @@ class CreditYearlyListAlert extends ConsumerWidget {
                           padding: const EdgeInsets.all(3),
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.white.withOpacity(0.8)),
-                            color: _utility.getLeadingBgColor(month: element.date.yyyymmdd.split('-')[1]),
+                            color: (element.date.yyyymmdd.split('-')[0] != date.yyyy)
+                                ? Colors.black.withOpacity(0.2)
+                                : _utility.getLeadingBgColor(month: element.date.yyyymmdd.split('-')[1]),
                           ),
                           child: Column(
-                            children: [
-                              Text(
-                                element.date.yyyy,
-                                style: const TextStyle(fontSize: 8),
-                              ),
-                              Text(
-                                element.date.mmdd,
-                                style: const TextStyle(fontSize: 8),
-                              ),
-                            ],
+                            children: [Text(element.date.yyyy), Text(element.date.mmdd)],
                           ),
                         ),
                       ),
@@ -122,6 +144,7 @@ class CreditYearlyListAlert extends ConsumerWidget {
                           element.item,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
+                          style: TextStyle(color: color),
                         ),
                       ),
                       Container(
@@ -129,6 +152,7 @@ class CreditYearlyListAlert extends ConsumerWidget {
                         alignment: Alignment.topRight,
                         child: Text(
                           element.price.toCurrency(),
+                          style: TextStyle(color: color),
                         ),
                       ),
                     ],
@@ -158,7 +182,6 @@ class CreditYearlyListAlert extends ConsumerWidget {
     //-------------------------//
 
     //-------------------------//
-
     reg = RegExp('さくらインターネット');
 
     if (reg.firstMatch(item) != null) {
@@ -168,7 +191,6 @@ class CreditYearlyListAlert extends ConsumerWidget {
     //-------------------------//
 
     //-------------------------//
-
     reg = RegExp('ドコモご利用料金');
 
     if (reg.firstMatch(item) != null) {
@@ -181,4 +203,37 @@ class CreditYearlyListAlert extends ConsumerWidget {
 
     return ret;
   }
+
+  ///
+  void makeKeihiListMap() {
+    keihiList = [];
+
+    final keihiListState = _ref.watch(keihiListProvider(date));
+
+    keihiListState.forEach((element) {
+      keihiList.add('${element.item}|${element.date.yyyymmdd}');
+    });
+  }
+}
+
+class CreditSpendAllDisp {
+  CreditSpendAllDisp({
+    required this.payMonth,
+    required this.item,
+    required this.baseItem,
+    required this.price,
+    required this.date,
+    required this.kind,
+    required this.monthDiff,
+    required this.flag,
+  });
+
+  String payMonth;
+  String item;
+  String baseItem;
+  String price;
+  DateTime date;
+  String kind;
+  int monthDiff;
+  int flag;
 }
