@@ -503,21 +503,21 @@ class HomeScreen extends ConsumerWidget {
       ),
     );
 
-    list.add(
-      IconButton(
-        onPressed: () {
-          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
-                menuFlag: 'credit_summary',
-                menuName: 'クレジット消費ブロック比較',
-              );
-        },
-        icon: Icon(
-          Icons.list,
-          color: (homeMenuState.menuFlag == 'credit_summary') ? Colors.lightBlueAccent : Colors.white,
-          size: 14,
-        ),
-      ),
-    );
+    // list.add(
+    //   IconButton(
+    //     onPressed: () {
+    //       _ref.watch(homeMenuProvider.notifier).setHomeMenu(
+    //             menuFlag: 'credit_summary',
+    //             menuName: 'クレジット消費ブロック比較',
+    //           );
+    //     },
+    //     icon: Icon(
+    //       Icons.list,
+    //       color: (homeMenuState.menuFlag == 'credit_summary') ? Colors.lightBlueAccent : Colors.white,
+    //       size: 14,
+    //     ),
+    //   ),
+    // );
 
     list.add(
       IconButton(

@@ -1,6 +1,8 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:moneynote4/screens/_components/_money_dialog.dart';
+import 'package:moneynote4/screens/_components/credit_yearly_list_alert.dart';
 
 import 'pages/credit_yearly_detail_page.dart';
 
@@ -34,9 +36,23 @@ class CreditYearlyDetailAlert extends StatelessWidget {
 
             centerTitle: true,
 
-            title: Text(
-              date.year.toString(),
-              style: const TextStyle(fontSize: 12),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  date.year.toString(),
+                  style: const TextStyle(fontSize: 12),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    MoneyDialog(
+                      context: context,
+                      widget: CreditYearlyListAlert(date: date),
+                    );
+                  },
+                  child: const Icon(Icons.list),
+                ),
+              ],
             ),
 
             //-------------------------//これを消すと「←」が出てくる（消さない）

@@ -47,8 +47,7 @@ class CreditYearlyDetailPage extends ConsumerWidget {
               Container(width: context.screenSize.width),
 
               //----------//
-              if (deviceInfoState.model == 'iPhone')
-                _utility.getFileNameDebug(name: runtimeType.toString()),
+              if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
               //----------//
 
               Expanded(
@@ -73,9 +72,7 @@ class CreditYearlyDetailPage extends ConsumerWidget {
     for (var i = 0; i < creditSummaryDetailState.length; i++) {
       sum += creditSummaryDetailState[i].price;
 
-      final priceColor = (creditSummaryDetailState[i].price >= 10000)
-          ? Colors.yellowAccent
-          : Colors.white;
+      final priceColor = (creditSummaryDetailState[i].price >= 10000) ? Colors.yellowAccent : Colors.white;
 
       list.add(
         Container(
@@ -100,21 +97,18 @@ class CreditYearlyDetailPage extends ConsumerWidget {
                     Container(
                       alignment: Alignment.topRight,
                       child: Text(
-                        creditSummaryDetailState[i]
-                            .price
-                            .toString()
-                            .toCurrency(),
+                        creditSummaryDetailState[i].price.toString().toCurrency(),
                         style: TextStyle(color: priceColor),
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(width: 20),
-              getLinkIcon(
-                item: creditSummaryDetailState[i].item,
-                price: creditSummaryDetailState[i].price,
-              ),
+              // const SizedBox(width: 20),
+              // getLinkIcon(
+              //   item: creditSummaryDetailState[i].item,
+              //   price: creditSummaryDetailState[i].price,
+              // ),
             ],
           ),
         ),
