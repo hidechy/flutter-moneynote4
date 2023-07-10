@@ -82,7 +82,7 @@ class CreditYearlyListAlert extends ConsumerWidget {
     });
 
     yearlyAllCredit
-      ..sort((a, b) => '${a.item}|${a.date.yyyymmdd}'.compareTo('${b.item}|${b.date.yyyymmdd}'))
+      ..sort((a, b) => '${a.date.yyyymmdd}|${a.item}'.compareTo('${b.date.yyyymmdd}|${b.item}'))
       ..forEach((element) {
         list.add(
           SizedBox(
