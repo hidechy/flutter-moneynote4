@@ -49,6 +49,9 @@ extension DateTimeEx on DateTime {
 }
 
 ///
+
+const _fullLengthCode = 65248;
+
 extension StringEx on String {
   DateTime toDateTime() {
     final dateFormatter = DateFormat('yyyy-MM-dd HH:mm:ss');
@@ -66,5 +69,23 @@ extension StringEx on String {
 
   double toDouble() {
     return double.parse(this);
+  }
+
+  String alphanumericToFullLength() {
+    final regex = RegExp(r'^[a-zA-Z0-9]+$');
+    final string = runes.map<String>((rune) {
+      final char = String.fromCharCode(rune);
+      return regex.hasMatch(char) ? String.fromCharCode(rune + _fullLengthCode) : char;
+    });
+    return string.join();
+  }
+
+  String alphanumericToHalfLength() {
+    final regex = RegExp(r'^[Ａ-Ｚａ-ｚ０-９]+$');
+    final string = runes.map<String>((rune) {
+      final char = String.fromCharCode(rune);
+      return regex.hasMatch(char) ? String.fromCharCode(rune - _fullLengthCode) : char;
+    });
+    return string.join();
   }
 }

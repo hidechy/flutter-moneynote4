@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, cascade_invocations
+// ignore_for_file: must_be_immutable, cascade_invocations, join_return_with_assignment
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -82,7 +82,7 @@ class CreditYearlyListAlert extends ConsumerWidget {
     });
 
     yearlyAllCredit
-      ..sort((a, b) => '${a.date.yyyymmdd}|${a.item}'.compareTo('${b.date.yyyymmdd}|${b.item}'))
+      ..sort((a, b) => '${a.item}|${a.date.yyyymmdd}'.compareTo('${b.item}|${b.date.yyyymmdd}'))
       ..forEach((element) {
         list.add(
           SizedBox(
@@ -176,6 +176,8 @@ class CreditYearlyListAlert extends ConsumerWidget {
       ret = exItem[0];
     }
     //-------------------------//
+
+    ret = ret.alphanumericToHalfLength();
 
     return ret;
   }
