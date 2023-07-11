@@ -4,8 +4,7 @@ import '../../extensions/extensions.dart';
 import 'app_param_state.dart';
 
 ////////////////////////////////////////////////
-final appParamProvider =
-    StateNotifierProvider.autoDispose<AppParamNotifier, AppParamState>((ref) {
+final appParamProvider = StateNotifierProvider.autoDispose<AppParamNotifier, AppParamState>((ref) {
   final year = DateTime.now().yyyy;
 
   return AppParamNotifier(
@@ -44,18 +43,15 @@ class AppParamNotifier extends StateNotifier<AppParamState> {
   Future<void> setCreditSummaryAlertSelectYear({required int year}) async =>
       state = state.copyWith(CreditSummaryAlertSelectYear: year);
 
-  Future<void> setCreditYearlyDetailAlertSelectMonth(
-          {required int month}) async =>
+  Future<void> setCreditYearlyDetailAlertSelectMonth({required int month}) async =>
       state = state.copyWith(CreditYearlyDetailAlertSelectMonth: month);
 
-  Future<void> setDutyAlertSelectYear({required int year}) async =>
-      state = state.copyWith(DutyAlertSelectYear: year);
+  Future<void> setDutyAlertSelectYear({required int year}) async => state = state.copyWith(DutyAlertSelectYear: year);
 
   Future<void> setHomeFixAlertSelectYear({required int year}) async =>
       state = state.copyWith(HomeFixAlertSelectYear: year);
 
-  Future<void> setSeiyuAlertSelectYear({required int year}) async =>
-      state = state.copyWith(SeiyuAlertSelectYear: year);
+  Future<void> setSeiyuAlertSelectYear({required int year}) async => state = state.copyWith(SeiyuAlertSelectYear: year);
 
   Future<void> setSeiyuAlertSelectDate({required String date}) async =>
       state = state.copyWith(SeiyuAlertSelectDate: date);
@@ -66,11 +62,9 @@ class AppParamNotifier extends StateNotifier<AppParamState> {
   Future<void> setSpendYearlyAlertSelectYear({required int year}) async =>
       state = state.copyWith(SpendYearlyAlertSelectYear: year);
 
-  Future<void> setTrainAlertSelectYear({required int year}) async =>
-      state = state.copyWith(TrainAlertSelectYear: year);
+  Future<void> setTrainAlertSelectYear({required int year}) async => state = state.copyWith(TrainAlertSelectYear: year);
 
-  Future<void> setUdemyAlertSelectYear({required int year}) async =>
-      state = state.copyWith(UdemyAlertSelectYear: year);
+  Future<void> setUdemyAlertSelectYear({required int year}) async => state = state.copyWith(UdemyAlertSelectYear: year);
 
   Future<void> setUdemyAlertSelectCategory({required String category}) async =>
       state = state.copyWith(UdemyAlertSelectCategory: category);
@@ -81,8 +75,7 @@ class AppParamNotifier extends StateNotifier<AppParamState> {
   Future<void> setMonthlyUnitSpendAlertSelectYear({required int year}) async =>
       state = state.copyWith(MonthlyUnitSpendAlertSelectYear: year);
 
-  Future<void> setSamedaySpendAlertDay({required int day}) async =>
-      state = state.copyWith(SamedaySpendAlertDay: day);
+  Future<void> setSamedaySpendAlertDay({required int day}) async => state = state.copyWith(SamedaySpendAlertDay: day);
 
   Future<void> setWellsReserveAlertYear({required int year}) async =>
       state = state.copyWith(WellsReserveAlertYear: year);
@@ -99,8 +92,13 @@ class AppParamNotifier extends StateNotifier<AppParamState> {
   Future<void> setTaxPaymentItemAlertSelectYear({required int year}) async =>
       state = state.copyWith(TaxPaymentItemAlertSelectYear: year);
 
-  Future<void> setOpenMoneyArea({required bool value}) async =>
-      state = state.copyWith(openMoneyArea: value);
+  Future<void> setOpenMoneyArea({required bool value}) async => state = state.copyWith(openMoneyArea: value);
+
+  Future<void> setCreditYearlyListSelectString({required String value}) async =>
+      state = state.copyWith(CreditYearlyListSelectString: value);
+
+  Future<void> setCreditYearlyListSelectedString({required String value}) async =>
+      state = state.copyWith(CreditYearlyListSelectedString: value);
 }
 
 ////////////////////////////////////////////////

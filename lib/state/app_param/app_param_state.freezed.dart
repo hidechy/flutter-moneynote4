@@ -39,6 +39,9 @@ mixin _$AppParamState {
   int get TaxPaymentAlertSelectYear => throw _privateConstructorUsedError;
   int get TaxPaymentItemAlertSelectYear => throw _privateConstructorUsedError;
   bool get openMoneyArea => throw _privateConstructorUsedError;
+  String get CreditYearlyListSelectString => throw _privateConstructorUsedError;
+  String get CreditYearlyListSelectedString =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AppParamStateCopyWith<AppParamState> get copyWith =>
@@ -73,7 +76,9 @@ abstract class $AppParamStateCopyWith<$Res> {
       String KeihiListAlertSelectOrder,
       int TaxPaymentAlertSelectYear,
       int TaxPaymentItemAlertSelectYear,
-      bool openMoneyArea});
+      bool openMoneyArea,
+      String CreditYearlyListSelectString,
+      String CreditYearlyListSelectedString});
 }
 
 /// @nodoc
@@ -111,6 +116,8 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
     Object? TaxPaymentAlertSelectYear = null,
     Object? TaxPaymentItemAlertSelectYear = null,
     Object? openMoneyArea = null,
+    Object? CreditYearlyListSelectString = null,
+    Object? CreditYearlyListSelectedString = null,
   }) {
     return _then(_value.copyWith(
       AmazonAlertSelectYear: null == AmazonAlertSelectYear
@@ -202,6 +209,14 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
           ? _value.openMoneyArea
           : openMoneyArea // ignore: cast_nullable_to_non_nullable
               as bool,
+      CreditYearlyListSelectString: null == CreditYearlyListSelectString
+          ? _value.CreditYearlyListSelectString
+          : CreditYearlyListSelectString // ignore: cast_nullable_to_non_nullable
+              as String,
+      CreditYearlyListSelectedString: null == CreditYearlyListSelectedString
+          ? _value.CreditYearlyListSelectedString
+          : CreditYearlyListSelectedString // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -236,7 +251,9 @@ abstract class _$$_AppParamStateCopyWith<$Res>
       String KeihiListAlertSelectOrder,
       int TaxPaymentAlertSelectYear,
       int TaxPaymentItemAlertSelectYear,
-      bool openMoneyArea});
+      bool openMoneyArea,
+      String CreditYearlyListSelectString,
+      String CreditYearlyListSelectedString});
 }
 
 /// @nodoc
@@ -272,6 +289,8 @@ class __$$_AppParamStateCopyWithImpl<$Res>
     Object? TaxPaymentAlertSelectYear = null,
     Object? TaxPaymentItemAlertSelectYear = null,
     Object? openMoneyArea = null,
+    Object? CreditYearlyListSelectString = null,
+    Object? CreditYearlyListSelectedString = null,
   }) {
     return _then(_$_AppParamState(
       AmazonAlertSelectYear: null == AmazonAlertSelectYear
@@ -363,6 +382,14 @@ class __$$_AppParamStateCopyWithImpl<$Res>
           ? _value.openMoneyArea
           : openMoneyArea // ignore: cast_nullable_to_non_nullable
               as bool,
+      CreditYearlyListSelectString: null == CreditYearlyListSelectString
+          ? _value.CreditYearlyListSelectString
+          : CreditYearlyListSelectString // ignore: cast_nullable_to_non_nullable
+              as String,
+      CreditYearlyListSelectedString: null == CreditYearlyListSelectedString
+          ? _value.CreditYearlyListSelectedString
+          : CreditYearlyListSelectedString // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -392,7 +419,9 @@ class _$_AppParamState implements _AppParamState {
       this.KeihiListAlertSelectOrder = '',
       this.TaxPaymentAlertSelectYear = 0,
       this.TaxPaymentItemAlertSelectYear = 0,
-      this.openMoneyArea = true});
+      this.openMoneyArea = true,
+      this.CreditYearlyListSelectString = '',
+      this.CreditYearlyListSelectedString = ''});
 
   @override
   @JsonKey()
@@ -460,10 +489,16 @@ class _$_AppParamState implements _AppParamState {
   @override
   @JsonKey()
   final bool openMoneyArea;
+  @override
+  @JsonKey()
+  final String CreditYearlyListSelectString;
+  @override
+  @JsonKey()
+  final String CreditYearlyListSelectedString;
 
   @override
   String toString() {
-    return 'AppParamState(AmazonAlertSelectYear: $AmazonAlertSelectYear, CreditCompanyAlertSelectYear: $CreditCompanyAlertSelectYear, CreditSummaryAlertSelectYear: $CreditSummaryAlertSelectYear, CreditYearlyDetailAlertSelectMonth: $CreditYearlyDetailAlertSelectMonth, DutyAlertSelectYear: $DutyAlertSelectYear, HomeFixAlertSelectYear: $HomeFixAlertSelectYear, SeiyuAlertSelectYear: $SeiyuAlertSelectYear, SeiyuAlertSelectDate: $SeiyuAlertSelectDate, SpendSummaryAlertSelectYear: $SpendSummaryAlertSelectYear, SpendYearlyAlertSelectYear: $SpendYearlyAlertSelectYear, TrainAlertSelectYear: $TrainAlertSelectYear, UdemyAlertSelectYear: $UdemyAlertSelectYear, UdemyAlertSelectCategory: $UdemyAlertSelectCategory, BalanceSheetAlertSelectYear: $BalanceSheetAlertSelectYear, MonthlyUnitSpendAlertSelectYear: $MonthlyUnitSpendAlertSelectYear, SamedaySpendAlertDay: $SamedaySpendAlertDay, WellsReserveAlertYear: $WellsReserveAlertYear, KeihiListAlertSelectYear: $KeihiListAlertSelectYear, KeihiListAlertSelectOrder: $KeihiListAlertSelectOrder, TaxPaymentAlertSelectYear: $TaxPaymentAlertSelectYear, TaxPaymentItemAlertSelectYear: $TaxPaymentItemAlertSelectYear, openMoneyArea: $openMoneyArea)';
+    return 'AppParamState(AmazonAlertSelectYear: $AmazonAlertSelectYear, CreditCompanyAlertSelectYear: $CreditCompanyAlertSelectYear, CreditSummaryAlertSelectYear: $CreditSummaryAlertSelectYear, CreditYearlyDetailAlertSelectMonth: $CreditYearlyDetailAlertSelectMonth, DutyAlertSelectYear: $DutyAlertSelectYear, HomeFixAlertSelectYear: $HomeFixAlertSelectYear, SeiyuAlertSelectYear: $SeiyuAlertSelectYear, SeiyuAlertSelectDate: $SeiyuAlertSelectDate, SpendSummaryAlertSelectYear: $SpendSummaryAlertSelectYear, SpendYearlyAlertSelectYear: $SpendYearlyAlertSelectYear, TrainAlertSelectYear: $TrainAlertSelectYear, UdemyAlertSelectYear: $UdemyAlertSelectYear, UdemyAlertSelectCategory: $UdemyAlertSelectCategory, BalanceSheetAlertSelectYear: $BalanceSheetAlertSelectYear, MonthlyUnitSpendAlertSelectYear: $MonthlyUnitSpendAlertSelectYear, SamedaySpendAlertDay: $SamedaySpendAlertDay, WellsReserveAlertYear: $WellsReserveAlertYear, KeihiListAlertSelectYear: $KeihiListAlertSelectYear, KeihiListAlertSelectOrder: $KeihiListAlertSelectOrder, TaxPaymentAlertSelectYear: $TaxPaymentAlertSelectYear, TaxPaymentItemAlertSelectYear: $TaxPaymentItemAlertSelectYear, openMoneyArea: $openMoneyArea, CreditYearlyListSelectString: $CreditYearlyListSelectString, CreditYearlyListSelectedString: $CreditYearlyListSelectedString)';
   }
 
   @override
@@ -517,7 +552,9 @@ class _$_AppParamState implements _AppParamState {
             (identical(other.KeihiListAlertSelectOrder, KeihiListAlertSelectOrder) || other.KeihiListAlertSelectOrder == KeihiListAlertSelectOrder) &&
             (identical(other.TaxPaymentAlertSelectYear, TaxPaymentAlertSelectYear) || other.TaxPaymentAlertSelectYear == TaxPaymentAlertSelectYear) &&
             (identical(other.TaxPaymentItemAlertSelectYear, TaxPaymentItemAlertSelectYear) || other.TaxPaymentItemAlertSelectYear == TaxPaymentItemAlertSelectYear) &&
-            (identical(other.openMoneyArea, openMoneyArea) || other.openMoneyArea == openMoneyArea));
+            (identical(other.openMoneyArea, openMoneyArea) || other.openMoneyArea == openMoneyArea) &&
+            (identical(other.CreditYearlyListSelectString, CreditYearlyListSelectString) || other.CreditYearlyListSelectString == CreditYearlyListSelectString) &&
+            (identical(other.CreditYearlyListSelectedString, CreditYearlyListSelectedString) || other.CreditYearlyListSelectedString == CreditYearlyListSelectedString));
   }
 
   @override
@@ -544,7 +581,9 @@ class _$_AppParamState implements _AppParamState {
         KeihiListAlertSelectOrder,
         TaxPaymentAlertSelectYear,
         TaxPaymentItemAlertSelectYear,
-        openMoneyArea
+        openMoneyArea,
+        CreditYearlyListSelectString,
+        CreditYearlyListSelectedString
       ]);
 
   @JsonKey(ignore: true)
@@ -577,7 +616,9 @@ abstract class _AppParamState implements AppParamState {
       final String KeihiListAlertSelectOrder,
       final int TaxPaymentAlertSelectYear,
       final int TaxPaymentItemAlertSelectYear,
-      final bool openMoneyArea}) = _$_AppParamState;
+      final bool openMoneyArea,
+      final String CreditYearlyListSelectString,
+      final String CreditYearlyListSelectedString}) = _$_AppParamState;
 
   @override
   int get AmazonAlertSelectYear;
@@ -623,6 +664,10 @@ abstract class _AppParamState implements AppParamState {
   int get TaxPaymentItemAlertSelectYear;
   @override
   bool get openMoneyArea;
+  @override
+  String get CreditYearlyListSelectString;
+  @override
+  String get CreditYearlyListSelectedString;
   @override
   @JsonKey(ignore: true)
   _$$_AppParamStateCopyWith<_$_AppParamState> get copyWith =>

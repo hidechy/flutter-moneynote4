@@ -1,9 +1,11 @@
-// ignore_for_file: must_be_immutable, cascade_invocations, join_return_with_assignment
+// ignore_for_file: must_be_immutable, cascade_invocations, join_return_with_assignment, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
+import '../../extensions/katakana_convert.dart';
+import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/credit_notifier.dart';
@@ -18,6 +20,8 @@ class CreditYearlyListAlert extends ConsumerWidget {
 
   List<String> keihiList = [];
 
+  TextEditingController searchText = TextEditingController();
+
   late BuildContext _context;
   late WidgetRef _ref;
 
@@ -28,6 +32,10 @@ class CreditYearlyListAlert extends ConsumerWidget {
     _ref = ref;
 
     makeKeihiListMap();
+
+    final appParamState = ref.watch(appParamProvider);
+
+    searchText.text = appParamState.CreditYearlyListSelectString;
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
@@ -54,6 +62,27 @@ class CreditYearlyListAlert extends ConsumerWidget {
 
               Text(date.yyyy),
 
+              const SizedBox(height: 10),
+
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: searchText,
+                      style: const TextStyle(fontSize: 10),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      ref.watch(appParamProvider.notifier).setCreditYearlyListSelectString(value: '');
+
+                      ref.watch(appParamProvider.notifier).setCreditYearlyListSelectedString(value: searchText.text);
+                    },
+                    icon: Icon((appParamState.CreditYearlyListSelectedString != '') ? Icons.close : Icons.search),
+                  ),
+                ],
+              ),
+
               const SizedBox(height: 20),
 
               displayCreditYearlyList(),
@@ -67,6 +96,10 @@ class CreditYearlyListAlert extends ConsumerWidget {
   ///
   Widget displayCreditYearlyList() {
     final list = <Widget>[];
+
+    final CreditYearlyListSelectedString = _ref.watch(
+      appParamProvider.select((value) => value.CreditYearlyListSelectedString),
+    );
 
     final creditYearlyTotalState = _ref.watch(creditYearlyTotalProvider(date));
 
@@ -92,6 +125,16 @@ class CreditYearlyListAlert extends ConsumerWidget {
 
     //forで仕方ない
     for (var i = 0; i < yearlyAllCredit.length; i++) {
+      //================// 絞り込み
+      if (CreditYearlyListSelectedString != '') {
+        final reg = RegExp(CreditYearlyListSelectedString);
+
+        if (reg.firstMatch(yearlyAllCredit[i].item) == null) {
+          continue;
+        }
+      }
+      //================// 絞り込み
+
       final color = (yearlyAllCredit[i].price.toInt() >= 10000) ? Colors.yellowAccent : Colors.white;
 
       list.add(
@@ -109,18 +152,31 @@ class CreditYearlyListAlert extends ConsumerWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Opacity(
-                      opacity: 0.6,
-                      child: Container(
-                        padding: const EdgeInsets.all(3),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.white.withOpacity(0.8)),
-                          color: (yearlyAllCredit[i].date.yyyymmdd.split('-')[0] != date.yyyy)
-                              ? Colors.black.withOpacity(0.2)
-                              : _utility.getLeadingBgColor(month: yearlyAllCredit[i].date.yyyymmdd.split('-')[1]),
-                        ),
-                        child: Column(
-                          children: [Text(yearlyAllCredit[i].date.yyyy), Text(yearlyAllCredit[i].date.mmdd)],
+                    GestureDetector(
+                      onTap: () {
+                        _ref
+                            .watch(appParamProvider.notifier)
+                            .setCreditYearlyListSelectString(value: yearlyAllCredit[i].item);
+                      },
+                      child: Opacity(
+                        opacity: 0.6,
+                        child: Container(
+                          padding: const EdgeInsets.all(3),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.white.withOpacity(0.8)),
+                            color: (yearlyAllCredit[i].date.yyyymmdd.split('-')[0] != date.yyyy)
+                                ? Colors.black.withOpacity(0.2)
+                                : _utility.getLeadingBgColor(month: yearlyAllCredit[i].date.yyyymmdd.split('-')[1]),
+                          ),
+                          child: Column(
+                            children: [
+                              Text(yearlyAllCredit[i].date.yyyy),
+                              Text(
+                                yearlyAllCredit[i].date.mmdd,
+                                style: const TextStyle(fontSize: 12),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -171,7 +227,7 @@ class CreditYearlyListAlert extends ConsumerWidget {
               sum.toString().toCurrency(),
               style: const TextStyle(fontSize: 10),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -208,9 +264,11 @@ class CreditYearlyListAlert extends ConsumerWidget {
     }
     //-------------------------//
 
+    ret = halfKatakanaToFullLength(val: ret);
+
     ret = ret.alphanumericToHalfLength();
 
-    return ret;
+    return ret.toUpperCase();
   }
 
   ///

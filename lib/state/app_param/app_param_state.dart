@@ -29,5 +29,7 @@ class AppParamState with _$AppParamState {
     @Default(0) int TaxPaymentAlertSelectYear,
     @Default(0) int TaxPaymentItemAlertSelectYear,
     @Default(true) bool openMoneyArea,
+    @Default('') String CreditYearlyListSelectString,
+    @Default('') String CreditYearlyListSelectedString,
   }) = _AppParamState;
 }
