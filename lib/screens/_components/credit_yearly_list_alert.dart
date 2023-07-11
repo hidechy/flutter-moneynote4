@@ -29,15 +29,6 @@ class CreditYearlyListAlert extends ConsumerWidget {
 
     makeKeihiListMap();
 
-    //=======================//
-    final creditYearlyTotalState = ref.watch(creditYearlyTotalProvider(date));
-
-    var sum = 0;
-    creditYearlyTotalState.forEach((element) {
-      sum += element.price.toInt();
-    });
-    //=======================//
-
     final deviceInfoState = ref.read(deviceInfoProvider);
 
     return AlertDialog(
@@ -61,19 +52,11 @@ class CreditYearlyListAlert extends ConsumerWidget {
               if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
               //----------//
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(date.yyyy),
-                  Text(sum.toString().toCurrency()),
-                ],
-              ),
+              Text(date.yyyy),
 
               const SizedBox(height: 20),
 
-              Expanded(
-                child: displayCreditYearlyList(),
-              ),
+              displayCreditYearlyList(),
             ],
           ),
         ),
@@ -103,69 +86,95 @@ class CreditYearlyListAlert extends ConsumerWidget {
       );
     });
 
-    yearlyAllCredit
-      ..sort((a, b) => '${a.item}|${a.date.yyyymmdd}'.compareTo('${b.item}|${b.date.yyyymmdd}'))
-      ..forEach((element) {
-        final color = (element.price.toInt() >= 10000) ? Colors.yellowAccent : Colors.white;
+    var sum = 0;
 
-        list.add(
-          Container(
-            width: _context.screenSize.width,
-            decoration: BoxDecoration(
-              color: (keihiList.contains('${element.baseItem}|${element.date.yyyymmdd}'))
-                  ? Colors.yellowAccent.withOpacity(0.1)
-                  : Colors.transparent,
+    yearlyAllCredit.sort((a, b) => '${a.item}|${a.date.yyyymmdd}'.compareTo('${b.item}|${b.date.yyyymmdd}'));
+
+    //forで仕方ない
+    for (var i = 0; i < yearlyAllCredit.length; i++) {
+      final color = (yearlyAllCredit[i].price.toInt() >= 10000) ? Colors.yellowAccent : Colors.white;
+
+      list.add(
+        Container(
+          width: _context.screenSize.width,
+          decoration: BoxDecoration(
+            color: (keihiList.contains('${yearlyAllCredit[i].baseItem}|${yearlyAllCredit[i].date.yyyymmdd}'))
+                ? Colors.yellowAccent.withOpacity(0.1)
+                : Colors.transparent,
+          ),
+          child: DefaultTextStyle(
+            style: const TextStyle(fontSize: 10),
+            child: Column(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Opacity(
+                      opacity: 0.6,
+                      child: Container(
+                        padding: const EdgeInsets.all(3),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white.withOpacity(0.8)),
+                          color: (yearlyAllCredit[i].date.yyyymmdd.split('-')[0] != date.yyyy)
+                              ? Colors.black.withOpacity(0.2)
+                              : _utility.getLeadingBgColor(month: yearlyAllCredit[i].date.yyyymmdd.split('-')[1]),
+                        ),
+                        child: Column(
+                          children: [Text(yearlyAllCredit[i].date.yyyy), Text(yearlyAllCredit[i].date.mmdd)],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        yearlyAllCredit[i].item,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(color: color),
+                      ),
+                    ),
+                    Container(
+                      width: 40,
+                      alignment: Alignment.topRight,
+                      child: Text(
+                        yearlyAllCredit[i].price.toCurrency(),
+                        style: TextStyle(color: color),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 5),
+              ],
             ),
-            child: DefaultTextStyle(
-              style: const TextStyle(fontSize: 10),
+          ),
+        ),
+      );
+
+      sum += yearlyAllCredit[i].price.toInt();
+    }
+
+    return Expanded(
+      child: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
               child: Column(
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Opacity(
-                        opacity: 0.6,
-                        child: Container(
-                          padding: const EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.white.withOpacity(0.8)),
-                            color: (element.date.yyyymmdd.split('-')[0] != date.yyyy)
-                                ? Colors.black.withOpacity(0.2)
-                                : _utility.getLeadingBgColor(month: element.date.yyyymmdd.split('-')[1]),
-                          ),
-                          child: Column(
-                            children: [Text(element.date.yyyy), Text(element.date.mmdd)],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          element.item,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(color: color),
-                        ),
-                      ),
-                      Container(
-                        width: 40,
-                        alignment: Alignment.topRight,
-                        child: Text(
-                          element.price.toCurrency(),
-                          style: TextStyle(color: color),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 5),
-                ],
+                children: list,
               ),
             ),
           ),
-        );
-      });
-
-    return SingleChildScrollView(child: Column(children: list));
+          Container(
+            height: 20,
+            alignment: Alignment.topRight,
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            child: Text(
+              sum.toString().toCurrency(),
+              style: const TextStyle(fontSize: 10),
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   ///
