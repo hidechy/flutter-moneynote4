@@ -1,13 +1,15 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, cascade_invocations
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/models/credit_spend_yearly_detail_disp.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../state/device_info/device_info_notifier.dart';
 import '../../../utility/utility.dart';
 import '../../../viewmodel/credit_notifier.dart';
+import '../../../viewmodel/keihi_list_notifier.dart';
 import '../_money_dialog.dart';
 import '../credit_udemy_alert.dart';
 
@@ -18,6 +20,8 @@ class CreditYearlyDetailPage extends ConsumerWidget {
 
   final Utility _utility = Utility();
 
+  List<String> keihiList = [];
+
   late BuildContext _context;
   late WidgetRef _ref;
 
@@ -26,6 +30,8 @@ class CreditYearlyDetailPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _context = context;
     _ref = ref;
+
+    makeKeihiListMap();
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
@@ -64,15 +70,41 @@ class CreditYearlyDetailPage extends ConsumerWidget {
   Widget displaySpendYearlyDetail() {
     final list = <Widget>[];
 
-    final creditSummaryDetailState = _ref.watch(
-      creditSummaryDetailProvider(date),
-    );
+    // final creditSummaryDetailState = _ref.watch(
+    //   creditSummaryDetailProvider(date),
+    // );
+
+    final creditSpendMonthlyState = _ref.watch(creditSpendMonthlyProvider(date));
+
+    final yearlyDetailCredit = <CreditSpendYearlyDetailDisp>[];
+    creditSpendMonthlyState.forEach((element) {
+      yearlyDetailCredit.add(
+        CreditSpendYearlyDetailDisp(
+          item: _utility.getCreditListItem(item: element.item),
+          baseItem: element.item,
+          date: element.date,
+          price: element.price.toInt(),
+        ),
+      );
+    });
+
+    yearlyDetailCredit.sort((a, b) => '${a.date.yyyymmdd}|${a.item}'.compareTo('${b.date.yyyymmdd}|${b.item}'));
 
     var sum = 0;
-    for (var i = 0; i < creditSummaryDetailState.length; i++) {
-      sum += creditSummaryDetailState[i].price;
+    var keihiSum = 0;
+    for (var i = 0; i < yearlyDetailCredit.length; i++) {
+      sum += yearlyDetailCredit[i].price;
 
-      final priceColor = (creditSummaryDetailState[i].price >= 10000) ? Colors.yellowAccent : Colors.white;
+      final priceColor = (yearlyDetailCredit[i].price >= 10000) ? Colors.yellowAccent : Colors.white;
+
+      var bgColor = Colors.transparent;
+      if (keihiList.contains('${yearlyDetailCredit[i].baseItem}|${yearlyDetailCredit[i].date.yyyymmdd}')) {
+        bgColor = (yearlyDetailCredit[i].date.year == DateTime.now().year - 1)
+            ? Colors.orangeAccent.withOpacity(0.1)
+            : Colors.yellowAccent.withOpacity(0.1);
+
+        keihiSum += yearlyDetailCredit[i].price;
+      }
 
       list.add(
         Container(
@@ -83,6 +115,7 @@ class CreditYearlyDetailPage extends ConsumerWidget {
                 color: Colors.white.withOpacity(0.3),
               ),
             ),
+            color: bgColor,
           ),
           child: Row(
             children: [
@@ -91,15 +124,18 @@ class CreditYearlyDetailPage extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      creditSummaryDetailState[i].item,
+                      yearlyDetailCredit[i].item,
                       style: TextStyle(color: priceColor),
                     ),
-                    Container(
-                      alignment: Alignment.topRight,
-                      child: Text(
-                        creditSummaryDetailState[i].price.toString().toCurrency(),
-                        style: TextStyle(color: priceColor),
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(yearlyDetailCredit[i].date.yyyymmdd),
+                        Text(
+                          yearlyDetailCredit[i].price.toString().toCurrency(),
+                          style: TextStyle(color: priceColor),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -117,27 +153,19 @@ class CreditYearlyDetailPage extends ConsumerWidget {
 
     list.add(
       Container(
-        padding: const EdgeInsets.symmetric(vertical: 3),
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              color: Colors.white.withOpacity(0.3),
-            ),
-          ),
-          color: Colors.yellowAccent.withOpacity(0.2),
-        ),
+        padding: const EdgeInsets.symmetric(vertical: 5),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(),
-            Row(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(sum.toString().toCurrency()),
-                const SizedBox(width: 20),
-                const Icon(
-                  Icons.check_box_outline_blank,
-                  color: Colors.transparent,
-                )
+                Text(
+                  keihiSum.toString().toCurrency(),
+                  style: const TextStyle(color: Color(0xFFFBB6CE)),
+                ),
               ],
             ),
           ],
@@ -146,8 +174,9 @@ class CreditYearlyDetailPage extends ConsumerWidget {
     );
 
     return SingleChildScrollView(
-      child: Column(
-        children: list,
+      child: DefaultTextStyle(
+        style: const TextStyle(fontSize: 10),
+        child: Column(children: list),
       ),
     );
   }
@@ -176,6 +205,19 @@ class CreditYearlyDetailPage extends ConsumerWidget {
           Icons.check_box_outline_blank,
           color: Colors.transparent,
         );
+    }
+  }
+
+  ///
+  void makeKeihiListMap() {
+    keihiList = [];
+
+    for (var i = date.year - 1; i <= date.year; i++) {
+      final keihiListState = _ref.watch(keihiListProvider(DateTime(i)));
+
+      keihiListState.forEach((element) {
+        keihiList.add('${element.item}|${element.date.yyyymmdd}');
+      });
     }
   }
 }

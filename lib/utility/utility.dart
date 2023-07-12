@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../extensions/extensions.dart';
+import '../extensions/katakana_convert.dart';
 
 class Utility {
   /// 背景取得
@@ -74,10 +75,7 @@ class Utility {
   }
 
   ///
-  Color getYoubiColor(
-      {required DateTime date,
-      required String youbiStr,
-      required List<DateTime> holiday}) {
+  Color getYoubiColor({required DateTime date, required String youbiStr, required List<DateTime> holiday}) {
     var color = Colors.black.withOpacity(0.2);
 
     switch (youbiStr) {
@@ -137,8 +135,7 @@ class Utility {
 
   ///
   void showError(String msg) {
-    ScaffoldMessenger.of(NavigationService.navigatorKey.currentContext!)
-        .showSnackBar(
+    ScaffoldMessenger.of(NavigationService.navigatorKey.currentContext!).showSnackBar(
       SnackBar(
         content: Text(msg),
         duration: const Duration(seconds: 5),
@@ -187,9 +184,7 @@ class Utility {
 
     touchedSpots.forEach((element) {
       final textStyle = TextStyle(
-        color: element.bar.gradient?.colors.first ??
-            element.bar.color ??
-            Colors.blueGrey,
+        color: element.bar.gradient?.colors.first ?? element.bar.color ?? Colors.blueGrey,
         fontWeight: FontWeight.bold,
         fontSize: 12,
       );
@@ -222,6 +217,44 @@ class Utility {
       //縦線
       getDrawingVerticalLine: (value) => flline,
     );
+  }
+
+  ///
+  String getCreditListItem({required String item}) {
+    var ret = item.replaceAll('ＪＣＢ国内利用　', '').replaceAll('ＪＣＢ海外利用　', '').replaceAll('JCB ', '');
+
+    //-------------------------//
+    var reg = RegExp('西友ネットスーパー');
+
+    if (reg.firstMatch(item) != null) {
+      final exItem = item.split('　 ');
+      ret = exItem[0];
+    }
+    //-------------------------//
+
+    //-------------------------//
+    reg = RegExp('さくらインターネット');
+
+    if (reg.firstMatch(item) != null) {
+      final exItem = item.split('　');
+      ret = exItem[0];
+    }
+    //-------------------------//
+
+    //-------------------------//
+    reg = RegExp('ドコモご利用料金');
+
+    if (reg.firstMatch(item) != null) {
+      final exItem = item.split('　');
+      ret = exItem[0];
+    }
+    //-------------------------//
+
+    ret = halfKatakanaToFullLength(val: ret);
+
+    ret = ret.alphanumericToHalfLength();
+
+    return ret.toUpperCase();
   }
 }
 

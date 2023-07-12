@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
-import '../../extensions/katakana_convert.dart';
+import '../../models/credit_spend_all_disp.dart';
 import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
@@ -108,7 +108,7 @@ class CreditYearlyListAlert extends ConsumerWidget {
       yearlyAllCredit.add(
         CreditSpendAllDisp(
           payMonth: element.payMonth,
-          item: getListItem(item: element.item),
+          item: _utility.getCreditListItem(item: element.item),
           baseItem: element.item,
           price: element.price,
           date: element.date,
@@ -120,6 +120,7 @@ class CreditYearlyListAlert extends ConsumerWidget {
     });
 
     var sum = 0;
+    var keihiSum = 0;
 
     yearlyAllCredit.sort((a, b) => '${a.item}|${a.date.yyyymmdd}'.compareTo('${b.item}|${b.date.yyyymmdd}'));
 
@@ -137,14 +138,19 @@ class CreditYearlyListAlert extends ConsumerWidget {
 
       final color = (yearlyAllCredit[i].price.toInt() >= 10000) ? Colors.yellowAccent : Colors.white;
 
+      var bgColor = Colors.transparent;
+      if (keihiList.contains('${yearlyAllCredit[i].baseItem}|${yearlyAllCredit[i].date.yyyymmdd}')) {
+        bgColor = (yearlyAllCredit[i].date.year == DateTime.now().year - 1)
+            ? Colors.orangeAccent.withOpacity(0.1)
+            : Colors.yellowAccent.withOpacity(0.1);
+
+        keihiSum += yearlyAllCredit[i].price.toInt();
+      }
+
       list.add(
         Container(
           width: _context.screenSize.width,
-          decoration: BoxDecoration(
-            color: (keihiList.contains('${yearlyAllCredit[i].baseItem}|${yearlyAllCredit[i].date.yyyymmdd}'))
-                ? Colors.yellowAccent.withOpacity(0.1)
-                : Colors.transparent,
-          ),
+          decoration: BoxDecoration(color: bgColor),
           child: DefaultTextStyle(
             style: const TextStyle(fontSize: 10),
             child: Column(
@@ -219,14 +225,33 @@ class CreditYearlyListAlert extends ConsumerWidget {
               ),
             ),
           ),
-          Container(
-            height: 20,
-            alignment: Alignment.topRight,
-            margin: const EdgeInsets.symmetric(vertical: 10),
-            child: Text(
-              sum.toString().toCurrency(),
-              style: const TextStyle(fontSize: 10),
-            ),
+          Column(
+            children: [
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        sum.toString().toCurrency(),
+                        style: const TextStyle(fontSize: 10),
+                      ),
+                      Text(
+                        keihiSum.toString().toCurrency(),
+                        style: const TextStyle(
+                          fontSize: 10,
+                          color: Color(0xFFFBB6CE),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+            ],
           ),
         ],
       ),
@@ -234,73 +259,15 @@ class CreditYearlyListAlert extends ConsumerWidget {
   }
 
   ///
-  String getListItem({required String item}) {
-    var ret = item.replaceAll('ＪＣＢ国内利用　', '').replaceAll('ＪＣＢ海外利用　', '').replaceAll('JCB ', '');
-
-    //-------------------------//
-    var reg = RegExp('西友ネットスーパー');
-
-    if (reg.firstMatch(item) != null) {
-      final exItem = item.split('　 ');
-      ret = exItem[0];
-    }
-    //-------------------------//
-
-    //-------------------------//
-    reg = RegExp('さくらインターネット');
-
-    if (reg.firstMatch(item) != null) {
-      final exItem = item.split('　');
-      ret = exItem[0];
-    }
-    //-------------------------//
-
-    //-------------------------//
-    reg = RegExp('ドコモご利用料金');
-
-    if (reg.firstMatch(item) != null) {
-      final exItem = item.split('　');
-      ret = exItem[0];
-    }
-    //-------------------------//
-
-    ret = halfKatakanaToFullLength(val: ret);
-
-    ret = ret.alphanumericToHalfLength();
-
-    return ret.toUpperCase();
-  }
-
-  ///
   void makeKeihiListMap() {
     keihiList = [];
 
-    final keihiListState = _ref.watch(keihiListProvider(date));
+    for (var i = date.year - 1; i <= date.year; i++) {
+      final keihiListState = _ref.watch(keihiListProvider(DateTime(i)));
 
-    keihiListState.forEach((element) {
-      keihiList.add('${element.item}|${element.date.yyyymmdd}');
-    });
+      keihiListState.forEach((element) {
+        keihiList.add('${element.item}|${element.date.yyyymmdd}');
+      });
+    }
   }
-}
-
-class CreditSpendAllDisp {
-  CreditSpendAllDisp({
-    required this.payMonth,
-    required this.item,
-    required this.baseItem,
-    required this.price,
-    required this.date,
-    required this.kind,
-    required this.monthDiff,
-    required this.flag,
-  });
-
-  String payMonth;
-  String item;
-  String baseItem;
-  String price;
-  DateTime date;
-  String kind;
-  int monthDiff;
-  int flag;
 }

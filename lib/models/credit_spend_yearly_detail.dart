@@ -1,5 +1,5 @@
-class SpendYearlyDetail {
-  SpendYearlyDetail({
+class CreditSpendYearlyDetail {
+  CreditSpendYearlyDetail({
     required this.item,
     required this.month,
     required this.price,

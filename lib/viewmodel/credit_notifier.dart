@@ -8,8 +8,8 @@ import '../data/http/path.dart';
 import '../models/credit_company.dart';
 import '../models/credit_spend_all.dart';
 import '../models/credit_spend_monthly.dart';
+import '../models/credit_spend_yearly_detail.dart';
 import '../models/credit_summary.dart';
-import '../models/spend_yearly_detail.dart';
 import '../state/credit_summary/credit_summary_state.dart';
 import '../utility/utility.dart';
 
@@ -26,25 +26,21 @@ creditUdemyProvider       List<CreditSpendMonthly>        *
 ////////////////////////////////////////////////
 
 final creditSpendMonthlyProvider = StateNotifierProvider.autoDispose
-    .family<CreditSpendMonthlyNotifier, List<CreditSpendMonthly>, DateTime>(
-        (ref, date) {
+    .family<CreditSpendMonthlyNotifier, List<CreditSpendMonthly>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return CreditSpendMonthlyNotifier([], client, utility)
-    ..getCreditSpendMonthly(date: date, kind: '');
+  return CreditSpendMonthlyNotifier([], client, utility)..getCreditSpendMonthly(date: date, kind: '');
 });
 
-class CreditSpendMonthlyNotifier
-    extends StateNotifier<List<CreditSpendMonthly>> {
+class CreditSpendMonthlyNotifier extends StateNotifier<List<CreditSpendMonthly>> {
   CreditSpendMonthlyNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
   final Utility utility;
 
-  Future<void> getCreditSpendMonthly(
-      {required DateTime date, required String kind}) async {
+  Future<void> getCreditSpendMonthly({required DateTime date, required String kind}) async {
     await client.post(
       path: APIPath.uccardspend,
       body: {'date': date.yyyymmdd},
@@ -86,14 +82,13 @@ class CreditSpendMonthlyNotifier
 
 ////////////////////////////////////////////////
 
-final creditSummaryProvider = StateNotifierProvider.autoDispose
-    .family<CreditSummaryNotifier, CreditSummaryState, DateTime>((ref, date) {
+final creditSummaryProvider =
+    StateNotifierProvider.autoDispose.family<CreditSummaryNotifier, CreditSummaryState, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return CreditSummaryNotifier(const CreditSummaryState(), client, utility)
-    ..getCreditSummary(date: date);
+  return CreditSummaryNotifier(const CreditSummaryState(), client, utility)..getCreditSummary(date: date);
 });
 
 class CreditSummaryNotifier extends StateNotifier<CreditSummaryState> {
@@ -132,14 +127,13 @@ class CreditSummaryNotifier extends StateNotifier<CreditSummaryState> {
 
 ////////////////////////////////////////////////
 
-final creditCompanyProvider = StateNotifierProvider.autoDispose
-    .family<CreditCompanyNotifier, List<CreditCompany>, DateTime>((ref, date) {
+final creditCompanyProvider =
+    StateNotifierProvider.autoDispose.family<CreditCompanyNotifier, List<CreditCompany>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return CreditCompanyNotifier([], client, utility)
-    ..getCreditCompany(date: date);
+  return CreditCompanyNotifier([], client, utility)..getCreditCompany(date: date);
 });
 
 class CreditCompanyNotifier extends StateNotifier<List<CreditCompany>> {
@@ -157,9 +151,7 @@ class CreditCompanyNotifier extends StateNotifier<List<CreditCompany>> {
 
       var keepYm = '';
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        for (var j = 0;
-            j < value['data'][i]['list'].length.toString().toInt();
-            j++) {
+        for (var j = 0; j < value['data'][i]['list'].length.toString().toInt(); j++) {
           if (keepYm != value['data'][i]['ym'].toString()) {
             list.add(
               CreditCompany.fromJson(value['data'][i] as Map<String, dynamic>),
@@ -181,8 +173,7 @@ class CreditCompanyNotifier extends StateNotifier<List<CreditCompany>> {
 
 ////////////////////////////////////////////////
 
-final selectCreditProvider =
-    StateNotifierProvider.autoDispose<SelectCreditStateNotifier, String>((ref) {
+final selectCreditProvider = StateNotifierProvider.autoDispose<SelectCreditStateNotifier, String>((ref) {
   return SelectCreditStateNotifier();
 });
 
@@ -199,15 +190,13 @@ class SelectCreditStateNotifier extends StateNotifier<String> {
 
 ////////////////////////////////////////////////
 
-final creditYearlyTotalProvider = StateNotifierProvider.autoDispose
-    .family<CreditYearlyTotalNotifier, List<CreditSpendAll>, DateTime>(
-        (ref, date) {
+final creditYearlyTotalProvider =
+    StateNotifierProvider.autoDispose.family<CreditYearlyTotalNotifier, List<CreditSpendAll>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return CreditYearlyTotalNotifier([], client, utility)
-    ..getCreditYearlyTotal(date: date);
+  return CreditYearlyTotalNotifier([], client, utility)..getCreditYearlyTotal(date: date);
 });
 
 class CreditYearlyTotalNotifier extends StateNotifier<List<CreditSpendAll>> {
@@ -243,9 +232,7 @@ class CreditYearlyTotalNotifier extends StateNotifier<List<CreditSpendAll>> {
               price: value['data'][i]['price'].toString(),
               date: date,
               kind: value['data'][i]['kind'].toString(),
-              monthDiff: (value['data'][i]['monthDiff'] == null)
-                  ? 0
-                  : value['data'][i]['monthDiff'].toString().toInt(),
+              monthDiff: (value['data'][i]['monthDiff'] == null) ? 0 : value['data'][i]['monthDiff'].toString().toInt(),
               flag: value['data'][i]['flag'].toString().toInt(),
             ),
           );
@@ -282,22 +269,18 @@ class CreditYearlyTotalNotifier extends StateNotifier<List<CreditSpendAll>> {
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 final creditSummaryDetailProvider = StateNotifierProvider.autoDispose
-    .family<CreditSummaryDetailNotifier, List<SpendYearlyDetail>, DateTime>(
-        (ref, date) {
+    .family<CreditSummaryDetailNotifier, List<CreditSpendYearlyDetail>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
   final creditSummaryState = ref.watch(creditSummaryProvider(date));
 
-  return CreditSummaryDetailNotifier([], client, utility, creditSummaryState)
-    ..getCreditSummaryDetail(date: date);
+  return CreditSummaryDetailNotifier([], client, utility, creditSummaryState)..getCreditSummaryDetail(date: date);
 });
 
-class CreditSummaryDetailNotifier
-    extends StateNotifier<List<SpendYearlyDetail>> {
-  CreditSummaryDetailNotifier(
-      super.state, this.client, this.utility, this.creditSummaryState);
+class CreditSummaryDetailNotifier extends StateNotifier<List<CreditSpendYearlyDetail>> {
+  CreditSummaryDetailNotifier(super.state, this.client, this.utility, this.creditSummaryState);
 
   final HttpClient client;
   final Utility utility;
@@ -306,14 +289,14 @@ class CreditSummaryDetailNotifier
   Future<void> getCreditSummaryDetail({required DateTime date}) async {
     final month = date.mm;
 
-    final list = <SpendYearlyDetail>[];
+    final list = <CreditSpendYearlyDetail>[];
 
     for (var i = 0; i < creditSummaryState.list.length; i++) {
       for (var j = 0; j < creditSummaryState.list[i].list.length; j++) {
         if (month == creditSummaryState.list[i].list[j].month) {
           if (creditSummaryState.list[i].list[j].price > 0) {
             list.add(
-              SpendYearlyDetail(
+              CreditSpendYearlyDetail(
                 item: creditSummaryState.list[i].item,
                 month: creditSummaryState.list[i].list[j].month,
                 price: creditSummaryState.list[i].list[j].price,
@@ -332,22 +315,19 @@ class CreditSummaryDetailNotifier
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-final creditUdemyProvider = StateNotifierProvider.autoDispose
-    .family<CreditUdemyNotifier, List<CreditSpendMonthly>, DateTime>(
-        (ref, date) {
+final creditUdemyProvider =
+    StateNotifierProvider.autoDispose.family<CreditUdemyNotifier, List<CreditSpendMonthly>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
   final creditSpendMonthlyState = ref.watch(creditSpendMonthlyProvider(date));
 
-  return CreditUdemyNotifier([], client, utility, creditSpendMonthlyState)
-    ..getCreditUdemy(date: date);
+  return CreditUdemyNotifier([], client, utility, creditSpendMonthlyState)..getCreditUdemy(date: date);
 });
 
 class CreditUdemyNotifier extends StateNotifier<List<CreditSpendMonthly>> {
-  CreditUdemyNotifier(
-      super.state, this.client, this.utility, this.creditSpendMonthlyState);
+  CreditUdemyNotifier(super.state, this.client, this.utility, this.creditSpendMonthlyState);
 
   final HttpClient client;
   final Utility utility;

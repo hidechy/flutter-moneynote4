@@ -21,9 +21,9 @@ import '_components/_money_dialog.dart';
 import '_components/amazon_alert.dart';
 import '_components/balance_sheet_alert.dart';
 import '_components/benefit_alert.dart';
-import '_components/credit_alert.dart';
 import '_components/credit_company_alert.dart';
 import '_components/credit_summary_alert.dart';
+import '_components/credit_yearly_detail_alert.dart';
 import '_components/duty_alert.dart';
 import '_components/food_expenses_alert.dart';
 import '_components/home_fix_alert.dart';
@@ -297,7 +297,7 @@ class HomeScreen extends ConsumerWidget {
           onTap: () {
             MoneyDialog(
               context: _context,
-              widget: CreditAlert(date: focusDayState),
+              widget: CreditYearlyDetailAlert(date: focusDayState),
             );
           },
           child: const Icon(
