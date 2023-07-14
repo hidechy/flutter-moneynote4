@@ -26,6 +26,14 @@ import '../_money_dialog.dart';
 import '../monthly_spend_graph_alert.dart';
 import '../spend_alert.dart';
 
+class SpendListValue {
+  SpendListValue({required this.item, required this.price, required this.color});
+
+  String item;
+  int price;
+  Color color;
+}
+
 class MonthlySpendPage extends ConsumerWidget {
   MonthlySpendPage({super.key, required this.date});
 
@@ -42,6 +50,7 @@ class MonthlySpendPage extends ConsumerWidget {
   Map<String, Money> allMoneyMap = {};
 
   int monthTotalSpend = 0;
+  int monthTotalSumCredit = 0;
 
   Map<String, List<Keihi>> keihiListMap = {};
 
@@ -98,7 +107,16 @@ class MonthlySpendPage extends ConsumerWidget {
                           ),
                         ],
                       ),
-                      Text(monthTotalSpend.toString().toCurrency()),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(monthTotalSpend.toString().toCurrency()),
+                          Text(
+                            monthTotalSumCredit.toString().toCurrency(),
+                            style: const TextStyle(color: Color(0xFFFB86CE)),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 );
@@ -193,9 +211,109 @@ class MonthlySpendPage extends ConsumerWidget {
     final everydayStateMap = makeEverydayStateMap(state: moneyEverydayState);
 
     monthTotalSpend = 0;
+    monthTotalSumCredit = 0;
 
     //forで仕方ない
     for (var i = 0; i < spendMonthDetailState.list.length; i++) {
+      //--------------------------------------------- list2
+      final list2 = <Widget>[];
+      final list2value = <SpendListValue>[];
+
+      var daySum = 0;
+      var daySumCredit = 0;
+
+      spendMonthDetailState.list[i].item.forEach(
+        (element) {
+          list2value.add(
+            SpendListValue(
+              item: element.item,
+              price: element.price,
+              color: (element.flag.toString() == '1') ? Colors.lightBlueAccent : Colors.white,
+            ),
+          );
+
+          daySum += element.price.toString().toInt();
+          daySumCredit += element.price.toString().toInt();
+        },
+      );
+
+      if (creditSpendMap[spendMonthDetailState.list[i].date.yyyymmdd] != null) {
+        creditSpendMap[spendMonthDetailState.list[i].date.yyyymmdd]!.forEach((element) {
+          list2value.add(
+            SpendListValue(item: element.item, price: element.price.toInt(), color: const Color(0xFFFB86CE)),
+          );
+
+          daySumCredit += element.price.toInt();
+        });
+      }
+
+      benefitState.forEach(
+        (element) {
+          if (spendMonthDetailState.list[i].date.yyyymmdd == element.date.yyyymmdd) {
+            list2value.add(
+              SpendListValue(item: 'benefit', price: element.salary.toInt(), color: Colors.yellowAccent),
+            );
+          }
+        },
+      );
+
+      bankMoveState.forEach(
+        (element) {
+          if (spendMonthDetailState.list[i].date.yyyymmdd == element.date.yyyymmdd) {
+            list2value.add(
+              SpendListValue(
+                item: 'Bank Move - ${element.bank} // ${element.flag == 0 ? 'out' : 'in'}',
+                price: element.price,
+                color: Colors.greenAccent,
+              ),
+            );
+          }
+        },
+      );
+
+      list2value.forEach((element) {
+        list2.add(
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.white.withOpacity(0.3),
+                ),
+              ),
+            ),
+            child: DefaultTextStyle(
+              style: TextStyle(color: element.color, fontSize: 12),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: Text(
+                      element.item,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.topRight,
+                      child: Text(element.price.toString().toCurrency()),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      });
+
+      //--------------------------------------------- list2
+
+/*
+
+
+
+
       //--------------------------------------------- list2
       final list2 = <Widget>[];
 
@@ -367,6 +485,14 @@ class MonthlySpendPage extends ConsumerWidget {
 
       //--------------------------------------------- list2
 
+
+
+
+
+
+
+*/
+
       final youbi = _utility.getYoubi(
         youbiStr: spendMonthDetailState.list[i].date.youbiStr,
       );
@@ -436,6 +562,8 @@ class MonthlySpendPage extends ConsumerWidget {
                                   ),
                                   Column(
                                     children: keihiListMap[spendMonthDetailState.list[i].date.yyyymmdd]!.map((e) {
+                                      daySumCredit -= e.price;
+
                                       return Row(
                                         children: [
                                           Expanded(
@@ -494,6 +622,18 @@ class MonthlySpendPage extends ConsumerWidget {
                           ),
 
                         /////
+
+                        const SizedBox(height: 10),
+                        Container(
+                          alignment: Alignment.topRight,
+                          child: Text(
+                            daySumCredit.toString().toCurrency(),
+                            style: const TextStyle(fontSize: 12, color: Color(0xFFFB86CE)),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+
+                        /////
                       ],
                     ),
                   ),
@@ -505,6 +645,7 @@ class MonthlySpendPage extends ConsumerWidget {
       );
 
       monthTotalSpend += daySum;
+      monthTotalSumCredit += daySumCredit;
     }
   }
 
