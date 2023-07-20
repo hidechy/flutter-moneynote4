@@ -227,7 +227,7 @@ class MonthlySpendPage extends ConsumerWidget {
           list2value.add(
             SpendListValue(
               item: element.item,
-              price: element.price,
+              price: element.price.toString().toInt(),
               color: (element.flag.toString() == '1') ? Colors.lightBlueAccent : Colors.white,
             ),
           );

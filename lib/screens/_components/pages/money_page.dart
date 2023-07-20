@@ -599,7 +599,7 @@ class MoneyPage extends ConsumerWidget {
     if (goldState.goldValue != null && goldState.payPrice != null) {
       goldDiff = goldState.goldValue.toString().toInt() - goldState.payPrice.toString().toInt();
 
-      notMoneyAsset.add(goldState.goldValue);
+      notMoneyAsset.add(goldState.goldValue.toString().toInt());
 
       score = ((goldState.goldValue.toString().toInt() / goldState.payPrice.toString().toInt()) * 100).round();
     }

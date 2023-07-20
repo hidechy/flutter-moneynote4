@@ -351,10 +351,16 @@ class HomeScreen extends ConsumerWidget {
       spendMonthSummaryProvider(focusDayState),
     );
 
+    final fixPaymentValue = _utility.getFixPaymentValue();
+
     for (var i = 0; i < spendMonthSummaryState.length; i++) {
       final spend = spendMonthSummaryState[i];
 
-      final textColor = (spend.sum >= 10000) ? Colors.yellowAccent : Colors.white;
+      var textColor = (spend.sum >= 10000) ? Colors.yellowAccent : Colors.white;
+
+      if (fixPaymentValue[spend.item] == 1) {
+        textColor = Colors.orangeAccent;
+      }
 
       list.add(
         DefaultTextStyle(
