@@ -36,9 +36,13 @@ class ShintakuAlert extends ConsumerWidget {
 
     final selectShintakuState = _ref.watch(selectShintakuProvider);
 
-    final exDataLength = (shintakuState.record.isNotEmpty)
-        ? shintakuState.record[selectShintakuState].data.split('/').length
-        : 0;
+    var exDataLength = 0;
+
+    if (shintakuState.lastShintaku != null) {
+      exDataLength = (shintakuState.lastShintaku!.record.isNotEmpty)
+          ? shintakuState.lastShintaku!.record[selectShintakuState].data.split('/').length
+          : 0;
+    }
 
     //==============================//
 
@@ -62,8 +66,7 @@ class ShintakuAlert extends ConsumerWidget {
               Container(width: context.screenSize.width),
 
               //----------//
-              if (deviceInfoState.model == 'iPhone')
-                _utility.getFileNameDebug(name: runtimeType.toString()),
+              if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
               //----------//
 
               displayItemName(),
@@ -128,80 +131,69 @@ class ShintakuAlert extends ConsumerWidget {
       scrollDirection: Axis.horizontal,
       child: DefaultTextStyle(
         style: const TextStyle(fontSize: 10),
-        child: Row(
-          children: shintakuState.record.asMap().entries.map((e) {
-            final exData = e.value.data.split('/');
+        child: (shintakuState.lastShintaku == null)
+            ? Container()
+            : Row(
+                children: shintakuState.lastShintaku!.record.asMap().entries.map((e) {
+                  final exData = e.value.data.split('/');
 
-            var lastDate = '';
-            for (var i = 0; i < exData.length; i++) {
-              final exOne = exData[i].split('|');
-              lastDate = exOne[0];
-            }
+                  var lastDate = '';
+                  for (var i = 0; i < exData.length; i++) {
+                    final exOne = exData[i].split('|');
+                    lastDate = exOne[0];
+                  }
 
-            final dateDiffInDays = '$lastDate 00:00:00'
-                .toDateTime()
-                .difference(DateTime.now())
-                .inDays;
+                  final dateDiffInDays = '$lastDate 00:00:00'.toDateTime().difference(DateTime.now()).inDays;
 
-            return GestureDetector(
-              onTap: () {
-                _ref
-                    .watch(selectShintakuProvider.notifier)
-                    .setSelectShintaku(selectShintaku: e.key);
+                  return GestureDetector(
+                    onTap: () {
+                      _ref.watch(selectShintakuProvider.notifier).setSelectShintaku(selectShintaku: e.key);
 
-                _ref
-                    .watch(shintakuRecordProvider.notifier)
-                    .getShintakuRecord(flag: e.key);
+                      _ref.watch(shintakuRecordProvider.notifier).getShintakuRecord(flag: e.key);
 
-                autoScrollController.scrollToIndex(0);
-              },
-              child: Container(
-                width: _context.screenSize.width * 0.4,
-                margin: const EdgeInsets.all(5),
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: (selectShintakuState == e.key)
-                        ? Colors.yellowAccent.withOpacity(0.6)
-                        : Colors.white.withOpacity(0.6),
-                  ),
-                  color: (dateDiffInDays > -30)
-                      ? Colors.transparent
-                      : Colors.grey.withOpacity(0.2),
-                ),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: _context.screenSize.height / 10,
-                  ),
-                  child: Column(
-                    children: [
-                      Container(
-                        alignment: Alignment.topRight,
-                        child: Text(
-                          lastDate,
-                          style: TextStyle(
-                            fontSize: 8,
-                            color: (selectShintakuState == e.key)
-                                ? Colors.yellowAccent
-                                : Colors.white,
-                          ),
-                        ),
-                      ),
-                      Text(
-                        e.value.name,
-                        style: TextStyle(
+                      autoScrollController.scrollToIndex(0);
+                    },
+                    child: Container(
+                      width: _context.screenSize.width * 0.4,
+                      margin: const EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        border: Border.all(
                           color: (selectShintakuState == e.key)
-                              ? Colors.yellowAccent
-                              : Colors.white,
+                              ? Colors.yellowAccent.withOpacity(0.6)
+                              : Colors.white.withOpacity(0.6),
+                        ),
+                        color: (dateDiffInDays > -30) ? Colors.transparent : Colors.grey.withOpacity(0.2),
+                      ),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: _context.screenSize.height / 10,
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              alignment: Alignment.topRight,
+                              child: Text(
+                                lastDate,
+                                style: TextStyle(
+                                  fontSize: 8,
+                                  color: (selectShintakuState == e.key) ? Colors.yellowAccent : Colors.white,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              e.value.name,
+                              style: TextStyle(
+                                color: (selectShintakuState == e.key) ? Colors.yellowAccent : Colors.white,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                }).toList(),
               ),
-            );
-          }).toList(),
-        ),
       ),
     );
   }
@@ -214,90 +206,90 @@ class ShintakuAlert extends ConsumerWidget {
 
     final list = <Widget>[];
 
-    if (shintakuState.record.isNotEmpty) {
-      final exData = shintakuState.record[selectShintakuState].data.split('/');
+    if (shintakuState.lastShintaku != null) {
+      if (shintakuState.lastShintaku!.record.isNotEmpty) {
+        final exData = shintakuState.lastShintaku!.record[selectShintakuState].data.split('/');
 
-      var keepNum = 0;
+        var keepNum = 0;
 
-      //forで仕方ない
-      for (var i = 0; i < exData.length; i++) {
-        final exOne = exData[i].split('|');
+        //forで仕方ない
+        for (var i = 0; i < exData.length; i++) {
+          final exOne = exData[i].split('|');
 
-        final exDate = exOne[0].split('-');
+          final exDate = exOne[0].split('-');
 
-        if (exDate.length == 1) {
-          continue;
-        }
+          if (exDate.length == 1) {
+            continue;
+          }
 
-        final diff = exOne[1].toInt() - keepNum;
+          final diff = exOne[1].toInt() - keepNum;
 
-        list.add(
-          AutoScrollTag(
-            key: ValueKey(i),
-            index: i,
-            controller: autoScrollController,
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 3),
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Colors.white.withOpacity(0.3),
+          list.add(
+            AutoScrollTag(
+              key: ValueKey(i),
+              index: i,
+              controller: autoScrollController,
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 3),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.white.withOpacity(0.3),
+                    ),
                   ),
                 ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(exOne[0]),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          alignment: Alignment.topRight,
-                          child: Text(exOne[3].toCurrency()),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          alignment: Alignment.topRight,
-                          child: Text(exOne[4].toCurrency()),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          alignment: Alignment.topRight,
-                          child: Text(exOne[5].toCurrency()),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          alignment: Alignment.topRight,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(exOne[1].toCurrency()),
-                              Text(
-                                diff.toString(),
-                                style: TextStyle(
-                                  color: (diff == 0)
-                                      ? Colors.grey
-                                      : Colors.yellowAccent,
-                                ),
-                              ),
-                            ],
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(exOne[0]),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            alignment: Alignment.topRight,
+                            child: Text(exOne[3].toCurrency()),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                        Expanded(
+                          child: Container(
+                            alignment: Alignment.topRight,
+                            child: Text(exOne[4].toCurrency()),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            alignment: Alignment.topRight,
+                            child: Text(exOne[5].toCurrency()),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            alignment: Alignment.topRight,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(exOne[1].toCurrency()),
+                                Text(
+                                  diff.toString(),
+                                  style: TextStyle(
+                                    color: (diff == 0) ? Colors.grey : Colors.yellowAccent,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        );
+          );
 
-        keepNum = exOne[1].toInt();
+          keepNum = exOne[1].toInt();
+        }
       }
     }
 
@@ -311,8 +303,7 @@ class ShintakuAlert extends ConsumerWidget {
 ///
 ////////////////////////////////////////////////
 
-final selectShintakuProvider =
-    StateNotifierProvider.autoDispose<SelectShintakuStateNotifier, int>((ref) {
+final selectShintakuProvider = StateNotifierProvider.autoDispose<SelectShintakuStateNotifier, int>((ref) {
   return SelectShintakuStateNotifier();
 });
 

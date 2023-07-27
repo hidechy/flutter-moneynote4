@@ -772,14 +772,18 @@ class MoneyPage extends ConsumerWidget {
   Widget displayShintaku() {
     final shintakuState = _ref.watch(shintakuProvider(date));
 
-    notMoneyAsset.add(shintakuState.price);
-
     var score = '';
 
-    if (shintakuState.price != null && shintakuState.cost != null) {
-      score = ((shintakuState.price.toString().toInt() / shintakuState.cost.toString().toInt()) * 100)
-          .toString()
-          .split('.')[0];
+    if (shintakuState.lastShintaku != null) {
+      notMoneyAsset.add(shintakuState.lastShintaku!.price);
+
+      if (shintakuState.lastShintaku!.price != null && shintakuState.lastShintaku!.cost != null) {
+        score = ((shintakuState.lastShintaku!.price.toString().toInt() /
+                    shintakuState.lastShintaku!.cost.toString().toInt()) *
+                100)
+            .toString()
+            .split('.')[0];
+      }
     }
 
     return DefaultTextStyle(
@@ -813,7 +817,8 @@ class MoneyPage extends ConsumerWidget {
                     Expanded(
                       child: Container(
                         alignment: Alignment.topRight,
-                        child: Text(shintakuState.date.yyyymmdd),
+                        child:
+                            Text((shintakuState.lastShintaku == null) ? '' : shintakuState.lastShintaku!.date.yyyymmdd),
                       ),
                     ),
                   ],
@@ -822,12 +827,18 @@ class MoneyPage extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(shintakuState.cost.toString().toCurrency()),
-                    Text(
-                      shintakuState.price.toString().toCurrency(),
-                      style: const TextStyle(color: Colors.yellowAccent),
-                    ),
-                    Text(shintakuState.diff.toString().toCurrency()),
+                    Text((shintakuState.lastShintaku == null)
+                        ? ''
+                        : shintakuState.lastShintaku!.cost.toString().toCurrency()),
+                    (shintakuState.lastShintaku == null)
+                        ? Text('')
+                        : Text(
+                            shintakuState.lastShintaku!.price.toString().toCurrency(),
+                            style: const TextStyle(color: Colors.yellowAccent),
+                          ),
+                    Text((shintakuState.lastShintaku == null)
+                        ? ''
+                        : shintakuState.lastShintaku!.diff.toString().toCurrency()),
                     Text('$score %'),
                   ],
                 ),
@@ -841,7 +852,7 @@ class MoneyPage extends ConsumerWidget {
               onTap: () {
                 MoneyDialog(
                   context: _context,
-                  widget: ShintakuAlert(date: shintakuState.date),
+                  widget: ShintakuAlert(date: shintakuState.lastShintaku!.date),
                 );
               },
               child: const Icon(Icons.info_outline),

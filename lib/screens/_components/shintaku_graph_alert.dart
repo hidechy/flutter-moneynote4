@@ -57,8 +57,7 @@ class ShintakuGraphAlert extends ConsumerWidget {
               Container(width: context.screenSize.width),
 
               //----------//
-              if (deviceInfoState.model == 'iPhone')
-                _utility.getFileNameDebug(name: runtimeType.toString()),
+              if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
               //----------//
 
               Expanded(
@@ -117,7 +116,7 @@ class ShintakuGraphAlert extends ConsumerWidget {
     //------------------------------------------(1)
     final nums = <int>[];
 
-    shintakuState.record.forEach((element) {
+    shintakuState.lastShintaku!.record.forEach((element) {
       final exElement = element.data.split('/');
 
       nums.add(exElement.length);
@@ -139,7 +138,7 @@ class ShintakuGraphAlert extends ConsumerWidget {
     final points = <int>[];
 
     var j = 0;
-    shintakuState.record.forEach((element) {
+    shintakuState.lastShintaku!.record.forEach((element) {
       final dataList = <Map<String, String>?>[];
       for (var i = 0; i < maxValue; i++) {
         dataList.add(null);
@@ -185,9 +184,7 @@ class ShintakuGraphAlert extends ConsumerWidget {
         flspots.add(
           FlSpot(
             i.toString().toDouble(),
-            (dataMap[element]![i] == null)
-                ? 0
-                : dataMap[element]![i]!['point'].toString().toDouble(),
+            (dataMap[element]![i] == null) ? 0 : dataMap[element]![i]!['point'].toString().toDouble(),
           ),
         );
       }
