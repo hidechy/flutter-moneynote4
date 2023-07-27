@@ -684,13 +684,16 @@ class MoneyPage extends ConsumerWidget {
   Widget displayStock() {
     final stockState = _ref.watch(stockProvider(date));
 
-    notMoneyAsset.add(stockState.price);
-
     var score = '';
 
-    if (stockState.price != null && stockState.cost != null) {
-      score =
-          ((stockState.price.toString().toInt() / stockState.cost.toString().toInt()) * 100).toString().split('.')[0];
+    if (stockState.lastStock != null) {
+      notMoneyAsset.add(stockState.lastStock!.price);
+
+      if (stockState.lastStock!.price != null && stockState.lastStock!.cost != null) {
+        score = ((stockState.lastStock!.price.toString().toInt() / stockState.lastStock!.cost.toString().toInt()) * 100)
+            .toString()
+            .split('.')[0];
+      }
     }
 
     return DefaultTextStyle(
@@ -724,7 +727,7 @@ class MoneyPage extends ConsumerWidget {
                     Expanded(
                       child: Container(
                         alignment: Alignment.topRight,
-                        child: Text(stockState.date.yyyymmdd),
+                        child: Text((stockState.lastStock == null) ? '' : stockState.lastStock!.date.yyyymmdd),
                       ),
                     ),
                   ],
@@ -733,12 +736,14 @@ class MoneyPage extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(stockState.cost.toString().toCurrency()),
-                    Text(
-                      stockState.price.toString().toCurrency(),
-                      style: const TextStyle(color: Colors.yellowAccent),
-                    ),
-                    Text(stockState.diff.toString().toCurrency()),
+                    Text((stockState.lastStock == null) ? '' : stockState.lastStock!.cost.toString().toCurrency()),
+                    (stockState.lastStock == null)
+                        ? const Text('')
+                        : Text(
+                            stockState.lastStock!.price.toString().toCurrency(),
+                            style: const TextStyle(color: Colors.yellowAccent),
+                          ),
+                    Text((stockState.lastStock == null) ? '' : stockState.lastStock!.diff.toString().toCurrency()),
                     Text('$score %'),
                   ],
                 ),
@@ -752,7 +757,7 @@ class MoneyPage extends ConsumerWidget {
               onTap: () {
                 MoneyDialog(
                   context: _context,
-                  widget: StockAlert(date: stockState.date),
+                  widget: StockAlert(date: stockState.lastStock!.date),
                 );
               },
               child: const Icon(Icons.info_outline),

@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/state/stock/stock_response_state.dart';
 
 import '../data/http/client.dart';
 import '../data/http/path.dart';
@@ -9,32 +10,21 @@ import '../models/stock.dart';
 import '../models/stock_record.dart';
 import '../utility/utility.dart';
 
-/*
-stockProvider       Stock
-stockRecordProvider       StockRecord
-*/
-
 ////////////////////////////////////////////////
-final stockProvider = StateNotifierProvider.autoDispose
-    .family<StockNotifier, Stock, DateTime>((ref, date) {
+final stockProvider =
+    StateNotifierProvider.autoDispose.family<StockNotifier, StockResponseState, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
   return StockNotifier(
-    Stock(
-      cost: 0,
-      price: 0,
-      diff: 0,
-      date: DateTime.now(),
-      record: [],
-    ),
+    const StockResponseState(),
     client,
     utility,
   )..getStock(date: date);
 });
 
-class StockNotifier extends StateNotifier<Stock> {
+class StockNotifier extends StateNotifier<StockResponseState> {
   StockNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
@@ -46,9 +36,7 @@ class StockNotifier extends StateNotifier<Stock> {
       body: {'date': date.yyyymmdd},
     ).then((value) {
       final list = <StockRecord>[];
-      for (var i = 0;
-          i < value['data']['record'].length.toString().toInt();
-          i++) {
+      for (var i = 0; i < value['data']['record'].length.toString().toInt(); i++) {
         list.add(
           StockRecord(
             name: value['data']['record'][i]['name'].toString(),
@@ -71,7 +59,7 @@ class StockNotifier extends StateNotifier<Stock> {
         record: list,
       );
 
-      state = stock;
+      state = state.copyWith(lastStock: stock);
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
@@ -81,29 +69,19 @@ class StockNotifier extends StateNotifier<Stock> {
 ////////////////////////////////////////////////
 
 ////////////////////////////////////////////////
-final stockRecordProvider =
-    StateNotifierProvider.autoDispose<StockRecordNotifier, StockRecord>((ref) {
+final stockRecordProvider = StateNotifierProvider.autoDispose<StockRecordNotifier, StockResponseState>((ref) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
   return StockRecordNotifier(
-    StockRecord(
-      name: '',
-      date: DateTime.now(),
-      num: 0,
-      oneStock: '',
-      cost: 0,
-      price: '',
-      diff: 0,
-      data: '',
-    ),
+    const StockResponseState(),
     client,
     utility,
   )..getStockRecord(flag: 0);
 });
 
-class StockRecordNotifier extends StateNotifier<StockRecord> {
+class StockRecordNotifier extends StateNotifier<StockResponseState> {
   StockRecordNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
@@ -122,25 +100,14 @@ class StockRecordNotifier extends StateNotifier<StockRecord> {
         data: '',
       );
 
-      for (var i = 0;
-          i < value['data']['record'].length.toString().toInt();
-          i++) {
+      for (var i = 0; i < value['data']['record'].length.toString().toInt(); i++) {
         if (i == flag) {
           stockRecord = StockRecord(
             name: value['data']['record'][i]['name'].toString(),
             date: DateTime(
-              value['data']['record'][i]['date']
-                  .toString()
-                  .split('-')[0]
-                  .toInt(),
-              value['data']['record'][i]['date']
-                  .toString()
-                  .split('-')[1]
-                  .toInt(),
-              value['data']['record'][i]['date']
-                  .toString()
-                  .split('-')[2]
-                  .toInt(),
+              value['data']['record'][i]['date'].toString().split('-')[0].toInt(),
+              value['data']['record'][i]['date'].toString().split('-')[1].toInt(),
+              value['data']['record'][i]['date'].toString().split('-')[2].toInt(),
             ),
             num: value['data']['record'][i]['num'].toString().toInt(),
             oneStock: value['data']['record'][i]['oneStock'].toString(),
@@ -152,7 +119,7 @@ class StockRecordNotifier extends StateNotifier<StockRecord> {
         }
       }
 
-      state = stockRecord;
+      state = state.copyWith(lastStockRecord: stockRecord);
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });

@@ -34,9 +34,12 @@ class StockAlert extends ConsumerWidget {
 
     final selectStockState = _ref.watch(selectStockProvider);
 
-    final exDataLength = (stockState.record.isNotEmpty)
-        ? stockState.record[selectStockState].data.split('/').length
-        : 0;
+    var exDataLength = 0;
+    if (stockState.lastStock != null) {
+      exDataLength = (stockState.lastStock!.record.isNotEmpty)
+          ? stockState.lastStock!.record[selectStockState].data.split('/').length
+          : 0;
+    }
 
     //==============================//
 
@@ -60,8 +63,7 @@ class StockAlert extends ConsumerWidget {
               Container(width: context.screenSize.width),
 
               //----------//
-              if (deviceInfoState.model == 'iPhone')
-                _utility.getFileNameDebug(name: runtimeType.toString()),
+              if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
               //----------//
 
               displayItemName(),
@@ -118,72 +120,66 @@ class StockAlert extends ConsumerWidget {
       scrollDirection: Axis.horizontal,
       child: DefaultTextStyle(
         style: const TextStyle(fontSize: 10),
-        child: Row(
-          children: stockState.record.asMap().entries.map((e) {
-            final exData = e.value.data.split('/');
+        child: (stockState.lastStock == null)
+            ? Container()
+            : Row(
+                children: stockState.lastStock!.record.asMap().entries.map((e) {
+                  final exData = e.value.data.split('/');
 
-            var lastDate = '';
-            for (var i = 0; i < exData.length; i++) {
-              final exOne = exData[i].split('|');
-              lastDate = exOne[0];
-            }
+                  var lastDate = '';
+                  for (var i = 0; i < exData.length; i++) {
+                    final exOne = exData[i].split('|');
+                    lastDate = exOne[0];
+                  }
 
-            return GestureDetector(
-              onTap: () {
-                _ref
-                    .watch(selectStockProvider.notifier)
-                    .setSelectStock(selectStock: e.key);
+                  return GestureDetector(
+                    onTap: () {
+                      _ref.watch(selectStockProvider.notifier).setSelectStock(selectStock: e.key);
 
-                _ref
-                    .watch(stockRecordProvider.notifier)
-                    .getStockRecord(flag: e.key);
+                      _ref.watch(stockRecordProvider.notifier).getStockRecord(flag: e.key);
 
-                autoScrollController.scrollToIndex(0);
-              },
-              child: Container(
-                width: _context.screenSize.width * 0.4,
-                margin: const EdgeInsets.all(5),
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: (selectStockState == e.key)
-                        ? Colors.yellowAccent.withOpacity(0.6)
-                        : Colors.white.withOpacity(0.6),
-                  ),
-                ),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: _context.screenSize.height / 10,
-                  ),
-                  child: Column(
-                    children: [
-                      Container(
-                        alignment: Alignment.topRight,
-                        child: Text(
-                          lastDate,
-                          style: TextStyle(
-                            fontSize: 8,
-                            color: (selectStockState == e.key)
-                                ? Colors.yellowAccent
-                                : Colors.white,
-                          ),
-                        ),
-                      ),
-                      Text(
-                        e.value.name,
-                        style: TextStyle(
+                      autoScrollController.scrollToIndex(0);
+                    },
+                    child: Container(
+                      width: _context.screenSize.width * 0.4,
+                      margin: const EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        border: Border.all(
                           color: (selectStockState == e.key)
-                              ? Colors.yellowAccent
-                              : Colors.white,
+                              ? Colors.yellowAccent.withOpacity(0.6)
+                              : Colors.white.withOpacity(0.6),
                         ),
                       ),
-                    ],
-                  ),
-                ),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minHeight: _context.screenSize.height / 10,
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              alignment: Alignment.topRight,
+                              child: Text(
+                                lastDate,
+                                style: TextStyle(
+                                  fontSize: 8,
+                                  color: (selectStockState == e.key) ? Colors.yellowAccent : Colors.white,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              e.value.name,
+                              style: TextStyle(
+                                color: (selectStockState == e.key) ? Colors.yellowAccent : Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
               ),
-            );
-          }).toList(),
-        ),
       ),
     );
   }
@@ -196,54 +192,56 @@ class StockAlert extends ConsumerWidget {
 
     final list = <Widget>[];
 
-    if (stockState.record.isNotEmpty) {
-      final exData = stockState.record[selectStockState].data.split('/');
+    if (stockState.lastStock != null) {
+      if (stockState.lastStock!.record.isNotEmpty) {
+        final exData = stockState.lastStock!.record[selectStockState].data.split('/');
 
-      for (var i = 0; i < exData.length; i++) {
-        final exElement = exData[i].split('|');
+        for (var i = 0; i < exData.length; i++) {
+          final exElement = exData[i].split('|');
 
-        list.add(
-          AutoScrollTag(
-            key: ValueKey(i),
-            index: i,
-            controller: autoScrollController,
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 3),
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Colors.white.withOpacity(0.3),
+          list.add(
+            AutoScrollTag(
+              key: ValueKey(i),
+              index: i,
+              controller: autoScrollController,
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 3),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.white.withOpacity(0.3),
+                    ),
                   ),
                 ),
-              ),
-              child: Table(
-                children: [
-                  TableRow(children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(exElement[0]),
-                        Text('${exElement[1]}-${exElement[2]}'),
-                      ],
-                    ),
-                    Container(
-                      alignment: Alignment.topRight,
-                      child: Text(exElement[3].toCurrency()),
-                    ),
-                    Container(
-                      alignment: Alignment.topRight,
-                      child: Text(exElement[4].toCurrency()),
-                    ),
-                    Container(
-                      alignment: Alignment.topRight,
-                      child: Text(exElement[5].toCurrency()),
-                    ),
-                  ]),
-                ],
+                child: Table(
+                  children: [
+                    TableRow(children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(exElement[0]),
+                          Text('${exElement[1]}-${exElement[2]}'),
+                        ],
+                      ),
+                      Container(
+                        alignment: Alignment.topRight,
+                        child: Text(exElement[3].toCurrency()),
+                      ),
+                      Container(
+                        alignment: Alignment.topRight,
+                        child: Text(exElement[4].toCurrency()),
+                      ),
+                      Container(
+                        alignment: Alignment.topRight,
+                        child: Text(exElement[5].toCurrency()),
+                      ),
+                    ]),
+                  ],
+                ),
               ),
             ),
-          ),
-        );
+          );
+        }
       }
     }
 
@@ -256,8 +254,7 @@ class StockAlert extends ConsumerWidget {
 
 ////////////////////////////////////////////////
 
-final selectStockProvider =
-    StateNotifierProvider.autoDispose<SelectStockStateNotifier, int>((ref) {
+final selectStockProvider = StateNotifierProvider.autoDispose<SelectStockStateNotifier, int>((ref) {
   return SelectStockStateNotifier();
 });
 
