@@ -23,7 +23,7 @@ final shintakuProvider =
   final utility = Utility();
 
   return ShintakuNotifier(
-    ShintakuResponseState(),
+    const ShintakuResponseState(),
     client,
     utility,
   )..getShintaku(date: date);
@@ -97,7 +97,7 @@ final shintakuRecordProvider = StateNotifierProvider.autoDispose<ShintakuRecordN
   final utility = Utility();
 
   return ShintakuRecordNotifier(
-    ShintakuResponseState(),
+    const ShintakuResponseState(),
     client,
     utility,
   )..getShintakuRecord(flag: 0);

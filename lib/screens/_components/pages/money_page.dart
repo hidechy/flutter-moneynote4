@@ -831,7 +831,7 @@ class MoneyPage extends ConsumerWidget {
                         ? ''
                         : shintakuState.lastShintaku!.cost.toString().toCurrency()),
                     (shintakuState.lastShintaku == null)
-                        ? Text('')
+                        ? const Text('')
                         : Text(
                             shintakuState.lastShintaku!.price.toString().toCurrency(),
                             style: const TextStyle(color: Colors.yellowAccent),
