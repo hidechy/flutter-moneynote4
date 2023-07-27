@@ -7,7 +7,7 @@ import 'package:scroll_to_index/scroll_to_index.dart';
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
-import '../../viewmodel/stock_notifier.dart';
+import '../../state/stock/stock_notifier.dart';
 
 class StockAlert extends ConsumerWidget {
   StockAlert({super.key, required this.date});

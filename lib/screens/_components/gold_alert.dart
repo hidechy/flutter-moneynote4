@@ -7,7 +7,7 @@ import 'package:scroll_to_index/scroll_to_index.dart';
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
-import '../../viewmodel/gold_notifier.dart';
+import '../../state/gold/gold_notifier.dart';
 
 class GoldAlert extends ConsumerWidget {
   GoldAlert({super.key});

@@ -3,12 +3,12 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/state/stock/stock_response_state.dart';
 
-import '../data/http/client.dart';
-import '../data/http/path.dart';
-import '../extensions/extensions.dart';
-import '../models/stock.dart';
-import '../models/stock_record.dart';
-import '../utility/utility.dart';
+import '../../data/http/client.dart';
+import '../../data/http/path.dart';
+import '../../extensions/extensions.dart';
+import '../../models/stock.dart';
+import '../../models/stock_record.dart';
+import '../../utility/utility.dart';
 
 ////////////////////////////////////////////////
 final stockProvider =
