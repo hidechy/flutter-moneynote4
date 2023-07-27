@@ -46,8 +46,7 @@ class GoldAlert extends ConsumerWidget {
                 Container(width: context.screenSize.width),
 
                 //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
                 //----------//
 
                 Row(
@@ -59,7 +58,7 @@ class GoldAlert extends ConsumerWidget {
                         GestureDetector(
                           onTap: () {
                             autoScrollController.scrollToIndex(
-                              goldListState.length,
+                              goldListState.goldList.length,
                             );
                           },
                           child: const Icon(Icons.arrow_downward),
@@ -95,14 +94,14 @@ class GoldAlert extends ConsumerWidget {
 
     final list = <Widget>[];
 
-    for (var i = 0; i < goldListState.length; i++) {
+    for (var i = 0; i < goldListState.goldList.length; i++) {
       final date =
-          '${goldListState[i].year}-${goldListState[i].month}-${goldListState[i].day}';
+          '${goldListState.goldList[i].year}-${goldListState.goldList[i].month}-${goldListState.goldList[i].day}';
 
-      final diff = (goldListState[i].goldValue.toString() == '-')
+      final diff = (goldListState.goldList[i].goldValue.toString() == '-')
           ? ''
-          : (goldListState[i].goldValue.toString().toInt() -
-                  goldListState[i].payPrice.toString().toInt())
+          : (goldListState.goldList[i].goldValue.toString().toInt() -
+                  goldListState.goldList[i].payPrice.toString().toInt())
               .toString();
 
       list.add(
@@ -119,7 +118,7 @@ class GoldAlert extends ConsumerWidget {
             key: ValueKey(i),
             index: i,
             controller: autoScrollController,
-            child: (goldListState[i].goldValue.toString() == '-')
+            child: (goldListState.goldList[i].goldValue.toString() == '-')
                 ? SizedBox(
                     width: double.infinity,
                     child: Text(
@@ -143,11 +142,11 @@ class GoldAlert extends ConsumerWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Text(goldListState[i].goldTanka),
-                              Text(goldListState[i].diff.toString()),
+                              Text(goldListState.goldList[i].goldTanka),
+                              Text(goldListState.goldList[i].diff.toString()),
                             ],
                           ),
-                          getGoldMark(mark: goldListState[i].upDown),
+                          getGoldMark(mark: goldListState.goldList[i].upDown),
                         ],
                       ),
                       Row(
@@ -160,21 +159,15 @@ class GoldAlert extends ConsumerWidget {
                                   children: [
                                     TableRow(
                                       children: [
-                                        Text(goldListState[i]
-                                            .goldValue
-                                            .toString()),
-                                        Text(goldListState[i]
-                                            .payPrice
-                                            .toString()),
+                                        Text(goldListState.goldList[i].goldValue.toString()),
+                                        Text(goldListState.goldList[i].payPrice.toString()),
                                         Container(
                                           width: double.infinity,
                                           alignment: Alignment.topRight,
                                           child: Text(
                                             diff,
                                             style: TextStyle(
-                                              color: (diff.toInt() >= 0)
-                                                  ? Colors.yellowAccent
-                                                  : Colors.redAccent,
+                                              color: (diff.toInt() >= 0) ? Colors.yellowAccent : Colors.redAccent,
                                             ),
                                           ),
                                         ),
@@ -184,14 +177,13 @@ class GoldAlert extends ConsumerWidget {
                                   ],
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(goldListState[i].goldPrice),
+                                    Text(goldListState.goldList[i].goldPrice),
                                     Text(
-                                      '${goldListState[i].gramNum} g',
+                                      '${goldListState.goldList[i].gramNum} g',
                                     ),
-                                    Text('${goldListState[i].totalGram} g'),
+                                    Text('${goldListState.goldList[i].totalGram} g'),
                                   ],
                                 ),
                               ],

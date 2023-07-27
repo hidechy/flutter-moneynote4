@@ -586,22 +586,24 @@ class MoneyPage extends ConsumerWidget {
   Widget displayGold() {
     final goldState = _ref.watch(goldLastProvider(date));
 
-    if (goldState == null) {
+    if (goldState.lastGold == null) {
       return Container();
     }
 
-    final goldDate = '${goldState.year}-${goldState.month}-${goldState.day}';
+    final goldDate = '${goldState.lastGold!.year}-${goldState.lastGold!.month}-${goldState.lastGold!.day}';
 
     var goldDiff = 0;
 
     var score = 0;
 
-    if (goldState.goldValue != null && goldState.payPrice != null) {
-      goldDiff = goldState.goldValue.toString().toInt() - goldState.payPrice.toString().toInt();
+    if (goldState.lastGold!.goldValue != null && goldState.lastGold!.payPrice != null) {
+      goldDiff = goldState.lastGold!.goldValue.toString().toInt() - goldState.lastGold!.payPrice.toString().toInt();
 
-      notMoneyAsset.add(goldState.goldValue.toString().toInt());
+      notMoneyAsset.add(goldState.lastGold!.goldValue.toString().toInt());
 
-      score = ((goldState.goldValue.toString().toInt() / goldState.payPrice.toString().toInt()) * 100).round();
+      score =
+          ((goldState.lastGold!.goldValue.toString().toInt() / goldState.lastGold!.payPrice.toString().toInt()) * 100)
+              .round();
     }
 
     return DefaultTextStyle(
@@ -644,11 +646,13 @@ class MoneyPage extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    (goldState.payPrice == null) ? Container() : Text(goldState.payPrice.toString().toCurrency()),
-                    (goldState.goldValue == null)
+                    (goldState.lastGold!.payPrice == null)
+                        ? Container()
+                        : Text(goldState.lastGold!.payPrice.toString().toCurrency()),
+                    (goldState.lastGold!.goldValue == null)
                         ? Container()
                         : Text(
-                            goldState.goldValue.toString().toCurrency(),
+                            goldState.lastGold!.goldValue.toString().toCurrency(),
                             style: const TextStyle(color: Colors.yellowAccent),
                           ),
                     Text(goldDiff.toString().toCurrency()),
