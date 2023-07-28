@@ -52,13 +52,13 @@ class GoldLastNotifier extends StateNotifier<GoldResponseState> {
 
           goldDiff = val.goldValue.toString().toInt() - val.payPrice.toString().toInt();
 
-          goldPercent = (val.goldValue.toString().toInt() > 0 && val.goldPrice.toInt() > 0)
-              ? ((val.goldValue.toString().toInt() / val.goldPrice.toInt()) * 100).toString().split('.')[0].toInt()
+          goldPercent = (val.goldValue.toString().toInt() > 0 && val.payPrice.toInt() > 0)
+              ? ((val.goldValue.toString().toInt() / val.payPrice.toInt()) * 100).toString().split('.')[0].toInt()
               : 0;
         }
 
         goldMap['${val.year}-${val.month}-${val.day}'] = AssetsData(
-          cost: (val.goldPrice == '-') ? 0 : val.goldPrice.toInt(),
+          cost: (val.payPrice == '-') ? 0 : val.payPrice.toInt(),
           price: (val.goldValue == '-') ? 0 : val.goldValue.toString().toInt(),
           diff: goldDiff,
           percent: goldPercent,

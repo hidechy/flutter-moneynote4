@@ -116,9 +116,6 @@ class StockNotifier extends StateNotifier<StockResponseState> {
           percent: percent,
         );
       });
-
-      print(stockMap);
-
       /////////////////////////////////////////
 
       state = state.copyWith(lastStock: stock, stockMap: stockMap);

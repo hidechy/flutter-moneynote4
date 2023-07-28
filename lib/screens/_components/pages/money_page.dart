@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/assets_list_alert.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../models/money.dart';
@@ -201,7 +202,22 @@ class MoneyPage extends ConsumerWidget {
                   color: Colors.deepPurple.withOpacity(0.3),
                   thickness: 5,
                 ),
-                const SizedBox(height: 10),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(),
+                    GestureDetector(
+                      onTap: () {
+                        MoneyDialog(
+                          context: context,
+                          widget: AssetsListAlert(date: date),
+                        );
+                      },
+                      child: const Icon(Icons.list, color: Colors.deepPurple),
+                    ),
+                  ],
+                ),
 
                 displayGold(),
                 const SizedBox(height: 30),

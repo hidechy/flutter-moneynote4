@@ -137,9 +137,6 @@ class ShintakuNotifier extends StateNotifier<ShintakuResponseState> {
           percent: percent,
         );
       });
-
-      print(shintakuMap);
-
       /////////////////////////////////////////
 
       state = state.copyWith(lastShintaku: shintaku, shintakuMap: shintakuMap);

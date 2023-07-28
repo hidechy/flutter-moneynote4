@@ -221,7 +221,7 @@ class GoldAlert extends ConsumerWidget {
       default:
         return const Icon(
           Icons.crop_square,
-          color: Colors.black,
+          color: Colors.transparent,
         );
     }
   }
