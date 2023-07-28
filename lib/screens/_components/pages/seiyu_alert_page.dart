@@ -23,11 +23,13 @@ class SeiyuAlertPage extends ConsumerWidget {
 
   Map<String, int> seiyuCreditDataMap = {};
 
+  late BuildContext _context;
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    _context = context;
     _ref = ref;
 
     getSeiyuCreditMap();
@@ -55,24 +57,29 @@ class SeiyuAlertPage extends ConsumerWidget {
               if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
               //----------//
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(),
-                  IconButton(
-                    onPressed: () {
-                      MoneyDialog(
-                        context: context,
-                        widget: SeiyuTabPage(list: seiyuDateList),
-                      );
-                    },
-                    icon: Icon(
-                      Icons.copy_sharp,
-                      color: Colors.white.withOpacity(0.6),
-                    ),
-                  ),
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     Container(),
+              //     IconButton(
+              //       onPressed: () {
+              //         MoneyDialog(
+              //           context: context,
+              //           widget: SeiyuTabPage(list: seiyuDateList),
+              //         );
+              //       },
+              //       icon: Icon(
+              //         Icons.copy_sharp,
+              //         color: Colors.white.withOpacity(0.6),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              //
+              //
+              //
+              //
+              //
 
               Expanded(child: displaySeiyuDateList()),
             ],
@@ -126,9 +133,10 @@ class SeiyuAlertPage extends ConsumerWidget {
       ),
     );
 
-    yearDateList.forEach((element) {
-      final hiduke = '$element 00:00:00'.toDateTime().mmdd;
-      final youbi = _utility.getYoubi(youbiStr: '$element 00:00:00'.toDateTime().youbiStr);
+    // forで仕方ない
+    for (var i = 0; i < yearDateList.length; i++) {
+      final hiduke = '${yearDateList[i]} 00:00:00'.toDateTime().mmdd;
+      final youbi = _utility.getYoubi(youbiStr: '${yearDateList[i]} 00:00:00'.toDateTime().youbiStr);
 
       list.add(
         Container(
@@ -145,9 +153,9 @@ class SeiyuAlertPage extends ConsumerWidget {
             children: [
               CircleAvatar(
                 radius: 12,
-                backgroundColor: _utility.getLeadingBgColor(month: element.split('-')[1]),
+                backgroundColor: _utility.getLeadingBgColor(month: yearDateList[i].split('-')[1]),
                 child: Text(
-                  element.split('-')[1],
+                  yearDateList[i].split('-')[1],
                   style: const TextStyle(
                     fontSize: 10,
                     color: Colors.white,
@@ -162,14 +170,16 @@ class SeiyuAlertPage extends ConsumerWidget {
               Expanded(
                 child: Container(
                   alignment: Alignment.topRight,
-                  child: Text(seiyuDateSumMap[element].toString().toCurrency()),
+                  child: Text(seiyuDateSumMap[yearDateList[i]].toString().toCurrency()),
                 ),
               ),
               Expanded(
                 child: Container(
                   alignment: Alignment.topRight,
                   child: Text(
-                    (seiyuCreditDataMap[element] != null) ? seiyuCreditDataMap[element].toString().toCurrency() : '',
+                    (seiyuCreditDataMap[yearDateList[i]] != null)
+                        ? seiyuCreditDataMap[yearDateList[i]].toString().toCurrency()
+                        : '',
                   ),
                 ),
               ),
@@ -177,19 +187,33 @@ class SeiyuAlertPage extends ConsumerWidget {
                 child: Container(
                   alignment: Alignment.topRight,
                   child: Text(
-                    (seiyuCreditDataMap[element] != null)
-                        ? (seiyuDateSumMap[element].toString().toInt() - seiyuCreditDataMap[element].toString().toInt())
+                    (seiyuCreditDataMap[yearDateList[i]] != null)
+                        ? (seiyuDateSumMap[yearDateList[i]].toString().toInt() -
+                                seiyuCreditDataMap[yearDateList[i]].toString().toInt())
                             .toString()
                             .toCurrency()
                         : '',
                   ),
                 ),
               ),
+              const SizedBox(width: 20),
+              GestureDetector(
+                onTap: () {
+                  MoneyDialog(
+                    context: _context,
+                    widget: SeiyuTabPage(list: seiyuDateList, index: i),
+                  );
+                },
+                child: Icon(
+                  Icons.copy_sharp,
+                  color: Colors.white.withOpacity(0.6),
+                ),
+              ),
             ],
           ),
         ),
       );
-    });
+    }
 
     return SingleChildScrollView(
       child: Column(children: list),
