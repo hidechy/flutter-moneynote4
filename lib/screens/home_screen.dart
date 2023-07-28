@@ -351,16 +351,12 @@ class HomeScreen extends ConsumerWidget {
       spendMonthSummaryProvider(focusDayState),
     );
 
-    final fixPaymentValue = _utility.getFixPaymentValue();
-
     for (var i = 0; i < spendMonthSummaryState.length; i++) {
       final spend = spendMonthSummaryState[i];
 
       var textColor = (spend.sum >= 10000) ? Colors.yellowAccent : Colors.white;
 
-      if (fixPaymentValue[spend.item] == 1) {
-        textColor = Colors.orangeAccent;
-      }
+      textColor = getTextColor(item: spend.item);
 
       list.add(
         DefaultTextStyle(
@@ -421,6 +417,22 @@ class HomeScreen extends ConsumerWidget {
         children: list,
       ),
     );
+  }
+
+  ///
+  Color getTextColor({required String item}) {
+    final fixPaymentValue = _utility.getFixPaymentValue();
+
+    switch (fixPaymentValue[item]) {
+      case 1:
+        return Colors.orangeAccent;
+      case 2:
+        return Colors.greenAccent;
+      case 3:
+        return Colors.lightBlueAccent;
+    }
+
+    return Colors.white;
   }
 
   ///
