@@ -1,8 +1,11 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:moneynote4/screens/_components/_money_dialog.dart';
-import 'package:moneynote4/screens/_components/credit_yearly_list_alert.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+
+import '_money_dialog.dart';
+import 'credit_yearly_list_alert.dart';
 
 import 'pages/credit_yearly_detail_page.dart';
 
@@ -13,7 +16,7 @@ class TabInfo {
   Widget widget;
 }
 
-class CreditYearlyDetailAlert extends StatelessWidget {
+class CreditYearlyDetailAlert extends HookConsumerWidget {
   CreditYearlyDetailAlert({super.key, required this.date});
 
   final DateTime date;
@@ -22,8 +25,13 @@ class CreditYearlyDetailAlert extends StatelessWidget {
 
   ///
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     makeTab();
+
+    // 最初に開くタブを指定する
+    final tabController = useTabController(initialLength: tabs.length);
+    tabController.index = 1;
+    // 最初に開くタブを指定する
 
     return DefaultTabController(
       length: tabs.length,
@@ -63,6 +71,10 @@ class CreditYearlyDetailAlert extends StatelessWidget {
             //-------------------------//これを消すと「←」が出てくる（消さない）
 
             bottom: TabBar(
+              //================================//
+              controller: tabController,
+              //================================//
+
               isScrollable: true,
               indicatorColor: Colors.blueAccent,
               tabs: tabs.map((TabInfo tab) {
@@ -78,6 +90,10 @@ class CreditYearlyDetailAlert extends StatelessWidget {
           ),
         ),
         body: TabBarView(
+          //================================//
+          controller: tabController,
+          //================================//
+
           children: tabs.map((tab) => tab.widget).toList(),
         ),
       ),
@@ -93,7 +109,9 @@ class CreditYearlyDetailAlert extends StatelessWidget {
     final now = DateTime.now();
 
     if (date.year == now.year) {
-      for (var i = 1; i <= now.month; i++) {
+      var max = (now.month + 1 > 12) ? 12 : now.month + 1;
+
+      for (var i = 1; i <= max; i++) {
         list.add(i);
       }
     } else {
