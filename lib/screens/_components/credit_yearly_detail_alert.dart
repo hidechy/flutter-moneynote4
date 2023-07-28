@@ -1,12 +1,11 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, depend_on_referenced_packages, cascade_invocations
 
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '_money_dialog.dart';
 import 'credit_yearly_list_alert.dart';
-
 import 'pages/credit_yearly_detail_page.dart';
 
 class TabInfo {
@@ -109,7 +108,7 @@ class CreditYearlyDetailAlert extends HookConsumerWidget {
     final now = DateTime.now();
 
     if (date.year == now.year) {
-      var max = (now.month + 1 > 12) ? 12 : now.month + 1;
+      final max = (now.month + 1 > 12) ? 12 : now.month + 1;
 
       for (var i = 1; i <= max; i++) {
         list.add(i);

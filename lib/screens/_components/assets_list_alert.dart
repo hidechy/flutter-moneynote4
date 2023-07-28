@@ -127,7 +127,10 @@ class AssetsListAlert extends ConsumerWidget {
                     children: [
                       Text(
                         '$element ($youbi)',
-                        style: TextStyle(color: dispFlag ? Colors.white : Colors.grey),
+                        style: TextStyle(
+                          color: dispFlag ? Colors.white : Colors.grey,
+                          fontSize: 10,
+                        ),
                       ),
                       Container(),
                     ],
@@ -143,8 +146,14 @@ class AssetsListAlert extends ConsumerWidget {
                               Text(
                                 (goldMap[element] == null) ? '0' : goldMap[element]!.cost.toString().toCurrency(),
                               ),
-                              Text(goldPrice.toString(), style: const TextStyle(color: Colors.yellowAccent)),
-                              Text(goldDiff.toString(), style: const TextStyle(color: Color(0xFFFBB6CE))),
+                              Text(
+                                goldPrice.toString().toCurrency(),
+                                style: const TextStyle(color: Colors.yellowAccent),
+                              ),
+                              Text(
+                                goldDiff.toString().toCurrency(),
+                                style: const TextStyle(color: Color(0xFFFBB6CE)),
+                              ),
                             ],
                           ),
                         ),
@@ -166,8 +175,14 @@ class AssetsListAlert extends ConsumerWidget {
                               Text(
                                 (stockMap[element] == null) ? '0' : stockMap[element]!.cost.toString().toCurrency(),
                               ),
-                              Text(stockPrice.toString(), style: const TextStyle(color: Colors.yellowAccent)),
-                              Text(stockDiff.toString(), style: const TextStyle(color: Color(0xFFFBB6CE))),
+                              Text(
+                                stockPrice.toString().toCurrency(),
+                                style: const TextStyle(color: Colors.yellowAccent),
+                              ),
+                              Text(
+                                stockDiff.toString().toCurrency(),
+                                style: const TextStyle(color: Color(0xFFFBB6CE)),
+                              ),
                             ],
                           ),
                         ),
@@ -191,8 +206,14 @@ class AssetsListAlert extends ConsumerWidget {
                                     ? '0'
                                     : shintakuMap[element]!.cost.toString().toCurrency(),
                               ),
-                              Text(shintakuPrice.toString(), style: const TextStyle(color: Colors.yellowAccent)),
-                              Text(shintakuDiff.toString(), style: const TextStyle(color: Color(0xFFFBB6CE))),
+                              Text(
+                                shintakuPrice.toString().toCurrency(),
+                                style: const TextStyle(color: Colors.yellowAccent),
+                              ),
+                              Text(
+                                shintakuDiff.toString().toCurrency(),
+                                style: const TextStyle(color: Color(0xFFFBB6CE)),
+                              ),
                             ],
                           ),
                         ),
@@ -219,11 +240,17 @@ class AssetsListAlert extends ConsumerWidget {
                             children: [
                               Text(
                                 (goldPrice + stockPrice + shintakuPrice).toString().toCurrency(),
-                                style: const TextStyle(color: Colors.yellowAccent),
+                                style: const TextStyle(
+                                  color: Colors.yellowAccent,
+                                  fontSize: 10,
+                                ),
                               ),
                               Text(
                                 (goldDiff + stockDiff + shintakuDiff).toString().toCurrency(),
-                                style: const TextStyle(color: Color(0xFFFBB6CE)),
+                                style: const TextStyle(
+                                  color: Color(0xFFFBB6CE),
+                                  fontSize: 10,
+                                ),
                               ),
                             ],
                           ),

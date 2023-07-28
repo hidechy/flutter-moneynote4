@@ -43,19 +43,12 @@ class ShintakuNotifier extends StateNotifier<ShintakuResponseState> {
     ).then((value) {
       final list = <ShintakuRecord>[];
 
-      var maxDate = DateTime(2020);
-      var keepDate = DateTime(2020);
-
       for (var i = 0; i < value['data']['record'].length.toString().toInt(); i++) {
         final dt = DateTime(
           value['data']['record'][i]['date'].toString().split('-')[0].toInt(),
           value['data']['record'][i]['date'].toString().split('-')[1].toInt(),
           value['data']['record'][i]['date'].toString().split('-')[2].toInt(),
         );
-
-        if (dt.isAfter(keepDate)) {
-          maxDate = dt;
-        }
 
         list.add(
           ShintakuRecord(
@@ -69,8 +62,6 @@ class ShintakuNotifier extends StateNotifier<ShintakuResponseState> {
             data: value['data']['record'][i]['data'].toString(),
           ),
         );
-
-        keepDate = dt;
       }
 
       /////////////////////////////////////////
@@ -147,7 +138,7 @@ class ShintakuNotifier extends StateNotifier<ShintakuResponseState> {
         cost: lastCost,
         price: lastPrice,
         diff: lastDiff,
-        date: '${lastDate} 00:00:00'.toDateTime(),
+        date: '$lastDate 00:00:00'.toDateTime(),
         record: list,
       );
 
