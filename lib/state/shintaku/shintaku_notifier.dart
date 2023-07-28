@@ -73,14 +73,6 @@ class ShintakuNotifier extends StateNotifier<ShintakuResponseState> {
         keepDate = dt;
       }
 
-      final shintaku = Shintaku(
-        cost: value['data']['cost'].toString().toInt(),
-        price: value['data']['price'].toString().toInt(),
-        diff: value['data']['diff'].toString().toInt(),
-        date: maxDate,
-        record: list,
-      );
-
       /////////////////////////////////////////
 
       final shintakuMap = <String, AssetsData>{};
@@ -138,6 +130,26 @@ class ShintakuNotifier extends StateNotifier<ShintakuResponseState> {
         );
       });
       /////////////////////////////////////////
+
+      var lastDate = '';
+      var lastCost = 0;
+      var lastPrice = 0;
+      var lastDiff = 0;
+
+      shintakuMap.entries.forEach((element) {
+        lastDate = element.key;
+        lastCost = element.value.cost;
+        lastPrice = element.value.price;
+        lastDiff = element.value.diff;
+      });
+
+      final shintaku = Shintaku(
+        cost: lastCost,
+        price: lastPrice,
+        diff: lastDiff,
+        date: '${lastDate} 00:00:00'.toDateTime(),
+        record: list,
+      );
 
       state = state.copyWith(lastShintaku: shintaku, shintakuMap: shintakuMap);
     }).catchError((error, _) {
