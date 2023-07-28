@@ -7,8 +7,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
-import '../../utility/utility.dart';
 import '../../state/shintaku/shintaku_notifier.dart';
+import '../../utility/utility.dart';
 
 class ShintakuGraphAlert extends ConsumerWidget {
   ShintakuGraphAlert({super.key, required this.date});

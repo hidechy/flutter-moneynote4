@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$StockResponseState {
   Stock? get lastStock => throw _privateConstructorUsedError;
   StockRecord? get lastStockRecord => throw _privateConstructorUsedError;
+  Map<String, AssetsData> get stockMap => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $StockResponseStateCopyWith<StockResponseState> get copyWith =>
@@ -30,7 +31,10 @@ abstract class $StockResponseStateCopyWith<$Res> {
           StockResponseState value, $Res Function(StockResponseState) then) =
       _$StockResponseStateCopyWithImpl<$Res, StockResponseState>;
   @useResult
-  $Res call({Stock? lastStock, StockRecord? lastStockRecord});
+  $Res call(
+      {Stock? lastStock,
+      StockRecord? lastStockRecord,
+      Map<String, AssetsData> stockMap});
 }
 
 /// @nodoc
@@ -48,6 +52,7 @@ class _$StockResponseStateCopyWithImpl<$Res, $Val extends StockResponseState>
   $Res call({
     Object? lastStock = freezed,
     Object? lastStockRecord = freezed,
+    Object? stockMap = null,
   }) {
     return _then(_value.copyWith(
       lastStock: freezed == lastStock
@@ -58,6 +63,10 @@ class _$StockResponseStateCopyWithImpl<$Res, $Val extends StockResponseState>
           ? _value.lastStockRecord
           : lastStockRecord // ignore: cast_nullable_to_non_nullable
               as StockRecord?,
+      stockMap: null == stockMap
+          ? _value.stockMap
+          : stockMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, AssetsData>,
     ) as $Val);
   }
 }
@@ -70,7 +79,10 @@ abstract class _$$_StockResponseStateCopyWith<$Res>
       __$$_StockResponseStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Stock? lastStock, StockRecord? lastStockRecord});
+  $Res call(
+      {Stock? lastStock,
+      StockRecord? lastStockRecord,
+      Map<String, AssetsData> stockMap});
 }
 
 /// @nodoc
@@ -86,6 +98,7 @@ class __$$_StockResponseStateCopyWithImpl<$Res>
   $Res call({
     Object? lastStock = freezed,
     Object? lastStockRecord = freezed,
+    Object? stockMap = null,
   }) {
     return _then(_$_StockResponseState(
       lastStock: freezed == lastStock
@@ -96,6 +109,10 @@ class __$$_StockResponseStateCopyWithImpl<$Res>
           ? _value.lastStockRecord
           : lastStockRecord // ignore: cast_nullable_to_non_nullable
               as StockRecord?,
+      stockMap: null == stockMap
+          ? _value._stockMap
+          : stockMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, AssetsData>,
     ));
   }
 }
@@ -103,16 +120,28 @@ class __$$_StockResponseStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_StockResponseState implements _StockResponseState {
-  const _$_StockResponseState({this.lastStock, this.lastStockRecord});
+  const _$_StockResponseState(
+      {this.lastStock,
+      this.lastStockRecord,
+      final Map<String, AssetsData> stockMap = const {}})
+      : _stockMap = stockMap;
 
   @override
   final Stock? lastStock;
   @override
   final StockRecord? lastStockRecord;
+  final Map<String, AssetsData> _stockMap;
+  @override
+  @JsonKey()
+  Map<String, AssetsData> get stockMap {
+    if (_stockMap is EqualUnmodifiableMapView) return _stockMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_stockMap);
+  }
 
   @override
   String toString() {
-    return 'StockResponseState(lastStock: $lastStock, lastStockRecord: $lastStockRecord)';
+    return 'StockResponseState(lastStock: $lastStock, lastStockRecord: $lastStockRecord, stockMap: $stockMap)';
   }
 
   @override
@@ -123,11 +152,13 @@ class _$_StockResponseState implements _StockResponseState {
             (identical(other.lastStock, lastStock) ||
                 other.lastStock == lastStock) &&
             (identical(other.lastStockRecord, lastStockRecord) ||
-                other.lastStockRecord == lastStockRecord));
+                other.lastStockRecord == lastStockRecord) &&
+            const DeepCollectionEquality().equals(other._stockMap, _stockMap));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, lastStock, lastStockRecord);
+  int get hashCode => Object.hash(runtimeType, lastStock, lastStockRecord,
+      const DeepCollectionEquality().hash(_stockMap));
 
   @JsonKey(ignore: true)
   @override
@@ -140,12 +171,15 @@ class _$_StockResponseState implements _StockResponseState {
 abstract class _StockResponseState implements StockResponseState {
   const factory _StockResponseState(
       {final Stock? lastStock,
-      final StockRecord? lastStockRecord}) = _$_StockResponseState;
+      final StockRecord? lastStockRecord,
+      final Map<String, AssetsData> stockMap}) = _$_StockResponseState;
 
   @override
   Stock? get lastStock;
   @override
   StockRecord? get lastStockRecord;
+  @override
+  Map<String, AssetsData> get stockMap;
   @override
   @JsonKey(ignore: true)
   _$$_StockResponseStateCopyWith<_$_StockResponseState> get copyWith =>

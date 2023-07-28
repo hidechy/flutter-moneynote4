@@ -1,6 +1,7 @@
-// ignore_for_file: avoid_dynamic_calls
+// ignore_for_file: avoid_dynamic_calls, cascade_invocations
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/models/assets_data.dart';
 import 'package:moneynote4/state/stock/stock_response_state.dart';
 
 import '../../data/http/client.dart';
@@ -59,7 +60,68 @@ class StockNotifier extends StateNotifier<StockResponseState> {
         record: list,
       );
 
-      state = state.copyWith(lastStock: stock);
+      /////////////////////////////////////////
+
+      final stockMap = <String, AssetsData>{};
+
+      final costMap = <String, List<int>>{};
+      final priceMap = <String, List<int>>{};
+      final diffMap = <String, List<int>>{};
+
+      //============ 連想配列初期化
+      final exList0Data = list[0].data.split('/');
+      exList0Data.forEach((element) {
+        final exElement = element.split('|');
+
+        costMap[exElement[0]] = [];
+        priceMap[exElement[0]] = [];
+        diffMap[exElement[0]] = [];
+      });
+      //============ 連想配列初期化
+
+      list.forEach((element) {
+        final exData = element.data.split('/');
+        exData.forEach((element2) {
+          final exData2 = element2.split('|');
+
+          costMap[exData2[0]]?.add(exData2[3].toInt());
+          priceMap[exData2[0]]?.add(exData2[4].toInt());
+          diffMap[exData2[0]]?.add(exData2[5].toInt());
+        });
+      });
+
+      costMap.entries.forEach((element) {
+        var sumCost = 0;
+        costMap[element.key]?.forEach((element2) {
+          sumCost += element2;
+        });
+
+        var sumPrice = 0;
+        priceMap[element.key]?.forEach((element2) {
+          sumPrice += element2;
+        });
+
+        var sumDiff = 0;
+        diffMap[element.key]?.forEach((element2) {
+          sumDiff += element2;
+        });
+
+        final percent =
+            (sumPrice > 0 && sumCost > 0) ? ((sumPrice / sumCost) * 100).toString().split('.')[0].toInt() : 0;
+
+        stockMap[element.key] = AssetsData(
+          cost: sumCost,
+          price: sumPrice,
+          diff: sumDiff,
+          percent: percent,
+        );
+      });
+
+      print(stockMap);
+
+      /////////////////////////////////////////
+
+      state = state.copyWith(lastStock: stock, stockMap: stockMap);
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });

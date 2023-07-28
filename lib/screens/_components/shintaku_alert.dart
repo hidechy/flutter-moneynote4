@@ -6,8 +6,8 @@ import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
-import '../../utility/utility.dart';
 import '../../state/shintaku/shintaku_notifier.dart';
+import '../../utility/utility.dart';
 import '_money_dialog.dart';
 import 'shintaku_graph_alert.dart';
 

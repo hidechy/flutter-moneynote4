@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/models/assets_data.dart';
 import 'package:moneynote4/state/gold/gold_response_state.dart';
 
 import '../../data/http/client.dart';
@@ -36,17 +37,35 @@ class GoldLastNotifier extends StateNotifier<GoldResponseState> {
         goldPrice: '',
       );
 
-      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        if (value['data'][i]['gold_price'] != '-') {
-          final val = Gold.fromJson(value['data'][i] as Map<String, dynamic>);
+      final goldMap = <String, AssetsData>{};
 
-          if ('${val.year}-${val.month}-${val.day} 00:00:00'.toDateTime().isBefore(date)) {
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        final val = Gold.fromJson(value['data'][i] as Map<String, dynamic>);
+        final goldDate = '${val.year}-${val.month}-${val.day} 00:00:00'.toDateTime();
+
+        var goldDiff = 0;
+        var goldPercent = 0;
+        if (val.goldValue != '-') {
+          if (goldDate.isBefore(date)) {
             gold = val;
           }
+
+          goldDiff = val.goldValue.toString().toInt() - val.payPrice.toString().toInt();
+
+          goldPercent = (val.goldValue.toString().toInt() > 0 && val.goldPrice.toInt() > 0)
+              ? ((val.goldValue.toString().toInt() / val.goldPrice.toInt()) * 100).toString().split('.')[0].toInt()
+              : 0;
         }
+
+        goldMap['${val.year}-${val.month}-${val.day}'] = AssetsData(
+          cost: (val.goldPrice == '-') ? 0 : val.goldPrice.toInt(),
+          price: (val.goldValue == '-') ? 0 : val.goldValue.toString().toInt(),
+          diff: goldDiff,
+          percent: goldPercent,
+        );
       }
 
-      state = state.copyWith(lastGold: gold);
+      state = state.copyWith(lastGold: gold, goldMap: goldMap);
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });

@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ShintakuResponseState {
   Shintaku? get lastShintaku => throw _privateConstructorUsedError;
   ShintakuRecord? get lastShintakuRecord => throw _privateConstructorUsedError;
+  Map<String, AssetsData> get shintakuMap => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ShintakuResponseStateCopyWith<ShintakuResponseState> get copyWith =>
@@ -30,7 +31,10 @@ abstract class $ShintakuResponseStateCopyWith<$Res> {
           $Res Function(ShintakuResponseState) then) =
       _$ShintakuResponseStateCopyWithImpl<$Res, ShintakuResponseState>;
   @useResult
-  $Res call({Shintaku? lastShintaku, ShintakuRecord? lastShintakuRecord});
+  $Res call(
+      {Shintaku? lastShintaku,
+      ShintakuRecord? lastShintakuRecord,
+      Map<String, AssetsData> shintakuMap});
 }
 
 /// @nodoc
@@ -49,6 +53,7 @@ class _$ShintakuResponseStateCopyWithImpl<$Res,
   $Res call({
     Object? lastShintaku = freezed,
     Object? lastShintakuRecord = freezed,
+    Object? shintakuMap = null,
   }) {
     return _then(_value.copyWith(
       lastShintaku: freezed == lastShintaku
@@ -59,6 +64,10 @@ class _$ShintakuResponseStateCopyWithImpl<$Res,
           ? _value.lastShintakuRecord
           : lastShintakuRecord // ignore: cast_nullable_to_non_nullable
               as ShintakuRecord?,
+      shintakuMap: null == shintakuMap
+          ? _value.shintakuMap
+          : shintakuMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, AssetsData>,
     ) as $Val);
   }
 }
@@ -71,7 +80,10 @@ abstract class _$$_ShintakuResponseStateCopyWith<$Res>
       __$$_ShintakuResponseStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Shintaku? lastShintaku, ShintakuRecord? lastShintakuRecord});
+  $Res call(
+      {Shintaku? lastShintaku,
+      ShintakuRecord? lastShintakuRecord,
+      Map<String, AssetsData> shintakuMap});
 }
 
 /// @nodoc
@@ -87,6 +99,7 @@ class __$$_ShintakuResponseStateCopyWithImpl<$Res>
   $Res call({
     Object? lastShintaku = freezed,
     Object? lastShintakuRecord = freezed,
+    Object? shintakuMap = null,
   }) {
     return _then(_$_ShintakuResponseState(
       lastShintaku: freezed == lastShintaku
@@ -97,6 +110,10 @@ class __$$_ShintakuResponseStateCopyWithImpl<$Res>
           ? _value.lastShintakuRecord
           : lastShintakuRecord // ignore: cast_nullable_to_non_nullable
               as ShintakuRecord?,
+      shintakuMap: null == shintakuMap
+          ? _value._shintakuMap
+          : shintakuMap // ignore: cast_nullable_to_non_nullable
+              as Map<String, AssetsData>,
     ));
   }
 }
@@ -104,16 +121,28 @@ class __$$_ShintakuResponseStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_ShintakuResponseState implements _ShintakuResponseState {
-  const _$_ShintakuResponseState({this.lastShintaku, this.lastShintakuRecord});
+  const _$_ShintakuResponseState(
+      {this.lastShintaku,
+      this.lastShintakuRecord,
+      final Map<String, AssetsData> shintakuMap = const {}})
+      : _shintakuMap = shintakuMap;
 
   @override
   final Shintaku? lastShintaku;
   @override
   final ShintakuRecord? lastShintakuRecord;
+  final Map<String, AssetsData> _shintakuMap;
+  @override
+  @JsonKey()
+  Map<String, AssetsData> get shintakuMap {
+    if (_shintakuMap is EqualUnmodifiableMapView) return _shintakuMap;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_shintakuMap);
+  }
 
   @override
   String toString() {
-    return 'ShintakuResponseState(lastShintaku: $lastShintaku, lastShintakuRecord: $lastShintakuRecord)';
+    return 'ShintakuResponseState(lastShintaku: $lastShintaku, lastShintakuRecord: $lastShintakuRecord, shintakuMap: $shintakuMap)';
   }
 
   @override
@@ -124,12 +153,14 @@ class _$_ShintakuResponseState implements _ShintakuResponseState {
             (identical(other.lastShintaku, lastShintaku) ||
                 other.lastShintaku == lastShintaku) &&
             (identical(other.lastShintakuRecord, lastShintakuRecord) ||
-                other.lastShintakuRecord == lastShintakuRecord));
+                other.lastShintakuRecord == lastShintakuRecord) &&
+            const DeepCollectionEquality()
+                .equals(other._shintakuMap, _shintakuMap));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, lastShintaku, lastShintakuRecord);
+  int get hashCode => Object.hash(runtimeType, lastShintaku, lastShintakuRecord,
+      const DeepCollectionEquality().hash(_shintakuMap));
 
   @JsonKey(ignore: true)
   @override
@@ -142,12 +173,15 @@ class _$_ShintakuResponseState implements _ShintakuResponseState {
 abstract class _ShintakuResponseState implements ShintakuResponseState {
   const factory _ShintakuResponseState(
       {final Shintaku? lastShintaku,
-      final ShintakuRecord? lastShintakuRecord}) = _$_ShintakuResponseState;
+      final ShintakuRecord? lastShintakuRecord,
+      final Map<String, AssetsData> shintakuMap}) = _$_ShintakuResponseState;
 
   @override
   Shintaku? get lastShintaku;
   @override
   ShintakuRecord? get lastShintakuRecord;
+  @override
+  Map<String, AssetsData> get shintakuMap;
   @override
   @JsonKey(ignore: true)
   _$$_ShintakuResponseStateCopyWith<_$_ShintakuResponseState> get copyWith =>
