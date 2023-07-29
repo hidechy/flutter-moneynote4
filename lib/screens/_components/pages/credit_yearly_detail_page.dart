@@ -106,6 +106,9 @@ class CreditYearlyDetailPage extends ConsumerWidget {
         keihiSum += yearlyDetailCredit[i].price;
       }
 
+      final dateMonth = date.yyyymmdd.split('-')[1];
+      final creditMonth = yearlyDetailCredit[i].date.yyyymmdd.split('-')[1];
+
       list.add(
         Container(
           padding: const EdgeInsets.symmetric(vertical: 3),
@@ -120,22 +123,37 @@ class CreditYearlyDetailPage extends ConsumerWidget {
           child: Row(
             children: [
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
                   children: [
-                    Text(
-                      yearlyDetailCredit[i].item,
-                      style: TextStyle(color: priceColor),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            yearlyDetailCredit[i].item,
+                            style: TextStyle(color: priceColor),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(yearlyDetailCredit[i].date.yyyymmdd),
+                              Text(
+                                yearlyDetailCredit[i].price.toString().toCurrency(),
+                                style: TextStyle(color: priceColor),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(yearlyDetailCredit[i].date.yyyymmdd),
-                        Text(
-                          yearlyDetailCredit[i].price.toString().toCurrency(),
-                          style: TextStyle(color: priceColor),
-                        ),
-                      ],
+                    const SizedBox(width: 10),
+                    CircleAvatar(
+                      radius: 12,
+                      backgroundColor: Colors.black.withOpacity(0.2),
+                      child: Text(
+                        (dateMonth.toInt() - creditMonth.toInt()).toString(),
+                        style: const TextStyle(fontSize: 10),
+                      ),
                     ),
                   ],
                 ),
