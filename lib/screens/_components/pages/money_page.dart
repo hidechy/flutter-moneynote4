@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/screens/_components/assets_list_alert.dart';
+import 'package:moneynote4/screens/_components/bank_data_list_alert.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../models/money.dart';
@@ -417,18 +418,38 @@ class MoneyPage extends ConsumerWidget {
               Expanded(
                 child: Container(
                   alignment: Alignment.topRight,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        _context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return BankInputScreen(date: date);
-                          },
-                        ),
-                      );
-                    },
-                    child: const Icon(Icons.business),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(),
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              MoneyDialog(
+                                context: _context,
+                                widget: BankDataListAlert(),
+                              );
+                            },
+                            child: const Icon(Icons.list),
+                          ),
+                          const SizedBox(width: 10),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                _context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return BankInputScreen(date: date);
+                                  },
+                                ),
+                              );
+                            },
+                            child: const Icon(Icons.business),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),
