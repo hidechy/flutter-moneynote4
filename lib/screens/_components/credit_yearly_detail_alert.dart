@@ -29,7 +29,7 @@ class CreditYearlyDetailAlert extends HookConsumerWidget {
 
     // 最初に開くタブを指定する
     final tabController = useTabController(initialLength: tabs.length);
-    tabController.index = 1;
+    tabController.index = (date.year == DateTime.now().year) ? 1 : 0;
     // 最初に開くタブを指定する
 
     return DefaultTabController(

@@ -3,10 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/models/credit_spend_yearly_detail_disp.dart';
-import 'package:moneynote4/screens/_components/pages/seiyu_tab_page.dart';
 
 import '../../../extensions/extensions.dart';
+import '../../../models/credit_spend_yearly_detail_disp.dart';
 import '../../../state/device_info/device_info_notifier.dart';
 import '../../../utility/utility.dart';
 import '../../../viewmodel/credit_notifier.dart';
@@ -14,6 +13,7 @@ import '../../../viewmodel/keihi_list_notifier.dart';
 import '../../../viewmodel/seiyu_notifier.dart';
 import '../_money_dialog.dart';
 import '../credit_udemy_alert.dart';
+import 'seiyu_tab_page.dart';
 
 class CreditYearlyDetailPage extends ConsumerWidget {
   CreditYearlyDetailPage({super.key, required this.date});
