@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/models/credit_spend_yearly_detail_disp.dart';
+import 'package:moneynote4/screens/_components/pages/seiyu_tab_page.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../state/device_info/device_info_notifier.dart';
 import '../../../utility/utility.dart';
 import '../../../viewmodel/credit_notifier.dart';
 import '../../../viewmodel/keihi_list_notifier.dart';
+import '../../../viewmodel/seiyu_notifier.dart';
 import '../_money_dialog.dart';
 import '../credit_udemy_alert.dart';
 
@@ -68,11 +70,19 @@ class CreditYearlyDetailPage extends ConsumerWidget {
 
   ///
   Widget displaySpendYearlyDetail() {
-    final list = <Widget>[];
+    ///////////////////////
+    final reg = RegExp('西友ネットスーパー');
 
-    // final creditSummaryDetailState = _ref.watch(
-    //   creditSummaryDetailProvider(date),
-    // );
+    final seiyuAllState = _ref.watch(seiyuAllProvider(date));
+    final dateList = <String>[];
+    seiyuAllState.forEach((element) {
+      if (!dateList.contains(element.date)) {
+        dateList.add(element.date);
+      }
+    });
+    ///////////////////////
+
+    final list = <Widget>[];
 
     final creditSpendMonthlyState = _ref.watch(creditSpendMonthlyProvider(date));
 
@@ -136,7 +146,43 @@ class CreditYearlyDetailPage extends ConsumerWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(yearlyDetailCredit[i].date.yyyymmdd),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: 70,
+                                    child: Text(yearlyDetailCredit[i].date.yyyymmdd),
+                                  ),
+                                  (reg.firstMatch(yearlyDetailCredit[i].item) != null)
+                                      ? GestureDetector(
+                                          onTap: () async {
+                                            final index = dateList.indexWhere(
+                                              (element) => element == yearlyDetailCredit[i].date.yyyymmdd,
+                                            );
+
+                                            await MoneyDialog(
+                                              context: _context,
+                                              widget: SeiyuTabPage(list: dateList, index: index),
+                                            );
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.indigoAccent.withOpacity(0.2),
+                                            ),
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 10,
+                                              vertical: 5,
+                                            ),
+                                            child: const Text(
+                                              'data display',
+                                              style: TextStyle(
+                                                color: Colors.lightBlueAccent,
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      : Container(),
+                                ],
+                              ),
                               Text(
                                 yearlyDetailCredit[i].price.toString().toCurrency(),
                                 style: TextStyle(color: priceColor),
@@ -158,11 +204,6 @@ class CreditYearlyDetailPage extends ConsumerWidget {
                   ],
                 ),
               ),
-              // const SizedBox(width: 20),
-              // getLinkIcon(
-              //   item: creditSummaryDetailState[i].item,
-              //   price: creditSummaryDetailState[i].price,
-              // ),
             ],
           ),
         ),
