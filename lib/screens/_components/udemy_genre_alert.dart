@@ -1,8 +1,11 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, cascade_invocations
 
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'udemy_genre_alert.dart';
+import '../../extensions/extensions.dart';
+import '../../viewmodel/udemy_notifier.dart';
+import 'pages/udemy_page.dart';
 
 class TabInfo {
   TabInfo(this.label, this.widget);
@@ -11,16 +14,20 @@ class TabInfo {
   Widget widget;
 }
 
-class UdemyAlert extends StatelessWidget {
-  UdemyAlert({super.key, required this.date});
+class UdemyGenreAlert extends ConsumerWidget {
+  UdemyGenreAlert({super.key, required this.date});
 
   final DateTime date;
 
   List<TabInfo> tabs = [];
 
+  late WidgetRef _ref;
+
   ///
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    _ref = ref;
+
     makeTab();
 
     return DefaultTabController(
@@ -64,20 +71,27 @@ class UdemyAlert extends StatelessWidget {
   void makeTab() {
     tabs = [];
 
-    final list = <int>[];
+    final list = <String>[];
 
-    for (var i = 2020; i <= DateTime.now().year; i++) {
-      list.add(i);
-    }
+    final udemyState = _ref.watch(udemyProvider);
+
+    udemyState.forEach((element) {
+      if (date.year == '${element.date} 00:00:00'.toDateTime().year) {
+        if (!list.contains(element.category)) {
+          list.add(element.category);
+        }
+      }
+    });
 
     list
-      ..sort((a, b) => -1 * a.compareTo(b))
+      ..sort((a, b) => a.compareTo(b))
       ..forEach((element) {
         tabs.add(
           TabInfo(
-            element.toString(),
-            UdemyGenreAlert(
-              date: DateTime(element),
+            element,
+            UdemyPage(
+              date: date,
+              category: element,
             ),
           ),
         );

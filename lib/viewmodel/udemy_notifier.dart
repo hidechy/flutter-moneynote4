@@ -14,8 +14,7 @@ udemyProvider       List<Udemy>
 
 ////////////////////////////////////////////////
 
-final udemyProvider =
-    StateNotifierProvider.autoDispose<UdemyNotifier, List<Udemy>>((ref) {
+final udemyProvider = StateNotifierProvider.autoDispose<UdemyNotifier, List<Udemy>>((ref) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
@@ -73,8 +72,7 @@ class UdemyNotifier extends StateNotifier<List<Udemy>> {
   }
 
   ///
-  Future<void> getYearCategoryUdemy(
-      {required int year, required String category}) async {
+  Future<void> getYearCategoryUdemy({required int year, required String category}) async {
     await client.post(path: APIPath.getUdemyData).then((value) {
       final list = <Udemy>[];
 
