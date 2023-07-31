@@ -390,10 +390,11 @@ class TaxPaymentDisplayPage extends ConsumerWidget {
 
   ///
   int getYoteiNouzei() {
+    final july = DateTime(date.year, 7);
     final august = DateTime(date.year, 8);
     final november = DateTime(date.year, 11);
 
-    final yoteiYearMonth = [august.yyyymm, november.yyyymm];
+    final yoteiYearMonth = [july.yyyymm, august.yyyymm, november.yyyymm];
 
     final dutyState = _ref.watch(dutyProvider(date));
 
