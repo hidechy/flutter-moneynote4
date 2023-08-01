@@ -5,7 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../state/app_param/app_param_notifier.dart';
-import '../../viewmodel/train_notifier.dart';
+import '../../state/train/train_notifier.dart';
 import 'pages/train_page.dart';
 
 class TabInfo {

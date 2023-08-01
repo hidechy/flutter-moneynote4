@@ -250,6 +250,14 @@ class Utility {
     }
     //-------------------------//
 
+    //-------------------------//
+    reg = RegExp('NINTENDO');
+
+    if (reg.firstMatch(item) != null) {
+      ret = 'NINTENDO';
+    }
+    //-------------------------//
+
     ret = halfKatakanaToFullLength(val: ret);
 
     ret = ret.alphanumericToHalfLength();

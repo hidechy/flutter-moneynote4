@@ -2,11 +2,12 @@
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../data/http/client.dart';
-import '../data/http/path.dart';
-import '../extensions/extensions.dart';
-import '../models/train.dart';
-import '../utility/utility.dart';
+import '../../data/http/client.dart';
+import '../../data/http/path.dart';
+import '../../extensions/extensions.dart';
+import '../../models/train.dart';
+import '../../utility/utility.dart';
+import 'train_response_state.dart';
 
 /*
 trainProvider       List<Train>
@@ -14,16 +15,15 @@ trainProvider       List<Train>
 
 ////////////////////////////////////////////////
 
-final trainProvider =
-    StateNotifierProvider.autoDispose<TrainNotifier, List<Train>>((ref) {
+final trainProvider = StateNotifierProvider.autoDispose<TrainNotifier, TrainResponseState>((ref) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return TrainNotifier([], client, utility)..getTrain();
+  return TrainNotifier(const TrainResponseState(), client, utility)..getTrain();
 });
 
-class TrainNotifier extends StateNotifier<List<Train>> {
+class TrainNotifier extends StateNotifier<TrainResponseState> {
   TrainNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
@@ -34,22 +34,26 @@ class TrainNotifier extends StateNotifier<List<Train>> {
     await client.post(path: APIPath.gettrainrecord).then((value) {
       final list = <Train>[];
 
+      final map = <String, Train>{};
+
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        list.add(
-          Train(
-            date: DateTime(
-              value['data'][i]['date'].toString().split('-')[0].toInt(),
-              value['data'][i]['date'].toString().split('-')[1].toInt(),
-              value['data'][i]['date'].toString().split('-')[2].toInt(),
-            ),
-            station: value['data'][i]['station'].toString(),
-            price: value['data'][i]['price'].toString(),
-            oufuku: value['data'][i]['oufuku'].toString(),
+        final train = Train(
+          date: DateTime(
+            value['data'][i]['date'].toString().split('-')[0].toInt(),
+            value['data'][i]['date'].toString().split('-')[1].toInt(),
+            value['data'][i]['date'].toString().split('-')[2].toInt(),
           ),
+          station: value['data'][i]['station'].toString(),
+          price: value['data'][i]['price'].toString(),
+          oufuku: value['data'][i]['oufuku'].toString(),
         );
+
+        list.add(train);
+
+        map[train.date.yyyymmdd] = train;
       }
 
-      state = list;
+      state = state.copyWith(trainList: list, trainMap: map);
     });
   }
 
@@ -80,7 +84,7 @@ class TrainNotifier extends StateNotifier<List<Train>> {
         }
       }
 
-      state = list;
+      state = state.copyWith(trainList: list);
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });

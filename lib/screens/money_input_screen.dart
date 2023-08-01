@@ -95,8 +95,14 @@ class MoneyInputScreen extends ConsumerWidget {
     final spendMonthDetailState = _ref.watch(spendMonthDetailProvider(date));
 
     if (spendMonthDetailState.list.isNotEmpty) {
-      lastInputDate = spendMonthDetailState
-          .list[spendMonthDetailState.list.length - 1].date.yyyymmdd;
+      lastInputDate = spendMonthDetailState.list[spendMonthDetailState.list.length - 1].date.yyyymmdd;
+    } else {
+      final now = DateTime.now();
+      lastInputDate = DateTime(
+        now.yyyymmdd.split('-')[0].toInt(),
+        now.yyyymmdd.split('-')[1].toInt(),
+        now.yyyymmdd.split('-')[2].toInt() - 1,
+      ).yyyymmdd;
     }
 
     final formTotalState = ref.watch(formTotalProvider);
@@ -142,8 +148,7 @@ class MoneyInputScreen extends ConsumerWidget {
                             ),
                             Row(
                               children: [
-                                const SizedBox(
-                                    width: 90, child: Text('Last Day')),
+                                const SizedBox(width: 90, child: Text('Last Day')),
                                 Text(
                                   lastInputDate,
                                   style: (date.yyyymmdd == lastInputDate)
@@ -190,9 +195,7 @@ class MoneyInputScreen extends ConsumerWidget {
                             onPressed: () async {
                               await soundpool.play(soundC);
 
-                              await ref
-                                  .watch(beforeCallProvider.notifier)
-                                  .setFlag(flag: 1);
+                              await ref.watch(beforeCallProvider.notifier).setFlag(flag: 1);
 
                               setDefaultMoneyData();
 
@@ -202,18 +205,14 @@ class MoneyInputScreen extends ConsumerWidget {
                             },
                             icon: Icon(
                               Icons.copy,
-                              color: (beforeCallState == 1)
-                                  ? Colors.yellowAccent
-                                  : Colors.white,
+                              color: (beforeCallState == 1) ? Colors.yellowAccent : Colors.white,
                             ),
                           ),
                           IconButton(
                             onPressed: () async {
                               await soundpool.play(soundD);
 
-                              await ref
-                                  .watch(stopDefaultProvider.notifier)
-                                  .setStop(stop: 1);
+                              await ref.watch(stopDefaultProvider.notifier).setStop(stop: 1);
 
                               makeTotal();
                             },
@@ -223,13 +222,9 @@ class MoneyInputScreen extends ConsumerWidget {
                             onPressed: () async {
                               await soundpool.play(soundE);
 
-                              await ref
-                                  .watch(stopDefaultProvider.notifier)
-                                  .setStop(stop: 1);
+                              await ref.watch(stopDefaultProvider.notifier).setStop(stop: 1);
 
-                              await ref
-                                  .watch(spendDiffProvider.notifier)
-                                  .setSpend(spend: lastSum - formTotal);
+                              await ref.watch(spendDiffProvider.notifier).setSpend(spend: lastSum - formTotal);
                             },
                             icon: const Icon(Icons.arrow_circle_right),
                           ),
@@ -293,24 +288,12 @@ class MoneyInputScreen extends ConsumerWidget {
 
     _ref.watch(moneyInputProvider.notifier).setDate(date: date.yyyymmdd);
 
-    _ref
-        .watch(moneyInputProvider.notifier)
-        .setYen10000(yen10000: moneyState.yen10000);
-    _ref
-        .watch(moneyInputProvider.notifier)
-        .setYen5000(yen5000: moneyState.yen5000);
-    _ref
-        .watch(moneyInputProvider.notifier)
-        .setYen2000(yen2000: moneyState.yen2000);
-    _ref
-        .watch(moneyInputProvider.notifier)
-        .setYen1000(yen1000: moneyState.yen1000);
-    _ref
-        .watch(moneyInputProvider.notifier)
-        .setYen500(yen500: moneyState.yen500);
-    _ref
-        .watch(moneyInputProvider.notifier)
-        .setYen100(yen100: moneyState.yen100);
+    _ref.watch(moneyInputProvider.notifier).setYen10000(yen10000: moneyState.yen10000);
+    _ref.watch(moneyInputProvider.notifier).setYen5000(yen5000: moneyState.yen5000);
+    _ref.watch(moneyInputProvider.notifier).setYen2000(yen2000: moneyState.yen2000);
+    _ref.watch(moneyInputProvider.notifier).setYen1000(yen1000: moneyState.yen1000);
+    _ref.watch(moneyInputProvider.notifier).setYen500(yen500: moneyState.yen500);
+    _ref.watch(moneyInputProvider.notifier).setYen100(yen100: moneyState.yen100);
     _ref.watch(moneyInputProvider.notifier).setYen50(yen50: moneyState.yen50);
     _ref.watch(moneyInputProvider.notifier).setYen10(yen10: moneyState.yen10);
     _ref.watch(moneyInputProvider.notifier).setYen5(yen5: moneyState.yen5);
@@ -584,10 +567,7 @@ class MoneyInputScreen extends ConsumerWidget {
   }
 
   ///
-  Widget displayInputParts(
-      {required String name,
-      required String kind,
-      required TextEditingController tec}) {
+  Widget displayInputParts({required String name, required String kind, required TextEditingController tec}) {
     return Container(
       padding: const EdgeInsets.all(10),
       child: TextField(
@@ -742,9 +722,7 @@ class MoneyInputScreen extends ConsumerWidget {
     uploadData['pay_d'] = tecPayD.text;
     uploadData['pay_e'] = tecPayE.text;
 
-    await _ref
-        .watch(moneyInputProvider.notifier)
-        .insertMoney(uploadData: uploadData);
+    await _ref.watch(moneyInputProvider.notifier).insertMoney(uploadData: uploadData);
 
     await _ref.watch(moneyProvider(date).notifier).getMoney(date: date);
 
@@ -755,29 +733,22 @@ class MoneyInputScreen extends ConsumerWidget {
 
   ///
   Future<void> loadSound() async {
-    soundC = await rootBundle
-        .load('assets/sounds/sound_c.mp3')
-        .then((ByteData soundData) {
+    soundC = await rootBundle.load('assets/sounds/sound_c.mp3').then((ByteData soundData) {
       return soundpool.load(soundData);
     });
 
-    soundD = await rootBundle
-        .load('assets/sounds/sound_d.mp3')
-        .then((ByteData soundData) {
+    soundD = await rootBundle.load('assets/sounds/sound_d.mp3').then((ByteData soundData) {
       return soundpool.load(soundData);
     });
 
-    soundE = await rootBundle
-        .load('assets/sounds/sound_e.mp3')
-        .then((ByteData soundData) {
+    soundE = await rootBundle.load('assets/sounds/sound_e.mp3').then((ByteData soundData) {
       return soundpool.load(soundData);
     });
   }
 }
 
 ////////////////////////////////////////////////////////////
-final beforeCallProvider =
-    StateNotifierProvider.autoDispose<BeforeCallStateNotifier, int>((ref) {
+final beforeCallProvider = StateNotifierProvider.autoDispose<BeforeCallStateNotifier, int>((ref) {
   return BeforeCallStateNotifier();
 });
 
@@ -791,8 +762,7 @@ class BeforeCallStateNotifier extends StateNotifier<int> {
 }
 
 ////////////////////////////////////////////////////////////
-final formTotalProvider =
-    StateNotifierProvider.autoDispose<FormTotalStateNotifier, int>((ref) {
+final formTotalProvider = StateNotifierProvider.autoDispose<FormTotalStateNotifier, int>((ref) {
   return FormTotalStateNotifier();
 });
 
@@ -806,8 +776,7 @@ class FormTotalStateNotifier extends StateNotifier<int> {
 }
 
 ////////////////////////////////////////////////////////////
-final spendDiffProvider =
-    StateNotifierProvider.autoDispose<SpendDiffStateNotifier, int>((ref) {
+final spendDiffProvider = StateNotifierProvider.autoDispose<SpendDiffStateNotifier, int>((ref) {
   return SpendDiffStateNotifier();
 });
 
@@ -821,8 +790,7 @@ class SpendDiffStateNotifier extends StateNotifier<int> {
 }
 
 ////////////////////////////////////////////////////////////
-final stopDefaultProvider =
-    StateNotifierProvider.autoDispose<StopDefaultStateNotifier, int>((ref) {
+final stopDefaultProvider = StateNotifierProvider.autoDispose<StopDefaultStateNotifier, int>((ref) {
   return StopDefaultStateNotifier();
 });
 
