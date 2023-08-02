@@ -2,8 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/assets_list_alert.dart';
-import 'package:moneynote4/screens/_components/bank_data_list_alert.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../models/money.dart';
@@ -22,7 +20,9 @@ import '../../money_input_screen.dart';
 import '../../spend_item_input_screen.dart';
 import '../../timeplace_input_screen.dart';
 import '../_money_dialog.dart';
+import '../assets_list_alert.dart';
 import '../bank_alert.dart';
+import '../bank_data_list_alert.dart';
 import '../gold_alert.dart';
 import '../shintaku_alert.dart';
 import '../spend_alert.dart';

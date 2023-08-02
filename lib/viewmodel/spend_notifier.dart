@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_dynamic_calls, literal_only_boolean_expressions
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/models/spend_sameday_yearly.dart';
 
 import '../data/http/client.dart';
 import '../data/http/path.dart';
@@ -9,6 +8,7 @@ import '../extensions/extensions.dart';
 import '../models/spend_item_daily.dart';
 import '../models/spend_month_summary.dart';
 import '../models/spend_sameday.dart';
+import '../models/spend_sameday_yearly.dart';
 import '../models/spend_summary.dart';
 import '../models/spend_year_summary.dart';
 import '../models/spend_yearly.dart';
@@ -32,15 +32,13 @@ samedaySpendProvider        List<SpendSameday>
 */
 
 ////////////////////////////////////////////////
-final spendMonthSummaryProvider = StateNotifierProvider.autoDispose
-    .family<SpendMonthSummaryNotifier, List<SpendMonthSummary>, DateTime>(
-        (ref, date) {
+final spendMonthSummaryProvider =
+    StateNotifierProvider.autoDispose.family<SpendMonthSummaryNotifier, List<SpendMonthSummary>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return SpendMonthSummaryNotifier([], client, utility)
-    ..getSpendMonthSummary(date: date);
+  return SpendMonthSummaryNotifier([], client, utility)..getSpendMonthSummary(date: date);
 });
 
 class SpendMonthSummaryNotifier extends StateNotifier<List<SpendMonthSummary>> {
@@ -71,8 +69,8 @@ class SpendMonthSummaryNotifier extends StateNotifier<List<SpendMonthSummary>> {
 
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
-final spendItemDailyProvider = StateNotifierProvider.autoDispose
-    .family<SpendItemDailyNotifier, SpendItemDaily, DateTime>((ref, date) {
+final spendItemDailyProvider =
+    StateNotifierProvider.autoDispose.family<SpendItemDailyNotifier, SpendItemDaily, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
@@ -111,9 +109,7 @@ class SpendItemDailyNotifier extends StateNotifier<SpendItemDaily> {
             ).yyyymmdd ==
             date.yyyymmdd) {
           final list = <String>[];
-          for (var j = 0;
-              j < value['data'][i]['item'].length.toString().toInt();
-              j++) {
+          for (var j = 0; j < value['data'][i]['item'].length.toString().toInt(); j++) {
             list.add(value['data'][i]['item'][j].toString());
           }
 
@@ -134,14 +130,13 @@ class SpendItemDailyNotifier extends StateNotifier<SpendItemDaily> {
 ////////////////////////////////////////////////
 
 ////////////////////////////////////////////////
-final spendMonthDetailProvider = StateNotifierProvider.autoDispose
-    .family<SpendMonthDetailNotifier, MonthlySpendState, DateTime>((ref, date) {
+final spendMonthDetailProvider =
+    StateNotifierProvider.autoDispose.family<SpendMonthDetailNotifier, MonthlySpendState, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return SpendMonthDetailNotifier(const MonthlySpendState(), client, utility)
-    ..getSpendMonthDetail(date: date);
+  return SpendMonthDetailNotifier(const MonthlySpendState(), client, utility)..getSpendMonthDetail(date: date);
 });
 
 class SpendMonthDetailNotifier extends StateNotifier<MonthlySpendState> {
@@ -168,9 +163,7 @@ class SpendMonthDetailNotifier extends StateNotifier<MonthlySpendState> {
             ).yyyymm) {
           final list2 = <SpendYearlyItem>[];
 
-          for (var j = 0;
-              j < value['data'][i]['item'].length.toString().toInt();
-              j++) {
+          for (var j = 0; j < value['data'][i]['item'].length.toString().toInt(); j++) {
             list2.add(
               SpendYearlyItem(
                 item: value['data'][i]['item'][j]['item'].toString(),
@@ -202,14 +195,13 @@ class SpendMonthDetailNotifier extends StateNotifier<MonthlySpendState> {
 ////////////////////////////////////////////////
 
 ////////////////////////////////////////////////
-final spendYearDayProvider = StateNotifierProvider.autoDispose
-    .family<SpendYearDayNotifier, List<SpendYearly>, DateTime>((ref, date) {
+final spendYearDayProvider =
+    StateNotifierProvider.autoDispose.family<SpendYearDayNotifier, List<SpendYearly>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return SpendYearDayNotifier([], client, utility)
-    ..getSpendYearDayData(date: date);
+  return SpendYearDayNotifier([], client, utility)..getSpendYearDayData(date: date);
 });
 
 class SpendYearDayNotifier extends StateNotifier<List<SpendYearly>> {
@@ -252,14 +244,13 @@ class SpendYearDayNotifier extends StateNotifier<List<SpendYearly>> {
 ////////////////////////////////////////////////
 
 ////////////////////////////////////////////////
-final spendMonthUnitProvider = StateNotifierProvider.autoDispose
-    .family<SpendMonthUnitNotifier, Map<String, int>, DateTime>((ref, date) {
+final spendMonthUnitProvider =
+    StateNotifierProvider.autoDispose.family<SpendMonthUnitNotifier, Map<String, int>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return SpendMonthUnitNotifier({}, client, utility)
-    ..getSpendMonthUnit(date: date);
+  return SpendMonthUnitNotifier({}, client, utility)..getSpendMonthUnit(date: date);
 });
 
 class SpendMonthUnitNotifier extends StateNotifier<Map<String, int>> {
@@ -320,20 +311,16 @@ class SpendMonthUnitNotifier extends StateNotifier<Map<String, int>> {
 ////////////////////////////////////////////////
 
 ////////////////////////////////////////////////
-final spendYearlyItemProvider = StateNotifierProvider.autoDispose.family<
-    SpendYearlyItemNotifier,
-    List<SpendYearlyItemState>,
-    SpendYearlyItemState>((ref, param) {
+final spendYearlyItemProvider = StateNotifierProvider.autoDispose
+    .family<SpendYearlyItemNotifier, List<SpendYearlyItemState>, SpendYearlyItemState>((ref, param) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return SpendYearlyItemNotifier([], client, utility)
-    ..getSpendYearlyItem(param: param);
+  return SpendYearlyItemNotifier([], client, utility)..getSpendYearlyItem(param: param);
 });
 
-class SpendYearlyItemNotifier
-    extends StateNotifier<List<SpendYearlyItemState>> {
+class SpendYearlyItemNotifier extends StateNotifier<List<SpendYearlyItemState>> {
   SpendYearlyItemNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
@@ -348,9 +335,7 @@ class SpendYearlyItemNotifier
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         final date = value['data'][i]['date'].toString();
-        for (var j = 0;
-            j < value['data'][i]['item'].length.toString().toInt();
-            j++) {
+        for (var j = 0; j < value['data'][i]['item'].length.toString().toInt(); j++) {
           if (param.item == value['data'][i]['item'][j]['item'].toString()) {
             if (value['data'][i]['item'][j]['price'].toString().toInt() > 0) {
               list.add(
@@ -361,8 +346,7 @@ class SpendYearlyItemNotifier
                     date.split('-')[2].toInt(),
                   ),
                   item: value['data'][i]['item'][j]['item'].toString(),
-                  price:
-                      value['data'][i]['item'][j]['price'].toString().toInt(),
+                  price: value['data'][i]['item'][j]['price'].toString().toInt(),
                 ),
               );
             }
@@ -380,14 +364,13 @@ class SpendYearlyItemNotifier
 ////////////////////////////////////////////////
 
 ////////////////////////////////////////////////
-final spendSummaryProvider = StateNotifierProvider.autoDispose
-    .family<SpendSummaryNotifier, SpendSummaryState, DateTime>((ref, date) {
+final spendSummaryProvider =
+    StateNotifierProvider.autoDispose.family<SpendSummaryNotifier, SpendSummaryState, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return SpendSummaryNotifier(const SpendSummaryState(), client, utility)
-    ..getSpendSummary(date: date);
+  return SpendSummaryNotifier(const SpendSummaryState(), client, utility)..getSpendSummary(date: date);
 });
 
 class SpendSummaryNotifier extends StateNotifier<SpendSummaryState> {
@@ -425,15 +408,13 @@ class SpendSummaryNotifier extends StateNotifier<SpendSummaryState> {
 ////////////////////////////////////////////////
 
 ////////////////////////////////////////////////
-final spendYearSummaryProvider = StateNotifierProvider.autoDispose
-    .family<SpendYearSummaryNotifier, List<SpendYearSummary>, DateTime>(
-        (ref, date) {
+final spendYearSummaryProvider =
+    StateNotifierProvider.autoDispose.family<SpendYearSummaryNotifier, List<SpendYearSummary>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return SpendYearSummaryNotifier([], client, utility)
-    ..getSpendSummary(date: date);
+  return SpendYearSummaryNotifier([], client, utility)..getSpendSummary(date: date);
 });
 
 class SpendYearSummaryNotifier extends StateNotifier<List<SpendYearSummary>> {
@@ -465,15 +446,12 @@ class SpendYearSummaryNotifier extends StateNotifier<List<SpendYearSummary>> {
 ////////////////////////////////////////////////
 
 ////////////////////////////////////////////////
-final spendZeroUseDateProvider =
-    StateNotifierProvider.autoDispose<SpendZeroUseDateNotifier, ZeroUseDate>(
-        (ref) {
+final spendZeroUseDateProvider = StateNotifierProvider.autoDispose<SpendZeroUseDateNotifier, ZeroUseDate>((ref) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return SpendZeroUseDateNotifier(ZeroUseDate(data: []), client, utility)
-    ..getSpendZeroUseDate();
+  return SpendZeroUseDateNotifier(ZeroUseDate(data: []), client, utility)..getSpendZeroUseDate();
 });
 
 class SpendZeroUseDateNotifier extends StateNotifier<ZeroUseDate> {
@@ -500,8 +478,8 @@ class SpendZeroUseDateNotifier extends StateNotifier<ZeroUseDate> {
 ////////////////////////////////////////////////
 
 ////////////////////////////////////////////////
-final samedaySpendProvider = StateNotifierProvider.autoDispose
-    .family<SamedaySpendNotifier, List<SpendSameday>, DateTime>((ref, date) {
+final samedaySpendProvider =
+    StateNotifierProvider.autoDispose.family<SamedaySpendNotifier, List<SpendSameday>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
@@ -542,18 +520,15 @@ class SamedaySpendNotifier extends StateNotifier<List<SpendSameday>> {
 
 ////////////////////////////////////////////////
 final samedaySpendYearlyProvider = StateNotifierProvider.autoDispose
-    .family<SamedaySpendYearlyNotifier, List<SpendSamedayYearly>, DateTime>(
-        (ref, date) {
+    .family<SamedaySpendYearlyNotifier, List<SpendSamedayYearly>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return SamedaySpendYearlyNotifier([], client, utility)
-    ..getSamedaySpendYearly(date: date);
+  return SamedaySpendYearlyNotifier([], client, utility)..getSamedaySpendYearly(date: date);
 });
 
-class SamedaySpendYearlyNotifier
-    extends StateNotifier<List<SpendSamedayYearly>> {
+class SamedaySpendYearlyNotifier extends StateNotifier<List<SpendSamedayYearly>> {
   SamedaySpendYearlyNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;

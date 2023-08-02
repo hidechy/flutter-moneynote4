@@ -3,15 +3,15 @@
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/extensions/extensions.dart';
-import 'package:moneynote4/screens/_components/_money_dialog.dart';
-import 'package:moneynote4/screens/_components/spend_alert.dart';
 
+import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/holiday_notifier.dart';
 import '../../viewmodel/money_notifier.dart';
 import '../../viewmodel/spend_notifier.dart';
+import '_money_dialog.dart';
+import 'spend_alert.dart';
 
 class SpendYearDayAlert extends ConsumerWidget {
   SpendYearDayAlert({super.key, required this.date, required this.spend, required this.yearSpendToToday});
