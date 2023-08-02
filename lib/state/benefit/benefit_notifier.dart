@@ -1,13 +1,13 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/state/benefit/benefit_response_state.dart';
 
 import '../../data/http/client.dart';
 import '../../data/http/path.dart';
 import '../../extensions/extensions.dart';
 import '../../models/benefit.dart';
 import '../../utility/utility.dart';
+import 'benefit_response_state.dart';
 
 /*
 benefitProvider       List<Benefit>
@@ -33,22 +33,26 @@ class BenefitNotifier extends StateNotifier<BenefitResponseState> {
     await client.post(path: APIPath.benefit).then((value) {
       final list = <Benefit>[];
 
+      final map = <String, Benefit>{};
+
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        list.add(
-          Benefit(
-            date: DateTime(
-              value['data'][i]['date'].toString().split('-')[0].toInt(),
-              value['data'][i]['date'].toString().split('-')[1].toInt(),
-              value['data'][i]['date'].toString().split('-')[2].toInt(),
-            ),
-            ym: value['data'][i]['ym'].toString(),
-            salary: value['data'][i]['salary'].toString(),
-            company: value['data'][i]['company'].toString(),
+        final benefit = Benefit(
+          date: DateTime(
+            value['data'][i]['date'].toString().split('-')[0].toInt(),
+            value['data'][i]['date'].toString().split('-')[1].toInt(),
+            value['data'][i]['date'].toString().split('-')[2].toInt(),
           ),
+          ym: value['data'][i]['ym'].toString(),
+          salary: value['data'][i]['salary'].toString(),
+          company: value['data'][i]['company'].toString(),
         );
+
+        list.add(benefit);
+
+        map[benefit.date.yyyymmdd] = benefit;
       }
 
-      state = state.copyWith(benefitList: list);
+      state = state.copyWith(benefitList: list, benefitMap: map);
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });

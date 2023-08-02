@@ -8,6 +8,7 @@ import 'package:moneynote4/screens/_components/bank_data_list_alert.dart';
 import '../../../extensions/extensions.dart';
 import '../../../models/money.dart';
 import '../../../state/app_param/app_param_notifier.dart';
+import '../../../state/benefit/benefit_notifier.dart';
 import '../../../state/device_info/device_info_notifier.dart';
 import '../../../state/gold/gold_notifier.dart';
 import '../../../state/shintaku/shintaku_notifier.dart';
@@ -35,6 +36,8 @@ class MoneyPage extends ConsumerWidget {
 
   final Utility _utility = Utility();
 
+  Map<int, int> genBenefitMap = {};
+
   late BuildContext _context;
   late WidgetRef _ref;
 
@@ -45,6 +48,8 @@ class MoneyPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _context = context;
     _ref = ref;
+
+    makeYearBenefit();
 
     final moneyState = ref.watch(moneyProvider(date));
 
@@ -238,12 +243,35 @@ class MoneyPage extends ConsumerWidget {
   }
 
   ///
+  void makeYearBenefit() {
+    final benefitMap = _ref.watch(benefitProvider.select((value) => value.benefitMap));
+
+    for (var i = 2020; i <= DateTime.now().year; i++) {
+      genBenefitMap[i] = 0;
+
+      final yearFirst = DateTime(i);
+
+      final diff = DateTime(i, DateTime.now().month, DateTime.now().day).difference(yearFirst).inDays;
+
+      var sum = 0;
+      for (var j = 0; j <= diff; j++) {
+        final date = yearFirst.add(Duration(days: j)).yyyymmdd;
+        sum += (benefitMap[date] != null) ? benefitMap[date]!.salary.toInt() : 0;
+      }
+
+      genBenefitMap[i] = sum;
+    }
+  }
+
+  ///
   Widget displaySamedaySpendYearly() {
     final list = <Widget>[];
 
     final samedaySpendYearlyState = _ref.watch(samedaySpendYearlyProvider(date));
 
     samedaySpendYearlyState.forEach((element) {
+      final bene = genBenefitMap[element.year] ?? 0;
+
       list.add(
         Container(
           padding: const EdgeInsets.symmetric(vertical: 3),
@@ -273,16 +301,14 @@ class MoneyPage extends ConsumerWidget {
               Expanded(
                 child: Container(
                   alignment: Alignment.topRight,
-                  child: Text(
-                    element.salary.toString().toCurrency(),
-                  ),
+                  child: Text(bene.toString().toCurrency()),
                 ),
               ),
               Expanded(
                 child: Container(
                   alignment: Alignment.topRight,
                   child: Text(
-                    (element.spend + element.salary).toString().toCurrency(),
+                    (bene + element.spend).toString().toCurrency(),
                     style: const TextStyle(color: Color(0xFFFBB6CE)),
                   ),
                 ),
