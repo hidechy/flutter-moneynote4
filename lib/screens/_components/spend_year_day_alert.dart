@@ -107,9 +107,13 @@ class SpendYearDayAlert extends ConsumerWidget {
     });
     //====================================//
 
+    var yearTotal = 0;
+
     spendYearDayState.forEach((element) {
       if (date.isBefore(element.date)) {
       } else {
+        yearTotal += element.spend;
+
         final exDate = element.date.yyyymmdd.split('-');
 
         list.add(
@@ -169,11 +173,21 @@ class SpendYearDayAlert extends ConsumerWidget {
                   Expanded(
                     child: Container(
                       alignment: Alignment.topRight,
-                      child: Text(
-                        element.spend.toString().toCurrency(),
-                        style: TextStyle(
-                          color: (element.spend > 10000) ? Colors.yellowAccent : Colors.white,
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            element.spend.toString().toCurrency(),
+                            style: TextStyle(
+                              color: (element.spend > 10000) ? Colors.yellowAccent : Colors.white,
+                            ),
+                          ),
+                          const SizedBox(height: 3),
+                          Text(
+                            yearTotal.toString().toCurrency(),
+                            style: const TextStyle(color: Colors.grey),
+                          ),
+                        ],
                       ),
                     ),
                   ),
