@@ -267,9 +267,7 @@ class MoneyPage extends ConsumerWidget {
   Widget displaySamedaySpendYearly() {
     final list = <Widget>[];
 
-    final samedaySpendYearlyState = _ref.watch(samedaySpendYearlyProvider(date));
-
-    samedaySpendYearlyState.forEach((element) {
+    _ref.watch(samedaySpendYearlyProvider(date)).forEach((element) {
       final bene = genBenefitMap[element.year] ?? 0;
 
       list.add(
@@ -319,12 +317,8 @@ class MoneyPage extends ConsumerWidget {
                   MoneyDialog(
                     context: _context,
                     widget: SpendYearDayAlert(
-                      date: DateTime(
-                        element.year,
-                        date.mm.toInt(),
-                        date.dd.toInt(),
-                      ),
-                      spend: element.spend + element.salary,
+                      date: DateTime(element.year, date.month, date.day),
+                      spend: bene + element.spend,
                     ),
                   );
                 },
