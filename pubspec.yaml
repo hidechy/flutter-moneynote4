@@ -10,6 +10,7 @@ environment:
 
 dependencies:
 
+  bubble: ^1.2.1
   cupertino_icons: ^1.0.2
 
   device_info_plus: ^8.0.0

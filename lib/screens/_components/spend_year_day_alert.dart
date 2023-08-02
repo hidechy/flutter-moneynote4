@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable, cascade_invocations
 
+import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/extensions/extensions.dart';
@@ -13,14 +14,17 @@ import '../../viewmodel/money_notifier.dart';
 import '../../viewmodel/spend_notifier.dart';
 
 class SpendYearDayAlert extends ConsumerWidget {
-  SpendYearDayAlert({super.key, required this.date, required this.spend});
+  SpendYearDayAlert({super.key, required this.date, required this.spend, required this.yearSpendToToday});
 
   final DateTime date;
   final int spend;
+  final Map<int, int> yearSpendToToday;
 
   final Utility _utility = Utility();
 
   Map<String, int> everydayMoney = {};
+
+  List<int> ysttList = [];
 
   late BuildContext _context;
   late WidgetRef _ref;
@@ -109,12 +113,53 @@ class SpendYearDayAlert extends ConsumerWidget {
 
     var yearTotal = 0;
 
+    yearSpendToToday.remove(date.year);
+
+    ysttList = [];
+
     spendYearDayState.forEach((element) {
       if (date.isBefore(element.date)) {
       } else {
         yearTotal += element.spend;
 
         final exDate = element.date.yyyymmdd.split('-');
+
+        //============================================//
+        yearSpendToToday.entries.forEach((element2) {
+          if (element2.value < yearTotal) {
+            if (!ysttList.contains(element2.key)) {
+              list.add(
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: Colors.white.withOpacity(0.3),
+                      ),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(),
+                      Bubble(
+                        color: Colors.indigoAccent.withOpacity(0.4),
+                        nip: BubbleNip.leftTop,
+                        child: Text(
+                          '${element2.value.toString().toCurrency()} (${element2.key})',
+                          style: const TextStyle(fontSize: 10),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+
+            ysttList.add(element2.key);
+          }
+        });
+        //============================================//
 
         list.add(
           Container(

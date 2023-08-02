@@ -267,6 +267,15 @@ class MoneyPage extends ConsumerWidget {
   Widget displaySamedaySpendYearly() {
     final list = <Widget>[];
 
+    ///////////////////////////////////////////
+    final yearSpendToToday = <int, int>{};
+
+    _ref.watch(samedaySpendYearlyProvider(date)).forEach((element) {
+      final bene = genBenefitMap[element.year] ?? 0;
+      yearSpendToToday[element.year] = bene + element.spend;
+    });
+    ///////////////////////////////////////////
+
     _ref.watch(samedaySpendYearlyProvider(date)).forEach((element) {
       final bene = genBenefitMap[element.year] ?? 0;
 
@@ -319,6 +328,7 @@ class MoneyPage extends ConsumerWidget {
                     widget: SpendYearDayAlert(
                       date: DateTime(element.year, date.month, date.day),
                       spend: bene + element.spend,
+                      yearSpendToToday: yearSpendToToday,
                     ),
                   );
                 },
