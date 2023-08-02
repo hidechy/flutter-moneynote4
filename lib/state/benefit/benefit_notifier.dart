@@ -1,12 +1,13 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/state/benefit/benefit_response_state.dart';
 
-import '../data/http/client.dart';
-import '../data/http/path.dart';
-import '../extensions/extensions.dart';
-import '../models/benefit.dart';
-import '../utility/utility.dart';
+import '../../data/http/client.dart';
+import '../../data/http/path.dart';
+import '../../extensions/extensions.dart';
+import '../../models/benefit.dart';
+import '../../utility/utility.dart';
 
 /*
 benefitProvider       List<Benefit>
@@ -14,16 +15,15 @@ benefitProvider       List<Benefit>
 
 ////////////////////////////////////////////////
 
-final benefitProvider =
-    StateNotifierProvider.autoDispose<BenefitNotifier, List<Benefit>>((ref) {
+final benefitProvider = StateNotifierProvider.autoDispose<BenefitNotifier, BenefitResponseState>((ref) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return BenefitNotifier([], client, utility)..getBenefit();
+  return BenefitNotifier(const BenefitResponseState(), client, utility)..getBenefit();
 });
 
-class BenefitNotifier extends StateNotifier<List<Benefit>> {
+class BenefitNotifier extends StateNotifier<BenefitResponseState> {
   BenefitNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
@@ -48,14 +48,10 @@ class BenefitNotifier extends StateNotifier<List<Benefit>> {
         );
       }
 
-      state = list;
+      state = state.copyWith(benefitList: list);
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
     });
-
-    //
-    //
-    // .catchError((error, _) {
-    //   utility.showError('予期せぬエラーが発生しました');
-    // });
   }
 }
 

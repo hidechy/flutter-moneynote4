@@ -10,11 +10,11 @@ import '../../../models/keihi.dart';
 import '../../../models/money.dart';
 import '../../../models/money_everyday.dart';
 import '../../../models/zero_use_date.dart';
+import '../../../state/benefit/benefit_notifier.dart';
 import '../../../state/monthly_spend/monthly_spend_state.dart';
 import '../../../utility/utility.dart';
 import '../../../viewmodel/amazon_notifier.dart';
 import '../../../viewmodel/bank_notifier.dart';
-import '../../../viewmodel/benefit_notifier.dart';
 import '../../../viewmodel/credit_notifier.dart';
 import '../../../viewmodel/holiday_notifier.dart';
 import '../../../viewmodel/keihi_list_notifier.dart';
@@ -247,7 +247,7 @@ class MonthlySpendPage extends ConsumerWidget {
         });
       }
 
-      benefitState.forEach(
+      benefitState.benefitList.forEach(
         (element) {
           if (spendMonthDetailState.list[i].date.yyyymmdd == element.date.yyyymmdd) {
             list2value.add(

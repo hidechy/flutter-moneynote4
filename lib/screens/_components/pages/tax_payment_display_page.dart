@@ -7,9 +7,9 @@ import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../extensions/extensions.dart';
+import '../../../state/benefit/benefit_notifier.dart';
 import '../../../state/device_info/device_info_notifier.dart';
 import '../../../utility/utility.dart';
-import '../../../viewmodel/benefit_notifier.dart';
 import '../../../viewmodel/duty_notifier.dart';
 import '../../../viewmodel/keihi_list_notifier.dart';
 
@@ -379,7 +379,7 @@ class TaxPaymentDisplayPage extends ConsumerWidget {
     final benefitState = _ref.watch(benefitProvider);
 
     var ret = 0;
-    benefitState.forEach((element) {
+    benefitState.benefitList.forEach((element) {
       if (element.date.year == date.year) {
         ret += element.salary.toInt();
       }

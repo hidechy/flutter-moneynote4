@@ -5,9 +5,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
+import '../../state/benefit/benefit_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
-import '../../viewmodel/benefit_notifier.dart';
 
 class BenefitAlert extends ConsumerWidget {
   BenefitAlert({super.key, required this.date});
@@ -46,8 +46,7 @@ class BenefitAlert extends ConsumerWidget {
                 Container(width: context.screenSize.width),
 
                 //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
                 //----------//
 
                 // Row(children: yearWidgetList),
@@ -72,7 +71,7 @@ class BenefitAlert extends ConsumerWidget {
 
     var yb = 0;
     var keepYear = '';
-    benefitState.forEach((val) {
+    benefitState.benefitList.forEach((val) {
       if (keepYear !=
           DateTime(
             val.ym.split('-')[0].toInt(),
@@ -97,7 +96,7 @@ class BenefitAlert extends ConsumerWidget {
     //////////////////////////////////////////////
 
     keepYear = '';
-    benefitState.forEach((element) {
+    benefitState.benefitList.forEach((element) {
       if (keepYear !=
           DateTime(
             element.ym.split('-')[0].toInt(),

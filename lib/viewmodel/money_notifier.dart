@@ -5,12 +5,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../data/http/client.dart';
 import '../data/http/path.dart';
 import '../extensions/extensions.dart';
-import '../models/benefit.dart';
 import '../models/money.dart';
 import '../models/money_everyday.dart';
 import '../models/money_score.dart';
+import '../state/benefit/benefit_notifier.dart';
+import '../state/benefit/benefit_response_state.dart';
 import '../utility/utility.dart';
-import 'benefit_notifier.dart';
 
 /*
 moneyProvider       Money
@@ -20,8 +20,7 @@ moneyScoreProvider        List<MoneyScore>
 
 ////////////////////////////////////////////////
 
-final moneyProvider = StateNotifierProvider.autoDispose
-    .family<MoneyNotifier, Money, DateTime>((ref, date) {
+final moneyProvider = StateNotifierProvider.autoDispose.family<MoneyNotifier, Money, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
@@ -74,36 +73,16 @@ class MoneyNotifier extends StateNotifier<Money> {
       final currencyVal = <int>[];
       final currencyKey = [10000, 5000, 2000, 1000, 500, 100, 50, 10, 5, 1];
       currencyVal
-        ..add(value['data']['yen_10000'] != null
-            ? value['data']['yen_10000'].toString().toInt()
-            : 0)
-        ..add(value['data']['yen_5000'] != null
-            ? value['data']['yen_5000'].toString().toInt()
-            : 0)
-        ..add(value['data']['yen_2000'] != null
-            ? value['data']['yen_2000'].toString().toInt()
-            : 0)
-        ..add(value['data']['yen_1000'] != null
-            ? value['data']['yen_1000'].toString().toInt()
-            : 0)
-        ..add(value['data']['yen_500'] != null
-            ? value['data']['yen_500'].toString().toInt()
-            : 0)
-        ..add(value['data']['yen_100'] != null
-            ? value['data']['yen_100'].toString().toInt()
-            : 0)
-        ..add(value['data']['yen_50'] != null
-            ? value['data']['yen_50'].toString().toInt()
-            : 0)
-        ..add(value['data']['yen_10'] != null
-            ? value['data']['yen_10'].toString().toInt()
-            : 0)
-        ..add(value['data']['yen_5'] != null
-            ? value['data']['yen_5'].toString().toInt()
-            : 0)
-        ..add(value['data']['yen_1'] != null
-            ? value['data']['yen_1'].toString().toInt()
-            : 0);
+        ..add(value['data']['yen_10000'] != null ? value['data']['yen_10000'].toString().toInt() : 0)
+        ..add(value['data']['yen_5000'] != null ? value['data']['yen_5000'].toString().toInt() : 0)
+        ..add(value['data']['yen_2000'] != null ? value['data']['yen_2000'].toString().toInt() : 0)
+        ..add(value['data']['yen_1000'] != null ? value['data']['yen_1000'].toString().toInt() : 0)
+        ..add(value['data']['yen_500'] != null ? value['data']['yen_500'].toString().toInt() : 0)
+        ..add(value['data']['yen_100'] != null ? value['data']['yen_100'].toString().toInt() : 0)
+        ..add(value['data']['yen_50'] != null ? value['data']['yen_50'].toString().toInt() : 0)
+        ..add(value['data']['yen_10'] != null ? value['data']['yen_10'].toString().toInt() : 0)
+        ..add(value['data']['yen_5'] != null ? value['data']['yen_5'].toString().toInt() : 0)
+        ..add(value['data']['yen_1'] != null ? value['data']['yen_1'].toString().toInt() : 0);
 
       var i = 0;
       currencyVal.forEach((element) {
@@ -150,8 +129,7 @@ class MoneyNotifier extends StateNotifier<Money> {
 
 ////////////////////////////////////////////////
 
-final moneyEverydayProvider = StateNotifierProvider.autoDispose<
-    MoneyEverydayNotifier, List<MoneyEveryday>>((ref) {
+final moneyEverydayProvider = StateNotifierProvider.autoDispose<MoneyEverydayNotifier, List<MoneyEveryday>>((ref) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
@@ -195,8 +173,7 @@ class MoneyEverydayNotifier extends StateNotifier<List<MoneyEveryday>> {
 
 ////////////////////////////////////////////////
 
-final moneyAllProvider =
-    StateNotifierProvider.autoDispose<MoneyAllNotifier, List<Money>>((ref) {
+final moneyAllProvider = StateNotifierProvider.autoDispose<MoneyAllNotifier, List<Money>>((ref) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
@@ -258,9 +235,7 @@ class MoneyAllNotifier extends StateNotifier<List<Money>> {
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-final moneyScoreProvider =
-    StateNotifierProvider.autoDispose<MoneyScoreNotifier, List<MoneyScore>>(
-        (ref) {
+final moneyScoreProvider = StateNotifierProvider.autoDispose<MoneyScoreNotifier, List<MoneyScore>>((ref) {
   final client = ref.read(httpClientProvider);
 
   final moneyEverydayState = ref.watch(moneyEverydayProvider);
@@ -285,7 +260,7 @@ class MoneyScoreNotifier extends StateNotifier<List<MoneyScore>> {
 
   final HttpClient client;
   final List<MoneyEveryday> moneyEverydayState;
-  final List<Benefit> benefitState;
+  final BenefitResponseState benefitState;
 
   Future<void> getMoneyScore() async {
     final list = <MoneyScore>[];
@@ -313,7 +288,7 @@ class MoneyScoreNotifier extends StateNotifier<List<MoneyScore>> {
     final bene = <String, List<int>>{};
     var beneList = <int>[];
     var keepYm = '';
-    benefitState.forEach((element) {
+    benefitState.benefitList.forEach((element) {
       if (keepYm != element.ym) {
         beneList = [];
       }
@@ -345,9 +320,7 @@ class MoneyScoreNotifier extends StateNotifier<List<MoneyScore>> {
             MoneyScore(
               ym: element2.yyyymm,
               price: element.sum.toInt(),
-              benefit: (benefit[element2.yyyymm] == null)
-                  ? 0
-                  : benefit[element2.yyyymm]!,
+              benefit: (benefit[element2.yyyymm] == null) ? 0 : benefit[element2.yyyymm]!,
               updown: (element.sum.toInt() > keepSum) ? 1 : 0,
               sagaku: keepSum - element.sum.toInt(),
             ),

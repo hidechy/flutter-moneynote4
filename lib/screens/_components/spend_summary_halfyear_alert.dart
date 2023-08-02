@@ -8,10 +8,10 @@ import 'package:uuid/uuid.dart';
 import '../../extensions/extensions.dart';
 import '../../models/credit_spend_monthly.dart';
 import '../../models/spend_yearly.dart';
+import '../../state/benefit/benefit_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/bank_notifier.dart';
-import '../../viewmodel/benefit_notifier.dart';
 import '../../viewmodel/credit_notifier.dart';
 import '../../viewmodel/spend_notifier.dart';
 
@@ -60,8 +60,7 @@ class SpendSummaryHalfyearAlert extends ConsumerWidget {
                 Container(width: context.screenSize.width),
 
                 //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
                 //----------//
 
                 const SizedBox(height: 20),
@@ -104,8 +103,7 @@ class SpendSummaryHalfyearAlert extends ConsumerWidget {
       //---------------------------- (2)
 
       //---------------------------- (1)
-      final creditSpendMonthlyState =
-          _ref.watch(creditSpendMonthlyProvider(element));
+      final creditSpendMonthlyState = _ref.watch(creditSpendMonthlyProvider(element));
 
       var keepDate = '';
       creditSpendMonthlyState.forEach((element2) {
@@ -157,9 +155,7 @@ class SpendSummaryHalfyearAlert extends ConsumerWidget {
 
         final list3 = <Widget>[];
         element2.item.forEach((element3) {
-          final color = (element3.flag.toString() == '1')
-              ? Colors.lightBlueAccent
-              : Colors.white;
+          final color = (element3.flag.toString() == '1') ? Colors.lightBlueAccent : Colors.white;
 
           list3.add(
             Container(
@@ -229,7 +225,7 @@ class SpendSummaryHalfyearAlert extends ConsumerWidget {
           });
         }
 
-        benefitState.forEach((element3) {
+        benefitState.benefitList.forEach((element3) {
           if (element3.date.yyyymmdd == element2.date.yyyymmdd) {
             list3.add(
               Container(
@@ -349,8 +345,7 @@ class SpendSummaryHalfyearAlert extends ConsumerWidget {
                 width: oneWidth,
                 alignment: Alignment.topRight,
                 padding: const EdgeInsets.all(5),
-                child: Text(
-                    totalMap[element2.date.yyyymmdd].toString().toCurrency()),
+                child: Text(totalMap[element2.date.yyyymmdd].toString().toCurrency()),
               ),
             ],
           ),
