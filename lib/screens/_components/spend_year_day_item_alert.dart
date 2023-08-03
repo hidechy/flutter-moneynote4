@@ -1,0 +1,220 @@
+// ignore_for_file: must_be_immutable
+
+import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../extensions/extensions.dart';
+import '../../state/device_info/device_info_notifier.dart';
+import '../../utility/utility.dart';
+import '../../viewmodel/spend_notifier.dart';
+
+class SpendYearDayItemAlert extends ConsumerWidget {
+  SpendYearDayItemAlert({super.key, required this.date});
+
+  final DateTime date;
+
+  final Utility _utility = Utility();
+
+  late WidgetRef _ref;
+
+  ///
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    _ref = ref;
+
+    final deviceInfoState = ref.read(deviceInfoProvider);
+
+    return AlertDialog(
+      titlePadding: EdgeInsets.zero,
+      contentPadding: EdgeInsets.zero,
+      backgroundColor: Colors.transparent,
+      insetPadding: EdgeInsets.zero,
+      content: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        width: double.infinity,
+        height: double.infinity,
+        child: DefaultTextStyle(
+          style: const TextStyle(fontSize: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20),
+              Container(width: context.screenSize.width),
+
+              //----------//
+              if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
+              //----------//
+
+              Text(date.yyyy),
+
+              Divider(
+                color: Colors.white.withOpacity(0.4),
+                thickness: 2,
+              ),
+
+              _displayDataSelectChips(),
+
+              Divider(
+                color: Colors.white.withOpacity(0.4),
+                thickness: 2,
+              ),
+
+              Expanded(
+                child: displaySpendYearDayItem(),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  ///
+  Widget _displayDataSelectChips() {
+    final spendYearDayItemSelectTextState = _ref.watch(spendYearDayItemSelectTextProvider);
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        GestureDetector(
+          onTap: () {
+            _ref.watch(spendYearDayItemSelectTextProvider.notifier).setSpendYearDayItemSelectText(text: '');
+          },
+          child: Container(
+            margin: const EdgeInsets.all(3),
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: (spendYearDayItemSelectTextState == '')
+                  ? Colors.yellowAccent.withOpacity(0.2)
+                  : Colors.indigo.withOpacity(0.2),
+            ),
+            child: const Text('ALL', style: TextStyle(fontSize: 8)),
+          ),
+        ),
+        const SizedBox(width: 20),
+        Expanded(
+          child: Wrap(
+            children: ['5000', '10000', '30000', '50000', '100000'].map((e) {
+              return GestureDetector(
+                onTap: () {
+                  _ref.watch(spendYearDayItemSelectTextProvider.notifier).setSpendYearDayItemSelectText(text: e);
+                },
+                child: Container(
+                  margin: const EdgeInsets.all(3),
+                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: (spendYearDayItemSelectTextState == e)
+                        ? Colors.yellowAccent.withOpacity(0.2)
+                        : Colors.indigo.withOpacity(0.2),
+                  ),
+                  child: Text('$e〜', style: const TextStyle(fontSize: 8)),
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+      ],
+    );
+  }
+
+  ///
+  Widget displaySpendYearDayItem() {
+    final spendYearDayItemSelectTextState = _ref.watch(spendYearDayItemSelectTextProvider);
+
+    final list = <Widget>[];
+
+    final spendYearDayState = _ref.watch(spendYearDayProvider(date));
+
+    var yearTotal = 0;
+
+    // forで仕方ない
+    for (var i = 0; i < spendYearDayState.length; i++) {
+      final listDate = spendYearDayState[i].date.mmdd;
+
+      final youbi = spendYearDayState[i].date.youbiStr;
+
+      for (var j = 0; j < spendYearDayState[i].item.length; j++) {
+        final item = spendYearDayState[i].item[j];
+
+        if (spendYearDayItemSelectTextState != '') {
+          if (item.price.toString().toInt() < spendYearDayItemSelectTextState.toInt()) {
+            continue;
+          }
+        }
+
+        final linePrice = item.price.toString().toInt();
+
+        yearTotal += linePrice;
+
+        list.add(Container(
+          padding: const EdgeInsets.all(10),
+          margin: const EdgeInsets.only(bottom: 10),
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.white.withOpacity(0.3),
+              ),
+            ),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 3,
+                child: Text('$listDate (${youbi.substring(0, 3)})'),
+              ),
+              Expanded(
+                flex: 4,
+                child: Text(
+                  item.item,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+              ),
+              Expanded(
+                flex: 3,
+                child: Container(
+                  alignment: Alignment.topRight,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(linePrice.toString().toCurrency()),
+                      Text(
+                        yearTotal.toString().toCurrency(),
+                        style: const TextStyle(color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ));
+      }
+    }
+
+    return SingleChildScrollView(
+      child: DefaultTextStyle(
+        style: const TextStyle(fontSize: 10),
+        child: Column(children: list),
+      ),
+    );
+  }
+}
+
+////////////////////////////////////////////////
+
+final spendYearDayItemSelectTextProvider =
+    StateNotifierProvider.autoDispose<SpendYearDayItemSelectTextNotifier, String>((ref) {
+  return SpendYearDayItemSelectTextNotifier();
+});
+
+class SpendYearDayItemSelectTextNotifier extends StateNotifier<String> {
+  SpendYearDayItemSelectTextNotifier() : super('');
+
+  ///
+  Future<void> setSpendYearDayItemSelectText({required String text}) async {
+    state = text;
+  }
+}

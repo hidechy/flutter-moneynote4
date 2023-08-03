@@ -224,11 +224,17 @@ class SpendYearDayNotifier extends StateNotifier<List<SpendYearly>> {
               value['data'][i]['date'].toString().split('-')[1].toInt(),
               value['data'][i]['date'].toString().split('-')[2].toInt(),
             ).yyyy) {
+          final list2 = <SpendYearlyItem>[];
+
+          for (var j = 0; j < value['data'][i]['item'].length.toString().toInt(); j++) {
+            list2.add(SpendYearlyItem.fromJson(value['data'][i]['item'][j] as Map<String, dynamic>));
+          }
+
           list.add(
             SpendYearly(
               date: DateTime.parse(value['data'][i]['date'].toString()),
               spend: value['data'][i]['spend'].toString().toInt(),
-              item: [],
+              item: list2,
             ),
           );
         }

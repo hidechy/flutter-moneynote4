@@ -12,6 +12,7 @@ import '../../viewmodel/money_notifier.dart';
 import '../../viewmodel/spend_notifier.dart';
 import '_money_dialog.dart';
 import 'spend_alert.dart';
+import 'spend_year_day_item_alert.dart';
 
 class SpendYearDayAlert extends ConsumerWidget {
   SpendYearDayAlert({super.key, required this.date, required this.spend, required this.yearSpendToToday});
@@ -34,6 +35,8 @@ class SpendYearDayAlert extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _context = context;
     _ref = ref;
+
+    ////////////
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
@@ -74,6 +77,27 @@ class SpendYearDayAlert extends ConsumerWidget {
                 thickness: 2,
               ),
 
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(),
+                  GestureDetector(
+                    onTap: () {
+                      MoneyDialog(
+                        context: context,
+                        widget: SpendYearDayItemAlert(date: date),
+                      );
+                    },
+                    child: const Icon(Icons.list),
+                  ),
+                ],
+              ),
+
+              Divider(
+                color: Colors.white.withOpacity(0.4),
+                thickness: 2,
+              ),
+
               Expanded(
                 child: displaySpendYearDay(),
               ),
@@ -91,6 +115,8 @@ class SpendYearDayAlert extends ConsumerWidget {
     final list = <Widget>[];
 
     final holidayState = _ref.watch(holidayProvider);
+
+    ///////////
 
     final spendYearDayState = _ref.watch(spendYearDayProvider(date));
 
@@ -116,6 +142,8 @@ class SpendYearDayAlert extends ConsumerWidget {
     yearSpendToToday.remove(date.year);
 
     ysttList = [];
+
+    ////////
 
     spendYearDayState.forEach((element) {
       if (date.isBefore(element.date)) {
