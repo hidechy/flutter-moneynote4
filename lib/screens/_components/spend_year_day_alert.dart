@@ -3,6 +3,7 @@
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
@@ -27,6 +28,8 @@ class SpendYearDayAlert extends ConsumerWidget {
 
   List<int> ysttList = [];
 
+  final autoScrollController = AutoScrollController();
+
   late BuildContext _context;
   late WidgetRef _ref;
 
@@ -36,7 +39,7 @@ class SpendYearDayAlert extends ConsumerWidget {
     _context = context;
     _ref = ref;
 
-    ////////////
+    final spendYearDayState = ref.watch(spendYearDayProvider(date));
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
@@ -80,7 +83,23 @@ class SpendYearDayAlert extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(),
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          autoScrollController.scrollToIndex(spendYearDayState.length);
+                        },
+                        child: const Icon(Icons.arrow_downward),
+                      ),
+                      const SizedBox(width: 20),
+                      GestureDetector(
+                        onTap: () {
+                          autoScrollController.scrollToIndex(0);
+                        },
+                        child: const Icon(Icons.arrow_upward),
+                      ),
+                    ],
+                  ),
                   GestureDetector(
                     onTap: () {
                       MoneyDialog(
@@ -116,8 +135,6 @@ class SpendYearDayAlert extends ConsumerWidget {
 
     final holidayState = _ref.watch(holidayProvider);
 
-    ///////////
-
     final spendYearDayState = _ref.watch(spendYearDayProvider(date));
 
     //====================================//
@@ -143,14 +160,12 @@ class SpendYearDayAlert extends ConsumerWidget {
 
     ysttList = [];
 
-    ////////
-
-    spendYearDayState.forEach((element) {
-      if (date.isBefore(element.date)) {
+    for (var i = 0; i < spendYearDayState.length; i++) {
+      if (date.isBefore(spendYearDayState[i].date)) {
       } else {
-        yearTotal += element.spend;
+        yearTotal += spendYearDayState[i].spend;
 
-        final exDate = element.date.yyyymmdd.split('-');
+        final exDate = spendYearDayState[i].date.yyyymmdd.split('-');
 
         //============================================//
         yearSpendToToday.entries.forEach((element2) {
@@ -190,105 +205,111 @@ class SpendYearDayAlert extends ConsumerWidget {
         //============================================//
 
         list.add(
-          Container(
-            padding: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Colors.white.withOpacity(0.3),
+          AutoScrollTag(
+            key: ValueKey(i),
+            index: i,
+            controller: autoScrollController,
+            child: Container(
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Colors.white.withOpacity(0.3),
+                  ),
+                ),
+                color: _utility.getYoubiColor(
+                  date: spendYearDayState[i].date,
+                  youbiStr: spendYearDayState[i].date.youbiStr,
+                  holiday: holidayState.data,
                 ),
               ),
-              color: _utility.getYoubiColor(
-                date: element.date,
-                youbiStr: element.date.youbiStr,
-                holiday: holidayState.data,
-              ),
-            ),
-            child: DefaultTextStyle(
-              style: const TextStyle(fontSize: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: Row(
-                      children: [
-                        Text(
-                          '${element.date.yyyymmdd}（${_utility.getYoubi(youbiStr: element.date.youbiStr)}）',
-                        ),
-                        if (exDate[2] == '01') ...[
-                          const SizedBox(width: 10),
-                          Tooltip(
-                            message: totalMap[element.date.yyyymm].toString().toCurrency(),
-                            textStyle: const TextStyle(color: Colors.white),
-                            decoration: BoxDecoration(
-                              color: Colors.yellowAccent.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            showDuration: const Duration(seconds: 2),
-                            child: Icon(
-                              Icons.comment,
-                              color: Colors.white.withOpacity(0.3),
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      alignment: Alignment.topRight,
-                      child: (everydayMoney[element.date.yyyymmdd] == null)
-                          ? Container()
-                          : Text(everydayMoney[element.date.yyyymmdd].toString().toCurrency()),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      alignment: Alignment.topRight,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
+              child: DefaultTextStyle(
+                style: const TextStyle(fontSize: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Row(
                         children: [
                           Text(
-                            element.spend.toString().toCurrency(),
-                            style: TextStyle(
-                              color: (element.spend > 10000) ? Colors.yellowAccent : Colors.white,
+                            '${spendYearDayState[i].date.yyyymmdd}（${_utility.getYoubi(youbiStr: spendYearDayState[i].date.youbiStr)}）',
+                          ),
+                          if (exDate[2] == '01') ...[
+                            const SizedBox(width: 10),
+                            Tooltip(
+                              message: totalMap[spendYearDayState[i].date.yyyymm].toString().toCurrency(),
+                              textStyle: const TextStyle(color: Colors.white),
+                              decoration: BoxDecoration(
+                                color: Colors.yellowAccent.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              showDuration: const Duration(seconds: 2),
+                              child: Icon(
+                                Icons.comment,
+                                color: Colors.white.withOpacity(0.3),
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 3),
-                          Text(
-                            yearTotal.toString().toCurrency(),
-                            style: const TextStyle(color: Colors.grey),
-                          ),
+                          ],
                         ],
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 20),
-                  GestureDetector(
-                    onTap: () {
-                      MoneyDialog(
-                        context: _context,
-                        widget: SpendAlert(
-                          date: element.date,
-                          diff: element.spend.toString(),
-                        ),
-                      );
-                    },
-                    child: Icon(
-                      Icons.info_outline,
-                      color: Colors.white.withOpacity(0.6),
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.topRight,
+                        child: (everydayMoney[spendYearDayState[i].date.yyyymmdd] == null)
+                            ? Container()
+                            : Text(everydayMoney[spendYearDayState[i].date.yyyymmdd].toString().toCurrency()),
+                      ),
                     ),
-                  ),
-                ],
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.topRight,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              spendYearDayState[i].spend.toString().toCurrency(),
+                              style: TextStyle(
+                                color: (spendYearDayState[i].spend > 10000) ? Colors.yellowAccent : Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 3),
+                            Text(
+                              yearTotal.toString().toCurrency(),
+                              style: const TextStyle(color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    GestureDetector(
+                      onTap: () {
+                        MoneyDialog(
+                          context: _context,
+                          widget: SpendAlert(
+                            date: spendYearDayState[i].date,
+                            diff: spendYearDayState[i].spend.toString(),
+                          ),
+                        );
+                      },
+                      child: Icon(
+                        Icons.info_outline,
+                        color: Colors.white.withOpacity(0.6),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         );
       }
-    });
+    }
 
     return SingleChildScrollView(
+      controller: autoScrollController,
       child: Column(children: list),
     );
   }

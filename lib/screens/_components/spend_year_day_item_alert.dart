@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
@@ -15,12 +16,23 @@ class SpendYearDayItemAlert extends ConsumerWidget {
 
   final Utility _utility = Utility();
 
+  final autoScrollController = AutoScrollController();
+
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
+
+    final spendYearDayState = _ref.watch(spendYearDayProvider(date));
+
+    var maxNum = 0;
+    for (var i = 0; i < spendYearDayState.length; i++) {
+      for (var j = 0; j < spendYearDayState[i].item.length; j++) {
+        maxNum++;
+      }
+    }
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
@@ -45,7 +57,29 @@ class SpendYearDayItemAlert extends ConsumerWidget {
               if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
               //----------//
 
-              Text(date.yyyy),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(date.yyyy),
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          autoScrollController.scrollToIndex(maxNum);
+                        },
+                        child: const Icon(Icons.arrow_downward),
+                      ),
+                      const SizedBox(width: 20),
+                      GestureDetector(
+                        onTap: () {
+                          autoScrollController.scrollToIndex(0);
+                        },
+                        child: const Icon(Icons.arrow_upward),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
 
               Divider(
                 color: Colors.white.withOpacity(0.4),
@@ -130,6 +164,8 @@ class SpendYearDayItemAlert extends ConsumerWidget {
     var yearTotal = 0;
 
     // forで仕方ない
+
+    var maxNum = 0;
     for (var i = 0; i < spendYearDayState.length; i++) {
       final listDate = spendYearDayState[i].date.mmdd;
 
@@ -148,53 +184,61 @@ class SpendYearDayItemAlert extends ConsumerWidget {
 
         yearTotal += linePrice;
 
-        list.add(Container(
-          padding: const EdgeInsets.all(10),
-          margin: const EdgeInsets.only(bottom: 10),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.white.withOpacity(0.3),
+        list.add(AutoScrollTag(
+          key: ValueKey(maxNum),
+          index: maxNum,
+          controller: autoScrollController,
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            margin: const EdgeInsets.only(bottom: 10),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.white.withOpacity(0.3),
+                ),
               ),
             ),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                flex: 3,
-                child: Text('$listDate (${youbi.substring(0, 3)})'),
-              ),
-              Expanded(
-                flex: 4,
-                child: Text(
-                  item.item,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: Text('$listDate (${youbi.substring(0, 3)})'),
                 ),
-              ),
-              Expanded(
-                flex: 3,
-                child: Container(
-                  alignment: Alignment.topRight,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(linePrice.toString().toCurrency()),
-                      Text(
-                        yearTotal.toString().toCurrency(),
-                        style: const TextStyle(color: Colors.grey),
-                      ),
-                    ],
+                Expanded(
+                  flex: 4,
+                  child: Text(
+                    item.item,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
                 ),
-              ),
-            ],
+                Expanded(
+                  flex: 3,
+                  child: Container(
+                    alignment: Alignment.topRight,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(linePrice.toString().toCurrency()),
+                        Text(
+                          yearTotal.toString().toCurrency(),
+                          style: const TextStyle(color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ));
+
+        maxNum++;
       }
     }
 
     return SingleChildScrollView(
+      controller: autoScrollController,
       child: DefaultTextStyle(
         style: const TextStyle(fontSize: 10),
         child: Column(children: list),
