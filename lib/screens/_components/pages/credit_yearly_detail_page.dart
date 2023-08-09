@@ -116,8 +116,7 @@ class CreditYearlyDetailPage extends ConsumerWidget {
         keihiSum += yearlyDetailCredit[i].price;
       }
 
-      final dateMonth = date.yyyymmdd.split('-')[1];
-      final creditMonth = yearlyDetailCredit[i].date.yyyymmdd.split('-')[1];
+      final dateDiff = date.difference(yearlyDetailCredit[i].date).inDays - 1;
 
       list.add(
         Container(
@@ -197,7 +196,7 @@ class CreditYearlyDetailPage extends ConsumerWidget {
                       radius: 12,
                       backgroundColor: Colors.black.withOpacity(0.2),
                       child: Text(
-                        (dateMonth.toInt() - creditMonth.toInt()).toString(),
+                        dateDiff.toString(),
                         style: const TextStyle(fontSize: 10),
                       ),
                     ),
