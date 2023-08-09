@@ -71,7 +71,7 @@ class KeihiListAlert extends ConsumerWidget {
     );
 
     final yearList = <Widget>[];
-    for (var i = date.yyyy.toInt(); i >= 2023; i--) {
+    for (var i = date.yyyy.toInt(); i >= 2022; i--) {
       yearList.add(
         GestureDetector(
           onTap: () {
