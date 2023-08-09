@@ -11,13 +11,14 @@ import '../utility/utility.dart';
 
 ////////////////////////////////////////////////
 
-final keihiListProvider = StateNotifierProvider.autoDispose
-    .family<KeihiListNotifier, List<Keihi>, DateTime>((ref, date) {
+final keihiListProvider =
+    StateNotifierProvider.autoDispose.family<KeihiListNotifier, List<Keihi>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return KeihiListNotifier([], client, utility)..getKeihiList(date: date);
+//  return KeihiListNotifier([], client, utility)..getKeihiList(date: date);
+  return KeihiListNotifier([], client, utility);
 });
 
 class KeihiListNotifier extends StateNotifier<List<Keihi>> {
@@ -46,8 +47,8 @@ class KeihiListNotifier extends StateNotifier<List<Keihi>> {
 
 ////////////////////////////////////////////////
 
-final taxPaymentItemProvider = StateNotifierProvider.autoDispose
-    .family<TaxPaymentItemNotifier, TaxPaymentItem, DateTime>((ref, date) {
+final taxPaymentItemProvider =
+    StateNotifierProvider.autoDispose.family<TaxPaymentItemNotifier, TaxPaymentItem, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();

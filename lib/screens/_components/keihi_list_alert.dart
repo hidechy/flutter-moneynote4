@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -102,6 +102,8 @@ class KeihiListAlert extends ConsumerWidget {
     final keihiListState = _ref.watch(keihiListProvider(date));
     var sum = 0;
     keihiListState.forEach((element) {
+      final color = (element.category1 == 'null' || element.category2 == 'null') ? Colors.yellowAccent : Colors.white;
+
       list.add(Container(
         padding: const EdgeInsets.all(10),
         margin: const EdgeInsets.only(bottom: 10),
@@ -125,8 +127,18 @@ class KeihiListAlert extends ConsumerWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Expanded(child: Text(element.category1)),
-                          Expanded(child: Text(element.category2)),
+                          Expanded(
+                            child: Text(
+                              element.category1,
+                              style: TextStyle(color: color),
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              element.category2,
+                              style: TextStyle(color: color),
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -134,11 +146,8 @@ class KeihiListAlert extends ConsumerWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    final st = <String>[];
-                    st.add(element.date.yyyymmdd);
-                    st.add(element.item);
-                    st.add(element.price.toString());
-                    st.add(element.flag);
+                    final st = <String>[element.date.yyyymmdd, element.item, element.price.toString(), element.flag];
+
                     final str = st.join('|');
 
                     MoneyDialog(

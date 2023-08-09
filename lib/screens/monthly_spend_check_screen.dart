@@ -2,8 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/_money_dialog.dart';
-import 'package:moneynote4/screens/_components/keihi_list_alert.dart';
 
 import '../extensions/extensions.dart';
 import '../models/bank_monthly_spend.dart';
@@ -12,9 +10,11 @@ import '../state/monthly_spend_check/monthly_spend_check_notifier.dart';
 import '../utility/function.dart';
 import '../utility/utility.dart';
 import '../viewmodel/bank_notifier.dart';
-import '../viewmodel/credit_notifier.dart';
+import '../viewmodel/keihi_list_notifier.dart';
 import '../viewmodel/spend_notifier.dart';
 import '../viewmodel/time_place_notifier.dart';
+import '_components/_money_dialog.dart';
+import '_components/keihi_list_alert.dart';
 import '_components/keihi_setting_alert.dart';
 
 class MonthlySpendCheckScreen extends ConsumerWidget {
@@ -119,8 +119,10 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                     Row(
                       children: [
                         IconButton(
-                          onPressed: () {
-                            MoneyDialog(
+                          onPressed: () async {
+                            await ref.watch(keihiListProvider(date).notifier).getKeihiList(date: date);
+
+                            await MoneyDialog(
                               context: context,
                               widget: KeihiListAlert(date: date),
                             );
