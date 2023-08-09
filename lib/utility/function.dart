@@ -10,61 +10,27 @@ Map<String, List<CreditSpendMonthly>> getNext2MonthCreditSpend({
   required DateTime creDate,
   required Utility utility,
 }) {
+  final threeMonthAfter = DateTime(creDate.year, creDate.month + 3);
+
+  final diff = threeMonthAfter.difference(creDate).inDays;
+
   final creditSpendMap = <String, List<CreditSpendMonthly>>{};
 
-  var list = <CreditSpendMonthly>[];
-  var keepDate = '';
+  for (var i = 0; i <= diff; i++) {
+    final genDate = creDate.add(Duration(days: i));
 
-  //---------------------//
-  final after1 = utility.makeSpecialDate(date: creDate, usage: 'month', plusminus: 'plus', num: 1);
+    creditSpendMap[genDate.yyyymmdd] = [];
+  }
 
-  final creditSpendMonthlyState1 = ref.watch(creditSpendMonthlyProvider(after1!));
+  for (var i = 0; i <= diff; i++) {
+    final genDate = creDate.add(Duration(days: i));
 
-  list = <CreditSpendMonthly>[];
-  keepDate = '';
-
-  creditSpendMonthlyState1.forEach((element) {
-    if (keepDate != element.date.yyyymmdd) {
-      list = [];
+    if (genDate.day == 1) {
+      ref.watch(creditSpendMonthlyProvider(genDate)).forEach((element) {
+        creditSpendMap[element.date.yyyymmdd]?.add(element);
+      });
     }
-
-    if (creDate.yyyymm == element.date.yyyymm) {
-      list.add(element);
-    }
-
-    if (list.isNotEmpty) {
-      creditSpendMap[element.date.yyyymmdd] = list;
-    }
-
-    keepDate = element.date.yyyymmdd;
-  });
-  //---------------------//
-
-  //---------------------//
-
-  final after2 = utility.makeSpecialDate(date: creDate, usage: 'month', plusminus: 'plus', num: 2);
-
-  final creditSpendMonthlyState2 = ref.watch(creditSpendMonthlyProvider(after2!));
-
-  list = <CreditSpendMonthly>[];
-  keepDate = '';
-
-  creditSpendMonthlyState2.forEach((element) {
-    if (keepDate != element.date.yyyymmdd) {
-      list = [];
-    }
-
-    if (creDate.yyyymm == element.date.yyyymm) {
-      list.add(element);
-    }
-
-    if (list.isNotEmpty) {
-      creditSpendMap[element.date.yyyymmdd] = list;
-    }
-
-    keepDate = element.date.yyyymmdd;
-  });
-  //---------------------//
+  }
 
   return creditSpendMap;
 }

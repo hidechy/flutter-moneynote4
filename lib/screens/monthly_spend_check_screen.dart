@@ -9,6 +9,7 @@ import '../extensions/extensions.dart';
 import '../models/bank_monthly_spend.dart';
 import '../models/credit_spend_monthly.dart';
 import '../state/monthly_spend_check/monthly_spend_check_notifier.dart';
+import '../utility/function.dart';
 import '../utility/utility.dart';
 import '../viewmodel/bank_notifier.dart';
 import '../viewmodel/credit_notifier.dart';
@@ -52,7 +53,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
 
     makeMonthlySpendMap();
 
-    getNext2MonthCreditSpend();
+    creditSpendMap = getNext2MonthCreditSpend(ref: ref, creDate: date, utility: _utility);
 
     makeBankMonthlySpendMap();
 
@@ -90,8 +91,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        MonthlySpendCheckScreen(
+                                    builder: (context) => MonthlySpendCheckScreen(
                                       date: prevMonth!,
                                     ),
                                   ),
@@ -104,8 +104,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        MonthlySpendCheckScreen(
+                                    builder: (context) => MonthlySpendCheckScreen(
                                       date: nextMonth!,
                                     ),
                                   ),
@@ -130,9 +129,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                         ),
                         IconButton(
                           onPressed: () {
-                            ref
-                                .watch(monthlySpendCheckProvider(date).notifier)
-                                .inputCheckItem(date: date);
+                            ref.watch(monthlySpendCheckProvider(date).notifier).inputCheckItem(date: date);
 
                             Navigator.pop(context);
                           },
@@ -161,66 +158,67 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
     );
   }
 
-  ///
-  void getNext2MonthCreditSpend() {
-    var list = <CreditSpendMonthly>[];
-    var keepDate = '';
-
-    //---------------------//
-    final after1 = _utility.makeSpecialDate(
-        date: date, usage: 'month', plusminus: 'plus', num: 1);
-
-    final creditSpendMonthlyState1 =
-        _ref.watch(creditSpendMonthlyProvider(after1!));
-
-    list = <CreditSpendMonthly>[];
-    keepDate = '';
-
-    for (var i = 0; i < creditSpendMonthlyState1.length; i++) {
-      if (keepDate != creditSpendMonthlyState1[i].date.yyyymmdd) {
-        list = [];
-      }
-
-      if (date.yyyymm == creditSpendMonthlyState1[i].date.yyyymm) {
-        list.add(creditSpendMonthlyState1[i]);
-      }
-
-      if (list.isNotEmpty) {
-        creditSpendMap[creditSpendMonthlyState1[i].date.yyyymmdd] = list;
-      }
-
-      keepDate = creditSpendMonthlyState1[i].date.yyyymmdd;
-    }
-    //---------------------//
-
-    //---------------------//
-
-    final after2 = _utility.makeSpecialDate(
-        date: date, usage: 'month', plusminus: 'plus', num: 2);
-
-    final creditSpendMonthlyState2 =
-        _ref.watch(creditSpendMonthlyProvider(after2!));
-
-    list = <CreditSpendMonthly>[];
-    keepDate = '';
-
-    for (var i = 0; i < creditSpendMonthlyState2.length; i++) {
-      if (keepDate != creditSpendMonthlyState2[i].date.yyyymmdd) {
-        list = [];
-      }
-
-      if (date.yyyymm == creditSpendMonthlyState2[i].date.yyyymm) {
-        list.add(creditSpendMonthlyState2[i]);
-      }
-
-      if (list.isNotEmpty) {
-        creditSpendMap[creditSpendMonthlyState2[i].date.yyyymmdd] = list;
-      }
-
-      keepDate = creditSpendMonthlyState2[i].date.yyyymmdd;
-    }
-    //---------------------//
-  }
+  //
+  // ///
+  // void getNext2MonthCreditSpend() {
+  //   var list = <CreditSpendMonthly>[];
+  //   var keepDate = '';
+  //
+  //   //---------------------//
+  //   final after1 = _utility.makeSpecialDate(
+  //       date: date, usage: 'month', plusminus: 'plus', num: 1);
+  //
+  //   final creditSpendMonthlyState1 =
+  //       _ref.watch(creditSpendMonthlyProvider(after1!));
+  //
+  //   list = <CreditSpendMonthly>[];
+  //   keepDate = '';
+  //
+  //   for (var i = 0; i < creditSpendMonthlyState1.length; i++) {
+  //     if (keepDate != creditSpendMonthlyState1[i].date.yyyymmdd) {
+  //       list = [];
+  //     }
+  //
+  //     if (date.yyyymm == creditSpendMonthlyState1[i].date.yyyymm) {
+  //       list.add(creditSpendMonthlyState1[i]);
+  //     }
+  //
+  //     if (list.isNotEmpty) {
+  //       creditSpendMap[creditSpendMonthlyState1[i].date.yyyymmdd] = list;
+  //     }
+  //
+  //     keepDate = creditSpendMonthlyState1[i].date.yyyymmdd;
+  //   }
+  //   //---------------------//
+  //
+  //   //---------------------//
+  //
+  //   final after2 = _utility.makeSpecialDate(
+  //       date: date, usage: 'month', plusminus: 'plus', num: 2);
+  //
+  //   final creditSpendMonthlyState2 =
+  //       _ref.watch(creditSpendMonthlyProvider(after2!));
+  //
+  //   list = <CreditSpendMonthly>[];
+  //   keepDate = '';
+  //
+  //   for (var i = 0; i < creditSpendMonthlyState2.length; i++) {
+  //     if (keepDate != creditSpendMonthlyState2[i].date.yyyymmdd) {
+  //       list = [];
+  //     }
+  //
+  //     if (date.yyyymm == creditSpendMonthlyState2[i].date.yyyymm) {
+  //       list.add(creditSpendMonthlyState2[i]);
+  //     }
+  //
+  //     if (list.isNotEmpty) {
+  //       creditSpendMap[creditSpendMonthlyState2[i].date.yyyymmdd] = list;
+  //     }
+  //
+  //     keepDate = creditSpendMonthlyState2[i].date.yyyymmdd;
+  //   }
+  //   //---------------------//
+  // }
 
   ///
   Widget displayMonthlySpendCheckList() {
@@ -288,14 +286,10 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                               GestureDetector(
                                 onTap: () async {
                                   await _ref
-                                      .watch(monthlySpendCheckProvider(date)
-                                          .notifier)
+                                      .watch(monthlySpendCheckProvider(date).notifier)
                                       .setSelectCategory(category: '');
 
-                                  await _ref
-                                      .watch(monthlySpendCheckProvider(date)
-                                          .notifier)
-                                      .setErrorMsg(error: '');
+                                  await _ref.watch(monthlySpendCheckProvider(date).notifier).setErrorMsg(error: '');
 
                                   await MoneyDialog(
                                     context: _context,
@@ -315,10 +309,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                             ],
                             GestureDetector(
                               onTap: () {
-                                _ref
-                                    .watch(monthlySpendCheckProvider(date)
-                                        .notifier)
-                                    .setSelectItem(item: str);
+                                _ref.watch(monthlySpendCheckProvider(date).notifier).setSelectItem(item: str);
                               },
                               child: Icon(
                                 Icons.input,
@@ -399,14 +390,10 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                               GestureDetector(
                                 onTap: () async {
                                   await _ref
-                                      .watch(monthlySpendCheckProvider(date)
-                                          .notifier)
+                                      .watch(monthlySpendCheckProvider(date).notifier)
                                       .setSelectCategory(category: '');
 
-                                  await _ref
-                                      .watch(monthlySpendCheckProvider(date)
-                                          .notifier)
-                                      .setErrorMsg(error: '');
+                                  await _ref.watch(monthlySpendCheckProvider(date).notifier).setErrorMsg(error: '');
 
                                   await MoneyDialog(
                                     context: _context,
@@ -426,10 +413,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                             ],
                             GestureDetector(
                               onTap: () {
-                                _ref
-                                    .watch(monthlySpendCheckProvider(date)
-                                        .notifier)
-                                    .setSelectItem(item: str);
+                                _ref.watch(monthlySpendCheckProvider(date).notifier).setSelectItem(item: str);
                               },
                               child: Icon(
                                 Icons.input,
@@ -542,14 +526,10 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                           GestureDetector(
                             onTap: () async {
                               await _ref
-                                  .watch(
-                                      monthlySpendCheckProvider(date).notifier)
+                                  .watch(monthlySpendCheckProvider(date).notifier)
                                   .setSelectCategory(category: '');
 
-                              await _ref
-                                  .watch(
-                                      monthlySpendCheckProvider(date).notifier)
-                                  .setErrorMsg(error: '');
+                              await _ref.watch(monthlySpendCheckProvider(date).notifier).setErrorMsg(error: '');
 
                               await MoneyDialog(
                                 context: _context,
@@ -569,9 +549,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                         ],
                         GestureDetector(
                           onTap: () {
-                            _ref
-                                .watch(monthlySpendCheckProvider(date).notifier)
-                                .setSelectItem(item: str);
+                            _ref.watch(monthlySpendCheckProvider(date).notifier).setSelectItem(item: str);
                           },
                           child: Icon(
                             Icons.input,
