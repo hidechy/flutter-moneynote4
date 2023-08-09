@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, non_constant_identifier_names, cascade_invocations
+// ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -50,8 +50,7 @@ class KeihiListAlert extends ConsumerWidget {
                 Container(width: context.screenSize.width),
 
                 //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
                 //----------//
 
                 Row(children: yearWidgetList),
@@ -76,22 +75,16 @@ class KeihiListAlert extends ConsumerWidget {
       yearList.add(
         GestureDetector(
           onTap: () {
-            _ref
-                .watch(appParamProvider.notifier)
-                .setKeihiListAlertSelectYear(year: i);
+            _ref.watch(appParamProvider.notifier).setKeihiListAlertSelectYear(year: i);
 
-            _ref
-                .watch(keihiListProvider(date).notifier)
-                .getKeihiList(date: DateTime(i));
+            _ref.watch(keihiListProvider(date).notifier).getKeihiList(date: DateTime(i));
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
             margin: const EdgeInsets.only(right: 10),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white.withOpacity(0.5)),
-              color: (i == KeihiListAlertSelectYear)
-                  ? Colors.yellowAccent.withOpacity(0.2)
-                  : null,
+              color: (i == KeihiListAlertSelectYear) ? Colors.yellowAccent.withOpacity(0.2) : null,
             ),
             child: Text(i.toString()),
           ),
