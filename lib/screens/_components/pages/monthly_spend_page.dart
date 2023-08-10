@@ -34,6 +34,22 @@ class SpendListValue {
   Color color;
 }
 
+class CalendarValue {
+  CalendarValue({
+    required this.whitePrice,
+    required this.pinkPrice,
+    required this.bankMovePrice,
+    required this.bankMoveFlag,
+    required this.benefit,
+  });
+
+  int whitePrice;
+  int pinkPrice;
+  int bankMovePrice;
+  int bankMoveFlag;
+  int benefit;
+}
+
 class MonthlySpendPage extends ConsumerWidget {
   MonthlySpendPage({super.key, required this.date});
 
@@ -56,6 +72,14 @@ class MonthlySpendPage extends ConsumerWidget {
 
   Map<String, List<AmazonPurchase>> amazonListMap = {};
 
+  DateTime calendarMonthFirst = DateTime.now();
+
+  List<String> youbiList = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+  List<String> calendarDays = [];
+
+  Map<String, CalendarValue> calendarValueMap = {};
+
   late BuildContext _context;
   late WidgetRef _ref;
 
@@ -77,48 +101,55 @@ class MonthlySpendPage extends ConsumerWidget {
               final pos = position - 1;
 
               if (position == 0) {
-                return Container(
-                  padding: const EdgeInsets.all(20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
+                return Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          GestureDetector(
-                            onTap: () {
-                              MoneyDialog(
-                                context: context,
-                                widget: MonthlySpendGraphAlert(date: date),
-                              );
-                            },
-                            child: const Icon(Icons.graphic_eq),
+                          Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  MoneyDialog(
+                                    context: context,
+                                    widget: MonthlySpendGraphAlert(date: date),
+                                  );
+                                },
+                                child: const Icon(Icons.graphic_eq),
+                              ),
+                              const SizedBox(width: 20),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MonthlySpendCheckScreen(date: date),
+                                    ),
+                                  );
+                                },
+                                child: const Icon(Icons.check_box),
+                              ),
+                            ],
                           ),
-                          const SizedBox(width: 20),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MonthlySpendCheckScreen(date: date),
-                                ),
-                              );
-                            },
-                            child: const Icon(Icons.check_box),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(monthTotalSpend.toString().toCurrency()),
+                              Text(
+                                monthTotalSumCredit.toString().toCurrency(),
+                                style: const TextStyle(color: Color(0xFFFB86CE)),
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(monthTotalSpend.toString().toCurrency()),
-                          Text(
-                            monthTotalSumCredit.toString().toCurrency(),
-                            style: const TextStyle(color: Color(0xFFFB86CE)),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 20),
+                    _getCalendar(),
+                    const SizedBox(height: 20),
+                  ],
                 );
               }
 
@@ -128,6 +159,123 @@ class MonthlySpendPage extends ConsumerWidget {
           ),
         ),
       ],
+    );
+  }
+
+  ///
+  Widget _getCalendar() {
+    calendarMonthFirst = DateTime(date.year, date.month);
+
+    final monthEnd = DateTime(date.year, date.month + 1, 0);
+
+    final diff = monthEnd.difference(calendarMonthFirst).inDays;
+    final monthDaysNum = diff + 1;
+
+    final youbi = calendarMonthFirst.youbiStr;
+    final youbiNum = youbiList.indexWhere((element) => element == youbi);
+
+    final weekNum = ((monthDaysNum + youbiNum) <= 35) ? 5 : 6;
+
+    calendarDays = List.generate(weekNum * 7, (index) => '');
+
+    for (var i = 0; i < (weekNum * 7); i++) {
+      if (i >= youbiNum) {
+        final gendate = calendarMonthFirst.add(Duration(days: i - youbiNum));
+
+        if (calendarMonthFirst.month == gendate.month) {
+          calendarDays[i] = gendate.day.toString();
+        }
+      }
+    }
+
+    final list = <Widget>[];
+    for (var i = 0; i < weekNum; i++) {
+      list.add(getRow(week: i));
+    }
+
+    return DefaultTextStyle(
+      style: const TextStyle(fontSize: 7),
+      child: Column(children: list),
+    );
+  }
+
+  ///
+  Widget getRow({required int week}) {
+    final list = <Widget>[];
+
+    for (var i = week * 7; i < ((week + 1) * 7); i++) {
+      final dispDate = (calendarDays[i] == '')
+          ? ''
+          : DateTime(calendarMonthFirst.year, calendarMonthFirst.month, calendarDays[i].toInt()).yyyymmdd;
+
+      var whitePrice =
+          (calendarValueMap[dispDate]?.whitePrice != null) ? calendarValueMap[dispDate]?.whitePrice.toString() : '';
+
+      final pinkPrice =
+          (calendarValueMap[dispDate]?.pinkPrice != null) ? calendarValueMap[dispDate]?.pinkPrice.toString() : '';
+
+      final bankMovePrice = (calendarValueMap[dispDate]?.bankMovePrice != null)
+          ? calendarValueMap[dispDate]?.bankMovePrice.toString()
+          : '';
+
+      final bankMoveFlag =
+          (calendarValueMap[dispDate]?.bankMoveFlag != null) ? calendarValueMap[dispDate]?.bankMoveFlag.toString() : '';
+
+      final benefit =
+          (calendarValueMap[dispDate]?.benefit != null) ? calendarValueMap[dispDate]?.benefit.toString() : '';
+
+      if (bankMovePrice != '' && whitePrice != '') {
+        if (bankMoveFlag == '0') {
+          whitePrice = (whitePrice!.toInt() - bankMovePrice!.toInt()).toString();
+        } else if (bankMoveFlag == '1') {
+          whitePrice = (whitePrice!.toInt() + bankMovePrice!.toInt()).toString();
+        }
+      }
+
+      if (benefit != '' && whitePrice != '') {
+        whitePrice = (whitePrice!.toInt() + benefit!.toInt()).toString();
+      }
+
+      list.add(
+        Expanded(
+          child: Container(
+            margin: const EdgeInsets.all(1),
+            padding: const EdgeInsets.all(2),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: (calendarDays[i] == '') ? Colors.transparent : Colors.white.withOpacity(0.4),
+              ),
+            ),
+            child: (calendarDays[i] == '')
+                ? const Text('')
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(calendarDays[i].padLeft(2, '0')),
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        width: double.infinity,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text((whitePrice != '') ? whitePrice!.toCurrency() : ''),
+                            Text(
+                              (pinkPrice != '') ? pinkPrice!.toCurrency() : '',
+                              style: const TextStyle(color: Color(0xFFFB86CE)),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+          ),
+        ),
+      );
+    }
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: list,
     );
   }
 
@@ -285,15 +433,7 @@ class MonthlySpendPage extends ConsumerWidget {
           ),
           child: Column(
             children: [
-              getMidashiDate(
-                spendMonthDetailState,
-                i,
-                youbi,
-                spendZeroFlag,
-                sum,
-                diff,
-                daySum,
-              ),
+              getMidashiDate(spendMonthDetailState, i, youbi, spendZeroFlag, sum, diff, daySum),
               const SizedBox(height: 10),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -402,6 +542,40 @@ class MonthlySpendPage extends ConsumerWidget {
           ),
         ),
       );
+
+      /////////////////////////////////////////////////////////////////////
+
+      var bMPrice = 0;
+      var bMFlag = 0;
+      bankMoveState.forEach(
+        (element) {
+          if (spendMonthDetailState.list[i].date.yyyymmdd == element.date.yyyymmdd) {
+            bMPrice = element.price;
+            bMFlag = element.flag;
+          }
+        },
+      );
+
+      var benefit = 0;
+      benefitState.benefitList.forEach(
+        (element) {
+          if (spendMonthDetailState.list[i].date.yyyymmdd == element.date.yyyymmdd) {
+            benefit = element.salary.toInt();
+          }
+        },
+      );
+
+      final whitePrice = (sum != null) ? sum.spend.toInt() : 0;
+
+      calendarValueMap[spendMonthDetailState.list[i].date.yyyymmdd] = CalendarValue(
+        whitePrice: whitePrice,
+        pinkPrice: daySumCredit,
+        bankMovePrice: bMPrice,
+        bankMoveFlag: bMFlag,
+        benefit: benefit,
+      );
+
+      /////////////////////////////////////////////////////////////////////
 
       monthTotalSpend += daySum;
       monthTotalSumCredit += daySumCredit;
