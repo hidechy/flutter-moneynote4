@@ -1,12 +1,12 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/models/tax_payment_item.dart';
 
 import '../data/http/client.dart';
 import '../data/http/path.dart';
 import '../extensions/extensions.dart';
 import '../models/keihi.dart';
+import '../models/tax_payment_item.dart';
 import '../utility/utility.dart';
 
 ////////////////////////////////////////////////
@@ -17,8 +17,7 @@ final keihiListProvider =
 
   final utility = Utility();
 
-//  return KeihiListNotifier([], client, utility)..getKeihiList(date: date);
-  return KeihiListNotifier([], client, utility);
+  return KeihiListNotifier([], client, utility)..getKeihiList(date: date);
 });
 
 class KeihiListNotifier extends StateNotifier<List<Keihi>> {

@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../extensions/extensions.dart';
 import '../models/bank_monthly_spend.dart';
 import '../models/credit_spend_monthly.dart';
+import '../state/device_info/device_info_notifier.dart';
 import '../state/monthly_spend_check/monthly_spend_check_notifier.dart';
 import '../utility/function.dart';
 import '../utility/utility.dart';
@@ -61,6 +62,8 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
       monthlySpendCheckProvider(date).select((value) => value.monthTotal),
     );
 
+    final deviceInfoState = ref.read(deviceInfoProvider);
+
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -72,6 +75,11 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
               children: [
                 const SizedBox(height: 30),
                 Container(width: context.screenSize.width),
+
+                //----------//
+                if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
+                //----------//
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -160,68 +168,6 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
     );
   }
 
-  //
-  // ///
-  // void getNext2MonthCreditSpend() {
-  //   var list = <CreditSpendMonthly>[];
-  //   var keepDate = '';
-  //
-  //   //---------------------//
-  //   final after1 = _utility.makeSpecialDate(
-  //       date: date, usage: 'month', plusminus: 'plus', num: 1);
-  //
-  //   final creditSpendMonthlyState1 =
-  //       _ref.watch(creditSpendMonthlyProvider(after1!));
-  //
-  //   list = <CreditSpendMonthly>[];
-  //   keepDate = '';
-  //
-  //   for (var i = 0; i < creditSpendMonthlyState1.length; i++) {
-  //     if (keepDate != creditSpendMonthlyState1[i].date.yyyymmdd) {
-  //       list = [];
-  //     }
-  //
-  //     if (date.yyyymm == creditSpendMonthlyState1[i].date.yyyymm) {
-  //       list.add(creditSpendMonthlyState1[i]);
-  //     }
-  //
-  //     if (list.isNotEmpty) {
-  //       creditSpendMap[creditSpendMonthlyState1[i].date.yyyymmdd] = list;
-  //     }
-  //
-  //     keepDate = creditSpendMonthlyState1[i].date.yyyymmdd;
-  //   }
-  //   //---------------------//
-  //
-  //   //---------------------//
-  //
-  //   final after2 = _utility.makeSpecialDate(
-  //       date: date, usage: 'month', plusminus: 'plus', num: 2);
-  //
-  //   final creditSpendMonthlyState2 =
-  //       _ref.watch(creditSpendMonthlyProvider(after2!));
-  //
-  //   list = <CreditSpendMonthly>[];
-  //   keepDate = '';
-  //
-  //   for (var i = 0; i < creditSpendMonthlyState2.length; i++) {
-  //     if (keepDate != creditSpendMonthlyState2[i].date.yyyymmdd) {
-  //       list = [];
-  //     }
-  //
-  //     if (date.yyyymm == creditSpendMonthlyState2[i].date.yyyymm) {
-  //       list.add(creditSpendMonthlyState2[i]);
-  //     }
-  //
-  //     if (list.isNotEmpty) {
-  //       creditSpendMap[creditSpendMonthlyState2[i].date.yyyymmdd] = list;
-  //     }
-  //
-  //     keepDate = creditSpendMonthlyState2[i].date.yyyymmdd;
-  //   }
-  //   //---------------------//
-  // }
-
   ///
   Widget displayMonthlySpendCheckList() {
     final monthlyTimeplaceState = _ref.watch(monthlyTimeplaceProvider(date));
@@ -293,6 +239,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
 
                                   await _ref.watch(monthlySpendCheckProvider(date).notifier).setErrorMsg(error: '');
 
+                                  // 経費セッティングアラート1
                                   await MoneyDialog(
                                     context: _context,
                                     widget: KeihiSettingAlert(
@@ -349,6 +296,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
           });
         }
         /////////////////////////////////////////// credit
+
         /////////////////////////////////////////// bank
         if (bankMonthlySpendMap[element.date.yyyymmdd] != null) {
           bankMonthlySpendMap[element.date.yyyymmdd]?.forEach((element2) {
@@ -397,6 +345,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
 
                                   await _ref.watch(monthlySpendCheckProvider(date).notifier).setErrorMsg(error: '');
 
+                                  // 経費セッティングアラート2
                                   await MoneyDialog(
                                     context: _context,
                                     widget: KeihiSettingAlert(
@@ -533,6 +482,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
 
                               await _ref.watch(monthlySpendCheckProvider(date).notifier).setErrorMsg(error: '');
 
+                              // 経費セッティングアラート3
                               await MoneyDialog(
                                 context: _context,
                                 widget: KeihiSettingAlert(

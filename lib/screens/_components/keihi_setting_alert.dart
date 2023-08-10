@@ -13,8 +13,7 @@ import '../../utility/utility.dart';
 import '../../viewmodel/keihi_list_notifier.dart';
 
 class KeihiSettingAlert extends ConsumerWidget {
-  KeihiSettingAlert(
-      {super.key, required this.id, required this.str, required this.date});
+  KeihiSettingAlert({super.key, required this.id, required this.str, required this.date});
 
   final DateTime date;
   final int id;
@@ -61,16 +60,14 @@ class KeihiSettingAlert extends ConsumerWidget {
               Container(width: context.screenSize.width),
 
               //----------//
-              if (deviceInfoState.model == 'iPhone')
-                _utility.getFileNameDebug(name: runtimeType.toString()),
+              if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
               //----------//
 
               Container(
                 width: context.screenSize.width,
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  border:
-                      Border.all(color: Colors.yellowAccent.withOpacity(0.6)),
+                  border: Border.all(color: Colors.yellowAccent.withOpacity(0.6)),
                   color: Colors.yellowAccent.withOpacity(0.1),
                 ),
                 child: Column(
@@ -97,24 +94,16 @@ class KeihiSettingAlert extends ConsumerWidget {
                   IconButton(
                     onPressed: () async {
                       if (selectedCategory == '') {
-                        await ref
-                            .watch(monthlySpendCheckProvider(date).notifier)
-                            .setErrorMsg(error: 'no category set');
+                        await ref.watch(monthlySpendCheckProvider(date).notifier).setErrorMsg(error: 'no category set');
 
                         return;
                       }
 
-                      await ref
-                          .watch(monthlySpendCheckProvider(date).notifier)
-                          .updateKeihiCategory(id: id);
+                      await ref.watch(monthlySpendCheckProvider(date).notifier).updateKeihiCategory(id: id);
 
-                      await ref
-                          .watch(monthlySpendCheckProvider(date).notifier)
-                          .getSpendCheckItem(date: date);
+                      await ref.watch(monthlySpendCheckProvider(date).notifier).getSpendCheckItem(date: date);
 
-                      await ref
-                          .watch(keihiListProvider(date).notifier)
-                          .getKeihiList(date: date);
+                      await ref.watch(keihiListProvider(date).notifier).getKeihiList(date: date);
 
                       Navigator.pop(context);
                     },
@@ -157,10 +146,8 @@ class KeihiSettingAlert extends ConsumerWidget {
     for (final line in csv.split('\n')) {
       final List rows = line.split(',');
 
-      final rowData = CsvData(
-          category1: rows[0].toString(),
-          category2: rows[1].toString(),
-          explanation: rows[2].toString());
+      final rowData =
+          CsvData(category1: rows[0].toString(), category2: rows[1].toString(), explanation: rows[2].toString());
 
       list.add(rowData);
     }
@@ -189,8 +176,7 @@ class KeihiSettingAlert extends ConsumerWidget {
                 color: Colors.white.withOpacity(0.3),
               ),
             ),
-            color: (selectedCategory ==
-                    '${element.category1}|${element.category2}')
+            color: (selectedCategory == '${element.category1}|${element.category2}')
                 ? Colors.yellowAccent.withOpacity(0.2)
                 : Colors.transparent,
           ),
@@ -198,9 +184,7 @@ class KeihiSettingAlert extends ConsumerWidget {
             children: [
               GestureDetector(
                 onTap: () {
-                  _ref
-                      .watch(monthlySpendCheckProvider(date).notifier)
-                      .setSelectCategory(
+                  _ref.watch(monthlySpendCheckProvider(date).notifier).setSelectCategory(
                         category: '${element.category1}|${element.category2}',
                       );
                 },
