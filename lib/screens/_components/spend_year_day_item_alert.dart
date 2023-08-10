@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/models/zero_use_date.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../extensions/extensions.dart';
@@ -161,6 +162,8 @@ class SpendYearDayItemAlert extends ConsumerWidget {
 
     final spendYearDayState = _ref.watch(spendYearDayProvider(date));
 
+    final spendZeroUseDateState = _ref.watch(spendZeroUseDateProvider);
+
     var yearTotal = 0;
 
     // forで仕方ない
@@ -200,6 +203,14 @@ class SpendYearDayItemAlert extends ConsumerWidget {
             ),
             child: Row(
               children: [
+                if (getSpendZeroFlag(date: spendYearDayState[i].date.yyyymmdd, spend: spendZeroUseDateState) == 1) ...[
+                  const Icon(Icons.star, color: Colors.yellowAccent, size: 10),
+                  const SizedBox(width: 10),
+                ],
+                if (getSpendZeroFlag(date: spendYearDayState[i].date.yyyymmdd, spend: spendZeroUseDateState) == 0) ...[
+                  const Icon(Icons.check_box_outline_blank, color: Colors.transparent, size: 10),
+                  const SizedBox(width: 10),
+                ],
                 Expanded(
                   flex: 3,
                   child: Text('$listDate (${youbi.substring(0, 3)})'),
@@ -244,6 +255,17 @@ class SpendYearDayItemAlert extends ConsumerWidget {
         child: Column(children: list),
       ),
     );
+  }
+
+  ///
+  int getSpendZeroFlag({required String date, required ZeroUseDate spend}) {
+    for (var i = 0; i < spend.data.length; i++) {
+      if (date == spend.data[i].yyyymmdd) {
+        return 1;
+      }
+    }
+
+    return 0;
   }
 }
 

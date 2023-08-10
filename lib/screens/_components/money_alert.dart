@@ -73,10 +73,8 @@ class MoneyAlert extends ConsumerWidget {
 
       tabs.add(
         TabInfo(
-          '${day.yyyymmdd}($youbi)',
-          MoneyPage(
-            date: day,
-          ),
+          '${day.yyyymmdd} ($youbi)',
+          MoneyPage(date: day),
         ),
       );
     }

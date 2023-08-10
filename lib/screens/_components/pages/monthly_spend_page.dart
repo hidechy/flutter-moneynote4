@@ -10,6 +10,7 @@ import '../../../models/keihi.dart';
 import '../../../models/money.dart';
 import '../../../models/money_everyday.dart';
 import '../../../models/zero_use_date.dart';
+import '../../../state/app_param/app_param_notifier.dart';
 import '../../../state/benefit/benefit_notifier.dart';
 import '../../../state/monthly_spend/monthly_spend_state.dart';
 import '../../../utility/function.dart';
@@ -93,6 +94,8 @@ class MonthlySpendPage extends ConsumerWidget {
 
     makeMonthlySpendData();
 
+    final appParamState = ref.watch(appParamProvider);
+
     return CustomScrollView(
       slivers: <Widget>[
         SliverList(
@@ -146,8 +149,26 @@ class MonthlySpendPage extends ConsumerWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 20),
-                    _getCalendar(),
+                    ExpansionTile(
+                      initiallyExpanded: appParamState.openMoneyArea,
+                      iconColor: Colors.white,
+                      onExpansionChanged: (value) {
+                        ref.watch(appParamProvider.notifier).setOpenMoneyArea(value: value);
+                      },
+                      title: Text(
+                        appParamState.openMoneyArea == false ? 'OPEN' : 'CLOSE',
+                        style: const TextStyle(
+                          fontSize: 10,
+                          color: Colors.white,
+                        ),
+                      ),
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          child: _getCalendar(),
+                        ),
+                      ],
+                    ),
                     const SizedBox(height: 20),
                   ],
                 );
@@ -190,17 +211,19 @@ class MonthlySpendPage extends ConsumerWidget {
 
     final list = <Widget>[];
     for (var i = 0; i < weekNum; i++) {
-      list.add(getRow(week: i));
+      list.add(_getCalendarRow(week: i));
     }
 
     return DefaultTextStyle(
-      style: const TextStyle(fontSize: 7),
+      style: const TextStyle(fontSize: 10),
       child: Column(children: list),
     );
   }
 
   ///
-  Widget getRow({required int week}) {
+  Widget _getCalendarRow({required int week}) {
+    final holidayState = _ref.watch(holidayProvider);
+
     final list = <Widget>[];
 
     for (var i = week * 7; i < ((week + 1) * 7); i++) {
@@ -245,6 +268,12 @@ class MonthlySpendPage extends ConsumerWidget {
               border: Border.all(
                 color: (calendarDays[i] == '') ? Colors.transparent : Colors.white.withOpacity(0.4),
               ),
+              color: (dispDate != '')
+                  ? _utility.getYoubiColor(
+                      date: '$dispDate 00:00:00'.toDateTime(),
+                      youbiStr: '$dispDate 00:00:00'.toDateTime().youbiStr,
+                      holiday: holidayState.data)
+                  : Colors.transparent,
             ),
             child: (calendarDays[i] == '')
                 ? const Text('')

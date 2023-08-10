@@ -232,8 +232,20 @@ class SpendYearDayAlert extends ConsumerWidget {
                       flex: 2,
                       child: Row(
                         children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: _utility.getLeadingBgColor(month: spendYearDayState[i].date.mm),
+                            ),
+                            padding: const EdgeInsets.all(10),
+                            child: Text(
+                              spendYearDayState[i].date.month.toString().padLeft(2, '0'),
+                              style: const TextStyle(fontSize: 10),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
                           Text(
-                            '${spendYearDayState[i].date.yyyymmdd}（${_utility.getYoubi(youbiStr: spendYearDayState[i].date.youbiStr)}）',
+                            '${spendYearDayState[i].date.day.toString().padLeft(2, '0')}（${_utility.getYoubi(youbiStr: spendYearDayState[i].date.youbiStr)}）',
                           ),
                           if (exDate[2] == '01') ...[
                             const SizedBox(width: 10),
