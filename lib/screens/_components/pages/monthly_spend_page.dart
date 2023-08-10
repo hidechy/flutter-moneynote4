@@ -222,6 +222,8 @@ class MonthlySpendPage extends ConsumerWidget {
 
   ///
   Widget _getCalendarRow({required int week}) {
+    final spendZeroUseDateState = _ref.watch(spendZeroUseDateProvider);
+
     final holidayState = _ref.watch(holidayProvider);
 
     final list = <Widget>[];
@@ -280,7 +282,14 @@ class MonthlySpendPage extends ConsumerWidget {
                 : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(calendarDays[i].padLeft(2, '0')),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(calendarDays[i].padLeft(2, '0')),
+                          if (getSpendZeroFlag(date: dispDate, spend: spendZeroUseDateState) == 1)
+                            Icon(Icons.star, color: Colors.yellowAccent.withOpacity(0.6), size: 10),
+                        ],
+                      ),
                       const SizedBox(height: 10),
                       SizedBox(
                         width: double.infinity,
