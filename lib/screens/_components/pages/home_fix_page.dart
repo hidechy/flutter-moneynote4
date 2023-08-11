@@ -46,8 +46,7 @@ class HomeFixPage extends ConsumerWidget {
                 Container(width: context.screenSize.width),
 
                 //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
                 //----------//
 
                 displayHomeFix(),
@@ -68,32 +67,12 @@ class HomeFixPage extends ConsumerWidget {
     homeFixState.forEach((element) {
       //--------------------------------
       final datas = [
-        {
-          'icon': FontAwesomeIcons.house,
-          'title': 'yachin',
-          'data': element.yachin
-        },
+        {'icon': FontAwesomeIcons.house, 'title': 'yachin', 'data': element.yachin},
         {'icon': FontAwesomeIcons.wifi, 'title': 'wifi', 'data': element.wifi},
-        {
-          'icon': FontAwesomeIcons.mobileScreenButton,
-          'title': 'mobile',
-          'data': element.mobile
-        },
-        {
-          'icon': FontAwesomeIcons.fireFlameSimple,
-          'title': 'gas',
-          'data': element.gas
-        },
-        {
-          'icon': FontAwesomeIcons.bolt,
-          'title': 'denki',
-          'data': element.denki
-        },
-        {
-          'icon': FontAwesomeIcons.droplet,
-          'title': 'suidou',
-          'data': element.suidou
-        },
+        {'icon': FontAwesomeIcons.mobileScreenButton, 'title': 'mobile', 'data': element.mobile},
+        {'icon': FontAwesomeIcons.fireFlameSimple, 'title': 'gas', 'data': element.gas},
+        {'icon': FontAwesomeIcons.bolt, 'title': 'denki', 'data': element.denki},
+        {'icon': FontAwesomeIcons.droplet, 'title': 'suidou', 'data': element.suidou},
       ];
       //--------------------------------
 
@@ -116,10 +95,8 @@ class HomeFixPage extends ConsumerWidget {
                 padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [
-                      Colors.indigo.withOpacity(0.8),
-                      Colors.transparent
-                    ],
+                    colors: [Colors.indigo.withOpacity(0.8), Colors.transparent],
+                    stops: const [0.7, 1],
                   ),
                 ),
                 child: Text(element.ym),
@@ -146,8 +123,7 @@ class HomeFixPage extends ConsumerWidget {
   }
 
   ///
-  Widget dispData(
-      {required IconData icon, required String title, required String data}) {
+  Widget dispData({required IconData icon, required String title, required String data}) {
     return Row(
       children: [
         Icon(icon, size: 14),

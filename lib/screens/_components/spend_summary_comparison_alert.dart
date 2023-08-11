@@ -50,8 +50,7 @@ class SpendSummaryComparisonAlert extends ConsumerWidget {
                 Container(width: context.screenSize.width),
 
                 //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
                 //----------//
 
                 const SizedBox(height: 20),
@@ -167,10 +166,8 @@ class SpendSummaryComparisonAlert extends ConsumerWidget {
                 padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [
-                      Colors.indigo.withOpacity(0.8),
-                      Colors.transparent
-                    ],
+                    colors: [Colors.indigo.withOpacity(0.8), Colors.transparent],
+                    stops: const [0.7, 1],
                   ),
                 ),
                 child: Text(element.key),

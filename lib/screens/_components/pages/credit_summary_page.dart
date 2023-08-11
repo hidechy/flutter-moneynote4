@@ -143,6 +143,7 @@ class CreditSummaryPage extends ConsumerWidget {
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [Colors.indigo.withOpacity(0.8), Colors.transparent],
+                    stops: const [0, 7, 1],
                   ),
                 ),
                 child: Row(

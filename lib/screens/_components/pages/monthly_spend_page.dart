@@ -157,10 +157,7 @@ class MonthlySpendPage extends ConsumerWidget {
                       },
                       title: Text(
                         appParamState.openMoneyArea == false ? 'OPEN' : 'CLOSE',
-                        style: const TextStyle(
-                          fontSize: 10,
-                          color: Colors.white,
-                        ),
+                        style: const TextStyle(fontSize: 10, color: Colors.white),
                       ),
                       children: [
                         Container(
@@ -214,10 +211,7 @@ class MonthlySpendPage extends ConsumerWidget {
       list.add(_getCalendarRow(week: i));
     }
 
-    return DefaultTextStyle(
-      style: const TextStyle(fontSize: 10),
-      child: Column(children: list),
-    );
+    return DefaultTextStyle(style: const TextStyle(fontSize: 10), child: Column(children: list));
   }
 
   ///
@@ -263,58 +257,63 @@ class MonthlySpendPage extends ConsumerWidget {
 
       list.add(
         Expanded(
-          child: Container(
-            margin: const EdgeInsets.all(1),
-            padding: const EdgeInsets.all(2),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: (calendarDays[i] == '') ? Colors.transparent : Colors.white.withOpacity(0.4),
+          child: GestureDetector(
+            onTap: () {
+              MoneyDialog(
+                context: _context,
+                widget: SpendAlert(date: '$dispDate 00:00:00'.toDateTime(), diff: whitePrice!),
+              );
+            },
+            child: Container(
+              margin: const EdgeInsets.all(1),
+              padding: const EdgeInsets.all(2),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: (calendarDays[i] == '') ? Colors.transparent : Colors.white.withOpacity(0.4),
+                ),
+                color: (dispDate != '')
+                    ? _utility.getYoubiColor(
+                        date: '$dispDate 00:00:00'.toDateTime(),
+                        youbiStr: '$dispDate 00:00:00'.toDateTime().youbiStr,
+                        holiday: holidayState.data)
+                    : Colors.transparent,
               ),
-              color: (dispDate != '')
-                  ? _utility.getYoubiColor(
-                      date: '$dispDate 00:00:00'.toDateTime(),
-                      youbiStr: '$dispDate 00:00:00'.toDateTime().youbiStr,
-                      holiday: holidayState.data)
-                  : Colors.transparent,
-            ),
-            child: (calendarDays[i] == '')
-                ? const Text('')
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(calendarDays[i].padLeft(2, '0')),
-                          if (getSpendZeroFlag(date: dispDate, spend: spendZeroUseDateState) == 1)
-                            Icon(Icons.star, color: Colors.yellowAccent.withOpacity(0.6), size: 10),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      SizedBox(
-                        width: double.infinity,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
+              child: (calendarDays[i] == '')
+                  ? const Text('')
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text((whitePrice != '') ? whitePrice!.toCurrency() : ''),
-                            Text(
-                              (pinkPrice != '') ? pinkPrice!.toCurrency() : '',
-                              style: const TextStyle(color: Color(0xFFFB86CE)),
-                            ),
+                            Text(calendarDays[i].padLeft(2, '0')),
+                            if (getSpendZeroFlag(date: dispDate, spend: spendZeroUseDateState) == 1)
+                              Icon(Icons.star, color: Colors.yellowAccent.withOpacity(0.6), size: 10),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
+                        const SizedBox(height: 10),
+                        SizedBox(
+                          width: double.infinity,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text((whitePrice != '') ? whitePrice!.toCurrency() : ''),
+                              Text(
+                                (pinkPrice != '') ? pinkPrice!.toCurrency() : '',
+                                style: const TextStyle(color: Color(0xFFFB86CE)),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+            ),
           ),
         ),
       );
     }
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: list,
-    );
+    return Row(crossAxisAlignment: CrossAxisAlignment.start, children: list);
   }
 
   ///
@@ -406,9 +405,7 @@ class MonthlySpendPage extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(vertical: 3),
             decoration: BoxDecoration(
               border: Border(
-                bottom: BorderSide(
-                  color: Colors.white.withOpacity(0.3),
-                ),
+                bottom: BorderSide(color: Colors.white.withOpacity(0.3)),
               ),
             ),
             child: DefaultTextStyle(
@@ -669,14 +666,8 @@ class MonthlySpendPage extends ConsumerWidget {
           children: [
             Row(
               children: [
-                Text(
-                  '${spendMonthDetailState.list[i].date.yyyymmdd}（$youbi）',
-                ),
-                if (spendZeroFlag == 1)
-                  Icon(
-                    Icons.star,
-                    color: Colors.yellowAccent.withOpacity(0.6),
-                  ),
+                Text('${spendMonthDetailState.list[i].date.yyyymmdd}（$youbi）'),
+                if (spendZeroFlag == 1) Icon(Icons.star, color: Colors.yellowAccent.withOpacity(0.6)),
               ],
             ),
             Row(
@@ -695,9 +686,7 @@ class MonthlySpendPage extends ConsumerWidget {
                     if (diff != 0)
                       Container(
                         padding: const EdgeInsets.only(top: 3, bottom: 3, left: 20),
-                        decoration: BoxDecoration(
-                          color: Colors.yellowAccent.withOpacity(0.3),
-                        ),
+                        decoration: BoxDecoration(color: Colors.yellowAccent.withOpacity(0.3)),
                         child: Text(diff.toString().toCurrency()),
                       ),
                   ],
@@ -795,10 +784,7 @@ class MonthlySpendPage extends ConsumerWidget {
   ///
   Widget moneyDispParts({required String value}) {
     return Expanded(
-      child: Container(
-        alignment: Alignment.topRight,
-        child: Text(value.toCurrency()),
-      ),
+      child: Container(alignment: Alignment.topRight, child: Text(value.toCurrency())),
     );
   }
 

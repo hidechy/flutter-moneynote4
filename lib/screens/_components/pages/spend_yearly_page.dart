@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/three_years_spend_compare_screen.dart';
+import 'package:moneynote4/screens/_components/three_years_spend_compare_alert.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../state/device_info/device_info_notifier.dart';
@@ -59,7 +59,7 @@ class SpendYearlyPage extends ConsumerWidget {
                     onTap: () {
                       MoneyDialog(
                         context: context,
-                        widget: ThreeYearsSpendCompareScreen(date: date),
+                        widget: ThreeYearsSpendCompareAlert(date: date),
                       );
                     },
                     child: Icon(

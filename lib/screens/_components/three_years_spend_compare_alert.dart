@@ -8,8 +8,8 @@ import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/spend_notifier.dart';
 
-class ThreeYearsSpendCompareScreen extends ConsumerWidget {
-  ThreeYearsSpendCompareScreen({super.key, required this.date});
+class ThreeYearsSpendCompareAlert extends ConsumerWidget {
+  ThreeYearsSpendCompareAlert({super.key, required this.date});
 
   final DateTime date;
 
@@ -94,9 +94,7 @@ class ThreeYearsSpendCompareScreen extends ConsumerWidget {
                       const SizedBox(height: 10),
                       Text(sum.toString().toCurrency()),
                       Text(
-                        (i == DateTime.now().year)
-                            ? sum.toString().toCurrency()
-                            : ((sum / 365) * daydiff).toString().split('.')[0].toCurrency(),
+                        (i == DateTime.now().year) ? '' : ((sum / 365) * daydiff).toString().split('.')[0].toCurrency(),
                         style: TextStyle(color: (i == DateTime.now().year) ? Colors.white : Colors.orangeAccent),
                       ),
                       const SizedBox(height: 10),
@@ -129,17 +127,26 @@ class ThreeYearsSpendCompareScreen extends ConsumerWidget {
 
     final fixPaymentValue = _utility.getFixPaymentValue();
 
+    var i = 0;
     fixPaymentValue.entries.forEach(
       (element) {
         list.add(
           Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(element.key),
-                  Container(),
-                ],
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [_utility.getLeadingBgColor(month: i.toString()), Colors.transparent],
+                    stops: const [0.7, 1],
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(element.key),
+                    Container(),
+                  ],
+                ),
               ),
               const SizedBox(height: 10),
               Row(
@@ -176,12 +183,14 @@ class ThreeYearsSpendCompareScreen extends ConsumerWidget {
             ],
           ),
         );
+
+        i++;
       },
     );
 
     return SingleChildScrollView(
       child: DefaultTextStyle(
-        style: const TextStyle(fontSize: 8),
+        style: const TextStyle(fontSize: 10),
         child: Column(children: list),
       ),
     );
