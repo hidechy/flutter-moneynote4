@@ -347,9 +347,25 @@ class HomeScreen extends ConsumerWidget {
 
     final focusDayState = _ref.watch(focusDayProvider);
 
-    final spendMonthSummaryState = _ref.watch(
-      spendMonthSummaryProvider(focusDayState),
-    );
+    final spendMonthSummaryState = _ref.watch(spendMonthSummaryProvider(focusDayState));
+
+    /////////////////////////////////////
+
+    final percentageList = <double>[];
+    for (var i = 0; i < spendMonthSummaryState.length; i++) {
+      final spend = spendMonthSummaryState[i];
+      percentageList.add(spend.percent.toDouble());
+    }
+
+    percentageList.sort((a, b) => -1 * a.compareTo(b));
+
+    var topPercentageList = <double>[];
+
+    if (percentageList.isNotEmpty) {
+      topPercentageList = percentageList.sublist(0, 5);
+    }
+
+    /////////////////////////////////////
 
     for (var i = 0; i < spendMonthSummaryState.length; i++) {
       final spend = spendMonthSummaryState[i];
@@ -396,7 +412,10 @@ class HomeScreen extends ConsumerWidget {
                           alignment: Alignment.topRight,
                           child: Text(
                             '${spend.percent} %',
-                            style: TextStyle(color: textColor),
+                            style: TextStyle(
+                                color: (topPercentageList.contains(spend.percent.toDouble()))
+                                    ? Colors.redAccent
+                                    : textColor),
                           ),
                         ),
                       ),
