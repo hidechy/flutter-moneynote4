@@ -84,9 +84,7 @@ class SpendYearlyPage extends ConsumerWidget {
 
   ///
   Widget displaySpendYearly() {
-    final spendYearSummaryState = _ref.watch(
-      spendYearSummaryProvider(date),
-    );
+    final spendYearSummaryState = _ref.watch(spendYearSummaryProvider(date));
 
     final list = <Widget>[];
 

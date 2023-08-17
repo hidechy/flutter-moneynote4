@@ -3,6 +3,7 @@
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/spend_fullyear_compare_alert.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../extensions/extensions.dart';
@@ -29,6 +30,8 @@ class SpendYearDayAlert extends ConsumerWidget {
   List<int> ysttList = [];
 
   final autoScrollController = AutoScrollController();
+
+  int thisYearDataLength = 0;
 
   late BuildContext _context;
   late WidgetRef _ref;
@@ -100,14 +103,34 @@ class SpendYearDayAlert extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      MoneyDialog(
-                        context: context,
-                        widget: SpendYearDayItemAlert(date: date),
-                      );
-                    },
-                    child: const Icon(Icons.list),
+                  Row(
+                    children: [
+                      if (date.year == DateTime.now().year) ...[
+                        GestureDetector(
+                          onTap: () {
+                            MoneyDialog(
+                              context: context,
+                              widget: SpendFullyearCompareAlert(
+                                date: date,
+                                spend: spend,
+                                thisYearDataLength: thisYearDataLength,
+                              ),
+                            );
+                          },
+                          child: const Icon(Icons.pie_chart),
+                        ),
+                        const SizedBox(width: 20),
+                      ],
+                      GestureDetector(
+                        onTap: () {
+                          MoneyDialog(
+                            context: context,
+                            widget: SpendYearDayItemAlert(date: date),
+                          );
+                        },
+                        child: const Icon(Icons.list),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -318,6 +341,10 @@ class SpendYearDayAlert extends ConsumerWidget {
           ),
         );
       }
+    }
+
+    if (date.year == DateTime.now().year) {
+      thisYearDataLength = list.length;
     }
 
     return SingleChildScrollView(
