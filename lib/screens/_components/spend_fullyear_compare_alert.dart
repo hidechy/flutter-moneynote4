@@ -141,6 +141,13 @@ class SpendFullyearCompareAlert extends ConsumerWidget {
                                 ),
                               ],
                             ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(),
+                                Text(thisYearAverage.toString().toCurrency()),
+                              ],
+                            ),
                           ],
                         ),
                       ),
