@@ -8,8 +8,8 @@ import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/spend_notifier.dart';
 
-class ThreeYearsSpendCompareAlert extends ConsumerWidget {
-  ThreeYearsSpendCompareAlert({super.key, required this.date});
+class ThreeYearsSpendItemCompareAlert extends ConsumerWidget {
+  ThreeYearsSpendItemCompareAlert({super.key, required this.date});
 
   final DateTime date;
 

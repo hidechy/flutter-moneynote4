@@ -80,7 +80,9 @@ class SpendFullyearCompareAlert extends ConsumerWidget {
       var yearSum = 0;
 
       spendYearSummaryState.forEach((element) {
-        yearSum += element.sum;
+        if (element.sum > 0) {
+          yearSum += element.sum;
+        }
       });
 
       fullyearCompareMap[i] = yearSum;

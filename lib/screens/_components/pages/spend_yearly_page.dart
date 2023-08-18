@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/three_years_spend_compare_alert.dart';
+import 'package:moneynote4/screens/_components/three_years_spend_item_compare_alert.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../state/device_info/device_info_notifier.dart';
@@ -11,6 +11,7 @@ import '../../../viewmodel/spend_notifier.dart';
 import '../_money_dialog.dart';
 import '../credit_yearly_detail_alert.dart';
 import '../spend_yearly_item_alert.dart';
+import '../three_years_spend_month_compare_alert.dart';
 
 class SpendYearlyPage extends ConsumerWidget {
   SpendYearlyPage({super.key, required this.date});
@@ -55,17 +56,34 @@ class SpendYearlyPage extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(),
-                  GestureDetector(
-                    onTap: () {
-                      MoneyDialog(
-                        context: context,
-                        widget: ThreeYearsSpendCompareAlert(date: date),
-                      );
-                    },
-                    child: Icon(
-                      Icons.pages,
-                      color: Colors.white.withOpacity(0.4),
-                    ),
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          MoneyDialog(
+                            context: context,
+                            widget: ThreeYearsSpendMonthCompareAlert(date: date),
+                          );
+                        },
+                        child: Icon(
+                          Icons.list,
+                          color: Colors.white.withOpacity(0.4),
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      GestureDetector(
+                        onTap: () {
+                          MoneyDialog(
+                            context: context,
+                            widget: ThreeYearsSpendItemCompareAlert(date: date),
+                          );
+                        },
+                        child: Icon(
+                          Icons.pages,
+                          color: Colors.white.withOpacity(0.4),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
