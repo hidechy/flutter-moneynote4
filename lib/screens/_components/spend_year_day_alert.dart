@@ -227,7 +227,7 @@ class SpendYearDayAlert extends ConsumerWidget {
         });
         //============================================//
 
-        var textColor = (spendYearDayState[i].spend > 10000) ? Colors.yellowAccent : Colors.white;
+        final textColor = (spendYearDayState[i].spend > 10000) ? Colors.yellowAccent : Colors.white;
 
         list.add(
           AutoScrollTag(
