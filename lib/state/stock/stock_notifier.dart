@@ -107,7 +107,7 @@ class StockNotifier extends StateNotifier<StockResponseState> {
         });
 
         final percent =
-            (sumPrice > 0 && sumCost > 0) ? ((sumPrice / sumCost) * 100).toString().split('.')[0].toInt() : 0;
+            (sumPrice > 0 && sumCost > 0) ? ((sumPrice / sumCost) * 100).round().toString().split('.')[0].toInt() : 0;
 
         stockMap[element.key] = AssetsData(
           cost: sumCost,

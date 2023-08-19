@@ -250,12 +250,12 @@ class SamedaySpendAlert extends ConsumerWidget {
 
     final monthEnd = DateTime(date.year, date.month + 1, 0);
 
-    final estimate = wari.toString().split('.')[0].toInt() * monthEnd.day;
+    final estimate = wari.round().toString().split('.')[0].toInt() * monthEnd.day;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(wari.toString().split('.')[0].toCurrency()),
+        Text(wari.round().toString().split('.')[0].toCurrency()),
         Text(estimate.toString().toCurrency()),
       ],
     );
@@ -278,7 +278,7 @@ class SamedaySpendAlert extends ConsumerWidget {
       }
     }
 
-    final wari = ((sum * 100) / spend).toString().split('.')[0];
+    final wari = ((sum * 100) / spend).round().toString().split('.')[0];
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

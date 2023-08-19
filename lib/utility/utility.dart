@@ -189,7 +189,7 @@ class Utility {
         fontSize: 12,
       );
 
-      final price = element.y.toString().split('.')[0].toCurrency();
+      final price = element.y.round().toString().split('.')[0].toCurrency();
 
       list.add(
         LineTooltipItem(

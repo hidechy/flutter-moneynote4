@@ -341,7 +341,8 @@ class TaxPaymentDisplayPage extends ConsumerWidget {
 
     taxPaymentDisplayValue['差引所得税額'] = taxPaymentDisplayValue['課税される所得金額に対する税額']! - taxPaymentDisplayValue['配当控除']!;
 
-    taxPaymentDisplayValue['復興特別所得税額'] = (taxPaymentDisplayValue['差引所得税額']! * 0.021).toString().split('.')[0].toInt();
+    taxPaymentDisplayValue['復興特別所得税額'] =
+        (taxPaymentDisplayValue['差引所得税額']! * 0.021).round().toString().split('.')[0].toInt();
 
     taxPaymentDisplayValue['所得税及び復興特別所得税の額'] = taxPaymentDisplayValue['差引所得税額']! + taxPaymentDisplayValue['復興特別所得税額']!;
 
@@ -445,16 +446,16 @@ class TaxPaymentDisplayPage extends ConsumerWidget {
   int makeKazeiShotokuKingaku({int? kazeiShotoku}) {
     if (kazeiShotoku! >= 1000 && kazeiShotoku <= 1949000) {
       final x = kazeiShotoku * 0.05;
-      return x.toString().split('.')[0].toInt();
+      return x.round().toString().split('.')[0].toInt();
     } else if (kazeiShotoku >= 1950000 && kazeiShotoku <= 3299999) {
       final x = kazeiShotoku * 0.1;
-      return x.toString().split('.')[0].toInt() - 97500;
+      return x.round().toString().split('.')[0].toInt() - 97500;
     } else if (kazeiShotoku >= 3300000 && kazeiShotoku <= 6949000) {
       final x = kazeiShotoku * 0.2;
-      return x.toString().split('.')[0].toInt() - 427500;
+      return x.round().toString().split('.')[0].toInt() - 427500;
     } else if (kazeiShotoku > 6950000 && kazeiShotoku <= 8999000) {
       final x = kazeiShotoku * 0.23;
-      return x.toString().split('.')[0].toInt() - 436000;
+      return x.round().toString().split('.')[0].toInt() - 436000;
     }
 
     return 0;

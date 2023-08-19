@@ -53,7 +53,11 @@ class GoldLastNotifier extends StateNotifier<GoldResponseState> {
           goldDiff = val.goldValue.toString().toInt() - val.payPrice.toString().toInt();
 
           goldPercent = (val.goldValue.toString().toInt() > 0 && val.payPrice.toInt() > 0)
-              ? ((val.goldValue.toString().toInt() / val.payPrice.toInt()) * 100).toString().split('.')[0].toInt()
+              ? ((val.goldValue.toString().toInt() / val.payPrice.toInt()) * 100)
+                  .round()
+                  .toString()
+                  .split('.')[0]
+                  .toInt()
               : 0;
         }
 

@@ -38,7 +38,7 @@ class SpendFullyearCompareAlert extends ConsumerWidget {
 
     makeFullyearCompareMap();
 
-    thisYearAverage = (spend / thisYearDataLength).toString().split('.')[0].toInt();
+    thisYearAverage = (spend / thisYearDataLength).round().toString().split('.')[0].toInt();
 
     fullyearCompareMap[date.year] = thisYearAverage * daydiff;
 

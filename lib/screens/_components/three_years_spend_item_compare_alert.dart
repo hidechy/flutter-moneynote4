@@ -94,7 +94,9 @@ class ThreeYearsSpendItemCompareAlert extends ConsumerWidget {
                       const SizedBox(height: 10),
                       Text(sum.toString().toCurrency()),
                       Text(
-                        (i == DateTime.now().year) ? '' : ((sum / 365) * daydiff).toString().split('.')[0].toCurrency(),
+                        (i == DateTime.now().year)
+                            ? ''
+                            : ((sum / 365) * daydiff).round().toString().split('.')[0].toCurrency(),
                         style: TextStyle(color: (i == DateTime.now().year) ? Colors.white : Colors.orangeAccent),
                       ),
                       const SizedBox(height: 10),

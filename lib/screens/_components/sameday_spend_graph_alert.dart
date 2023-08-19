@@ -53,8 +53,7 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
               Container(width: context.screenSize.width),
 
               //----------//
-              if (deviceInfoState.model == 'iPhone')
-                _utility.getFileNameDebug(name: runtimeType.toString()),
+              if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
               //----------//
 
               Expanded(
@@ -131,8 +130,7 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
     final graphValues = <String, List<Map<String, dynamic>>>{};
 
     usageGuideList.forEach((element) {
-      final spendMonthDetailState =
-          _ref.watch(spendMonthDetailProvider(element));
+      final spendMonthDetailState = _ref.watch(spendMonthDetailProvider(element));
 
       final list2 = <Map<String, int>>[];
 
@@ -216,8 +214,7 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
                       value.toInt().toString(),
                       style: const TextStyle(fontSize: 12),
                     ),
-                    if (date.yyyymm == yearmonth &&
-                        value == SamedaySpendAlertDay)
+                    if (date.yyyymm == yearmonth && value == SamedaySpendAlertDay)
                       const Text(
                         'today',
                         style: TextStyle(
@@ -284,14 +281,12 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
 
     touchedSpots.forEach((element) {
       final textStyle = TextStyle(
-        color: element.bar.gradient?.colors.first ??
-            element.bar.color ??
-            Colors.blueGrey,
+        color: element.bar.gradient?.colors.first ?? element.bar.color ?? Colors.blueGrey,
         fontWeight: FontWeight.bold,
         fontSize: 12,
       );
 
-      final price = element.y.toString().split('.')[0].toCurrency();
+      final price = element.y.round().toString().split('.')[0].toCurrency();
       final month = usageGuideList[element.barIndex].mm;
 
       list.add(
