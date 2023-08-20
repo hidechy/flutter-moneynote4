@@ -17,12 +17,16 @@ class SeiyuItemAlert extends ConsumerWidget {
 
   final Utility _utility = Utility();
 
+  Map<String, String> seiyuItemPhotoMap = {};
+
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
+
+    getSeiyuItemPhotoMap();
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
@@ -45,11 +49,30 @@ class SeiyuItemAlert extends ConsumerWidget {
                 Container(width: context.screenSize.width),
 
                 //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
                 //----------//
 
-                Text(item),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (seiyuItemPhotoMap[item] != null)
+                      SizedBox(
+                        width: 60,
+                        child: FadeInImage.assetNetwork(
+                          placeholder: 'assets/images/no_image.png',
+                          image: seiyuItemPhotoMap[item]!,
+                          imageErrorBuilder: (c, o, s) => Image.asset('assets/images/no_image.png'),
+                        ),
+                      ),
+                    if (seiyuItemPhotoMap[item] == null)
+                      SizedBox(
+                        width: 60,
+                        child: Image.asset('assets/images/no_image.png'),
+                      ),
+                    const SizedBox(width: 20),
+                    Expanded(child: Text(item))
+                  ],
+                ),
 
                 const SizedBox(height: 20),
                 displaySeiyuItem(),
@@ -59,6 +82,15 @@ class SeiyuItemAlert extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  ///
+  void getSeiyuItemPhotoMap() {
+    for (var i = 2020; i < DateTime.now().year; i++) {
+      _ref.watch(seiyuAllProvider(DateTime(i))).forEach((element) {
+        seiyuItemPhotoMap[element.item] = element.img;
+      });
+    }
   }
 
   ///
@@ -72,8 +104,7 @@ class SeiyuItemAlert extends ConsumerWidget {
         item: item,
       );
 
-      final seiyuPurchaseItemState =
-          _ref.watch(seiyuPurchaseItemProvider(param));
+      final seiyuPurchaseItemState = _ref.watch(seiyuPurchaseItemProvider(param));
 
       seiyuPurchaseItemState.forEach((element) {
         element.list.forEach((element2) {
