@@ -85,8 +85,28 @@ class SpendSummaryItemPage extends ConsumerWidget {
 
     final spendMonthSummaryState = _ref.watch(spendMonthSummaryProvider(date));
 
+    /////////////////////////////////////
+
+    final percentageList = <double>[];
+    for (var i = 0; i < spendMonthSummaryState.length; i++) {
+      final spend = spendMonthSummaryState[i];
+      percentageList.add(spend.percent.toDouble());
+    }
+
+    percentageList.sort((a, b) => -1 * a.compareTo(b));
+
+    var topPercentageList = <double>[];
+
+    if (percentageList.isNotEmpty) {
+      topPercentageList = percentageList.sublist(0, 5);
+    }
+
+    /////////////////////////////////////
+
     spendMonthSummaryState.forEach((element) {
-      final textColor = (element.sum >= 10000) ? Colors.yellowAccent : Colors.white;
+      var textColor = (element.sum >= 10000) ? Colors.yellowAccent : Colors.white;
+
+      textColor = getTextColor(item: element.item);
 
       list.add(
         Container(
@@ -118,7 +138,12 @@ class SpendSummaryItemPage extends ConsumerWidget {
                 Expanded(
                   child: Container(
                     alignment: Alignment.topRight,
-                    child: Text('${element.percent} %'),
+                    child: Text(
+                      '${element.percent} %',
+                      style: TextStyle(
+                        color: (topPercentageList.contains(element.percent.toDouble())) ? Colors.redAccent : textColor,
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 20),
@@ -133,6 +158,22 @@ class SpendSummaryItemPage extends ConsumerWidget {
     return SingleChildScrollView(
       child: Column(children: list),
     );
+  }
+
+  ///
+  Color getTextColor({required String item}) {
+    final fixPaymentValue = _utility.getFixPaymentValue();
+
+    switch (fixPaymentValue[item]) {
+      case 1:
+        return Colors.orangeAccent;
+      case 2:
+        return Colors.greenAccent;
+      case 3:
+        return Colors.lightBlueAccent;
+    }
+
+    return Colors.white;
   }
 
   ///

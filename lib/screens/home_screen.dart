@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/money_total_alert.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../extensions/extensions.dart';
@@ -244,9 +245,17 @@ class HomeScreen extends ConsumerWidget {
                           onTap: () {
                             MoneyDialog(
                               context: context,
-                              widget: SpendSummaryItemAlert(
-                                date: focusDayState,
-                              ),
+                              widget: MoneyTotalAlert(date: focusDayState),
+                            );
+                          },
+                          child: const Icon(Icons.all_out),
+                        ),
+                        const SizedBox(width: 20),
+                        GestureDetector(
+                          onTap: () {
+                            MoneyDialog(
+                              context: context,
+                              widget: SpendSummaryItemAlert(date: focusDayState),
                             );
                           },
                           child: const Icon(
@@ -413,9 +422,9 @@ class HomeScreen extends ConsumerWidget {
                           child: Text(
                             '${spend.percent} %',
                             style: TextStyle(
-                                color: (topPercentageList.contains(spend.percent.toDouble()))
-                                    ? Colors.redAccent
-                                    : textColor),
+                              color:
+                                  (topPercentageList.contains(spend.percent.toDouble())) ? Colors.redAccent : textColor,
+                            ),
                           ),
                         ),
                       ),

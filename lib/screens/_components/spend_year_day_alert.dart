@@ -3,7 +3,6 @@
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/spend_fullyear_compare_alert.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../extensions/extensions.dart';
@@ -14,6 +13,7 @@ import '../../viewmodel/money_notifier.dart';
 import '../../viewmodel/spend_notifier.dart';
 import '_money_dialog.dart';
 import 'spend_alert.dart';
+import 'spend_fullyear_compare_alert.dart';
 import 'spend_year_day_item_alert.dart';
 
 class SpendYearDayAlert extends ConsumerWidget {

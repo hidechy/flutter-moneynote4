@@ -278,7 +278,7 @@ class SamedaySpendAlert extends ConsumerWidget {
       }
     }
 
-    final wari = ((sum * 100) / spend).round().toString().split('.')[0];
+    final wari = ((sum * 100) / spend).toString().split('.')[0];
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
