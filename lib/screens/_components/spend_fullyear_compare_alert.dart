@@ -1,9 +1,12 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:math';
+
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/extensions/extensions.dart';
 
+import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/spend_notifier.dart';
@@ -64,6 +67,10 @@ class SpendFullyearCompareAlert extends ConsumerWidget {
             //----------//
 
             Expanded(child: displayFullyearCompare()),
+
+            _displayCircularGraph(),
+
+            const SizedBox(height: 20),
           ],
         ),
       ),
@@ -91,6 +98,8 @@ class SpendFullyearCompareAlert extends ConsumerWidget {
 
   ///
   Widget displayFullyearCompare() {
+    final bunboYear = _getBunboYear();
+
     final list = <Widget>[];
 
     fullyearCompareMap.entries.forEach(
@@ -113,7 +122,15 @@ class SpendFullyearCompareAlert extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(element.key.toString()),
-                    Text(element.value.toString().toCurrency()),
+                    Row(
+                      children: [
+                        Text(element.value.toString().toCurrency()),
+                        const SizedBox(width: 10),
+                        (element.key == bunboYear)
+                            ? const Icon(Icons.star, color: Colors.yellowAccent, size: 10)
+                            : const Icon(Icons.check_box_outline_blank, color: Colors.transparent, size: 10),
+                      ],
+                    ),
                   ],
                 ),
                 if (element.key == date.year)
@@ -166,5 +183,63 @@ class SpendFullyearCompareAlert extends ConsumerWidget {
         child: Column(children: list),
       ),
     );
+  }
+
+  ///
+  int _getBunboYear() {
+    final nums = <int>[];
+    fullyearCompareMap.entries.forEach((element) {
+      nums.add(element.value);
+    });
+
+    final maxValue = nums.reduce(max);
+
+    var year = DateTime.now().year;
+
+    fullyearCompareMap.entries.forEach((element) {
+      if (element.value == maxValue) {
+        year = element.key;
+      }
+    });
+
+    return (year != DateTime.now().year) ? year : 0;
+  }
+
+  ///
+  Widget _displayCircularGraph() {
+    final bunboYear = _getBunboYear();
+    final bunbo = (bunboYear > 0) ? fullyearCompareMap[bunboYear]! : 0;
+
+    final bunshi = fullyearCompareMap[DateTime.now().year]!;
+
+    if (bunbo != 0) {
+      return SizedBox(
+        height: 300,
+        child: PieChart(
+          PieChartData(
+            startDegreeOffset: 270,
+            sections: [
+              PieChartSectionData(
+                borderSide: BorderSide(color: Colors.white.withOpacity(0.6)),
+                color: Colors.yellowAccent.withOpacity(0.2),
+                value: 100,
+                title: '${DateTime.now().year} 消費金額比率\n${bunshi / bunbo}\n${bunshi.toString().toCurrency()}',
+                radius: 140,
+                titleStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+              PieChartSectionData(
+                color: Colors.grey.withOpacity(0.2),
+                value: (bunshi / bunbo).roundToDouble(),
+                title: '',
+                radius: 140,
+                titleStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return Container();
   }
 }

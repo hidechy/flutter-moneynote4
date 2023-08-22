@@ -33,6 +33,8 @@ class SpendYearDayAlert extends ConsumerWidget {
 
   int thisYearDataLength = 0;
 
+  int dataLength = 0;
+
   late BuildContext _context;
   late WidgetRef _ref;
 
@@ -113,7 +115,7 @@ class SpendYearDayAlert extends ConsumerWidget {
                               widget: SpendFullyearCompareAlert(
                                 date: date,
                                 spend: spend,
-                                thisYearDataLength: thisYearDataLength,
+                                thisYearDataLength: dataLength,
                               ),
                             );
                           },
@@ -250,89 +252,103 @@ class SpendYearDayAlert extends ConsumerWidget {
               ),
               child: DefaultTextStyle(
                 style: const TextStyle(fontSize: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Column(
                   children: [
-                    Expanded(
-                      flex: 2,
-                      child: Row(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: _utility.getLeadingBgColor(month: spendYearDayState[i].date.mm),
-                            ),
-                            padding: const EdgeInsets.all(10),
-                            child: Text(
-                              spendYearDayState[i].date.month.toString().padLeft(2, '0'),
-                              style: const TextStyle(fontSize: 10),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            '${spendYearDayState[i].date.day.toString().padLeft(2, '0')}（${_utility.getYoubi(youbiStr: spendYearDayState[i].date.youbiStr)}）',
-                          ),
-                          if (exDate[2] == '01') ...[
-                            const SizedBox(width: 10),
-                            Tooltip(
-                              message: totalMap[spendYearDayState[i].date.yyyymm].toString().toCurrency(),
-                              textStyle: const TextStyle(color: Colors.white),
-                              decoration: BoxDecoration(
-                                color: Colors.yellowAccent.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Row(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: _utility.getLeadingBgColor(month: spendYearDayState[i].date.mm),
+                                ),
+                                padding: const EdgeInsets.all(10),
+                                child: Text(
+                                  spendYearDayState[i].date.month.toString().padLeft(2, '0'),
+                                  style: const TextStyle(fontSize: 10),
+                                ),
                               ),
-                              showDuration: const Duration(seconds: 2),
-                              child: Icon(
-                                Icons.comment,
-                                color: Colors.white.withOpacity(0.3),
+                              const SizedBox(width: 10),
+                              Text(
+                                '${spendYearDayState[i].date.day.toString().padLeft(2, '0')}（${_utility.getYoubi(youbiStr: spendYearDayState[i].date.youbiStr)}）',
                               ),
-                            ),
-                          ],
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        alignment: Alignment.topRight,
-                        child: (everydayMoney[spendYearDayState[i].date.yyyymmdd] == null)
-                            ? Container()
-                            : Text(everydayMoney[spendYearDayState[i].date.yyyymmdd].toString().toCurrency()),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        alignment: Alignment.topRight,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              spendYearDayState[i].spend.toString().toCurrency(),
-                              style: TextStyle(color: textColor),
-                            ),
-                            const SizedBox(height: 3),
-                            Text(
-                              yearTotal.toString().toCurrency(),
-                              style: const TextStyle(color: Colors.grey),
-                            ),
-                          ],
+                              if (exDate[2] == '01') ...[
+                                const SizedBox(width: 10),
+                                Tooltip(
+                                  message: totalMap[spendYearDayState[i].date.yyyymm].toString().toCurrency(),
+                                  textStyle: const TextStyle(color: Colors.white),
+                                  decoration: BoxDecoration(
+                                    color: Colors.yellowAccent.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  showDuration: const Duration(seconds: 2),
+                                  child: Icon(
+                                    Icons.comment,
+                                    color: Colors.white.withOpacity(0.3),
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                    GestureDetector(
-                      onTap: () {
-                        MoneyDialog(
-                          context: _context,
-                          widget: SpendAlert(
-                            date: spendYearDayState[i].date,
-                            diff: spendYearDayState[i].spend.toString(),
+                        Expanded(
+                          child: Container(
+                            alignment: Alignment.topRight,
+                            child: (everydayMoney[spendYearDayState[i].date.yyyymmdd] == null)
+                                ? Container()
+                                : Text(everydayMoney[spendYearDayState[i].date.yyyymmdd].toString().toCurrency()),
                           ),
-                        );
-                      },
-                      child: Icon(
-                        Icons.info_outline,
-                        color: Colors.white.withOpacity(0.6),
-                      ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            alignment: Alignment.topRight,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  spendYearDayState[i].spend.toString().toCurrency(),
+                                  style: TextStyle(color: textColor),
+                                ),
+                                const SizedBox(height: 3),
+                                Text(
+                                  yearTotal.toString().toCurrency(),
+                                  style: const TextStyle(color: Colors.grey),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 20),
+                        GestureDetector(
+                          onTap: () {
+                            MoneyDialog(
+                              context: _context,
+                              widget: SpendAlert(
+                                date: spendYearDayState[i].date,
+                                diff: spendYearDayState[i].spend.toString(),
+                              ),
+                            );
+                          },
+                          child: Icon(
+                            Icons.info_outline,
+                            color: Colors.white.withOpacity(0.6),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(),
+                        Text(
+                          '${i + 1} - ${(yearTotal / (i + 1)).round().toString().split('.')[0].toCurrency()}',
+                          style: const TextStyle(color: Colors.grey),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -340,6 +356,8 @@ class SpendYearDayAlert extends ConsumerWidget {
             ),
           ),
         );
+
+        dataLength = i + 1;
       }
     }
 

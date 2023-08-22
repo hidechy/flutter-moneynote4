@@ -67,7 +67,7 @@ class MoneyTotalAlert extends ConsumerWidget {
 
     final list = <int>[];
 
-    for (var i = 2014; i <= DateTime.now().year; i++) {
+    for (var i = 2020; i <= DateTime.now().year; i++) {
       list.add(i);
     }
 

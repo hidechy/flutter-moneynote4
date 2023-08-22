@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../../extensions/extensions.dart';
+import '../../../state/benefit/benefit_notifier.dart';
 import '../../../state/device_info/device_info_notifier.dart';
 import '../../../utility/utility.dart';
 import '../../../viewmodel/holiday_notifier.dart';
@@ -82,12 +83,15 @@ class MoneyTotalPage extends ConsumerWidget {
 
   ///
   Widget displayMoneyTotal() {
+    final benefitMap = _ref.watch(benefitProvider.select((value) => value.benefitMap));
+
     final holidayState = _ref.watch(holidayProvider);
 
     final list = <Widget>[];
 
     final moneyEverydayState = _ref.watch(moneyEverydayProvider);
 
+    var keepSum = 0;
     for (var i = 0; i < moneyEverydayState.length; i++) {
       if (date.year == moneyEverydayState[i].date.year) {
         list.add(AutoScrollTag(
@@ -109,16 +113,62 @@ class MoneyTotalPage extends ConsumerWidget {
                 holiday: holidayState.data,
               ),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
               children: [
-                Text('${moneyEverydayState[i].date.yyyymmdd} (${moneyEverydayState[i].date.youbiStr.substring(0, 3)})'),
-                Text(moneyEverydayState[i].sum.toCurrency()),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                        '${moneyEverydayState[i].date.yyyymmdd} (${moneyEverydayState[i].date.youbiStr.substring(0, 3)})'),
+                    Row(
+                      children: [
+                        Text(moneyEverydayState[i].sum.toCurrency()),
+                        const SizedBox(width: 20),
+                        if (moneyEverydayState[i].sum.toInt() > keepSum)
+                          const Icon(Icons.arrow_upward, color: Colors.greenAccent),
+                        if (moneyEverydayState[i].sum.toInt() <= keepSum)
+                          const Icon(Icons.crop_square, color: Colors.transparent),
+                      ],
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(),
+                    Text(
+                      moneyEverydayState[i].spend.toCurrency(),
+                      style: const TextStyle(color: Colors.grey),
+                    ),
+                  ],
+                ),
+                if (benefitMap[moneyEverydayState[i].date.yyyymmdd] != null)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(),
+                      DefaultTextStyle(
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.yellowAccent.withOpacity(0.6),
+                        ),
+                        child: Row(
+                          children: [
+                            Text(benefitMap[moneyEverydayState[i].date.yyyymmdd]!.company),
+                            const SizedBox(width: 20),
+                            Text(benefitMap[moneyEverydayState[i].date.yyyymmdd]!.salary.toCurrency()),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
               ],
             ),
           ),
         ));
       }
+
+      keepSum = moneyEverydayState[i].sum.toInt();
     }
 
     return SingleChildScrollView(controller: autoScrollController, child: Column(children: list));
