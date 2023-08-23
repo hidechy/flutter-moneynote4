@@ -230,7 +230,7 @@ class SpendFullyearCompareAlert extends ConsumerWidget {
               PieChartSectionData(
                 color: Colors.grey.withOpacity(0.2),
                 value: (bunshi / bunbo).roundToDouble(),
-                title: '',
+                title: (bunbo - bunshi).toString().toCurrency(),
                 radius: 140,
                 titleStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
               ),

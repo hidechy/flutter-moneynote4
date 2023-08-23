@@ -46,42 +46,35 @@ class MoneyTotalPage extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         width: double.infinity,
         height: double.infinity,
-        child: DefaultTextStyle(
-          style: const TextStyle(fontSize: 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 20),
 
-              Container(width: context.screenSize.width),
+            Container(width: context.screenSize.width),
 
-              //----------//
-              if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
-              //----------//
+            //----------//
+            if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
+            //----------//
 
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      autoScrollController.scrollToIndex(moneyEverydayState.length);
-                    },
-                    child: const Icon(Icons.arrow_downward),
-                  ),
-                  const SizedBox(width: 20),
-                  GestureDetector(
-                    onTap: () {
-                      autoScrollController.scrollToIndex(0);
-                    },
-                    child: const Icon(Icons.arrow_upward),
-                  ),
-                ],
-              ),
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () => autoScrollController.scrollToIndex(moneyEverydayState.length),
+                  child: const Icon(Icons.arrow_downward),
+                ),
+                const SizedBox(width: 20),
+                GestureDetector(
+                  onTap: () => autoScrollController.scrollToIndex(0),
+                  child: const Icon(Icons.arrow_upward),
+                ),
+              ],
+            ),
 
-              const SizedBox(height: 20),
+            const SizedBox(height: 20),
 
-              Expanded(child: displayMoneyTotal()),
-            ],
-          ),
+            Expanded(child: displayMoneyTotal()),
+          ],
         ),
       ),
     );
@@ -89,9 +82,7 @@ class MoneyTotalPage extends ConsumerWidget {
 
   ///
   void _makeBankMoveList() {
-    _ref.watch(bankMoveProvider).forEach((element) {
-      bankMoveList[element.date.yyyymmdd] = element;
-    });
+    _ref.watch(bankMoveProvider).forEach((element) => bankMoveList[element.date.yyyymmdd] = element);
   }
 
   ///
@@ -155,6 +146,9 @@ class MoneyTotalPage extends ConsumerWidget {
                     ),
                   ],
                 ),
+
+                //
+
                 if (benefitMap[moneyEverydayState[i].date.yyyymmdd] != null)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -162,7 +156,7 @@ class MoneyTotalPage extends ConsumerWidget {
                       Container(),
                       DefaultTextStyle(
                         style: TextStyle(
-                          fontSize: 8,
+                          fontSize: 10,
                           color: Colors.yellowAccent.withOpacity(0.6),
                         ),
                         child: Row(
@@ -175,6 +169,9 @@ class MoneyTotalPage extends ConsumerWidget {
                       ),
                     ],
                   ),
+
+                //
+
                 if (bankMoveList[moneyEverydayState[i].date.yyyymmdd] != null)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -182,7 +179,7 @@ class MoneyTotalPage extends ConsumerWidget {
                       Container(),
                       DefaultTextStyle(
                         style: TextStyle(
-                          fontSize: 8,
+                          fontSize: 10,
                           color: Colors.greenAccent.withOpacity(0.6),
                         ),
                         child: Row(
@@ -191,7 +188,9 @@ class MoneyTotalPage extends ConsumerWidget {
                               'Bank Move - ${bankMoveList[moneyEverydayState[i].date.yyyymmdd]!.bank} // ${bankMoveList[moneyEverydayState[i].date.yyyymmdd]!.flag == 0 ? 'out' : 'in'}',
                             ),
                             const SizedBox(width: 20),
-                            Text(bankMoveList[moneyEverydayState[i].date.yyyymmdd]!.price.toString().toCurrency()),
+                            Text(
+                              bankMoveList[moneyEverydayState[i].date.yyyymmdd]!.price.toString().toCurrency(),
+                            ),
                           ],
                         ),
                       ),
