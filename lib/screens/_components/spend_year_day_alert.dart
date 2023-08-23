@@ -3,6 +3,7 @@
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/year_average_graph_alert.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../extensions/extensions.dart';
@@ -34,6 +35,9 @@ class SpendYearDayAlert extends ConsumerWidget {
   int thisYearDataLength = 0;
 
   int dataLength = 0;
+
+  Map<int, int> yearDateAverageMap = {};
+  Map<int, String> yearDateMap = {};
 
   late BuildContext _context;
   late WidgetRef _ref;
@@ -123,6 +127,20 @@ class SpendYearDayAlert extends ConsumerWidget {
                         ),
                         const SizedBox(width: 20),
                       ],
+                      GestureDetector(
+                        onTap: () {
+                          MoneyDialog(
+                            context: context,
+                            widget: YearAverageGraphAlert(
+                              date: date,
+                              yearDateAverageMap: yearDateAverageMap,
+                              yearDateMap: yearDateMap,
+                            ),
+                          );
+                        },
+                        child: const Icon(Icons.graphic_eq),
+                      ),
+                      const SizedBox(width: 20),
                       GestureDetector(
                         onTap: () {
                           MoneyDialog(
@@ -358,6 +376,10 @@ class SpendYearDayAlert extends ConsumerWidget {
         );
 
         dataLength = i + 1;
+
+        yearDateAverageMap[dataLength] = (yearTotal / dataLength).round();
+
+        yearDateMap[dataLength] = spendYearDayState[i].date.yyyymmdd;
       }
     }
 

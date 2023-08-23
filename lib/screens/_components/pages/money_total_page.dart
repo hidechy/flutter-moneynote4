@@ -2,12 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/models/bank_move.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../state/benefit/benefit_notifier.dart';
 import '../../../state/device_info/device_info_notifier.dart';
 import '../../../utility/utility.dart';
+import '../../../viewmodel/bank_notifier.dart';
 import '../../../viewmodel/holiday_notifier.dart';
 import '../../../viewmodel/money_notifier.dart';
 
@@ -20,12 +22,16 @@ class MoneyTotalPage extends ConsumerWidget {
 
   final autoScrollController = AutoScrollController();
 
+  Map<String, BankMove> bankMoveList = {};
+
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
+
+    _makeBankMoveList();
 
     final moneyEverydayState = _ref.watch(moneyEverydayProvider);
 
@@ -79,6 +85,13 @@ class MoneyTotalPage extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  ///
+  void _makeBankMoveList() {
+    _ref.watch(bankMoveProvider).forEach((element) {
+      bankMoveList[element.date.yyyymmdd] = element;
+    });
   }
 
   ///
@@ -149,7 +162,7 @@ class MoneyTotalPage extends ConsumerWidget {
                       Container(),
                       DefaultTextStyle(
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: 8,
                           color: Colors.yellowAccent.withOpacity(0.6),
                         ),
                         child: Row(
@@ -157,6 +170,28 @@ class MoneyTotalPage extends ConsumerWidget {
                             Text(benefitMap[moneyEverydayState[i].date.yyyymmdd]!.company),
                             const SizedBox(width: 20),
                             Text(benefitMap[moneyEverydayState[i].date.yyyymmdd]!.salary.toCurrency()),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                if (bankMoveList[moneyEverydayState[i].date.yyyymmdd] != null)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(),
+                      DefaultTextStyle(
+                        style: TextStyle(
+                          fontSize: 8,
+                          color: Colors.greenAccent.withOpacity(0.6),
+                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Bank Move - ${bankMoveList[moneyEverydayState[i].date.yyyymmdd]!.bank} // ${bankMoveList[moneyEverydayState[i].date.yyyymmdd]!.flag == 0 ? 'out' : 'in'}',
+                            ),
+                            const SizedBox(width: 20),
+                            Text(bankMoveList[moneyEverydayState[i].date.yyyymmdd]!.price.toString().toCurrency()),
                           ],
                         ),
                       ),
@@ -171,6 +206,12 @@ class MoneyTotalPage extends ConsumerWidget {
       keepSum = moneyEverydayState[i].sum.toInt();
     }
 
-    return SingleChildScrollView(controller: autoScrollController, child: Column(children: list));
+    return SingleChildScrollView(
+      controller: autoScrollController,
+      child: DefaultTextStyle(
+        style: const TextStyle(fontSize: 10),
+        child: Column(children: list),
+      ),
+    );
   }
 }
