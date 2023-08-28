@@ -17,6 +17,8 @@ class ThreeYearsSpendMonthCompareAlert extends ConsumerWidget {
 
   final Utility _utility = Utility();
 
+  Map<String, int> monthCompareMap = {};
+
   late BuildContext _context;
   late WidgetRef _ref;
 
@@ -133,6 +135,14 @@ class ThreeYearsSpendMonthCompareAlert extends ConsumerWidget {
     });
 
     map2.entries.forEach((element) {
+      monthCompareMap[element.key] = element.value;
+
+      final exElementKey = element.key.split('-');
+
+      final yearMonthDiff = (year == DateTime.now().year - 2)
+          ? ''
+          : (element.value - monthCompareMap['${year - 1}-${exElementKey[1]}']!).toString();
+
       list
         ..add(
           DecoratedBox(
@@ -171,15 +181,21 @@ class ThreeYearsSpendMonthCompareAlert extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(),
-              Text(
-                element.value.toString().toCurrency(),
-                style: TextStyle(
-                    color: (DateTime.now().yyyymm == element.key)
-                        ? Colors.yellowAccent
-                        : (element.value > 500000)
-                            ? Colors.orangeAccent
-                            : Colors.white),
+              _dispYearMonthDiffMark(year: year, diff: yearMonthDiff),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    element.value.toString().toCurrency(),
+                    style: TextStyle(
+                        color: (DateTime.now().yyyymm == element.key)
+                            ? Colors.yellowAccent
+                            : (element.value > 500000)
+                                ? Colors.orangeAccent
+                                : Colors.white),
+                  ),
+                  Text(yearMonthDiff, style: const TextStyle(color: Colors.yellowAccent)),
+                ],
               ),
             ],
           ),
@@ -193,5 +209,18 @@ class ThreeYearsSpendMonthCompareAlert extends ConsumerWidget {
         child: Column(children: list),
       ),
     );
+  }
+
+  ///
+  Widget _dispYearMonthDiffMark({required int year, required String diff}) {
+    if (year == DateTime.now().year - 2) {
+      return Container();
+    }
+
+    if (diff.toInt() < 0) {
+      return const Icon(Icons.arrow_downward, color: Colors.greenAccent);
+    } else {
+      return const Icon(Icons.arrow_upward, color: Colors.redAccent);
+    }
   }
 }
