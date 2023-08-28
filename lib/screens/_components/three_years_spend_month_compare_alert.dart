@@ -17,7 +17,7 @@ class ThreeYearsSpendMonthCompareAlert extends ConsumerWidget {
 
   final Utility _utility = Utility();
 
-  Map<String, int> monthCompareMap = {};
+  Map<String, int> yearMonthCompareMap = {};
 
   late BuildContext _context;
   late WidgetRef _ref;
@@ -27,6 +27,8 @@ class ThreeYearsSpendMonthCompareAlert extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _context = context;
     _ref = ref;
+
+    _makeYearMonthCompareMap();
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
@@ -61,6 +63,31 @@ class ThreeYearsSpendMonthCompareAlert extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  ///
+  void _makeYearMonthCompareMap() {
+    for (var i = DateTime.now().year - 2; i <= DateTime.now().year; i++) {
+      final spendYearDayState = _ref.watch(spendYearDayProvider(DateTime(i)));
+
+      final map = <String, List<int>>{};
+      spendYearDayState
+        ..forEach((element) {
+          map[element.date.yyyymm] = [];
+        })
+        ..forEach((element) {
+          map[element.date.yyyymm]?.add(element.spend);
+        });
+
+      map.entries.forEach((element) {
+        var sum = 0;
+        element.value.forEach((element2) {
+          sum += element2;
+        });
+
+        yearMonthCompareMap[element.key] = sum;
+      });
+    }
   }
 
   ///
@@ -135,13 +162,8 @@ class ThreeYearsSpendMonthCompareAlert extends ConsumerWidget {
     });
 
     map2.entries.forEach((element) {
-      monthCompareMap[element.key] = element.value;
-
       final exElementKey = element.key.split('-');
-
-      final yearMonthDiff = (year == DateTime.now().year - 2)
-          ? ''
-          : (element.value - monthCompareMap['${year - 1}-${exElementKey[1]}']!).toString();
+      final compareYm = DateTime(year - 1, exElementKey[1].toInt()).yyyymm;
 
       list
         ..add(
@@ -181,20 +203,30 @@ class ThreeYearsSpendMonthCompareAlert extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _dispYearMonthDiffMark(year: year, diff: yearMonthDiff),
+              (year == DateTime.now().year - 2)
+                  ? Container()
+                  : _displayYearMonthCompareMark(
+                      diff: (element.value - yearMonthCompareMap[compareYm].toString().toInt()),
+                    ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
                     element.value.toString().toCurrency(),
                     style: TextStyle(
-                        color: (DateTime.now().yyyymm == element.key)
-                            ? Colors.yellowAccent
-                            : (element.value > 500000)
-                                ? Colors.orangeAccent
-                                : Colors.white),
+                      color: (DateTime.now().yyyymm == element.key)
+                          ? Colors.yellowAccent
+                          : (element.value > 500000)
+                              ? Colors.orangeAccent
+                              : Colors.white,
+                    ),
                   ),
-                  Text(yearMonthDiff, style: const TextStyle(color: Colors.yellowAccent)),
+                  Text(
+                    (year == DateTime.now().year - 2)
+                        ? ''
+                        : (element.value - yearMonthCompareMap[compareYm].toString().toInt()).toString(),
+                    style: const TextStyle(color: Colors.yellowAccent),
+                  ),
                 ],
               ),
             ],
@@ -212,12 +244,8 @@ class ThreeYearsSpendMonthCompareAlert extends ConsumerWidget {
   }
 
   ///
-  Widget _dispYearMonthDiffMark({required int year, required String diff}) {
-    if (year == DateTime.now().year - 2) {
-      return Container();
-    }
-
-    if (diff.toInt() < 0) {
+  Widget _displayYearMonthCompareMark({required int diff}) {
+    if (diff < 0) {
       return const Icon(Icons.arrow_downward, color: Colors.greenAccent);
     } else {
       return const Icon(Icons.arrow_upward, color: Colors.redAccent);
