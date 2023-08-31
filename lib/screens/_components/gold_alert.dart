@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/_money_dialog.dart';
+import 'package:moneynote4/screens/_components/gold_graph_alert.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../extensions/extensions.dart';
@@ -52,7 +54,15 @@ class GoldAlert extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(),
+                    GestureDetector(
+                      onTap: () {
+                        MoneyDialog(
+                          context: context,
+                          widget: GoldGraphAlert(),
+                        );
+                      },
+                      child: const Icon(Icons.graphic_eq),
+                    ),
                     Row(
                       children: [
                         GestureDetector(
