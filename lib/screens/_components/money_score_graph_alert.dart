@@ -8,11 +8,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
-import '../../state/gold/gold_notifier.dart';
 import '../../utility/utility.dart';
 
-class GoldGraphAlert extends ConsumerWidget {
-  GoldGraphAlert({super.key});
+class MoneyScoreGraphAlert extends ConsumerWidget {
+  MoneyScoreGraphAlert({super.key, required this.date, required this.graphSagakuMap, required this.graphScoreMap});
+
+  final DateTime date;
+  final Map<String, int> graphSagakuMap;
+  final Map<String, int> graphScoreMap;
 
   final Utility _utility = Utility();
 
@@ -24,13 +27,9 @@ class GoldGraphAlert extends ConsumerWidget {
 
   final ScrollController _controller = ScrollController();
 
-  late WidgetRef _ref;
-
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    _ref = ref;
-
     twelveColor = _utility.getTwelveColor();
 
     setChartData();
@@ -93,64 +92,36 @@ class GoldGraphAlert extends ConsumerWidget {
   void setChartData() {
     dateList = [];
 
-    final goldListState = _ref.watch(goldListProvider);
+    final points = <int>[];
 
     final flspotsList = <List<FlSpot>>[];
 
-    final flspotsGoldValue = <FlSpot>[];
-    final flspotsGoldDiff = <FlSpot>[];
+    final flspotsSagaku = <FlSpot>[];
+    final flspotsScore = <FlSpot>[];
 
-    final points = <int>[];
+    var i = 0;
+    graphSagakuMap.forEach((key, value) {
+      flspotsSagaku.add(FlSpot(i.toDouble(), value.toDouble()));
 
-    var j = 0;
-    for (var i = 0; i < goldListState.goldList.length; i++) {
-      if (goldListState.goldList[i].goldValue == '-') {
-        continue;
-      }
+      flspotsScore.add(FlSpot(i.toDouble(), graphScoreMap[key]!.toDouble()));
 
-      final date =
-          '${goldListState.goldList[i].year}-${goldListState.goldList[i].month}-${goldListState.goldList[i].day}';
+      points.add(graphScoreMap[key]!);
 
-      dateList.add(date);
+      dateList.add(key);
 
-      flspotsGoldValue.add(
-        FlSpot(
-          j.toDouble(),
-          goldListState.goldList[i].goldValue.toString().toDouble(),
-        ),
-      );
-
-      flspotsGoldDiff.add(
-        FlSpot(
-          j.toDouble(),
-          (goldListState.goldList[i].goldValue.toString().toInt() -
-                  goldListState.goldList[i].payPrice.toString().toInt())
-              .toDouble(),
-        ),
-      );
-
-      points.add(goldListState.goldList[i].goldValue);
-
-      j++;
-    }
+      i++;
+    });
 
     flspotsList
-      ..add(flspotsGoldValue)
-      ..add(flspotsGoldDiff);
+      ..add(flspotsScore)
+      ..add(flspotsSagaku);
 
     final maxPoint = points.reduce(max);
-    final minPoint = points.reduce(min);
 
     const warisuu = 50000;
     final graphMax = (maxPoint / warisuu).ceil() * warisuu * 1.5;
-    final graphMin = (minPoint * -1 / warisuu).ceil() * warisuu * -1;
 
     graphData = LineChartData(
-      ///
-      minX: 0,
-      maxX: (dateList.length - 1).toDouble(),
-      //
-      minY: graphMin.toDouble(),
       maxY: graphMax,
 
       ///
@@ -187,7 +158,7 @@ class GoldGraphAlert extends ConsumerWidget {
               return SideTitleWidget(
                 axisSide: meta.axisSide,
                 child: Text(
-                  '${exDate[0]}\n${exDate[1]}-${exDate[2]}',
+                  '${exDate[0]}\n${exDate[1]}',
                   style: const TextStyle(fontSize: 10),
                 ),
               );

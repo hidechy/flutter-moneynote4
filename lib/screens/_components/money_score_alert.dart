@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/_money_dialog.dart';
+import 'package:moneynote4/screens/_components/money_score_graph_alert.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
@@ -14,6 +16,9 @@ class MoneyScoreAlert extends ConsumerWidget {
   final DateTime date;
 
   final Utility _utility = Utility();
+
+  Map<String, int> graphSagakuMap = {};
+  Map<String, int> graphScoreMap = {};
 
   late WidgetRef _ref;
 
@@ -33,51 +38,44 @@ class MoneyScoreAlert extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         width: double.infinity,
         height: double.infinity,
-        child: SingleChildScrollView(
-          child: DefaultTextStyle(
-            style: const TextStyle(fontSize: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                Container(width: context.screenSize.width),
+        child: DefaultTextStyle(
+          style: const TextStyle(fontSize: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20),
+              Container(width: context.screenSize.width),
 
-                //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
-                //----------//
+              //----------//
+              if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
+              //----------//
 
-                /*
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(),
+                  GestureDetector(
+                    onTap: () {
+                      MoneyDialog(
+                        context: context,
+                        widget: MoneyScoreGraphAlert(
+                          date: date,
+                          graphSagakuMap: graphSagakuMap,
+                          graphScoreMap: graphScoreMap,
+                        ),
+                      );
+                    },
+                    child: const Icon(Icons.graphic_eq),
+                  ),
+                ],
+              ),
 
+              const SizedBox(height: 10),
 
+              Expanded(child: displayMoneyScore()),
 
-
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(),
-                    GestureDetector(
-                      onTap: () {
-                        MoneyDialog(
-                          context: context,
-                          widget: MoneyScoreGraphAlert(date: date),
-                        );
-                      },
-                      child: const Icon(Icons.graphic_eq),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 20),
-
-
-
-                */
-
-                displayMoneyScore(),
-              ],
-            ),
+              const SizedBox(height: 20),
+            ],
           ),
         ),
       ),
@@ -88,50 +86,34 @@ class MoneyScoreAlert extends ConsumerWidget {
   Widget displayMoneyScore() {
     final moneyScoreState = _ref.watch(moneyScoreProvider);
 
-    //-----------------------------------------------
-    final totalMap = <String, int>{};
-    var keepYear = 0;
-    var total = 0;
+    final sagakuMap = <String, List<int>>{};
 
-    moneyScoreState.forEach((element) {
-      final year = DateTime(
-        element.ym.split('-')[0].toInt(),
-        element.ym.split('-')[1].toInt(),
-      ).year;
+    moneyScoreState
+      ..forEach((element) {
+        sagakuMap[DateTime(element.ym.split('-')[0].toInt()).yyyy] = [];
+      })
+      ..forEach((element) {
+        if (element.ym != '2014-06') {
+          sagakuMap[DateTime(element.ym.split('-')[0].toInt()).yyyy]?.add(element.sagaku);
 
-      if (year != keepYear) {
-        total = 0;
-      }
+          graphSagakuMap[element.ym] = element.sagaku * -1;
+        }
+      });
 
-      final sagaku =
-          (element.updown == 1) ? element.sagaku * -1 : element.sagaku;
-
-      switch (element.updown) {
-        case 0:
-          total -= sagaku;
-          break;
-        case 1:
-          total += sagaku;
-          break;
-      }
-
-      totalMap[year.toString()] = total;
-
-      keepYear = DateTime(
-        element.ym.split('-')[0].toInt(),
-        element.ym.split('-')[1].toInt(),
-      ).year;
+    final yearTotalMap = <String, int>{};
+    sagakuMap.entries.forEach((element) {
+      var total = 0;
+      element.value.forEach((element2) {
+        total += element2 * -1;
+      });
+      yearTotalMap[element.key] = total;
     });
-
-    //-----------------------------------------------
 
     final list = <Widget>[];
 
     //forで仕方ない
     for (var i = 1; i < moneyScoreState.length; i++) {
-      final sagaku = (moneyScoreState[i].updown == 1)
-          ? moneyScoreState[i].sagaku * -1
-          : moneyScoreState[i].sagaku;
+      final sagaku = (moneyScoreState[i].updown == 1) ? moneyScoreState[i].sagaku * -1 : moneyScoreState[i].sagaku;
 
       final spend = (moneyScoreState[i].updown == 1)
           ? (moneyScoreState[i].benefit - sagaku)
@@ -147,9 +129,9 @@ class MoneyScoreAlert extends ConsumerWidget {
         moneyScoreState[i].ym.split('-')[1].toInt(),
       ).month;
 
-      if ((year != 2014 && month == 1) || (year == 2014 && month == 7)) {
-        final ttl = totalMap[year.toString()].toString().toCurrency();
+      graphScoreMap[moneyScoreState[i].ym] = moneyScoreState[i].price;
 
+      if ((year != 2014 && month == 1) || (year == 2014 && month == 7)) {
         list.add(
           Column(
             children: [
@@ -169,8 +151,8 @@ class MoneyScoreAlert extends ConsumerWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(),
-                    Text(ttl),
+                    Text(year.toString()),
+                    Text(yearTotalMap[year.toString()].toString().toCurrency()),
                   ],
                 ),
               ),
@@ -198,10 +180,7 @@ class MoneyScoreAlert extends ConsumerWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          moneyScoreState[i].ym,
-                          style: const TextStyle(fontSize: 16),
-                        ),
+                        Text(moneyScoreState[i].ym, style: const TextStyle(fontSize: 16)),
                         Text(moneyScoreState[i].price.toString().toCurrency()),
                       ],
                     ),
@@ -212,10 +191,7 @@ class MoneyScoreAlert extends ConsumerWidget {
                           children: [
                             const SizedBox(width: 20),
                             Text(
-                              moneyScoreState[i]
-                                  .benefit
-                                  .toString()
-                                  .toCurrency(),
+                              moneyScoreState[i].benefit.toString().toCurrency(),
                             ),
                           ],
                         ),
