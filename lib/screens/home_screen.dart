@@ -370,7 +370,7 @@ class HomeScreen extends ConsumerWidget {
 
     var topPercentageList = <double>[];
 
-    if (percentageList.isNotEmpty) {
+    if (percentageList.isNotEmpty && percentageList.length > 5) {
       topPercentageList = percentageList.sublist(0, 5);
     }
 
