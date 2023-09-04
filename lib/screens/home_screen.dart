@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/money_total_alert.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../extensions/extensions.dart';
@@ -31,6 +30,7 @@ import '_components/home_fix_alert.dart';
 import '_components/mercari_alert.dart';
 import '_components/money_alert.dart';
 import '_components/money_score_alert.dart';
+import '_components/money_total_alert.dart';
 import '_components/monthly_spend_alert.dart';
 import '_components/monthly_unit_spend_alert.dart';
 import '_components/sameday_spend_alert.dart';
@@ -67,22 +67,15 @@ class HomeScreen extends ConsumerWidget {
 
   ///
   void _readAndroidBuildData(AndroidDeviceInfo build) {
-    final request = DeviceInfoRequestState(
-      name: build.brand,
-      systemName: build.product,
-      model: build.model,
-    );
+    final request = DeviceInfoRequestState(name: build.brand, systemName: build.product, model: build.model);
 
     _ref.watch(deviceInfoProvider.notifier).setDeviceInfo(param: request);
   }
 
   ///
   void _readIosDeviceInfo(IosDeviceInfo data) {
-    final request = DeviceInfoRequestState(
-      name: data.name ?? '',
-      systemName: data.systemName ?? '',
-      model: data.model ?? '',
-    );
+    final request =
+        DeviceInfoRequestState(name: data.name ?? '', systemName: data.systemName ?? '', model: data.model ?? '');
 
     _ref.watch(deviceInfoProvider.notifier).setDeviceInfo(param: request);
   }
@@ -99,9 +92,7 @@ class HomeScreen extends ConsumerWidget {
 
     final homeMenuState = ref.watch(homeMenuProvider);
 
-    final spendMonthSummaryState = ref.watch(
-      spendMonthSummaryProvider(focusDayState),
-    );
+    final spendMonthSummaryState = ref.watch(spendMonthSummaryProvider(focusDayState));
 
     final total = makeTotalPrice(data: spendMonthSummaryState);
 
@@ -123,10 +114,7 @@ class HomeScreen extends ConsumerWidget {
                 ///
                 calendarStyle: const CalendarStyle(
                   todayDecoration: BoxDecoration(color: Colors.transparent),
-                  selectedDecoration: BoxDecoration(
-                    color: Colors.indigo,
-                    shape: BoxShape.circle,
-                  ),
+                  selectedDecoration: BoxDecoration(color: Colors.indigo, shape: BoxShape.circle),
 
                   ///
                   todayTextStyle: TextStyle(color: Color(0xFFFAFAFA)),
@@ -141,11 +129,7 @@ class HomeScreen extends ConsumerWidget {
                   rangeStartDecoration: BoxDecoration(color: Color(0xFF6699FF)),
                   rangeEndDecoration: BoxDecoration(color: Color(0xFF6699FF)),
                   holidayDecoration: BoxDecoration(
-                    border: Border.fromBorderSide(
-                      BorderSide(
-                        color: Color(0xFF9FA8DA),
-                      ),
-                    ),
+                    border: Border.fromBorderSide(BorderSide(color: Color(0xFF9FA8DA))),
                   ),
                 ),
 
@@ -157,14 +141,10 @@ class HomeScreen extends ConsumerWidget {
                 focusedDay: focusDayState,
 
                 ///
-                selectedDayPredicate: (day) {
-                  return isSameDay(ref.watch(blueBallProvider), day);
-                },
+                selectedDayPredicate: (day) => isSameDay(ref.watch(blueBallProvider), day),
 
                 ///
-                onDaySelected: (selectedDay, focusedDay) {
-                  onDayPressed(date: selectedDay);
-                },
+                onDaySelected: (selectedDay, focusedDay) => onDayPressed(date: selectedDay),
 
                 ///
                 onPageChanged: (focusedDay) {
@@ -198,44 +178,25 @@ class HomeScreen extends ConsumerWidget {
                           MaterialPageRoute(builder: (context) => HomeScreen()),
                         );
                       },
-                      child: const Icon(
-                        Icons.refresh,
-                        color: Colors.grey,
-                      ),
+                      child: const Icon(Icons.refresh, color: Colors.grey),
                     ),
                   ],
                 ),
               ),
-              Divider(
-                color: Colors.indigo.withOpacity(0.8),
-                thickness: 5,
-              ),
+              Divider(color: Colors.indigo.withOpacity(0.8), thickness: 5),
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 10,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ElevatedButton(
-                      onPressed: () {
-                        openAlertWindow(flag: homeMenuState.menuFlag);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        backgroundColor: Colors.indigo.withOpacity(0.8),
-                      ),
+                      onPressed: () => openAlertWindow(flag: homeMenuState.menuFlag),
+                      style: ElevatedButton.styleFrom(elevation: 0, backgroundColor: Colors.indigo.withOpacity(0.8)),
                       child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minWidth: context.screenSize.width / 4,
-                        ),
+                        constraints: BoxConstraints(minWidth: context.screenSize.width / 4),
                         child: Container(
                           alignment: Alignment.center,
-                          child: Text(
-                            homeMenuState.menuName,
-                            style: const TextStyle(fontSize: 12),
-                          ),
+                          child: Text(homeMenuState.menuName, style: const TextStyle(fontSize: 12)),
                         ),
                       ),
                     ),
@@ -258,16 +219,10 @@ class HomeScreen extends ConsumerWidget {
                               widget: SpendSummaryItemAlert(date: focusDayState),
                             );
                           },
-                          child: const Icon(
-                            FontAwesomeIcons.maximize,
-                            size: 14,
-                          ),
+                          child: const Icon(FontAwesomeIcons.maximize, size: 14),
                         ),
                         const SizedBox(width: 20),
-                        Text(
-                          total.toString().toCurrency(),
-                          style: const TextStyle(fontSize: 16),
-                        ),
+                        Text(total.toString().toCurrency(), style: const TextStyle(fontSize: 16)),
                       ],
                     ),
                   ],
@@ -279,13 +234,8 @@ class HomeScreen extends ConsumerWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.only(right: 20),
-                      child: displayIcons(),
-                    ),
-                    Expanded(
-                      child: displayMonthSpend(),
-                    ),
+                    Container(padding: const EdgeInsets.only(right: 20), child: displayIcons()),
+                    Expanded(child: displayMonthSpend()),
                   ],
                 ),
               ),
@@ -309,17 +259,10 @@ class HomeScreen extends ConsumerWidget {
               widget: CreditYearlyDetailAlert(date: focusDayState),
             );
           },
-          child: const Icon(
-            Icons.credit_card,
-            size: 14,
-          ),
+          child: const Icon(Icons.credit_card, size: 14),
         );
       default:
-        return const Icon(
-          Icons.check_box_outline_blank,
-          color: Colors.transparent,
-          size: 14,
-        );
+        return const Icon(Icons.check_box_outline_blank, color: Colors.transparent, size: 14);
     }
   }
 
@@ -328,16 +271,12 @@ class HomeScreen extends ConsumerWidget {
     _ref.watch(blueBallProvider.notifier).setDateTime(dateTime: date);
     _ref.watch(focusDayProvider.notifier).setDateTime(dateTime: date);
 
-    MoneyDialog(
-      context: _context,
-      widget: MoneyAlert(date: date),
-    );
+    MoneyDialog(context: _context, widget: MoneyAlert(date: date));
   }
 
   ///
-  void onPageMoved({required DateTime date}) {
-    _ref.watch(focusDayProvider.notifier).setDateTime(dateTime: date);
-  }
+  Future<void> onPageMoved({required DateTime date}) async =>
+      await _ref.watch(focusDayProvider.notifier).setDateTime(dateTime: date);
 
   ///
   int makeTotalPrice({required List<SpendMonthSummary> data}) {
@@ -402,18 +341,12 @@ class HomeScreen extends ConsumerWidget {
                     children: [
                       Expanded(
                         flex: 2,
-                        child: Text(
-                          spend.item,
-                          style: TextStyle(color: textColor),
-                        ),
+                        child: Text(spend.item, style: TextStyle(color: textColor)),
                       ),
                       Expanded(
                         child: Container(
                           alignment: Alignment.topRight,
-                          child: Text(
-                            spend.sum.toString().toCurrency(),
-                            style: TextStyle(color: textColor),
-                          ),
+                          child: Text(spend.sum.toString().toCurrency(), style: TextStyle(color: textColor)),
                         ),
                       ),
                       Expanded(
@@ -440,11 +373,7 @@ class HomeScreen extends ConsumerWidget {
       );
     }
 
-    return SingleChildScrollView(
-      child: Column(
-        children: list,
-      ),
-    );
+    return SingleChildScrollView(child: Column(children: list));
   }
 
   ///
@@ -471,12 +400,8 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () {
-          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
-                menuFlag: 'monthly_spend',
-                menuName: '月間消費金額履歴',
-              );
-        },
+        onPressed: () =>
+            _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'monthly_spend', menuName: '月間消費金額履歴'),
         icon: Icon(
           Icons.details,
           color: (homeMenuState.menuFlag == 'monthly_spend') ? Colors.lightBlueAccent : Colors.white,
@@ -487,12 +412,8 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () {
-          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
-                menuFlag: 'sameday_spend',
-                menuName: '同日消費金額履歴',
-              );
-        },
+        onPressed: () =>
+            _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'sameday_spend', menuName: '同日消費金額履歴'),
         icon: Icon(
           Icons.account_tree,
           color: (homeMenuState.menuFlag == 'sameday_spend') ? Colors.lightBlueAccent : Colors.white,
@@ -503,12 +424,8 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () {
-          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
-                menuFlag: 'monthly_unit_spend',
-                menuName: '月別消費金額履歴',
-              );
-        },
+        onPressed: () =>
+            _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'monthly_unit_spend', menuName: '月別消費金額履歴'),
         icon: Icon(
           Icons.bar_chart_sharp,
           color: (homeMenuState.menuFlag == 'monthly_unit_spend') ? Colors.lightBlueAccent : Colors.white,
@@ -519,12 +436,8 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () {
-          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
-                menuFlag: 'yearly_spend',
-                menuName: '年間消費金額履歴',
-              );
-        },
+        onPressed: () =>
+            _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'yearly_spend', menuName: '年間消費金額履歴'),
         icon: Icon(
           FontAwesomeIcons.calculator,
           color: (homeMenuState.menuFlag == 'yearly_spend') ? Colors.lightBlueAccent : Colors.white,
@@ -535,12 +448,8 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () {
-          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
-                menuFlag: 'spend_summary',
-                menuName: '消費金額ブロック比較',
-              );
-        },
+        onPressed: () =>
+            _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'spend_summary', menuName: '消費金額ブロック比較'),
         icon: Icon(
           Icons.select_all,
           color: (homeMenuState.menuFlag == 'spend_summary') ? Colors.lightBlueAccent : Colors.white,
@@ -549,30 +458,10 @@ class HomeScreen extends ConsumerWidget {
       ),
     );
 
-    // list.add(
-    //   IconButton(
-    //     onPressed: () {
-    //       _ref.watch(homeMenuProvider.notifier).setHomeMenu(
-    //             menuFlag: 'credit_summary',
-    //             menuName: 'クレジット消費ブロック比較',
-    //           );
-    //     },
-    //     icon: Icon(
-    //       Icons.list,
-    //       color: (homeMenuState.menuFlag == 'credit_summary') ? Colors.lightBlueAccent : Colors.white,
-    //       size: 14,
-    //     ),
-    //   ),
-    // );
-
     list.add(
       IconButton(
-        onPressed: () {
-          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
-                menuFlag: 'credit_company',
-                menuName: 'クレジット会社比較',
-              );
-        },
+        onPressed: () =>
+            _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'credit_company', menuName: 'クレジット会社比較'),
         icon: Icon(
           Icons.calendar_view_month_rounded,
           color: (homeMenuState.menuFlag == 'credit_company') ? Colors.lightBlueAccent : Colors.white,
@@ -583,12 +472,7 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () {
-          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
-                menuFlag: 'tax_payment',
-                menuName: '確定申告資料',
-              );
-        },
+        onPressed: () => _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'tax_payment', menuName: '確定申告資料'),
         icon: Icon(
           Icons.publish,
           color: (homeMenuState.menuFlag == 'tax_payment') ? Colors.lightBlueAccent : Colors.white,
@@ -599,12 +483,7 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () {
-          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
-                menuFlag: 'money_score',
-                menuName: 'マネースコア',
-              );
-        },
+        onPressed: () => _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'money_score', menuName: 'マネースコア'),
         icon: Icon(
           Icons.trending_up,
           color: (homeMenuState.menuFlag == 'money_score') ? Colors.lightBlueAccent : Colors.white,
@@ -615,12 +494,7 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () {
-          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
-                menuFlag: 'benefit',
-                menuName: '収入獲得履歴',
-              );
-        },
+        onPressed: () => _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'benefit', menuName: '収入獲得履歴'),
         icon: Icon(
           Icons.monetization_on,
           color: (homeMenuState.menuFlag == 'benefit') ? Colors.lightBlueAccent : Colors.white,
@@ -631,12 +505,8 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () {
-          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
-                menuFlag: 'duty_paid',
-                menuName: '支払い義務金額履歴',
-              );
-        },
+        onPressed: () =>
+            _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'duty_paid', menuName: '支払い義務金額履歴'),
         icon: Icon(
           FontAwesomeIcons.biohazard,
           color: (homeMenuState.menuFlag == 'duty_paid') ? Colors.lightBlueAccent : Colors.white,
@@ -647,12 +517,7 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () {
-          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
-                menuFlag: 'home_fix',
-                menuName: '家計固定費履歴',
-              );
-        },
+        onPressed: () => _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'home_fix', menuName: '家計固定費履歴'),
         icon: Icon(
           FontAwesomeIcons.house,
           color: (homeMenuState.menuFlag == 'home_fix') ? Colors.lightBlueAccent : Colors.white,
@@ -663,12 +528,7 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () {
-          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
-                menuFlag: 'food_expenses',
-                menuName: '食費',
-              );
-        },
+        onPressed: () => _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'food_expenses', menuName: '食費'),
         icon: Icon(
           Icons.fastfood,
           color: (homeMenuState.menuFlag == 'food_expenses') ? Colors.lightBlueAccent : Colors.white,
@@ -679,12 +539,8 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () {
-          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
-                menuFlag: 'seiyuu_purchase',
-                menuName: '西友購入履歴',
-              );
-        },
+        onPressed: () =>
+            _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'seiyuu_purchase', menuName: '西友購入履歴'),
         icon: Icon(
           FontAwesomeIcons.bullseye,
           color: (homeMenuState.menuFlag == 'seiyuu_purchase') ? Colors.lightBlueAccent : Colors.white,
@@ -695,12 +551,8 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () {
-          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
-                menuFlag: 'amazon_purchase',
-                menuName: 'Amazon購入履歴',
-              );
-        },
+        onPressed: () =>
+            _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'amazon_purchase', menuName: 'Amazon購入履歴'),
         icon: Icon(
           FontAwesomeIcons.amazon,
           color: (homeMenuState.menuFlag == 'amazon_purchase') ? Colors.lightBlueAccent : Colors.white,
@@ -711,12 +563,7 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () {
-          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
-                menuFlag: 'train',
-                menuName: '電車乗車履歴',
-              );
-        },
+        onPressed: () => _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'train', menuName: '電車乗車履歴'),
         icon: Icon(
           Icons.train,
           color: (homeMenuState.menuFlag == 'train') ? Colors.lightBlueAccent : Colors.white,
@@ -727,12 +574,7 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () {
-          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
-                menuFlag: 'mercari',
-                menuName: 'メルカリ',
-              );
-        },
+        onPressed: () => _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'mercari', menuName: 'メルカリ'),
         icon: Icon(
           FontAwesomeIcons.handshake,
           color: (homeMenuState.menuFlag == 'mercari') ? Colors.lightBlueAccent : Colors.white,
@@ -743,12 +585,7 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () {
-          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
-                menuFlag: 'udemy',
-                menuName: 'UDEMY',
-              );
-        },
+        onPressed: () => _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'udemy', menuName: 'UDEMY'),
         icon: Icon(
           FontAwesomeIcons.u,
           color: (homeMenuState.menuFlag == 'udemy') ? Colors.lightBlueAccent : Colors.white,
@@ -759,12 +596,8 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () {
-          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
-                menuFlag: 'balanceSheet',
-                menuName: 'balanceSheet',
-              );
-        },
+        onPressed: () =>
+            _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'balanceSheet', menuName: 'balanceSheet'),
         icon: Icon(
           FontAwesomeIcons.balanceScale,
           color: (homeMenuState.menuFlag == 'balanceSheet') ? Colors.lightBlueAccent : Colors.white,
@@ -775,12 +608,8 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () {
-          _ref.watch(homeMenuProvider.notifier).setHomeMenu(
-                menuFlag: 'wells_reserve',
-                menuName: '積立年金記録',
-              );
-        },
+        onPressed: () =>
+            _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'wells_reserve', menuName: '積立年金記録'),
         icon: Icon(
           FontAwesomeIcons.pagelines,
           color: (homeMenuState.menuFlag == 'wells_reserve') ? Colors.lightBlueAccent : Colors.white,
@@ -789,11 +618,7 @@ class HomeScreen extends ConsumerWidget {
       ),
     );
 
-    return SingleChildScrollView(
-      child: Column(
-        children: list,
-      ),
-    );
+    return SingleChildScrollView(child: Column(children: list));
   }
 
   ///
@@ -802,144 +627,90 @@ class HomeScreen extends ConsumerWidget {
 
     switch (flag) {
       case 'monthly_spend':
+        final selectedMonth = focusDayState.month;
+        final todayMonth = DateTime.now().month;
+
         MoneyDialog(
           context: _context,
-          widget: MonthlySpendAlert(date: focusDayState),
+          widget: MonthlySpendAlert(date: focusDayState, index: todayMonth - selectedMonth),
         );
         break;
 
       case 'sameday_spend':
-        MoneyDialog(
-          context: _context,
-          widget: SamedaySpendAlert(date: focusDayState),
-        );
+        MoneyDialog(context: _context, widget: SamedaySpendAlert(date: focusDayState));
         break;
 
       case 'monthly_unit_spend':
-        MoneyDialog(
-          context: _context,
-          widget: MonthlyUnitSpendAlert(date: focusDayState),
-        );
+        MoneyDialog(context: _context, widget: MonthlyUnitSpendAlert(date: focusDayState));
         break;
 
       case 'yearly_spend':
-        MoneyDialog(
-          context: _context,
-          widget: SpendYearlyAlert(date: focusDayState),
-        );
+        MoneyDialog(context: _context, widget: SpendYearlyAlert(date: focusDayState));
         break;
 
       case 'tax_payment':
-        MoneyDialog(
-          context: _context,
-          widget: TaxPaymentDisplayAlert(date: focusDayState),
-        );
+        MoneyDialog(context: _context, widget: TaxPaymentDisplayAlert(date: focusDayState));
         break;
 
       case 'money_score':
-        MoneyDialog(
-          context: _context,
-          widget: MoneyScoreAlert(date: focusDayState),
-        );
+        MoneyDialog(context: _context, widget: MoneyScoreAlert(date: focusDayState));
         break;
 
       case 'benefit':
-        MoneyDialog(
-          context: _context,
-          widget: BenefitAlert(date: focusDayState),
-        );
+        MoneyDialog(context: _context, widget: BenefitAlert(date: focusDayState));
         break;
 
       case 'spend_summary':
-        MoneyDialog(
-          context: _context,
-          widget: SpendSummaryAlert(date: focusDayState),
-        );
+        MoneyDialog(context: _context, widget: SpendSummaryAlert(date: focusDayState));
         break;
 
       case 'credit_summary':
-        MoneyDialog(
-          context: _context,
-          widget: CreditSummaryAlert(date: focusDayState),
-        );
+        MoneyDialog(context: _context, widget: CreditSummaryAlert(date: focusDayState));
         break;
 
       case 'credit_company':
-        MoneyDialog(
-          context: _context,
-          widget: CreditCompanyAlert(date: focusDayState),
-        );
+        MoneyDialog(context: _context, widget: CreditCompanyAlert(date: focusDayState));
         break;
 
       case 'duty_paid':
-        MoneyDialog(
-          context: _context,
-          widget: DutyAlert(date: focusDayState),
-        );
+        MoneyDialog(context: _context, widget: DutyAlert(date: focusDayState));
         break;
 
       case 'home_fix':
-        MoneyDialog(
-          context: _context,
-          widget: HomeFixAlert(date: focusDayState),
-        );
+        MoneyDialog(context: _context, widget: HomeFixAlert(date: focusDayState));
         break;
 
       case 'food_expenses':
-        MoneyDialog(
-          context: _context,
-          widget: FoodExpensesAlert(date: focusDayState),
-        );
+        MoneyDialog(context: _context, widget: FoodExpensesAlert(date: focusDayState));
 
         break;
 
       case 'seiyuu_purchase':
-        MoneyDialog(
-          context: _context,
-          widget: SeiyuAlert(date: focusDayState),
-        );
+        MoneyDialog(context: _context, widget: SeiyuAlert(date: focusDayState));
         break;
 
       case 'amazon_purchase':
-        MoneyDialog(
-          context: _context,
-          widget: AmazonAlert(date: focusDayState),
-        );
+        MoneyDialog(context: _context, widget: AmazonAlert(date: focusDayState));
         break;
 
       case 'train':
-        MoneyDialog(
-          context: _context,
-          widget: TrainAlert(date: focusDayState),
-        );
+        MoneyDialog(context: _context, widget: TrainAlert(date: focusDayState));
         break;
 
       case 'mercari':
-        MoneyDialog(
-          context: _context,
-          widget: MercariAlert(date: focusDayState),
-        );
+        MoneyDialog(context: _context, widget: MercariAlert(date: focusDayState));
         break;
 
       case 'udemy':
-        MoneyDialog(
-          context: _context,
-          widget: UdemyAlert(date: focusDayState),
-        );
+        MoneyDialog(context: _context, widget: UdemyAlert(date: focusDayState));
         break;
 
       case 'balanceSheet':
-        MoneyDialog(
-          context: _context,
-          widget: BalanceSheetAlert(date: focusDayState),
-        );
+        MoneyDialog(context: _context, widget: BalanceSheetAlert(date: focusDayState));
         break;
 
       case 'wells_reserve':
-        MoneyDialog(
-          context: _context,
-          widget: WellsReserveAlert(date: focusDayState),
-        );
+        MoneyDialog(context: _context, widget: WellsReserveAlert(date: focusDayState));
         break;
     }
   }

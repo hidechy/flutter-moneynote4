@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/extensions/extensions.dart';
 
+import '../../../extensions/extensions.dart';
 import '../../../state/device_info/device_info_notifier.dart';
 import '../../../utility/utility.dart';
 import '../../../viewmodel/spend_notifier.dart';
@@ -53,21 +53,14 @@ class MonthlyUnitSpendPage extends ConsumerWidget {
               Container(
                 alignment: Alignment.topRight,
                 child: GestureDetector(
-                  onTap: () {
-                    MoneyDialog(
-                      context: context,
-                      widget: MonthlyUnitSpendGraphAlert(date: date),
-                    );
-                  },
+                  onTap: () => MoneyDialog(context: context, widget: MonthlyUnitSpendGraphAlert(date: date)),
                   child: const Icon(Icons.graphic_eq),
                 ),
               ),
 
               const SizedBox(height: 10),
 
-              Expanded(
-                child: displayMonthlyUnitSpend(),
-              ),
+              Expanded(child: displayMonthlyUnitSpend()),
             ],
           ),
         ),
@@ -86,11 +79,7 @@ class MonthlyUnitSpendPage extends ConsumerWidget {
             padding: const EdgeInsets.all(10),
             margin: const EdgeInsets.only(bottom: 10),
             decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Colors.white.withOpacity(0.3),
-                ),
-              ),
+              border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -102,20 +91,18 @@ class MonthlyUnitSpendPage extends ConsumerWidget {
                     const SizedBox(width: 20),
                     GestureDetector(
                       onTap: () {
+                        final selectedMonth = DateTime(e.key.split('-')[0].toInt(), e.key.split('-')[1].toInt()).month;
+                        final todayMonth = DateTime.now().month;
+
                         MoneyDialog(
                           context: _context,
                           widget: MonthlySpendAlert(
-                            date: DateTime(
-                              e.key.split('-')[0].toInt(),
-                              e.key.split('-')[1].toInt(),
-                            ),
+                            date: DateTime(e.key.split('-')[0].toInt(), e.key.split('-')[1].toInt()),
+                            index: todayMonth - selectedMonth,
                           ),
                         );
                       },
-                      child: Icon(
-                        Icons.details,
-                        color: Colors.white.withOpacity(0.8),
-                      ),
+                      child: Icon(Icons.details, color: Colors.white.withOpacity(0.8)),
                     ),
                   ],
                 ),

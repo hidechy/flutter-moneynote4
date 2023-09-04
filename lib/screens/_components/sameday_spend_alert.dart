@@ -2,18 +2,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/extensions/extensions.dart';
-import 'package:moneynote4/screens/_components/_money_dialog.dart';
-import 'package:moneynote4/screens/_components/monthly_spend_alert.dart';
-import 'package:moneynote4/screens/_components/sameday_spend_graph_alert.dart';
-import 'package:moneynote4/screens/_components/spend_summary_halfyear_alert.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../extensions/extensions.dart';
 import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/money_notifier.dart';
 import '../../viewmodel/spend_notifier.dart';
+import '_money_dialog.dart';
+import 'monthly_spend_alert.dart';
+import 'sameday_spend_graph_alert.dart';
+import 'spend_summary_halfyear_alert.dart';
 
 class SamedaySpendAlert extends ConsumerWidget {
   SamedaySpendAlert({super.key, required this.date});
@@ -58,12 +58,7 @@ class SamedaySpendAlert extends ConsumerWidget {
                 //----------//
 
                 GestureDetector(
-                  onTap: () {
-                    MoneyDialog(
-                      context: context,
-                      widget: SpendSummaryHalfyearAlert(),
-                    );
-                  },
+                  onTap: () => MoneyDialog(context: context, widget: SpendSummaryHalfyearAlert()),
                   child: const Icon(Icons.line_style),
                 ),
 
@@ -73,14 +68,9 @@ class SamedaySpendAlert extends ConsumerWidget {
                   height: context.screenSize.height - 170,
                   child: Row(
                     children: [
-                      SizedBox(
-                        width: 30,
-                        child: displayDaySelect(),
-                      ),
+                      SizedBox(width: 30, child: displayDaySelect()),
                       const SizedBox(width: 20),
-                      Expanded(
-                        child: displaySamedaySpendList(),
-                      ),
+                      Expanded(child: displaySamedaySpendList()),
                     ],
                   ),
                 ),
@@ -94,9 +84,7 @@ class SamedaySpendAlert extends ConsumerWidget {
 
   ///
   Widget displayDaySelect() {
-    final SamedaySpendAlertDay = _ref.watch(
-      appParamProvider.select((value) => value.SamedaySpendAlertDay),
-    );
+    final SamedaySpendAlertDay = _ref.watch(appParamProvider.select((value) => value.SamedaySpendAlertDay));
 
     final list = <Widget>[];
 
@@ -107,11 +95,7 @@ class SamedaySpendAlert extends ConsumerWidget {
             _ref.watch(appParamProvider.notifier).setSamedaySpendAlertDay(day: i);
 
             _ref.watch(samedaySpendProvider(date).notifier).getSamedaySpend(
-                  date: DateTime(
-                    date.yyyymm.split('-')[0].toInt(),
-                    date.yyyymm.split('-')[1].toInt(),
-                    i,
-                  ),
+                  date: DateTime(date.yyyymm.split('-')[0].toInt(), date.yyyymm.split('-')[1].toInt(), i),
                 );
           },
           child: Container(
@@ -129,11 +113,7 @@ class SamedaySpendAlert extends ConsumerWidget {
       );
     }
 
-    return SingleChildScrollView(
-      child: Column(
-        children: list,
-      ),
-    );
+    return SingleChildScrollView(child: Column(children: list));
   }
 
   ///
@@ -150,11 +130,7 @@ class SamedaySpendAlert extends ConsumerWidget {
           padding: const EdgeInsets.all(10),
           margin: const EdgeInsets.only(bottom: 10),
           decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.white.withOpacity(0.3),
-              ),
-            ),
+            border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
           ),
           child: Row(
             children: [
@@ -177,10 +153,7 @@ class SamedaySpendAlert extends ConsumerWidget {
                       ),
                       child: (j == 0)
                           ? displayThisMonthItem(sum: samedaySpendState[i].sum)
-                          : displayPastMonthItem(
-                              sum: samedaySpendState[i].sum,
-                              ym: samedaySpendState[i].ym,
-                            ),
+                          : displayPastMonthItem(sum: samedaySpendState[i].sum, ym: samedaySpendState[i].ym),
                     ),
                   ],
                 ),
@@ -193,17 +166,15 @@ class SamedaySpendAlert extends ConsumerWidget {
                       final year = samedaySpendState[i].ym.split('-')[0].toInt();
                       final month = samedaySpendState[i].ym.split('-')[1].toInt();
 
+                      final selectedMonth = DateTime(year, month).month;
+                      final todayMonth = DateTime.now().month;
+
                       MoneyDialog(
                         context: _context,
-                        widget: MonthlySpendAlert(
-                          date: DateTime(year, month),
-                        ),
+                        widget: MonthlySpendAlert(date: DateTime(year, month), index: todayMonth - selectedMonth),
                       );
                     },
-                    child: Icon(
-                      Icons.info_outline,
-                      color: Colors.white.withOpacity(0.6),
-                    ),
+                    child: Icon(Icons.info_outline, color: Colors.white.withOpacity(0.6)),
                   ),
                   const SizedBox(width: 10),
                   GestureDetector(
@@ -218,10 +189,7 @@ class SamedaySpendAlert extends ConsumerWidget {
                         ),
                       );
                     },
-                    child: Icon(
-                      Icons.graphic_eq,
-                      color: Colors.white.withOpacity(0.6),
-                    ),
+                    child: Icon(Icons.graphic_eq, color: Colors.white.withOpacity(0.6)),
                   ),
                 ],
               ),
@@ -233,18 +201,12 @@ class SamedaySpendAlert extends ConsumerWidget {
       j++;
     }
 
-    return SingleChildScrollView(
-      child: Column(
-        children: list,
-      ),
-    );
+    return SingleChildScrollView(child: Column(children: list));
   }
 
   ///
   Widget displayThisMonthItem({required int sum}) {
-    final SamedaySpendAlertDay = _ref.watch(
-      appParamProvider.select((value) => value.SamedaySpendAlertDay),
-    );
+    final SamedaySpendAlertDay = _ref.watch(appParamProvider.select((value) => value.SamedaySpendAlertDay));
 
     final wari = sum / SamedaySpendAlertDay;
 
@@ -282,10 +244,7 @@ class SamedaySpendAlert extends ConsumerWidget {
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(spend.toString().toCurrency()),
-        Text('$wari %'),
-      ],
+      children: [Text(spend.toString().toCurrency()), Text('$wari %')],
     );
   }
 }

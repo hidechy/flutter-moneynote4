@@ -1,6 +1,9 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import '../../extensions/extensions.dart';
 import 'pages/monthly_spend_page.dart';
 
@@ -11,17 +14,25 @@ class TabInfo {
   Widget widget;
 }
 
-class MonthlySpendAlert extends StatelessWidget {
-  MonthlySpendAlert({super.key, required this.date});
+class MonthlySpendAlert extends HookConsumerWidget {
+  MonthlySpendAlert({super.key, required this.date, required this.index});
 
   final DateTime date;
+  final int index;
 
   List<TabInfo> tabs = [];
 
   ///
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     makeTab();
+
+    // 最初に開くタブを指定する
+    final tabController = useTabController(initialLength: tabs.length);
+    if (index > 0) {
+      tabController.index = index;
+    }
+    // 最初に開くタブを指定する
 
     return DefaultTabController(
       length: tabs.length,
@@ -32,13 +43,14 @@ class MonthlySpendAlert extends StatelessWidget {
           child: AppBar(
             backgroundColor: Colors.transparent,
             //-------------------------//これを消すと「←」が出てくる（消さない）
-            leading: const Icon(
-              Icons.check_box_outline_blank,
-              color: Colors.transparent,
-            ),
+            leading: const Icon(Icons.check_box_outline_blank, color: Colors.transparent),
             //-------------------------//これを消すと「←」が出てくる（消さない）
 
             bottom: TabBar(
+              //================================//
+              controller: tabController,
+              //================================//
+
               isScrollable: true,
               indicatorColor: Colors.blueAccent,
               tabs: tabs.map((TabInfo tab) {
@@ -46,14 +58,14 @@ class MonthlySpendAlert extends StatelessWidget {
               }).toList(),
             ),
 
-            flexibleSpace: const DecoratedBox(
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-              ),
-            ),
+            flexibleSpace: const DecoratedBox(decoration: BoxDecoration(color: Colors.transparent)),
           ),
         ),
         body: TabBarView(
+          //================================//
+          controller: tabController,
+          //================================//
+
           children: tabs.map((tab) => tab.widget).toList(),
         ),
       ),
@@ -85,10 +97,7 @@ class MonthlySpendAlert extends StatelessWidget {
           TabInfo(
             element,
             MonthlySpendPage(
-              date: DateTime(
-                element.split('-')[0].toInt(),
-                element.split('-')[1].toInt(),
-              ),
+              date: DateTime(element.split('-')[0].toInt(), element.split('-')[1].toInt()),
             ),
           ),
         );
