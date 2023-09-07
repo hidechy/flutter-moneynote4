@@ -119,6 +119,9 @@ class SpendPage extends ConsumerWidget {
 
     if (tabList.isNotEmpty) {
       return TabContainer(
+        tabStart: 0,
+        tabEnd: 0.2 * tabList.length,
+        color: Colors.greenAccent.withOpacity(0.1),
         radius: 20,
         tabCurve: Curves.easeIn,
         transitionBuilder: (child, animation) {

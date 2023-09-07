@@ -19,6 +19,7 @@ class SpendTrainPage extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          SizedBox(height: 5),
           (trainMap[date.yyyymmdd] != null)
               ? Text(trainMap[date.yyyymmdd]!.station, style: const TextStyle(fontSize: 10))
               : Container(),
