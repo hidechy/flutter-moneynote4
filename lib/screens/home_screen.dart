@@ -275,8 +275,7 @@ class HomeScreen extends ConsumerWidget {
   }
 
   ///
-  Future<void> onPageMoved({required DateTime date}) async =>
-      await _ref.watch(focusDayProvider.notifier).setDateTime(dateTime: date);
+  void onPageMoved({required DateTime date}) => _ref.watch(focusDayProvider.notifier).setDateTime(dateTime: date);
 
   ///
   int makeTotalPrice({required List<SpendMonthSummary> data}) {
@@ -725,9 +724,7 @@ class FocusDayStateNotifier extends StateNotifier<DateTime> {
   FocusDayStateNotifier() : super(DateTime.now());
 
   ///
-  Future<void> setDateTime({required DateTime dateTime}) async {
-    state = dateTime;
-  }
+  Future<void> setDateTime({required DateTime dateTime}) async => state = dateTime;
 }
 
 ////////////////////////////////////////////////////////////
@@ -739,7 +736,5 @@ class BlueBallStateNotifier extends StateNotifier<DateTime> {
   BlueBallStateNotifier() : super(DateTime.now());
 
   ///
-  Future<void> setDateTime({required DateTime dateTime}) async {
-    state = dateTime;
-  }
+  Future<void> setDateTime({required DateTime dateTime}) async => state = dateTime;
 }
