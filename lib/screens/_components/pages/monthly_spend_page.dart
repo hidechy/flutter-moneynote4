@@ -259,6 +259,10 @@ class MonthlySpendPage extends ConsumerWidget {
         Expanded(
           child: GestureDetector(
             onTap: () {
+              //////////
+
+              print('aaa');
+
               MoneyDialog(
                 context: _context,
                 widget: SpendAlert(date: '$dispDate 00:00:00'.toDateTime(), diff: whitePrice!),
@@ -414,11 +418,7 @@ class MonthlySpendPage extends ConsumerWidget {
                 children: [
                   Expanded(
                     flex: 3,
-                    child: Text(
-                      element.item,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
+                    child: Text(element.item, overflow: TextOverflow.ellipsis, maxLines: 1),
                   ),
                   Expanded(
                     child: Container(
@@ -501,11 +501,7 @@ class MonthlySpendPage extends ConsumerWidget {
                                       return Row(
                                         children: [
                                           Expanded(
-                                            child: Text(
-                                              e.item,
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                            ),
+                                            child: Text(e.item, overflow: TextOverflow.ellipsis, maxLines: 1),
                                           ),
                                           const SizedBox(width: 20),
                                           Text(e.price.toString().toCurrency()),
@@ -538,11 +534,7 @@ class MonthlySpendPage extends ConsumerWidget {
                                       return Row(
                                         children: [
                                           Expanded(
-                                            child: Text(
-                                              e.item,
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                            ),
+                                            child: Text(e.item, overflow: TextOverflow.ellipsis, maxLines: 1),
                                           ),
                                           const SizedBox(width: 20),
                                           Text(e.price.toCurrency()),
@@ -649,15 +641,8 @@ class MonthlySpendPage extends ConsumerWidget {
   }
 
   ///
-  Widget getMidashiDate(
-    MonthlySpendState spendMonthDetailState,
-    int i,
-    String youbi,
-    int spendZeroFlag,
-    MoneyEveryday? sum,
-    int diff,
-    int daySum,
-  ) {
+  Widget getMidashiDate(MonthlySpendState spendMonthDetailState, int i, String youbi, int spendZeroFlag,
+      MoneyEveryday? sum, int diff, int daySum) {
     return Column(
       children: [
         Row(
@@ -694,6 +679,10 @@ class MonthlySpendPage extends ConsumerWidget {
                 const SizedBox(width: 10),
                 GestureDetector(
                   onTap: () {
+                    ////////
+
+                    print('aaa');
+
                     MoneyDialog(
                       context: _context,
                       widget: SpendAlert(

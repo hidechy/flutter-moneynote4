@@ -93,15 +93,10 @@ class MoneyPage extends ConsumerWidget {
                 ExpansionTile(
                   initiallyExpanded: appParamState.openMoneyArea,
                   iconColor: Colors.white,
-                  onExpansionChanged: (value) {
-                    ref.watch(appParamProvider.notifier).setOpenMoneyArea(value: value);
-                  },
+                  onExpansionChanged: (value) => ref.watch(appParamProvider.notifier).setOpenMoneyArea(value: value),
                   title: Text(
                     appParamState.openMoneyArea == false ? 'OPEN' : 'CLOSE',
-                    style: const TextStyle(
-                      fontSize: 10,
-                      color: Colors.white,
-                    ),
+                    style: const TextStyle(fontSize: 10, color: Colors.white),
                   ),
                   children: [
                     SizedBox(
@@ -115,9 +110,7 @@ class MoneyPage extends ConsumerWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) {
-                                        return MoneyInputScreen(date: date);
-                                      },
+                                      builder: (context) => MoneyInputScreen(date: date),
                                     ),
                                   );
                                 },
@@ -128,12 +121,7 @@ class MoneyPage extends ConsumerWidget {
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) {
-                                        return SpendItemInputScreen(
-                                          date: date,
-                                          diff: diff,
-                                        );
-                                      },
+                                      builder: (context) => SpendItemInputScreen(date: date, diff: diff),
                                     ),
                                   );
                                 },
@@ -144,12 +132,7 @@ class MoneyPage extends ConsumerWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) {
-                                        return TimeplaceInputScreen(
-                                          date: date,
-                                          diff: diff,
-                                        );
-                                      },
+                                      builder: (context) => TimeplaceInputScreen(date: date, diff: diff),
                                     ),
                                   );
                                 },
@@ -162,14 +145,8 @@ class MoneyPage extends ConsumerWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Text(
-                                    total.toCurrency(),
-                                    style: const TextStyle(fontSize: 16),
-                                  ),
-                                  Text(
-                                    diff.toCurrency(),
-                                    style: const TextStyle(fontSize: 16),
-                                  ),
+                                  Text(total.toCurrency(), style: const TextStyle(fontSize: 16)),
+                                  Text(diff.toCurrency(), style: const TextStyle(fontSize: 16)),
                                 ],
                               ),
                               const SizedBox(width: 20),
@@ -177,13 +154,11 @@ class MoneyPage extends ConsumerWidget {
                                   ? Container()
                                   : GestureDetector(
                                       onTap: () {
-                                        MoneyDialog(
-                                          context: context,
-                                          widget: SpendAlert(
-                                            date: date,
-                                            diff: diff,
-                                          ),
-                                        );
+                                        //////////////////
+
+                                        print('aaa');
+
+                                        MoneyDialog(context: context, widget: SpendAlert(date: date, diff: diff));
                                       },
                                       child: const Icon(Icons.info_outline),
                                     ),
@@ -204,22 +179,14 @@ class MoneyPage extends ConsumerWidget {
                   ],
                 ),
 
-                Divider(
-                  color: Colors.deepPurple.withOpacity(0.3),
-                  thickness: 5,
-                ),
+                Divider(color: Colors.deepPurple.withOpacity(0.3), thickness: 5),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(),
                     GestureDetector(
-                      onTap: () {
-                        MoneyDialog(
-                          context: context,
-                          widget: AssetsListAlert(date: date),
-                        );
-                      },
+                      onTap: () => MoneyDialog(context: context, widget: AssetsListAlert(date: date)),
                       child: const Icon(Icons.list, color: Colors.deepPurple),
                     ),
                   ],
@@ -284,32 +251,19 @@ class MoneyPage extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(vertical: 3),
           margin: const EdgeInsets.only(bottom: 5),
           decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.white.withOpacity(0.3),
-              ),
-            ),
+            border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
           ),
           child: Row(
             children: [
-              Expanded(
-                child: Text(
-                  '${element.year}-01-01\n-> ${date.mmdd}',
-                ),
-              ),
+              Expanded(child: Text('${element.year}-01-01\n-> ${date.mmdd}')),
               Expanded(
                 child: Container(
                   alignment: Alignment.topRight,
-                  child: Text(
-                    element.spend.toString().toCurrency(),
-                  ),
+                  child: Text(element.spend.toString().toCurrency()),
                 ),
               ),
               Expanded(
-                child: Container(
-                  alignment: Alignment.topRight,
-                  child: Text(bene.toString().toCurrency()),
-                ),
+                child: Container(alignment: Alignment.topRight, child: Text(bene.toString().toCurrency())),
               ),
               Expanded(
                 child: Container(
@@ -340,10 +294,7 @@ class MoneyPage extends ConsumerWidget {
       );
     });
 
-    return DefaultTextStyle(
-      style: const TextStyle(fontSize: 10),
-      child: Column(children: list),
-    );
+    return DefaultTextStyle(style: const TextStyle(fontSize: 10), child: Column(children: list));
   }
 
   ///
@@ -357,22 +308,20 @@ class MoneyPage extends ConsumerWidget {
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: Colors.indigo,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
+                  decoration: BoxDecoration(color: Colors.indigo, borderRadius: BorderRadius.circular(20)),
                   alignment: Alignment.center,
                   child: const Text('CURRENCY'),
                 ),
               ),
               Expanded(
-                  child: Container(
-                alignment: Alignment.topRight,
-                child: Text(
-                  data.currency.toString().toCurrency(),
-                  style: const TextStyle(color: Colors.yellowAccent),
+                child: Container(
+                  alignment: Alignment.topRight,
+                  child: Text(
+                    data.currency.toString().toCurrency(),
+                    style: const TextStyle(color: Colors.yellowAccent),
+                  ),
                 ),
-              )),
+              ),
             ],
           ),
           const SizedBox(height: 10),
@@ -403,13 +352,7 @@ class MoneyPage extends ConsumerWidget {
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 3),
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: Colors.white.withOpacity(0.3),
-          ),
-        ),
-      ),
+      decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -437,10 +380,7 @@ class MoneyPage extends ConsumerWidget {
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: Colors.indigo,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
+                  decoration: BoxDecoration(color: Colors.indigo, borderRadius: BorderRadius.circular(20)),
                   alignment: Alignment.center,
                   child: const Text('BANK'),
                 ),
@@ -455,12 +395,7 @@ class MoneyPage extends ConsumerWidget {
                       Row(
                         children: [
                           GestureDetector(
-                            onTap: () {
-                              MoneyDialog(
-                                context: _context,
-                                widget: BankDataListAlert(),
-                              );
-                            },
+                            onTap: () => MoneyDialog(context: _context, widget: BankDataListAlert()),
                             child: const Icon(Icons.list),
                           ),
                           const SizedBox(width: 10),
@@ -468,11 +403,7 @@ class MoneyPage extends ConsumerWidget {
                             onTap: () {
                               Navigator.push(
                                 _context,
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return BankInputScreen(date: date);
-                                  },
-                                ),
+                                MaterialPageRoute(builder: (context) => BankInputScreen(date: date)),
                               );
                             },
                             child: const Icon(Icons.business),
@@ -490,31 +421,11 @@ class MoneyPage extends ConsumerWidget {
             style: const TextStyle(fontSize: 16),
             child: Column(
               children: [
-                getBankDispRow(
-                  name: 'bank_a',
-                  price: data.bankA,
-                  dt: bankStateA.date.toString(),
-                ),
-                getBankDispRow(
-                  name: 'bank_b',
-                  price: data.bankB,
-                  dt: bankStateB.date.toString(),
-                ),
-                getBankDispRow(
-                  name: 'bank_c',
-                  price: data.bankC,
-                  dt: bankStateC.date.toString(),
-                ),
-                getBankDispRow(
-                  name: 'bank_d',
-                  price: data.bankD,
-                  dt: bankStateD.date.toString(),
-                ),
-                getBankDispRow(
-                  name: 'bank_e',
-                  price: data.bankE,
-                  dt: bankStateE.date.toString(),
-                ),
+                getBankDispRow(name: 'bank_a', price: data.bankA, dt: bankStateA.date.toString()),
+                getBankDispRow(name: 'bank_b', price: data.bankB, dt: bankStateB.date.toString()),
+                getBankDispRow(name: 'bank_c', price: data.bankC, dt: bankStateC.date.toString()),
+                getBankDispRow(name: 'bank_d', price: data.bankD, dt: bankStateD.date.toString()),
+                getBankDispRow(name: 'bank_e', price: data.bankE, dt: bankStateE.date.toString()),
               ],
             ),
           ),
@@ -537,29 +448,16 @@ class MoneyPage extends ConsumerWidget {
       style: const TextStyle(fontSize: 12),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 3),
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              color: Colors.white.withOpacity(0.3),
-            ),
-          ),
-        ),
+        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
         child: DefaultTextStyle(
-          style: TextStyle(
-            color: (dayDiff < 365) ? Colors.white : Colors.grey,
-          ),
+          style: TextStyle(color: (dayDiff < 365) ? Colors.white : Colors.grey),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
                   GestureDetector(
-                    onTap: () {
-                      MoneyDialog(
-                        context: _context,
-                        widget: BankAlert(name: name),
-                      );
-                    },
+                    onTap: () => MoneyDialog(context: _context, widget: BankAlert(name: name)),
                     child: Icon(
                       Icons.info_outline,
                       color: (dayDiff < 365) ? Colors.white : Colors.grey,
@@ -600,10 +498,7 @@ class MoneyPage extends ConsumerWidget {
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: Colors.indigo,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
+                  decoration: BoxDecoration(color: Colors.indigo, borderRadius: BorderRadius.circular(20)),
                   alignment: Alignment.center,
                   child: const Text('E-MONEY'),
                 ),
@@ -616,31 +511,11 @@ class MoneyPage extends ConsumerWidget {
             style: const TextStyle(fontSize: 16),
             child: Column(
               children: [
-                getBankDispRow(
-                  name: 'pay_a',
-                  price: data.payA,
-                  dt: payStateA.date.toString(),
-                ),
-                getBankDispRow(
-                  name: 'pay_b',
-                  price: data.payB,
-                  dt: payStateB.date.toString(),
-                ),
-                getBankDispRow(
-                  name: 'pay_c',
-                  price: data.payC,
-                  dt: payStateC.date.toString(),
-                ),
-                getBankDispRow(
-                  name: 'pay_d',
-                  price: data.payD,
-                  dt: payStateD.date.toString(),
-                ),
-                getBankDispRow(
-                  name: 'pay_e',
-                  price: data.payE,
-                  dt: payStateE.date.toString(),
-                ),
+                getBankDispRow(name: 'pay_a', price: data.payA, dt: payStateA.date.toString()),
+                getBankDispRow(name: 'pay_b', price: data.payB, dt: payStateB.date.toString()),
+                getBankDispRow(name: 'pay_c', price: data.payC, dt: payStateC.date.toString()),
+                getBankDispRow(name: 'pay_d', price: data.payD, dt: payStateD.date.toString()),
+                getBankDispRow(name: 'pay_e', price: data.payE, dt: payStateE.date.toString()),
               ],
             ),
           ),
@@ -679,13 +554,7 @@ class MoneyPage extends ConsumerWidget {
         children: [
           Container(
             padding: const EdgeInsets.symmetric(vertical: 3),
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Colors.white.withOpacity(0.3),
-                ),
-              ),
-            ),
+            decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
             child: Column(
               children: [
                 Row(
@@ -693,20 +562,12 @@ class MoneyPage extends ConsumerWidget {
                     Expanded(
                       child: Container(
                         padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          color: Colors.deepPurple,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
+                        decoration: BoxDecoration(color: Colors.deepPurple, borderRadius: BorderRadius.circular(20)),
                         alignment: Alignment.center,
                         child: const Text('GOLD'),
                       ),
                     ),
-                    Expanded(
-                      child: Container(
-                        alignment: Alignment.topRight,
-                        child: Text(goldDate),
-                      ),
-                    ),
+                    Expanded(child: Container(alignment: Alignment.topRight, child: Text(goldDate))),
                   ],
                 ),
                 const SizedBox(height: 10),
@@ -733,12 +594,7 @@ class MoneyPage extends ConsumerWidget {
           Container(
             alignment: Alignment.topRight,
             child: GestureDetector(
-              onTap: () {
-                MoneyDialog(
-                  context: _context,
-                  widget: GoldAlert(),
-                );
-              },
+              onTap: () => MoneyDialog(context: _context, widget: GoldAlert()),
               child: const Icon(Icons.info_outline),
             ),
           ),
@@ -769,13 +625,7 @@ class MoneyPage extends ConsumerWidget {
         children: [
           Container(
             padding: const EdgeInsets.symmetric(vertical: 3),
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Colors.white.withOpacity(0.3),
-                ),
-              ),
-            ),
+            decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
             child: Column(
               children: [
                 Row(
@@ -783,10 +633,7 @@ class MoneyPage extends ConsumerWidget {
                     Expanded(
                       child: Container(
                         padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          color: Colors.deepPurple,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
+                        decoration: BoxDecoration(color: Colors.deepPurple, borderRadius: BorderRadius.circular(20)),
                         alignment: Alignment.center,
                         child: const Text('STOCK'),
                       ),
@@ -860,11 +707,7 @@ class MoneyPage extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.symmetric(vertical: 3),
             decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Colors.white.withOpacity(0.3),
-                ),
-              ),
+              border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
             ),
             child: Column(
               children: [
@@ -873,10 +716,7 @@ class MoneyPage extends ConsumerWidget {
                     Expanded(
                       child: Container(
                         padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          color: Colors.deepPurple,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
+                        decoration: BoxDecoration(color: Colors.deepPurple, borderRadius: BorderRadius.circular(20)),
                         alignment: Alignment.center,
                         child: const Text('SHINTAKU'),
                       ),
@@ -946,10 +786,7 @@ class MoneyPage extends ConsumerWidget {
           Container(),
           Text(
             price.toString().toCurrency(),
-            style: const TextStyle(
-              fontSize: 12,
-              color: Colors.yellowAccent,
-            ),
+            style: const TextStyle(fontSize: 12, color: Colors.yellowAccent),
           ),
         ],
       ),

@@ -3,7 +3,6 @@
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/year_average_graph_alert.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../extensions/extensions.dart';
@@ -16,6 +15,7 @@ import '_money_dialog.dart';
 import 'spend_alert.dart';
 import 'spend_fullyear_compare_alert.dart';
 import 'spend_year_day_item_alert.dart';
+import 'year_average_graph_alert.dart';
 
 class SpendYearDayAlert extends ConsumerWidget {
   SpendYearDayAlert({super.key, required this.date, required this.spend, required this.yearSpendToToday});
@@ -84,10 +84,7 @@ class SpendYearDayAlert extends ConsumerWidget {
                 ],
               ),
 
-              Divider(
-                color: Colors.white.withOpacity(0.4),
-                thickness: 2,
-              ),
+              Divider(color: Colors.white.withOpacity(0.4), thickness: 2),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -95,16 +92,12 @@ class SpendYearDayAlert extends ConsumerWidget {
                   Row(
                     children: [
                       GestureDetector(
-                        onTap: () {
-                          autoScrollController.scrollToIndex(spendYearDayState.length);
-                        },
+                        onTap: () => autoScrollController.scrollToIndex(spendYearDayState.length),
                         child: const Icon(Icons.arrow_downward),
                       ),
                       const SizedBox(width: 20),
                       GestureDetector(
-                        onTap: () {
-                          autoScrollController.scrollToIndex(0);
-                        },
+                        onTap: () => autoScrollController.scrollToIndex(0),
                         child: const Icon(Icons.arrow_upward),
                       ),
                     ],
@@ -142,12 +135,7 @@ class SpendYearDayAlert extends ConsumerWidget {
                       ),
                       const SizedBox(width: 20),
                       GestureDetector(
-                        onTap: () {
-                          MoneyDialog(
-                            context: context,
-                            widget: SpendYearDayItemAlert(date: date),
-                          );
-                        },
+                        onTap: () => MoneyDialog(context: context, widget: SpendYearDayItemAlert(date: date)),
                         child: const Icon(Icons.list),
                       ),
                     ],
@@ -155,14 +143,9 @@ class SpendYearDayAlert extends ConsumerWidget {
                 ],
               ),
 
-              Divider(
-                color: Colors.white.withOpacity(0.4),
-                thickness: 2,
-              ),
+              Divider(color: Colors.white.withOpacity(0.4), thickness: 2),
 
-              Expanded(
-                child: displaySpendYearDay(),
-              ),
+              Expanded(child: displaySpendYearDay()),
             ],
           ),
         ),
@@ -218,11 +201,7 @@ class SpendYearDayAlert extends ConsumerWidget {
                 Container(
                   padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Colors.white.withOpacity(0.3),
-                      ),
-                    ),
+                    border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -257,11 +236,7 @@ class SpendYearDayAlert extends ConsumerWidget {
             child: Container(
               padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Colors.white.withOpacity(0.3),
-                  ),
-                ),
+                border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
                 color: _utility.getYoubiColor(
                   date: spendYearDayState[i].date,
                   youbiStr: spendYearDayState[i].date.youbiStr,
@@ -304,10 +279,7 @@ class SpendYearDayAlert extends ConsumerWidget {
                                     borderRadius: BorderRadius.circular(16),
                                   ),
                                   showDuration: const Duration(seconds: 2),
-                                  child: Icon(
-                                    Icons.comment,
-                                    color: Colors.white.withOpacity(0.3),
-                                  ),
+                                  child: Icon(Icons.comment, color: Colors.white.withOpacity(0.3)),
                                 ),
                               ],
                             ],
@@ -343,6 +315,10 @@ class SpendYearDayAlert extends ConsumerWidget {
                         const SizedBox(width: 20),
                         GestureDetector(
                           onTap: () {
+                            //////////////
+
+                            print('aaa');
+
                             MoneyDialog(
                               context: _context,
                               widget: SpendAlert(
@@ -351,10 +327,7 @@ class SpendYearDayAlert extends ConsumerWidget {
                               ),
                             );
                           },
-                          child: Icon(
-                            Icons.info_outline,
-                            color: Colors.white.withOpacity(0.6),
-                          ),
+                          child: Icon(Icons.info_outline, color: Colors.white.withOpacity(0.6)),
                         ),
                       ],
                     ),
@@ -387,10 +360,7 @@ class SpendYearDayAlert extends ConsumerWidget {
       thisYearDataLength = list.length;
     }
 
-    return SingleChildScrollView(
-      controller: autoScrollController,
-      child: Column(children: list),
-    );
+    return SingleChildScrollView(controller: autoScrollController, child: Column(children: list));
   }
 
   ///
