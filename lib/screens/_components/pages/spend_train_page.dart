@@ -14,12 +14,12 @@ class SpendTrainPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final trainMap = ref.watch(trainProvider.select((value) => value.trainMap));
 
-    return SizedBox(
+    return Container(
       width: context.screenSize.width,
+      padding: const EdgeInsets.all(10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 5),
           (trainMap[date.yyyymmdd] != null)
               ? Text(trainMap[date.yyyymmdd]!.station, style: const TextStyle(fontSize: 10))
               : Container(),

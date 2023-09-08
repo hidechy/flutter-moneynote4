@@ -62,11 +62,7 @@ class SpendPage extends ConsumerWidget {
 
               const SizedBox(height: 20),
 
-              SizedBox(
-                width: double.infinity,
-                height: context.screenSize.height * 0.2,
-                child: displaySpendItem(),
-              ),
+              SizedBox(width: double.infinity, height: context.screenSize.height * 0.2, child: displaySpendItem()),
 
               Divider(color: Colors.yellowAccent.withOpacity(0.2), thickness: 5),
 
@@ -115,11 +111,18 @@ class SpendPage extends ConsumerWidget {
       tabList.add('train');
       childList.add(SpendTrainPage(date: date));
     }
+
+    ///////////////////////////////////
+    if (trainMap[date.yyyymmdd] != null) {
+      tabList.add('train');
+      childList.add(SpendTrainPage(date: date));
+    }
+    ///////////////////////////////////
+
     //======================//
 
     if (tabList.isNotEmpty) {
       return TabContainer(
-        tabStart: 0,
         tabEnd: 0.2 * tabList.length,
         color: Colors.greenAccent.withOpacity(0.1),
         radius: 20,
@@ -225,8 +228,6 @@ class SpendPage extends ConsumerWidget {
       );
     }
 
-    return SingleChildScrollView(
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: list),
-    );
+    return SingleChildScrollView(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: list));
   }
 }
