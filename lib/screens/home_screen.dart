@@ -278,6 +278,8 @@ class HomeScreen extends ConsumerWidget {
     _ref.watch(blueBallProvider.notifier).setDateTime(dateTime: date);
     _ref.watch(focusDayProvider.notifier).setDateTime(dateTime: date);
 
+    _ref.watch(trainProvider.notifier).getTrain();
+
     MoneyDialog(context: _context, widget: MoneyAlert(date: date));
   }
 

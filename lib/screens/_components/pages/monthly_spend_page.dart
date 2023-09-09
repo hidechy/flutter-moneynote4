@@ -261,7 +261,7 @@ class MonthlySpendPage extends ConsumerWidget {
             onTap: () {
               //////////
 
-              print('aaa');
+              print('bbb');
 
               MoneyDialog(
                 context: _context,
@@ -681,7 +681,7 @@ class MonthlySpendPage extends ConsumerWidget {
                   onTap: () {
                     ////////
 
-                    print('aaa');
+                    print('ccc');
 
                     MoneyDialog(
                       context: _context,

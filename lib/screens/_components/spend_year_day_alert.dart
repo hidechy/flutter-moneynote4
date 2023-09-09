@@ -317,7 +317,7 @@ class SpendYearDayAlert extends ConsumerWidget {
                           onTap: () {
                             //////////////
 
-                            print('aaa');
+                            print('ddd');
 
                             MoneyDialog(
                               context: _context,
