@@ -1,11 +1,8 @@
 // ignore_for_file: must_be_immutable, depend_on_referenced_packages, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../state/app_param/app_param_notifier.dart';
-import '../../state/train/train_notifier.dart';
 import 'pages/train_page.dart';
 
 class TabInfo {
@@ -21,29 +18,11 @@ class TrainAlert extends HookConsumerWidget {
   final DateTime date;
 
   List<TabInfo> tabs = [];
-  List<int> years = [];
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     makeTab();
-
-    //================================//
-    final tabController = useTabController(initialLength: years.length);
-    tabController.addListener(() {
-      ref.watch(appParamProvider.notifier).setTrainAlertSelectYear(year: years[tabController.index]);
-      ref.watch(trainProvider.notifier).getYearTrain(date: DateTime(years[tabController.index]));
-    });
-    //================================//
-
-    //================================//
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final TrainAlertSelectYear = ref.watch(appParamProvider.select((value) => value.TrainAlertSelectYear));
-      if (TrainAlertSelectYear == DateTime.now().year) {
-        ref.watch(trainProvider.notifier).getYearTrain(date: DateTime.now());
-      }
-    });
-    //================================//
 
     return DefaultTabController(
       length: tabs.length,
@@ -54,39 +33,19 @@ class TrainAlert extends HookConsumerWidget {
           child: AppBar(
             backgroundColor: Colors.transparent,
             //-------------------------//これを消すと「←」が出てくる（消さない）
-            leading: const Icon(
-              Icons.check_box_outline_blank,
-              color: Colors.transparent,
-            ),
+            leading: const Icon(Icons.check_box_outline_blank, color: Colors.transparent),
             //-------------------------//これを消すと「←」が出てくる（消さない）
 
             bottom: TabBar(
-              //================================//
-              controller: tabController,
-              //================================//
-
               isScrollable: true,
-
               indicatorColor: Colors.blueAccent,
-              tabs: tabs.map((TabInfo tab) {
-                return Tab(text: tab.label);
-              }).toList(),
+              tabs: tabs.map((TabInfo tab) => Tab(text: tab.label)).toList(),
             ),
 
-            flexibleSpace: const DecoratedBox(
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-              ),
-            ),
+            flexibleSpace: const DecoratedBox(decoration: BoxDecoration(color: Colors.transparent)),
           ),
         ),
-        body: TabBarView(
-          //================================//
-          controller: tabController,
-          //================================//
-
-          children: tabs.map((tab) => tab.widget).toList(),
-        ),
+        body: TabBarView(children: tabs.map((tab) => tab.widget).toList()),
       ),
     );
   }
@@ -103,17 +62,6 @@ class TrainAlert extends HookConsumerWidget {
 
     list
       ..sort((a, b) => -1 * a.compareTo(b))
-      ..forEach((element) {
-        tabs.add(
-          TabInfo(
-            element.toString(),
-            TrainPage(
-              date: DateTime(element),
-            ),
-          ),
-        );
-
-        years.add(element);
-      });
+      ..forEach((element) => tabs.add(TabInfo(element.toString(), TrainPage(date: DateTime(element)))));
   }
 }

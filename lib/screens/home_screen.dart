@@ -15,6 +15,7 @@ import '../models/spend_month_summary.dart';
 import '../state/device_info/device_info_notifier.dart';
 import '../state/device_info/device_info_request_state.dart';
 import '../state/home_menu/home_menu_notifier.dart';
+import '../state/train/train_notifier.dart';
 import '../utility/utility.dart';
 import '../viewmodel/spend_notifier.dart';
 import '_components/_money_dialog.dart';
@@ -190,7 +191,13 @@ class HomeScreen extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ElevatedButton(
-                      onPressed: () => openAlertWindow(flag: homeMenuState.menuFlag),
+                      onPressed: () {
+                        if (homeMenuState.menuFlag == 'train') {
+                          _ref.watch(trainProvider.notifier).getTrain();
+                        }
+
+                        openAlertWindow(flag: homeMenuState.menuFlag);
+                      },
                       style: ElevatedButton.styleFrom(elevation: 0, backgroundColor: Colors.indigo.withOpacity(0.8)),
                       child: ConstrainedBox(
                         constraints: BoxConstraints(minWidth: context.screenSize.width / 4),

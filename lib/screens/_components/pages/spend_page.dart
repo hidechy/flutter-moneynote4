@@ -2,17 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:tab_container/tab_container.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../state/device_info/device_info_notifier.dart';
-import '../../../state/train/train_notifier.dart';
 import '../../../utility/utility.dart';
 import '../../../viewmodel/spend_notifier.dart';
 import '../../../viewmodel/time_place_notifier.dart';
 import '../_money_dialog.dart';
 import '../time_location_alert.dart';
-import 'spend_train_page.dart';
 
 class SpendPage extends ConsumerWidget {
   SpendPage({super.key, required this.date});
@@ -90,7 +87,7 @@ class SpendPage extends ConsumerWidget {
               SizedBox(
                 width: double.infinity,
                 height: context.screenSize.height * 0.2,
-                child: displayInPageTabContainer(),
+                child: Container(),
               ),
             ],
           ),
@@ -99,50 +96,50 @@ class SpendPage extends ConsumerWidget {
     );
   }
 
-  ///
-  Widget displayInPageTabContainer() {
-    final tabList = <String>[];
-    final childList = <Widget>[];
-
-    //======================//
-    final trainMap = _ref.watch(trainProvider.select((value) => value.trainMap));
-
-    if (trainMap[date.yyyymmdd] != null) {
-      tabList.add('train');
-      childList.add(SpendTrainPage(date: date));
-    }
-
-    ///////////////////////////////////
-    if (trainMap[date.yyyymmdd] != null) {
-      tabList.add('train');
-      childList.add(SpendTrainPage(date: date));
-    }
-    ///////////////////////////////////
-
-    //======================//
-
-    if (tabList.isNotEmpty) {
-      return TabContainer(
-        tabEnd: 0.2 * tabList.length,
-        color: Colors.greenAccent.withOpacity(0.1),
-        radius: 20,
-        tabCurve: Curves.easeIn,
-        transitionBuilder: (child, animation) {
-          animation = CurvedAnimation(curve: Curves.easeIn, parent: animation);
-          return SlideTransition(
-            position: Tween(begin: const Offset(0.2, 0), end: const Offset(0, 0)).animate(animation),
-            child: FadeTransition(opacity: animation, child: child),
-          );
-        },
-        selectedTextStyle: const TextStyle(fontSize: 12),
-        unselectedTextStyle: const TextStyle(fontSize: 12),
-        tabs: tabList,
-        children: childList,
-      );
-    }
-
-    return Container();
-  }
+  // ///
+  // Widget displayInPageTabContainer() {
+  //   final tabList = <String>[];
+  //   final childList = <Widget>[];
+  //
+  //   //======================//
+  //   final trainMap = _ref.watch(trainProvider.select((value) => value.trainMap));
+  //
+  //   if (trainMap[date.yyyymmdd] != null) {
+  //     tabList.add('train');
+  //     childList.add(SpendTrainPage(date: date));
+  //   }
+  //
+  //   ///////////////////////////////////
+  //   if (trainMap[date.yyyymmdd] != null) {
+  //     tabList.add('train');
+  //     childList.add(SpendTrainPage(date: date));
+  //   }
+  //   ///////////////////////////////////
+  //
+  //   //======================//
+  //
+  //   if (tabList.isNotEmpty) {
+  //     return TabContainer(
+  //       tabEnd: 0.2 * tabList.length,
+  //       color: Colors.greenAccent.withOpacity(0.1),
+  //       radius: 20,
+  //       tabCurve: Curves.easeIn,
+  //       transitionBuilder: (child, animation) {
+  //         animation = CurvedAnimation(curve: Curves.easeIn, parent: animation);
+  //         return SlideTransition(
+  //           position: Tween(begin: const Offset(0.2, 0), end: const Offset(0, 0)).animate(animation),
+  //           child: FadeTransition(opacity: animation, child: child),
+  //         );
+  //       },
+  //       selectedTextStyle: const TextStyle(fontSize: 12),
+  //       unselectedTextStyle: const TextStyle(fontSize: 12),
+  //       tabs: tabList,
+  //       children: childList,
+  //     );
+  //   }
+  //
+  //   return Container();
+  // }
 
   ///
   void makeDiff() {

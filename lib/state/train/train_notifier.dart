@@ -9,10 +9,6 @@ import '../../models/train.dart';
 import '../../utility/utility.dart';
 import 'train_response_state.dart';
 
-/*
-trainProvider       List<Train>
-*/
-
 ////////////////////////////////////////////////
 
 final trainProvider = StateNotifierProvider.autoDispose<TrainNotifier, TrainResponseState>((ref) {
@@ -20,7 +16,7 @@ final trainProvider = StateNotifierProvider.autoDispose<TrainNotifier, TrainResp
 
   final utility = Utility();
 
-  return TrainNotifier(const TrainResponseState(), client, utility)..getTrain();
+  return TrainNotifier(const TrainResponseState(), client, utility);
 });
 
 class TrainNotifier extends StateNotifier<TrainResponseState> {
@@ -54,39 +50,6 @@ class TrainNotifier extends StateNotifier<TrainResponseState> {
       }
 
       state = state.copyWith(trainList: list, trainMap: map);
-    });
-  }
-
-  ///
-  Future<void> getYearTrain({required DateTime date}) async {
-    await client.post(path: APIPath.gettrainrecord).then((value) {
-      final list = <Train>[];
-
-      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        if (date.yyyy ==
-            DateTime(
-              value['data'][i]['date'].toString().split('-')[0].toInt(),
-              value['data'][i]['date'].toString().split('-')[1].toInt(),
-              value['data'][i]['date'].toString().split('-')[2].toInt(),
-            ).yyyy) {
-          list.add(
-            Train(
-              date: DateTime(
-                value['data'][i]['date'].toString().split('-')[0].toInt(),
-                value['data'][i]['date'].toString().split('-')[1].toInt(),
-                value['data'][i]['date'].toString().split('-')[2].toInt(),
-              ),
-              station: value['data'][i]['station'].toString(),
-              price: value['data'][i]['price'].toString(),
-              oufuku: value['data'][i]['oufuku'].toString(),
-            ),
-          );
-        }
-      }
-
-      state = state.copyWith(trainList: list);
-    }).catchError((error, _) {
-      utility.showError('予期せぬエラーが発生しました');
     });
   }
 }
