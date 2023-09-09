@@ -11,6 +11,7 @@ import '../../../state/device_info/device_info_notifier.dart';
 import '../../../state/gold/gold_notifier.dart';
 import '../../../state/shintaku/shintaku_notifier.dart';
 import '../../../state/stock/stock_notifier.dart';
+import '../../../state/train/train_notifier.dart';
 import '../../../utility/utility.dart';
 import '../../../viewmodel/bank_notifier.dart';
 import '../../../viewmodel/money_notifier.dart';
@@ -67,6 +68,8 @@ class MoneyPage extends ConsumerWidget {
     final appParamState = ref.watch(appParamProvider);
 
     notMoneyAsset = [];
+
+    final trainMap = ref.watch(trainProvider.select((value) => value.trainMap));
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -156,9 +159,24 @@ class MoneyPage extends ConsumerWidget {
                                       onTap: () {
                                         //////////////////
 
-                                        print('aaa');
+                                        if (trainMap[date.yyyymmdd] != null) {
+                                          print(trainMap[date.yyyymmdd]);
+                                        } else {
+                                          print('aaa');
+                                        }
 
-                                        MoneyDialog(context: context, widget: SpendAlert(date: date, diff: diff));
+                                        final tabList = <String>[];
+                                        final widgetList = <Widget>[];
+
+                                        MoneyDialog(
+                                          context: context,
+                                          widget: SpendAlert(
+                                            date: date,
+                                            diff: diff,
+                                            tabList: tabList,
+                                            widgetList: widgetList,
+                                          ),
+                                        );
                                       },
                                       child: const Icon(Icons.info_outline),
                                     ),

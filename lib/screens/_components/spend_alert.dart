@@ -13,10 +13,18 @@ class TabInfo {
 }
 
 class SpendAlert extends StatelessWidget {
-  SpendAlert({super.key, required this.date, required this.diff});
+  SpendAlert({
+    super.key,
+    required this.date,
+    required this.diff,
+    required this.tabList,
+    required this.widgetList,
+  });
 
   final DateTime date;
   final String diff;
+  final List<String> tabList;
+  final List<Widget> widgetList;
 
   List<TabInfo> tabs = [];
 
@@ -76,6 +84,8 @@ class SpendAlert extends StatelessWidget {
           '${day.yyyymmdd}($youbi)',
           SpendPage(
             date: day,
+            tabList: tabList,
+            widgetList: widgetList,
           ),
         ),
       );

@@ -12,9 +12,11 @@ import '../_money_dialog.dart';
 import '../time_location_alert.dart';
 
 class SpendPage extends ConsumerWidget {
-  SpendPage({super.key, required this.date});
+  SpendPage({super.key, required this.date, required this.tabList, required this.widgetList});
 
   final DateTime date;
+  final List<String> tabList;
+  final List<Widget> widgetList;
 
   final Utility _utility = Utility();
 
@@ -87,13 +89,18 @@ class SpendPage extends ConsumerWidget {
               SizedBox(
                 width: double.infinity,
                 height: context.screenSize.height * 0.2,
-                child: Container(),
+                child: displayInPageTabContainer(),
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  ///
+  Widget displayInPageTabContainer() {
+    return Container();
   }
 
   // ///

@@ -9,10 +9,12 @@ import '../../../models/credit_spend_monthly.dart';
 import '../../../models/keihi.dart';
 import '../../../models/money.dart';
 import '../../../models/money_everyday.dart';
+import '../../../models/train.dart';
 import '../../../models/zero_use_date.dart';
 import '../../../state/app_param/app_param_notifier.dart';
 import '../../../state/benefit/benefit_notifier.dart';
 import '../../../state/monthly_spend/monthly_spend_state.dart';
+import '../../../state/train/train_notifier.dart';
 import '../../../utility/function.dart';
 import '../../../utility/utility.dart';
 import '../../../viewmodel/amazon_notifier.dart';
@@ -80,6 +82,8 @@ class MonthlySpendPage extends ConsumerWidget {
   List<String> calendarDays = [];
 
   Map<String, CalendarValue> calendarValueMap = {};
+
+  Map<String, Train> trainMap = {};
 
   late BuildContext _context;
   late WidgetRef _ref;
@@ -220,6 +224,8 @@ class MonthlySpendPage extends ConsumerWidget {
 
     final holidayState = _ref.watch(holidayProvider);
 
+    trainMap = _ref.watch(trainProvider.select((value) => value.trainMap));
+
     final list = <Widget>[];
 
     for (var i = week * 7; i < ((week + 1) * 7); i++) {
@@ -261,11 +267,23 @@ class MonthlySpendPage extends ConsumerWidget {
             onTap: () {
               //////////
 
-              print('bbb');
+              if (trainMap[date.yyyymmdd] != null) {
+                print(trainMap[date.yyyymmdd]);
+              } else {
+                print('bbb');
+              }
+
+              final tabList = <String>[];
+              final widgetList = <Widget>[];
 
               MoneyDialog(
                 context: _context,
-                widget: SpendAlert(date: '$dispDate 00:00:00'.toDateTime(), diff: whitePrice!),
+                widget: SpendAlert(
+                  date: '$dispDate 00:00:00'.toDateTime(),
+                  diff: whitePrice!,
+                  tabList: tabList,
+                  widgetList: widgetList,
+                ),
               );
             },
             child: Container(
@@ -643,6 +661,8 @@ class MonthlySpendPage extends ConsumerWidget {
   ///
   Widget getMidashiDate(MonthlySpendState spendMonthDetailState, int i, String youbi, int spendZeroFlag,
       MoneyEveryday? sum, int diff, int daySum) {
+    trainMap = _ref.watch(trainProvider.select((value) => value.trainMap));
+
     return Column(
       children: [
         Row(
@@ -681,13 +701,22 @@ class MonthlySpendPage extends ConsumerWidget {
                   onTap: () {
                     ////////
 
-                    print('ccc');
+                    if (trainMap[date.yyyymmdd] != null) {
+                      print(trainMap[date.yyyymmdd]);
+                    } else {
+                      print('ccc');
+                    }
+
+                    final tabList = <String>[];
+                    final widgetList = <Widget>[];
 
                     MoneyDialog(
                       context: _context,
                       widget: SpendAlert(
                         date: spendMonthDetailState.list[i].date,
                         diff: daySum.toString(),
+                        tabList: tabList,
+                        widgetList: widgetList,
                       ),
                     );
                   },
