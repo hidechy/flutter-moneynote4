@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/pages/spend_train_page.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../models/money.dart';
@@ -30,6 +29,7 @@ import '../shintaku_alert.dart';
 import '../spend_alert.dart';
 import '../spend_year_day_alert.dart';
 import '../stock_alert.dart';
+import 'spend_train_page.dart';
 
 class MoneyPage extends ConsumerWidget {
   MoneyPage({super.key, required this.date});
@@ -215,7 +215,6 @@ class MoneyPage extends ConsumerWidget {
                 displayShintaku(),
                 const SizedBox(height: 30),
                 displayNotMoneyAsset(),
-
                 const SizedBox(height: 50),
               ],
             ),
@@ -684,12 +683,7 @@ class MoneyPage extends ConsumerWidget {
           Container(
             alignment: Alignment.topRight,
             child: GestureDetector(
-              onTap: () {
-                MoneyDialog(
-                  context: _context,
-                  widget: StockAlert(date: stockState.lastStock!.date),
-                );
-              },
+              onTap: () => MoneyDialog(context: _context, widget: StockAlert(date: stockState.lastStock!.date)),
               child: const Icon(Icons.info_outline),
             ),
           ),

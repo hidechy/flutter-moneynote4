@@ -210,12 +210,7 @@ class HomeScreen extends ConsumerWidget {
                     Row(
                       children: [
                         GestureDetector(
-                          onTap: () {
-                            MoneyDialog(
-                              context: context,
-                              widget: MoneyTotalAlert(date: focusDayState),
-                            );
-                          },
+                          onTap: () => MoneyDialog(context: context, widget: MoneyTotalAlert(date: focusDayState)),
                           child: const Icon(Icons.all_out),
                         ),
                         const SizedBox(width: 20),
@@ -334,13 +329,7 @@ class HomeScreen extends ConsumerWidget {
         DefaultTextStyle(
           style: const TextStyle(fontSize: 12),
           child: Container(
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Colors.white.withOpacity(0.2),
-                ),
-              ),
-            ),
+            decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.2)))),
             margin: const EdgeInsets.only(bottom: 3),
             child: Row(
               children: [

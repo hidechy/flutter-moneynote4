@@ -51,9 +51,7 @@ class SpendAlert extends StatelessWidget {
             bottom: TabBar(
               isScrollable: true,
               indicatorColor: Colors.blueAccent,
-              tabs: tabs.map((TabInfo tab) {
-                return Tab(text: tab.label);
-              }).toList(),
+              tabs: tabs.map((TabInfo tab) => Tab(text: tab.label)).toList(),
             ),
 
             flexibleSpace: const DecoratedBox(
@@ -82,11 +80,7 @@ class SpendAlert extends StatelessWidget {
       tabs.add(
         TabInfo(
           '${day.yyyymmdd}($youbi)',
-          SpendPage(
-            date: day,
-            tabList: tabList,
-            widgetList: widgetList,
-          ),
+          SpendPage(date: day, tabList: tabList, widgetList: widgetList),
         ),
       );
     }
