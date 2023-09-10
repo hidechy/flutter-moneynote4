@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:tab_container/tab_container.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../state/device_info/device_info_notifier.dart';
@@ -100,6 +101,26 @@ class SpendPage extends ConsumerWidget {
 
   ///
   Widget displayInPageTabContainer() {
+    if (tabList.isNotEmpty) {
+      return TabContainer(
+        tabEnd: 0.2 * tabList.length,
+        color: Colors.greenAccent.withOpacity(0.1),
+        radius: 20,
+        tabCurve: Curves.easeIn,
+        transitionBuilder: (child, animation) {
+          animation = CurvedAnimation(curve: Curves.easeIn, parent: animation);
+          return SlideTransition(
+            position: Tween(begin: const Offset(0.2, 0), end: const Offset(0, 0)).animate(animation),
+            child: FadeTransition(opacity: animation, child: child),
+          );
+        },
+        selectedTextStyle: const TextStyle(fontSize: 12),
+        unselectedTextStyle: const TextStyle(fontSize: 12),
+        tabs: tabList,
+        children: widgetList,
+      );
+    }
+
     return Container();
   }
 

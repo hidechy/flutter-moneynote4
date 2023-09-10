@@ -3,13 +3,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../extensions/extensions.dart';
 import '../models/credit_spend_monthly.dart';
 import '../viewmodel/credit_notifier.dart';
-import 'utility.dart';
 
-Map<String, List<CreditSpendMonthly>> getNext2MonthCreditSpend({
-  required WidgetRef ref,
-  required DateTime creDate,
-  required Utility utility,
-}) {
+Map<String, List<CreditSpendMonthly>> getNext2MonthCreditSpend({required WidgetRef ref, required DateTime creDate}) {
   final threeMonthAfter = DateTime(creDate.year, creDate.month + 3);
 
   final diff = threeMonthAfter.difference(creDate).inDays;
@@ -26,9 +21,9 @@ Map<String, List<CreditSpendMonthly>> getNext2MonthCreditSpend({
     final genDate = creDate.add(Duration(days: i));
 
     if (genDate.day == 1) {
-      ref.watch(creditSpendMonthlyProvider(genDate)).forEach((element) {
-        creditSpendMap[element.date.yyyymmdd]?.add(element);
-      });
+      ref
+          .watch(creditSpendMonthlyProvider(genDate))
+          .forEach((element) => creditSpendMap[element.date.yyyymmdd]?.add(element));
     }
   }
 

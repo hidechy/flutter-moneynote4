@@ -28,6 +28,7 @@ import '../../monthly_spend_check_screen.dart';
 import '../_money_dialog.dart';
 import '../monthly_spend_graph_alert.dart';
 import '../spend_alert.dart';
+import 'spend_train_page.dart';
 
 class SpendListValue {
   SpendListValue({required this.item, required this.price, required this.color});
@@ -94,7 +95,7 @@ class MonthlySpendPage extends ConsumerWidget {
     _context = context;
     _ref = ref;
 
-    creditSpendMap = getNext2MonthCreditSpend(ref: ref, creDate: date, utility: _utility);
+    creditSpendMap = getNext2MonthCreditSpend(ref: ref, creDate: date);
 
     makeMonthlySpendData();
 
@@ -265,16 +266,13 @@ class MonthlySpendPage extends ConsumerWidget {
         Expanded(
           child: GestureDetector(
             onTap: () {
-              //////////
-
-              if (trainMap[date.yyyymmdd] != null) {
-                print(trainMap[date.yyyymmdd]);
-              } else {
-                print('bbb');
-              }
-
               final tabList = <String>[];
               final widgetList = <Widget>[];
+
+              if (trainMap[date.yyyymmdd] != null) {
+                tabList.add('train');
+                widgetList.add(SpendTrainPage(date: date));
+              }
 
               MoneyDialog(
                 context: _context,
@@ -699,16 +697,13 @@ class MonthlySpendPage extends ConsumerWidget {
                 const SizedBox(width: 10),
                 GestureDetector(
                   onTap: () {
-                    ////////
-
-                    if (trainMap[date.yyyymmdd] != null) {
-                      print(trainMap[date.yyyymmdd]);
-                    } else {
-                      print('ccc');
-                    }
-
                     final tabList = <String>[];
                     final widgetList = <Widget>[];
+
+                    if (trainMap[date.yyyymmdd] != null) {
+                      tabList.add('train');
+                      widgetList.add(SpendTrainPage(date: date));
+                    }
 
                     MoneyDialog(
                       context: _context,

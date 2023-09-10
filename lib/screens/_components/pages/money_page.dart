@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/pages/spend_train_page.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../models/money.dart';
@@ -157,16 +158,13 @@ class MoneyPage extends ConsumerWidget {
                                   ? Container()
                                   : GestureDetector(
                                       onTap: () {
-                                        //////////////////
-
-                                        if (trainMap[date.yyyymmdd] != null) {
-                                          print(trainMap[date.yyyymmdd]);
-                                        } else {
-                                          print('aaa');
-                                        }
-
                                         final tabList = <String>[];
                                         final widgetList = <Widget>[];
+
+                                        if (trainMap[date.yyyymmdd] != null) {
+                                          tabList.add('train');
+                                          widgetList.add(SpendTrainPage(date: date));
+                                        }
 
                                         MoneyDialog(
                                           context: context,

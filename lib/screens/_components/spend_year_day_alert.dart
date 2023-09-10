@@ -13,6 +13,7 @@ import '../../viewmodel/holiday_notifier.dart';
 import '../../viewmodel/money_notifier.dart';
 import '../../viewmodel/spend_notifier.dart';
 import '_money_dialog.dart';
+import 'pages/spend_train_page.dart';
 import 'spend_alert.dart';
 import 'spend_fullyear_compare_alert.dart';
 import 'spend_year_day_item_alert.dart';
@@ -318,16 +319,13 @@ class SpendYearDayAlert extends ConsumerWidget {
                         const SizedBox(width: 20),
                         GestureDetector(
                           onTap: () {
-                            //////////////
-
-                            if (trainMap[date.yyyymmdd] != null) {
-                              print(trainMap[date.yyyymmdd]);
-                            } else {
-                              print('ddd');
-                            }
-
                             final tabList = <String>[];
                             final widgetList = <Widget>[];
+
+                            if (trainMap[date.yyyymmdd] != null) {
+                              tabList.add('train');
+                              widgetList.add(SpendTrainPage(date: date));
+                            }
 
                             MoneyDialog(
                               context: _context,

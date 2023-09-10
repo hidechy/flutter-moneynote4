@@ -54,7 +54,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
 
     makeMonthlySpendMap();
 
-    creditSpendMap = getNext2MonthCreditSpend(ref: ref, creDate: date, utility: _utility);
+    creditSpendMap = getNext2MonthCreditSpend(ref: ref, creDate: date);
 
     makeBankMonthlySpendMap();
 
