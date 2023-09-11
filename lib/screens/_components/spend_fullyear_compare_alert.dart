@@ -120,11 +120,23 @@ class SpendFullyearCompareAlert extends ConsumerWidget {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(element.key.toString()),
                     Row(
                       children: [
-                        Text(element.value.toString().toCurrency()),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(element.value.toString().toCurrency()),
+                            if (element.key != date.year) ...[
+                              Text(
+                                (element.value > spend) ? (element.value - spend).toString().toCurrency() : 'over',
+                                style: const TextStyle(color: Color(0xFFFBB6CE)),
+                              ),
+                            ],
+                          ],
+                        ),
                         const SizedBox(width: 10),
                         (element.key == bunboYear)
                             ? const Icon(Icons.star, color: Colors.yellowAccent, size: 10)
