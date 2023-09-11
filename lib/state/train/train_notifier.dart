@@ -16,7 +16,7 @@ final trainProvider = StateNotifierProvider.autoDispose<TrainNotifier, TrainResp
 
   final utility = Utility();
 
-  return TrainNotifier(const TrainResponseState(), client, utility);
+  return TrainNotifier(const TrainResponseState(), client, utility)..getTrain();
 });
 
 class TrainNotifier extends StateNotifier<TrainResponseState> {
@@ -50,6 +50,8 @@ class TrainNotifier extends StateNotifier<TrainResponseState> {
       }
 
       state = state.copyWith(trainList: list, trainMap: map);
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
     });
   }
 }

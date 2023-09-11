@@ -1,11 +1,13 @@
 // ignore_for_file: must_be_immutable, use_named_constants
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:tab_container/tab_container.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../state/device_info/device_info_notifier.dart';
+import '../../../state/temple/temple_notifier.dart';
+import '../../../state/train/train_notifier.dart';
 import '../../../utility/utility.dart';
 import '../../../viewmodel/spend_notifier.dart';
 import '../../../viewmodel/time_place_notifier.dart';
@@ -13,11 +15,9 @@ import '../_money_dialog.dart';
 import '../time_location_alert.dart';
 
 class SpendPage extends ConsumerWidget {
-  SpendPage({super.key, required this.date, required this.tabList, required this.widgetList});
+  SpendPage({super.key, required this.date});
 
   final DateTime date;
-  final List<String> tabList;
-  final List<Widget> widgetList;
 
   final Utility _utility = Utility();
 
@@ -33,6 +33,8 @@ class SpendPage extends ConsumerWidget {
     final deviceInfoState = ref.read(deviceInfoProvider);
 
     makeDiff();
+
+    final templeMap = ref.watch(templeProvider.select((value) => value.templeMap));
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -74,9 +76,17 @@ class SpendPage extends ConsumerWidget {
                   children: [
                     Container(
                       padding: const EdgeInsets.only(top: 10),
-                      child: GestureDetector(
-                        onTap: () => MoneyDialog(context: context, widget: TimeLocationAlert(date: date)),
-                        child: Icon(Icons.info_outline, color: Colors.white.withOpacity(0.6)),
+                      child: Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () => MoneyDialog(context: context, widget: TimeLocationAlert(date: date)),
+                            child: Icon(Icons.info_outline, color: Colors.white.withOpacity(0.6), size: 16),
+                          ),
+                          if (templeMap[date.yyyymmdd] != null) ...[
+                            const SizedBox(height: 20),
+                            Icon(FontAwesomeIcons.toriiGate, color: Colors.white.withOpacity(0.6), size: 16),
+                          ],
+                        ],
                       ),
                     ),
                     const SizedBox(width: 20),
@@ -87,11 +97,7 @@ class SpendPage extends ConsumerWidget {
 
               Divider(color: Colors.yellowAccent.withOpacity(0.2), thickness: 5),
 
-              SizedBox(
-                width: double.infinity,
-                height: context.screenSize.height * 0.2,
-                child: displayInPageTabContainer(),
-              ),
+              SizedBox(width: double.infinity, height: context.screenSize.height * 0.2, child: displayTrainRecord()),
             ],
           ),
         ),
@@ -100,74 +106,18 @@ class SpendPage extends ConsumerWidget {
   }
 
   ///
-  Widget displayInPageTabContainer() {
-    if (tabList.isNotEmpty) {
-      return TabContainer(
-        tabEnd: 0.2 * tabList.length,
-        color: Colors.greenAccent.withOpacity(0.1),
-        radius: 20,
-        tabCurve: Curves.easeIn,
-        transitionBuilder: (child, animation) {
-          animation = CurvedAnimation(curve: Curves.easeIn, parent: animation);
-          return SlideTransition(
-            position: Tween(begin: const Offset(0.2, 0), end: const Offset(0, 0)).animate(animation),
-            child: FadeTransition(opacity: animation, child: child),
-          );
-        },
-        selectedTextStyle: const TextStyle(fontSize: 12),
-        unselectedTextStyle: const TextStyle(fontSize: 12),
-        tabs: tabList,
-        children: widgetList,
+  Widget displayTrainRecord() {
+    final trainMap = _ref.watch(trainProvider.select((value) => value.trainMap));
+
+    if (trainMap[date.yyyymmdd] != null) {
+      return Text(
+        trainMap[date.yyyymmdd]!.station,
+        style: const TextStyle(color: Colors.greenAccent, fontSize: 10),
       );
     }
 
     return Container();
   }
-
-  // ///
-  // Widget displayInPageTabContainer() {
-  //   final tabList = <String>[];
-  //   final childList = <Widget>[];
-  //
-  //   //======================//
-  //   final trainMap = _ref.watch(trainProvider.select((value) => value.trainMap));
-  //
-  //   if (trainMap[date.yyyymmdd] != null) {
-  //     tabList.add('train');
-  //     childList.add(SpendTrainPage(date: date));
-  //   }
-  //
-  //   ///////////////////////////////////
-  //   if (trainMap[date.yyyymmdd] != null) {
-  //     tabList.add('train');
-  //     childList.add(SpendTrainPage(date: date));
-  //   }
-  //   ///////////////////////////////////
-  //
-  //   //======================//
-  //
-  //   if (tabList.isNotEmpty) {
-  //     return TabContainer(
-  //       tabEnd: 0.2 * tabList.length,
-  //       color: Colors.greenAccent.withOpacity(0.1),
-  //       radius: 20,
-  //       tabCurve: Curves.easeIn,
-  //       transitionBuilder: (child, animation) {
-  //         animation = CurvedAnimation(curve: Curves.easeIn, parent: animation);
-  //         return SlideTransition(
-  //           position: Tween(begin: const Offset(0.2, 0), end: const Offset(0, 0)).animate(animation),
-  //           child: FadeTransition(opacity: animation, child: child),
-  //         );
-  //       },
-  //       selectedTextStyle: const TextStyle(fontSize: 12),
-  //       unselectedTextStyle: const TextStyle(fontSize: 12),
-  //       tabs: tabList,
-  //       children: childList,
-  //     );
-  //   }
-  //
-  //   return Container();
-  // }
 
   ///
   void makeDiff() {
@@ -201,12 +151,12 @@ class SpendPage extends ConsumerWidget {
         Container(
           padding: const EdgeInsets.symmetric(vertical: 3),
           decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(exValue[0], style: TextStyle(color: color)),
-              Text(exValue[2].toCurrency(), style: TextStyle(color: color)),
-            ],
+          child: DefaultTextStyle(
+            style: TextStyle(color: color, fontSize: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [Text(exValue[0]), Text(exValue[2].toCurrency())],
+            ),
           ),
         ),
       );
@@ -234,20 +184,25 @@ class SpendPage extends ConsumerWidget {
     final list = <Widget>[];
 
     for (var i = 0; i < timeplaceState.length; i++) {
+      final color = (timeplaceState[i].place == '移動中') ? Colors.greenAccent : Colors.white;
+
       list.add(
         Container(
           padding: const EdgeInsets.symmetric(vertical: 3),
           decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
-          child: Row(
-            children: [
-              SizedBox(width: 60, child: Text(timeplaceState[i].time)),
-              Expanded(child: Text(timeplaceState[i].place)),
-              Container(
-                width: 50,
-                alignment: Alignment.topRight,
-                child: Text(timeplaceState[i].price.toString().toCurrency()),
-              ),
-            ],
+          child: DefaultTextStyle(
+            style: TextStyle(color: color, fontSize: 10),
+            child: Row(
+              children: [
+                SizedBox(width: 60, child: Text(timeplaceState[i].time)),
+                Expanded(child: Text(timeplaceState[i].place)),
+                Container(
+                  width: 50,
+                  alignment: Alignment.topRight,
+                  child: Text(timeplaceState[i].price.toString().toCurrency()),
+                ),
+              ],
+            ),
           ),
         ),
       );

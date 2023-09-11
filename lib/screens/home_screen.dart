@@ -15,7 +15,6 @@ import '../models/spend_month_summary.dart';
 import '../state/device_info/device_info_notifier.dart';
 import '../state/device_info/device_info_request_state.dart';
 import '../state/home_menu/home_menu_notifier.dart';
-import '../state/train/train_notifier.dart';
 import '../utility/utility.dart';
 import '../viewmodel/spend_notifier.dart';
 import '_components/_money_dialog.dart';
@@ -192,10 +191,6 @@ class HomeScreen extends ConsumerWidget {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        if (homeMenuState.menuFlag == 'train') {
-                          _ref.watch(trainProvider.notifier).getTrain();
-                        }
-
                         openAlertWindow(flag: homeMenuState.menuFlag);
                       },
                       style: ElevatedButton.styleFrom(elevation: 0, backgroundColor: Colors.indigo.withOpacity(0.8)),
@@ -272,8 +267,6 @@ class HomeScreen extends ConsumerWidget {
   void onDayPressed({required DateTime date}) {
     _ref.watch(blueBallProvider.notifier).setDateTime(dateTime: date);
     _ref.watch(focusDayProvider.notifier).setDateTime(dateTime: date);
-
-    _ref.watch(trainProvider.notifier).getTrain();
 
     MoneyDialog(context: _context, widget: MoneyAlert(date: date));
   }

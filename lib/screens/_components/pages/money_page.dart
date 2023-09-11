@@ -11,7 +11,6 @@ import '../../../state/device_info/device_info_notifier.dart';
 import '../../../state/gold/gold_notifier.dart';
 import '../../../state/shintaku/shintaku_notifier.dart';
 import '../../../state/stock/stock_notifier.dart';
-import '../../../state/train/train_notifier.dart';
 import '../../../utility/utility.dart';
 import '../../../viewmodel/bank_notifier.dart';
 import '../../../viewmodel/money_notifier.dart';
@@ -29,7 +28,6 @@ import '../shintaku_alert.dart';
 import '../spend_alert.dart';
 import '../spend_year_day_alert.dart';
 import '../stock_alert.dart';
-import 'spend_train_page.dart';
 
 class MoneyPage extends ConsumerWidget {
   MoneyPage({super.key, required this.date});
@@ -69,8 +67,6 @@ class MoneyPage extends ConsumerWidget {
     final appParamState = ref.watch(appParamProvider);
 
     notMoneyAsset = [];
-
-    final trainMap = ref.watch(trainProvider.select((value) => value.trainMap));
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -158,22 +154,9 @@ class MoneyPage extends ConsumerWidget {
                                   ? Container()
                                   : GestureDetector(
                                       onTap: () {
-                                        final tabList = <String>[];
-                                        final widgetList = <Widget>[];
-
-                                        if (trainMap[date.yyyymmdd] != null) {
-                                          tabList.add('train');
-                                          widgetList.add(SpendTrainPage(date: date));
-                                        }
-
                                         MoneyDialog(
                                           context: context,
-                                          widget: SpendAlert(
-                                            date: date,
-                                            diff: diff,
-                                            tabList: tabList,
-                                            widgetList: widgetList,
-                                          ),
+                                          widget: SpendAlert(date: date, diff: diff),
                                         );
                                       },
                                       child: const Icon(Icons.info_outline),

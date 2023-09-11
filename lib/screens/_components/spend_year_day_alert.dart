@@ -7,13 +7,11 @@ import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
-import '../../state/train/train_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/holiday_notifier.dart';
 import '../../viewmodel/money_notifier.dart';
 import '../../viewmodel/spend_notifier.dart';
 import '_money_dialog.dart';
-import 'pages/spend_train_page.dart';
 import 'spend_alert.dart';
 import 'spend_fullyear_compare_alert.dart';
 import 'spend_year_day_item_alert.dart';
@@ -184,8 +182,6 @@ class SpendYearDayAlert extends ConsumerWidget {
 
     var yearTotal = 0;
 
-    final trainMap = _ref.watch(trainProvider.select((value) => value.trainMap));
-
     yearSpendToToday.remove(date.year);
 
     ysttList = [];
@@ -319,21 +315,11 @@ class SpendYearDayAlert extends ConsumerWidget {
                         const SizedBox(width: 20),
                         GestureDetector(
                           onTap: () {
-                            final tabList = <String>[];
-                            final widgetList = <Widget>[];
-
-                            if (trainMap[date.yyyymmdd] != null) {
-                              tabList.add('train');
-                              widgetList.add(SpendTrainPage(date: date));
-                            }
-
                             MoneyDialog(
                               context: _context,
                               widget: SpendAlert(
                                 date: spendYearDayState[i].date,
                                 diff: spendYearDayState[i].spend.toString(),
-                                tabList: tabList,
-                                widgetList: widgetList,
                               ),
                             );
                           },

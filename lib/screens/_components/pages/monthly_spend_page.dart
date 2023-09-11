@@ -28,7 +28,6 @@ import '../../monthly_spend_check_screen.dart';
 import '../_money_dialog.dart';
 import '../monthly_spend_graph_alert.dart';
 import '../spend_alert.dart';
-import 'spend_train_page.dart';
 
 class SpendListValue {
   SpendListValue({required this.item, required this.price, required this.color});
@@ -266,22 +265,9 @@ class MonthlySpendPage extends ConsumerWidget {
         Expanded(
           child: GestureDetector(
             onTap: () {
-              final tabList = <String>[];
-              final widgetList = <Widget>[];
-
-              if (trainMap[date.yyyymmdd] != null) {
-                tabList.add('train');
-                widgetList.add(SpendTrainPage(date: date));
-              }
-
               MoneyDialog(
                 context: _context,
-                widget: SpendAlert(
-                  date: '$dispDate 00:00:00'.toDateTime(),
-                  diff: whitePrice!,
-                  tabList: tabList,
-                  widgetList: widgetList,
-                ),
+                widget: SpendAlert(date: '$dispDate 00:00:00'.toDateTime(), diff: whitePrice!),
               );
             },
             child: Container(
@@ -697,22 +683,9 @@ class MonthlySpendPage extends ConsumerWidget {
                 const SizedBox(width: 10),
                 GestureDetector(
                   onTap: () {
-                    final tabList = <String>[];
-                    final widgetList = <Widget>[];
-
-                    if (trainMap[date.yyyymmdd] != null) {
-                      tabList.add('train');
-                      widgetList.add(SpendTrainPage(date: date));
-                    }
-
                     MoneyDialog(
                       context: _context,
-                      widget: SpendAlert(
-                        date: spendMonthDetailState.list[i].date,
-                        diff: daySum.toString(),
-                        tabList: tabList,
-                        widgetList: widgetList,
-                      ),
+                      widget: SpendAlert(date: spendMonthDetailState.list[i].date, diff: daySum.toString()),
                     );
                   },
                   child: Icon(
