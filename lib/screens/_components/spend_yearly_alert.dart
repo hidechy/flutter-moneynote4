@@ -32,30 +32,19 @@ class SpendYearlyAlert extends StatelessWidget {
           child: AppBar(
             backgroundColor: Colors.transparent,
             //-------------------------//これを消すと「←」が出てくる（消さない）
-            leading: const Icon(
-              Icons.check_box_outline_blank,
-              color: Colors.transparent,
-            ),
+            leading: const Icon(Icons.check_box_outline_blank, color: Colors.transparent),
             //-------------------------//これを消すと「←」が出てくる（消さない）
 
             bottom: TabBar(
               isScrollable: true,
               indicatorColor: Colors.blueAccent,
-              tabs: tabs.map((TabInfo tab) {
-                return Tab(text: tab.label);
-              }).toList(),
+              tabs: tabs.map((TabInfo tab) => Tab(text: tab.label)).toList(),
             ),
 
-            flexibleSpace: const DecoratedBox(
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-              ),
-            ),
+            flexibleSpace: const DecoratedBox(decoration: BoxDecoration(color: Colors.transparent)),
           ),
         ),
-        body: TabBarView(
-          children: tabs.map((tab) => tab.widget).toList(),
-        ),
+        body: TabBarView(children: tabs.map((tab) => tab.widget).toList()),
       ),
     );
   }
@@ -72,15 +61,6 @@ class SpendYearlyAlert extends StatelessWidget {
 
     list
       ..sort((a, b) => -1 * a.compareTo(b))
-      ..forEach((element) {
-        tabs.add(
-          TabInfo(
-            element.toString(),
-            SpendYearlyPage(
-              date: DateTime(element),
-            ),
-          ),
-        );
-      });
+      ..forEach((element) => tabs.add(TabInfo(element.toString(), SpendYearlyPage(date: DateTime(element)))));
   }
 }

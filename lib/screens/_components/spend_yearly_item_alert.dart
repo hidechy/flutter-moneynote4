@@ -2,15 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/_money_dialog.dart';
-import 'package:moneynote4/screens/_components/spend_timeplace_alert.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../state/spend_yearly_item/spend_yearly_item_state.dart';
 import '../../utility/utility.dart';
-import '../../viewmodel/holiday_notifier.dart';
 import '../../viewmodel/spend_notifier.dart';
+import '_money_dialog.dart';
+import 'spend_timeplace_alert.dart';
 
 class SpendYearlyItemAlert extends ConsumerWidget {
   SpendYearlyItemAlert({super.key, required this.date, required this.item});
@@ -20,18 +19,7 @@ class SpendYearlyItemAlert extends ConsumerWidget {
 
   final Utility _utility = Utility();
 
-  final timeplaceItem = [
-    '交通費',
-    '遊興費',
-    'お賽銭',
-    '交際費',
-    '雑費',
-    '教育費',
-    '被服費',
-    '医療費',
-    '美容費',
-    '通信費'
-  ];
+  final timeplaceItem = ['交通費', '遊興費', 'お賽銭', '交際費', '雑費', '教育費', '被服費', '医療費', '美容費', '通信費'];
 
   late BuildContext _context;
   late WidgetRef _ref;
@@ -63,22 +51,15 @@ class SpendYearlyItemAlert extends ConsumerWidget {
                 Container(width: context.screenSize.width),
 
                 //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
                 //----------//
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(date.yyyy),
-                    Text(item),
-                  ],
+                  children: [Text(date.yyyy), Text(item)],
                 ),
 
-                Divider(
-                  color: Colors.white.withOpacity(0.5),
-                  thickness: 3,
-                ),
+                Divider(color: Colors.white.withOpacity(0.5), thickness: 3),
 
                 displaySpendYearlyItem(),
               ],
@@ -95,78 +76,62 @@ class SpendYearlyItemAlert extends ConsumerWidget {
 
     final spendYearlyItemState = _ref.watch(spendYearlyItemProvider(param));
 
-    final holidayState = _ref.watch(holidayProvider);
-
     final list = <Widget>[];
 
     for (var i = 0; i < spendYearlyItemState.length; i++) {
-      final youbi = _utility.getYoubi(
-        youbiStr: spendYearlyItemState[i].date!.youbiStr,
-      );
+      final youbi = _utility.getYoubi(youbiStr: spendYearlyItemState[i].date!.youbiStr);
 
       list.add(
         Container(
           padding: const EdgeInsets.symmetric(vertical: 3),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.white.withOpacity(0.3),
-              ),
-            ),
-            color: _utility.getYoubiColor(
-              date: spendYearlyItemState[i].date!,
-              youbiStr: spendYearlyItemState[i].date!.youbiStr,
-              holiday: holidayState.data,
-            ),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Text('${spendYearlyItemState[i].date!.mmdd}（$youbi）'),
-              ),
-              Expanded(
-                child: Text(spendYearlyItemState[i].item),
-              ),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.topRight,
+          decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
+          child: DefaultTextStyle(
+            style: const TextStyle(fontSize: 10),
+            child: Row(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: _utility.getLeadingBgColor(month: spendYearlyItemState[i].date!.month.toString()),
+                  ),
+                  padding: const EdgeInsets.all(10),
                   child: Text(
-                    spendYearlyItemState[i].price.toString().toCurrency(),
+                    spendYearlyItemState[i].date!.month.toString().padLeft(2, '0'),
+                    style: const TextStyle(fontSize: 10),
                   ),
                 ),
-              ),
-              const SizedBox(width: 20),
-              (timeplaceItem.contains(spendYearlyItemState[i].item))
-                  ? GestureDetector(
-                      onTap: () {
-                        MoneyDialog(
-                          context: _context,
-                          widget: SpendTimeplaceAlert(
-                            date: spendYearlyItemState[i].date!,
-                            item: item,
-                            price: spendYearlyItemState[i].price!,
-                          ),
-                        );
-                      },
-                      child: Icon(
-                        Icons.pin_drop_rounded,
-                        color: Colors.white.withOpacity(0.6),
-                      ),
-                    )
-                  : const Icon(
-                      Icons.crop_square,
-                      color: Colors.transparent,
-                    ),
-            ],
+                const SizedBox(width: 10),
+                Expanded(child: Text('${spendYearlyItemState[i].date!.mmdd}\n（$youbi）')),
+                Expanded(child: Text(spendYearlyItemState[i].item)),
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.topRight,
+                    child: Text(spendYearlyItemState[i].price.toString().toCurrency()),
+                  ),
+                ),
+                const SizedBox(width: 20),
+                (timeplaceItem.contains(spendYearlyItemState[i].item))
+                    ? GestureDetector(
+                        onTap: () {
+                          MoneyDialog(
+                            context: _context,
+                            widget: SpendTimeplaceAlert(
+                              date: spendYearlyItemState[i].date!,
+                              item: item,
+                              price: spendYearlyItemState[i].price!,
+                            ),
+                          );
+                        },
+                        child: Icon(Icons.pin_drop_rounded, color: Colors.white.withOpacity(0.6)),
+                      )
+                    : const Icon(Icons.crop_square, color: Colors.transparent),
+              ],
+            ),
           ),
         ),
       );
     }
 
-    return SingleChildScrollView(
-      child: Column(
-        children: list,
-      ),
-    );
+    return SingleChildScrollView(child: Column(children: list));
   }
 }
