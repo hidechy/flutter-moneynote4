@@ -349,6 +349,8 @@ class MonthlySpendPage extends ConsumerWidget {
 
     //forで仕方ない
     for (var i = 0; i < spendMonthDetailState.list.length; i++) {
+      final dateKeihiListMap = keihiListMap[spendMonthDetailState.list[i].date.yyyymmdd];
+
       //--------------------------------------------- list2
       final list2 = <Widget>[];
       final list2value = <SpendListValue>[];
@@ -406,6 +408,8 @@ class MonthlySpendPage extends ConsumerWidget {
       );
 
       list2value.forEach((element) {
+        final textStyle = getKeihiTextStyle(element: element, dateKeihiListMap: dateKeihiListMap);
+
         list2.add(
           Container(
             padding: const EdgeInsets.symmetric(vertical: 3),
@@ -415,7 +419,7 @@ class MonthlySpendPage extends ConsumerWidget {
               ),
             ),
             child: DefaultTextStyle(
-              style: TextStyle(color: element.color, fontSize: 12),
+              style: textStyle,
               child: Row(
                 children: [
                   Expanded(
@@ -437,9 +441,7 @@ class MonthlySpendPage extends ConsumerWidget {
 
       //--------------------------------------------- list2
 
-      final youbi = _utility.getYoubi(
-        youbiStr: spendMonthDetailState.list[i].date.youbiStr,
-      );
+      final youbi = _utility.getYoubi(youbiStr: spendMonthDetailState.list[i].date.youbiStr);
 
       final sum = everydayStateMap[spendMonthDetailState.list[i].date.yyyymmdd];
 
@@ -448,10 +450,8 @@ class MonthlySpendPage extends ConsumerWidget {
         diff = getDiff(spend: sum.spend.toInt(), daySum: daySum);
       }
 
-      final spendZeroFlag = getSpendZeroFlag(
-        date: spendMonthDetailState.list[i].date.yyyymmdd,
-        spend: spendZeroUseDateState,
-      );
+      final spendZeroFlag =
+          getSpendZeroFlag(date: spendMonthDetailState.list[i].date.yyyymmdd, spend: spendZeroUseDateState);
 
       displayMonthlySpendList.add(
         Container(
@@ -483,7 +483,7 @@ class MonthlySpendPage extends ConsumerWidget {
 
                         /////
 
-                        if (keihiListMap[spendMonthDetailState.list[i].date.yyyymmdd] != null)
+                        if (dateKeihiListMap != null)
                           DefaultTextStyle(
                             style: const TextStyle(fontSize: 10),
                             child: Container(
@@ -497,7 +497,7 @@ class MonthlySpendPage extends ConsumerWidget {
                                     children: [const Text('＜経費＞'), Container()],
                                   ),
                                   Column(
-                                    children: keihiListMap[spendMonthDetailState.list[i].date.yyyymmdd]!.map((e) {
+                                    children: dateKeihiListMap.map((e) {
                                       daySumCredit -= e.price;
 
                                       return Row(
@@ -612,6 +612,23 @@ class MonthlySpendPage extends ConsumerWidget {
   }
 
   ///
+  TextStyle getKeihiTextStyle({required SpendListValue element, List<Keihi>? dateKeihiListMap}) {
+    // ignore: prefer_is_empty
+    if (dateKeihiListMap?.length == 0) {
+      return TextStyle(color: element.color, fontSize: 12);
+    }
+
+    final itemList = <String>[];
+    dateKeihiListMap?.forEach((element) => itemList.add(element.item));
+
+    if (itemList.contains(element.item)) {
+      return TextStyle(color: element.color, fontSize: 12, decoration: TextDecoration.lineThrough);
+    }
+
+    return TextStyle(color: element.color, fontSize: 12);
+  }
+
+  ///
   Map<String, MoneyEveryday> makeEverydayStateMap({required List<MoneyEveryday> state}) {
     final map = <String, MoneyEveryday>{};
 
@@ -705,13 +722,8 @@ class MonthlySpendPage extends ConsumerWidget {
   }
 
   ///
-  void getMonthlyTimeplaceDate() {
-    final monthlyTimeplaceState = _ref.watch(monthlyTimeplaceProvider(date));
-
-    monthlyTimeplaceState.forEach((element) {
-      timeplaceDateList.add(element.date.yyyymmdd);
-    });
-  }
+  void getMonthlyTimeplaceDate() =>
+      _ref.watch(monthlyTimeplaceProvider(date)).forEach((element) => timeplaceDateList.add(element.date.yyyymmdd));
 
   ///
   Widget displayHavingMoney({required String date}) {
@@ -768,11 +780,8 @@ class MonthlySpendPage extends ConsumerWidget {
   }
 
   ///
-  Widget moneyDispParts({required String value}) {
-    return Expanded(
-      child: Container(alignment: Alignment.topRight, child: Text(value.toCurrency())),
-    );
-  }
+  Widget moneyDispParts({required String value}) =>
+      Expanded(child: Container(alignment: Alignment.topRight, child: Text(value.toCurrency())));
 
   ///
   void makeKeihiListMap() {
