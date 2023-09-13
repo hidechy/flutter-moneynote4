@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/temple_display_alert.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../state/device_info/device_info_notifier.dart';
@@ -84,7 +85,13 @@ class SpendPage extends ConsumerWidget {
                           ),
                           if (templeMap[date.yyyymmdd] != null) ...[
                             const SizedBox(height: 20),
-                            Icon(FontAwesomeIcons.toriiGate, color: Colors.white.withOpacity(0.6), size: 16),
+                            GestureDetector(
+                              onTap: () => MoneyDialog(
+                                context: context,
+                                widget: TempleDisplayAlert(temple: templeMap[date.yyyymmdd]!),
+                              ),
+                              child: Icon(FontAwesomeIcons.toriiGate, color: Colors.white.withOpacity(0.6), size: 16),
+                            ),
                           ],
                         ],
                       ),
