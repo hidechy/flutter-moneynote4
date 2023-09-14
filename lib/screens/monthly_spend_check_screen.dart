@@ -64,106 +64,109 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
-    return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          _utility.getBackGround(),
-          Container(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
-                const SizedBox(height: 30),
-                Container(width: context.screenSize.width),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            _utility.getBackGround(),
+            Container(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  const SizedBox(height: 30),
+                  Container(width: context.screenSize.width),
 
-                //----------//
-                if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
-                //----------//
+                  //----------//
+                  if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
+                  //----------//
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(date.yyyymm),
-                            Text(monthTotal.toString().toCurrency()),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => MonthlySpendCheckScreen(
-                                      date: prevMonth!,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(date.yyyymm),
+                              Text(monthTotal.toString().toCurrency()),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MonthlySpendCheckScreen(
+                                        date: prevMonth!,
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
-                              icon: const Icon(Icons.skip_previous),
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => MonthlySpendCheckScreen(
-                                      date: nextMonth!,
+                                  );
+                                },
+                                icon: const Icon(Icons.skip_previous),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MonthlySpendCheckScreen(
+                                        date: nextMonth!,
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
-                              icon: const Icon(Icons.skip_next),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: () async {
-                            await ref.watch(keihiListProvider(date).notifier).getKeihiList(date: date);
+                                  );
+                                },
+                                icon: const Icon(Icons.skip_next),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () async {
+                              await ref.watch(keihiListProvider(date).notifier).getKeihiList(date: date);
 
-                            await MoneyDialog(
-                              context: context,
-                              widget: KeihiListAlert(date: date),
-                            );
-                          },
-                          icon: const Icon(Icons.list),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            ref.watch(monthlySpendCheckProvider(date).notifier).inputCheckItem(date: date);
+                              await MoneyDialog(
+                                context: context,
+                                widget: KeihiListAlert(date: date),
+                              );
+                            },
+                            icon: const Icon(Icons.list),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              ref.watch(monthlySpendCheckProvider(date).notifier).inputCheckItem(date: date);
 
-                            Navigator.pop(context);
-                          },
-                          icon: const Icon(Icons.input),
-                        ),
-                        IconButton(
-                          onPressed: () => Navigator.pop(context),
-                          icon: const Icon(Icons.close),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Divider(
-                  thickness: 2,
-                  color: Colors.white.withOpacity(0.4),
-                ),
-                Expanded(
-                  child: displayMonthlySpendCheckList(),
-                ),
-              ],
+                              Navigator.pop(context);
+                            },
+                            icon: const Icon(Icons.input),
+                          ),
+                          IconButton(
+                            onPressed: () => Navigator.pop(context),
+                            icon: const Icon(Icons.close),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Divider(
+                    thickness: 2,
+                    color: Colors.white.withOpacity(0.4),
+                  ),
+                  Expanded(
+                    child: displayMonthlySpendCheckList(),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

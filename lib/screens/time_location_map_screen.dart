@@ -25,8 +25,7 @@ class TimeLocationMapScreen extends ConsumerWidget {
   Utility utility = Utility();
 
   ///
-  final Completer<GoogleMapController> mapController =
-      Completer<GoogleMapController>();
+  final Completer<GoogleMapController> mapController = Completer<GoogleMapController>();
 
   Set<Polyline> polylineSet = {};
 
@@ -79,88 +78,89 @@ class TimeLocationMapScreen extends ConsumerWidget {
       },
     );
 
-    return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          utility.getBackGround(),
-          Column(
-            children: [
-              const SizedBox(height: 80),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      const SizedBox(width: 20),
-                      GestureDetector(
-                        onTap: makeBoundsLine,
-                        child: const Icon(Icons.vignette_rounded),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: const Icon(Icons.close),
-                      ),
-                      const SizedBox(width: 20),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-
-              //------------------------------------//
-
-              Expanded(
-                child: GoogleMap(
-                  initialCameraPosition: basePoint,
-                  onMapCreated: mapController.complete,
-                  polylines: polylineSet,
-                  markers: mapMarkerState.markers,
-                ),
-              ),
-
-              //------------------------------------//
-
-              timeSelectButton(),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () => scrollController
-                            .jumpTo(scrollController.position.maxScrollExtent),
-                        icon: const Icon(Icons.skip_next),
-                      ),
-                      const SizedBox(width: 20),
-                      IconButton(
-                        onPressed: () => scrollController
-                            .jumpTo(scrollController.position.minScrollExtent),
-                        icon: const Icon(Icons.skip_previous),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            utility.getBackGround(),
+            Column(
+              children: [
+                const SizedBox(height: 80),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
                       children: [
-                        Text(latLngAddressState.city),
-                        Text(latLngAddressState.town),
+                        const SizedBox(width: 20),
+                        GestureDetector(
+                          onTap: makeBoundsLine,
+                          child: const Icon(Icons.vignette_rounded),
+                        ),
                       ],
                     ),
-                  ),
-                ],
-              ),
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () => Navigator.pop(context),
+                          child: const Icon(Icons.close),
+                        ),
+                        const SizedBox(width: 20),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
 
-              const SizedBox(height: 30),
-            ],
-          ),
-        ],
+                //------------------------------------//
+
+                Expanded(
+                  child: GoogleMap(
+                    initialCameraPosition: basePoint,
+                    onMapCreated: mapController.complete,
+                    polylines: polylineSet,
+                    markers: mapMarkerState.markers,
+                  ),
+                ),
+
+                //------------------------------------//
+
+                timeSelectButton(),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () => scrollController.jumpTo(scrollController.position.maxScrollExtent),
+                          icon: const Icon(Icons.skip_next),
+                        ),
+                        const SizedBox(width: 20),
+                        IconButton(
+                          onPressed: () => scrollController.jumpTo(scrollController.position.minScrollExtent),
+                          icon: const Icon(Icons.skip_previous),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          Text(latLngAddressState.city),
+                          Text(latLngAddressState.town),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 30),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -236,9 +236,7 @@ class TimeLocationMapScreen extends ConsumerWidget {
           polylineId: PolylineId('overview_polyline{$i}'),
           color: Colors.redAccent,
           width: 5,
-          points: polylineState.polylinePoints
-              .map((e) => LatLng(e.latitude, e.longitude))
-              .toList(),
+          points: polylineState.polylinePoints.map((e) => LatLng(e.latitude, e.longitude)).toList(),
         ),
       );
     }

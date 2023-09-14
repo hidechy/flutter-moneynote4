@@ -29,185 +29,175 @@ class BankInputScreen extends ConsumerWidget {
 
     final bankInputState = ref.watch(bankInputProvider);
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          _utility.getBackGround(),
-          SingleChildScrollView(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  const SizedBox(height: 50),
-                  Container(width: context.screenSize.width),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(),
-                      IconButton(
-                        onPressed: () => Navigator.pop(context),
-                        icon: const Icon(Icons.close),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: context.screenSize.height * 0.45,
-                          margin: const EdgeInsets.all(5),
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.white.withOpacity(0.4),
-                              width: 2,
-                            ),
-                          ),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            _utility.getBackGround(),
+            SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 50),
+                    Container(width: context.screenSize.width),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(),
+                        IconButton(
+                          onPressed: () => Navigator.pop(context),
+                          icon: const Icon(Icons.close),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
                           child: Container(
-                            child: getMonthlyBankRecord(),
+                            height: context.screenSize.height * 0.45,
+                            margin: const EdgeInsets.all(5),
+                            padding: const EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.white.withOpacity(0.4),
+                                width: 2,
+                              ),
+                            ),
+                            child: Container(
+                              child: getMonthlyBankRecord(),
+                            ),
                           ),
                         ),
-                      ),
-                      getButtonAreaWidget(),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width: 60,
-                                  child: IconButton(
-                                    onPressed: () {
-                                      showDatepick(usage: 'left');
-                                    },
-                                    icon: Icon(Icons.calendar_month_outlined,
-                                        color:
-                                            (bankInputState.selectInOutFlag ==
-                                                    0)
-                                                ? Colors.yellowAccent
-                                                : Colors.lightBlueAccent),
-                                  ),
-                                ),
-                                Text(
-                                  (bankInputState.selectInOutFlag == 0)
-                                      ? bankInputState.selectDate
-                                      : bankInputState.outArrowDate,
-                                  style: TextStyle(
-                                      color:
-                                          (bankInputState.selectInOutFlag == 0)
+                        getButtonAreaWidget(),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 60,
+                                    child: IconButton(
+                                      onPressed: () {
+                                        showDatepick(usage: 'left');
+                                      },
+                                      icon: Icon(Icons.calendar_month_outlined,
+                                          color: (bankInputState.selectInOutFlag == 0)
                                               ? Colors.yellowAccent
                                               : Colors.lightBlueAccent),
-                                ),
-                              ],
+                                    ),
+                                  ),
+                                  Text(
+                                    (bankInputState.selectInOutFlag == 0)
+                                        ? bankInputState.selectDate
+                                        : bankInputState.outArrowDate,
+                                    style: TextStyle(
+                                        color: (bankInputState.selectInOutFlag == 0)
+                                            ? Colors.yellowAccent
+                                            : Colors.lightBlueAccent),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            child: (bankInputState.selectInOutFlag == 0)
-                                ? Container()
-                                : Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 60,
-                                        child: IconButton(
-                                          onPressed: () {
-                                            showDatepick(usage: 'right');
-                                          },
-                                          icon: const Icon(
-                                            Icons.calendar_month_outlined,
+                            Expanded(
+                              child: (bankInputState.selectInOutFlag == 0)
+                                  ? Container()
+                                  : Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 60,
+                                          child: IconButton(
+                                            onPressed: () {
+                                              showDatepick(usage: 'right');
+                                            },
+                                            icon: const Icon(
+                                              Icons.calendar_month_outlined,
+                                              color: Colors.greenAccent,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          bankInputState.inArrowDate,
+                                          style: const TextStyle(
                                             color: Colors.greenAccent,
                                           ),
                                         ),
-                                      ),
-                                      Text(
-                                        bankInputState.inArrowDate,
-                                        style: const TextStyle(
-                                          color: Colors.greenAccent,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              keyboardType: TextInputType.number,
-                              controller: tecBankMoney,
-                              textAlign: TextAlign.end,
-                              decoration: const InputDecoration(
-                                  labelText: 'Bank Money'),
-                              style: const TextStyle(
-                                fontSize: 13,
-                                color: Colors.white,
+                                      ],
+                                    ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                keyboardType: TextInputType.number,
+                                controller: tecBankMoney,
+                                textAlign: TextAlign.end,
+                                decoration: const InputDecoration(labelText: 'Bank Money'),
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.white,
+                                ),
+                                onChanged: (value) {
+                                  ref.watch(bankInputProvider.notifier).setBankMoney(bankMoney: value);
+                                },
                               ),
-                              onChanged: (value) {
-                                ref
-                                    .watch(bankInputProvider.notifier)
-                                    .setBankMoney(bankMoney: value);
-                              },
                             ),
-                          ),
-                          SizedBox(
-                            width: 60,
-                            child: IconButton(
-                              onPressed: () {
-                                switch (bankInputState.selectInOutFlag) {
-                                  case 0:
-                                    final uploadData = <String, dynamic>{
-                                      'date': bankInputState.selectDate,
-                                      'bank': bankInputState.selectBank,
-                                      'price': bankInputState.bankMoney,
-                                    };
+                            SizedBox(
+                              width: 60,
+                              child: IconButton(
+                                onPressed: () {
+                                  switch (bankInputState.selectInOutFlag) {
+                                    case 0:
+                                      final uploadData = <String, dynamic>{
+                                        'date': bankInputState.selectDate,
+                                        'bank': bankInputState.selectBank,
+                                        'price': bankInputState.bankMoney,
+                                      };
 
-                                    _ref
-                                        .watch(bankInputProvider.notifier)
-                                        .updateBankMoney(
-                                            uploadData: uploadData);
+                                      _ref.watch(bankInputProvider.notifier).updateBankMoney(uploadData: uploadData);
 
-                                    break;
-                                  case 1:
-                                    final uploadData = <String, dynamic>{
-                                      'from_date': bankInputState.outArrowDate,
-                                      'from_bank': bankInputState.outArrowBank,
-                                      'to_date': bankInputState.inArrowDate,
-                                      'to_bank': bankInputState.inArrowBank,
-                                      'price': bankInputState.bankMoney,
-                                    };
+                                      break;
+                                    case 1:
+                                      final uploadData = <String, dynamic>{
+                                        'from_date': bankInputState.outArrowDate,
+                                        'from_bank': bankInputState.outArrowBank,
+                                        'to_date': bankInputState.inArrowDate,
+                                        'to_bank': bankInputState.inArrowBank,
+                                        'price': bankInputState.bankMoney,
+                                      };
 
-                                    _ref
-                                        .watch(bankInputProvider.notifier)
-                                        .setBankMove(uploadData: uploadData);
+                                      _ref.watch(bankInputProvider.notifier).setBankMove(uploadData: uploadData);
 
-                                    break;
-                                }
+                                      break;
+                                  }
 
-                                _ref
-                                    .watch(bankInputProvider.notifier)
-                                    .onTapSubmit();
+                                  _ref.watch(bankInputProvider.notifier).onTapSubmit();
 
-                                Navigator.pop(context);
-                              },
-                              icon: const Icon(Icons.input),
+                                  Navigator.pop(context);
+                                },
+                                icon: const Icon(Icons.input),
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -230,15 +220,13 @@ class BankInputScreen extends ConsumerWidget {
                     ? Colors.yellowAccent
                     : Colors.white.withOpacity(0.4);
 
-                final inArrowColor =
-                    (e.key.toString() == bankInputState.inArrowBank)
-                        ? Colors.greenAccent
-                        : Colors.white.withOpacity(0.4);
+                final inArrowColor = (e.key.toString() == bankInputState.inArrowBank)
+                    ? Colors.greenAccent
+                    : Colors.white.withOpacity(0.4);
 
-                final outArrowColor =
-                    (e.key.toString() == bankInputState.outArrowBank)
-                        ? Colors.lightBlueAccent
-                        : Colors.white.withOpacity(0.4);
+                final outArrowColor = (e.key.toString() == bankInputState.outArrowBank)
+                    ? Colors.lightBlueAccent
+                    : Colors.white.withOpacity(0.4);
 
                 return Container(
                   padding: const EdgeInsets.symmetric(vertical: 5),
@@ -246,10 +234,7 @@ class BankInputScreen extends ConsumerWidget {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          _ref
-                              .watch(bankInputProvider.notifier)
-                              .onTapOutArrowBank(
-                                  outArrowBank: e.key.toString());
+                          _ref.watch(bankInputProvider.notifier).onTapOutArrowBank(outArrowBank: e.key.toString());
                         },
                         child: Icon(
                           Icons.arrow_back,
@@ -259,9 +244,7 @@ class BankInputScreen extends ConsumerWidget {
                       const SizedBox(width: 10),
                       GestureDetector(
                         onTap: () {
-                          _ref
-                              .watch(bankInputProvider.notifier)
-                              .onTapSelectBank(selectBank: e.key.toString());
+                          _ref.watch(bankInputProvider.notifier).onTapSelectBank(selectBank: e.key.toString());
                         },
                         child: Container(
                           width: _context.screenSize.width * 0.2,
@@ -284,9 +267,7 @@ class BankInputScreen extends ConsumerWidget {
                       const SizedBox(width: 10),
                       GestureDetector(
                         onTap: () {
-                          _ref
-                              .watch(bankInputProvider.notifier)
-                              .onTapInArrowBank(inArrowBank: e.key.toString());
+                          _ref.watch(bankInputProvider.notifier).onTapInArrowBank(inArrowBank: e.key.toString());
                         },
                         child: Icon(
                           Icons.arrow_back,
@@ -402,22 +383,16 @@ class BankInputScreen extends ConsumerWidget {
         case 'left':
           switch (bankInputState.selectInOutFlag) {
             case 0:
-              await _ref
-                  .watch(bankInputProvider.notifier)
-                  .setSelectDate(selectDate: selectedDate.yyyymmdd);
+              await _ref.watch(bankInputProvider.notifier).setSelectDate(selectDate: selectedDate.yyyymmdd);
               break;
             case 1:
-              await _ref
-                  .watch(bankInputProvider.notifier)
-                  .setOutArrowDate(outArrowDate: selectedDate.yyyymmdd);
+              await _ref.watch(bankInputProvider.notifier).setOutArrowDate(outArrowDate: selectedDate.yyyymmdd);
               break;
           }
 
           break;
         case 'right':
-          await _ref
-              .watch(bankInputProvider.notifier)
-              .setInArrowDate(inArrowDate: selectedDate.yyyymmdd);
+          await _ref.watch(bankInputProvider.notifier).setInArrowDate(inArrowDate: selectedDate.yyyymmdd);
           break;
       }
     }

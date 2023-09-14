@@ -36,70 +36,73 @@ class SpendItemInputScreen extends ConsumerWidget {
 
     makeSpendItem();
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          _utility.getBackGround(),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: [
-                const SizedBox(height: 50),
-                Container(width: context.screenSize.width),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(date.yyyymmdd),
-                    Row(
-                      children: [
-                        Text(
-                          (spendItemInputState.diff != 0)
-                              ? spendItemInputState.diff.toString().toCurrency()
-                              : spendItemInputState.baseDiff.toCurrency(),
-                          style: TextStyle(
-                            color: (spendItemInputState.diff == 0) ? Colors.yellowAccent : Colors.white,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            _utility.getBackGround(),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: [
+                  const SizedBox(height: 50),
+                  Container(width: context.screenSize.width),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(date.yyyymmdd),
+                      Row(
+                        children: [
+                          Text(
+                            (spendItemInputState.diff != 0)
+                                ? spendItemInputState.diff.toString().toCurrency()
+                                : spendItemInputState.baseDiff.toCurrency(),
+                            style: TextStyle(
+                              color: (spendItemInputState.diff == 0) ? Colors.yellowAccent : Colors.white,
+                            ),
                           ),
-                        ),
-                        IconButton(
-                          onPressed: () async {
-                            await _ref.watch(spendItemInputProvider(diff).notifier).inputSpendItem(date: date);
+                          IconButton(
+                            onPressed: () async {
+                              await _ref.watch(spendItemInputProvider(diff).notifier).inputSpendItem(date: date);
 
-                            await Vibration.vibrate(
-                              pattern: [500, 1000, 500, 2000],
-                            );
+                              await Vibration.vibrate(
+                                pattern: [500, 1000, 500, 2000],
+                              );
 
-                            Navigator.pop(_context);
-                          },
-                          icon: const Icon(
-                            Icons.input,
-                            color: Colors.pinkAccent,
+                              Navigator.pop(_context);
+                            },
+                            icon: const Icon(
+                              Icons.input,
+                              color: Colors.pinkAccent,
+                            ),
                           ),
-                        ),
-                        IconButton(
-                          onPressed: () => Navigator.pop(context),
-                          icon: const Icon(Icons.close),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Divider(
-                  thickness: 2,
-                  color: Colors.white.withOpacity(0.4),
-                ),
-                Expanded(child: displayInputParts()),
-                Divider(
-                  thickness: 2,
-                  color: Colors.white.withOpacity(0.4),
-                ),
-                displayNumSetPanel(),
-                const SizedBox(height: 20),
-              ],
+                          IconButton(
+                            onPressed: () => Navigator.pop(context),
+                            icon: const Icon(Icons.close),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Divider(
+                    thickness: 2,
+                    color: Colors.white.withOpacity(0.4),
+                  ),
+                  Expanded(child: displayInputParts()),
+                  Divider(
+                    thickness: 2,
+                    color: Colors.white.withOpacity(0.4),
+                  ),
+                  displayNumSetPanel(),
+                  const SizedBox(height: 20),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

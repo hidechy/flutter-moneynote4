@@ -32,79 +32,78 @@ class TimeplaceInputScreen extends ConsumerWidget {
 
     makeTecs();
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          _utility.getBackGround(),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: [
-                const SizedBox(height: 50),
-                Container(width: context.screenSize.width),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Text(date.yyyymmdd),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: const Text('/'),
-                        ),
-                        Text(
-                          (timeplaceInputState.diff != 0)
-                              ? timeplaceInputState.diff.toString().toCurrency()
-                              : timeplaceInputState.baseDiff.toCurrency(),
-                          style: TextStyle(
-                            color: (timeplaceInputState.diff == 0)
-                                ? Colors.yellowAccent
-                                : Colors.white,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            _utility.getBackGround(),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: [
+                  const SizedBox(height: 50),
+                  Container(width: context.screenSize.width),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Text(date.yyyymmdd),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: const Text('/'),
                           ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: () async {
-                            await _ref
-                                .watch(timeplaceInputProvider(diff).notifier)
-                                .inputTimeplace(date: date);
-
-                            await Vibration.vibrate(
-                              pattern: [500, 1000, 500, 2000],
-                            );
-
-                            Navigator.pop(_context);
-                          },
-                          icon: const Icon(
-                            Icons.input,
-                            color: Colors.pinkAccent,
+                          Text(
+                            (timeplaceInputState.diff != 0)
+                                ? timeplaceInputState.diff.toString().toCurrency()
+                                : timeplaceInputState.baseDiff.toCurrency(),
+                            style: TextStyle(
+                              color: (timeplaceInputState.diff == 0) ? Colors.yellowAccent : Colors.white,
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 20),
-                        IconButton(
-                          onPressed: () => Navigator.pop(context),
-                          icon: const Icon(Icons.close),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Divider(
-                  thickness: 2,
-                  color: Colors.white.withOpacity(0.4),
-                ),
-                Expanded(
-                  child: displayInputParts(),
-                ),
-              ],
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () async {
+                              await _ref.watch(timeplaceInputProvider(diff).notifier).inputTimeplace(date: date);
+
+                              await Vibration.vibrate(
+                                pattern: [500, 1000, 500, 2000],
+                              );
+
+                              Navigator.pop(_context);
+                            },
+                            icon: const Icon(
+                              Icons.input,
+                              color: Colors.pinkAccent,
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                          IconButton(
+                            onPressed: () => Navigator.pop(context),
+                            icon: const Icon(Icons.close),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Divider(
+                    thickness: 2,
+                    color: Colors.white.withOpacity(0.4),
+                  ),
+                  Expanded(
+                    child: displayInputParts(),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -167,9 +166,7 @@ class TimeplaceInputScreen extends ConsumerWidget {
                   ),
                   style: const TextStyle(fontSize: 12),
                   onChanged: (value) {
-                    _ref
-                        .watch(timeplaceInputProvider(diff).notifier)
-                        .setPlace(pos: i, place: value);
+                    _ref.watch(timeplaceInputProvider(diff).notifier).setPlace(pos: i, place: value);
                   },
                 ),
               ),
@@ -177,9 +174,7 @@ class TimeplaceInputScreen extends ConsumerWidget {
                 activeColor: Colors.orangeAccent,
                 value: timeplaceInputState.minusCheck[i],
                 onChanged: (check) {
-                  _ref
-                      .watch(timeplaceInputProvider(diff).notifier)
-                      .setMinusCheck(pos: i);
+                  _ref.watch(timeplaceInputProvider(diff).notifier).setMinusCheck(pos: i);
                 },
                 side: BorderSide(color: Colors.white.withOpacity(0.8)),
               ),
@@ -198,9 +193,7 @@ class TimeplaceInputScreen extends ConsumerWidget {
                   ),
                   style: const TextStyle(fontSize: 12),
                   onChanged: (value) {
-                    _ref
-                        .watch(timeplaceInputProvider(diff).notifier)
-                        .setSpendPrice(pos: i, price: value.toInt());
+                    _ref.watch(timeplaceInputProvider(diff).notifier).setSpendPrice(pos: i, price: value.toInt());
                   },
                 ),
               ),
@@ -231,12 +224,9 @@ class TimeplaceInputScreen extends ConsumerWidget {
     );
 
     if (selectedTime != null) {
-      final time =
-          '${selectedTime.hour.toString().padLeft(2, '0')}:${selectedTime.minute.toString().padLeft(2, '0')}';
+      final time = '${selectedTime.hour.toString().padLeft(2, '0')}:${selectedTime.minute.toString().padLeft(2, '0')}';
 
-      await _ref
-          .watch(timeplaceInputProvider(diff).notifier)
-          .setTime(pos: pos, time: time);
+      await _ref.watch(timeplaceInputProvider(diff).notifier).setTime(pos: pos, time: time);
     }
   }
 }
