@@ -100,6 +100,21 @@ class MonthlySpendPage extends ConsumerWidget {
 
     final appParamState = ref.watch(appParamProvider);
 
+    //======================
+    final spendZeroUseDateState = _ref.watch(spendZeroUseDateProvider);
+
+    final exDate = date.yyyymmdd.split('-');
+
+    var starNum = 0;
+    spendZeroUseDateState.data.forEach((element) {
+      final exElementDate = element.yyyymmdd.split('-');
+      if (exDate[0] == exElementDate[0] && exDate[1] == exElementDate[1]) {
+        starNum++;
+      }
+    });
+
+    //======================
+
     return CustomScrollView(
       slivers: <Widget>[
         SliverList(
@@ -166,7 +181,18 @@ class MonthlySpendPage extends ConsumerWidget {
                       children: [
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: _getCalendar(),
+                          child: Column(
+                            children: [
+                              _getCalendar(),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(),
+                                  Text('star: $starNum', style: const TextStyle(color: Colors.yellowAccent)),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

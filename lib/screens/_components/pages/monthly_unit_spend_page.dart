@@ -94,11 +94,15 @@ class MonthlyUnitSpendPage extends ConsumerWidget {
                         final selectedMonth = DateTime(e.key.split('-')[0].toInt(), e.key.split('-')[1].toInt()).month;
                         final todayMonth = DateTime.now().month;
 
+                        final thisYear = DateTime.now().year;
+                        final selectedYear = DateTime(e.key.split('-')[0].toInt(), e.key.split('-')[1].toInt()).year;
+                        final adjustMonth = (thisYear - selectedYear) * 12;
+
                         MoneyDialog(
                           context: _context,
                           widget: MonthlySpendAlert(
                             date: DateTime(e.key.split('-')[0].toInt(), e.key.split('-')[1].toInt()),
-                            index: todayMonth - selectedMonth,
+                            index: todayMonth - selectedMonth + adjustMonth,
                           ),
                         );
                       },
