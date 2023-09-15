@@ -61,7 +61,9 @@ class TempleDisplayAlert extends ConsumerWidget {
     final stationMap = _ref.watch(stationProvider.select((value) => value.stationMap));
 
     list.add(Text(
-      '${stationMap[temple.startPoint]?.stationName}',
+      (temple.startPoint == '自宅' || temple.startPoint == '実家')
+          ? temple.startPoint
+          : '${stationMap[temple.startPoint]?.stationName}',
       style: const TextStyle(color: Colors.greenAccent),
     ));
 
@@ -72,7 +74,9 @@ class TempleDisplayAlert extends ConsumerWidget {
     }
 
     list.add(Text(
-      '${stationMap[temple.endPoint]?.stationName}',
+      (temple.endPoint == '自宅' || temple.endPoint == '実家')
+          ? temple.endPoint
+          : '${stationMap[temple.endPoint]?.stationName}',
       style: const TextStyle(color: Colors.greenAccent),
     ));
 

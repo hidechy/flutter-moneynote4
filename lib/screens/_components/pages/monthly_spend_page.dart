@@ -188,7 +188,7 @@ class MonthlySpendPage extends ConsumerWidget {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(),
-                                  Text('star: $starNum', style: const TextStyle(color: Colors.yellowAccent)),
+                                  Text('$starNum stars.', style: const TextStyle(color: Colors.yellowAccent)),
                                 ],
                               ),
                             ],
