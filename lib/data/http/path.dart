@@ -49,6 +49,7 @@ enum APIPath {
   getAllTemple,
   getAllStation,
   getTempleDatePhoto,
+  getTempleLatLng,
 }
 
 extension APIPathExtension on APIPath {
@@ -154,6 +155,8 @@ extension APIPathExtension on APIPath {
         return 'getAllStation';
       case APIPath.getTempleDatePhoto:
         return 'getTempleDatePhoto';
+      case APIPath.getTempleLatLng:
+        return 'getTempleLatLng';
     }
   }
 }

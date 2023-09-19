@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/state/temple_latlng/temple_latlng_notifier.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/temple.dart';
@@ -96,6 +97,8 @@ class TempleDisplayAlert extends ConsumerWidget {
   Widget displayTemple() {
     final list = <Widget>[];
 
+    final templeLatLngMap = _ref.watch(templeLatLngProvider.select((value) => value.templeLatLngMap));
+
     final stationMap = _ref.watch(stationProvider.select((value) => value.stationMap));
 
     list.add(Text(
@@ -105,25 +108,59 @@ class TempleDisplayAlert extends ConsumerWidget {
       style: const TextStyle(color: Colors.greenAccent),
     ));
 
+    list.add(Divider(thickness: 3, color: Colors.white.withOpacity(0.2)));
+
     list.add(
-      Column(
-        children: [
-          Text(temple.temple),
-        ],
+      Container(
+        padding: const EdgeInsets.all(10),
+        margin: const EdgeInsets.only(bottom: 10),
+        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
+        child: Row(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(temple.temple),
+                Text((templeLatLngMap[temple.temple] != null) ? templeLatLngMap[temple.temple]!.address : ''),
+                Text(
+                  '${templeLatLngMap[temple.temple]!.lat} / ${templeLatLngMap[temple.temple]!.lng}',
+                  style: const TextStyle(fontSize: 8),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
 
     if (temple.memo != '') {
       temple.memo.split('、').forEach(
             (element) => list.add(
-              Column(
-                children: [
-                  Text(element),
-                ],
+              Container(
+                padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.only(bottom: 10),
+                decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
+                child: Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(element),
+                        Text((templeLatLngMap[element] != null) ? templeLatLngMap[element]!.address : ''),
+                        Text(
+                          '${templeLatLngMap[element]!.lat} / ${templeLatLngMap[element]!.lng}',
+                          style: const TextStyle(fontSize: 8),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           );
     }
+
+    list.add(Divider(thickness: 3, color: Colors.white.withOpacity(0.2)));
 
     list.add(Text(
       (temple.endPoint == '自宅' || temple.endPoint == '実家')
