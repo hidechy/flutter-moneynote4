@@ -5,16 +5,21 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/temple.dart';
+import '../../models/temple_photos.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../state/station/station_notifier.dart';
+import '../../state/temple_photos/temple_photos_notifier.dart';
 import '../../utility/utility.dart';
 
 class TempleDisplayAlert extends ConsumerWidget {
-  TempleDisplayAlert({super.key, required this.temple});
+  TempleDisplayAlert({super.key, required this.temple, required this.date});
 
+  final DateTime date;
   final Temple temple;
 
   final Utility _utility = Utility();
+
+  List<TemplePhoto> templePhotoList = [];
 
   late WidgetRef _ref;
 
@@ -22,6 +27,20 @@ class TempleDisplayAlert extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
+
+    getDateTemplePhotoList();
+
+    /*
+    print(templePhotoList);
+    I/flutter (12724): [
+    Instance of 'TemplePhoto',
+    Instance of 'TemplePhoto',
+    Instance of 'TemplePhoto',
+    Instance of 'TemplePhoto',
+    Instance of 'TemplePhoto',
+    Instance of 'TemplePhoto'
+    ]
+    */
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
@@ -55,6 +74,25 @@ class TempleDisplayAlert extends ConsumerWidget {
   }
 
   ///
+  void getDateTemplePhotoList() {
+    templePhotoList = [];
+
+    final templePhotoDateMap = _ref.watch(templePhotosProvider.select((value) => value.templePhotoDateMap));
+
+    final list = templePhotoDateMap[date.yyyymmdd] ?? [];
+
+    final list2 = <String>[];
+
+    list.forEach((element) {
+      if (!list2.contains(element.temple)) {
+        templePhotoList.add(element);
+
+        list2.add(element.temple);
+      }
+    });
+  }
+
+  ///
   Widget displayTemple() {
     final list = <Widget>[];
 
@@ -67,10 +105,24 @@ class TempleDisplayAlert extends ConsumerWidget {
       style: const TextStyle(color: Colors.greenAccent),
     ));
 
-    list.add(Text(temple.temple));
+    list.add(
+      Column(
+        children: [
+          Text(temple.temple),
+        ],
+      ),
+    );
 
     if (temple.memo != '') {
-      temple.memo.split('、').forEach((element) => list.add(Text(element)));
+      temple.memo.split('、').forEach(
+            (element) => list.add(
+              Column(
+                children: [
+                  Text(element),
+                ],
+              ),
+            ),
+          );
     }
 
     list.add(Text(

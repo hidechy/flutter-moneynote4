@@ -8,7 +8,7 @@ part 'temple_photos_response_state.freezed.dart';
 class TemplePhotosResponseState with _$TemplePhotosResponseState {
   const factory TemplePhotosResponseState({
     @Default([]) List<TemplePhoto> templePhotoList,
-    @Default({}) Map<String, TemplePhoto> templePhotoDateMap,
-    @Default({}) Map<String, TemplePhoto> templePhotoTempleMap,
+    @Default({}) Map<String, List<TemplePhoto>> templePhotoDateMap,
+    @Default({}) Map<String, List<TemplePhoto>> templePhotoTempleMap,
   }) = _TemplePhotosResponseState;
 }
