@@ -48,6 +48,7 @@ enum APIPath {
   getSameYearMonthDay,
   getAllTemple,
   getAllStation,
+  getTempleDatePhoto,
 }
 
 extension APIPathExtension on APIPath {
@@ -151,6 +152,8 @@ extension APIPathExtension on APIPath {
         return 'getAllTemple';
       case APIPath.getAllStation:
         return 'getAllStation';
+      case APIPath.getTempleDatePhoto:
+        return 'getTempleDatePhoto';
     }
   }
 }
