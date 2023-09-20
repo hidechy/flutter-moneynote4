@@ -2,13 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/state/temple_latlng/temple_latlng_notifier.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/temple.dart';
 import '../../models/temple_photos.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../state/station/station_notifier.dart';
+import '../../state/temple_latlng/temple_latlng_notifier.dart';
 import '../../state/temple_photos/temple_photos_notifier.dart';
 import '../../utility/utility.dart';
 
@@ -30,18 +30,6 @@ class TempleDisplayAlert extends ConsumerWidget {
     _ref = ref;
 
     getDateTemplePhotoList();
-
-    /*
-    print(templePhotoList);
-    I/flutter (12724): [
-    Instance of 'TemplePhoto',
-    Instance of 'TemplePhoto',
-    Instance of 'TemplePhoto',
-    Instance of 'TemplePhoto',
-    Instance of 'TemplePhoto',
-    Instance of 'TemplePhoto'
-    ]
-    */
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
@@ -111,51 +99,48 @@ class TempleDisplayAlert extends ConsumerWidget {
     list.add(Divider(thickness: 3, color: Colors.white.withOpacity(0.2)));
 
     list.add(
-      Container(
-        padding: const EdgeInsets.all(10),
-        margin: const EdgeInsets.only(bottom: 10),
-        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
-        child: Row(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(temple.temple),
-                Text((templeLatLngMap[temple.temple] != null) ? templeLatLngMap[temple.temple]!.address : ''),
-                Text(
-                  '${templeLatLngMap[temple.temple]!.lat} / ${templeLatLngMap[temple.temple]!.lng}',
-                  style: const TextStyle(fontSize: 8),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
+      (templeLatLngMap[temple.temple] != null)
+          ? Container(
+              padding: const EdgeInsets.all(10),
+              margin: const EdgeInsets.only(bottom: 10),
+              decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(temple.temple),
+                  Text(templeLatLngMap[temple.temple]!.address),
+                  Text(
+                    '${templeLatLngMap[temple.temple]!.lat} / ${templeLatLngMap[temple.temple]!.lng}',
+                    style: const TextStyle(fontSize: 8),
+                  ),
+                ],
+              ),
+            )
+          : Container(),
     );
 
     if (temple.memo != '') {
       temple.memo.split('、').forEach(
             (element) => list.add(
-              Container(
-                padding: const EdgeInsets.all(10),
-                margin: const EdgeInsets.only(bottom: 10),
-                decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
-                child: Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(element),
-                        Text((templeLatLngMap[element] != null) ? templeLatLngMap[element]!.address : ''),
-                        Text(
-                          '${templeLatLngMap[element]!.lat} / ${templeLatLngMap[element]!.lng}',
-                          style: const TextStyle(fontSize: 8),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+              (templeLatLngMap[element] != null)
+                  ? Container(
+                      padding: const EdgeInsets.all(10),
+                      margin: const EdgeInsets.only(bottom: 10),
+                      decoration:
+                          BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(element),
+                          Text(templeLatLngMap[element]!.address),
+                          Text(
+                            '${templeLatLngMap[element]!.lat} / ${templeLatLngMap[element]!.lng}',
+                            style: const TextStyle(fontSize: 8),
+                          ),
+                        ],
+                      ),
+                    )
+                  : Container(),
             ),
           );
     }
