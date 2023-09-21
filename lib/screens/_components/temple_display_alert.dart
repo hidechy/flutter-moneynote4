@@ -1,11 +1,12 @@
 // ignore_for_file: cascade_invocations, must_be_immutable
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/temple.dart';
-import '../../models/temple_photos.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../state/station/station_notifier.dart';
 import '../../state/temple_latlng/temple_latlng_notifier.dart';
@@ -20,7 +21,7 @@ class TempleDisplayAlert extends ConsumerWidget {
 
   final Utility _utility = Utility();
 
-  List<TemplePhoto> templePhotoList = [];
+  Map<String, String> templePhotoMap = {};
 
   late WidgetRef _ref;
 
@@ -29,7 +30,7 @@ class TempleDisplayAlert extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
 
-    getDateTemplePhotoList();
+    getDateTemplePhotoMap();
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
@@ -63,8 +64,8 @@ class TempleDisplayAlert extends ConsumerWidget {
   }
 
   ///
-  void getDateTemplePhotoList() {
-    templePhotoList = [];
+  void getDateTemplePhotoMap() {
+    templePhotoMap = {};
 
     final templePhotoDateMap = _ref.watch(templePhotosProvider.select((value) => value.templePhotoDateMap));
 
@@ -74,11 +75,18 @@ class TempleDisplayAlert extends ConsumerWidget {
 
     list.forEach((element) {
       if (!list2.contains(element.temple)) {
-        templePhotoList.add(element);
+        templePhotoMap[element.temple] = getRandomTemplePhoto(templePhotos: element.templephotos);
 
         list2.add(element.temple);
       }
     });
+  }
+
+  ///
+  String getRandomTemplePhoto({required List<String> templePhotos}) {
+    final random = Random();
+
+    return templePhotos[random.nextInt(templePhotos.length)];
   }
 
   ///
@@ -104,14 +112,31 @@ class TempleDisplayAlert extends ConsumerWidget {
               padding: const EdgeInsets.all(10),
               margin: const EdgeInsets.only(bottom: 10),
               decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
-              child: Column(
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(temple.temple),
-                  Text(templeLatLngMap[temple.temple]!.address),
-                  Text(
-                    '${templeLatLngMap[temple.temple]!.lat} / ${templeLatLngMap[temple.temple]!.lng}',
-                    style: const TextStyle(fontSize: 8),
+                  if (templePhotoMap[temple.temple] != null) ...[
+                    SizedBox(
+                      width: 40,
+                      child: FadeInImage.assetNetwork(
+                        placeholder: 'assets/images/no_image.png',
+                        image: templePhotoMap[temple.temple]!,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                  ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(temple.temple),
+                        Text(templeLatLngMap[temple.temple]!.address),
+                        Text(
+                          '${templeLatLngMap[temple.temple]!.lat} / ${templeLatLngMap[temple.temple]!.lng}',
+                          style: const TextStyle(fontSize: 8),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -128,14 +153,31 @@ class TempleDisplayAlert extends ConsumerWidget {
                       margin: const EdgeInsets.only(bottom: 10),
                       decoration:
                           BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
-                      child: Column(
+                      child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(element),
-                          Text(templeLatLngMap[element]!.address),
-                          Text(
-                            '${templeLatLngMap[element]!.lat} / ${templeLatLngMap[element]!.lng}',
-                            style: const TextStyle(fontSize: 8),
+                          if (templePhotoMap[element] != null) ...[
+                            SizedBox(
+                              width: 40,
+                              child: FadeInImage.assetNetwork(
+                                placeholder: 'assets/images/no_image.png',
+                                image: templePhotoMap[element]!,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                          ],
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(element),
+                                Text(templeLatLngMap[element]!.address),
+                                Text(
+                                  '${templeLatLngMap[element]!.lat} / ${templeLatLngMap[element]!.lng}',
+                                  style: const TextStyle(fontSize: 8),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -153,6 +195,8 @@ class TempleDisplayAlert extends ConsumerWidget {
           : '${stationMap[temple.endPoint]?.stationName}',
       style: const TextStyle(color: Colors.greenAccent),
     ));
+
+    list.add(const SizedBox(height: 20));
 
     return SingleChildScrollView(
       child: DefaultTextStyle(
