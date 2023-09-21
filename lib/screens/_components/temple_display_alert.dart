@@ -3,7 +3,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/_money_dialog.dart';
+import 'package:moneynote4/screens/_components/temple_photo_history_alert.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/temple.dart';
@@ -23,11 +26,13 @@ class TempleDisplayAlert extends ConsumerWidget {
 
   Map<String, String> templePhotoMap = {};
 
+  late BuildContext _context;
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    _context = context;
     _ref = ref;
 
     getDateTemplePhotoMap();
@@ -138,6 +143,10 @@ class TempleDisplayAlert extends ConsumerWidget {
                       ],
                     ),
                   ),
+                  GestureDetector(
+                      onTap: () =>
+                          MoneyDialog(context: _context, widget: TemplePhotoHistoryAlert(temple: temple.temple)),
+                      child: Icon(FontAwesomeIcons.toriiGate, color: Colors.white.withOpacity(0.6), size: 16)),
                 ],
               ),
             )
@@ -179,6 +188,10 @@ class TempleDisplayAlert extends ConsumerWidget {
                               ],
                             ),
                           ),
+                          GestureDetector(
+                              onTap: () =>
+                                  MoneyDialog(context: _context, widget: TemplePhotoHistoryAlert(temple: element)),
+                              child: Icon(FontAwesomeIcons.toriiGate, color: Colors.white.withOpacity(0.6), size: 16)),
                         ],
                       ),
                     )
