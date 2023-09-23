@@ -5,8 +5,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/_money_dialog.dart';
-import 'package:moneynote4/screens/_components/temple_photo_history_alert.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/temple.dart';
@@ -15,6 +13,8 @@ import '../../state/station/station_notifier.dart';
 import '../../state/temple_latlng/temple_latlng_notifier.dart';
 import '../../state/temple_photos/temple_photos_notifier.dart';
 import '../../utility/utility.dart';
+import '_money_dialog.dart';
+import 'temple_photo_history_alert.dart';
 
 class TempleDisplayAlert extends ConsumerWidget {
   TempleDisplayAlert({super.key, required this.temple, required this.date});
