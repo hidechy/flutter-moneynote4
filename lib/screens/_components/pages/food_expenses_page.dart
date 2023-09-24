@@ -53,8 +53,7 @@ class FoodExpensesPage extends ConsumerWidget {
                 Container(width: context.screenSize.width),
 
                 //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
                 //----------//
 
                 displayFoodExpenses(),
@@ -86,13 +85,7 @@ class FoodExpensesPage extends ConsumerWidget {
         Container(
           width: _context.screenSize.width,
           padding: const EdgeInsets.symmetric(vertical: 3),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.white.withOpacity(0.3),
-              ),
-            ),
-          ),
+          decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -110,15 +103,18 @@ class FoodExpensesPage extends ConsumerWidget {
     seiyuPriceMap.forEach((key, value) {
       list2.add(
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(DateTime(
-              key.split('-')[0].toInt(),
-              key.split('-')[1].toInt(),
-              key.split('-')[2].toInt(),
-            ).mmdd),
-            const SizedBox(width: 20),
-            Text(value.toString().toCurrency()),
+            SizedBox(
+              width: _context.screenSize.width / 6,
+              child: Text(
+                DateTime(key.split('-')[0].toInt(), key.split('-')[1].toInt(), key.split('-')[2].toInt()).mmdd,
+              ),
+            ),
+            Container(
+              width: _context.screenSize.width / 6,
+              alignment: Alignment.topRight,
+              child: Text(value.toString().toCurrency()),
+            ),
           ],
         ),
       );
@@ -128,13 +124,7 @@ class FoodExpensesPage extends ConsumerWidget {
       Container(
         width: _context.screenSize.width,
         padding: const EdgeInsets.symmetric(vertical: 3),
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              color: Colors.white.withOpacity(0.3),
-            ),
-          ),
-        ),
+        decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,12 +133,7 @@ class FoodExpensesPage extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('西友'),
-                Row(
-                  children: [
-                    const SizedBox(width: 10),
-                    Column(children: list2),
-                  ],
-                ),
+                Row(children: [const SizedBox(width: 10), Column(children: list2)]),
               ],
             ),
             Text(seiyuTotalPrice.toString().toCurrency()),
@@ -164,31 +149,19 @@ class FoodExpensesPage extends ConsumerWidget {
         width: _context.screenSize.width,
         padding: const EdgeInsets.symmetric(vertical: 3),
         decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              color: Colors.white.withOpacity(0.3),
-            ),
-          ),
+          border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
           color: Colors.yellowAccent.withOpacity(0.2),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(''),
-            Text(ttl.toString().toCurrency()),
-          ],
+          children: [const Text(''), Text(ttl.toString().toCurrency())],
         ),
       ),
     );
 
     return SingleChildScrollView(
-      child: DefaultTextStyle(
-        style: const TextStyle(fontSize: 12),
-        child: Column(
-          children: list,
-        ),
-      ),
+      child: DefaultTextStyle(style: const TextStyle(fontSize: 12), child: Column(children: list)),
     );
   }
 

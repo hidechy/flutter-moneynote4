@@ -59,23 +59,81 @@ class AmazonPage extends ConsumerWidget {
   Widget displayAmazonPurchase() {
     final amazonPurchaseState = _ref.watch(amazonPurchaseProvider(date));
 
+    ///////////////////////////
+    final mt = <String, List<int>>{};
+
+    amazonPurchaseState
+      ..forEach((element) {
+        final month = DateTime.parse(element.date).mm;
+
+        mt[month] = [];
+      })
+      ..forEach((element) {
+        final month = DateTime.parse(element.date).mm;
+
+        mt[month]?.add(element.price.toInt());
+      });
+
+    final monthTotal = <String, int>{};
+
+    var keepMonth = '';
+
+    var ttl = 0;
+    var yTtl = 0;
+    mt.forEach((key, value) {
+      if (key != keepMonth) {
+        ttl = 0;
+      }
+
+      value.forEach((element) {
+        ttl += element;
+
+        yTtl += element;
+      });
+
+      monthTotal[key] = ttl;
+
+      keepMonth = key;
+    });
+
+    ///////////////////////////
+
     final list = <Widget>[];
+
+    keepMonth = '';
 
     amazonPurchaseState.forEach((element) {
       final month = DateTime.parse(element.date).mm;
+
+      if (month != keepMonth) {
+        list.add(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(),
+              Container(
+                width: _context.screenSize.width / 5,
+                alignment: Alignment.center,
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: _utility.getLeadingBgColor(month: month),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(monthTotal[month].toString().toCurrency()),
+              ),
+            ],
+          ),
+        );
+      }
 
       list.add(
         Container(
           width: _context.screenSize.width,
           padding: const EdgeInsets.symmetric(vertical: 3),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.white.withOpacity(0.3),
-              ),
-            ),
-          ),
+          decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 padding: const EdgeInsets.all(20),
@@ -113,10 +171,25 @@ class AmazonPage extends ConsumerWidget {
           ),
         ),
       );
+
+      keepMonth = month;
     });
 
     return SingleChildScrollView(
-      child: Column(children: list),
+      child: Column(
+        children: [
+          Column(children: list),
+          Divider(thickness: 3, color: Colors.white.withOpacity(0.2)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(),
+              Text(yTtl.toString().toCurrency(), style: const TextStyle(color: Colors.yellowAccent)),
+            ],
+          ),
+          const SizedBox(height: 20),
+        ],
+      ),
     );
   }
 }
