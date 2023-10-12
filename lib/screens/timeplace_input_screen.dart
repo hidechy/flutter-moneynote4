@@ -70,7 +70,7 @@ class TimeplaceInputScreen extends ConsumerWidget {
                         children: [
                           IconButton(
                             onPressed: () async {
-                              await _ref.watch(timeplaceInputProvider(diff).notifier).inputTimeplace(date: date);
+                              await _ref.read(timeplaceInputProvider(diff).notifier).inputTimeplace(date: date);
 
                               await Vibration.vibrate(
                                 pattern: [500, 1000, 500, 2000],
@@ -165,17 +165,13 @@ class TimeplaceInputScreen extends ConsumerWidget {
                     ),
                   ),
                   style: const TextStyle(fontSize: 12),
-                  onChanged: (value) {
-                    _ref.watch(timeplaceInputProvider(diff).notifier).setPlace(pos: i, place: value);
-                  },
+                  onChanged: (value) => _ref.read(timeplaceInputProvider(diff).notifier).setPlace(pos: i, place: value),
                 ),
               ),
               Checkbox(
                 activeColor: Colors.orangeAccent,
                 value: timeplaceInputState.minusCheck[i],
-                onChanged: (check) {
-                  _ref.watch(timeplaceInputProvider(diff).notifier).setMinusCheck(pos: i);
-                },
+                onChanged: (check) => _ref.read(timeplaceInputProvider(diff).notifier).setMinusCheck(pos: i),
                 side: BorderSide(color: Colors.white.withOpacity(0.8)),
               ),
               SizedBox(
@@ -192,9 +188,8 @@ class TimeplaceInputScreen extends ConsumerWidget {
                     ),
                   ),
                   style: const TextStyle(fontSize: 12),
-                  onChanged: (value) {
-                    _ref.watch(timeplaceInputProvider(diff).notifier).setSpendPrice(pos: i, price: value.toInt());
-                  },
+                  onChanged: (value) =>
+                      _ref.read(timeplaceInputProvider(diff).notifier).setSpendPrice(pos: i, price: value.toInt()),
                 ),
               ),
             ],
@@ -226,7 +221,7 @@ class TimeplaceInputScreen extends ConsumerWidget {
     if (selectedTime != null) {
       final time = '${selectedTime.hour.toString().padLeft(2, '0')}:${selectedTime.minute.toString().padLeft(2, '0')}';
 
-      await _ref.watch(timeplaceInputProvider(diff).notifier).setTime(pos: pos, time: time);
+      await _ref.read(timeplaceInputProvider(diff).notifier).setTime(pos: pos, time: time);
     }
   }
 }

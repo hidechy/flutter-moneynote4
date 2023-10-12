@@ -74,9 +74,9 @@ class CreditYearlyListAlert extends ConsumerWidget {
                   ),
                   IconButton(
                     onPressed: () {
-                      ref.watch(appParamProvider.notifier).setCreditYearlyListSelectString(value: '');
+                      ref.read(appParamProvider.notifier).setCreditYearlyListSelectString(value: '');
 
-                      ref.watch(appParamProvider.notifier).setCreditYearlyListSelectedString(value: searchText.text);
+                      ref.read(appParamProvider.notifier).setCreditYearlyListSelectedString(value: searchText.text);
                     },
                     icon: Icon((appParamState.CreditYearlyListSelectedString != '') ? Icons.close : Icons.search),
                   ),

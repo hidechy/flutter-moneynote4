@@ -75,9 +75,9 @@ class KeihiListAlert extends ConsumerWidget {
       yearList.add(
         GestureDetector(
           onTap: () {
-            _ref.watch(appParamProvider.notifier).setKeihiListAlertSelectYear(year: i);
+            _ref.read(appParamProvider.notifier).setKeihiListAlertSelectYear(year: i);
 
-            _ref.watch(keihiListProvider(date).notifier).getKeihiList(date: DateTime(i));
+            _ref.read(keihiListProvider(date).notifier).getKeihiList(date: DateTime(i));
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),

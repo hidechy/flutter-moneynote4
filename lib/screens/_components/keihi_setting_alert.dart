@@ -94,16 +94,16 @@ class KeihiSettingAlert extends ConsumerWidget {
                   IconButton(
                     onPressed: () async {
                       if (selectedCategory == '') {
-                        await ref.watch(monthlySpendCheckProvider(date).notifier).setErrorMsg(error: 'no category set');
+                        await ref.read(monthlySpendCheckProvider(date).notifier).setErrorMsg(error: 'no category set');
 
                         return;
                       }
 
-                      await ref.watch(monthlySpendCheckProvider(date).notifier).updateKeihiCategory(id: id);
+                      await ref.read(monthlySpendCheckProvider(date).notifier).updateKeihiCategory(id: id);
 
-                      await ref.watch(monthlySpendCheckProvider(date).notifier).getSpendCheckItem(date: date);
+                      await ref.read(monthlySpendCheckProvider(date).notifier).getSpendCheckItem(date: date);
 
-                      await ref.watch(keihiListProvider(date).notifier).getKeihiList(date: date);
+                      await ref.read(keihiListProvider(date).notifier).getKeihiList(date: date);
 
                       Navigator.pop(context);
                     },
@@ -183,11 +183,9 @@ class KeihiSettingAlert extends ConsumerWidget {
           child: Row(
             children: [
               GestureDetector(
-                onTap: () {
-                  _ref.watch(monthlySpendCheckProvider(date).notifier).setSelectCategory(
-                        category: '${element.category1}|${element.category2}',
-                      );
-                },
+                onTap: () => _ref
+                    .read(monthlySpendCheckProvider(date).notifier)
+                    .setSelectCategory(category: '${element.category1}|${element.category2}'),
                 child: Icon(
                   Icons.ac_unit_outlined,
                   color: Colors.white.withOpacity(0.8),

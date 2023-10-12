@@ -53,8 +53,7 @@ class MonthlySpendGraphAlert extends ConsumerWidget {
               Container(width: context.screenSize.width),
 
               //----------//
-              if (deviceInfoState.model == 'iPhone')
-                _utility.getFileNameDebug(name: runtimeType.toString()),
+              if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
               //----------//
 
               Expanded(
@@ -70,13 +69,11 @@ class MonthlySpendGraphAlert extends ConsumerWidget {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.indigo.withOpacity(0.3),
                         ),
-                        onPressed: () {
-                          ref.watch(graphWidthProvider.notifier).setGraphWidth(
-                                width: (graphWidthState == minGraphRate)
-                                    ? (flspots.length / 10).ceil().toDouble()
-                                    : minGraphRate,
-                              );
-                        },
+                        onPressed: () => ref.read(graphWidthProvider.notifier).setGraphWidth(
+                              width: (graphWidthState == minGraphRate)
+                                  ? (flspots.length / 10).ceil().toDouble()
+                                  : minGraphRate,
+                            ),
                         child: const Text('width'),
                       ),
                       if (graphWidthState > minGraphRate)
@@ -84,14 +81,8 @@ class MonthlySpendGraphAlert extends ConsumerWidget {
                           children: [
                             const SizedBox(width: 10),
                             ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    Colors.pinkAccent.withOpacity(0.3),
-                              ),
-                              onPressed: () {
-                                _controller.jumpTo(
-                                    _controller.position.maxScrollExtent);
-                              },
+                              style: ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent.withOpacity(0.3)),
+                              onPressed: () => _controller.jumpTo(_controller.position.maxScrollExtent),
                               child: const Text('jump'),
                             ),
                           ],
@@ -103,10 +94,7 @@ class MonthlySpendGraphAlert extends ConsumerWidget {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.pinkAccent.withOpacity(0.3),
                       ),
-                      onPressed: () {
-                        _controller
-                            .jumpTo(_controller.position.minScrollExtent);
-                      },
+                      onPressed: () => _controller.jumpTo(_controller.position.minScrollExtent),
                       child: const Text('back'),
                     ),
                 ],
@@ -249,8 +237,7 @@ class MonthlySpendGraphAlert extends ConsumerWidget {
 
 ///
 ////////////////////////////////////////////////////////////
-final graphWidthProvider =
-    StateNotifierProvider.autoDispose<GraphWidthStateNotifier, double>((ref) {
+final graphWidthProvider = StateNotifierProvider.autoDispose<GraphWidthStateNotifier, double>((ref) {
   return GraphWidthStateNotifier();
 });
 

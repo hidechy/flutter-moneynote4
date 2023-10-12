@@ -30,16 +30,15 @@ class SeiyuAlert extends HookConsumerWidget {
 
     //================================//
     final tabController = useTabController(initialLength: years.length);
-    tabController.addListener(() {
-      ref.watch(appParamProvider.notifier).setSeiyuAlertSelectYear(year: years[tabController.index]);
-    });
+    tabController.addListener(
+        () => ref.read(appParamProvider.notifier).setSeiyuAlertSelectYear(year: years[tabController.index]));
     //================================//
 
     //================================//
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final SeiyuAlertSelectYear = ref.watch(appParamProvider.select((value) => value.SeiyuAlertSelectYear));
+      final SeiyuAlertSelectYear = ref.read(appParamProvider.select((value) => value.SeiyuAlertSelectYear));
       if (SeiyuAlertSelectYear == DateTime.now().year) {
-        ref.watch(seiyuAllProvider(date).notifier).getSeiyuDateList(date: DateTime.now());
+        ref.read(seiyuAllProvider(date).notifier).getSeiyuDateList(date: DateTime.now());
       }
     });
     //================================//

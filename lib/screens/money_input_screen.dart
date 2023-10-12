@@ -197,7 +197,7 @@ class MoneyInputScreen extends ConsumerWidget {
                               onPressed: () async {
                                 await soundpool.play(soundC);
 
-                                await ref.watch(beforeCallProvider.notifier).setFlag(flag: 1);
+                                await ref.read(beforeCallProvider.notifier).setFlag(flag: 1);
 
                                 setDefaultMoneyData();
 
@@ -214,7 +214,7 @@ class MoneyInputScreen extends ConsumerWidget {
                               onPressed: () async {
                                 await soundpool.play(soundD);
 
-                                await ref.watch(stopDefaultProvider.notifier).setStop(stop: 1);
+                                await ref.read(stopDefaultProvider.notifier).setStop(stop: 1);
 
                                 makeTotal();
                               },
@@ -224,9 +224,9 @@ class MoneyInputScreen extends ConsumerWidget {
                               onPressed: () async {
                                 await soundpool.play(soundE);
 
-                                await ref.watch(stopDefaultProvider.notifier).setStop(stop: 1);
+                                await ref.read(stopDefaultProvider.notifier).setStop(stop: 1);
 
-                                await ref.watch(spendDiffProvider.notifier).setSpend(spend: lastSum - formTotal);
+                                await ref.read(spendDiffProvider.notifier).setSpend(spend: lastSum - formTotal);
                               },
                               icon: const Icon(Icons.arrow_circle_right),
                             ),
@@ -289,30 +289,30 @@ class MoneyInputScreen extends ConsumerWidget {
     tecPayD.text = moneyState.payD;
     tecPayE.text = moneyState.payE;
 
-    _ref.watch(moneyInputProvider.notifier).setDate(date: date.yyyymmdd);
+    _ref.read(moneyInputProvider.notifier).setDate(date: date.yyyymmdd);
 
-    _ref.watch(moneyInputProvider.notifier).setYen10000(yen10000: moneyState.yen10000);
-    _ref.watch(moneyInputProvider.notifier).setYen5000(yen5000: moneyState.yen5000);
-    _ref.watch(moneyInputProvider.notifier).setYen2000(yen2000: moneyState.yen2000);
-    _ref.watch(moneyInputProvider.notifier).setYen1000(yen1000: moneyState.yen1000);
-    _ref.watch(moneyInputProvider.notifier).setYen500(yen500: moneyState.yen500);
-    _ref.watch(moneyInputProvider.notifier).setYen100(yen100: moneyState.yen100);
-    _ref.watch(moneyInputProvider.notifier).setYen50(yen50: moneyState.yen50);
-    _ref.watch(moneyInputProvider.notifier).setYen10(yen10: moneyState.yen10);
-    _ref.watch(moneyInputProvider.notifier).setYen5(yen5: moneyState.yen5);
-    _ref.watch(moneyInputProvider.notifier).setYen1(yen1: moneyState.yen1);
+    _ref.read(moneyInputProvider.notifier).setYen10000(yen10000: moneyState.yen10000);
+    _ref.read(moneyInputProvider.notifier).setYen5000(yen5000: moneyState.yen5000);
+    _ref.read(moneyInputProvider.notifier).setYen2000(yen2000: moneyState.yen2000);
+    _ref.read(moneyInputProvider.notifier).setYen1000(yen1000: moneyState.yen1000);
+    _ref.read(moneyInputProvider.notifier).setYen500(yen500: moneyState.yen500);
+    _ref.read(moneyInputProvider.notifier).setYen100(yen100: moneyState.yen100);
+    _ref.read(moneyInputProvider.notifier).setYen50(yen50: moneyState.yen50);
+    _ref.read(moneyInputProvider.notifier).setYen10(yen10: moneyState.yen10);
+    _ref.read(moneyInputProvider.notifier).setYen5(yen5: moneyState.yen5);
+    _ref.read(moneyInputProvider.notifier).setYen1(yen1: moneyState.yen1);
 
-    _ref.watch(moneyInputProvider.notifier).setBankA(bankA: moneyState.bankA);
-    _ref.watch(moneyInputProvider.notifier).setBankB(bankB: moneyState.bankB);
-    _ref.watch(moneyInputProvider.notifier).setBankC(bankC: moneyState.bankC);
-    _ref.watch(moneyInputProvider.notifier).setBankD(bankD: moneyState.bankD);
-    _ref.watch(moneyInputProvider.notifier).setBankE(bankE: moneyState.bankE);
+    _ref.read(moneyInputProvider.notifier).setBankA(bankA: moneyState.bankA);
+    _ref.read(moneyInputProvider.notifier).setBankB(bankB: moneyState.bankB);
+    _ref.read(moneyInputProvider.notifier).setBankC(bankC: moneyState.bankC);
+    _ref.read(moneyInputProvider.notifier).setBankD(bankD: moneyState.bankD);
+    _ref.read(moneyInputProvider.notifier).setBankE(bankE: moneyState.bankE);
 
-    _ref.watch(moneyInputProvider.notifier).setPayA(payA: moneyState.payA);
-    _ref.watch(moneyInputProvider.notifier).setPayB(payB: moneyState.payB);
-    _ref.watch(moneyInputProvider.notifier).setPayC(payC: moneyState.payC);
-    _ref.watch(moneyInputProvider.notifier).setPayD(payD: moneyState.payD);
-    _ref.watch(moneyInputProvider.notifier).setPayE(payE: moneyState.payE);
+    _ref.read(moneyInputProvider.notifier).setPayA(payA: moneyState.payA);
+    _ref.read(moneyInputProvider.notifier).setPayB(payB: moneyState.payB);
+    _ref.read(moneyInputProvider.notifier).setPayC(payC: moneyState.payC);
+    _ref.read(moneyInputProvider.notifier).setPayD(payD: moneyState.payD);
+    _ref.read(moneyInputProvider.notifier).setPayE(payE: moneyState.payE);
 
     lastSum = moneyState.sum.toInt();
   }
@@ -591,7 +591,7 @@ class MoneyInputScreen extends ConsumerWidget {
 
   ///
   void setMoneyInputStateKind({required String kind, required String value}) {
-    final inputMoneyViewModel = _ref.watch(moneyInputProvider.notifier);
+    final inputMoneyViewModel = _ref.read(moneyInputProvider.notifier);
 
     inputMoneyViewModel.setDate(date: date.yyyymmdd);
 
@@ -691,7 +691,7 @@ class MoneyInputScreen extends ConsumerWidget {
       onedayTotal += totalValue[i][0].toInt() * totalValue[i][1].toInt();
     }
 
-    _ref.watch(formTotalProvider.notifier).setTotal(total: onedayTotal);
+    _ref.read(formTotalProvider.notifier).setTotal(total: onedayTotal);
 
     formTotal = onedayTotal;
   }
@@ -725,9 +725,9 @@ class MoneyInputScreen extends ConsumerWidget {
     uploadData['pay_d'] = tecPayD.text;
     uploadData['pay_e'] = tecPayE.text;
 
-    await _ref.watch(moneyInputProvider.notifier).insertMoney(uploadData: uploadData);
+    await _ref.read(moneyInputProvider.notifier).insertMoney(uploadData: uploadData);
 
-    await _ref.watch(moneyProvider(date).notifier).getMoney(date: date);
+    await _ref.read(moneyProvider(date).notifier).getMoney(date: date);
 
     await Vibration.vibrate(pattern: [500, 1000, 500, 2000]);
 

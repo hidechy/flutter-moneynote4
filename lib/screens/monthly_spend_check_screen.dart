@@ -130,7 +130,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                         children: [
                           IconButton(
                             onPressed: () async {
-                              await ref.watch(keihiListProvider(date).notifier).getKeihiList(date: date);
+                              await ref.read(keihiListProvider(date).notifier).getKeihiList(date: date);
 
                               await MoneyDialog(
                                 context: context,
@@ -141,7 +141,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                           ),
                           IconButton(
                             onPressed: () {
-                              ref.watch(monthlySpendCheckProvider(date).notifier).inputCheckItem(date: date);
+                              ref.read(monthlySpendCheckProvider(date).notifier).inputCheckItem(date: date);
 
                               Navigator.pop(context);
                             },
@@ -237,10 +237,10 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                               GestureDetector(
                                 onTap: () async {
                                   await _ref
-                                      .watch(monthlySpendCheckProvider(date).notifier)
+                                      .read(monthlySpendCheckProvider(date).notifier)
                                       .setSelectCategory(category: '');
 
-                                  await _ref.watch(monthlySpendCheckProvider(date).notifier).setErrorMsg(error: '');
+                                  await _ref.read(monthlySpendCheckProvider(date).notifier).setErrorMsg(error: '');
 
                                   // 経費セッティングアラート1
                                   await MoneyDialog(
@@ -260,9 +260,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                               const SizedBox(width: 20),
                             ],
                             GestureDetector(
-                              onTap: () {
-                                _ref.watch(monthlySpendCheckProvider(date).notifier).setSelectItem(item: str);
-                              },
+                              onTap: () => _ref.read(monthlySpendCheckProvider(date).notifier).setSelectItem(item: str),
                               child: Icon(
                                 Icons.input,
                                 color: Colors.yellowAccent.withOpacity(0.6),
@@ -343,10 +341,10 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                               GestureDetector(
                                 onTap: () async {
                                   await _ref
-                                      .watch(monthlySpendCheckProvider(date).notifier)
+                                      .read(monthlySpendCheckProvider(date).notifier)
                                       .setSelectCategory(category: '');
 
-                                  await _ref.watch(monthlySpendCheckProvider(date).notifier).setErrorMsg(error: '');
+                                  await _ref.read(monthlySpendCheckProvider(date).notifier).setErrorMsg(error: '');
 
                                   // 経費セッティングアラート2
                                   await MoneyDialog(
@@ -366,9 +364,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                               const SizedBox(width: 20),
                             ],
                             GestureDetector(
-                              onTap: () {
-                                _ref.watch(monthlySpendCheckProvider(date).notifier).setSelectItem(item: str);
-                              },
+                              onTap: () => _ref.read(monthlySpendCheckProvider(date).notifier).setSelectItem(item: str),
                               child: Icon(
                                 Icons.input,
                                 color: Colors.yellowAccent.withOpacity(0.6),
@@ -479,11 +475,9 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                         if (itemIdsMap[str] != null) ...[
                           GestureDetector(
                             onTap: () async {
-                              await _ref
-                                  .watch(monthlySpendCheckProvider(date).notifier)
-                                  .setSelectCategory(category: '');
+                              await _ref.read(monthlySpendCheckProvider(date).notifier).setSelectCategory(category: '');
 
-                              await _ref.watch(monthlySpendCheckProvider(date).notifier).setErrorMsg(error: '');
+                              await _ref.read(monthlySpendCheckProvider(date).notifier).setErrorMsg(error: '');
 
                               // 経費セッティングアラート3
                               await MoneyDialog(
@@ -503,9 +497,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                           const SizedBox(width: 20),
                         ],
                         GestureDetector(
-                          onTap: () {
-                            _ref.watch(monthlySpendCheckProvider(date).notifier).setSelectItem(item: str);
-                          },
+                          onTap: () => _ref.read(monthlySpendCheckProvider(date).notifier).setSelectItem(item: str),
                           child: Icon(
                             Icons.input,
                             color: Colors.yellowAccent.withOpacity(0.6),

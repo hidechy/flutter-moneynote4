@@ -69,7 +69,7 @@ class HomeScreen extends ConsumerWidget {
   void _readAndroidBuildData(AndroidDeviceInfo build) {
     final request = DeviceInfoRequestState(name: build.brand, systemName: build.product, model: build.model);
 
-    _ref.watch(deviceInfoProvider.notifier).setDeviceInfo(param: request);
+    _ref.read(deviceInfoProvider.notifier).setDeviceInfo(param: request);
   }
 
   ///
@@ -77,7 +77,7 @@ class HomeScreen extends ConsumerWidget {
     final request =
         DeviceInfoRequestState(name: data.name ?? '', systemName: data.systemName ?? '', model: data.model ?? '');
 
-    _ref.watch(deviceInfoProvider.notifier).setDeviceInfo(param: request);
+    _ref.read(deviceInfoProvider.notifier).setDeviceInfo(param: request);
   }
 
   //---------------------------------------------------//
@@ -169,9 +169,9 @@ class HomeScreen extends ConsumerWidget {
                     const SizedBox(height: 60),
                     GestureDetector(
                       onTap: () {
-                        ref.watch(focusDayProvider.notifier).setDateTime(dateTime: DateTime.now());
+                        ref.read(focusDayProvider.notifier).setDateTime(dateTime: DateTime.now());
 
-                        ref.watch(blueBallProvider.notifier).setDateTime(dateTime: DateTime.now());
+                        ref.read(blueBallProvider.notifier).setDateTime(dateTime: DateTime.now());
 
                         Navigator.pushReplacement(
                           context,
@@ -265,14 +265,14 @@ class HomeScreen extends ConsumerWidget {
 
   ///
   void onDayPressed({required DateTime date}) {
-    _ref.watch(blueBallProvider.notifier).setDateTime(dateTime: date);
-    _ref.watch(focusDayProvider.notifier).setDateTime(dateTime: date);
+    _ref.read(blueBallProvider.notifier).setDateTime(dateTime: date);
+    _ref.read(focusDayProvider.notifier).setDateTime(dateTime: date);
 
     MoneyDialog(context: _context, widget: MoneyAlert(date: date));
   }
 
   ///
-  void onPageMoved({required DateTime date}) => _ref.watch(focusDayProvider.notifier).setDateTime(dateTime: date);
+  void onPageMoved({required DateTime date}) => _ref.read(focusDayProvider.notifier).setDateTime(dateTime: date);
 
   ///
   int makeTotalPrice({required List<SpendMonthSummary> data}) {
@@ -391,7 +391,7 @@ class HomeScreen extends ConsumerWidget {
     list.add(
       IconButton(
         onPressed: () =>
-            _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'monthly_spend', menuName: '月間消費金額履歴'),
+            _ref.read(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'monthly_spend', menuName: '月間消費金額履歴'),
         icon: Icon(
           Icons.details,
           color: (homeMenuState.menuFlag == 'monthly_spend') ? Colors.lightBlueAccent : Colors.white,
@@ -403,7 +403,7 @@ class HomeScreen extends ConsumerWidget {
     list.add(
       IconButton(
         onPressed: () =>
-            _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'sameday_spend', menuName: '同日消費金額履歴'),
+            _ref.read(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'sameday_spend', menuName: '同日消費金額履歴'),
         icon: Icon(
           Icons.account_tree,
           color: (homeMenuState.menuFlag == 'sameday_spend') ? Colors.lightBlueAccent : Colors.white,
@@ -415,7 +415,7 @@ class HomeScreen extends ConsumerWidget {
     list.add(
       IconButton(
         onPressed: () =>
-            _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'monthly_unit_spend', menuName: '月別消費金額履歴'),
+            _ref.read(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'monthly_unit_spend', menuName: '月別消費金額履歴'),
         icon: Icon(
           Icons.bar_chart_sharp,
           color: (homeMenuState.menuFlag == 'monthly_unit_spend') ? Colors.lightBlueAccent : Colors.white,
@@ -427,7 +427,7 @@ class HomeScreen extends ConsumerWidget {
     list.add(
       IconButton(
         onPressed: () =>
-            _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'yearly_spend', menuName: '年間消費金額履歴'),
+            _ref.read(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'yearly_spend', menuName: '年間消費金額履歴'),
         icon: Icon(
           FontAwesomeIcons.calculator,
           color: (homeMenuState.menuFlag == 'yearly_spend') ? Colors.lightBlueAccent : Colors.white,
@@ -439,7 +439,7 @@ class HomeScreen extends ConsumerWidget {
     list.add(
       IconButton(
         onPressed: () =>
-            _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'spend_summary', menuName: '消費金額ブロック比較'),
+            _ref.read(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'spend_summary', menuName: '消費金額ブロック比較'),
         icon: Icon(
           Icons.select_all,
           color: (homeMenuState.menuFlag == 'spend_summary') ? Colors.lightBlueAccent : Colors.white,
@@ -451,7 +451,7 @@ class HomeScreen extends ConsumerWidget {
     list.add(
       IconButton(
         onPressed: () =>
-            _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'credit_company', menuName: 'クレジット会社比較'),
+            _ref.read(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'credit_company', menuName: 'クレジット会社比較'),
         icon: Icon(
           Icons.calendar_view_month_rounded,
           color: (homeMenuState.menuFlag == 'credit_company') ? Colors.lightBlueAccent : Colors.white,
@@ -462,7 +462,7 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () => _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'tax_payment', menuName: '確定申告資料'),
+        onPressed: () => _ref.read(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'tax_payment', menuName: '確定申告資料'),
         icon: Icon(
           Icons.publish,
           color: (homeMenuState.menuFlag == 'tax_payment') ? Colors.lightBlueAccent : Colors.white,
@@ -473,7 +473,7 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () => _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'money_score', menuName: 'マネースコア'),
+        onPressed: () => _ref.read(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'money_score', menuName: 'マネースコア'),
         icon: Icon(
           Icons.trending_up,
           color: (homeMenuState.menuFlag == 'money_score') ? Colors.lightBlueAccent : Colors.white,
@@ -484,7 +484,7 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () => _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'benefit', menuName: '収入獲得履歴'),
+        onPressed: () => _ref.read(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'benefit', menuName: '収入獲得履歴'),
         icon: Icon(
           Icons.monetization_on,
           color: (homeMenuState.menuFlag == 'benefit') ? Colors.lightBlueAccent : Colors.white,
@@ -495,8 +495,7 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () =>
-            _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'duty_paid', menuName: '支払い義務金額履歴'),
+        onPressed: () => _ref.read(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'duty_paid', menuName: '支払い義務金額履歴'),
         icon: Icon(
           FontAwesomeIcons.biohazard,
           color: (homeMenuState.menuFlag == 'duty_paid') ? Colors.lightBlueAccent : Colors.white,
@@ -507,7 +506,7 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () => _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'home_fix', menuName: '家計固定費履歴'),
+        onPressed: () => _ref.read(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'home_fix', menuName: '家計固定費履歴'),
         icon: Icon(
           FontAwesomeIcons.house,
           color: (homeMenuState.menuFlag == 'home_fix') ? Colors.lightBlueAccent : Colors.white,
@@ -518,7 +517,7 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () => _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'food_expenses', menuName: '食費'),
+        onPressed: () => _ref.read(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'food_expenses', menuName: '食費'),
         icon: Icon(
           Icons.fastfood,
           color: (homeMenuState.menuFlag == 'food_expenses') ? Colors.lightBlueAccent : Colors.white,
@@ -530,7 +529,7 @@ class HomeScreen extends ConsumerWidget {
     list.add(
       IconButton(
         onPressed: () =>
-            _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'seiyuu_purchase', menuName: '西友購入履歴'),
+            _ref.read(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'seiyuu_purchase', menuName: '西友購入履歴'),
         icon: Icon(
           FontAwesomeIcons.bullseye,
           color: (homeMenuState.menuFlag == 'seiyuu_purchase') ? Colors.lightBlueAccent : Colors.white,
@@ -542,7 +541,7 @@ class HomeScreen extends ConsumerWidget {
     list.add(
       IconButton(
         onPressed: () =>
-            _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'amazon_purchase', menuName: 'Amazon購入履歴'),
+            _ref.read(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'amazon_purchase', menuName: 'Amazon購入履歴'),
         icon: Icon(
           FontAwesomeIcons.amazon,
           color: (homeMenuState.menuFlag == 'amazon_purchase') ? Colors.lightBlueAccent : Colors.white,
@@ -553,7 +552,7 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () => _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'train', menuName: '電車乗車履歴'),
+        onPressed: () => _ref.read(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'train', menuName: '電車乗車履歴'),
         icon: Icon(
           Icons.train,
           color: (homeMenuState.menuFlag == 'train') ? Colors.lightBlueAccent : Colors.white,
@@ -564,7 +563,7 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () => _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'mercari', menuName: 'メルカリ'),
+        onPressed: () => _ref.read(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'mercari', menuName: 'メルカリ'),
         icon: Icon(
           FontAwesomeIcons.handshake,
           color: (homeMenuState.menuFlag == 'mercari') ? Colors.lightBlueAccent : Colors.white,
@@ -575,7 +574,7 @@ class HomeScreen extends ConsumerWidget {
 
     list.add(
       IconButton(
-        onPressed: () => _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'udemy', menuName: 'UDEMY'),
+        onPressed: () => _ref.read(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'udemy', menuName: 'UDEMY'),
         icon: Icon(
           FontAwesomeIcons.u,
           color: (homeMenuState.menuFlag == 'udemy') ? Colors.lightBlueAccent : Colors.white,
@@ -587,7 +586,7 @@ class HomeScreen extends ConsumerWidget {
     list.add(
       IconButton(
         onPressed: () =>
-            _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'balanceSheet', menuName: 'balanceSheet'),
+            _ref.read(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'balanceSheet', menuName: 'balanceSheet'),
         icon: Icon(
           FontAwesomeIcons.balanceScale,
           color: (homeMenuState.menuFlag == 'balanceSheet') ? Colors.lightBlueAccent : Colors.white,
@@ -599,7 +598,7 @@ class HomeScreen extends ConsumerWidget {
     list.add(
       IconButton(
         onPressed: () =>
-            _ref.watch(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'wells_reserve', menuName: '積立年金記録'),
+            _ref.read(homeMenuProvider.notifier).setHomeMenu(menuFlag: 'wells_reserve', menuName: '積立年金記録'),
         icon: Icon(
           FontAwesomeIcons.pagelines,
           color: (homeMenuState.menuFlag == 'wells_reserve') ? Colors.lightBlueAccent : Colors.white,

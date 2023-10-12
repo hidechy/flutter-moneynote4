@@ -176,12 +176,12 @@ class TimeLocationMapScreen extends ConsumerWidget {
         children: list.map((val) {
           return GestureDetector(
             onTap: () async {
-              await _ref.watch(mapMarkerProvider.notifier).getMapMarker(
+              await _ref.read(mapMarkerProvider.notifier).getMapMarker(
                     date: date,
                     time: val.time,
                   );
 
-              await _ref.watch(latLngAddressProvider.notifier).getLatLngAddress(
+              await _ref.read(latLngAddressProvider.notifier).getLatLngAddress(
                     param: LatLngAddressParamState(
                       latitude: val.latitude,
                       longitude: val.longitude,

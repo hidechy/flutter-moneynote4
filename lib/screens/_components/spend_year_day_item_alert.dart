@@ -112,9 +112,7 @@ class SpendYearDayItemAlert extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GestureDetector(
-          onTap: () {
-            _ref.watch(spendYearDayItemSelectTextProvider.notifier).setSpendYearDayItemSelectText(text: '');
-          },
+          onTap: () => _ref.read(spendYearDayItemSelectTextProvider.notifier).setSpendYearDayItemSelectText(text: ''),
           child: Container(
             margin: const EdgeInsets.all(3),
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -133,7 +131,7 @@ class SpendYearDayItemAlert extends ConsumerWidget {
             children: ['5000', '10000', '30000', '50000', '100000'].map((e) {
               return GestureDetector(
                 onTap: () {
-                  _ref.watch(spendYearDayItemSelectTextProvider.notifier).setSpendYearDayItemSelectText(text: e);
+                  _ref.read(spendYearDayItemSelectTextProvider.notifier).setSpendYearDayItemSelectText(text: e);
                 },
                 child: Container(
                   margin: const EdgeInsets.all(3),

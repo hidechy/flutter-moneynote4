@@ -93,7 +93,7 @@ class MoneyPage extends ConsumerWidget {
                 ExpansionTile(
                   initiallyExpanded: appParamState.openMoneyArea,
                   iconColor: Colors.white,
-                  onExpansionChanged: (value) => ref.watch(appParamProvider.notifier).setOpenMoneyArea(value: value),
+                  onExpansionChanged: (value) => ref.read(appParamProvider.notifier).setOpenMoneyArea(value: value),
                   title: Text(
                     appParamState.openMoneyArea == false ? 'OPEN' : 'CLOSE',
                     style: const TextStyle(fontSize: 10, color: Colors.white),

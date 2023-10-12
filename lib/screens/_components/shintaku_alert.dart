@@ -147,9 +147,9 @@ class ShintakuAlert extends ConsumerWidget {
 
                   return GestureDetector(
                     onTap: () {
-                      _ref.watch(selectShintakuProvider.notifier).setSelectShintaku(selectShintaku: e.key);
+                      _ref.read(selectShintakuProvider.notifier).setSelectShintaku(selectShintaku: e.key);
 
-                      _ref.watch(shintakuRecordProvider.notifier).getShintakuRecord(flag: e.key);
+                      _ref.read(shintakuRecordProvider.notifier).getShintakuRecord(flag: e.key);
 
                       autoScrollController.scrollToIndex(0);
                     },

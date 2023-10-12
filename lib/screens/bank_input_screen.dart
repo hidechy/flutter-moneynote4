@@ -147,9 +147,8 @@ class BankInputScreen extends ConsumerWidget {
                                   fontSize: 13,
                                   color: Colors.white,
                                 ),
-                                onChanged: (value) {
-                                  ref.watch(bankInputProvider.notifier).setBankMoney(bankMoney: value);
-                                },
+                                onChanged: (value) =>
+                                    ref.read(bankInputProvider.notifier).setBankMoney(bankMoney: value),
                               ),
                             ),
                             SizedBox(
@@ -164,7 +163,7 @@ class BankInputScreen extends ConsumerWidget {
                                         'price': bankInputState.bankMoney,
                                       };
 
-                                      _ref.watch(bankInputProvider.notifier).updateBankMoney(uploadData: uploadData);
+                                      _ref.read(bankInputProvider.notifier).updateBankMoney(uploadData: uploadData);
 
                                       break;
                                     case 1:
@@ -176,12 +175,12 @@ class BankInputScreen extends ConsumerWidget {
                                         'price': bankInputState.bankMoney,
                                       };
 
-                                      _ref.watch(bankInputProvider.notifier).setBankMove(uploadData: uploadData);
+                                      _ref.read(bankInputProvider.notifier).setBankMove(uploadData: uploadData);
 
                                       break;
                                   }
 
-                                  _ref.watch(bankInputProvider.notifier).onTapSubmit();
+                                  _ref.read(bankInputProvider.notifier).onTapSubmit();
 
                                   Navigator.pop(context);
                                 },
@@ -233,9 +232,8 @@ class BankInputScreen extends ConsumerWidget {
                   child: Row(
                     children: [
                       GestureDetector(
-                        onTap: () {
-                          _ref.watch(bankInputProvider.notifier).onTapOutArrowBank(outArrowBank: e.key.toString());
-                        },
+                        onTap: () =>
+                            _ref.read(bankInputProvider.notifier).onTapOutArrowBank(outArrowBank: e.key.toString()),
                         child: Icon(
                           Icons.arrow_back,
                           color: outArrowColor,
@@ -243,9 +241,8 @@ class BankInputScreen extends ConsumerWidget {
                       ),
                       const SizedBox(width: 10),
                       GestureDetector(
-                        onTap: () {
-                          _ref.watch(bankInputProvider.notifier).onTapSelectBank(selectBank: e.key.toString());
-                        },
+                        onTap: () =>
+                            _ref.read(bankInputProvider.notifier).onTapSelectBank(selectBank: e.key.toString()),
                         child: Container(
                           width: _context.screenSize.width * 0.2,
                           padding: const EdgeInsets.symmetric(
@@ -266,9 +263,8 @@ class BankInputScreen extends ConsumerWidget {
                       ),
                       const SizedBox(width: 10),
                       GestureDetector(
-                        onTap: () {
-                          _ref.watch(bankInputProvider.notifier).onTapInArrowBank(inArrowBank: e.key.toString());
-                        },
+                        onTap: () =>
+                            _ref.read(bankInputProvider.notifier).onTapInArrowBank(inArrowBank: e.key.toString()),
                         child: Icon(
                           Icons.arrow_back,
                           color: inArrowColor,
@@ -383,16 +379,16 @@ class BankInputScreen extends ConsumerWidget {
         case 'left':
           switch (bankInputState.selectInOutFlag) {
             case 0:
-              await _ref.watch(bankInputProvider.notifier).setSelectDate(selectDate: selectedDate.yyyymmdd);
+              await _ref.read(bankInputProvider.notifier).setSelectDate(selectDate: selectedDate.yyyymmdd);
               break;
             case 1:
-              await _ref.watch(bankInputProvider.notifier).setOutArrowDate(outArrowDate: selectedDate.yyyymmdd);
+              await _ref.read(bankInputProvider.notifier).setOutArrowDate(outArrowDate: selectedDate.yyyymmdd);
               break;
           }
 
           break;
         case 'right':
-          await _ref.watch(bankInputProvider.notifier).setInArrowDate(inArrowDate: selectedDate.yyyymmdd);
+          await _ref.read(bankInputProvider.notifier).setInArrowDate(inArrowDate: selectedDate.yyyymmdd);
           break;
       }
     }
