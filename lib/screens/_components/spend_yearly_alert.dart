@@ -40,8 +40,6 @@ class SpendYearlyAlert extends StatelessWidget {
               indicatorColor: Colors.blueAccent,
               tabs: tabs.map((TabInfo tab) => Tab(text: tab.label)).toList(),
             ),
-
-            flexibleSpace: const DecoratedBox(decoration: BoxDecoration(color: Colors.transparent)),
           ),
         ),
         body: TabBarView(children: tabs.map((tab) => tab.widget).toList()),

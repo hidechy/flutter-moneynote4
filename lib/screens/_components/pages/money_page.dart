@@ -393,11 +393,6 @@ class MoneyPage extends ConsumerWidget {
                       Row(
                         children: [
                           GestureDetector(
-                            onTap: () => MoneyDialog(context: _context, widget: BankDataListAlert()),
-                            child: const Icon(Icons.list),
-                          ),
-                          const SizedBox(width: 10),
-                          GestureDetector(
                             onTap: () {
                               Navigator.push(
                                 _context,
@@ -405,6 +400,11 @@ class MoneyPage extends ConsumerWidget {
                               );
                             },
                             child: const Icon(Icons.business),
+                          ),
+                          const SizedBox(width: 10),
+                          GestureDetector(
+                            onTap: () => MoneyDialog(context: _context, widget: BankDataListAlert(flag: 'bank')),
+                            child: const Icon(Icons.list),
                           ),
                         ],
                       ),
@@ -501,7 +501,21 @@ class MoneyPage extends ConsumerWidget {
                   child: const Text('E-MONEY'),
                 ),
               ),
-              Expanded(child: Container()),
+              Expanded(
+                child: Container(
+                  alignment: Alignment.topRight,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(),
+                      GestureDetector(
+                        onTap: () => MoneyDialog(context: _context, widget: BankDataListAlert(flag: 'pay')),
+                        child: const Icon(Icons.list),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 10),

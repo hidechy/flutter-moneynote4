@@ -1,107 +1,70 @@
-// ignore_for_file: must_be_immutable, use_named_constants, sort_child_properties_last
+// ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:tab_container/tab_container.dart';
 
-import '../../extensions/extensions.dart';
-import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import 'pages/bank_data_list_page.dart';
 
-class BankTabData {
-  BankTabData(this.name, this.color);
+class TabInfo {
+  TabInfo(this.label, this.widget);
 
-  String name;
-  Color color;
+  String label;
+  Widget widget;
 }
 
-class BankDataListAlert extends ConsumerWidget {
-  BankDataListAlert({super.key});
+class BankDataListAlert extends StatelessWidget {
+  BankDataListAlert({super.key, required this.flag});
+
+  final String flag;
 
   final Utility _utility = Utility();
 
-  List<BankTabData> bankDataList = [];
-
-  Map<String, String> bankNames = {
-    'bA': 'bank_a',
-    'bB': 'bank_b',
-    'bC': 'bank_c',
-    'bD': 'bank_d',
-    'bE': 'bank_e',
-    'pA': 'pay_a',
-    'pB': 'pay_b',
-    'pC': 'pay_c',
-    'pD': 'pay_d',
-    'pE': 'pay_e',
-  };
+  List<TabInfo> tabs = [];
 
   ///
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    makeBankTabData();
+  Widget build(BuildContext context) {
+    makeTab();
 
-    final deviceInfoState = ref.read(deviceInfoProvider);
+    return DefaultTabController(
+      length: tabs.length,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
+          child: AppBar(
+            backgroundColor: Colors.transparent,
+            //-------------------------//これを消すと「←」が出てくる（消さない）
+            leading: const Icon(
+              Icons.check_box_outline_blank,
+              color: Colors.transparent,
+            ),
+            //-------------------------//これを消すと「←」が出てくる（消さない）
 
-    return AlertDialog(
-      titlePadding: EdgeInsets.zero,
-      contentPadding: EdgeInsets.zero,
-      backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.zero,
-      content: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        width: double.infinity,
-        height: double.infinity,
-        child: SingleChildScrollView(
-          child: DefaultTextStyle(
-            style: const TextStyle(fontSize: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                Container(width: context.screenSize.width),
-
-                //----------//
-                if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
-                //----------//
-
-                const Text('Bank & Pay Records.'),
-
-                AspectRatio(
-                  aspectRatio: 10 / 23,
-                  child: TabContainer(
-                    radius: 20,
-                    tabCurve: Curves.easeIn,
-                    transitionBuilder: (child, animation) {
-                      animation = CurvedAnimation(curve: Curves.easeIn, parent: animation);
-                      return SlideTransition(
-                        position: Tween(begin: const Offset(0.2, 0), end: const Offset(0, 0)).animate(animation),
-                        child: FadeTransition(opacity: animation, child: child),
-                      );
-                    },
-                    selectedTextStyle: const TextStyle(fontSize: 12),
-                    unselectedTextStyle: const TextStyle(fontSize: 12),
-                    tabs: bankDataList.map((e) => e.name).toList(),
-                    children: bankDataList.map((e) => BankDataListPage(name: bankNames[e.name]!)).toList(),
-                    colors: bankDataList.map((e) => e.color).toList(),
-                  ),
-                ),
-              ],
+            bottom: TabBar(
+              isScrollable: true,
+              indicatorColor: Colors.blueAccent,
+              tabs: tabs.map((TabInfo tab) => Tab(text: tab.label)).toList(),
             ),
           ),
         ),
+        body: TabBarView(children: tabs.map((tab) => tab.widget).toList()),
       ),
     );
   }
 
   ///
-  void makeBankTabData() {
-    bankDataList = [];
+  void makeTab() {
+    tabs = [];
 
-    ['bA', 'bB', 'bC', 'bD', 'bE', 'pA', 'pB', 'pC', 'pD', 'pE'].forEach((element) {
-      bankDataList.add(
-        BankTabData(element, Colors.black.withOpacity(0.1)),
-      );
+    final bankNames = _utility.getBankName();
+
+    final reg = RegExp(flag);
+
+    bankNames.forEach((key, value) {
+      if (reg.firstMatch(key) != null) {
+        tabs.add(TabInfo(value, BankDataListPage(name: key)));
+      }
     });
   }
 }

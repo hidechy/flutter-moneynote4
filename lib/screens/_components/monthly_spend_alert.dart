@@ -53,12 +53,8 @@ class MonthlySpendAlert extends HookConsumerWidget {
 
               isScrollable: true,
               indicatorColor: Colors.blueAccent,
-              tabs: tabs.map((TabInfo tab) {
-                return Tab(text: tab.label);
-              }).toList(),
+              tabs: tabs.map((TabInfo tab) => Tab(text: tab.label)).toList(),
             ),
-
-            flexibleSpace: const DecoratedBox(decoration: BoxDecoration(color: Colors.transparent)),
           ),
         ),
         body: TabBarView(
