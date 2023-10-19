@@ -1,11 +1,13 @@
 // ignore_for_file: must_be_immutable, cascade_invocations, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../extensions/extensions.dart';
 import '../models/bank_monthly_spend.dart';
 import '../models/credit_spend_monthly.dart';
+import '../route/routes.dart';
 import '../state/device_info/device_info_notifier.dart';
 import '../state/monthly_spend_check/monthly_spend_check_notifier.dart';
 import '../utility/function.dart';
@@ -143,12 +145,12 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                             onPressed: () {
                               ref.read(monthlySpendCheckProvider(date).notifier).inputCheckItem(date: date);
 
-                              Navigator.pop(context);
+                              context.goNamed(RouteNames.home);
                             },
                             icon: const Icon(Icons.input),
                           ),
                           IconButton(
-                            onPressed: () => Navigator.pop(context),
+                            onPressed: () => context.goNamed(RouteNames.home),
                             icon: const Icon(Icons.close),
                           ),
                         ],

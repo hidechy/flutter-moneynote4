@@ -1,9 +1,11 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../extensions/extensions.dart';
+import '../route/routes.dart';
 import '../state/bank_input/bank_input_notifier.dart';
 import '../utility/utility.dart';
 import '../viewmodel/bank_notifier.dart';
@@ -49,7 +51,7 @@ class BankInputScreen extends ConsumerWidget {
                       children: [
                         Container(),
                         IconButton(
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () => context.goNamed(RouteNames.home),
                           icon: const Icon(Icons.close),
                         ),
                       ],
@@ -182,7 +184,7 @@ class BankInputScreen extends ConsumerWidget {
 
                                   _ref.read(bankInputProvider.notifier).onTapSubmit();
 
-                                  Navigator.pop(context);
+                                  context.goNamed(RouteNames.home);
                                 },
                                 icon: const Icon(Icons.input),
                               ),

@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, cascade_invocations
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../extensions/extensions.dart';
@@ -11,6 +12,7 @@ import '../../../models/money.dart';
 import '../../../models/money_everyday.dart';
 import '../../../models/train.dart';
 import '../../../models/zero_use_date.dart';
+import '../../../route/routes.dart';
 import '../../../state/app_param/app_param_notifier.dart';
 import '../../../state/benefit/benefit_notifier.dart';
 import '../../../state/monthly_spend/monthly_spend_state.dart';
@@ -24,7 +26,6 @@ import '../../../viewmodel/keihi_list_notifier.dart';
 import '../../../viewmodel/money_notifier.dart';
 import '../../../viewmodel/spend_notifier.dart';
 import '../../../viewmodel/time_place_notifier.dart';
-import '../../monthly_spend_check_screen.dart';
 import '../_money_dialog.dart';
 import '../monthly_spend_graph_alert.dart';
 import '../spend_alert.dart';
@@ -143,14 +144,7 @@ class MonthlySpendPage extends ConsumerWidget {
                               ),
                               const SizedBox(width: 20),
                               GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => MonthlySpendCheckScreen(date: date),
-                                    ),
-                                  );
-                                },
+                                onTap: () => context.goNamed(RouteNames.monthlySpendCheck, extra: {'date': date}),
                                 child: const Icon(Icons.check_box),
                               ),
                             ],

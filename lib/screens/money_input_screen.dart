@@ -2,12 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:soundpool/soundpool.dart';
 import 'package:vibration/vibration.dart';
 
 import '../extensions/extensions.dart';
 import '../models/money.dart';
+import '../route/routes.dart';
 import '../state/money_input/money_input_notifier.dart';
 import '../utility/utility.dart';
 import '../viewmodel/money_notifier.dart';
@@ -131,7 +133,7 @@ class MoneyInputScreen extends ConsumerWidget {
                       children: [
                         Container(),
                         IconButton(
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () => context.goNamed(RouteNames.home),
                           icon: const Icon(Icons.close),
                         ),
                       ],
@@ -731,7 +733,7 @@ class MoneyInputScreen extends ConsumerWidget {
 
     await Vibration.vibrate(pattern: [500, 1000, 500, 2000]);
 
-    Navigator.pop(_context);
+    _context.goNamed(RouteNames.home);
   }
 
   ///

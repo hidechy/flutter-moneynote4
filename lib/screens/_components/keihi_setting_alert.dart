@@ -4,9 +4,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
+import '../../route/routes.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../state/monthly_spend_check/monthly_spend_check_notifier.dart';
 import '../../utility/utility.dart';
@@ -105,7 +107,7 @@ class KeihiSettingAlert extends ConsumerWidget {
 
                       await ref.read(keihiListProvider(date).notifier).getKeihiList(date: date);
 
-                      Navigator.pop(context);
+                      context.goNamed(RouteNames.home);
                     },
                     icon: Icon(
                       Icons.input,

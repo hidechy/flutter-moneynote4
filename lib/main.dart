@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'screens/home_screen.dart';
+import 'route/routes.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -12,11 +12,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: appRouter,
       title: 'money note',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(brightness: Brightness.dark),
-      home: HomeScreen(),
+//      home: HomeScreen(),
     );
   }
 }

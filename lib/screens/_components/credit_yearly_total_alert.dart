@@ -3,10 +3,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
+import '../../route/routes.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/credit_notifier.dart';
@@ -51,8 +53,7 @@ class CreditYearlyTotalAlert extends ConsumerWidget {
                 Container(width: context.screenSize.width),
 
                 //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
                 //----------//
 
                 const SizedBox(height: 20),
@@ -74,22 +75,19 @@ class CreditYearlyTotalAlert extends ConsumerWidget {
 
     creditYearlyTotalState.forEach((element) {
       if (element.price != '') {
-        final color = (element.price.toInt() >= 3000)
-            ? Colors.yellowAccent
-            : Colors.white;
+        final color = (element.price.toInt() >= 3000) ? Colors.yellowAccent : Colors.white;
 
         list.add(
           GestureDetector(
             onTap: () async {
               Timer(
                 const Duration(seconds: 3),
-                () => Navigator.pop(_context),
+                () => _context.goNamed(RouteNames.home),
               );
 
               await showDialog(
                 context: _context,
-                builder: (_) =>
-                    CreditDetailDialog(date: date, creditDetail: element),
+                builder: (_) => CreditDetailDialog(date: date, creditDetail: element),
               );
             },
             child: Container(

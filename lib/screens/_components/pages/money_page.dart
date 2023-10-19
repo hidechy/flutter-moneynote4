@@ -1,10 +1,12 @@
 // ignore_for_file: must_be_immutable, unnecessary_null_comparison, cascade_invocations
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../models/money.dart';
+import '../../../route/routes.dart';
 import '../../../state/app_param/app_param_notifier.dart';
 import '../../../state/benefit/benefit_notifier.dart';
 import '../../../state/device_info/device_info_notifier.dart';
@@ -15,10 +17,6 @@ import '../../../utility/utility.dart';
 import '../../../viewmodel/bank_notifier.dart';
 import '../../../viewmodel/money_notifier.dart';
 import '../../../viewmodel/spend_notifier.dart';
-import '../../bank_input_screen.dart';
-import '../../money_input_screen.dart';
-import '../../spend_item_input_screen.dart';
-import '../../timeplace_input_screen.dart';
 import '../_money_dialog.dart';
 import '../assets_list_alert.dart';
 import '../bank_alert.dart';
@@ -106,36 +104,17 @@ class MoneyPage extends ConsumerWidget {
                           Row(
                             children: [
                               IconButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => MoneyInputScreen(date: date),
-                                    ),
-                                  );
-                                },
+                                onPressed: () => context.goNamed(RouteNames.moneyInput, extra: {'date': date}),
                                 icon: const Icon(Icons.input),
                               ),
                               IconButton(
-                                onPressed: () {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SpendItemInputScreen(date: date, diff: diff),
-                                    ),
-                                  );
-                                },
+                                onPressed: () =>
+                                    context.goNamed(RouteNames.spendItemInput, extra: {'date': date, 'diff': diff}),
                                 icon: const Icon(Icons.list),
                               ),
                               IconButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => TimeplaceInputScreen(date: date, diff: diff),
-                                    ),
-                                  );
-                                },
+                                onPressed: () =>
+                                    context.goNamed(RouteNames.timePlaceInput, extra: {'date': date, 'diff': diff}),
                                 icon: const Icon(Icons.access_time),
                               ),
                             ],
@@ -393,12 +372,7 @@ class MoneyPage extends ConsumerWidget {
                       Row(
                         children: [
                           GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                _context,
-                                MaterialPageRoute(builder: (context) => BankInputScreen(date: date)),
-                              );
-                            },
+                            onTap: () => _context.goNamed(RouteNames.bankInput, extra: {'date': date}),
                             child: const Icon(Icons.business),
                           ),
                           const SizedBox(width: 10),

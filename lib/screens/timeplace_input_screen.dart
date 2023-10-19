@@ -1,10 +1,12 @@
 // ignore_for_file: must_be_immutable, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:vibration/vibration.dart';
 
 import '../extensions/extensions.dart';
+import '../route/routes.dart';
 import '../state/timeplace_input/timeplace_input_notifier.dart';
 import '../utility/utility.dart';
 
@@ -76,7 +78,7 @@ class TimeplaceInputScreen extends ConsumerWidget {
                                 pattern: [500, 1000, 500, 2000],
                               );
 
-                              Navigator.pop(_context);
+                              context.goNamed(RouteNames.home);
                             },
                             icon: const Icon(
                               Icons.input,
@@ -85,7 +87,7 @@ class TimeplaceInputScreen extends ConsumerWidget {
                           ),
                           const SizedBox(width: 20),
                           IconButton(
-                            onPressed: () => Navigator.pop(context),
+                            onPressed: () => context.goNamed(RouteNames.home),
                             icon: const Icon(Icons.close),
                           ),
                         ],

@@ -4,11 +4,13 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../extensions/extensions.dart';
 import '../models/time_location.dart';
+import '../route/routes.dart';
 import '../state/lat_lng_address/lat_lng_address_notifier.dart';
 import '../state/lat_lng_address/lat_lng_address_param_state.dart';
 import '../state/map_marker/map_marker_notifier.dart';
@@ -103,7 +105,7 @@ class TimeLocationMapScreen extends ConsumerWidget {
                     Row(
                       children: [
                         GestureDetector(
-                          onTap: () => Navigator.pop(context),
+                          onTap: () => context.goNamed(RouteNames.home),
                           child: const Icon(Icons.close),
                         ),
                         const SizedBox(width: 20),

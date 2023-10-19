@@ -1,14 +1,15 @@
 // ignore_for_file: must_be_immutable, cascade_invocations
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/time_location.dart';
+import '../../route/routes.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/time_location_notifier.dart';
-import '../time_location_map_screen.dart';
 
 class TimeLocationAlert extends ConsumerWidget {
   TimeLocationAlert({super.key, required this.date});
@@ -46,22 +47,12 @@ class TimeLocationAlert extends ConsumerWidget {
               Container(width: context.screenSize.width),
 
               //----------//
-              if (deviceInfoState.model == 'iPhone')
-                _utility.getFileNameDebug(name: runtimeType.toString()),
+              if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
               //----------//
 
               GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => TimeLocationMapScreen(
-                        date: date,
-                        list: timeLocationList,
-                      ),
-                    ),
-                  );
-                },
+                onTap: () =>
+                    context.goNamed(RouteNames.timeLocationMap, extra: {'date': date, 'list': timeLocationList}),
                 child: const Icon(Icons.map),
               ),
 
