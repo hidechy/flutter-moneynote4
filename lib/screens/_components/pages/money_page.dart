@@ -473,7 +473,7 @@ class MoneyPage extends ConsumerWidget {
     return DefaultTextStyle(
       style: const TextStyle(fontSize: 12),
       child: DefaultTextStyle(
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
         child: Column(
           children: [
             Row(
@@ -554,7 +554,7 @@ class MoneyPage extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(vertical: 3),
             decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
             child: DefaultTextStyle(
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
               child: Column(
                 children: [
                   Row(
@@ -628,7 +628,7 @@ class MoneyPage extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(vertical: 3),
             decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
             child: DefaultTextStyle(
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
               child: Column(
                 children: [
                   Row(
@@ -709,7 +709,7 @@ class MoneyPage extends ConsumerWidget {
               border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
             ),
             child: DefaultTextStyle(
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
               child: Column(
                 children: [
                   Row(
