@@ -77,7 +77,7 @@ class MoneyPage extends ConsumerWidget {
         height: double.infinity,
         child: SingleChildScrollView(
           child: DefaultTextStyle(
-            style: const TextStyle(fontSize: 14),
+            style: const TextStyle(fontSize: 14, color: Colors.white),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -230,42 +230,45 @@ class MoneyPage extends ConsumerWidget {
           decoration: BoxDecoration(
             border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
           ),
-          child: Row(
-            children: [
-              Expanded(child: Text('${element.year}-01-01\n-> ${date.mmdd}')),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.topRight,
-                  child: Text(element.spend.toString().toCurrency()),
-                ),
-              ),
-              Expanded(
-                child: Container(alignment: Alignment.topRight, child: Text(bene.toString().toCurrency())),
-              ),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.topRight,
-                  child: Text(
-                    (bene + element.spend).toString().toCurrency(),
-                    style: const TextStyle(color: Color(0xFFFBB6CE)),
+          child: DefaultTextStyle(
+            style: const TextStyle(color: Colors.white),
+            child: Row(
+              children: [
+                Expanded(child: Text('${element.year}-01-01\n-> ${date.mmdd}')),
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.topRight,
+                    child: Text(element.spend.toString().toCurrency()),
                   ),
                 ),
-              ),
-              const SizedBox(width: 10),
-              GestureDetector(
-                onTap: () {
-                  MoneyDialog(
-                    context: _context,
-                    widget: SpendYearDayAlert(
-                      date: DateTime(element.year, date.month, date.day),
-                      spend: bene + element.spend,
-                      yearSpendToToday: yearSpendToToday,
+                Expanded(
+                  child: Container(alignment: Alignment.topRight, child: Text(bene.toString().toCurrency())),
+                ),
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.topRight,
+                    child: Text(
+                      (bene + element.spend).toString().toCurrency(),
+                      style: const TextStyle(color: Color(0xFFFBB6CE)),
                     ),
-                  );
-                },
-                child: const Icon(Icons.info_outline),
-              ),
-            ],
+                  ),
+                ),
+                const SizedBox(width: 10),
+                GestureDetector(
+                  onTap: () {
+                    MoneyDialog(
+                      context: _context,
+                      widget: SpendYearDayAlert(
+                        date: DateTime(element.year, date.month, date.day),
+                        spend: bene + element.spend,
+                        yearSpendToToday: yearSpendToToday,
+                      ),
+                    );
+                  },
+                  child: const Icon(Icons.info_outline),
+                ),
+              ],
+            ),
           ),
         ),
       );
@@ -278,41 +281,44 @@ class MoneyPage extends ConsumerWidget {
   Widget displayMoney({required Money data}) {
     return DefaultTextStyle(
       style: const TextStyle(fontSize: 12),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(color: Colors.indigo, borderRadius: BorderRadius.circular(20)),
-                  alignment: Alignment.center,
-                  child: const Text('CURRENCY'),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.topRight,
-                  child: Text(
-                    data.currency.toString().toCurrency(),
-                    style: const TextStyle(color: Colors.yellowAccent),
+      child: DefaultTextStyle(
+        style: const TextStyle(color: Colors.white),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(color: Colors.indigo, borderRadius: BorderRadius.circular(20)),
+                    alignment: Alignment.center,
+                    child: const Text('CURRENCY'),
                   ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          getMoneyDispRow(key: '10000', value: data.yen10000),
-          getMoneyDispRow(key: '5000', value: data.yen5000),
-          getMoneyDispRow(key: '2000', value: data.yen2000),
-          getMoneyDispRow(key: '1000', value: data.yen1000),
-          getMoneyDispRow(key: '500', value: data.yen500),
-          getMoneyDispRow(key: '100', value: data.yen100),
-          getMoneyDispRow(key: '50', value: data.yen50),
-          getMoneyDispRow(key: '10', value: data.yen10),
-          getMoneyDispRow(key: '5', value: data.yen5),
-          getMoneyDispRow(key: '1', value: data.yen1),
-        ],
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.topRight,
+                    child: Text(
+                      data.currency.toString().toCurrency(),
+                      style: const TextStyle(color: Colors.yellowAccent),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            getMoneyDispRow(key: '10000', value: data.yen10000),
+            getMoneyDispRow(key: '5000', value: data.yen5000),
+            getMoneyDispRow(key: '2000', value: data.yen2000),
+            getMoneyDispRow(key: '1000', value: data.yen1000),
+            getMoneyDispRow(key: '500', value: data.yen500),
+            getMoneyDispRow(key: '100', value: data.yen100),
+            getMoneyDispRow(key: '50', value: data.yen50),
+            getMoneyDispRow(key: '10', value: data.yen10),
+            getMoneyDispRow(key: '5', value: data.yen5),
+            getMoneyDispRow(key: '1', value: data.yen1),
+          ],
+        ),
       ),
     );
   }
@@ -350,58 +356,61 @@ class MoneyPage extends ConsumerWidget {
 
     return DefaultTextStyle(
       style: const TextStyle(fontSize: 12),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(color: Colors.indigo, borderRadius: BorderRadius.circular(20)),
-                  alignment: Alignment.center,
-                  child: const Text('BANK'),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.topRight,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(),
-                      Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () => _context.goNamed(RouteNames.bankInput, extra: {'date': date}),
-                            child: const Icon(Icons.business),
-                          ),
-                          const SizedBox(width: 10),
-                          GestureDetector(
-                            onTap: () => MoneyDialog(context: _context, widget: BankDataListAlert(flag: 'bank')),
-                            child: const Icon(Icons.list),
-                          ),
-                        ],
-                      ),
-                    ],
+      child: DefaultTextStyle(
+        style: const TextStyle(color: Colors.white),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(color: Colors.indigo, borderRadius: BorderRadius.circular(20)),
+                    alignment: Alignment.center,
+                    child: const Text('BANK'),
                   ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          DefaultTextStyle(
-            style: const TextStyle(fontSize: 16),
-            child: Column(
-              children: [
-                getBankDispRow(name: 'bank_a', price: data.bankA, dt: bankStateA.date.toString()),
-                getBankDispRow(name: 'bank_b', price: data.bankB, dt: bankStateB.date.toString()),
-                getBankDispRow(name: 'bank_c', price: data.bankC, dt: bankStateC.date.toString()),
-                getBankDispRow(name: 'bank_d', price: data.bankD, dt: bankStateD.date.toString()),
-                getBankDispRow(name: 'bank_e', price: data.bankE, dt: bankStateE.date.toString()),
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.topRight,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(),
+                        Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () => _context.goNamed(RouteNames.bankInput, extra: {'date': date}),
+                              child: const Icon(Icons.business),
+                            ),
+                            const SizedBox(width: 10),
+                            GestureDetector(
+                              onTap: () => MoneyDialog(context: _context, widget: BankDataListAlert(flag: 'bank')),
+                              child: const Icon(Icons.list),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
-          ),
-        ],
+            const SizedBox(height: 10),
+            DefaultTextStyle(
+              style: const TextStyle(fontSize: 16),
+              child: Column(
+                children: [
+                  getBankDispRow(name: 'bank_a', price: data.bankA, dt: bankStateA.date.toString()),
+                  getBankDispRow(name: 'bank_b', price: data.bankB, dt: bankStateB.date.toString()),
+                  getBankDispRow(name: 'bank_c', price: data.bankC, dt: bankStateC.date.toString()),
+                  getBankDispRow(name: 'bank_d', price: data.bankD, dt: bankStateD.date.toString()),
+                  getBankDispRow(name: 'bank_e', price: data.bankE, dt: bankStateE.date.toString()),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -463,49 +472,52 @@ class MoneyPage extends ConsumerWidget {
 
     return DefaultTextStyle(
       style: const TextStyle(fontSize: 12),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(color: Colors.indigo, borderRadius: BorderRadius.circular(20)),
-                  alignment: Alignment.center,
-                  child: const Text('E-MONEY'),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.topRight,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(),
-                      GestureDetector(
-                        onTap: () => MoneyDialog(context: _context, widget: BankDataListAlert(flag: 'pay')),
-                        child: const Icon(Icons.list),
-                      ),
-                    ],
+      child: DefaultTextStyle(
+        style: TextStyle(color: Colors.white),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(color: Colors.indigo, borderRadius: BorderRadius.circular(20)),
+                    alignment: Alignment.center,
+                    child: const Text('E-MONEY'),
                   ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          DefaultTextStyle(
-            style: const TextStyle(fontSize: 16),
-            child: Column(
-              children: [
-                getBankDispRow(name: 'pay_a', price: data.payA, dt: payStateA.date.toString()),
-                getBankDispRow(name: 'pay_b', price: data.payB, dt: payStateB.date.toString()),
-                getBankDispRow(name: 'pay_c', price: data.payC, dt: payStateC.date.toString()),
-                getBankDispRow(name: 'pay_d', price: data.payD, dt: payStateD.date.toString()),
-                getBankDispRow(name: 'pay_e', price: data.payE, dt: payStateE.date.toString()),
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.topRight,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(),
+                        GestureDetector(
+                          onTap: () => MoneyDialog(context: _context, widget: BankDataListAlert(flag: 'pay')),
+                          child: const Icon(Icons.list),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
-          ),
-        ],
+            const SizedBox(height: 10),
+            DefaultTextStyle(
+              style: const TextStyle(fontSize: 16),
+              child: Column(
+                children: [
+                  getBankDispRow(name: 'pay_a', price: data.payA, dt: payStateA.date.toString()),
+                  getBankDispRow(name: 'pay_b', price: data.payB, dt: payStateB.date.toString()),
+                  getBankDispRow(name: 'pay_c', price: data.payC, dt: payStateC.date.toString()),
+                  getBankDispRow(name: 'pay_d', price: data.payD, dt: payStateD.date.toString()),
+                  getBankDispRow(name: 'pay_e', price: data.payE, dt: payStateE.date.toString()),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -541,39 +553,42 @@ class MoneyPage extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.symmetric(vertical: 3),
             decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(color: Colors.deepPurple, borderRadius: BorderRadius.circular(20)),
-                        alignment: Alignment.center,
-                        child: const Text('GOLD'),
+            child: DefaultTextStyle(
+              style: TextStyle(color: Colors.white),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(color: Colors.deepPurple, borderRadius: BorderRadius.circular(20)),
+                          alignment: Alignment.center,
+                          child: const Text('GOLD'),
+                        ),
                       ),
-                    ),
-                    Expanded(child: Container(alignment: Alignment.topRight, child: Text(goldDate))),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    (goldState.lastGold!.payPrice == null)
-                        ? Container()
-                        : Text(goldState.lastGold!.payPrice.toString().toCurrency()),
-                    (goldState.lastGold!.goldValue == null)
-                        ? Container()
-                        : Text(
-                            goldState.lastGold!.goldValue.toString().toCurrency(),
-                            style: const TextStyle(color: Colors.yellowAccent),
-                          ),
-                    Text(goldDiff.toString().toCurrency()),
-                    Text('$score %'),
-                  ],
-                ),
-              ],
+                      Expanded(child: Container(alignment: Alignment.topRight, child: Text(goldDate))),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      (goldState.lastGold!.payPrice == null)
+                          ? Container()
+                          : Text(goldState.lastGold!.payPrice.toString().toCurrency()),
+                      (goldState.lastGold!.goldValue == null)
+                          ? Container()
+                          : Text(
+                              goldState.lastGold!.goldValue.toString().toCurrency(),
+                              style: const TextStyle(color: Colors.yellowAccent),
+                            ),
+                      Text(goldDiff.toString().toCurrency()),
+                      Text('$score %'),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
           const SizedBox(height: 5),
@@ -612,42 +627,45 @@ class MoneyPage extends ConsumerWidget {
           Container(
             padding: const EdgeInsets.symmetric(vertical: 3),
             decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(color: Colors.deepPurple, borderRadius: BorderRadius.circular(20)),
-                        alignment: Alignment.center,
-                        child: const Text('STOCK'),
+            child: DefaultTextStyle(
+              style: TextStyle(color: Colors.white),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(color: Colors.deepPurple, borderRadius: BorderRadius.circular(20)),
+                          alignment: Alignment.center,
+                          child: const Text('STOCK'),
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        alignment: Alignment.topRight,
-                        child: Text((stockState.lastStock == null) ? '' : stockState.lastStock!.date.yyyymmdd),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.topRight,
+                          child: Text((stockState.lastStock == null) ? '' : stockState.lastStock!.date.yyyymmdd),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text((stockState.lastStock == null) ? '' : stockState.lastStock!.cost.toString().toCurrency()),
-                    (stockState.lastStock == null)
-                        ? const Text('')
-                        : Text(
-                            stockState.lastStock!.price.toString().toCurrency(),
-                            style: const TextStyle(color: Colors.yellowAccent),
-                          ),
-                    Text((stockState.lastStock == null) ? '' : stockState.lastStock!.diff.toString().toCurrency()),
-                    Text('$score %'),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text((stockState.lastStock == null) ? '' : stockState.lastStock!.cost.toString().toCurrency()),
+                      (stockState.lastStock == null)
+                          ? const Text('')
+                          : Text(
+                              stockState.lastStock!.price.toString().toCurrency(),
+                              style: const TextStyle(color: Colors.yellowAccent),
+                            ),
+                      Text((stockState.lastStock == null) ? '' : stockState.lastStock!.diff.toString().toCurrency()),
+                      Text('$score %'),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
           const SizedBox(height: 5),
@@ -690,47 +708,50 @@ class MoneyPage extends ConsumerWidget {
             decoration: BoxDecoration(
               border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
             ),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(color: Colors.deepPurple, borderRadius: BorderRadius.circular(20)),
-                        alignment: Alignment.center,
-                        child: const Text('SHINTAKU'),
+            child: DefaultTextStyle(
+              style: TextStyle(color: Colors.white),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(color: Colors.deepPurple, borderRadius: BorderRadius.circular(20)),
+                          alignment: Alignment.center,
+                          child: const Text('SHINTAKU'),
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        alignment: Alignment.topRight,
-                        child:
-                            Text((shintakuState.lastShintaku == null) ? '' : shintakuState.lastShintaku!.date.yyyymmdd),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.topRight,
+                          child: Text(
+                              (shintakuState.lastShintaku == null) ? '' : shintakuState.lastShintaku!.date.yyyymmdd),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text((shintakuState.lastShintaku == null)
-                        ? ''
-                        : shintakuState.lastShintaku!.cost.toString().toCurrency()),
-                    (shintakuState.lastShintaku == null)
-                        ? const Text('')
-                        : Text(
-                            shintakuState.lastShintaku!.price.toString().toCurrency(),
-                            style: const TextStyle(color: Colors.yellowAccent),
-                          ),
-                    Text((shintakuState.lastShintaku == null)
-                        ? ''
-                        : shintakuState.lastShintaku!.diff.toString().toCurrency()),
-                    Text('$score %'),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text((shintakuState.lastShintaku == null)
+                          ? ''
+                          : shintakuState.lastShintaku!.cost.toString().toCurrency()),
+                      (shintakuState.lastShintaku == null)
+                          ? const Text('')
+                          : Text(
+                              shintakuState.lastShintaku!.price.toString().toCurrency(),
+                              style: const TextStyle(color: Colors.yellowAccent),
+                            ),
+                      Text((shintakuState.lastShintaku == null)
+                          ? ''
+                          : shintakuState.lastShintaku!.diff.toString().toCurrency()),
+                      Text('$score %'),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
           const SizedBox(height: 5),
