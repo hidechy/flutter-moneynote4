@@ -26,6 +26,7 @@ import '../shintaku_alert.dart';
 import '../spend_alert.dart';
 import '../spend_year_day_alert.dart';
 import '../stock_alert.dart';
+import 'monthly_spend_page.dart';
 
 class MoneyPage extends ConsumerWidget {
   MoneyPage({super.key, required this.date});
@@ -76,110 +77,127 @@ class MoneyPage extends ConsumerWidget {
         width: double.infinity,
         height: double.infinity,
         child: SingleChildScrollView(
-          child: DefaultTextStyle(
-            style: const TextStyle(fontSize: 14, color: Colors.white),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                Container(width: context.screenSize.width),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20),
+              Container(width: context.screenSize.width),
 
-                //----------//
-                if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
-                //----------//
+              //----------//
+              if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
+              //----------//
 
-                ExpansionTile(
-                  initiallyExpanded: appParamState.openMoneyArea,
-                  iconColor: Colors.white,
-                  onExpansionChanged: (value) => ref.read(appParamProvider.notifier).setOpenMoneyArea(value: value),
-                  title: Text(
-                    appParamState.openMoneyArea == false ? 'OPEN' : 'CLOSE',
-                    style: const TextStyle(fontSize: 10, color: Colors.white),
+              ExpansionTile(
+                initiallyExpanded: appParamState.openMoneyArea,
+                iconColor: Colors.white,
+                onExpansionChanged: (value) => ref.read(appParamProvider.notifier).setOpenMoneyArea(value: value),
+                title: Text(
+                  appParamState.openMoneyArea == false ? 'OPEN' : 'CLOSE',
+                  style: const TextStyle(fontSize: 10, color: Colors.white),
+                ),
+                children: [
+                  SizedBox(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            IconButton(
+                              onPressed: () => context.goNamed(RouteNames.moneyInput, extra: {'date': date}),
+                              icon: const Icon(Icons.input),
+                            ),
+                            IconButton(
+                              onPressed: () =>
+                                  context.goNamed(RouteNames.spendItemInput, extra: {'date': date, 'diff': diff}),
+                              icon: const Icon(Icons.list),
+                            ),
+                            IconButton(
+                              onPressed: () =>
+                                  context.goNamed(RouteNames.timePlaceInput, extra: {'date': date, 'diff': diff}),
+                              icon: const Icon(Icons.access_time),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(total.toCurrency(), style: const TextStyle(fontSize: 16)),
+                                Text(diff.toCurrency(), style: const TextStyle(fontSize: 16)),
+                              ],
+                            ),
+                            const SizedBox(width: 20),
+                            (total == '0')
+                                ? Container()
+                                : GestureDetector(
+                                    onTap: () {
+                                      MoneyDialog(
+                                        context: context,
+                                        widget: SpendAlert(date: date, diff: diff),
+                                      );
+                                    },
+                                    child: const Icon(Icons.info_outline),
+                                  ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                  children: [
-                    SizedBox(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              IconButton(
-                                onPressed: () => context.goNamed(RouteNames.moneyInput, extra: {'date': date}),
-                                icon: const Icon(Icons.input),
+                  const SizedBox(height: 10),
+                  displaySamedaySpendYearly(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(),
+                      IconButton(
+                        onPressed: () {
+                          MoneyDialog(
+                            context: _context,
+                            widget: MonthlySpendPage(
+                              date: DateTime(
+                                date.yyyymmdd.split('-')[0].toInt(),
+                                date.yyyymmdd.split('-')[1].toInt(),
                               ),
-                              IconButton(
-                                onPressed: () =>
-                                    context.goNamed(RouteNames.spendItemInput, extra: {'date': date, 'diff': diff}),
-                                icon: const Icon(Icons.list),
-                              ),
-                              IconButton(
-                                onPressed: () =>
-                                    context.goNamed(RouteNames.timePlaceInput, extra: {'date': date, 'diff': diff}),
-                                icon: const Icon(Icons.access_time),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Text(total.toCurrency(), style: const TextStyle(fontSize: 16)),
-                                  Text(diff.toCurrency(), style: const TextStyle(fontSize: 16)),
-                                ],
-                              ),
-                              const SizedBox(width: 20),
-                              (total == '0')
-                                  ? Container()
-                                  : GestureDetector(
-                                      onTap: () {
-                                        MoneyDialog(
-                                          context: context,
-                                          widget: SpendAlert(date: date, diff: diff),
-                                        );
-                                      },
-                                      child: const Icon(Icons.info_outline),
-                                    ),
-                            ],
-                          ),
-                        ],
+                            ),
+                          );
+                        },
+                        icon: Icon(Icons.calendar_today, color: Colors.white.withOpacity(0.3)),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    displaySamedaySpendYearly(),
-                    const SizedBox(height: 30),
-                    displayMoney(data: moneyState),
-                    const SizedBox(height: 30),
-                    displayBank(data: moneyState),
-                    const SizedBox(height: 30),
-                    displayPay(data: moneyState),
-                    const SizedBox(height: 30),
-                  ],
-                ),
+                    ],
+                  ),
+                  const SizedBox(height: 30),
+                  displayMoney(data: moneyState),
+                  const SizedBox(height: 30),
+                  displayBank(data: moneyState),
+                  const SizedBox(height: 30),
+                  displayPay(data: moneyState),
+                  const SizedBox(height: 30),
+                ],
+              ),
 
-                Divider(color: Colors.deepPurple.withOpacity(0.3), thickness: 5),
+              Divider(color: Colors.deepPurple.withOpacity(0.3), thickness: 5),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(),
-                    GestureDetector(
-                      onTap: () => MoneyDialog(context: context, widget: AssetsListAlert(date: date)),
-                      child: const Icon(Icons.list, color: Colors.deepPurple),
-                    ),
-                  ],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(),
+                  GestureDetector(
+                    onTap: () => MoneyDialog(context: context, widget: AssetsListAlert(date: date)),
+                    child: const Icon(Icons.list, color: Colors.deepPurple),
+                  ),
+                ],
+              ),
 
-                displayGold(),
-                const SizedBox(height: 30),
-                displayStock(),
-                const SizedBox(height: 30),
-                displayShintaku(),
-                const SizedBox(height: 30),
-                displayNotMoneyAsset(),
-                const SizedBox(height: 50),
-              ],
-            ),
+              displayGold(),
+              const SizedBox(height: 30),
+              displayStock(),
+              const SizedBox(height: 30),
+              displayShintaku(),
+              const SizedBox(height: 30),
+              displayNotMoneyAsset(),
+              const SizedBox(height: 50),
+            ],
           ),
         ),
       ),
@@ -234,22 +252,25 @@ class MoneyPage extends ConsumerWidget {
             style: const TextStyle(color: Colors.white),
             child: Row(
               children: [
-                Expanded(child: Text('${element.year}-01-01\n-> ${date.mmdd}')),
+                Expanded(child: Text('${element.year}-01-01\n-> ${date.mmdd}', style: const TextStyle(fontSize: 10))),
                 Expanded(
                   child: Container(
                     alignment: Alignment.topRight,
-                    child: Text(element.spend.toString().toCurrency()),
+                    child: Text(element.spend.toString().toCurrency(), style: const TextStyle(fontSize: 10)),
                   ),
                 ),
                 Expanded(
-                  child: Container(alignment: Alignment.topRight, child: Text(bene.toString().toCurrency())),
+                  child: Container(
+                    alignment: Alignment.topRight,
+                    child: Text(bene.toString().toCurrency(), style: const TextStyle(fontSize: 10)),
+                  ),
                 ),
                 Expanded(
                   child: Container(
                     alignment: Alignment.topRight,
                     child: Text(
                       (bene + element.spend).toString().toCurrency(),
-                      style: const TextStyle(color: Color(0xFFFBB6CE)),
+                      style: const TextStyle(color: Color(0xFFFBB6CE), fontSize: 10),
                     ),
                   ),
                 ),
@@ -274,7 +295,7 @@ class MoneyPage extends ConsumerWidget {
       );
     });
 
-    return DefaultTextStyle(style: const TextStyle(fontSize: 10), child: Column(children: list));
+    return Column(children: list);
   }
 
   ///
