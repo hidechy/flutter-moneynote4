@@ -98,7 +98,7 @@ class SpendItemInputScreen extends ConsumerWidget {
                     thickness: 2,
                     color: Colors.white.withOpacity(0.4),
                   ),
-                  displayNumSetPanel(),
+                  spendItemSetPanel(),
                   const SizedBox(height: 20),
                 ],
               ),
@@ -165,9 +165,30 @@ class SpendItemInputScreen extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(vertical: 5),
           child: Row(
             children: [
+              SizedBox(
+                width: 40,
+                child: ChoiceChip(
+                  label: Text((i + 1).toString()),
+                  backgroundColor: Colors.black.withOpacity(0.4),
+                  selectedColor: Colors.yellowAccent.withOpacity(0.4),
+                  selected: i == spendItemInputState.itemPos,
+                  onSelected: (bool isSelected) {
+                    _ref.read(spendItemInputProvider(diff).notifier).setItemPos(pos: i);
+                  },
+                ),
+              ),
+              const SizedBox(width: 10),
               Expanded(
-                child: SizedBox(
+                child: Container(
                   width: _context.screenSize.width * 0.3,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: (i == spendItemInputState.itemPos)
+                          ? Colors.yellowAccent.withOpacity(0.4)
+                          : Colors.transparent,
+                      width: 2,
+                    ),
+                  ),
                   child: TextField(
                     style: const TextStyle(fontSize: 12),
                     readOnly: true,
@@ -177,10 +198,7 @@ class SpendItemInputScreen extends ConsumerWidget {
                     decoration: const InputDecoration(
                       filled: true,
                       border: OutlineInputBorder(),
-                      contentPadding: EdgeInsets.symmetric(
-                        vertical: 4,
-                        horizontal: 4,
-                      ),
+                      contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
                     ),
                   ),
                 ),
@@ -223,50 +241,23 @@ class SpendItemInputScreen extends ConsumerWidget {
   }
 
   ///
-  Widget displayNumSetPanel() {
+  Widget spendItemSetPanel() {
     final spendItemInputState = _ref.watch(spendItemInputProvider(diff));
 
-    final oneWidth = _context.screenSize.width / 6;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              for (var i = 0; i < 10; i++)
-                SizedBox(
-                  width: oneWidth,
-                  child: ChoiceChip(
-                    label: Text((i + 1).toString()),
-                    backgroundColor: Colors.black.withOpacity(0.4),
-                    selectedColor: Colors.yellowAccent.withOpacity(0.4),
-                    selected: i == spendItemInputState.itemPos,
-                    onSelected: (bool isSelected) =>
-                        _ref.read(spendItemInputProvider(diff).notifier).setItemPos(pos: i),
-                  ),
-                )
-            ],
+    return Wrap(
+      children: spendItem.map((e) {
+        return ChoiceChip(
+          label: Text(
+            (e == '') ? '_ clear _' : e,
+            style: const TextStyle(fontSize: 12),
           ),
-        ),
-        Wrap(
-          children: spendItem.map((e) {
-            return ChoiceChip(
-              label: Text(
-                (e == '') ? '_ clear _' : e,
-                style: const TextStyle(fontSize: 12),
-              ),
-              backgroundColor: (e == '') ? Colors.white.withOpacity(0.1) : Colors.black.withOpacity(0.1),
-              selectedColor: Colors.black.withOpacity(0.1),
-              selected: e == spendItemInputState.spendItem[spendItemInputState.itemPos],
-              onSelected: (bool isSelected) => _ref
-                  .read(spendItemInputProvider(diff).notifier)
-                  .setSpendItem(pos: spendItemInputState.itemPos, item: e),
-            );
-          }).toList(),
-        ),
-      ],
+          backgroundColor: (e == '') ? Colors.white.withOpacity(0.1) : Colors.black.withOpacity(0.1),
+          selectedColor: Colors.black.withOpacity(0.1),
+          selected: e == spendItemInputState.spendItem[spendItemInputState.itemPos],
+          onSelected: (bool isSelected) =>
+              _ref.read(spendItemInputProvider(diff).notifier).setSpendItem(pos: spendItemInputState.itemPos, item: e),
+        );
+      }).toList(),
     );
   }
 }

@@ -29,7 +29,9 @@ class LifetimeRecordDisplayAlert extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     makeTab();
 
-    final index = (tabs.length / 2).floor();
+    final exDate = date.yyyymmdd.split('-');
+
+    final index = (tabs.length >= ((dayDiff * 2) + 1)) ? (tabs.length / 2).floor() : exDate[2].toInt() - 1;
 
     // 最初に開くタブを指定する
     final tabController = useTabController(initialLength: tabs.length);

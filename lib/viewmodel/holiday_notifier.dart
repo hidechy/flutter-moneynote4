@@ -14,8 +14,7 @@ holidayProvider       Holiday
 
 ////////////////////////////////////////////////
 
-final holidayProvider =
-    StateNotifierProvider.autoDispose<HolidayNotifier, Holiday>((ref) {
+final holidayProvider = StateNotifierProvider.autoDispose<HolidayNotifier, Holiday>((ref) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
