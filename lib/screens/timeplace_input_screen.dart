@@ -34,8 +34,8 @@ class TimeplaceInputScreen extends ConsumerWidget {
 
     makeTecs();
 
-    return WillPopScope(
-      onWillPop: () async => false,
+    return PopScope(
+      canPop: false,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Stack(

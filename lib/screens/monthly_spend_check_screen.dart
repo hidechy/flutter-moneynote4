@@ -66,8 +66,8 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
-    return WillPopScope(
-      onWillPop: () async => false,
+    return PopScope(
+      canPop: false,
       child: Scaffold(
         body: Stack(
           fit: StackFit.expand,

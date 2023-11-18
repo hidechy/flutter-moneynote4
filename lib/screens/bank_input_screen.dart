@@ -31,8 +31,8 @@ class BankInputScreen extends ConsumerWidget {
 
     final bankInputState = ref.watch(bankInputProvider);
 
-    return WillPopScope(
-      onWillPop: () async => false,
+    return PopScope(
+      canPop: false,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Stack(

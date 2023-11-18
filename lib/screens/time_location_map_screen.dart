@@ -80,8 +80,8 @@ class TimeLocationMapScreen extends ConsumerWidget {
       },
     );
 
-    return WillPopScope(
-      onWillPop: () async => false,
+    return PopScope(
+      canPop: false,
       child: Scaffold(
         body: Stack(
           fit: StackFit.expand,
