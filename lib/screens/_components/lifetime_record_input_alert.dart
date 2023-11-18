@@ -66,7 +66,7 @@ class LifetimeRecordInputAlert extends ConsumerWidget {
 
   ///
   Widget lifetimeItemSetPanel() {
-    var lifetimeItemState = _ref.watch(lifetimeItemProvider);
+    final lifetimeItemState = _ref.watch(lifetimeItemProvider);
 
     return Wrap(
       // children: spendItem.map((e) {
