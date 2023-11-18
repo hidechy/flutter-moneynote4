@@ -61,9 +61,11 @@ class SpendMonthSummaryNotifier extends StateNotifier<List<SpendMonthSummary>> {
       }
 
       state = list;
-    }).catchError((error, _) {
-      utility.showError('予期せぬエラーが発生しました');
     });
+
+    // .catchError((error, _) {
+    //   utility.showError('予期せぬエラーが発生しました');
+    // });
   }
 }
 

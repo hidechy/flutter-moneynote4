@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/yearly_calendar_alert.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../extensions/extensions.dart';
@@ -205,18 +206,19 @@ class HomeScreen extends ConsumerWidget {
                     Row(
                       children: [
                         GestureDetector(
-                          onTap: () => MoneyDialog(context: context, widget: MoneyTotalAlert(date: focusDayState)),
-                          child: const Icon(Icons.all_out),
+                          onTap: () => MoneyDialog(context: context, widget: YearlyCalendarAlert()),
+                          child: const Icon(Icons.calendar_today, size: 18),
                         ),
-                        const SizedBox(width: 20),
+                        const SizedBox(width: 30),
                         GestureDetector(
-                          onTap: () {
-                            MoneyDialog(
-                              context: context,
-                              widget: SpendSummaryItemAlert(date: focusDayState),
-                            );
-                          },
-                          child: const Icon(FontAwesomeIcons.maximize, size: 14),
+                          onTap: () => MoneyDialog(context: context, widget: MoneyTotalAlert(date: focusDayState)),
+                          child: const Icon(Icons.all_out, size: 18),
+                        ),
+                        const SizedBox(width: 30),
+                        GestureDetector(
+                          onTap: () =>
+                              MoneyDialog(context: context, widget: SpendSummaryItemAlert(date: focusDayState)),
+                          child: const Icon(FontAwesomeIcons.maximize, size: 18),
                         ),
                         const SizedBox(width: 20),
                         Text(total.toString().toCurrency(), style: const TextStyle(fontSize: 16)),

@@ -16,7 +16,8 @@ class MyApp extends StatelessWidget {
       routerConfig: appRouter,
       title: 'money note',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(brightness: Brightness.dark),
+      theme: ThemeData.dark(useMaterial3: false),
+//      theme: ThemeData(brightness: Brightness.dark),
 //      home: HomeScreen(),
     );
   }
