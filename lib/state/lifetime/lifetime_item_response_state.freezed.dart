@@ -19,6 +19,8 @@ mixin _$LifetimeItemResponseState {
   List<LifetimeItem> get lifetimeItemList => throw _privateConstructorUsedError;
   List<String> get lifetimeItemStringList => throw _privateConstructorUsedError;
   String get selectedItem => throw _privateConstructorUsedError;
+  int get itemPos => throw _privateConstructorUsedError;
+  List<String> get lifetimeStringList => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LifetimeItemResponseStateCopyWith<LifetimeItemResponseState> get copyWith =>
@@ -34,7 +36,9 @@ abstract class $LifetimeItemResponseStateCopyWith<$Res> {
   $Res call(
       {List<LifetimeItem> lifetimeItemList,
       List<String> lifetimeItemStringList,
-      String selectedItem});
+      String selectedItem,
+      int itemPos,
+      List<String> lifetimeStringList});
 }
 
 /// @nodoc
@@ -54,6 +58,8 @@ class _$LifetimeItemResponseStateCopyWithImpl<$Res,
     Object? lifetimeItemList = null,
     Object? lifetimeItemStringList = null,
     Object? selectedItem = null,
+    Object? itemPos = null,
+    Object? lifetimeStringList = null,
   }) {
     return _then(_value.copyWith(
       lifetimeItemList: null == lifetimeItemList
@@ -68,6 +74,14 @@ class _$LifetimeItemResponseStateCopyWithImpl<$Res,
           ? _value.selectedItem
           : selectedItem // ignore: cast_nullable_to_non_nullable
               as String,
+      itemPos: null == itemPos
+          ? _value.itemPos
+          : itemPos // ignore: cast_nullable_to_non_nullable
+              as int,
+      lifetimeStringList: null == lifetimeStringList
+          ? _value.lifetimeStringList
+          : lifetimeStringList // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -84,7 +98,9 @@ abstract class _$$_LifetimeItemResponseStateCopyWith<$Res>
   $Res call(
       {List<LifetimeItem> lifetimeItemList,
       List<String> lifetimeItemStringList,
-      String selectedItem});
+      String selectedItem,
+      int itemPos,
+      List<String> lifetimeStringList});
 }
 
 /// @nodoc
@@ -103,6 +119,8 @@ class __$$_LifetimeItemResponseStateCopyWithImpl<$Res>
     Object? lifetimeItemList = null,
     Object? lifetimeItemStringList = null,
     Object? selectedItem = null,
+    Object? itemPos = null,
+    Object? lifetimeStringList = null,
   }) {
     return _then(_$_LifetimeItemResponseState(
       lifetimeItemList: null == lifetimeItemList
@@ -117,6 +135,14 @@ class __$$_LifetimeItemResponseStateCopyWithImpl<$Res>
           ? _value.selectedItem
           : selectedItem // ignore: cast_nullable_to_non_nullable
               as String,
+      itemPos: null == itemPos
+          ? _value.itemPos
+          : itemPos // ignore: cast_nullable_to_non_nullable
+              as int,
+      lifetimeStringList: null == lifetimeStringList
+          ? _value._lifetimeStringList
+          : lifetimeStringList // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -127,9 +153,12 @@ class _$_LifetimeItemResponseState implements _LifetimeItemResponseState {
   const _$_LifetimeItemResponseState(
       {final List<LifetimeItem> lifetimeItemList = const [],
       final List<String> lifetimeItemStringList = const [],
-      this.selectedItem = ''})
+      this.selectedItem = '',
+      this.itemPos = 0,
+      final List<String> lifetimeStringList = const []})
       : _lifetimeItemList = lifetimeItemList,
-        _lifetimeItemStringList = lifetimeItemStringList;
+        _lifetimeItemStringList = lifetimeItemStringList,
+        _lifetimeStringList = lifetimeStringList;
 
   final List<LifetimeItem> _lifetimeItemList;
   @override
@@ -154,10 +183,22 @@ class _$_LifetimeItemResponseState implements _LifetimeItemResponseState {
   @override
   @JsonKey()
   final String selectedItem;
+  @override
+  @JsonKey()
+  final int itemPos;
+  final List<String> _lifetimeStringList;
+  @override
+  @JsonKey()
+  List<String> get lifetimeStringList {
+    if (_lifetimeStringList is EqualUnmodifiableListView)
+      return _lifetimeStringList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_lifetimeStringList);
+  }
 
   @override
   String toString() {
-    return 'LifetimeItemResponseState(lifetimeItemList: $lifetimeItemList, lifetimeItemStringList: $lifetimeItemStringList, selectedItem: $selectedItem)';
+    return 'LifetimeItemResponseState(lifetimeItemList: $lifetimeItemList, lifetimeItemStringList: $lifetimeItemStringList, selectedItem: $selectedItem, itemPos: $itemPos, lifetimeStringList: $lifetimeStringList)';
   }
 
   @override
@@ -170,7 +211,10 @@ class _$_LifetimeItemResponseState implements _LifetimeItemResponseState {
             const DeepCollectionEquality().equals(
                 other._lifetimeItemStringList, _lifetimeItemStringList) &&
             (identical(other.selectedItem, selectedItem) ||
-                other.selectedItem == selectedItem));
+                other.selectedItem == selectedItem) &&
+            (identical(other.itemPos, itemPos) || other.itemPos == itemPos) &&
+            const DeepCollectionEquality()
+                .equals(other._lifetimeStringList, _lifetimeStringList));
   }
 
   @override
@@ -178,7 +222,9 @@ class _$_LifetimeItemResponseState implements _LifetimeItemResponseState {
       runtimeType,
       const DeepCollectionEquality().hash(_lifetimeItemList),
       const DeepCollectionEquality().hash(_lifetimeItemStringList),
-      selectedItem);
+      selectedItem,
+      itemPos,
+      const DeepCollectionEquality().hash(_lifetimeStringList));
 
   @JsonKey(ignore: true)
   @override
@@ -192,7 +238,9 @@ abstract class _LifetimeItemResponseState implements LifetimeItemResponseState {
   const factory _LifetimeItemResponseState(
       {final List<LifetimeItem> lifetimeItemList,
       final List<String> lifetimeItemStringList,
-      final String selectedItem}) = _$_LifetimeItemResponseState;
+      final String selectedItem,
+      final int itemPos,
+      final List<String> lifetimeStringList}) = _$_LifetimeItemResponseState;
 
   @override
   List<LifetimeItem> get lifetimeItemList;
@@ -200,6 +248,10 @@ abstract class _LifetimeItemResponseState implements LifetimeItemResponseState {
   List<String> get lifetimeItemStringList;
   @override
   String get selectedItem;
+  @override
+  int get itemPos;
+  @override
+  List<String> get lifetimeStringList;
   @override
   @JsonKey(ignore: true)
   _$$_LifetimeItemResponseStateCopyWith<_$_LifetimeItemResponseState>

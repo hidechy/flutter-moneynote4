@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$AppParamState {
+  String get errorMessage => throw _privateConstructorUsedError;
   int get AmazonAlertSelectYear => throw _privateConstructorUsedError;
   int get CreditCompanyAlertSelectYear => throw _privateConstructorUsedError;
   int get CreditSummaryAlertSelectYear => throw _privateConstructorUsedError;
@@ -55,7 +56,8 @@ abstract class $AppParamStateCopyWith<$Res> {
       _$AppParamStateCopyWithImpl<$Res, AppParamState>;
   @useResult
   $Res call(
-      {int AmazonAlertSelectYear,
+      {String errorMessage,
+      int AmazonAlertSelectYear,
       int CreditCompanyAlertSelectYear,
       int CreditSummaryAlertSelectYear,
       int CreditYearlyDetailAlertSelectMonth,
@@ -94,6 +96,7 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? errorMessage = null,
     Object? AmazonAlertSelectYear = null,
     Object? CreditCompanyAlertSelectYear = null,
     Object? CreditSummaryAlertSelectYear = null,
@@ -120,6 +123,10 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
     Object? CreditYearlyListSelectedString = null,
   }) {
     return _then(_value.copyWith(
+      errorMessage: null == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String,
       AmazonAlertSelectYear: null == AmazonAlertSelectYear
           ? _value.AmazonAlertSelectYear
           : AmazonAlertSelectYear // ignore: cast_nullable_to_non_nullable
@@ -230,7 +237,8 @@ abstract class _$$_AppParamStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int AmazonAlertSelectYear,
+      {String errorMessage,
+      int AmazonAlertSelectYear,
       int CreditCompanyAlertSelectYear,
       int CreditSummaryAlertSelectYear,
       int CreditYearlyDetailAlertSelectMonth,
@@ -267,6 +275,7 @@ class __$$_AppParamStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? errorMessage = null,
     Object? AmazonAlertSelectYear = null,
     Object? CreditCompanyAlertSelectYear = null,
     Object? CreditSummaryAlertSelectYear = null,
@@ -293,6 +302,10 @@ class __$$_AppParamStateCopyWithImpl<$Res>
     Object? CreditYearlyListSelectedString = null,
   }) {
     return _then(_$_AppParamState(
+      errorMessage: null == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String,
       AmazonAlertSelectYear: null == AmazonAlertSelectYear
           ? _value.AmazonAlertSelectYear
           : AmazonAlertSelectYear // ignore: cast_nullable_to_non_nullable
@@ -398,7 +411,8 @@ class __$$_AppParamStateCopyWithImpl<$Res>
 
 class _$_AppParamState implements _AppParamState {
   const _$_AppParamState(
-      {this.AmazonAlertSelectYear = 0,
+      {this.errorMessage = '',
+      this.AmazonAlertSelectYear = 0,
       this.CreditCompanyAlertSelectYear = 0,
       this.CreditSummaryAlertSelectYear = 0,
       this.CreditYearlyDetailAlertSelectMonth = 0,
@@ -423,6 +437,9 @@ class _$_AppParamState implements _AppParamState {
       this.CreditYearlyListSelectString = '',
       this.CreditYearlyListSelectedString = ''});
 
+  @override
+  @JsonKey()
+  final String errorMessage;
   @override
   @JsonKey()
   final int AmazonAlertSelectYear;
@@ -498,7 +515,7 @@ class _$_AppParamState implements _AppParamState {
 
   @override
   String toString() {
-    return 'AppParamState(AmazonAlertSelectYear: $AmazonAlertSelectYear, CreditCompanyAlertSelectYear: $CreditCompanyAlertSelectYear, CreditSummaryAlertSelectYear: $CreditSummaryAlertSelectYear, CreditYearlyDetailAlertSelectMonth: $CreditYearlyDetailAlertSelectMonth, DutyAlertSelectYear: $DutyAlertSelectYear, HomeFixAlertSelectYear: $HomeFixAlertSelectYear, SeiyuAlertSelectYear: $SeiyuAlertSelectYear, SeiyuAlertSelectDate: $SeiyuAlertSelectDate, SpendSummaryAlertSelectYear: $SpendSummaryAlertSelectYear, SpendYearlyAlertSelectYear: $SpendYearlyAlertSelectYear, TrainAlertSelectYear: $TrainAlertSelectYear, UdemyAlertSelectYear: $UdemyAlertSelectYear, UdemyAlertSelectCategory: $UdemyAlertSelectCategory, BalanceSheetAlertSelectYear: $BalanceSheetAlertSelectYear, MonthlyUnitSpendAlertSelectYear: $MonthlyUnitSpendAlertSelectYear, SamedaySpendAlertDay: $SamedaySpendAlertDay, WellsReserveAlertYear: $WellsReserveAlertYear, KeihiListAlertSelectYear: $KeihiListAlertSelectYear, KeihiListAlertSelectOrder: $KeihiListAlertSelectOrder, TaxPaymentAlertSelectYear: $TaxPaymentAlertSelectYear, TaxPaymentItemAlertSelectYear: $TaxPaymentItemAlertSelectYear, openMoneyArea: $openMoneyArea, CreditYearlyListSelectString: $CreditYearlyListSelectString, CreditYearlyListSelectedString: $CreditYearlyListSelectedString)';
+    return 'AppParamState(errorMessage: $errorMessage, AmazonAlertSelectYear: $AmazonAlertSelectYear, CreditCompanyAlertSelectYear: $CreditCompanyAlertSelectYear, CreditSummaryAlertSelectYear: $CreditSummaryAlertSelectYear, CreditYearlyDetailAlertSelectMonth: $CreditYearlyDetailAlertSelectMonth, DutyAlertSelectYear: $DutyAlertSelectYear, HomeFixAlertSelectYear: $HomeFixAlertSelectYear, SeiyuAlertSelectYear: $SeiyuAlertSelectYear, SeiyuAlertSelectDate: $SeiyuAlertSelectDate, SpendSummaryAlertSelectYear: $SpendSummaryAlertSelectYear, SpendYearlyAlertSelectYear: $SpendYearlyAlertSelectYear, TrainAlertSelectYear: $TrainAlertSelectYear, UdemyAlertSelectYear: $UdemyAlertSelectYear, UdemyAlertSelectCategory: $UdemyAlertSelectCategory, BalanceSheetAlertSelectYear: $BalanceSheetAlertSelectYear, MonthlyUnitSpendAlertSelectYear: $MonthlyUnitSpendAlertSelectYear, SamedaySpendAlertDay: $SamedaySpendAlertDay, WellsReserveAlertYear: $WellsReserveAlertYear, KeihiListAlertSelectYear: $KeihiListAlertSelectYear, KeihiListAlertSelectOrder: $KeihiListAlertSelectOrder, TaxPaymentAlertSelectYear: $TaxPaymentAlertSelectYear, TaxPaymentItemAlertSelectYear: $TaxPaymentItemAlertSelectYear, openMoneyArea: $openMoneyArea, CreditYearlyListSelectString: $CreditYearlyListSelectString, CreditYearlyListSelectedString: $CreditYearlyListSelectedString)';
   }
 
   @override
@@ -506,6 +523,8 @@ class _$_AppParamState implements _AppParamState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_AppParamState &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage) &&
             (identical(other.AmazonAlertSelectYear, AmazonAlertSelectYear) ||
                 other.AmazonAlertSelectYear == AmazonAlertSelectYear) &&
             (identical(other.CreditCompanyAlertSelectYear, CreditCompanyAlertSelectYear) ||
@@ -560,6 +579,7 @@ class _$_AppParamState implements _AppParamState {
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
+        errorMessage,
         AmazonAlertSelectYear,
         CreditCompanyAlertSelectYear,
         CreditSummaryAlertSelectYear,
@@ -595,7 +615,8 @@ class _$_AppParamState implements _AppParamState {
 
 abstract class _AppParamState implements AppParamState {
   const factory _AppParamState(
-      {final int AmazonAlertSelectYear,
+      {final String errorMessage,
+      final int AmazonAlertSelectYear,
       final int CreditCompanyAlertSelectYear,
       final int CreditSummaryAlertSelectYear,
       final int CreditYearlyDetailAlertSelectMonth,
@@ -620,6 +641,8 @@ abstract class _AppParamState implements AppParamState {
       final String CreditYearlyListSelectString,
       final String CreditYearlyListSelectedString}) = _$_AppParamState;
 
+  @override
+  String get errorMessage;
   @override
   int get AmazonAlertSelectYear;
   @override

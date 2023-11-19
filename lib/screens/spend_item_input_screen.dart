@@ -252,7 +252,7 @@ class SpendItemInputScreen extends ConsumerWidget {
             style: const TextStyle(fontSize: 12),
           ),
           backgroundColor: (e == '') ? Colors.white.withOpacity(0.1) : Colors.black.withOpacity(0.1),
-          selectedColor: Colors.black.withOpacity(0.1),
+          selectedColor: Colors.yellowAccent.withOpacity(0.1),
           selected: e == spendItemInputState.spendItem[spendItemInputState.itemPos],
           onSelected: (bool isSelected) =>
               _ref.read(spendItemInputProvider(diff).notifier).setSpendItem(pos: spendItemInputState.itemPos, item: e),

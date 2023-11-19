@@ -7,6 +7,7 @@ part 'app_param_state.freezed.dart';
 @freezed
 class AppParamState with _$AppParamState {
   const factory AppParamState({
+    @Default('') String errorMessage,
     @Default(0) int AmazonAlertSelectYear,
     @Default(0) int CreditCompanyAlertSelectYear,
     @Default(0) int CreditSummaryAlertSelectYear,

@@ -10,5 +10,7 @@ class LifetimeItemResponseState with _$LifetimeItemResponseState {
     @Default([]) List<LifetimeItem> lifetimeItemList,
     @Default([]) List<String> lifetimeItemStringList,
     @Default('') String selectedItem,
+    @Default(0) int itemPos,
+    @Default([]) List<String> lifetimeStringList,
   }) = _LifetimeItemResponseState;
 }

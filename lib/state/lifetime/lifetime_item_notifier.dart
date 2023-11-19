@@ -37,7 +37,18 @@ class LifetimeItemNotifier extends StateNotifier<LifetimeItemResponseState> {
         list2.add(val.item);
       }
 
-      state = state.copyWith(lifetimeItemList: list, lifetimeItemStringList: list2);
+      // 初期化
+      final list3 = <String>[];
+      for (var i = 0; i <= 23; i++) {
+        list3.add('');
+      }
+      // 初期化
+
+      state = state.copyWith(
+        lifetimeItemList: list,
+        lifetimeItemStringList: list2,
+        lifetimeStringList: list3,
+      );
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
@@ -45,6 +56,24 @@ class LifetimeItemNotifier extends StateNotifier<LifetimeItemResponseState> {
 
   ///
   Future<void> setSelectedItem({required String item}) async => state = state.copyWith(selectedItem: item);
+
+  ///
+  Future<void> setItemPos({required int pos}) async => state = state.copyWith(itemPos: pos);
+
+  ///
+  Future<void> setLifetimeStringList({required int pos, required String item}) async {
+    final items = <String>[...state.lifetimeStringList];
+    items[pos] = item;
+    state = state.copyWith(lifetimeStringList: items);
+  }
+
+  ///
+  Future<void> inputLifetime({required DateTime date}) async {
+    final items = <String>[...state.lifetimeStringList];
+    print(items);
+
+    print(date.yyyymmdd);
+  }
 }
 
 ////////////////////////////////////////////////

@@ -34,6 +34,8 @@ final appParamProvider = StateNotifierProvider.autoDispose<AppParamNotifier, App
 class AppParamNotifier extends StateNotifier<AppParamState> {
   AppParamNotifier(super.state);
 
+  Future<void> setErrorMessage({required String msg}) async => state = state.copyWith(errorMessage: msg);
+
   Future<void> setAmazonAlertSelectYear({required int year}) async =>
       state = state.copyWith(AmazonAlertSelectYear: year);
 
