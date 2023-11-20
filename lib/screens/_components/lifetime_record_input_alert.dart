@@ -16,13 +16,11 @@ class LifetimeRecordInputAlert extends ConsumerWidget {
 
   int onedayHourNum = 24;
 
-  late BuildContext _context;
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    _context = context;
     _ref = ref;
 
     final lifetimeStringList = ref.watch(lifetimeItemProvider.select((value) => value.lifetimeStringList));
@@ -55,6 +53,7 @@ class LifetimeRecordInputAlert extends ConsumerWidget {
                       Text(date.yyyymmdd),
                       const SizedBox(width: 20),
                       _displayReloadButton(),
+                      _displayBetweenInputButton(),
                     ],
                   ),
                   Row(
@@ -131,8 +130,7 @@ class LifetimeRecordInputAlert extends ConsumerWidget {
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: Container(
-                  width: _context.screenSize.width * 0.3,
+                child: DecoratedBox(
                   decoration: BoxDecoration(
                     border: Border.all(
                       color:
@@ -146,8 +144,8 @@ class LifetimeRecordInputAlert extends ConsumerWidget {
                     controller: tecs[i],
                     decoration: const InputDecoration(
                       filled: true,
-                      border: OutlineInputBorder(),
                       contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+                      border: InputBorder.none,
                     ),
                   ),
                 ),
@@ -254,6 +252,42 @@ class LifetimeRecordInputAlert extends ConsumerWidget {
       child: Icon(
         Icons.refresh,
         color: (lifetime != null) ? Colors.yellowAccent.withOpacity(0.6) : Colors.white.withOpacity(0.6),
+      ),
+    );
+  }
+
+  ///
+  Widget _displayBetweenInputButton() {
+    final lifetimeItemState = _ref.watch(lifetimeItemProvider);
+
+    if (lifetimeItemState.lifetimeStringList.isEmpty) {
+      return const Icon(Icons.check_box_outline_blank, color: Colors.transparent);
+    }
+
+    return GestureDetector(
+      onTap: () async {
+        var endPos = 0;
+        for (var i = lifetimeItemState.itemPos + 1; i < onedayHourNum; i++) {
+          if (lifetimeItemState.lifetimeStringList[i] != null) {
+            break;
+          }
+
+          endPos = i;
+        }
+
+        final lifetimeStringItem = lifetimeItemState.lifetimeStringList[lifetimeItemState.itemPos];
+
+        for (var i = lifetimeItemState.itemPos; i <= endPos; i++) {
+          tecs[i].text = lifetimeStringItem!;
+
+          await _ref.read(lifetimeItemProvider.notifier).setLifetimeStringList(pos: i, item: lifetimeStringItem);
+        }
+      },
+      child: Row(
+        children: [
+          const SizedBox(width: 10),
+          Icon(Icons.download_for_offline_outlined, color: Colors.white.withOpacity(0.6)),
+        ],
       ),
     );
   }

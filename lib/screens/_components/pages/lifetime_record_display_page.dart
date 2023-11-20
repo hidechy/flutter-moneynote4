@@ -59,7 +59,7 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(child: _displayLifetimeRecord()),
-        Expanded(child: Container()),
+        Expanded(flex: 2, child: Container()),
       ],
     );
   }
@@ -104,11 +104,53 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
 
   ///
   Widget _lifetimeDisplayParts({required String key, required String value}) {
-    return Row(
-      children: [
-        Expanded(child: Text(key)),
-        Expanded(flex: 3, child: Text(value)),
-      ],
+    return DecoratedBox(
+      decoration: BoxDecoration(color: _getLifetimeRowBgColor(value: value)),
+      child: Row(
+        children: [
+          Expanded(child: Text(key)),
+          Expanded(flex: 3, child: Text(value)),
+        ],
+      ),
     );
+  }
+
+  ///
+  Color _getLifetimeRowBgColor({required String value}) {
+    switch (value) {
+      case '自宅':
+      case '実家':
+        return Colors.white.withOpacity(0.2);
+
+      case '睡眠':
+        return Colors.yellowAccent.withOpacity(0.2);
+
+      case '移動':
+        return Colors.green.withOpacity(0.2);
+
+      case '仕事':
+        return Colors.indigo.withOpacity(0.2);
+
+      case '外出':
+      case '旅行':
+      case 'イベント':
+        return Colors.pinkAccent.withOpacity(0.2);
+
+      case 'ボクシング':
+      case '俳句会':
+      case '勉強':
+        return Colors.purpleAccent.withOpacity(0.2);
+
+      case '飲み会':
+        return Colors.orangeAccent.withOpacity(0.2);
+
+      case '歩き':
+        return Colors.lightBlueAccent.withOpacity(0.2);
+
+      case '緊急事態':
+        return Colors.redAccent.withOpacity(0.2);
+    }
+
+    return Colors.transparent;
   }
 }

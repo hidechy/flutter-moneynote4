@@ -31,9 +31,12 @@ class LifetimeNotifier extends StateNotifier<LifetimeResponseState> {
       body: {'date': date.yyyymmdd},
     ).then((value) {
       // ignore: avoid_dynamic_calls
-      final lifetime = Lifetime.fromJson(value['data'] as Map<String, dynamic>);
+      if (value['data'] != null) {
+        // ignore: avoid_dynamic_calls
+        final lifetime = Lifetime.fromJson(value['data'] as Map<String, dynamic>);
 
-      state = state.copyWith(lifetime: lifetime);
+        state = state.copyWith(lifetime: lifetime);
+      }
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
