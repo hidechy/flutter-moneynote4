@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/state/app_param/app_param_notifier.dart';
+import 'package:moneynote4/state/lifetime/lifetime_notifier.dart';
 
 import '../../extensions/extensions.dart';
-import '../../state/lifetime/lifetime_item_notifier.dart';
+import '../../state/app_param/app_param_notifier.dart';
+import '../../state/lifetime_item/lifetime_item_notifier.dart';
 
 // ignore: must_be_immutable
 class LifetimeRecordInputAlert extends ConsumerWidget {
@@ -49,7 +50,13 @@ class LifetimeRecordInputAlert extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(date.yyyymmdd),
+                  Row(
+                    children: [
+                      Text(date.yyyymmdd),
+                      const SizedBox(width: 20),
+                      _displayReloadButton(),
+                    ],
+                  ),
                   Row(
                     children: [
                       if (errorMessage != '') ...[
@@ -60,14 +67,19 @@ class LifetimeRecordInputAlert extends ConsumerWidget {
                         const SizedBox(width: 20),
                       ],
                       GestureDetector(
-                        onTap: () {
-                          ref.watch(appParamProvider.notifier).setErrorMessage(msg: '');
+                        onTap: () async {
+                          await ref.watch(appParamProvider.notifier).setErrorMessage(msg: '');
 
                           /// null許容リストからnullを削除したnull非許容リストを作成する
                           if (lifetimeStringList.whereType<String>().length == onedayHourNum) {
-                            ref.read(lifetimeItemProvider.notifier).inputLifetime(date: date);
+                            await ref.read(lifetimeItemProvider.notifier).inputLifetime(date: date);
+
+                            await ref.read(lifetimeProvider(date).notifier).getLifetime(date: date);
+
+                            // ignore: use_build_context_synchronously
+                            Navigator.pop(context);
                           } else {
-                            ref.read(appParamProvider.notifier).setErrorMessage(msg: 'cant save');
+                            await ref.read(appParamProvider.notifier).setErrorMessage(msg: 'cant save');
                           }
                         },
                         child: const Icon(Icons.input),
@@ -76,6 +88,7 @@ class LifetimeRecordInputAlert extends ConsumerWidget {
                   ),
                 ],
               ),
+              const SizedBox(height: 20),
               Expanded(child: lifetimeInputParts()),
               Divider(thickness: 2, color: Colors.white.withOpacity(0.4)),
               lifetimeItemSetPanel(),
@@ -171,6 +184,77 @@ class LifetimeRecordInputAlert extends ConsumerWidget {
           },
         );
       }).toList(),
+    );
+  }
+
+  ///
+  Widget _displayReloadButton() {
+    final lifetime = _ref.watch(lifetimeProvider(date).select((value) => value.lifetime));
+
+    return GestureDetector(
+      onTap: (lifetime != null)
+          ? () async {
+              tecs[0].text = lifetime.hour00;
+              tecs[1].text = lifetime.hour01;
+              tecs[2].text = lifetime.hour02;
+              tecs[3].text = lifetime.hour03;
+              tecs[4].text = lifetime.hour04;
+              tecs[5].text = lifetime.hour05;
+              tecs[6].text = lifetime.hour06;
+              tecs[7].text = lifetime.hour07;
+              tecs[8].text = lifetime.hour08;
+              tecs[9].text = lifetime.hour09;
+              tecs[10].text = lifetime.hour10;
+              tecs[11].text = lifetime.hour11;
+              tecs[12].text = lifetime.hour12;
+              tecs[13].text = lifetime.hour13;
+              tecs[14].text = lifetime.hour14;
+              tecs[15].text = lifetime.hour15;
+              tecs[16].text = lifetime.hour16;
+              tecs[17].text = lifetime.hour17;
+              tecs[18].text = lifetime.hour18;
+              tecs[19].text = lifetime.hour19;
+              tecs[20].text = lifetime.hour20;
+              tecs[21].text = lifetime.hour21;
+              tecs[22].text = lifetime.hour22;
+              tecs[23].text = lifetime.hour23;
+
+              final hourDataList = [
+                lifetime.hour00,
+                lifetime.hour01,
+                lifetime.hour02,
+                lifetime.hour03,
+                lifetime.hour04,
+                lifetime.hour05,
+                lifetime.hour06,
+                lifetime.hour07,
+                lifetime.hour08,
+                lifetime.hour09,
+                lifetime.hour10,
+                lifetime.hour11,
+                lifetime.hour12,
+                lifetime.hour13,
+                lifetime.hour14,
+                lifetime.hour15,
+                lifetime.hour16,
+                lifetime.hour17,
+                lifetime.hour18,
+                lifetime.hour19,
+                lifetime.hour20,
+                lifetime.hour21,
+                lifetime.hour22,
+                lifetime.hour23
+              ];
+
+              for (var i = 0; i < hourDataList.length; i++) {
+                await _ref.read(lifetimeItemProvider.notifier).setLifetimeStringList(pos: i, item: hourDataList[i]);
+              }
+            }
+          : null,
+      child: Icon(
+        Icons.refresh,
+        color: (lifetime != null) ? Colors.yellowAccent.withOpacity(0.6) : Colors.white.withOpacity(0.6),
+      ),
     );
   }
 }

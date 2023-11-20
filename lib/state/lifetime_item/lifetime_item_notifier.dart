@@ -66,20 +66,14 @@ class LifetimeItemNotifier extends StateNotifier<LifetimeItemResponseState> {
   ///
   Future<void> inputLifetime({required DateTime date}) async {
     final items = <String?>[...state.lifetimeStringList];
-    print(items.join('|'));
 
-    print(date.yyyymmdd);
+    final uploadData = <String, dynamic>{};
+    uploadData['date'] = date.yyyymmdd;
+    uploadData['lifetime'] = items.join('|');
 
-    /*
-
-
-
-I/flutter ( 6507): 自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅
-I/flutter ( 6507): 2023-01-01
-
-
-
-    */
+    await client.post(path: APIPath.insertLifetime, body: uploadData).then((value) {}).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
   }
 }
 

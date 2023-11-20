@@ -113,7 +113,7 @@ class YearlyCalendarPage extends ConsumerWidget {
                     margin: const EdgeInsets.all(3),
                     padding: const EdgeInsets.all(3),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white.withOpacity(0.4)),
+                      border: _getBorder(mmdd: days[i]),
                       color: getBgColor(mmdd: days[i]),
                     ),
                     child: Column(
@@ -123,9 +123,13 @@ class YearlyCalendarPage extends ConsumerWidget {
                           constraints: BoxConstraints(minHeight: _context.screenSize.height / 40),
                           child: Text(
                             (exDays[1] == '01') ? exDays[0] : days[i],
-                            style: TextStyle(fontSize: (exDays[1] == '01') ? 12 : 8),
+                            style: TextStyle(
+                              fontSize: (exDays[1] == '01') ? 12 : 8,
+                              color: (exDays[1] == '01') ? const Color(0xFFFBB6CE) : Colors.white,
+                            ),
                           ),
                         ),
+                        _dispRowNum(mmdd: days[i], rowNum: rowNum),
                       ],
                     ),
                   ),
@@ -153,5 +157,31 @@ class YearlyCalendarPage extends ConsumerWidget {
     final genDate = DateTime(date.yyyy.toInt(), exDate[0].toInt(), exDate[1].toInt());
 
     return _utility.getYoubiColor(date: genDate, youbiStr: genDate.youbiStr, holiday: holidayState.data);
+  }
+
+  ///
+  Widget _dispRowNum({required String mmdd, required int rowNum}) {
+    final exDate = mmdd.split('-');
+
+    final genDate = DateTime(date.yyyy.toInt(), exDate[0].toInt(), exDate[1].toInt());
+
+    return Text(
+      (genDate.youbiStr == 'Sunday') ? (rowNum + 1).toString() : '',
+      style: TextStyle(
+        fontSize: 10,
+        color: (genDate.youbiStr == 'Sunday') ? Colors.white.withOpacity(0.6) : Colors.transparent,
+      ),
+    );
+  }
+
+  ///
+  Border _getBorder({required String mmdd}) {
+    final exDate = mmdd.split('-');
+
+    final genDate = DateTime(date.yyyy.toInt(), exDate[0].toInt(), exDate[1].toInt());
+
+    return (genDate.yyyymmdd == DateTime.now().yyyymmdd)
+        ? Border.all(color: Colors.orangeAccent.withOpacity(0.4), width: 2)
+        : Border.all(color: Colors.white.withOpacity(0.2), width: 2);
   }
 }
