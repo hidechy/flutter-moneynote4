@@ -16,11 +16,16 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$LifetimeItemResponseState {
+  ///
   List<LifetimeItem> get lifetimeItemList => throw _privateConstructorUsedError;
   List<String> get lifetimeItemStringList => throw _privateConstructorUsedError;
+
+  ///
   String get selectedItem => throw _privateConstructorUsedError;
   int get itemPos => throw _privateConstructorUsedError;
-  List<String> get lifetimeStringList => throw _privateConstructorUsedError;
+
+  ///
+  List<String?> get lifetimeStringList => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LifetimeItemResponseStateCopyWith<LifetimeItemResponseState> get copyWith =>
@@ -38,7 +43,7 @@ abstract class $LifetimeItemResponseStateCopyWith<$Res> {
       List<String> lifetimeItemStringList,
       String selectedItem,
       int itemPos,
-      List<String> lifetimeStringList});
+      List<String?> lifetimeStringList});
 }
 
 /// @nodoc
@@ -81,7 +86,7 @@ class _$LifetimeItemResponseStateCopyWithImpl<$Res,
       lifetimeStringList: null == lifetimeStringList
           ? _value.lifetimeStringList
           : lifetimeStringList // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<String?>,
     ) as $Val);
   }
 }
@@ -100,7 +105,7 @@ abstract class _$$_LifetimeItemResponseStateCopyWith<$Res>
       List<String> lifetimeItemStringList,
       String selectedItem,
       int itemPos,
-      List<String> lifetimeStringList});
+      List<String?> lifetimeStringList});
 }
 
 /// @nodoc
@@ -142,7 +147,7 @@ class __$$_LifetimeItemResponseStateCopyWithImpl<$Res>
       lifetimeStringList: null == lifetimeStringList
           ? _value._lifetimeStringList
           : lifetimeStringList // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<String?>,
     ));
   }
 }
@@ -155,12 +160,15 @@ class _$_LifetimeItemResponseState implements _LifetimeItemResponseState {
       final List<String> lifetimeItemStringList = const [],
       this.selectedItem = '',
       this.itemPos = 0,
-      final List<String> lifetimeStringList = const []})
+      final List<String?> lifetimeStringList = const []})
       : _lifetimeItemList = lifetimeItemList,
         _lifetimeItemStringList = lifetimeItemStringList,
         _lifetimeStringList = lifetimeStringList;
 
+  ///
   final List<LifetimeItem> _lifetimeItemList;
+
+  ///
   @override
   @JsonKey()
   List<LifetimeItem> get lifetimeItemList {
@@ -180,16 +188,21 @@ class _$_LifetimeItemResponseState implements _LifetimeItemResponseState {
     return EqualUnmodifiableListView(_lifetimeItemStringList);
   }
 
+  ///
   @override
   @JsonKey()
   final String selectedItem;
   @override
   @JsonKey()
   final int itemPos;
-  final List<String> _lifetimeStringList;
+
+  ///
+  final List<String?> _lifetimeStringList;
+
+  ///
   @override
   @JsonKey()
-  List<String> get lifetimeStringList {
+  List<String?> get lifetimeStringList {
     if (_lifetimeStringList is EqualUnmodifiableListView)
       return _lifetimeStringList;
     // ignore: implicit_dynamic_type
@@ -240,18 +253,24 @@ abstract class _LifetimeItemResponseState implements LifetimeItemResponseState {
       final List<String> lifetimeItemStringList,
       final String selectedItem,
       final int itemPos,
-      final List<String> lifetimeStringList}) = _$_LifetimeItemResponseState;
+      final List<String?> lifetimeStringList}) = _$_LifetimeItemResponseState;
 
   @override
+
+  ///
   List<LifetimeItem> get lifetimeItemList;
   @override
   List<String> get lifetimeItemStringList;
   @override
+
+  ///
   String get selectedItem;
   @override
   int get itemPos;
   @override
-  List<String> get lifetimeStringList;
+
+  ///
+  List<String?> get lifetimeStringList;
   @override
   @JsonKey(ignore: true)
   _$$_LifetimeItemResponseStateCopyWith<_$_LifetimeItemResponseState>

@@ -13,6 +13,8 @@ class LifetimeRecordInputAlert extends ConsumerWidget {
 
   List<TextEditingController> tecs = [];
 
+  int onedayHourNum = 24;
+
   late BuildContext _context;
   late WidgetRef _ref;
 
@@ -61,17 +63,11 @@ class LifetimeRecordInputAlert extends ConsumerWidget {
                         onTap: () {
                           ref.watch(appParamProvider.notifier).setErrorMessage(msg: '');
 
-                          final list = <String>[];
-                          lifetimeStringList.forEach((element) {
-                            if (element != '') {
-                              list.add(element);
-                            }
-                          });
-
-                          if (tecs.length != list.length) {
-                            ref.read(appParamProvider.notifier).setErrorMessage(msg: 'cant save');
-                          } else {
+                          /// null許容リストからnullを削除したnull非許容リストを作成する
+                          if (lifetimeStringList.whereType<String>().length == onedayHourNum) {
                             ref.read(lifetimeItemProvider.notifier).inputLifetime(date: date);
+                          } else {
+                            ref.read(appParamProvider.notifier).setErrorMessage(msg: 'cant save');
                           }
                         },
                         child: const Icon(Icons.input),
@@ -93,7 +89,7 @@ class LifetimeRecordInputAlert extends ConsumerWidget {
 
   ///
   void makeTecs() {
-    for (var i = 0; i <= 23; i++) {
+    for (var i = 0; i < onedayHourNum; i++) {
       tecs.add(TextEditingController(text: ''));
     }
   }
@@ -104,7 +100,7 @@ class LifetimeRecordInputAlert extends ConsumerWidget {
 
     final lifetimeItemState = _ref.watch(lifetimeItemProvider);
 
-    for (var i = 0; i <= 23; i++) {
+    for (var i = 0; i < onedayHourNum; i++) {
       list.add(
         Container(
           padding: const EdgeInsets.symmetric(vertical: 5),

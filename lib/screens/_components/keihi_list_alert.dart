@@ -74,10 +74,10 @@ class KeihiListAlert extends ConsumerWidget {
     for (var i = date.yyyy.toInt(); i >= 2022; i--) {
       yearList.add(
         GestureDetector(
-          onTap: () {
-            _ref.read(appParamProvider.notifier).setKeihiListAlertSelectYear(year: i);
+          onTap: () async {
+            await _ref.read(appParamProvider.notifier).setKeihiListAlertSelectYear(year: i);
 
-            _ref.read(keihiListProvider(date).notifier).getKeihiList(date: DateTime(i));
+            await _ref.read(keihiListProvider(date).notifier).getKeihiList(date: DateTime(i));
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),

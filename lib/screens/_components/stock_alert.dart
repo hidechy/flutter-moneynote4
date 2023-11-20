@@ -133,12 +133,12 @@ class StockAlert extends ConsumerWidget {
                   }
 
                   return GestureDetector(
-                    onTap: () {
-                      _ref.read(selectStockProvider.notifier).setSelectStock(selectStock: e.key);
+                    onTap: () async {
+                      await _ref.read(selectStockProvider.notifier).setSelectStock(selectStock: e.key);
 
-                      _ref.read(stockRecordProvider.notifier).getStockRecord(flag: e.key);
+                      await _ref.read(stockRecordProvider.notifier).getStockRecord(flag: e.key);
 
-                      autoScrollController.scrollToIndex(0);
+                      await autoScrollController.scrollToIndex(0);
                     },
                     child: Container(
                       width: _context.screenSize.width * 0.4,

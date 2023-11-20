@@ -38,17 +38,13 @@ class LifetimeItemNotifier extends StateNotifier<LifetimeItemResponseState> {
       }
 
       // 初期化
-      final list3 = <String>[];
+      final list3 = <String?>[];
       for (var i = 0; i <= 23; i++) {
-        list3.add('');
+        list3.add(null);
       }
       // 初期化
 
-      state = state.copyWith(
-        lifetimeItemList: list,
-        lifetimeItemStringList: list2,
-        lifetimeStringList: list3,
-      );
+      state = state.copyWith(lifetimeItemList: list, lifetimeItemStringList: list2, lifetimeStringList: list3);
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
@@ -62,17 +58,28 @@ class LifetimeItemNotifier extends StateNotifier<LifetimeItemResponseState> {
 
   ///
   Future<void> setLifetimeStringList({required int pos, required String item}) async {
-    final items = <String>[...state.lifetimeStringList];
+    final items = <String?>[...state.lifetimeStringList];
     items[pos] = item;
     state = state.copyWith(lifetimeStringList: items);
   }
 
   ///
   Future<void> inputLifetime({required DateTime date}) async {
-    final items = <String>[...state.lifetimeStringList];
-    print(items);
+    final items = <String?>[...state.lifetimeStringList];
+    print(items.join('|'));
 
     print(date.yyyymmdd);
+
+    /*
+
+
+
+I/flutter ( 6507): 自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅|自宅
+I/flutter ( 6507): 2023-01-01
+
+
+
+    */
   }
 }
 

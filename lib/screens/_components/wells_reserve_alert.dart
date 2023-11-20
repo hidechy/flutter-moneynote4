@@ -30,17 +30,17 @@ class WellsReserveAlert extends HookConsumerWidget {
 
     //================================//
     final tabController = useTabController(initialLength: years.length);
-    tabController.addListener(() {
-      ref.read(appParamProvider.notifier).setWellsReserveAlertYear(year: years[tabController.index]);
-      ref.read(wellsReserveProvider.notifier).getWellsReserveNotifier(date: DateTime(years[tabController.index]));
+    tabController.addListener(() async {
+      await ref.read(appParamProvider.notifier).setWellsReserveAlertYear(year: years[tabController.index]);
+      await ref.read(wellsReserveProvider.notifier).getWellsReserveNotifier(date: DateTime(years[tabController.index]));
     });
     //================================//
 
     //================================//
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       final WellsReserveAlertYear = ref.read(appParamProvider.select((value) => value.WellsReserveAlertYear));
       if (WellsReserveAlertYear == DateTime.now().year) {
-        ref.read(wellsReserveProvider.notifier).getWellsReserveNotifier(date: DateTime.now());
+        await ref.read(wellsReserveProvider.notifier).getWellsReserveNotifier(date: DateTime.now());
       }
     });
     //================================//
