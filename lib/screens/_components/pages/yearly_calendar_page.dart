@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/state/app_param/app_param_notifier.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../utility/utility.dart';
@@ -101,8 +102,13 @@ class YearlyCalendarPage extends ConsumerWidget {
           child: (days[i] == '')
               ? Container()
               : GestureDetector(
-                  onTap: () {
-                    MoneyDialog(
+                  onTap: () async {
+                    await _ref.watch(appParamProvider.notifier).setSelectedYearlyCalendarDate(
+                          date: DateTime(date.yyyy.toInt(), exDays[0].toInt(), exDays[1].toInt()),
+                        );
+
+                    // ignore: use_build_context_synchronously
+                    await MoneyDialog(
                       context: _context,
                       widget: LifetimeRecordDisplayAlert(
                         date: DateTime(date.yyyy.toInt(), exDays[0].toInt(), exDays[1].toInt()),

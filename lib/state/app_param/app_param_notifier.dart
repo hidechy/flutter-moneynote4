@@ -101,6 +101,9 @@ class AppParamNotifier extends StateNotifier<AppParamState> {
 
   Future<void> setCreditYearlyListSelectedString({required String value}) async =>
       state = state.copyWith(CreditYearlyListSelectedString: value);
+
+  Future<void> setSelectedYearlyCalendarDate({required DateTime date}) async =>
+      state = state.copyWith(selectedYearlyCalendarDate: date);
 }
 
 ////////////////////////////////////////////////

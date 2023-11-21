@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/state/app_param/app_param_notifier.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../state/lifetime/lifetime_notifier.dart';
@@ -19,6 +20,8 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
 
+    final selectedYearlyCalendarDate = ref.watch(appParamProvider.select((value) => value.selectedYearlyCalendarDate));
+
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.zero,
@@ -35,6 +38,7 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
             children: [
               const SizedBox(height: 20),
               Container(width: context.screenSize.width),
+              Text((selectedYearlyCalendarDate != null) ? selectedYearlyCalendarDate.yyyymmdd : ''),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

@@ -32,5 +32,6 @@ class AppParamState with _$AppParamState {
     @Default(true) bool openMoneyArea,
     @Default('') String CreditYearlyListSelectString,
     @Default('') String CreditYearlyListSelectedString,
+    DateTime? selectedYearlyCalendarDate,
   }) = _AppParamState;
 }

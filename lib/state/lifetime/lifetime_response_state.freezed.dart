@@ -17,7 +17,6 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$LifetimeResponseState {
   Lifetime? get lifetime => throw _privateConstructorUsedError;
-  DateTime? get selectedCalendarDate => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LifetimeResponseStateCopyWith<LifetimeResponseState> get copyWith =>
@@ -30,7 +29,7 @@ abstract class $LifetimeResponseStateCopyWith<$Res> {
           $Res Function(LifetimeResponseState) then) =
       _$LifetimeResponseStateCopyWithImpl<$Res, LifetimeResponseState>;
   @useResult
-  $Res call({Lifetime? lifetime, DateTime? selectedCalendarDate});
+  $Res call({Lifetime? lifetime});
 }
 
 /// @nodoc
@@ -48,17 +47,12 @@ class _$LifetimeResponseStateCopyWithImpl<$Res,
   @override
   $Res call({
     Object? lifetime = freezed,
-    Object? selectedCalendarDate = freezed,
   }) {
     return _then(_value.copyWith(
       lifetime: freezed == lifetime
           ? _value.lifetime
           : lifetime // ignore: cast_nullable_to_non_nullable
               as Lifetime?,
-      selectedCalendarDate: freezed == selectedCalendarDate
-          ? _value.selectedCalendarDate
-          : selectedCalendarDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
     ) as $Val);
   }
 }
@@ -71,7 +65,7 @@ abstract class _$$_LifetimeResponseStateCopyWith<$Res>
       __$$_LifetimeResponseStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Lifetime? lifetime, DateTime? selectedCalendarDate});
+  $Res call({Lifetime? lifetime});
 }
 
 /// @nodoc
@@ -86,17 +80,12 @@ class __$$_LifetimeResponseStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? lifetime = freezed,
-    Object? selectedCalendarDate = freezed,
   }) {
     return _then(_$_LifetimeResponseState(
       lifetime: freezed == lifetime
           ? _value.lifetime
           : lifetime // ignore: cast_nullable_to_non_nullable
               as Lifetime?,
-      selectedCalendarDate: freezed == selectedCalendarDate
-          ? _value.selectedCalendarDate
-          : selectedCalendarDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
     ));
   }
 }
@@ -104,16 +93,14 @@ class __$$_LifetimeResponseStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_LifetimeResponseState implements _LifetimeResponseState {
-  const _$_LifetimeResponseState({this.lifetime, this.selectedCalendarDate});
+  const _$_LifetimeResponseState({this.lifetime});
 
   @override
   final Lifetime? lifetime;
-  @override
-  final DateTime? selectedCalendarDate;
 
   @override
   String toString() {
-    return 'LifetimeResponseState(lifetime: $lifetime, selectedCalendarDate: $selectedCalendarDate)';
+    return 'LifetimeResponseState(lifetime: $lifetime)';
   }
 
   @override
@@ -122,13 +109,11 @@ class _$_LifetimeResponseState implements _LifetimeResponseState {
         (other.runtimeType == runtimeType &&
             other is _$_LifetimeResponseState &&
             (identical(other.lifetime, lifetime) ||
-                other.lifetime == lifetime) &&
-            (identical(other.selectedCalendarDate, selectedCalendarDate) ||
-                other.selectedCalendarDate == selectedCalendarDate));
+                other.lifetime == lifetime));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, lifetime, selectedCalendarDate);
+  int get hashCode => Object.hash(runtimeType, lifetime);
 
   @JsonKey(ignore: true)
   @override
@@ -139,14 +124,11 @@ class _$_LifetimeResponseState implements _LifetimeResponseState {
 }
 
 abstract class _LifetimeResponseState implements LifetimeResponseState {
-  const factory _LifetimeResponseState(
-      {final Lifetime? lifetime,
-      final DateTime? selectedCalendarDate}) = _$_LifetimeResponseState;
+  const factory _LifetimeResponseState({final Lifetime? lifetime}) =
+      _$_LifetimeResponseState;
 
   @override
   Lifetime? get lifetime;
-  @override
-  DateTime? get selectedCalendarDate;
   @override
   @JsonKey(ignore: true)
   _$$_LifetimeResponseStateCopyWith<_$_LifetimeResponseState> get copyWith =>

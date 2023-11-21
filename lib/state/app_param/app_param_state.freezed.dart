@@ -43,6 +43,8 @@ mixin _$AppParamState {
   String get CreditYearlyListSelectString => throw _privateConstructorUsedError;
   String get CreditYearlyListSelectedString =>
       throw _privateConstructorUsedError;
+  DateTime? get selectedYearlyCalendarDate =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AppParamStateCopyWith<AppParamState> get copyWith =>
@@ -80,7 +82,8 @@ abstract class $AppParamStateCopyWith<$Res> {
       int TaxPaymentItemAlertSelectYear,
       bool openMoneyArea,
       String CreditYearlyListSelectString,
-      String CreditYearlyListSelectedString});
+      String CreditYearlyListSelectedString,
+      DateTime? selectedYearlyCalendarDate});
 }
 
 /// @nodoc
@@ -121,6 +124,7 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
     Object? openMoneyArea = null,
     Object? CreditYearlyListSelectString = null,
     Object? CreditYearlyListSelectedString = null,
+    Object? selectedYearlyCalendarDate = freezed,
   }) {
     return _then(_value.copyWith(
       errorMessage: null == errorMessage
@@ -224,6 +228,10 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
           ? _value.CreditYearlyListSelectedString
           : CreditYearlyListSelectedString // ignore: cast_nullable_to_non_nullable
               as String,
+      selectedYearlyCalendarDate: freezed == selectedYearlyCalendarDate
+          ? _value.selectedYearlyCalendarDate
+          : selectedYearlyCalendarDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -261,7 +269,8 @@ abstract class _$$_AppParamStateCopyWith<$Res>
       int TaxPaymentItemAlertSelectYear,
       bool openMoneyArea,
       String CreditYearlyListSelectString,
-      String CreditYearlyListSelectedString});
+      String CreditYearlyListSelectedString,
+      DateTime? selectedYearlyCalendarDate});
 }
 
 /// @nodoc
@@ -300,6 +309,7 @@ class __$$_AppParamStateCopyWithImpl<$Res>
     Object? openMoneyArea = null,
     Object? CreditYearlyListSelectString = null,
     Object? CreditYearlyListSelectedString = null,
+    Object? selectedYearlyCalendarDate = freezed,
   }) {
     return _then(_$_AppParamState(
       errorMessage: null == errorMessage
@@ -403,6 +413,10 @@ class __$$_AppParamStateCopyWithImpl<$Res>
           ? _value.CreditYearlyListSelectedString
           : CreditYearlyListSelectedString // ignore: cast_nullable_to_non_nullable
               as String,
+      selectedYearlyCalendarDate: freezed == selectedYearlyCalendarDate
+          ? _value.selectedYearlyCalendarDate
+          : selectedYearlyCalendarDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -435,7 +449,8 @@ class _$_AppParamState implements _AppParamState {
       this.TaxPaymentItemAlertSelectYear = 0,
       this.openMoneyArea = true,
       this.CreditYearlyListSelectString = '',
-      this.CreditYearlyListSelectedString = ''});
+      this.CreditYearlyListSelectedString = '',
+      this.selectedYearlyCalendarDate});
 
   @override
   @JsonKey()
@@ -512,10 +527,12 @@ class _$_AppParamState implements _AppParamState {
   @override
   @JsonKey()
   final String CreditYearlyListSelectedString;
+  @override
+  final DateTime? selectedYearlyCalendarDate;
 
   @override
   String toString() {
-    return 'AppParamState(errorMessage: $errorMessage, AmazonAlertSelectYear: $AmazonAlertSelectYear, CreditCompanyAlertSelectYear: $CreditCompanyAlertSelectYear, CreditSummaryAlertSelectYear: $CreditSummaryAlertSelectYear, CreditYearlyDetailAlertSelectMonth: $CreditYearlyDetailAlertSelectMonth, DutyAlertSelectYear: $DutyAlertSelectYear, HomeFixAlertSelectYear: $HomeFixAlertSelectYear, SeiyuAlertSelectYear: $SeiyuAlertSelectYear, SeiyuAlertSelectDate: $SeiyuAlertSelectDate, SpendSummaryAlertSelectYear: $SpendSummaryAlertSelectYear, SpendYearlyAlertSelectYear: $SpendYearlyAlertSelectYear, TrainAlertSelectYear: $TrainAlertSelectYear, UdemyAlertSelectYear: $UdemyAlertSelectYear, UdemyAlertSelectCategory: $UdemyAlertSelectCategory, BalanceSheetAlertSelectYear: $BalanceSheetAlertSelectYear, MonthlyUnitSpendAlertSelectYear: $MonthlyUnitSpendAlertSelectYear, SamedaySpendAlertDay: $SamedaySpendAlertDay, WellsReserveAlertYear: $WellsReserveAlertYear, KeihiListAlertSelectYear: $KeihiListAlertSelectYear, KeihiListAlertSelectOrder: $KeihiListAlertSelectOrder, TaxPaymentAlertSelectYear: $TaxPaymentAlertSelectYear, TaxPaymentItemAlertSelectYear: $TaxPaymentItemAlertSelectYear, openMoneyArea: $openMoneyArea, CreditYearlyListSelectString: $CreditYearlyListSelectString, CreditYearlyListSelectedString: $CreditYearlyListSelectedString)';
+    return 'AppParamState(errorMessage: $errorMessage, AmazonAlertSelectYear: $AmazonAlertSelectYear, CreditCompanyAlertSelectYear: $CreditCompanyAlertSelectYear, CreditSummaryAlertSelectYear: $CreditSummaryAlertSelectYear, CreditYearlyDetailAlertSelectMonth: $CreditYearlyDetailAlertSelectMonth, DutyAlertSelectYear: $DutyAlertSelectYear, HomeFixAlertSelectYear: $HomeFixAlertSelectYear, SeiyuAlertSelectYear: $SeiyuAlertSelectYear, SeiyuAlertSelectDate: $SeiyuAlertSelectDate, SpendSummaryAlertSelectYear: $SpendSummaryAlertSelectYear, SpendYearlyAlertSelectYear: $SpendYearlyAlertSelectYear, TrainAlertSelectYear: $TrainAlertSelectYear, UdemyAlertSelectYear: $UdemyAlertSelectYear, UdemyAlertSelectCategory: $UdemyAlertSelectCategory, BalanceSheetAlertSelectYear: $BalanceSheetAlertSelectYear, MonthlyUnitSpendAlertSelectYear: $MonthlyUnitSpendAlertSelectYear, SamedaySpendAlertDay: $SamedaySpendAlertDay, WellsReserveAlertYear: $WellsReserveAlertYear, KeihiListAlertSelectYear: $KeihiListAlertSelectYear, KeihiListAlertSelectOrder: $KeihiListAlertSelectOrder, TaxPaymentAlertSelectYear: $TaxPaymentAlertSelectYear, TaxPaymentItemAlertSelectYear: $TaxPaymentItemAlertSelectYear, openMoneyArea: $openMoneyArea, CreditYearlyListSelectString: $CreditYearlyListSelectString, CreditYearlyListSelectedString: $CreditYearlyListSelectedString, selectedYearlyCalendarDate: $selectedYearlyCalendarDate)';
   }
 
   @override
@@ -573,7 +590,8 @@ class _$_AppParamState implements _AppParamState {
             (identical(other.TaxPaymentItemAlertSelectYear, TaxPaymentItemAlertSelectYear) || other.TaxPaymentItemAlertSelectYear == TaxPaymentItemAlertSelectYear) &&
             (identical(other.openMoneyArea, openMoneyArea) || other.openMoneyArea == openMoneyArea) &&
             (identical(other.CreditYearlyListSelectString, CreditYearlyListSelectString) || other.CreditYearlyListSelectString == CreditYearlyListSelectString) &&
-            (identical(other.CreditYearlyListSelectedString, CreditYearlyListSelectedString) || other.CreditYearlyListSelectedString == CreditYearlyListSelectedString));
+            (identical(other.CreditYearlyListSelectedString, CreditYearlyListSelectedString) || other.CreditYearlyListSelectedString == CreditYearlyListSelectedString) &&
+            (identical(other.selectedYearlyCalendarDate, selectedYearlyCalendarDate) || other.selectedYearlyCalendarDate == selectedYearlyCalendarDate));
   }
 
   @override
@@ -603,7 +621,8 @@ class _$_AppParamState implements _AppParamState {
         TaxPaymentItemAlertSelectYear,
         openMoneyArea,
         CreditYearlyListSelectString,
-        CreditYearlyListSelectedString
+        CreditYearlyListSelectedString,
+        selectedYearlyCalendarDate
       ]);
 
   @JsonKey(ignore: true)
@@ -639,7 +658,8 @@ abstract class _AppParamState implements AppParamState {
       final int TaxPaymentItemAlertSelectYear,
       final bool openMoneyArea,
       final String CreditYearlyListSelectString,
-      final String CreditYearlyListSelectedString}) = _$_AppParamState;
+      final String CreditYearlyListSelectedString,
+      final DateTime? selectedYearlyCalendarDate}) = _$_AppParamState;
 
   @override
   String get errorMessage;
@@ -691,6 +711,8 @@ abstract class _AppParamState implements AppParamState {
   String get CreditYearlyListSelectString;
   @override
   String get CreditYearlyListSelectedString;
+  @override
+  DateTime? get selectedYearlyCalendarDate;
   @override
   @JsonKey(ignore: true)
   _$$_AppParamStateCopyWith<_$_AppParamState> get copyWith =>
