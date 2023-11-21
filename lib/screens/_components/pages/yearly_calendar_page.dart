@@ -103,16 +103,14 @@ class YearlyCalendarPage extends ConsumerWidget {
               ? Container()
               : GestureDetector(
                   onTap: () async {
-                    await _ref.watch(appParamProvider.notifier).setSelectedYearlyCalendarDate(
-                          date: DateTime(date.yyyy.toInt(), exDays[0].toInt(), exDays[1].toInt()),
-                        );
+                    await _ref
+                        .watch(appParamProvider.notifier)
+                        .setSelectedYearlyCalendarDate(date: DateTime.parse('${date.yyyy}-${days[i]}'));
 
                     // ignore: use_build_context_synchronously
                     await MoneyDialog(
                       context: _context,
-                      widget: LifetimeRecordDisplayAlert(
-                        date: DateTime(date.yyyy.toInt(), exDays[0].toInt(), exDays[1].toInt()),
-                      ),
+                      widget: LifetimeRecordDisplayAlert(date: DateTime.parse('${date.yyyy}-${days[i]}')),
                     );
                   },
                   child: Container(

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/state/app_param/app_param_notifier.dart';
 
 import '../../../extensions/extensions.dart';
+import '../../../state/app_param/app_param_notifier.dart';
 import '../../../state/lifetime/lifetime_notifier.dart';
 import '../_money_dialog.dart';
+import '../lifetime_record_display_alert.dart';
 import '../lifetime_record_input_alert.dart';
 
 // ignore: must_be_immutable
@@ -13,11 +14,13 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
 
   final DateTime date;
 
+  late BuildContext _context;
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    _context = context;
     _ref = ref;
 
     return AlertDialog(
@@ -61,6 +64,73 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+
+  ///
+  Widget _displayNextButton() {
+    final selectedYearlyCalendarDate = _ref.watch(appParamProvider.select((value) => value.selectedYearlyCalendarDate));
+
+    var dayDiff = 0;
+
+    if (selectedYearlyCalendarDate != null) {
+      dayDiff = date.difference(selectedYearlyCalendarDate).inDays;
+    }
+
+    return Column(
+      children: [
+        Text((selectedYearlyCalendarDate != null) ? selectedYearlyCalendarDate.yyyymmdd : ''),
+        Text(date.yyyymmdd),
+        Text(dayDiff.toString()),
+        if (dayDiff == -3 && selectedYearlyCalendarDate != null) ...[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                onPressed: () async {
+                  await _ref.watch(appParamProvider.notifier).setSelectedYearlyCalendarDate(
+                        date: selectedYearlyCalendarDate.add(const Duration(days: -7)),
+                      );
+
+                  // ignore: use_build_context_synchronously
+                  await MoneyDialog(
+                    context: _context,
+                    widget: LifetimeRecordDisplayAlert(
+                      date: selectedYearlyCalendarDate.add(const Duration(days: -7)),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.navigate_before),
+              ),
+              Container(),
+            ],
+          ),
+        ],
+        if (dayDiff == 3 && selectedYearlyCalendarDate != null) ...[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(),
+              IconButton(
+                onPressed: () async {
+                  await _ref.watch(appParamProvider.notifier).setSelectedYearlyCalendarDate(
+                        date: selectedYearlyCalendarDate.add(const Duration(days: 7)),
+                      );
+
+                  // ignore: use_build_context_synchronously
+                  await MoneyDialog(
+                    context: _context,
+                    widget: LifetimeRecordDisplayAlert(
+                      date: selectedYearlyCalendarDate.add(const Duration(days: 7)),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.navigate_next),
+              ),
+            ],
+          ),
+        ],
+      ],
     );
   }
 
@@ -163,45 +233,5 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
     }
 
     return Colors.transparent;
-  }
-
-  ///
-  Widget _displayNextButton() {
-    final selectedYearlyCalendarDate = _ref.watch(appParamProvider.select((value) => value.selectedYearlyCalendarDate));
-
-    var dayDiff = 0;
-
-    if (selectedYearlyCalendarDate != null) {
-      dayDiff = date.difference(selectedYearlyCalendarDate).inDays;
-    }
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        if (dayDiff > 0) Container(),
-        (selectedYearlyCalendarDate != null && (dayDiff == 3 || dayDiff == -3))
-            ? Column(
-                children: [
-                  Text(selectedYearlyCalendarDate.yyyymmdd),
-                  Text(date.yyyymmdd),
-                  Text(dayDiff.toString()),
-                  IconButton(
-                    onPressed: () {
-/*
-
-widget: LifetimeRecordDisplayAlert(
-date: DateTime(date.yyyy.toInt(), exDays[0].toInt(), exDays[1].toInt()),
-),
-
-*/
-                    },
-                    icon: Icon((dayDiff > 0) ? Icons.navigate_next : Icons.navigate_before),
-                  ),
-                ],
-              )
-            : Container(),
-        if (dayDiff < 0) Container(),
-      ],
-    );
   }
 }

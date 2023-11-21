@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 // ignore: depend_on_referenced_packages
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -15,11 +16,9 @@ class TabInfo {
 
 // ignore: must_be_immutable
 class LifetimeRecordDisplayAlert extends HookConsumerWidget {
-  LifetimeRecordDisplayAlert({super.key, required this.date, this.beforeNextPageMove});
+  LifetimeRecordDisplayAlert({super.key, required this.date});
 
   final DateTime date;
-
-  int? beforeNextPageMove;
 
   List<TabInfo> tabs = [];
 
@@ -33,18 +32,7 @@ class LifetimeRecordDisplayAlert extends HookConsumerWidget {
     // 最初に開くタブを指定する
     final exDate = date.yyyymmdd.split('-');
 
-    var index = (tabs.length >= ((dayDiff * 2) + 1)) ? (tabs.length / 2).floor() : exDate[2].toInt() - 1;
-
-    if (beforeNextPageMove == 0 || beforeNextPageMove == 1) {
-      switch (beforeNextPageMove) {
-        case 0:
-          index = dayDiff;
-          break;
-        case 1:
-          index = dayDiff * -1;
-          break;
-      }
-    }
+    final index = (tabs.length >= ((dayDiff * 2) + 1)) ? (tabs.length / 2).floor() : exDate[2].toInt() - 1;
 
     final tabController = useTabController(initialLength: tabs.length);
     if (index != 0) {
