@@ -38,73 +38,59 @@ class SpendItemInputScreen extends ConsumerWidget {
 
     makeSpendItem();
 
-    return PopScope(
-      canPop: false,
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Stack(
-          fit: StackFit.expand,
-          children: [
-            _utility.getBackGround(),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  const SizedBox(height: 50),
-                  Container(width: context.screenSize.width),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(date.yyyymmdd),
-                      Row(
-                        children: [
-                          Text(
-                            (spendItemInputState.diff != 0)
-                                ? spendItemInputState.diff.toString().toCurrency()
-                                : spendItemInputState.baseDiff.toCurrency(),
-                            style: TextStyle(
-                              color: (spendItemInputState.diff == 0) ? Colors.yellowAccent : Colors.white,
-                            ),
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          _utility.getBackGround(),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: [
+                const SizedBox(height: 50),
+                Container(width: context.screenSize.width),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(date.yyyymmdd),
+                    Row(
+                      children: [
+                        Text(
+                          (spendItemInputState.diff != 0)
+                              ? spendItemInputState.diff.toString().toCurrency()
+                              : spendItemInputState.baseDiff.toCurrency(),
+                          style: TextStyle(
+                            color: (spendItemInputState.diff == 0) ? Colors.yellowAccent : Colors.white,
                           ),
-                          IconButton(
-                            onPressed: () async {
-                              await _ref.read(spendItemInputProvider(diff).notifier).inputSpendItem(date: date);
+                        ),
+                        IconButton(
+                          onPressed: () async {
+                            await _ref.read(spendItemInputProvider(diff).notifier).inputSpendItem(date: date);
 
-                              await Vibration.vibrate(
-                                pattern: [500, 1000, 500, 2000],
-                              );
+                            await Vibration.vibrate(pattern: [500, 1000, 500, 2000]);
 
-                              context.goNamed(RouteNames.home);
-                            },
-                            icon: const Icon(
-                              Icons.input,
-                              color: Colors.pinkAccent,
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () => context.goNamed(RouteNames.home),
-                            icon: const Icon(Icons.close),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  Divider(
-                    thickness: 2,
-                    color: Colors.white.withOpacity(0.4),
-                  ),
-                  Expanded(child: displayInputParts()),
-                  Divider(
-                    thickness: 2,
-                    color: Colors.white.withOpacity(0.4),
-                  ),
-                  spendItemSetPanel(),
-                  const SizedBox(height: 20),
-                ],
-              ),
+                            context.goNamed(RouteNames.home);
+                          },
+                          icon: const Icon(Icons.input, color: Colors.pinkAccent),
+                        ),
+                        IconButton(
+                          onPressed: () => context.goNamed(RouteNames.home),
+                          icon: const Icon(Icons.close),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Divider(thickness: 2, color: Colors.white.withOpacity(0.4)),
+                Expanded(child: displayInputParts()),
+                Divider(thickness: 2, color: Colors.white.withOpacity(0.4)),
+                spendItemSetPanel(),
+                const SizedBox(height: 20),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -172,9 +158,7 @@ class SpendItemInputScreen extends ConsumerWidget {
                   backgroundColor: Colors.black.withOpacity(0.4),
                   selectedColor: Colors.yellowAccent.withOpacity(0.4),
                   selected: i == spendItemInputState.itemPos,
-                  onSelected: (bool isSelected) {
-                    _ref.read(spendItemInputProvider(diff).notifier).setItemPos(pos: i);
-                  },
+                  onSelected: (bool isSelected) => _ref.read(spendItemInputProvider(diff).notifier).setItemPos(pos: i),
                 ),
               ),
               const SizedBox(width: 10),
@@ -192,9 +176,7 @@ class SpendItemInputScreen extends ConsumerWidget {
                   child: TextField(
                     style: const TextStyle(fontSize: 12),
                     readOnly: true,
-                    controller: TextEditingController(
-                      text: spendItemInputState.spendItem[i],
-                    ),
+                    controller: TextEditingController(text: spendItemInputState.spendItem[i]),
                     decoration: const InputDecoration(
                       filled: true,
                       border: OutlineInputBorder(),
@@ -217,10 +199,7 @@ class SpendItemInputScreen extends ConsumerWidget {
                   decoration: const InputDecoration(
                     filled: true,
                     border: OutlineInputBorder(),
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: 4,
-                      horizontal: 4,
-                    ),
+                    contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
                   ),
                   style: const TextStyle(fontSize: 12),
                   onChanged: (value) =>
@@ -233,11 +212,7 @@ class SpendItemInputScreen extends ConsumerWidget {
       );
     }
 
-    return SingleChildScrollView(
-      child: Column(
-        children: list,
-      ),
-    );
+    return SingleChildScrollView(child: Column(children: list));
   }
 
   ///

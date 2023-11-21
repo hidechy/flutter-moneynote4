@@ -66,109 +66,90 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
-    return PopScope(
-      canPop: false,
-      child: Scaffold(
-        body: Stack(
-          fit: StackFit.expand,
-          children: [
-            _utility.getBackGround(),
-            Container(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  const SizedBox(height: 30),
-                  Container(width: context.screenSize.width),
+    return Scaffold(
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          _utility.getBackGround(),
+          Container(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                const SizedBox(height: 30),
+                Container(width: context.screenSize.width),
 
-                  //----------//
-                  if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
-                  //----------//
+                //----------//
+                if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
+                //----------//
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(date.yyyymm),
-                              Text(monthTotal.toString().toCurrency()),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              IconButton(
-                                onPressed: () {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => MonthlySpendCheckScreen(
-                                        date: prevMonth!,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                icon: const Icon(Icons.skip_previous),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => MonthlySpendCheckScreen(
-                                        date: nextMonth!,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                icon: const Icon(Icons.skip_next),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          IconButton(
-                            onPressed: () async {
-                              await ref.read(keihiListProvider(date).notifier).getKeihiList(date: date);
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(date.yyyymm),
+                            Text(monthTotal.toString().toCurrency()),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => MonthlySpendCheckScreen(date: prevMonth!)),
+                                );
+                              },
+                              icon: const Icon(Icons.skip_previous),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => MonthlySpendCheckScreen(date: nextMonth!)),
+                                );
+                              },
+                              icon: const Icon(Icons.skip_next),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () async {
+                            await ref.read(keihiListProvider(date).notifier).getKeihiList(date: date);
 
-                              await MoneyDialog(
-                                context: context,
-                                widget: KeihiListAlert(date: date),
-                              );
-                            },
-                            icon: const Icon(Icons.list),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              ref.read(monthlySpendCheckProvider(date).notifier).inputCheckItem(date: date);
+                            await MoneyDialog(context: context, widget: KeihiListAlert(date: date));
+                          },
+                          icon: const Icon(Icons.list),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            ref.read(monthlySpendCheckProvider(date).notifier).inputCheckItem(date: date);
 
-                              context.goNamed(RouteNames.home);
-                            },
-                            icon: const Icon(Icons.input),
-                          ),
-                          IconButton(
-                            onPressed: () => context.goNamed(RouteNames.home),
-                            icon: const Icon(Icons.close),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  Divider(
-                    thickness: 2,
-                    color: Colors.white.withOpacity(0.4),
-                  ),
-                  Expanded(
-                    child: displayMonthlySpendCheckList(),
-                  ),
-                ],
-              ),
+                            context.goNamed(RouteNames.home);
+                          },
+                          icon: const Icon(Icons.input),
+                        ),
+                        IconButton(
+                          onPressed: () => context.goNamed(RouteNames.home),
+                          icon: const Icon(Icons.close),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Divider(thickness: 2, color: Colors.white.withOpacity(0.4)),
+                Expanded(child: displayMonthlySpendCheckList()),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -212,20 +193,13 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
               padding: const EdgeInsets.all(10),
               margin: const EdgeInsets.only(bottom: 10),
               decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Colors.white.withOpacity(0.3),
-                  ),
-                ),
+                border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
                 color: (monthlySpendCheckState.selectItems.contains(str))
                     ? Colors.yellowAccent.withOpacity(0.2)
                     : Colors.transparent,
               ),
               child: DefaultTextStyle(
-                style: const TextStyle(
-                  color: Color(0xFFFB86CE),
-                  fontSize: 12,
-                ),
+                style: const TextStyle(color: Color(0xFFFB86CE), fontSize: 12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -254,19 +228,13 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                                     ),
                                   );
                                 },
-                                child: Icon(
-                                  Icons.ac_unit,
-                                  color: Colors.white.withOpacity(0.8),
-                                ),
+                                child: Icon(Icons.ac_unit, color: Colors.white.withOpacity(0.8)),
                               ),
                               const SizedBox(width: 20),
                             ],
                             GestureDetector(
                               onTap: () => _ref.read(monthlySpendCheckProvider(date).notifier).setSelectItem(item: str),
-                              child: Icon(
-                                Icons.input,
-                                color: Colors.yellowAccent.withOpacity(0.6),
-                              ),
+                              child: Icon(Icons.input, color: Colors.yellowAccent.withOpacity(0.6)),
                             ),
                           ],
                         ),
@@ -280,12 +248,8 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                             ? Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    '[${itemCategoryMap[str].toString().split('|')[0]}]',
-                                  ),
-                                  Text(
-                                    '[${itemCategoryMap[str].toString().split('|')[1]}]',
-                                  ),
+                                  Text('[${itemCategoryMap[str].toString().split('|')[0]}]'),
+                                  Text('[${itemCategoryMap[str].toString().split('|')[1]}]'),
                                 ],
                               )
                             : Container(),
@@ -316,20 +280,13 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
               padding: const EdgeInsets.all(10),
               margin: const EdgeInsets.only(bottom: 10),
               decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Colors.white.withOpacity(0.3),
-                  ),
-                ),
+                border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
                 color: (monthlySpendCheckState.selectItems.contains(str))
                     ? Colors.yellowAccent.withOpacity(0.2)
                     : Colors.transparent,
               ),
               child: DefaultTextStyle(
-                style: const TextStyle(
-                  color: Colors.lightBlueAccent,
-                  fontSize: 12,
-                ),
+                style: const TextStyle(color: Colors.lightBlueAccent, fontSize: 12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -358,19 +315,13 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                                     ),
                                   );
                                 },
-                                child: Icon(
-                                  Icons.ac_unit,
-                                  color: Colors.white.withOpacity(0.8),
-                                ),
+                                child: Icon(Icons.ac_unit, color: Colors.white.withOpacity(0.8)),
                               ),
                               const SizedBox(width: 20),
                             ],
                             GestureDetector(
                               onTap: () => _ref.read(monthlySpendCheckProvider(date).notifier).setSelectItem(item: str),
-                              child: Icon(
-                                Icons.input,
-                                color: Colors.yellowAccent.withOpacity(0.6),
-                              ),
+                              child: Icon(Icons.input, color: Colors.yellowAccent.withOpacity(0.6)),
                             ),
                           ],
                         ),
@@ -384,12 +335,8 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                             ? Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    '[${itemCategoryMap[str].toString().split('|')[0]}]',
-                                  ),
-                                  Text(
-                                    '[${itemCategoryMap[str].toString().split('|')[1]}]',
-                                  ),
+                                  Text('[${itemCategoryMap[str].toString().split('|')[0]}]'),
+                                  Text('[${itemCategoryMap[str].toString().split('|')[1]}]'),
                                 ],
                               )
                             : Container(),
@@ -448,11 +395,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
           padding: const EdgeInsets.all(10),
           margin: const EdgeInsets.only(bottom: 10),
           decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.white.withOpacity(0.3),
-              ),
-            ),
+            border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
             color: (monthlySpendCheckState.selectItems.contains(str))
                 ? Colors.yellowAccent.withOpacity(0.2)
                 : Colors.transparent,
@@ -491,19 +434,13 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                                 ),
                               );
                             },
-                            child: Icon(
-                              Icons.ac_unit,
-                              color: Colors.white.withOpacity(0.8),
-                            ),
+                            child: Icon(Icons.ac_unit, color: Colors.white.withOpacity(0.8)),
                           ),
                           const SizedBox(width: 20),
                         ],
                         GestureDetector(
                           onTap: () => _ref.read(monthlySpendCheckProvider(date).notifier).setSelectItem(item: str),
-                          child: Icon(
-                            Icons.input,
-                            color: Colors.yellowAccent.withOpacity(0.6),
-                          ),
+                          child: Icon(Icons.input, color: Colors.yellowAccent.withOpacity(0.6)),
                         ),
                       ],
                     ),
@@ -517,12 +454,8 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                '[${itemCategoryMap[str].toString().split('|')[0]}]',
-                              ),
-                              Text(
-                                '[${itemCategoryMap[str].toString().split('|')[1]}]',
-                              ),
+                              Text('[${itemCategoryMap[str].toString().split('|')[0]}]'),
+                              Text('[${itemCategoryMap[str].toString().split('|')[1]}]'),
                             ],
                           )
                         : Container(),
@@ -540,9 +473,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
       keepDate = element.date.yyyymmdd;
     });
 
-    return SingleChildScrollView(
-      child: Column(children: list),
-    );
+    return SingleChildScrollView(child: Column(children: list));
   }
 
   ///
@@ -552,9 +483,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
     spendMonthDetailState.list.forEach((element) {
       final list = <Map<int, String>>[];
 
-      element.item.forEach((element2) {
-        list.add({element2.price.toString().toInt(): element2.item});
-      });
+      element.item.forEach((element2) => list.add({element2.price.toString().toInt(): element2.item}));
 
       monthlySpendMap[element.date.yyyymmdd] = list;
     });
@@ -581,13 +510,9 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
 
   ///
   void makeItemIdsMap() {
-    final checkItems = _ref.watch(
-      monthlySpendCheckProvider(date).select((value) => value.checkItems),
-    );
+    final checkItems = _ref.watch(monthlySpendCheckProvider(date).select((value) => value.checkItems));
 
-    final selectItems = _ref.watch(
-      monthlySpendCheckProvider(date).select((value) => value.selectItems),
-    );
+    final selectItems = _ref.watch(monthlySpendCheckProvider(date).select((value) => value.selectItems));
 
     checkItems.forEach((element) {
       selectItems.forEach((element2) {

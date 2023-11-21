@@ -48,22 +48,13 @@ class TimeLocationMapScreen extends ConsumerWidget {
     _ref = ref;
 
     basePoint = CameraPosition(
-      target: LatLng(
-        list[0].latitude.toDouble(),
-        list[0].longitude.toDouble(),
-      ),
+      target: LatLng(list[0].latitude.toDouble(), list[0].longitude.toDouble()),
       zoom: 14,
     );
 
     bounds = LatLngBounds(
-      southwest: LatLng(
-        list[0].latitude.toDouble(),
-        list[0].longitude.toDouble(),
-      ),
-      northeast: LatLng(
-        list[0].latitude.toDouble(),
-        list[0].longitude.toDouble(),
-      ),
+      southwest: LatLng(list[0].latitude.toDouble(), list[0].longitude.toDouble()),
+      northeast: LatLng(list[0].latitude.toDouble(), list[0].longitude.toDouble()),
     );
 
     if (list.length > 1) {
@@ -74,95 +65,88 @@ class TimeLocationMapScreen extends ConsumerWidget {
 
     final latLngAddressState = ref.watch(latLngAddressProvider);
 
-    WidgetsBinding.instance.addPostFrameCallback(
-      (timeStamp) {
-        makeBoundsLine();
-      },
-    );
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) => makeBoundsLine());
 
-    return PopScope(
-      canPop: false,
-      child: Scaffold(
-        body: Stack(
-          fit: StackFit.expand,
-          children: [
-            utility.getBackGround(),
-            Column(
-              children: [
-                const SizedBox(height: 80),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        const SizedBox(width: 20),
-                        GestureDetector(
-                          onTap: makeBoundsLine,
-                          child: const Icon(Icons.vignette_rounded),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () => context.goNamed(RouteNames.home),
-                          child: const Icon(Icons.close),
-                        ),
-                        const SizedBox(width: 20),
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-
-                //------------------------------------//
-
-                Expanded(
-                  child: GoogleMap(
-                    initialCameraPosition: basePoint,
-                    onMapCreated: mapController.complete,
-                    polylines: polylineSet,
-                    markers: mapMarkerState.markers,
-                  ),
-                ),
-
-                //------------------------------------//
-
-                timeSelectButton(),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: () => scrollController.jumpTo(scrollController.position.maxScrollExtent),
-                          icon: const Icon(Icons.skip_next),
-                        ),
-                        const SizedBox(width: 20),
-                        IconButton(
-                          onPressed: () => scrollController.jumpTo(scrollController.position.minScrollExtent),
-                          icon: const Icon(Icons.skip_previous),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      child: Row(
-                        children: [
-                          Text(latLngAddressState.city),
-                          Text(latLngAddressState.town),
-                        ],
+    return Scaffold(
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          utility.getBackGround(),
+          Column(
+            children: [
+              const SizedBox(height: 80),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      const SizedBox(width: 20),
+                      GestureDetector(
+                        onTap: makeBoundsLine,
+                        child: const Icon(Icons.vignette_rounded),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () => context.goNamed(RouteNames.home),
+                        child: const Icon(Icons.close),
+                      ),
+                      const SizedBox(width: 20),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
 
-                const SizedBox(height: 30),
-              ],
-            ),
-          ],
-        ),
+              //------------------------------------//
+
+              Expanded(
+                child: GoogleMap(
+                  initialCameraPosition: basePoint,
+                  onMapCreated: mapController.complete,
+                  polylines: polylineSet,
+                  markers: mapMarkerState.markers,
+                ),
+              ),
+
+              //------------------------------------//
+
+              timeSelectButton(),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: () => scrollController.jumpTo(scrollController.position.maxScrollExtent),
+                        icon: const Icon(Icons.skip_next),
+                      ),
+                      const SizedBox(width: 20),
+                      IconButton(
+                        onPressed: () => scrollController.jumpTo(scrollController.position.minScrollExtent),
+                        icon: const Icon(Icons.skip_previous),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      children: [
+                        Text(latLngAddressState.city),
+                        Text(latLngAddressState.town),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 30),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -258,64 +242,9 @@ class TimeLocationMapScreen extends ConsumerWidget {
 
     final controller = await mapController.future;
 
-    await controller.animateCamera(
-      CameraUpdate.newLatLngBounds(bounds, 50),
-    );
+    await controller.animateCamera(CameraUpdate.newLatLngBounds(bounds, 50));
 
     const marker = MarkerId('marker');
     await controller.showMarkerInfoWindow(marker);
   }
-
-/*
-  ///
-  Future<void> makePolyline() async {
-    latList = [];
-    lngList = [];
-    for (var i = 0; i < list.length - 1; i++) {
-      final routeTransitState = _ref.watch(
-        routeTransitProvider(
-          RouteTransitParamState(
-            start: '${list[0].latitude},${list[0].longitude}',
-            goal: '${list[i + 1].latitude},${list[i + 1].longitude}',
-            startTime: '${list[0].date.yyyymmdd}T${list[0].time}',
-          ),
-        ),
-      );
-      final poly = <LatLng>[];
-      routeTransitState.list.forEach((element) {
-        final origin = element as RouteTransitResultItemState;
-        poly.add(
-          LatLng(origin.latitude.toDouble(), origin.longitude.toDouble()),
-        );
-        latList.add(origin.latitude.toDouble());
-        lngList.add(origin.longitude.toDouble());
-      });
-      polylineSet.add(
-        Polyline(
-          polylineId: PolylineId('overview_polyline{$i}'),
-          color: Colors.redAccent,
-          width: 5,
-          points: poly,
-        ),
-      );
-    }
-  }
-  ///
-  Future<void> makeBoundsLine() async {
-    if (latList.isNotEmpty && lngList.isNotEmpty) {
-      final minSouthwestLat = latList.reduce(min);
-      final maxNortheastLat = latList.reduce(max);
-      final minSouthwestLng = lngList.reduce(min);
-      final maxNortheastLng = lngList.reduce(max);
-      bounds = LatLngBounds(
-        southwest: LatLng(minSouthwestLat, minSouthwestLng),
-        northeast: LatLng(maxNortheastLat, maxNortheastLng),
-      );
-      final controller = await _controller.future;
-      await controller.animateCamera(
-        CameraUpdate.newLatLngBounds(bounds, 50),
-      );
-    }
-  }
-  */
 }
