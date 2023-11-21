@@ -180,8 +180,6 @@ class YearlyCalendarPage extends ConsumerWidget {
 
     return (genDate.yyyymmdd == DateTime.now().yyyymmdd)
         ? Border.all(color: Colors.orangeAccent.withOpacity(0.4), width: 2)
-        : (genDate.youbiStr == 'Wednesday')
-            ? Border.all(color: Colors.purpleAccent.withOpacity(0.4), width: 2)
-            : Border.all(color: Colors.white.withOpacity(0.2), width: 2);
+        : Border.all(color: Colors.white.withOpacity(0.2), width: 2);
   }
 }

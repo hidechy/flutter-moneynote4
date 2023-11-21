@@ -8,5 +8,6 @@ part 'lifetime_response_state.freezed.dart';
 class LifetimeResponseState with _$LifetimeResponseState {
   const factory LifetimeResponseState({
     Lifetime? lifetime,
+    @Default([]) List<Lifetime> lifetimeList,
   }) = _LifetimeResponseState;
 }

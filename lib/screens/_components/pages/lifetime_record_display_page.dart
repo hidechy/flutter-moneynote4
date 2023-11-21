@@ -79,9 +79,6 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
 
     return Column(
       children: [
-        Text((selectedYearlyCalendarDate != null) ? selectedYearlyCalendarDate.yyyymmdd : ''),
-        Text(date.yyyymmdd),
-        Text(dayDiff.toString()),
         if (dayDiff == -3 && selectedYearlyCalendarDate != null) ...[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,10 +94,11 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
                     context: _context,
                     widget: LifetimeRecordDisplayAlert(
                       date: selectedYearlyCalendarDate.add(const Duration(days: -7)),
+                      beforeNextPageIndex: 6,
                     ),
                   );
                 },
-                icon: const Icon(Icons.navigate_before),
+                icon: const Icon(Icons.navigate_before, color: Colors.greenAccent),
               ),
               Container(),
             ],
@@ -122,10 +120,11 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
                     context: _context,
                     widget: LifetimeRecordDisplayAlert(
                       date: selectedYearlyCalendarDate.add(const Duration(days: 7)),
+                      beforeNextPageIndex: 0,
                     ),
                   );
                 },
-                icon: const Icon(Icons.navigate_next),
+                icon: const Icon(Icons.navigate_next, color: Colors.greenAccent),
               ),
             ],
           ),

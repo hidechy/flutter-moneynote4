@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$LifetimeResponseState {
   Lifetime? get lifetime => throw _privateConstructorUsedError;
+  List<Lifetime> get lifetimeList => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LifetimeResponseStateCopyWith<LifetimeResponseState> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $LifetimeResponseStateCopyWith<$Res> {
           $Res Function(LifetimeResponseState) then) =
       _$LifetimeResponseStateCopyWithImpl<$Res, LifetimeResponseState>;
   @useResult
-  $Res call({Lifetime? lifetime});
+  $Res call({Lifetime? lifetime, List<Lifetime> lifetimeList});
 }
 
 /// @nodoc
@@ -47,12 +48,17 @@ class _$LifetimeResponseStateCopyWithImpl<$Res,
   @override
   $Res call({
     Object? lifetime = freezed,
+    Object? lifetimeList = null,
   }) {
     return _then(_value.copyWith(
       lifetime: freezed == lifetime
           ? _value.lifetime
           : lifetime // ignore: cast_nullable_to_non_nullable
               as Lifetime?,
+      lifetimeList: null == lifetimeList
+          ? _value.lifetimeList
+          : lifetimeList // ignore: cast_nullable_to_non_nullable
+              as List<Lifetime>,
     ) as $Val);
   }
 }
@@ -65,7 +71,7 @@ abstract class _$$_LifetimeResponseStateCopyWith<$Res>
       __$$_LifetimeResponseStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Lifetime? lifetime});
+  $Res call({Lifetime? lifetime, List<Lifetime> lifetimeList});
 }
 
 /// @nodoc
@@ -80,12 +86,17 @@ class __$$_LifetimeResponseStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? lifetime = freezed,
+    Object? lifetimeList = null,
   }) {
     return _then(_$_LifetimeResponseState(
       lifetime: freezed == lifetime
           ? _value.lifetime
           : lifetime // ignore: cast_nullable_to_non_nullable
               as Lifetime?,
+      lifetimeList: null == lifetimeList
+          ? _value._lifetimeList
+          : lifetimeList // ignore: cast_nullable_to_non_nullable
+              as List<Lifetime>,
     ));
   }
 }
@@ -93,14 +104,24 @@ class __$$_LifetimeResponseStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_LifetimeResponseState implements _LifetimeResponseState {
-  const _$_LifetimeResponseState({this.lifetime});
+  const _$_LifetimeResponseState(
+      {this.lifetime, final List<Lifetime> lifetimeList = const []})
+      : _lifetimeList = lifetimeList;
 
   @override
   final Lifetime? lifetime;
+  final List<Lifetime> _lifetimeList;
+  @override
+  @JsonKey()
+  List<Lifetime> get lifetimeList {
+    if (_lifetimeList is EqualUnmodifiableListView) return _lifetimeList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_lifetimeList);
+  }
 
   @override
   String toString() {
-    return 'LifetimeResponseState(lifetime: $lifetime)';
+    return 'LifetimeResponseState(lifetime: $lifetime, lifetimeList: $lifetimeList)';
   }
 
   @override
@@ -109,11 +130,14 @@ class _$_LifetimeResponseState implements _LifetimeResponseState {
         (other.runtimeType == runtimeType &&
             other is _$_LifetimeResponseState &&
             (identical(other.lifetime, lifetime) ||
-                other.lifetime == lifetime));
+                other.lifetime == lifetime) &&
+            const DeepCollectionEquality()
+                .equals(other._lifetimeList, _lifetimeList));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, lifetime);
+  int get hashCode => Object.hash(runtimeType, lifetime,
+      const DeepCollectionEquality().hash(_lifetimeList));
 
   @JsonKey(ignore: true)
   @override
@@ -124,11 +148,14 @@ class _$_LifetimeResponseState implements _LifetimeResponseState {
 }
 
 abstract class _LifetimeResponseState implements LifetimeResponseState {
-  const factory _LifetimeResponseState({final Lifetime? lifetime}) =
-      _$_LifetimeResponseState;
+  const factory _LifetimeResponseState(
+      {final Lifetime? lifetime,
+      final List<Lifetime> lifetimeList}) = _$_LifetimeResponseState;
 
   @override
   Lifetime? get lifetime;
+  @override
+  List<Lifetime> get lifetimeList;
   @override
   @JsonKey(ignore: true)
   _$$_LifetimeResponseStateCopyWith<_$_LifetimeResponseState> get copyWith =>

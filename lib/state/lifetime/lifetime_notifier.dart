@@ -44,3 +44,26 @@ class LifetimeNotifier extends StateNotifier<LifetimeResponseState> {
 }
 
 ////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+
+final lifetimeYearlyProvider =
+    StateNotifierProvider.autoDispose.family<LifetimeYearlyNotifier, LifetimeResponseState, DateTime>((ref, date) {
+  final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
+
+  return LifetimeYearlyNotifier(const LifetimeResponseState(), client, utility)..getYearlyLifetime(date: date);
+});
+
+class LifetimeYearlyNotifier extends StateNotifier<LifetimeResponseState> {
+  LifetimeYearlyNotifier(super.state, this.client, this.utility);
+
+  final HttpClient client;
+  final Utility utility;
+
+  ///
+  Future<void> getYearlyLifetime({required DateTime date}) async {}
+}
+
+////////////////////////////////////////////////
