@@ -178,16 +178,29 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Container(),
+        if (dayDiff > 0) Container(),
         (selectedYearlyCalendarDate != null && (dayDiff == 3 || dayDiff == -3))
             ? Column(
                 children: [
                   Text(selectedYearlyCalendarDate.yyyymmdd),
                   Text(date.yyyymmdd),
                   Text(dayDiff.toString()),
+                  IconButton(
+                    onPressed: () {
+/*
+
+widget: LifetimeRecordDisplayAlert(
+date: DateTime(date.yyyy.toInt(), exDays[0].toInt(), exDays[1].toInt()),
+),
+
+*/
+                    },
+                    icon: Icon((dayDiff > 0) ? Icons.navigate_next : Icons.navigate_before),
+                  ),
                 ],
               )
             : Container(),
+        if (dayDiff < 0) Container(),
       ],
     );
   }
