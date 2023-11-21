@@ -179,7 +179,7 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(),
-        (selectedYearlyCalendarDate != null && dayDiff == 3)
+        (selectedYearlyCalendarDate != null && (dayDiff == 3 || dayDiff == -3))
             ? Column(
                 children: [
                   Text(selectedYearlyCalendarDate.yyyymmdd),
