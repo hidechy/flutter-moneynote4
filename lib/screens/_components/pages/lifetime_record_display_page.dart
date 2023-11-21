@@ -20,8 +20,6 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
 
-    final selectedYearlyCalendarDate = ref.watch(appParamProvider.select((value) => value.selectedYearlyCalendarDate));
-
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.zero,
@@ -33,23 +31,32 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
         height: double.infinity,
         child: DefaultTextStyle(
           style: const TextStyle(fontSize: 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Stack(
             children: [
-              const SizedBox(height: 20),
-              Container(width: context.screenSize.width),
-              Text((selectedYearlyCalendarDate != null) ? selectedYearlyCalendarDate.yyyymmdd : ''),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('${date.yyyymmdd}（${date.youbiStr.substring(0, 3)}）'),
-                  GestureDetector(
-                    onTap: () => MoneyDialog(context: context, widget: LifetimeRecordInputAlert(date: date)),
-                    child: Icon(Icons.input, color: Colors.white.withOpacity(0.6)),
+                  const SizedBox(height: 20),
+                  Container(width: context.screenSize.width),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('${date.yyyymmdd}（${date.youbiStr.substring(0, 3)}）'),
+                      GestureDetector(
+                        onTap: () => MoneyDialog(context: context, widget: LifetimeRecordInputAlert(date: date)),
+                        child: Icon(Icons.input, color: Colors.white.withOpacity(0.6)),
+                      ),
+                    ],
                   ),
+                  Expanded(child: _displayLifetime()),
                 ],
               ),
-              Expanded(child: _displayLifetime()),
+              Column(
+                children: [
+                  Expanded(child: Container()),
+                  _displayNextButton(),
+                ],
+              ),
             ],
           ),
         ),
@@ -156,5 +163,32 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
     }
 
     return Colors.transparent;
+  }
+
+  ///
+  Widget _displayNextButton() {
+    final selectedYearlyCalendarDate = _ref.watch(appParamProvider.select((value) => value.selectedYearlyCalendarDate));
+
+    var dayDiff = 0;
+
+    if (selectedYearlyCalendarDate != null) {
+      dayDiff = date.difference(selectedYearlyCalendarDate).inDays;
+    }
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(),
+        (selectedYearlyCalendarDate != null && dayDiff == 3)
+            ? Column(
+                children: [
+                  Text(selectedYearlyCalendarDate.yyyymmdd),
+                  Text(date.yyyymmdd),
+                  Text(dayDiff.toString()),
+                ],
+              )
+            : Container(),
+      ],
+    );
   }
 }
