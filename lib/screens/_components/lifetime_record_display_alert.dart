@@ -15,11 +15,11 @@ class TabInfo {
 
 // ignore: must_be_immutable
 class LifetimeRecordDisplayAlert extends HookConsumerWidget {
-  LifetimeRecordDisplayAlert({super.key, required this.date, this.nextPageCall});
+  LifetimeRecordDisplayAlert({super.key, required this.date, this.beforeNextPageMove});
 
   final DateTime date;
 
-  bool? nextPageCall;
+  int? beforeNextPageMove;
 
   List<TabInfo> tabs = [];
 
@@ -35,12 +35,19 @@ class LifetimeRecordDisplayAlert extends HookConsumerWidget {
 
     var index = (tabs.length >= ((dayDiff * 2) + 1)) ? (tabs.length / 2).floor() : exDate[2].toInt() - 1;
 
-    if (nextPageCall == true) {
-      index = dayDiff * -1;
+    if (beforeNextPageMove == 0 || beforeNextPageMove == 1) {
+      switch (beforeNextPageMove) {
+        case 0:
+          index = dayDiff;
+          break;
+        case 1:
+          index = dayDiff * -1;
+          break;
+      }
     }
 
     final tabController = useTabController(initialLength: tabs.length);
-    if (index > 0) {
+    if (index != 0) {
       tabController.index = index;
     }
     // 最初に開くタブを指定する

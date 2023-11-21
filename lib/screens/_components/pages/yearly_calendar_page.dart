@@ -84,14 +84,14 @@ class YearlyCalendarPage extends ConsumerWidget {
 
     final list = <Widget>[];
     for (var i = 0; i < weekNum; i++) {
-      list.add(getRow(days: days, rowNum: i));
+      list.add(_getRow(days: days, rowNum: i));
     }
 
     return SingleChildScrollView(child: Column(children: list));
   }
 
   ///
-  Widget getRow({required List<String> days, required int rowNum}) {
+  Widget _getRow({required List<String> days, required int rowNum}) {
     final list = <Widget>[];
 
     for (var i = rowNum * 7; i < ((rowNum + 1) * 7); i++) {
@@ -120,7 +120,7 @@ class YearlyCalendarPage extends ConsumerWidget {
                     padding: const EdgeInsets.all(3),
                     decoration: BoxDecoration(
                       border: _getBorder(mmdd: days[i]),
-                      color: getBgColor(mmdd: days[i]),
+                      color: _getBgColor(mmdd: days[i]),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,25 +151,21 @@ class YearlyCalendarPage extends ConsumerWidget {
   }
 
   ///
-  Color getBgColor({required String mmdd}) {
+  Color _getBgColor({required String mmdd}) {
     if (mmdd == '') {
       return Colors.transparent;
     }
 
     final holidayState = _ref.watch(holidayProvider);
 
-    final exDate = mmdd.split('-');
-
-    final genDate = DateTime(date.yyyy.toInt(), exDate[0].toInt(), exDate[1].toInt());
+    final genDate = DateTime.parse('${date.yyyy}-$mmdd');
 
     return _utility.getYoubiColor(date: genDate, youbiStr: genDate.youbiStr, holiday: holidayState.data);
   }
 
   ///
   Widget _dispRowNum({required String mmdd, required int rowNum}) {
-    final exDate = mmdd.split('-');
-
-    final genDate = DateTime(date.yyyy.toInt(), exDate[0].toInt(), exDate[1].toInt());
+    final genDate = DateTime.parse('${date.yyyy}-$mmdd');
 
     return Text(
       (genDate.youbiStr == 'Sunday') ? (rowNum + 1).toString() : '',
@@ -182,9 +178,7 @@ class YearlyCalendarPage extends ConsumerWidget {
 
   ///
   Border _getBorder({required String mmdd}) {
-    final exDate = mmdd.split('-');
-
-    final genDate = DateTime(date.yyyy.toInt(), exDate[0].toInt(), exDate[1].toInt());
+    final genDate = DateTime.parse('${date.yyyy}-$mmdd');
 
     return (genDate.yyyymmdd == DateTime.now().yyyymmdd)
         ? Border.all(color: Colors.orangeAccent.withOpacity(0.4), width: 2)
