@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/state/lifetime/lifetime_notifier.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/app_param/app_param_notifier.dart';
+import '../../state/lifetime/lifetime_notifier.dart';
 import '../../state/lifetime_item/lifetime_item_notifier.dart';
 
 // ignore: must_be_immutable
@@ -53,6 +53,7 @@ class LifetimeRecordInputAlert extends ConsumerWidget {
                       Text(date.yyyymmdd),
                       const SizedBox(width: 20),
                       _displayReloadButton(),
+                      const SizedBox(width: 10),
                       _displayBetweenInputButton(),
                     ],
                   ),
@@ -192,31 +193,6 @@ class LifetimeRecordInputAlert extends ConsumerWidget {
     return GestureDetector(
       onTap: (lifetime != null)
           ? () async {
-              tecs[0].text = lifetime.hour00;
-              tecs[1].text = lifetime.hour01;
-              tecs[2].text = lifetime.hour02;
-              tecs[3].text = lifetime.hour03;
-              tecs[4].text = lifetime.hour04;
-              tecs[5].text = lifetime.hour05;
-              tecs[6].text = lifetime.hour06;
-              tecs[7].text = lifetime.hour07;
-              tecs[8].text = lifetime.hour08;
-              tecs[9].text = lifetime.hour09;
-              tecs[10].text = lifetime.hour10;
-              tecs[11].text = lifetime.hour11;
-              tecs[12].text = lifetime.hour12;
-              tecs[13].text = lifetime.hour13;
-              tecs[14].text = lifetime.hour14;
-              tecs[15].text = lifetime.hour15;
-              tecs[16].text = lifetime.hour16;
-              tecs[17].text = lifetime.hour17;
-              tecs[18].text = lifetime.hour18;
-              tecs[19].text = lifetime.hour19;
-              tecs[20].text = lifetime.hour20;
-              tecs[21].text = lifetime.hour21;
-              tecs[22].text = lifetime.hour22;
-              tecs[23].text = lifetime.hour23;
-
               final hourDataList = [
                 lifetime.hour00,
                 lifetime.hour01,
@@ -245,6 +221,8 @@ class LifetimeRecordInputAlert extends ConsumerWidget {
               ];
 
               for (var i = 0; i < hourDataList.length; i++) {
+                tecs[i].text = hourDataList[i];
+
                 await _ref.read(lifetimeItemProvider.notifier).setLifetimeStringList(pos: i, item: hourDataList[i]);
               }
             }
