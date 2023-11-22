@@ -63,7 +63,27 @@ class LifetimeYearlyNotifier extends StateNotifier<LifetimeResponseState> {
   final Utility utility;
 
   ///
-  Future<void> getYearlyLifetime({required DateTime date}) async {}
+  Future<void> getYearlyLifetime({required DateTime date}) async {
+    await client.post(
+      path: APIPath.getLifetimeYearlyRecord,
+      body: {'date': date.yyyymmdd},
+    ).then((value) {
+      final list = <Lifetime>[];
+      final map = <String, Lifetime>{};
+
+      // ignore: avoid_dynamic_calls
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        // ignore: avoid_dynamic_calls
+        final val = Lifetime.fromJson(value['data'][i] as Map<String, dynamic>);
+        list.add(val);
+        map['${val.year}-${val.month}-${val.day}'] = val;
+      }
+
+      state = state.copyWith(lifetimeList: list, lifetimeMap: map);
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
+  }
 }
 
 ////////////////////////////////////////////////

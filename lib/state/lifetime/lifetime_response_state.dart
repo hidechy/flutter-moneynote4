@@ -9,5 +9,6 @@ class LifetimeResponseState with _$LifetimeResponseState {
   const factory LifetimeResponseState({
     Lifetime? lifetime,
     @Default([]) List<Lifetime> lifetimeList,
+    @Default({}) Map<String, Lifetime> lifetimeMap,
   }) = _LifetimeResponseState;
 }

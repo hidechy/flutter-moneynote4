@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/state/app_param/app_param_notifier.dart';
+import 'package:moneynote4/models/lifetime.dart';
+import 'package:moneynote4/state/lifetime/lifetime_notifier.dart';
 
 import '../../../extensions/extensions.dart';
+import '../../../state/app_param/app_param_notifier.dart';
 import '../../../utility/utility.dart';
 import '../../../viewmodel/holiday_notifier.dart';
 import '../_money_dialog.dart';
@@ -21,6 +23,8 @@ class YearlyCalendarPage extends ConsumerWidget {
   List<String> days = [];
 
   final Utility _utility = Utility();
+
+  Map<String, Lifetime> lifetimeMap = {};
 
   late BuildContext _context;
   late WidgetRef _ref;
@@ -58,6 +62,8 @@ class YearlyCalendarPage extends ConsumerWidget {
 
   ///
   Widget _getCalendar() {
+    lifetimeMap = _ref.watch(lifetimeYearlyProvider(date).select((value) => value.lifetimeMap));
+
     yearFirst = DateTime(date.yyyy.toInt());
 
     final yearEnd = DateTime(yearFirst.year + 1, 1, 0);
@@ -133,7 +139,13 @@ class YearlyCalendarPage extends ConsumerWidget {
                             ),
                           ),
                         ),
-                        _dispRowNum(mmdd: days[i], rowNum: rowNum),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            _dispRowNum(mmdd: days[i], rowNum: rowNum),
+                            _dispDataExistsMark(mmdd: days[i]),
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -181,5 +193,14 @@ class YearlyCalendarPage extends ConsumerWidget {
     return (genDate.yyyymmdd == DateTime.now().yyyymmdd)
         ? Border.all(color: Colors.orangeAccent.withOpacity(0.4), width: 2)
         : Border.all(color: Colors.white.withOpacity(0.2), width: 2);
+  }
+
+  ///
+  Widget _dispDataExistsMark({required String mmdd}) {
+    if (lifetimeMap['${date.yyyy}-$mmdd'] != null) {
+      return Icon(Icons.star, color: Colors.yellowAccent.withOpacity(0.4), size: 10);
+    }
+
+    return Container();
   }
 }
