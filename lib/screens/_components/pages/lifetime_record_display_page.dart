@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../extensions/extensions.dart';
 import '../../../state/app_param/app_param_notifier.dart';
 import '../../../state/lifetime/lifetime_notifier.dart';
+import '../../../viewmodel/time_place_notifier.dart';
 import '../_money_dialog.dart';
 import '../lifetime_record_display_alert.dart';
 import '../lifetime_record_input_alert.dart';
@@ -139,9 +140,53 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(child: _displayLifetimeRecord()),
-        Expanded(flex: 2, child: Container()),
+        Expanded(
+            flex: 2,
+            child: Column(
+              children: [
+                Container(
+                  height: 200,
+                  padding: EdgeInsets.all(5),
+                  child: displayTimeplace(),
+                ),
+              ],
+            )),
       ],
     );
+  }
+
+  ///
+  Widget displayTimeplace() {
+    final timeplaceState = _ref.watch(onedayTimeplaceProvider(date));
+
+    final list = <Widget>[];
+
+    for (var i = 0; i < timeplaceState.length; i++) {
+      final color = (timeplaceState[i].place == '移動中') ? Colors.greenAccent : Colors.white;
+
+      list.add(
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 3),
+          decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
+          child: DefaultTextStyle(
+            style: TextStyle(color: color, fontSize: 10),
+            child: Row(
+              children: [
+                SizedBox(width: 60, child: Text(timeplaceState[i].time)),
+                Expanded(child: Text(timeplaceState[i].place)),
+                Container(
+                  width: 50,
+                  alignment: Alignment.topRight,
+                  child: Text(timeplaceState[i].price.toString().toCurrency()),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    return SingleChildScrollView(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: list));
   }
 
   ///
