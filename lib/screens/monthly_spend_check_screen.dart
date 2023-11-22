@@ -60,9 +60,7 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
 
     makeBankMonthlySpendMap();
 
-    final monthTotal = ref.watch(
-      monthlySpendCheckProvider(date).select((value) => value.monthTotal),
-    );
+    final monthTotal = ref.watch(monthlySpendCheckProvider(date).select((value) => value.monthTotal));
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 

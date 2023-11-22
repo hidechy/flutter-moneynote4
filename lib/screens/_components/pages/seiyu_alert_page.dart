@@ -227,9 +227,7 @@ class SeiyuAlertPage extends ConsumerWidget {
     final reg = RegExp('西友ネットスーパー');
 
     for (var i = 1; i <= 12; i++) {
-      final creditSpendMonthlyState = _ref.watch(
-        creditSpendMonthlyProvider(DateTime(date.year, i)),
-      );
+      final creditSpendMonthlyState = _ref.watch(creditSpendMonthlyProvider(DateTime(date.year, i)));
 
       creditSpendMonthlyState.forEach((element) {
         if (reg.firstMatch(element.item) != null) {
@@ -241,9 +239,7 @@ class SeiyuAlertPage extends ConsumerWidget {
     }
 
     //-----------// 1月
-    final creditSpendMonthlyState = _ref.watch(
-      creditSpendMonthlyProvider(DateTime(date.year + 1)),
-    );
+    final creditSpendMonthlyState = _ref.watch(creditSpendMonthlyProvider(DateTime(date.year + 1)));
 
     creditSpendMonthlyState.forEach((element) {
       if (reg.firstMatch(element.item) != null) {

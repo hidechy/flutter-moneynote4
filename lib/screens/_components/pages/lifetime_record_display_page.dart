@@ -86,7 +86,7 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
             children: [
               IconButton(
                 onPressed: () async {
-                  await _ref.watch(appParamProvider.notifier).setSelectedYearlyCalendarDate(
+                  await _ref.read(appParamProvider.notifier).setSelectedYearlyCalendarDate(
                         date: selectedYearlyCalendarDate.add(const Duration(days: -7)),
                       );
 
@@ -112,7 +112,7 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
               Container(),
               IconButton(
                 onPressed: () async {
-                  await _ref.watch(appParamProvider.notifier).setSelectedYearlyCalendarDate(
+                  await _ref.read(appParamProvider.notifier).setSelectedYearlyCalendarDate(
                         date: selectedYearlyCalendarDate.add(const Duration(days: 7)),
                       );
 

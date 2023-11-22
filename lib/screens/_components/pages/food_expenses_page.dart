@@ -67,9 +67,7 @@ class FoodExpensesPage extends ConsumerWidget {
 
   ///
   Widget displayFoodExpenses() {
-    final spendMonthSummaryState = _ref.watch(
-      spendMonthSummaryProvider(date),
-    );
+    final spendMonthSummaryState = _ref.watch(spendMonthSummaryProvider(date));
 
     makeFoodExpensesList(state: spendMonthSummaryState);
 

@@ -32,17 +32,9 @@ class KeihiSettingAlert extends ConsumerWidget {
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
-    final selectedCategory = ref.watch(
-      monthlySpendCheckProvider(date).select(
-        (value) => value.selectedCategory,
-      ),
-    );
+    final selectedCategory = ref.watch(monthlySpendCheckProvider(date).select((value) => value.selectedCategory));
 
-    final errorMsg = ref.watch(
-      monthlySpendCheckProvider(date).select(
-        (value) => value.errorMsg,
-      ),
-    );
+    final errorMsg = ref.watch(monthlySpendCheckProvider(date).select((value) => value.errorMsg));
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -161,11 +153,7 @@ class KeihiSettingAlert extends ConsumerWidget {
   Widget displayCategoryList({required List<CsvData> data}) {
     final list = <Widget>[];
 
-    final selectedCategory = _ref.watch(
-      monthlySpendCheckProvider(date).select(
-        (value) => value.selectedCategory,
-      ),
-    );
+    final selectedCategory = _ref.watch(monthlySpendCheckProvider(date).select((value) => value.selectedCategory));
 
     data.forEach((element) {
       list.add(

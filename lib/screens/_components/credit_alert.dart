@@ -61,8 +61,7 @@ class CreditAlert extends ConsumerWidget {
                 Container(width: context.screenSize.width),
 
                 //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
                 //----------//
 
                 Container(
@@ -93,14 +92,9 @@ class CreditAlert extends ConsumerWidget {
                           margin: const EdgeInsets.symmetric(horizontal: 5),
                           child: GestureDetector(
                             onTap: () {
-                              ref
-                                  .watch(selectCreditProvider.notifier)
-                                  .setSelectCredit(selectCredit: kind);
+                              ref.read(selectCreditProvider.notifier).setSelectCredit(selectCredit: kind);
 
-                              ref
-                                  .watch(
-                                      creditSpendMonthlyProvider(date).notifier)
-                                  .getCreditSpendMonthly(
+                              ref.read(creditSpendMonthlyProvider(date).notifier).getCreditSpendMonthly(
                                     date: date,
                                     kind: kind,
                                   );
@@ -125,8 +119,7 @@ class CreditAlert extends ConsumerWidget {
 
   ///
   Widget dispCredit() {
-    final creditSpendMonthlyState =
-        _ref.watch(creditSpendMonthlyProvider(date));
+    final creditSpendMonthlyState = _ref.watch(creditSpendMonthlyProvider(date));
 
     final reg = RegExp('西友ネットスーパー');
 
@@ -161,24 +154,15 @@ class CreditAlert extends ConsumerWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        (reg.firstMatch(creditSpendMonthlyState[i].item) !=
-                                null)
+                        (reg.firstMatch(creditSpendMonthlyState[i].item) != null)
                             ? GestureDetector(
                                 onTap: () async {
-                                  await _ref
-                                      .watch(appParamProvider.notifier)
-                                      .setSeiyuAlertSelectDate(
-                                        date: creditSpendMonthlyState[i]
-                                            .date
-                                            .mmdd,
+                                  await _ref.read(appParamProvider.notifier).setSeiyuAlertSelectDate(
+                                        date: creditSpendMonthlyState[i].date.mmdd,
                                       );
 
-                                  await _ref
-                                      .watch(seiyuPurchaseDateProvider.notifier)
-                                      .getSeiyuPurchaseList(
-                                        date: creditSpendMonthlyState[i]
-                                            .date
-                                            .yyyymmdd,
+                                  await _ref.read(seiyuPurchaseDateProvider.notifier).getSeiyuPurchaseList(
+                                        date: creditSpendMonthlyState[i].date.yyyymmdd,
                                       );
 
                                   await MoneyDialog(

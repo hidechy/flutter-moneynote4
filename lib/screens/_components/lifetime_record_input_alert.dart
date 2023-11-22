@@ -68,7 +68,7 @@ class LifetimeRecordInputAlert extends ConsumerWidget {
                       ],
                       GestureDetector(
                         onTap: () async {
-                          await ref.watch(appParamProvider.notifier).setErrorMessage(msg: '');
+                          await ref.read(appParamProvider.notifier).setErrorMessage(msg: '');
 
                           /// null許容リストからnullを削除したnull非許容リストを作成する
                           if (lifetimeStringList.whereType<String>().length == onedayHourNum) {
