@@ -146,8 +146,8 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
               children: [
                 Container(
                   height: 200,
-                  padding: EdgeInsets.all(5),
-                  child: displayTimeplace(),
+                  padding: const EdgeInsets.all(5),
+                  child: _displayTimeplace(),
                 ),
               ],
             )),
@@ -156,7 +156,7 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
   }
 
   ///
-  Widget displayTimeplace() {
+  Widget _displayTimeplace() {
     final timeplaceState = _ref.watch(onedayTimeplaceProvider(date));
 
     final list = <Widget>[];
