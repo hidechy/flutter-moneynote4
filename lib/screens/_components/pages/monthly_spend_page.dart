@@ -27,6 +27,7 @@ import '../../../viewmodel/money_notifier.dart';
 import '../../../viewmodel/spend_notifier.dart';
 import '../../../viewmodel/time_place_notifier.dart';
 import '../_money_dialog.dart';
+import '../monthly_calendar_alert.dart';
 import '../monthly_spend_graph_alert.dart';
 import '../spend_alert.dart';
 
@@ -146,6 +147,22 @@ class MonthlySpendPage extends ConsumerWidget {
                               GestureDetector(
                                 onTap: () => context.goNamed(RouteNames.monthlySpendCheck, extra: {'date': date}),
                                 child: const Icon(Icons.check_box),
+                              ),
+                              const SizedBox(width: 20),
+                              GestureDetector(
+                                onTap: () {
+                                  var index = DateTime.now().month - date.month;
+
+                                  if (DateTime.now().year > date.year) {
+                                    index += 12;
+                                  }
+
+                                  MoneyDialog(
+                                    context: context,
+                                    widget: MonthlyCalendarAlert(date: date, index: index),
+                                  );
+                                },
+                                child: const Icon(Icons.calendar_today),
                               ),
                             ],
                           ),
