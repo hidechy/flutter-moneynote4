@@ -79,7 +79,8 @@ class LifetimeYearlyNotifier extends StateNotifier<LifetimeResponseState> {
         map['${val.year}-${val.month}-${val.day}'] = val;
       }
 
-      state = state.copyWith(lifetimeList: list, lifetimeMap: map);
+      // 2023.11.22 AsyncValueを使用してみた
+      state = state.copyWith(lifetimeList: AsyncValue.data(list), lifetimeMap: AsyncValue.data(map));
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });

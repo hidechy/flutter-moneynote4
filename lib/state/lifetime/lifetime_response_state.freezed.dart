@@ -17,8 +17,10 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$LifetimeResponseState {
   Lifetime? get lifetime => throw _privateConstructorUsedError;
-  List<Lifetime> get lifetimeList => throw _privateConstructorUsedError;
-  Map<String, Lifetime> get lifetimeMap => throw _privateConstructorUsedError;
+  AsyncValue<List<Lifetime>> get lifetimeList =>
+      throw _privateConstructorUsedError;
+  AsyncValue<Map<String, Lifetime>> get lifetimeMap =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LifetimeResponseStateCopyWith<LifetimeResponseState> get copyWith =>
@@ -33,8 +35,8 @@ abstract class $LifetimeResponseStateCopyWith<$Res> {
   @useResult
   $Res call(
       {Lifetime? lifetime,
-      List<Lifetime> lifetimeList,
-      Map<String, Lifetime> lifetimeMap});
+      AsyncValue<List<Lifetime>> lifetimeList,
+      AsyncValue<Map<String, Lifetime>> lifetimeMap});
 }
 
 /// @nodoc
@@ -63,11 +65,11 @@ class _$LifetimeResponseStateCopyWithImpl<$Res,
       lifetimeList: null == lifetimeList
           ? _value.lifetimeList
           : lifetimeList // ignore: cast_nullable_to_non_nullable
-              as List<Lifetime>,
+              as AsyncValue<List<Lifetime>>,
       lifetimeMap: null == lifetimeMap
           ? _value.lifetimeMap
           : lifetimeMap // ignore: cast_nullable_to_non_nullable
-              as Map<String, Lifetime>,
+              as AsyncValue<Map<String, Lifetime>>,
     ) as $Val);
   }
 }
@@ -82,8 +84,8 @@ abstract class _$$_LifetimeResponseStateCopyWith<$Res>
   @useResult
   $Res call(
       {Lifetime? lifetime,
-      List<Lifetime> lifetimeList,
-      Map<String, Lifetime> lifetimeMap});
+      AsyncValue<List<Lifetime>> lifetimeList,
+      AsyncValue<Map<String, Lifetime>> lifetimeMap});
 }
 
 /// @nodoc
@@ -107,13 +109,13 @@ class __$$_LifetimeResponseStateCopyWithImpl<$Res>
           : lifetime // ignore: cast_nullable_to_non_nullable
               as Lifetime?,
       lifetimeList: null == lifetimeList
-          ? _value._lifetimeList
+          ? _value.lifetimeList
           : lifetimeList // ignore: cast_nullable_to_non_nullable
-              as List<Lifetime>,
+              as AsyncValue<List<Lifetime>>,
       lifetimeMap: null == lifetimeMap
-          ? _value._lifetimeMap
+          ? _value.lifetimeMap
           : lifetimeMap // ignore: cast_nullable_to_non_nullable
-              as Map<String, Lifetime>,
+              as AsyncValue<Map<String, Lifetime>>,
     ));
   }
 }
@@ -123,30 +125,17 @@ class __$$_LifetimeResponseStateCopyWithImpl<$Res>
 class _$_LifetimeResponseState implements _LifetimeResponseState {
   const _$_LifetimeResponseState(
       {this.lifetime,
-      final List<Lifetime> lifetimeList = const [],
-      final Map<String, Lifetime> lifetimeMap = const {}})
-      : _lifetimeList = lifetimeList,
-        _lifetimeMap = lifetimeMap;
+      this.lifetimeList = const AsyncValue<List<Lifetime>>.loading(),
+      this.lifetimeMap = const AsyncValue<Map<String, Lifetime>>.loading()});
 
   @override
   final Lifetime? lifetime;
-  final List<Lifetime> _lifetimeList;
   @override
   @JsonKey()
-  List<Lifetime> get lifetimeList {
-    if (_lifetimeList is EqualUnmodifiableListView) return _lifetimeList;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_lifetimeList);
-  }
-
-  final Map<String, Lifetime> _lifetimeMap;
+  final AsyncValue<List<Lifetime>> lifetimeList;
   @override
   @JsonKey()
-  Map<String, Lifetime> get lifetimeMap {
-    if (_lifetimeMap is EqualUnmodifiableMapView) return _lifetimeMap;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_lifetimeMap);
-  }
+  final AsyncValue<Map<String, Lifetime>> lifetimeMap;
 
   @override
   String toString() {
@@ -160,18 +149,15 @@ class _$_LifetimeResponseState implements _LifetimeResponseState {
             other is _$_LifetimeResponseState &&
             (identical(other.lifetime, lifetime) ||
                 other.lifetime == lifetime) &&
-            const DeepCollectionEquality()
-                .equals(other._lifetimeList, _lifetimeList) &&
-            const DeepCollectionEquality()
-                .equals(other._lifetimeMap, _lifetimeMap));
+            (identical(other.lifetimeList, lifetimeList) ||
+                other.lifetimeList == lifetimeList) &&
+            (identical(other.lifetimeMap, lifetimeMap) ||
+                other.lifetimeMap == lifetimeMap));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      lifetime,
-      const DeepCollectionEquality().hash(_lifetimeList),
-      const DeepCollectionEquality().hash(_lifetimeMap));
+  int get hashCode =>
+      Object.hash(runtimeType, lifetime, lifetimeList, lifetimeMap);
 
   @JsonKey(ignore: true)
   @override
@@ -183,16 +169,17 @@ class _$_LifetimeResponseState implements _LifetimeResponseState {
 
 abstract class _LifetimeResponseState implements LifetimeResponseState {
   const factory _LifetimeResponseState(
-      {final Lifetime? lifetime,
-      final List<Lifetime> lifetimeList,
-      final Map<String, Lifetime> lifetimeMap}) = _$_LifetimeResponseState;
+          {final Lifetime? lifetime,
+          final AsyncValue<List<Lifetime>> lifetimeList,
+          final AsyncValue<Map<String, Lifetime>> lifetimeMap}) =
+      _$_LifetimeResponseState;
 
   @override
   Lifetime? get lifetime;
   @override
-  List<Lifetime> get lifetimeList;
+  AsyncValue<List<Lifetime>> get lifetimeList;
   @override
-  Map<String, Lifetime> get lifetimeMap;
+  AsyncValue<Map<String, Lifetime>> get lifetimeMap;
   @override
   @JsonKey(ignore: true)
   _$$_LifetimeResponseStateCopyWith<_$_LifetimeResponseState> get copyWith =>

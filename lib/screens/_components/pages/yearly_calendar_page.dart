@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/models/lifetime.dart';
-import 'package:moneynote4/state/lifetime/lifetime_notifier.dart';
 
 import '../../../extensions/extensions.dart';
+import '../../../models/lifetime.dart';
 import '../../../state/app_param/app_param_notifier.dart';
+import '../../../state/lifetime/lifetime_notifier.dart';
 import '../../../utility/utility.dart';
 import '../../../viewmodel/holiday_notifier.dart';
 import '../_money_dialog.dart';
@@ -24,7 +24,8 @@ class YearlyCalendarPage extends ConsumerWidget {
 
   final Utility _utility = Utility();
 
-  Map<String, Lifetime> lifetimeMap = {};
+  // 2023.11.22 AsyncValueを使用してみた
+  AsyncValue<Map<String, Lifetime>> lifetimeMap = const AsyncValue.data({});
 
   late BuildContext _context;
   late WidgetRef _ref;
@@ -197,10 +198,21 @@ class YearlyCalendarPage extends ConsumerWidget {
 
   ///
   Widget _dispDataExistsMark({required String mmdd}) {
-    if (lifetimeMap['${date.yyyy}-$mmdd'] != null) {
-      return Icon(Icons.star, color: Colors.yellowAccent.withOpacity(0.4), size: 10);
-    }
+    // 2023.11.22 AsyncValueを使用してみた
+    return lifetimeMap.when(
+      data: (value) {
+        if (value['${date.yyyy}-$mmdd'] != null) {
+          return Icon(Icons.star, color: Colors.yellowAccent.withOpacity(0.4), size: 10);
+        }
 
-    return Container();
+        return Container();
+      },
+      error: (error, stackTrace) => Container(),
+      loading: Container.new,
+
+      // サンプルでは下記のように書いてあった
+      // error: (error, stackTrace) => const Scaffold(body: Center(child: CircularProgressIndicator())),
+      // loading: () => const Scaffold(body: Center(child: CircularProgressIndicator())),
+    );
   }
 }
