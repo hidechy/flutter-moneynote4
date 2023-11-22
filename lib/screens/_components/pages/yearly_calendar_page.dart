@@ -202,7 +202,7 @@ class YearlyCalendarPage extends ConsumerWidget {
     return lifetimeMap.when(
       data: (value) {
         if (value['${date.yyyy}-$mmdd'] != null) {
-          return Icon(Icons.star, color: Colors.yellowAccent.withOpacity(0.4), size: 10);
+          return Icon(Icons.star, color: Colors.yellowAccent.withOpacity(0.4), size: 8);
         }
 
         return Container();
