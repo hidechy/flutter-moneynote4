@@ -34,9 +34,7 @@ class UdemyNotifier extends StateNotifier<List<Udemy>> {
       final list = <Udemy>[];
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        list.add(
-          Udemy.fromJson(value['data'][i] as Map<String, dynamic>),
-        );
+        list.add(Udemy.fromJson(value['data'][i] as Map<String, dynamic>));
       }
 
       state = list;
@@ -49,9 +47,7 @@ class UdemyNotifier extends StateNotifier<List<Udemy>> {
       final list = <Udemy>[];
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        list.add(
-          Udemy.fromJson(value['data'][i] as Map<String, dynamic>),
-        );
+        list.add(Udemy.fromJson(value['data'][i] as Map<String, dynamic>));
       }
 
       final list2 = <Udemy>[];
@@ -77,9 +73,7 @@ class UdemyNotifier extends StateNotifier<List<Udemy>> {
       final list = <Udemy>[];
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        list.add(
-          Udemy.fromJson(value['data'][i] as Map<String, dynamic>),
-        );
+        list.add(Udemy.fromJson(value['data'][i] as Map<String, dynamic>));
       }
 
       final list2 = <Udemy>[];

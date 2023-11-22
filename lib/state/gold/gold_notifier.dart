@@ -2,13 +2,13 @@
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:moneynote4/models/assets_data.dart';
-import 'package:moneynote4/state/gold/gold_response_state.dart';
 
 import '../../data/http/client.dart';
 import '../../data/http/path.dart';
 import '../../extensions/extensions.dart';
 import '../../models/gold.dart';
 import '../../utility/utility.dart';
+import 'gold_response_state.dart';
 
 ////////////////////////////////////////////////
 
@@ -29,13 +29,7 @@ class GoldLastNotifier extends StateNotifier<GoldResponseState> {
 
   Future<void> getLastGold({required DateTime date}) async {
     await client.post(path: APIPath.getgolddata).then((value) {
-      var gold = Gold(
-        year: '',
-        month: '',
-        day: '',
-        goldTanka: '',
-        goldPrice: '',
-      );
+      var gold = Gold(year: '', month: '', day: '', goldTanka: '', goldPrice: '');
 
       final goldMap = <String, AssetsData>{};
 
@@ -99,9 +93,7 @@ class GoldListNotifier extends StateNotifier<GoldResponseState> {
       final list = <Gold>[];
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        list.add(
-          Gold.fromJson(value['data'][i] as Map<String, dynamic>),
-        );
+        list.add(Gold.fromJson(value['data'][i] as Map<String, dynamic>));
       }
 
       state = state.copyWith(goldList: list);

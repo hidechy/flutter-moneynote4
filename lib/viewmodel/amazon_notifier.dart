@@ -15,15 +15,13 @@ amazonPurchaseProvider        List<AmazonPurchase>
 
 ////////////////////////////////////////////////
 
-final amazonPurchaseProvider = StateNotifierProvider.autoDispose
-    .family<AmazonPurchaseNotifier, List<AmazonPurchase>, DateTime>(
-        (ref, date) {
+final amazonPurchaseProvider =
+    StateNotifierProvider.autoDispose.family<AmazonPurchaseNotifier, List<AmazonPurchase>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return AmazonPurchaseNotifier([], client, utility)
-    ..getAmazonPurchaseList(date: date);
+  return AmazonPurchaseNotifier([], client, utility)..getAmazonPurchaseList(date: date);
 });
 
 class AmazonPurchaseNotifier extends StateNotifier<List<AmazonPurchase>> {
@@ -33,10 +31,7 @@ class AmazonPurchaseNotifier extends StateNotifier<List<AmazonPurchase>> {
   final Utility utility;
 
   Future<void> getAmazonPurchaseList({required DateTime date}) async {
-    await client.post(
-      path: APIPath.amazonPurchase,
-      body: {'date': date.yyyymmdd},
-    ).then((value) {
+    await client.post(path: APIPath.amazonPurchase, body: {'date': date.yyyymmdd}).then((value) {
       final list = <AmazonPurchase>[];
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
