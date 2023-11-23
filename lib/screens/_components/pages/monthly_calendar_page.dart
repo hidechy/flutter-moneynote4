@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../extensions/extensions.dart';
+import '../../../models/walk_record.dart';
 import '../../../state/device_info/device_info_notifier.dart';
 import '../../../state/lifetime/lifetime_notifier.dart';
+import '../../../state/walk_record/walk_record_notifier.dart';
 import '../../../utility/utility.dart';
+import '../../../viewmodel/holiday_notifier.dart';
 import '../_parts/lifetime_display_parts.dart';
 
 // ignore: must_be_immutable
@@ -56,6 +59,29 @@ class MonthlyCalendarPage extends ConsumerWidget {
   Widget displayMonthlyLifetimeData() {
     final lifetimeMap = _ref.watch(lifetimeYearlyProvider(date).select((value) => value.lifetimeMap));
 
+    //============================//
+    final walkRecordMap = _ref.watch(walkRecordProvider(date).select((value) => value.walkRecordMap));
+
+    final monthlyWalkRecord = <String, WalkRecord>{};
+
+    walkRecordMap.when(
+      data: (value) {
+        value.forEach((key, val) {
+          if (date.year == val.date.year && date.month == val.date.month) {
+            monthlyWalkRecord[val.date.yyyymmdd] = val;
+          }
+        });
+
+        return Container();
+      },
+      error: (error, stackTrace) => Container(),
+      loading: Container.new,
+    );
+
+    //============================//
+
+    final holidayState = _ref.watch(holidayProvider);
+
     return lifetimeMap.when(
       data: (value) {
         final list = <Widget>[];
@@ -71,9 +97,25 @@ class MonthlyCalendarPage extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(date),
-                    const SizedBox(height: 10),
-                    Expanded(child: LifetimeDisplayParts(data: val)),
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: _utility.getYoubiColor(
+                          date: DateTime.parse('$key 00:00:00'),
+                          youbiStr: DateTime.parse('$key 00:00:00').youbiStr,
+                          holiday: holidayState.data,
+                        ),
+                      ),
+                      padding: const EdgeInsets.all(3),
+                      child: Text(date),
+                    ),
+                    const SizedBox(height: 5),
+                    Expanded(
+                      child: LifetimeDisplayParts(
+                        lifetime: val,
+                        walkRecord: (monthlyWalkRecord[key] != null) ? monthlyWalkRecord[key] : null,
+                      ),
+                    ),
                   ],
                 ),
               ),

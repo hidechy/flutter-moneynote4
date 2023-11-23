@@ -54,6 +54,7 @@ enum APIPath {
   insertLifetime,
   getLifetimeDateRecord,
   getLifetimeYearlyRecord,
+  getWalkRecord2,
 }
 
 extension APIPathExtension on APIPath {
@@ -169,6 +170,8 @@ extension APIPathExtension on APIPath {
         return 'getLifetimeDateRecord';
       case APIPath.getLifetimeYearlyRecord:
         return 'getLifetimeYearlyRecord';
+      case APIPath.getWalkRecord2:
+        return 'getWalkRecord2';
     }
   }
 }

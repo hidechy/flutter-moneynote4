@@ -1,42 +1,77 @@
 import 'package:flutter/material.dart';
 
+import '../../../extensions/extensions.dart';
 import '../../../models/lifetime.dart';
+import '../../../models/walk_record.dart';
 
+// ignore: must_be_immutable
 class LifetimeDisplayParts extends StatelessWidget {
-  const LifetimeDisplayParts({super.key, required this.data});
+  LifetimeDisplayParts({super.key, required this.lifetime, this.walkRecord});
 
-  final Lifetime data;
+  final Lifetime lifetime;
+  WalkRecord? walkRecord;
 
   ///
   @override
   Widget build(BuildContext context) {
+    final trainVal = (walkRecord != null && walkRecord!.train != '') ? walkRecord!.train.split('、') : <String>[];
+
     return SingleChildScrollView(
       child: Column(
         children: [
-          _lifetimeDisplayParts(key: '00', value: data.hour00),
-          _lifetimeDisplayParts(key: '01', value: data.hour01),
-          _lifetimeDisplayParts(key: '02', value: data.hour02),
-          _lifetimeDisplayParts(key: '03', value: data.hour03),
-          _lifetimeDisplayParts(key: '04', value: data.hour04),
-          _lifetimeDisplayParts(key: '05', value: data.hour05),
-          _lifetimeDisplayParts(key: '06', value: data.hour06),
-          _lifetimeDisplayParts(key: '07', value: data.hour07),
-          _lifetimeDisplayParts(key: '08', value: data.hour08),
-          _lifetimeDisplayParts(key: '09', value: data.hour09),
-          _lifetimeDisplayParts(key: '10', value: data.hour10),
-          _lifetimeDisplayParts(key: '11', value: data.hour11),
-          _lifetimeDisplayParts(key: '12', value: data.hour12),
-          _lifetimeDisplayParts(key: '13', value: data.hour13),
-          _lifetimeDisplayParts(key: '14', value: data.hour14),
-          _lifetimeDisplayParts(key: '15', value: data.hour15),
-          _lifetimeDisplayParts(key: '16', value: data.hour16),
-          _lifetimeDisplayParts(key: '17', value: data.hour17),
-          _lifetimeDisplayParts(key: '18', value: data.hour18),
-          _lifetimeDisplayParts(key: '19', value: data.hour19),
-          _lifetimeDisplayParts(key: '20', value: data.hour20),
-          _lifetimeDisplayParts(key: '21', value: data.hour21),
-          _lifetimeDisplayParts(key: '22', value: data.hour22),
-          _lifetimeDisplayParts(key: '23', value: data.hour23),
+          _lifetimeDisplayParts(key: '00', value: lifetime.hour00),
+          _lifetimeDisplayParts(key: '01', value: lifetime.hour01),
+          _lifetimeDisplayParts(key: '02', value: lifetime.hour02),
+          _lifetimeDisplayParts(key: '03', value: lifetime.hour03),
+          _lifetimeDisplayParts(key: '04', value: lifetime.hour04),
+          _lifetimeDisplayParts(key: '05', value: lifetime.hour05),
+          _lifetimeDisplayParts(key: '06', value: lifetime.hour06),
+          _lifetimeDisplayParts(key: '07', value: lifetime.hour07),
+          _lifetimeDisplayParts(key: '08', value: lifetime.hour08),
+          _lifetimeDisplayParts(key: '09', value: lifetime.hour09),
+          _lifetimeDisplayParts(key: '10', value: lifetime.hour10),
+          _lifetimeDisplayParts(key: '11', value: lifetime.hour11),
+          _lifetimeDisplayParts(key: '12', value: lifetime.hour12),
+          _lifetimeDisplayParts(key: '13', value: lifetime.hour13),
+          _lifetimeDisplayParts(key: '14', value: lifetime.hour14),
+          _lifetimeDisplayParts(key: '15', value: lifetime.hour15),
+          _lifetimeDisplayParts(key: '16', value: lifetime.hour16),
+          _lifetimeDisplayParts(key: '17', value: lifetime.hour17),
+          _lifetimeDisplayParts(key: '18', value: lifetime.hour18),
+          _lifetimeDisplayParts(key: '19', value: lifetime.hour19),
+          _lifetimeDisplayParts(key: '20', value: lifetime.hour20),
+          _lifetimeDisplayParts(key: '21', value: lifetime.hour21),
+          _lifetimeDisplayParts(key: '22', value: lifetime.hour22),
+          _lifetimeDisplayParts(key: '23', value: lifetime.hour23),
+          if (walkRecord != null) ...[
+            const SizedBox(height: 5),
+            SizedBox(
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text('${walkRecord!.step.toString().toCurrency()} steps.'),
+                  Text('${walkRecord!.distance.toString().toCurrency()} m.'),
+                  if (walkRecord!.train != '') ...[
+                    const SizedBox(height: 10),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Icon(Icons.train, size: 12),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: trainVal.map(Text.new).toList(),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ],
         ],
       ),
     );

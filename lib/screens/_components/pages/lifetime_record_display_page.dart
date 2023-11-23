@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../extensions/extensions.dart';
+import '../../../models/walk_record.dart';
 import '../../../state/app_param/app_param_notifier.dart';
 import '../../../state/lifetime/lifetime_notifier.dart';
+import '../../../state/walk_record/walk_record_notifier.dart';
 import '../../../viewmodel/time_place_notifier.dart';
 import '../_money_dialog.dart';
 import '../_parts/lifetime_display_parts.dart';
@@ -194,10 +196,35 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
   Widget _displayLifetimeRecord() {
     final lifetimeState = _ref.watch(lifetimeProvider(date));
 
+    //============================//
+    final walkRecordMap = _ref.watch(walkRecordProvider(date).select((value) => value.walkRecordMap));
+
+    var walkRecord =
+        WalkRecord(date: date, step: 0, distance: 0, timeplace: '', temple: '', mercari: '', train: '', spend: '');
+
+    walkRecordMap.when(
+      data: (value) {
+        value.forEach((key, val) {
+          if (date.yyyymmdd == val.date.yyyymmdd) {
+            walkRecord = val;
+          }
+        });
+
+        return Container();
+      },
+      error: (error, stackTrace) => Container(),
+      loading: Container.new,
+    );
+
+    //============================//
+
     if (lifetimeState.lifetime == null) {
       return Container();
     } else {
-      return LifetimeDisplayParts(data: lifetimeState.lifetime!);
+      return LifetimeDisplayParts(
+        lifetime: lifetimeState.lifetime!,
+        walkRecord: (walkRecord.step > 0) ? walkRecord : null,
+      );
     }
   }
 }
