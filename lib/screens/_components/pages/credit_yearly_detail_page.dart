@@ -6,11 +6,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../models/credit_spend_yearly_detail_disp.dart';
+import '../../../state/credit/credit_notifier.dart';
 import '../../../state/device_info/device_info_notifier.dart';
 import '../../../state/keihi_list/keihi_list_notifier.dart';
 import '../../../state/seiyu_purchase/seiyu_purchase_notifier.dart';
 import '../../../utility/utility.dart';
-import '../../../viewmodel/credit_notifier.dart';
 import '../_money_dialog.dart';
 import '../credit_udemy_alert.dart';
 import 'seiyu_tab_page.dart';
@@ -97,10 +97,12 @@ class CreditYearlyDetailPage extends ConsumerWidget {
 
     final list = <Widget>[];
 
-    final creditSpendMonthlyState = _ref.watch(creditSpendMonthlyProvider(date));
-
     final yearlyDetailCredit = <CreditSpendYearlyDetailDisp>[];
-    creditSpendMonthlyState.forEach((element) {
+
+    final creditSpendMonthlyList =
+        _ref.watch(creditSpendMonthlyProvider(date).select((value) => value.creditSpendMonthlyList));
+
+    creditSpendMonthlyList.value?.forEach((element) {
       yearlyDetailCredit.add(
         CreditSpendYearlyDetailDisp(
           item: _utility.getCreditListItem(item: element.item),
@@ -110,6 +112,22 @@ class CreditYearlyDetailPage extends ConsumerWidget {
         ),
       );
     });
+
+    // final creditSpendMonthlyState = _ref.watch(creditSpendMonthlyProvider(date));
+    //
+    // creditSpendMonthlyState.forEach((element) {
+    //   yearlyDetailCredit.add(
+    //     CreditSpendYearlyDetailDisp(
+    //       item: _utility.getCreditListItem(item: element.item),
+    //       baseItem: element.item,
+    //       date: element.date,
+    //       price: element.price.toInt(),
+    //     ),
+    //   );
+    // });
+    //
+    //
+    //
 
     yearlyDetailCredit.sort((a, b) => '${a.date.yyyymmdd}|${a.item}'.compareTo('${b.date.yyyymmdd}|${b.item}'));
 

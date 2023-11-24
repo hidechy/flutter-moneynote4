@@ -2,16 +2,15 @@
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../extensions/extensions.dart';
-import '../data/http/client.dart';
-import '../data/http/path.dart';
-import '../models/credit_company.dart';
-import '../models/credit_spend_all.dart';
-import '../models/credit_spend_monthly.dart';
-import '../models/credit_spend_yearly_detail.dart';
-import '../models/credit_summary.dart';
-import '../state/credit_summary/credit_summary_state.dart';
-import '../utility/utility.dart';
+import '../../../extensions/extensions.dart';
+import '../../data/http/client.dart';
+import '../../data/http/path.dart';
+import '../../models/credit_company.dart';
+import '../../models/credit_spend_all.dart';
+import '../../models/credit_spend_monthly.dart';
+import '../../models/credit_summary.dart';
+import '../../utility/utility.dart';
+import 'credit_response_state.dart';
 
 /*
 creditSpendMonthlyProvider        List<CreditSpendMonthly>
@@ -25,16 +24,17 @@ creditUdemyProvider       List<CreditSpendMonthly>        *
 
 ////////////////////////////////////////////////
 
-final creditSpendMonthlyProvider = StateNotifierProvider.autoDispose
-    .family<CreditSpendMonthlyNotifier, List<CreditSpendMonthly>, DateTime>((ref, date) {
+final creditSpendMonthlyProvider =
+    StateNotifierProvider.autoDispose.family<CreditSpendMonthlyNotifier, CreditResponseState, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return CreditSpendMonthlyNotifier([], client, utility)..getCreditSpendMonthly(date: date, kind: '');
+  return CreditSpendMonthlyNotifier(const CreditResponseState(), client, utility)
+    ..getCreditSpendMonthly(date: date, kind: '');
 });
 
-class CreditSpendMonthlyNotifier extends StateNotifier<List<CreditSpendMonthly>> {
+class CreditSpendMonthlyNotifier extends StateNotifier<CreditResponseState> {
   CreditSpendMonthlyNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
@@ -71,7 +71,7 @@ class CreditSpendMonthlyNotifier extends StateNotifier<List<CreditSpendMonthly>>
         }
       }
 
-      state = list;
+      state = state.copyWith(creditSpendMonthlyList: AsyncValue.data(list));
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
@@ -83,40 +83,29 @@ class CreditSpendMonthlyNotifier extends StateNotifier<List<CreditSpendMonthly>>
 ////////////////////////////////////////////////
 
 final creditSummaryProvider =
-    StateNotifierProvider.autoDispose.family<CreditSummaryNotifier, CreditSummaryState, DateTime>((ref, date) {
+    StateNotifierProvider.autoDispose.family<CreditSummaryNotifier, CreditResponseState, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return CreditSummaryNotifier(const CreditSummaryState(), client, utility)..getCreditSummary(date: date);
+  return CreditSummaryNotifier(const CreditResponseState(), client, utility)..getCreditSummary(date: date);
 });
 
-class CreditSummaryNotifier extends StateNotifier<CreditSummaryState> {
+class CreditSummaryNotifier extends StateNotifier<CreditResponseState> {
   CreditSummaryNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
   final Utility utility;
 
   Future<void> getCreditSummary({required DateTime date}) async {
-    state = state.copyWith(saving: true);
-
-    final year = date.yyyy;
-
-    await client.post(
-      path: APIPath.getYearCreditSummarySummary,
-      body: {'year': year},
-    ).then((value) {
+    await client.post(path: APIPath.getYearCreditSummarySummary, body: {'year': date.yyyy}).then((value) {
       final list = <CreditSummary>[];
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        list.add(
-          CreditSummary.fromJson(value['data'][i] as Map<String, dynamic>),
-        );
+        list.add(CreditSummary.fromJson(value['data'][i] as Map<String, dynamic>));
       }
 
-      state = state.copyWith(saving: false);
-
-      state = state.copyWith(list: list);
+      state = state.copyWith(creditSummaryList: AsyncValue.data(list));
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
@@ -128,25 +117,22 @@ class CreditSummaryNotifier extends StateNotifier<CreditSummaryState> {
 ////////////////////////////////////////////////
 
 final creditCompanyProvider =
-    StateNotifierProvider.autoDispose.family<CreditCompanyNotifier, List<CreditCompany>, DateTime>((ref, date) {
+    StateNotifierProvider.autoDispose.family<CreditCompanyNotifier, CreditResponseState, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return CreditCompanyNotifier([], client, utility)..getCreditCompany(date: date);
+  return CreditCompanyNotifier(const CreditResponseState(), client, utility)..getCreditCompany(date: date);
 });
 
-class CreditCompanyNotifier extends StateNotifier<List<CreditCompany>> {
+class CreditCompanyNotifier extends StateNotifier<CreditResponseState> {
   CreditCompanyNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
   final Utility utility;
 
   Future<void> getCreditCompany({required DateTime date}) async {
-    await client.post(
-      path: APIPath.getcompanycredit,
-      body: {'date': date.yyyymmdd},
-    ).then((value) {
+    await client.post(path: APIPath.getcompanycredit, body: {'date': date.yyyymmdd}).then((value) {
       final list = <CreditCompany>[];
 
       var keepYm = '';
@@ -162,7 +148,7 @@ class CreditCompanyNotifier extends StateNotifier<List<CreditCompany>> {
         }
       }
 
-      state = list;
+      state = state.copyWith(creditCompanyList: AsyncValue.data(list));
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
@@ -191,15 +177,15 @@ class SelectCreditStateNotifier extends StateNotifier<String> {
 ////////////////////////////////////////////////
 
 final creditYearlyTotalProvider =
-    StateNotifierProvider.autoDispose.family<CreditYearlyTotalNotifier, List<CreditSpendAll>, DateTime>((ref, date) {
+    StateNotifierProvider.autoDispose.family<CreditYearlyTotalNotifier, CreditResponseState, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return CreditYearlyTotalNotifier([], client, utility)..getCreditYearlyTotal(date: date);
+  return CreditYearlyTotalNotifier(const CreditResponseState(), client, utility)..getCreditYearlyTotal(date: date);
 });
 
-class CreditYearlyTotalNotifier extends StateNotifier<List<CreditSpendAll>> {
+class CreditYearlyTotalNotifier extends StateNotifier<CreditResponseState> {
   CreditYearlyTotalNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
@@ -257,7 +243,7 @@ class CreditYearlyTotalNotifier extends StateNotifier<List<CreditSpendAll>> {
         });
       });
 
-      state = list2;
+      state = state.copyWith(creditSpendAllList: AsyncValue.data(list));
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
@@ -266,86 +252,123 @@ class CreditYearlyTotalNotifier extends StateNotifier<List<CreditSpendAll>> {
 
 ////////////////////////////////////////////////
 
-//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-final creditSummaryDetailProvider = StateNotifierProvider.autoDispose
-    .family<CreditSummaryDetailNotifier, List<CreditSpendYearlyDetail>, DateTime>((ref, date) {
-  final client = ref.read(httpClientProvider);
-
-  final utility = Utility();
-
-  final creditSummaryState = ref.watch(creditSummaryProvider(date));
-
-  return CreditSummaryDetailNotifier([], client, utility, creditSummaryState)..getCreditSummaryDetail(date: date);
-});
-
-class CreditSummaryDetailNotifier extends StateNotifier<List<CreditSpendYearlyDetail>> {
-  CreditSummaryDetailNotifier(super.state, this.client, this.utility, this.creditSummaryState);
-
-  final HttpClient client;
-  final Utility utility;
-  final CreditSummaryState creditSummaryState;
-
-  Future<void> getCreditSummaryDetail({required DateTime date}) async {
-    final month = date.mm;
-
-    final list = <CreditSpendYearlyDetail>[];
-
-    for (var i = 0; i < creditSummaryState.list.length; i++) {
-      for (var j = 0; j < creditSummaryState.list[i].list.length; j++) {
-        if (month == creditSummaryState.list[i].list[j].month) {
-          if (creditSummaryState.list[i].list[j].price > 0) {
-            list.add(
-              CreditSpendYearlyDetail(
-                item: creditSummaryState.list[i].item,
-                month: creditSummaryState.list[i].list[j].month,
-                price: creditSummaryState.list[i].list[j].price,
-              ),
-            );
-          }
-        }
-      }
-    }
-
-    state = list;
-  }
-}
-
-//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+//
+//
+//
+// //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+//
+// final creditSummaryDetailProvider =
+//     StateNotifierProvider.autoDispose.family<CreditSummaryDetailNotifier, CreditResponseState, DateTime>((ref, date) {
+//   final client = ref.read(httpClientProvider);
+//
+//   final utility = Utility();
+//
+//   // final creditSummaryState = ref.watch(creditSummaryProvider(date));
+//   //
+//   //
+//   //
+//
+//   final creditSummaryList = ref.watch(creditSummaryProvider(date).select((value) => value.creditSummaryList));
+//
+//   final summaryList = (creditSummaryList.value != null) ? creditSummaryList.value! : <CreditSummary>[];
+//
+//   return CreditSummaryDetailNotifier(const CreditResponseState(), client, utility, summaryList)
+//     ..getCreditSummaryDetail(date: date);
+// });
+//
+// class CreditSummaryDetailNotifier extends StateNotifier<CreditResponseState> {
+// //  List<CreditSpendYearlyDetail>
+//
+//   CreditSummaryDetailNotifier(
+//     super.state,
+//     this.client,
+//     this.utility,
+//     this.summaryList,
+//   );
+//
+//   final HttpClient client;
+//   final Utility utility;
+//   final List<CreditSummary> summaryList;
+//
+//   Future<void> getCreditSummaryDetail({required DateTime date}) async {
+//     final month = date.mm;
+//
+//     final list = <CreditSpendYearlyDetail>[];
+//
+//     for (var i = 0; i < summaryList.length; i++) {
+//       for (var j = 0; j < summaryList[i].list.length; j++) {
+//         if (month == summaryList[i].list[j].month) {
+//           if (summaryList[i].list[j].price > 0) {
+//             list.add(
+//               CreditSpendYearlyDetail(
+//                 item: summaryList[i].item,
+//                 month: summaryList[i].list[j].month,
+//                 price: summaryList[i].list[j].price,
+//               ),
+//             );
+//           }
+//         }
+//       }
+//     }
+//
+//     state = state.copyWith(creditSpendYearlyDetailList: AsyncValue.data(list));
+//   }
+// }
+//
+// //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+//
+//
+//
+//
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 final creditUdemyProvider =
-    StateNotifierProvider.autoDispose.family<CreditUdemyNotifier, List<CreditSpendMonthly>, DateTime>((ref, date) {
+    StateNotifierProvider.autoDispose.family<CreditUdemyNotifier, CreditResponseState, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  final creditSpendMonthlyState = ref.watch(creditSpendMonthlyProvider(date));
+  // final creditSpendMonthlyState = ref.watch(creditSpendMonthlyProvider(date));
+  //
+  //
+  //
+  //
 
-  return CreditUdemyNotifier([], client, utility, creditSpendMonthlyState)..getCreditUdemy(date: date);
+  final creditSpendMonthlyList =
+      ref.watch(creditSpendMonthlyProvider(date).select((value) => value.creditSpendMonthlyList));
+
+  final spendMonthlyList =
+      (creditSpendMonthlyList.value != null) ? creditSpendMonthlyList.value! : <CreditSpendMonthly>[];
+
+  return CreditUdemyNotifier(const CreditResponseState(), client, utility, spendMonthlyList)
+    ..getCreditUdemy(date: date);
 });
 
-class CreditUdemyNotifier extends StateNotifier<List<CreditSpendMonthly>> {
-  CreditUdemyNotifier(super.state, this.client, this.utility, this.creditSpendMonthlyState);
+class CreditUdemyNotifier extends StateNotifier<CreditResponseState> {
+//  List<CreditSpendMonthly>
+
+  CreditUdemyNotifier(super.state, this.client, this.utility, this.spendMonthlyList);
 
   final HttpClient client;
   final Utility utility;
-  final List<CreditSpendMonthly> creditSpendMonthlyState;
+  final List<CreditSpendMonthly> spendMonthlyList;
 
   Future<void> getCreditUdemy({required DateTime date}) async {
     final reg = RegExp('UDEMY');
 
     final list = <CreditSpendMonthly>[];
-    for (var i = 0; i < creditSpendMonthlyState.length; i++) {
-      final match = reg.firstMatch(creditSpendMonthlyState[i].item);
+    for (var i = 0; i < spendMonthlyList.length; i++) {
+      final match = reg.firstMatch(spendMonthlyList[i].item);
 
       if (match != null) {
-        list.add(creditSpendMonthlyState[i]);
+        list.add(spendMonthlyList[i]);
       }
     }
 
-    state = list;
+//    state = list;
+
+    state = state.copyWith(creditSpendMonthlyList: AsyncValue.data(list));
   }
 }
 

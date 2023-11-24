@@ -6,10 +6,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../extensions/extensions.dart';
 import '../../models/credit_spend_all_disp.dart';
 import '../../state/app_param/app_param_notifier.dart';
+import '../../state/credit/credit_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../state/keihi_list/keihi_list_notifier.dart';
 import '../../utility/utility.dart';
-import '../../viewmodel/credit_notifier.dart';
 
 class CreditYearlyListAlert extends ConsumerWidget {
   CreditYearlyListAlert({super.key, required this.date});
@@ -101,10 +101,11 @@ class CreditYearlyListAlert extends ConsumerWidget {
       appParamProvider.select((value) => value.CreditYearlyListSelectedString),
     );
 
-    final creditYearlyTotalState = _ref.watch(creditYearlyTotalProvider(date));
-
     final yearlyAllCredit = <CreditSpendAllDisp>[];
-    creditYearlyTotalState.forEach((element) {
+
+    final creditSpendAllList = _ref.watch(creditYearlyTotalProvider(date).select((value) => value.creditSpendAllList));
+
+    creditSpendAllList.value?.forEach((element) {
       yearlyAllCredit.add(
         CreditSpendAllDisp(
           payMonth: element.payMonth,
@@ -118,6 +119,26 @@ class CreditYearlyListAlert extends ConsumerWidget {
         ),
       );
     });
+
+    // final creditYearlyTotalState = _ref.watch(creditYearlyTotalProvider(date));
+    //
+    // creditYearlyTotalState.forEach((element) {
+    //   yearlyAllCredit.add(
+    //     CreditSpendAllDisp(
+    //       payMonth: element.payMonth,
+    //       item: _utility.getCreditListItem(item: element.item),
+    //       baseItem: element.item,
+    //       price: element.price,
+    //       date: element.date,
+    //       kind: element.kind,
+    //       monthDiff: element.monthDiff,
+    //       flag: element.flag,
+    //     ),
+    //   );
+    // });
+    //
+    //
+    //
 
     var sum = 0;
     var keihiSum = 0;

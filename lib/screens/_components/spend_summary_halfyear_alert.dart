@@ -2,17 +2,17 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/models/zero_use_date.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/credit_spend_monthly.dart';
 import '../../models/spend_yearly.dart';
+import '../../models/zero_use_date.dart';
 import '../../state/bank/bank_notifier.dart';
 import '../../state/benefit/benefit_notifier.dart';
+import '../../state/credit/credit_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
-import '../../viewmodel/credit_notifier.dart';
 import '../../viewmodel/spend_notifier.dart';
 
 class SpendSummaryHalfyearAlert extends ConsumerWidget {
@@ -103,10 +103,13 @@ class SpendSummaryHalfyearAlert extends ConsumerWidget {
       //---------------------------- (2)
 
       //---------------------------- (1)
-      final creditSpendMonthlyState = _ref.watch(creditSpendMonthlyProvider(element));
 
       var keepDate = '';
-      creditSpendMonthlyState.forEach((element2) {
+
+      final creditSpendMonthlyList =
+          _ref.watch(creditSpendMonthlyProvider(element).select((value) => value.creditSpendMonthlyList));
+
+      creditSpendMonthlyList.value?.forEach((element2) {
         if (keepDate != element2.date.yyyymmdd) {
           creditSpendMap[element2.date.yyyymmdd] = [];
         }
@@ -115,6 +118,22 @@ class SpendSummaryHalfyearAlert extends ConsumerWidget {
 
         keepDate = element2.date.yyyymmdd;
       });
+
+      // final creditSpendMonthlyState = _ref.watch(creditSpendMonthlyProvider(element));
+      //
+      // creditSpendMonthlyState.forEach((element2) {
+      //   if (keepDate != element2.date.yyyymmdd) {
+      //     creditSpendMap[element2.date.yyyymmdd] = [];
+      //   }
+      //
+      //   creditSpendMap[element2.date.yyyymmdd]?.add(element2);
+      //
+      //   keepDate = element2.date.yyyymmdd;
+      // });
+      //
+      //
+      //
+
       //---------------------------- (1)
     });
 

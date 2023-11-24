@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
+import '../../state/credit/credit_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../state/udemy/udemy_notifier.dart';
 import '../../utility/utility.dart';
-import '../../viewmodel/credit_notifier.dart';
 import '_parts/udemy_box.dart';
 
 class CreditUdemyAlert extends ConsumerWidget {
@@ -130,7 +130,13 @@ class CreditUdemyAlert extends ConsumerWidget {
 
   ///
   Widget displayUdemy() {
-    final creditUdemyState = _ref.watch(creditUdemyProvider(date));
+    // final creditUdemyState = _ref.watch(creditUdemyProvider(date));
+    //
+    //
+    //
+
+    final creditSpendMonthlyList =
+        _ref.watch(creditUdemyProvider(date).select((value) => value.creditSpendMonthlyList));
 
     final udemyList = _ref.watch(udemyProvider.select((value) => value.udemyList));
 
@@ -139,12 +145,23 @@ class CreditUdemyAlert extends ConsumerWidget {
         final list = <Widget>[];
 
         value.forEach((element) {
-          creditUdemyState.forEach((element2) {
+          creditSpendMonthlyList.value?.forEach((element2) {
             if (element.date == element2.date.yyyymmdd) {
               list.add(UdemyBox(udemy: element));
             }
           });
         });
+
+        // value.forEach((element) {
+        //   creditUdemyState.forEach((element2) {
+        //     if (element.date == element2.date.yyyymmdd) {
+        //       list.add(UdemyBox(udemy: element));
+        //     }
+        //   });
+        // });
+        //
+        //
+        //
 
         return SingleChildScrollView(child: Column(children: list));
       },

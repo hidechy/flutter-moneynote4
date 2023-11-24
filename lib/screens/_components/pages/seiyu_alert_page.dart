@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../extensions/extensions.dart';
+import '../../../state/credit/credit_notifier.dart';
 import '../../../state/device_info/device_info_notifier.dart';
 import '../../../state/seiyu_purchase/seiyu_purchase_notifier.dart';
 import '../../../utility/utility.dart';
-import '../../../viewmodel/credit_notifier.dart';
 import '../_money_dialog.dart';
 import 'seiyu_tab_page.dart';
 
@@ -227,25 +227,53 @@ class SeiyuAlertPage extends ConsumerWidget {
     final reg = RegExp('西友ネットスーパー');
 
     for (var i = 1; i <= 12; i++) {
-      final creditSpendMonthlyState = _ref.watch(creditSpendMonthlyProvider(DateTime(date.year, i)));
+      final creditSpendMonthlyList = _ref
+          .watch(creditSpendMonthlyProvider(DateTime(date.year, i)).select((value) => value.creditSpendMonthlyList));
 
-      creditSpendMonthlyState.forEach((element) {
+      creditSpendMonthlyList.value?.forEach((element) {
         if (reg.firstMatch(element.item) != null) {
           if (element.date.year == date.year) {
             seiyuCreditDataMap[element.date.yyyymmdd] = element.price.toInt();
           }
         }
       });
+
+      // final creditSpendMonthlyState = _ref.watch(creditSpendMonthlyProvider(DateTime(date.year, i)));
+      //
+      // creditSpendMonthlyState.forEach((element) {
+      //   if (reg.firstMatch(element.item) != null) {
+      //     if (element.date.year == date.year) {
+      //       seiyuCreditDataMap[element.date.yyyymmdd] = element.price.toInt();
+      //     }
+      //   }
+      // });
+      //
+      //
+      //
     }
 
     //-----------// 1月
-    final creditSpendMonthlyState = _ref.watch(creditSpendMonthlyProvider(DateTime(date.year + 1)));
 
-    creditSpendMonthlyState.forEach((element) {
+    final creditSpendMonthlyList =
+        _ref.watch(creditSpendMonthlyProvider(DateTime(date.year + 1)).select((value) => value.creditSpendMonthlyList));
+
+    creditSpendMonthlyList.value?.forEach((element) {
       if (reg.firstMatch(element.item) != null) {
         seiyuCreditDataMap[element.date.yyyymmdd] = element.price.toInt();
       }
     });
+
+    // final creditSpendMonthlyState = _ref.watch(creditSpendMonthlyProvider(DateTime(date.year + 1)));
+    //
+    // creditSpendMonthlyState.forEach((element) {
+    //   if (reg.firstMatch(element.item) != null) {
+    //     seiyuCreditDataMap[element.date.yyyymmdd] = element.price.toInt();
+    //   }
+    // });
+    //
+    //
+    //
+
     //-----------// 1月
 
     //==============// 仕方ないので
