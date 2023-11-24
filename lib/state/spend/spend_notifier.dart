@@ -238,15 +238,15 @@ class SpendYearlyNotifier extends StateNotifier<SpendResponseState> {
 
 ////////////////////////////////////////////////
 final spendMonthUnitProvider =
-    StateNotifierProvider.autoDispose.family<SpendMonthUnitNotifier, Map<String, int>, DateTime>((ref, date) {
+    StateNotifierProvider.autoDispose.family<SpendMonthUnitNotifier, SpendResponseState, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return SpendMonthUnitNotifier({}, client, utility)..getSpendMonthUnit(date: date);
+  return SpendMonthUnitNotifier(const SpendResponseState(), client, utility)..getSpendMonthUnit(date: date);
 });
 
-class SpendMonthUnitNotifier extends StateNotifier<Map<String, int>> {
+class SpendMonthUnitNotifier extends StateNotifier<SpendResponseState> {
   SpendMonthUnitNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
@@ -294,7 +294,7 @@ class SpendMonthUnitNotifier extends StateNotifier<Map<String, int>> {
         });
       }
 
-      state = map;
+      state = state.copyWith(spendMonthUnitMap: AsyncValue.data(map));
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });

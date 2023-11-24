@@ -16,11 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SpendResponseState {
-//  SpendItemDaily
   AsyncValue<SpendItemDaily> get spendItemDaily =>
       throw _privateConstructorUsedError;
-
-  ///
   AsyncValue<List<SpendSummary>> get spendSummaryList =>
       throw _privateConstructorUsedError;
   AsyncValue<List<SpendMonthSummary>> get spendMonthSummaryList =>
@@ -32,6 +29,8 @@ mixin _$SpendResponseState {
   AsyncValue<List<SpendSameday>> get spendSamedayList =>
       throw _privateConstructorUsedError;
   AsyncValue<List<SpendSamedayYearly>> get spendSamedayYearlyList =>
+      throw _privateConstructorUsedError; //
+  AsyncValue<Map<String, int>> get spendMonthUnitMap =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -52,7 +51,8 @@ abstract class $SpendResponseStateCopyWith<$Res> {
       AsyncValue<List<SpendYearly>> spendYearlyList,
       AsyncValue<List<SpendYearSummary>> spendYearSummaryList,
       AsyncValue<List<SpendSameday>> spendSamedayList,
-      AsyncValue<List<SpendSamedayYearly>> spendSamedayYearlyList});
+      AsyncValue<List<SpendSamedayYearly>> spendSamedayYearlyList,
+      AsyncValue<Map<String, int>> spendMonthUnitMap});
 }
 
 /// @nodoc
@@ -75,6 +75,7 @@ class _$SpendResponseStateCopyWithImpl<$Res, $Val extends SpendResponseState>
     Object? spendYearSummaryList = null,
     Object? spendSamedayList = null,
     Object? spendSamedayYearlyList = null,
+    Object? spendMonthUnitMap = null,
   }) {
     return _then(_value.copyWith(
       spendItemDaily: null == spendItemDaily
@@ -105,6 +106,10 @@ class _$SpendResponseStateCopyWithImpl<$Res, $Val extends SpendResponseState>
           ? _value.spendSamedayYearlyList
           : spendSamedayYearlyList // ignore: cast_nullable_to_non_nullable
               as AsyncValue<List<SpendSamedayYearly>>,
+      spendMonthUnitMap: null == spendMonthUnitMap
+          ? _value.spendMonthUnitMap
+          : spendMonthUnitMap // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<Map<String, int>>,
     ) as $Val);
   }
 }
@@ -124,7 +129,8 @@ abstract class _$$SpendResponseStateImplCopyWith<$Res>
       AsyncValue<List<SpendYearly>> spendYearlyList,
       AsyncValue<List<SpendYearSummary>> spendYearSummaryList,
       AsyncValue<List<SpendSameday>> spendSamedayList,
-      AsyncValue<List<SpendSamedayYearly>> spendSamedayYearlyList});
+      AsyncValue<List<SpendSamedayYearly>> spendSamedayYearlyList,
+      AsyncValue<Map<String, int>> spendMonthUnitMap});
 }
 
 /// @nodoc
@@ -145,6 +151,7 @@ class __$$SpendResponseStateImplCopyWithImpl<$Res>
     Object? spendYearSummaryList = null,
     Object? spendSamedayList = null,
     Object? spendSamedayYearlyList = null,
+    Object? spendMonthUnitMap = null,
   }) {
     return _then(_$SpendResponseStateImpl(
       spendItemDaily: null == spendItemDaily
@@ -175,6 +182,10 @@ class __$$SpendResponseStateImplCopyWithImpl<$Res>
           ? _value.spendSamedayYearlyList
           : spendSamedayYearlyList // ignore: cast_nullable_to_non_nullable
               as AsyncValue<List<SpendSamedayYearly>>,
+      spendMonthUnitMap: null == spendMonthUnitMap
+          ? _value.spendMonthUnitMap
+          : spendMonthUnitMap // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<Map<String, int>>,
     ));
   }
 }
@@ -192,14 +203,12 @@ class _$SpendResponseStateImpl implements _SpendResponseState {
           const AsyncValue<List<SpendYearSummary>>.loading(),
       this.spendSamedayList = const AsyncValue<List<SpendSameday>>.loading(),
       this.spendSamedayYearlyList =
-          const AsyncValue<List<SpendSamedayYearly>>.loading()});
+          const AsyncValue<List<SpendSamedayYearly>>.loading(),
+      this.spendMonthUnitMap = const AsyncValue<Map<String, int>>.loading()});
 
-//  SpendItemDaily
   @override
   @JsonKey()
   final AsyncValue<SpendItemDaily> spendItemDaily;
-
-  ///
   @override
   @JsonKey()
   final AsyncValue<List<SpendSummary>> spendSummaryList;
@@ -218,10 +227,14 @@ class _$SpendResponseStateImpl implements _SpendResponseState {
   @override
   @JsonKey()
   final AsyncValue<List<SpendSamedayYearly>> spendSamedayYearlyList;
+//
+  @override
+  @JsonKey()
+  final AsyncValue<Map<String, int>> spendMonthUnitMap;
 
   @override
   String toString() {
-    return 'SpendResponseState(spendItemDaily: $spendItemDaily, spendSummaryList: $spendSummaryList, spendMonthSummaryList: $spendMonthSummaryList, spendYearlyList: $spendYearlyList, spendYearSummaryList: $spendYearSummaryList, spendSamedayList: $spendSamedayList, spendSamedayYearlyList: $spendSamedayYearlyList)';
+    return 'SpendResponseState(spendItemDaily: $spendItemDaily, spendSummaryList: $spendSummaryList, spendMonthSummaryList: $spendMonthSummaryList, spendYearlyList: $spendYearlyList, spendYearSummaryList: $spendYearSummaryList, spendSamedayList: $spendSamedayList, spendSamedayYearlyList: $spendSamedayYearlyList, spendMonthUnitMap: $spendMonthUnitMap)';
   }
 
   @override
@@ -242,7 +255,9 @@ class _$SpendResponseStateImpl implements _SpendResponseState {
             (identical(other.spendSamedayList, spendSamedayList) ||
                 other.spendSamedayList == spendSamedayList) &&
             (identical(other.spendSamedayYearlyList, spendSamedayYearlyList) ||
-                other.spendSamedayYearlyList == spendSamedayYearlyList));
+                other.spendSamedayYearlyList == spendSamedayYearlyList) &&
+            (identical(other.spendMonthUnitMap, spendMonthUnitMap) ||
+                other.spendMonthUnitMap == spendMonthUnitMap));
   }
 
   @override
@@ -254,7 +269,8 @@ class _$SpendResponseStateImpl implements _SpendResponseState {
       spendYearlyList,
       spendYearSummaryList,
       spendSamedayList,
-      spendSamedayYearlyList);
+      spendSamedayYearlyList,
+      spendMonthUnitMap);
 
   @JsonKey(ignore: true)
   @override
@@ -272,14 +288,13 @@ abstract class _SpendResponseState implements SpendResponseState {
           final AsyncValue<List<SpendYearly>> spendYearlyList,
           final AsyncValue<List<SpendYearSummary>> spendYearSummaryList,
           final AsyncValue<List<SpendSameday>> spendSamedayList,
-          final AsyncValue<List<SpendSamedayYearly>> spendSamedayYearlyList}) =
+          final AsyncValue<List<SpendSamedayYearly>> spendSamedayYearlyList,
+          final AsyncValue<Map<String, int>> spendMonthUnitMap}) =
       _$SpendResponseStateImpl;
 
-  @override //  SpendItemDaily
+  @override
   AsyncValue<SpendItemDaily> get spendItemDaily;
   @override
-
-  ///
   AsyncValue<List<SpendSummary>> get spendSummaryList;
   @override
   AsyncValue<List<SpendMonthSummary>> get spendMonthSummaryList;
@@ -291,6 +306,8 @@ abstract class _SpendResponseState implements SpendResponseState {
   AsyncValue<List<SpendSameday>> get spendSamedayList;
   @override
   AsyncValue<List<SpendSamedayYearly>> get spendSamedayYearlyList;
+  @override //
+  AsyncValue<Map<String, int>> get spendMonthUnitMap;
   @override
   @JsonKey(ignore: true)
   _$$SpendResponseStateImplCopyWith<_$SpendResponseStateImpl> get copyWith =>

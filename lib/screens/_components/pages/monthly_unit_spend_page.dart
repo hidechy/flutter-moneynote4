@@ -70,6 +70,61 @@ class MonthlyUnitSpendPage extends ConsumerWidget {
 
   ///
   Widget displayMonthlyUnitSpend() {
+    final spendMonthUnitMap = _ref.watch(spendMonthUnitProvider(date).select((value) => value.spendMonthUnitMap));
+
+    return SingleChildScrollView(
+      child: (spendMonthUnitMap.value != null)
+          ? Column(
+              children: spendMonthUnitMap.value!.entries.map((e) {
+                return Container(
+                  padding: const EdgeInsets.all(10),
+                  margin: const EdgeInsets.only(bottom: 10),
+                  decoration: BoxDecoration(
+                    border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(e.key),
+                      Row(
+                        children: [
+                          Text(e.value.toString().toCurrency()),
+                          const SizedBox(width: 20),
+                          GestureDetector(
+                            onTap: () {
+                              final selectedMonth =
+                                  DateTime(e.key.split('-')[0].toInt(), e.key.split('-')[1].toInt()).month;
+                              final todayMonth = DateTime.now().month;
+
+                              final thisYear = DateTime.now().year;
+                              final selectedYear =
+                                  DateTime(e.key.split('-')[0].toInt(), e.key.split('-')[1].toInt()).year;
+                              final adjustMonth = (thisYear - selectedYear) * 12;
+
+                              MoneyDialog(
+                                context: _context,
+                                widget: MonthlySpendAlert(
+                                  date: DateTime(e.key.split('-')[0].toInt(), e.key.split('-')[1].toInt()),
+                                  index: todayMonth - selectedMonth + adjustMonth,
+                                ),
+                              );
+                            },
+                            child: Icon(Icons.details, color: Colors.white.withOpacity(0.8)),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              }).toList(),
+            )
+          : Container(),
+    );
+
+    /*
+
+
+
     final spendMonthUnitState = _ref.watch(spendMonthUnitProvider(date));
 
     return SingleChildScrollView(
@@ -116,5 +171,10 @@ class MonthlyUnitSpendPage extends ConsumerWidget {
         }).toList(),
       ),
     );
+
+
+
+
+    */
   }
 }

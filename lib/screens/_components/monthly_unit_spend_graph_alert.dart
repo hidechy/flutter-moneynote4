@@ -36,9 +36,17 @@ class MonthlyUnitSpendGraphAlert extends ConsumerWidget {
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
-    final spendMonthUnitState = ref.watch(spendMonthUnitProvider(date));
+    final spendMonthUnitMap = ref.watch(spendMonthUnitProvider(date).select((value) => value.spendMonthUnitMap));
+    final spendMonthUnitMapLength = (spendMonthUnitMap.value != null) ? spendMonthUnitMap.value!.length : 0;
+    final width = (spendMonthUnitMapLength / 6).ceil();
 
-    final width = (spendMonthUnitState.entries.length / 6).ceil();
+    //
+    // final spendMonthUnitState = ref.watch(spendMonthUnitProvider(date));
+    //
+    // final width = (spendMonthUnitState.entries.length / 6).ceil();
+    //
+    //
+    //
 
     return AlertDialog(
       backgroundColor: Colors.transparent,
@@ -70,13 +78,25 @@ class MonthlyUnitSpendGraphAlert extends ConsumerWidget {
 
   ///
   void setChartData() {
-    final spendMonthUnitState = _ref.watch(spendMonthUnitProvider(date));
-
     //----------------------------------//
     final list = <int>[];
-    spendMonthUnitState.entries.forEach((element) {
-      list.add(element.value);
+
+    final spendMonthUnitMap = _ref.watch(spendMonthUnitProvider(date).select((value) => value.spendMonthUnitMap));
+
+    spendMonthUnitMap.value?.forEach((key, value) {
+      list.add(value);
     });
+
+    //
+    //
+    //
+    // final spendMonthUnitState = _ref.watch(spendMonthUnitProvider(date));
+    //
+    // spendMonthUnitState.entries.forEach((element) {
+    //   list.add(element.value);
+    // });
+    //
+    //
 
     const warisuu = 50000;
     var graphMax = warisuu;
@@ -139,19 +159,39 @@ class MonthlyUnitSpendGraphAlert extends ConsumerWidget {
         ),
       ),
       barTouchData: BarTouchData(),
-      barGroups: spendMonthUnitState.entries.map(
-        (e) {
-          return BarChartGroupData(
-            x: DateTime(
-              e.key.split('-')[0].toInt(),
-              e.key.split('-')[1].toInt(),
-            ).month,
-            barRods: [
-              BarChartRodData(toY: e.value.toString().toDouble()),
-            ],
-          );
-        },
-      ).toList(),
+
+      barGroups: spendMonthUnitMap.value?.entries.map((e) {
+        return BarChartGroupData(
+          x: DateTime(
+            e.key.split('-')[0].toInt(),
+            e.key.split('-')[1].toInt(),
+          ).month,
+          barRods: [
+            BarChartRodData(toY: e.value.toString().toDouble()),
+          ],
+        );
+      }).toList(),
+
+      //
+      //
+      //
+      // barGroups: spendMonthUnitState.entries.map(
+      //   (e) {
+      //     return BarChartGroupData(
+      //       x: DateTime(
+      //         e.key.split('-')[0].toInt(),
+      //         e.key.split('-')[1].toInt(),
+      //       ).month,
+      //       barRods: [
+      //         BarChartRodData(toY: e.value.toString().toDouble()),
+      //       ],
+      //     );
+      //   },
+      // ).toList(),
+      //
+      //
+      //
+      //
     );
   }
 }

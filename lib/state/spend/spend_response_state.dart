@@ -16,8 +16,6 @@ part 'spend_response_state.freezed.dart';
 class SpendResponseState with _$SpendResponseState {
   const factory SpendResponseState({
     @Default(AsyncValue<SpendItemDaily>.loading()) AsyncValue<SpendItemDaily> spendItemDaily,
-
-    ///
     @Default(AsyncValue<List<SpendSummary>>.loading()) AsyncValue<List<SpendSummary>> spendSummaryList,
     @Default(AsyncValue<List<SpendMonthSummary>>.loading()) AsyncValue<List<SpendMonthSummary>> spendMonthSummaryList,
     @Default(AsyncValue<List<SpendYearly>>.loading()) AsyncValue<List<SpendYearly>> spendYearlyList,
@@ -25,22 +23,8 @@ class SpendResponseState with _$SpendResponseState {
     @Default(AsyncValue<List<SpendSameday>>.loading()) AsyncValue<List<SpendSameday>> spendSamedayList,
     @Default(AsyncValue<List<SpendSamedayYearly>>.loading())
     AsyncValue<List<SpendSamedayYearly>> spendSamedayYearlyList,
+
+    //
+    @Default(AsyncValue<Map<String, int>>.loading()) AsyncValue<Map<String, int>> spendMonthUnitMap,
   }) = _SpendResponseState;
 }
-
-/*
-
-
-@freezed
-class MonthlySpendState with _$MonthlySpendState {
-  const factory MonthlySpendState({
-    @Default([]) List<SpendYearly> list,
-    @Default(false) bool saving,
-  }) = _MonthlySpendState;
-}
-
-
-
-
-
-*/
