@@ -33,15 +33,15 @@ samedaySpendProvider        List<SpendSameday>
 
 ////////////////////////////////////////////////
 final spendMonthSummaryProvider =
-    StateNotifierProvider.autoDispose.family<SpendMonthSummaryNotifier, List<SpendMonthSummary>, DateTime>((ref, date) {
+    StateNotifierProvider.autoDispose.family<SpendMonthSummaryNotifier, SpendResponseState, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return SpendMonthSummaryNotifier([], client, utility)..getSpendMonthSummary(date: date);
+  return SpendMonthSummaryNotifier(const SpendResponseState(), client, utility)..getSpendMonthSummary(date: date);
 });
 
-class SpendMonthSummaryNotifier extends StateNotifier<List<SpendMonthSummary>> {
+class SpendMonthSummaryNotifier extends StateNotifier<SpendResponseState> {
   SpendMonthSummaryNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
@@ -60,7 +60,7 @@ class SpendMonthSummaryNotifier extends StateNotifier<List<SpendMonthSummary>> {
         );
       }
 
-      state = list;
+      state = state.copyWith(spendMonthSummaryList: AsyncValue.data(list));
     });
 
     // .catchError((error, _) {

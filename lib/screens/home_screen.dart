@@ -11,7 +11,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../extensions/extensions.dart';
-import '../models/spend_month_summary.dart';
 import '../state/device_info/device_info_notifier.dart';
 import '../state/device_info/device_info_request_state.dart';
 import '../state/home_menu/home_menu_notifier.dart';
@@ -93,9 +92,16 @@ class HomeScreen extends ConsumerWidget {
 
     final homeMenuState = ref.watch(homeMenuProvider);
 
-    final spendMonthSummaryState = ref.watch(spendMonthSummaryProvider(focusDayState));
+    //
+    //
+    // final spendMonthSummaryState = ref.watch(spendMonthSummaryProvider(focusDayState));
+    //
+    // final total = makeTotalPrice(data: spendMonthSummaryState);
+    //
+    //
+    //
 
-    final total = makeTotalPrice(data: spendMonthSummaryState);
+    final total = makeTotalPrice();
 
     initPlatformState();
 
@@ -277,12 +283,34 @@ class HomeScreen extends ConsumerWidget {
   void onPageMoved({required DateTime date}) => _ref.read(focusDayProvider.notifier).setDateTime(dateTime: date);
 
   ///
-  int makeTotalPrice({required List<SpendMonthSummary> data}) {
+  int makeTotalPrice() {
+//    {required List<SpendMonthSummary> data}
+
+    //
+    //
+    // final spendMonthSummaryState = ref.watch(spendMonthSummaryProvider(focusDayState));
+    //
+    // final total = makeTotalPrice(data: spendMonthSummaryState);
+    //
+    //
+    //
+
+    final focusDayState = _ref.watch(focusDayProvider);
+
     var ret = 0;
 
-    for (var i = 0; i < data.length; i++) {
-      ret += data[i].sum.toString().toInt();
-    }
+    final spendMonthSummaryList =
+        _ref.watch(spendMonthSummaryProvider(focusDayState).select((value) => value.spendMonthSummaryList));
+
+    spendMonthSummaryList.value?.forEach((element) {
+      ret += element.sum.toString().toInt();
+    });
+
+    // for (var i = 0; i < data.length; i++) {
+    //   ret += data[i].sum.toString().toInt();
+    // }
+    //
+    //
 
     return ret;
   }
@@ -293,15 +321,28 @@ class HomeScreen extends ConsumerWidget {
 
     final focusDayState = _ref.watch(focusDayProvider);
 
-    final spendMonthSummaryState = _ref.watch(spendMonthSummaryProvider(focusDayState));
-
     /////////////////////////////////////
 
     final percentageList = <double>[];
-    for (var i = 0; i < spendMonthSummaryState.length; i++) {
-      final spend = spendMonthSummaryState[i];
-      percentageList.add(spend.percent.toDouble());
-    }
+
+    final spendMonthSummaryList =
+        _ref.watch(spendMonthSummaryProvider(focusDayState).select((value) => value.spendMonthSummaryList));
+
+    spendMonthSummaryList.value?.forEach((element) {
+      percentageList.add(element.percent.toDouble());
+    });
+
+    //
+    //
+    // final spendMonthSummaryState = _ref.watch(spendMonthSummaryProvider(focusDayState));
+    //
+    // for (var i = 0; i < spendMonthSummaryState.length; i++) {
+    //   final spend = spendMonthSummaryState[i];
+    //   percentageList.add(spend.percent.toDouble());
+    // }
+    //
+    //
+    //
 
     percentageList.sort((a, b) => -1 * a.compareTo(b));
 
@@ -312,6 +353,70 @@ class HomeScreen extends ConsumerWidget {
     }
 
     /////////////////////////////////////
+
+    return spendMonthSummaryList.when(
+      data: (value) {
+        for (var i = 0; i < value.length; i++) {
+          final spend = value[i];
+
+          var textColor = (spend.sum >= 10000) ? Colors.yellowAccent : Colors.white;
+
+          textColor = getTextColor(item: spend.item);
+
+          list.add(
+            DefaultTextStyle(
+              style: const TextStyle(fontSize: 12),
+              child: Container(
+                decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.2)))),
+                margin: const EdgeInsets.only(bottom: 3),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: Text(spend.item, style: TextStyle(color: textColor)),
+                          ),
+                          Expanded(
+                            child: Container(
+                              alignment: Alignment.topRight,
+                              child: Text(spend.sum.toString().toCurrency(), style: TextStyle(color: textColor)),
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              alignment: Alignment.topRight,
+                              child: Text(
+                                '${spend.percent} %',
+                                style: TextStyle(
+                                  color: (topPercentageList.contains(spend.percent.toDouble()))
+                                      ? Colors.redAccent
+                                      : textColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    getLinkIcon(item: spend.item),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
+
+        return SingleChildScrollView(child: Column(children: list));
+      },
+      error: (error, stackTrace) => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: CircularProgressIndicator()),
+    );
+
+    /*
+
 
     for (var i = 0; i < spendMonthSummaryState.length; i++) {
       final spend = spendMonthSummaryState[i];
@@ -366,6 +471,10 @@ class HomeScreen extends ConsumerWidget {
     }
 
     return SingleChildScrollView(child: Column(children: list));
+
+
+
+    */
   }
 
   ///

@@ -66,9 +66,15 @@ class FoodExpensesPage extends ConsumerWidget {
 
   ///
   Widget displayFoodExpenses() {
-    final spendMonthSummaryState = _ref.watch(spendMonthSummaryProvider(date));
+    //
+    //
+    // final spendMonthSummaryState = _ref.watch(spendMonthSummaryProvider(date));
+    //
+    // makeFoodExpensesList(state: spendMonthSummaryState);
+    //
+    //
 
-    makeFoodExpensesList(state: spendMonthSummaryState);
+    makeFoodExpensesList();
 
     // final seiyuAllState = _ref.watch(seiyuAllProvider(date));
     // makeSeiyuTotal(state: seiyuAllState);
@@ -169,14 +175,34 @@ class FoodExpensesPage extends ConsumerWidget {
   }
 
   ///
-  void makeFoodExpensesList({required List<SpendMonthSummary> state}) {
+  void makeFoodExpensesList() {
+//    {required List<SpendMonthSummary> state}
+
     spendMonthSummaryList = [];
 
-    for (var i = 0; i < state.length; i++) {
-      if (['食費', '牛乳代', '弁当代'].contains(state[i].item)) {
-        spendMonthSummaryList.add(state[i]);
+    //
+    //
+    // final spendMonthSummaryState = _ref.watch(spendMonthSummaryProvider(date));
+    //
+    // makeFoodExpensesList(state: spendMonthSummaryState);
+    //
+    //
+
+    final smSummaryList = _ref.watch(spendMonthSummaryProvider(date).select((value) => value.spendMonthSummaryList));
+
+    smSummaryList.value?.forEach((element) {
+      if (['食費', '牛乳代', '弁当代'].contains(element.item)) {
+        spendMonthSummaryList.add(element);
       }
-    }
+    });
+
+    // for (var i = 0; i < state.length; i++) {
+    //   if (['食費', '牛乳代', '弁当代'].contains(state[i].item)) {
+    //     spendMonthSummaryList.add(state[i]);
+    //   }
+    // }
+    //
+    //
   }
 
   ///

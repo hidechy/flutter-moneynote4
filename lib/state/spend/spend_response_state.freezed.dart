@@ -17,6 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$SpendResponseState {
   AsyncValue<List<SpendSummary>> get spendSummaryList =>
+      throw _privateConstructorUsedError; //List<SpendMonthSummary>
+  AsyncValue<List<SpendMonthSummary>> get spendMonthSummaryList =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,7 +32,9 @@ abstract class $SpendResponseStateCopyWith<$Res> {
           SpendResponseState value, $Res Function(SpendResponseState) then) =
       _$SpendResponseStateCopyWithImpl<$Res, SpendResponseState>;
   @useResult
-  $Res call({AsyncValue<List<SpendSummary>> spendSummaryList});
+  $Res call(
+      {AsyncValue<List<SpendSummary>> spendSummaryList,
+      AsyncValue<List<SpendMonthSummary>> spendMonthSummaryList});
 }
 
 /// @nodoc
@@ -47,12 +51,17 @@ class _$SpendResponseStateCopyWithImpl<$Res, $Val extends SpendResponseState>
   @override
   $Res call({
     Object? spendSummaryList = null,
+    Object? spendMonthSummaryList = null,
   }) {
     return _then(_value.copyWith(
       spendSummaryList: null == spendSummaryList
           ? _value.spendSummaryList
           : spendSummaryList // ignore: cast_nullable_to_non_nullable
               as AsyncValue<List<SpendSummary>>,
+      spendMonthSummaryList: null == spendMonthSummaryList
+          ? _value.spendMonthSummaryList
+          : spendMonthSummaryList // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<SpendMonthSummary>>,
     ) as $Val);
   }
 }
@@ -65,7 +74,9 @@ abstract class _$$SpendResponseStateImplCopyWith<$Res>
       __$$SpendResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({AsyncValue<List<SpendSummary>> spendSummaryList});
+  $Res call(
+      {AsyncValue<List<SpendSummary>> spendSummaryList,
+      AsyncValue<List<SpendMonthSummary>> spendMonthSummaryList});
 }
 
 /// @nodoc
@@ -80,12 +91,17 @@ class __$$SpendResponseStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? spendSummaryList = null,
+    Object? spendMonthSummaryList = null,
   }) {
     return _then(_$SpendResponseStateImpl(
       spendSummaryList: null == spendSummaryList
           ? _value.spendSummaryList
           : spendSummaryList // ignore: cast_nullable_to_non_nullable
               as AsyncValue<List<SpendSummary>>,
+      spendMonthSummaryList: null == spendMonthSummaryList
+          ? _value.spendMonthSummaryList
+          : spendMonthSummaryList // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<SpendMonthSummary>>,
     ));
   }
 }
@@ -94,15 +110,21 @@ class __$$SpendResponseStateImplCopyWithImpl<$Res>
 
 class _$SpendResponseStateImpl implements _SpendResponseState {
   const _$SpendResponseStateImpl(
-      {this.spendSummaryList = const AsyncValue<List<SpendSummary>>.loading()});
+      {this.spendSummaryList = const AsyncValue<List<SpendSummary>>.loading(),
+      this.spendMonthSummaryList =
+          const AsyncValue<List<SpendMonthSummary>>.loading()});
 
   @override
   @JsonKey()
   final AsyncValue<List<SpendSummary>> spendSummaryList;
+//List<SpendMonthSummary>
+  @override
+  @JsonKey()
+  final AsyncValue<List<SpendMonthSummary>> spendMonthSummaryList;
 
   @override
   String toString() {
-    return 'SpendResponseState(spendSummaryList: $spendSummaryList)';
+    return 'SpendResponseState(spendSummaryList: $spendSummaryList, spendMonthSummaryList: $spendMonthSummaryList)';
   }
 
   @override
@@ -111,11 +133,14 @@ class _$SpendResponseStateImpl implements _SpendResponseState {
         (other.runtimeType == runtimeType &&
             other is _$SpendResponseStateImpl &&
             (identical(other.spendSummaryList, spendSummaryList) ||
-                other.spendSummaryList == spendSummaryList));
+                other.spendSummaryList == spendSummaryList) &&
+            (identical(other.spendMonthSummaryList, spendMonthSummaryList) ||
+                other.spendMonthSummaryList == spendMonthSummaryList));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, spendSummaryList);
+  int get hashCode =>
+      Object.hash(runtimeType, spendSummaryList, spendMonthSummaryList);
 
   @JsonKey(ignore: true)
   @override
@@ -127,11 +152,14 @@ class _$SpendResponseStateImpl implements _SpendResponseState {
 
 abstract class _SpendResponseState implements SpendResponseState {
   const factory _SpendResponseState(
-          {final AsyncValue<List<SpendSummary>> spendSummaryList}) =
+          {final AsyncValue<List<SpendSummary>> spendSummaryList,
+          final AsyncValue<List<SpendMonthSummary>> spendMonthSummaryList}) =
       _$SpendResponseStateImpl;
 
   @override
   AsyncValue<List<SpendSummary>> get spendSummaryList;
+  @override //List<SpendMonthSummary>
+  AsyncValue<List<SpendMonthSummary>> get spendMonthSummaryList;
   @override
   @JsonKey(ignore: true)
   _$$SpendResponseStateImplCopyWith<_$SpendResponseStateImpl> get copyWith =>
