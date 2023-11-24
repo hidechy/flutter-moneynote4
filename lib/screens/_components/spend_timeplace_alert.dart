@@ -5,12 +5,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
+import '../../state/time_place/time_place_notifier.dart';
 import '../../utility/utility.dart';
-import '../../viewmodel/time_place_notifier.dart';
 
 class SpendTimeplaceAlert extends ConsumerWidget {
-  SpendTimeplaceAlert(
-      {super.key, required this.date, required this.item, required this.price});
+  SpendTimeplaceAlert({super.key, required this.date, required this.item, required this.price});
 
   final DateTime date;
   final String item;
@@ -46,8 +45,7 @@ class SpendTimeplaceAlert extends ConsumerWidget {
                 Container(width: context.screenSize.width),
 
                 //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
                 //----------//
 
                 Row(
@@ -80,9 +78,50 @@ class SpendTimeplaceAlert extends ConsumerWidget {
 
   ///
   Widget displaySpendTimeplace() {
+    final timePlaceList = _ref.watch(timeplaceProvider(date).select((value) => value.timePlaceList));
+
+    return timePlaceList.when(
+      data: (value) {
+        final list = <Widget>[];
+
+        for (var i = 0; i < value.length; i++) {
+          if (value[i].date.yyyymmdd == date.yyyymmdd) {
+            list.add(
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 3),
+                decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
+                child: Row(
+                  children: [
+                    Expanded(child: Text(value[i].time)),
+                    Expanded(child: Text(value[i].place)),
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.topRight,
+                        child: Text(value[i].price.toString().toCurrency()),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
+        }
+
+        return SingleChildScrollView(child: Column(children: list));
+      },
+      error: (error, stackTrace) => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: CircularProgressIndicator()),
+    );
+
+    /*
+
+
+
     final list = <Widget>[];
 
-    final timeplaceState = _ref.watch(onedayTimeplaceProvider(date));
+    final monthlyTimeplaceState = _ref.watch(timeplaceProvider(date));
+
+    final timeplaceState = monthlyTimeplaceState.where((element) => element.date.yyyymmdd == date.yyyymmdd).toList();
 
     for (var i = 0; i < timeplaceState.length; i++) {
       list.add(
@@ -120,5 +159,10 @@ class SpendTimeplaceAlert extends ConsumerWidget {
         children: list,
       ),
     );
+
+
+
+
+    */
   }
 }

@@ -17,6 +17,7 @@ import '../../../state/amazon_purchase/amazon_notifier.dart';
 import '../../../state/app_param/app_param_notifier.dart';
 import '../../../state/benefit/benefit_notifier.dart';
 import '../../../state/monthly_spend/monthly_spend_state.dart';
+import '../../../state/time_place/time_place_notifier.dart';
 import '../../../state/train/train_notifier.dart';
 import '../../../utility/function.dart';
 import '../../../utility/utility.dart';
@@ -25,7 +26,6 @@ import '../../../viewmodel/holiday_notifier.dart';
 import '../../../viewmodel/keihi_list_notifier.dart';
 import '../../../viewmodel/money_notifier.dart';
 import '../../../viewmodel/spend_notifier.dart';
-import '../../../viewmodel/time_place_notifier.dart';
 import '../_money_dialog.dart';
 import '../monthly_calendar_alert.dart';
 import '../monthly_spend_graph_alert.dart';
@@ -757,8 +757,15 @@ class MonthlySpendPage extends ConsumerWidget {
   }
 
   ///
-  void getMonthlyTimeplaceDate() =>
-      _ref.watch(monthlyTimeplaceProvider(date)).forEach((element) => timeplaceDateList.add(element.date.yyyymmdd));
+  void getMonthlyTimeplaceDate() {
+    // _ref.watch(timeplaceProvider(date)).forEach((element) {
+    //   timeplaceDateList.add(element.date.yyyymmdd);
+    // });
+
+    final timePlaceList = _ref.watch(timeplaceProvider(date).select((value) => value.timePlaceList));
+
+    timePlaceList.value?.forEach((element) => timeplaceDateList.add(element.date.yyyymmdd));
+  }
 
   ///
   Widget displayHavingMoney({required String date}) {

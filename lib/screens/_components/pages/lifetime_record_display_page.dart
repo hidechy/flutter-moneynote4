@@ -5,8 +5,8 @@ import '../../../extensions/extensions.dart';
 import '../../../models/walk_record.dart';
 import '../../../state/app_param/app_param_notifier.dart';
 import '../../../state/lifetime/lifetime_notifier.dart';
+import '../../../state/time_place/time_place_notifier.dart';
 import '../../../state/walk_record/walk_record_notifier.dart';
-import '../../../viewmodel/time_place_notifier.dart';
 import '../_money_dialog.dart';
 import '../_parts/lifetime_display_parts.dart';
 import '../lifetime_record_display_alert.dart';
@@ -160,7 +160,53 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
 
   ///
   Widget _displayTimeplace() {
-    final timeplaceState = _ref.watch(onedayTimeplaceProvider(date));
+    final timePlaceList = _ref.watch(timeplaceProvider(date).select((value) => value.timePlaceList));
+
+    return timePlaceList.when(
+      data: (value) {
+        final list = <Widget>[];
+
+        for (var i = 0; i < value.length; i++) {
+          if (value[i].date.yyyymmdd == date.yyyymmdd) {
+            final color = (value[i].place == '移動中') ? Colors.greenAccent : Colors.white;
+
+            list.add(
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 3),
+                decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
+                child: DefaultTextStyle(
+                  style: TextStyle(color: color, fontSize: 10),
+                  child: Row(
+                    children: [
+                      SizedBox(width: 60, child: Text(value[i].time)),
+                      Expanded(child: Text(value[i].place)),
+                      Container(
+                        width: 50,
+                        alignment: Alignment.topRight,
+                        child: Text(value[i].price.toString().toCurrency()),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }
+        }
+
+        return SingleChildScrollView(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: list));
+      },
+      error: (error, stackTrace) => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: CircularProgressIndicator()),
+    );
+
+    /*
+
+
+
+
+    final monthlyTimeplaceState = _ref.watch(timeplaceProvider(date));
+
+    final timeplaceState = monthlyTimeplaceState.where((element) => element.date.yyyymmdd == date.yyyymmdd).toList();
 
     final list = <Widget>[];
 
@@ -190,6 +236,11 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
     }
 
     return SingleChildScrollView(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: list));
+
+
+
+
+    */
   }
 
   ///
