@@ -813,15 +813,29 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
 
   ///
   void makeMonthlySpendMap() {
-    final spendMonthDetailState = _ref.watch(spendMonthDetailProvider(date));
+    final spendYearlyList = _ref.watch(spendMonthDetailProvider(date).select((value) => value.spendYearlyList));
 
-    spendMonthDetailState.list.forEach((element) {
+    spendYearlyList.value?.forEach((element) {
       final list = <Map<int, String>>[];
 
       element.item.forEach((element2) => list.add({element2.price.toString().toInt(): element2.item}));
 
       monthlySpendMap[element.date.yyyymmdd] = list;
     });
+
+    //
+    //
+    // final spendMonthDetailState = _ref.watch(spendMonthDetailProvider(date));
+    //
+    // spendMonthDetailState.list.forEach((element) {
+    //   final list = <Map<int, String>>[];
+    //
+    //   element.item.forEach((element2) => list.add({element2.price.toString().toInt(): element2.item}));
+    //
+    //   monthlySpendMap[element.date.yyyymmdd] = list;
+    // });
+    //
+    //
   }
 
   ///

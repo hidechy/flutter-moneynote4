@@ -125,9 +125,9 @@ class SpendItemInputScreen extends ConsumerWidget {
     spendItem = [];
 
     [DateTime(date.year - 1), DateTime(date.year)].forEach((element) {
-      final spendMonthDetailState = _ref.watch(spendMonthDetailProvider(element));
+      final spendYearlyList = _ref.watch(spendMonthDetailProvider(element).select((value) => value.spendYearlyList));
 
-      spendMonthDetailState.list.forEach((element2) {
+      spendYearlyList.value?.forEach((element2) {
         element2.item.forEach((element3) {
           if (!spendItem.contains(element3.item)) {
             if (!bankSpend.contains(element3.item)) {
@@ -136,6 +136,23 @@ class SpendItemInputScreen extends ConsumerWidget {
           }
         });
       });
+
+      //
+      //
+      // final spendMonthDetailState = _ref.watch(spendMonthDetailProvider(element));
+      //
+      // spendMonthDetailState.list.forEach((element2) {
+      //   element2.item.forEach((element3) {
+      //     if (!spendItem.contains(element3.item)) {
+      //       if (!bankSpend.contains(element3.item)) {
+      //         spendItem.add(element3.item);
+      //       }
+      //     }
+      //   });
+      // });
+      //
+      //
+      //
     });
   }
 

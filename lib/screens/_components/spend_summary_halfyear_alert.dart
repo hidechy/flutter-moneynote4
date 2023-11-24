@@ -92,14 +92,36 @@ class SpendSummaryHalfyearAlert extends ConsumerWidget {
     final list2 = <List<SpendYearly>>[];
 
     list.forEach((element) {
-      list2.add(_ref.watch(spendMonthDetailProvider(element)).list);
+      final spendYearlyList = _ref.watch(spendMonthDetailProvider(element).select((value) => value.spendYearlyList));
+
+      if (spendYearlyList.value != null) {
+        list2.add(spendYearlyList.value!);
+      }
+
+      //
+      //
+      // list2.add(_ref.watch(spendMonthDetailProvider(element)).list);
+      //
+      //
+      //
 
       //---------------------------- (2)
       var total = 0;
-      _ref.watch(spendMonthDetailProvider(element)).list.forEach((element2) {
+
+      //
+      //
+      // _ref.watch(spendMonthDetailProvider(element)).list.forEach((element2) {
+      //   total += element2.spend;
+      //   totalMap[element2.date.yyyymmdd] = total;
+      // });
+      //
+      //
+
+      spendYearlyList.value?.forEach((element2) {
         total += element2.spend;
         totalMap[element2.date.yyyymmdd] = total;
       });
+
       //---------------------------- (2)
 
       //---------------------------- (1)

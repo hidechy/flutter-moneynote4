@@ -130,17 +130,28 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
     final graphValues = <String, List<Map<String, dynamic>>>{};
 
     usageGuideList.forEach((element) {
-      final spendMonthDetailState = _ref.watch(spendMonthDetailProvider(element));
-
       final list2 = <Map<String, int>>[];
 
       var sum = 0;
 
-      spendMonthDetailState.list.forEach((element2) {
+      final spendYearlyList = _ref.watch(spendMonthDetailProvider(element).select((value) => value.spendYearlyList));
+
+      spendYearlyList.value?.forEach((element2) {
         sum += element2.spend;
 
         list2.add({'day': element2.date.day, 'sum': sum});
       });
+
+      //
+      // final spendMonthDetailState = _ref.watch(spendMonthDetailProvider(element));
+      //
+      // spendMonthDetailState.list.forEach((element2) {
+      //   sum += element2.spend;
+      //
+      //   list2.add({'day': element2.date.day, 'sum': sum});
+      // });
+      //
+      //
 
       graphValues[element.yyyymm] = list2;
     });

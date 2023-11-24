@@ -10,6 +10,7 @@ import '../../../models/credit_spend_monthly.dart';
 import '../../../models/keihi.dart';
 import '../../../models/money.dart';
 import '../../../models/money_everyday.dart';
+import '../../../models/spend_yearly.dart';
 import '../../../models/train.dart';
 import '../../../models/zero_use_date.dart';
 import '../../../route/routes.dart';
@@ -19,7 +20,6 @@ import '../../../state/bank/bank_notifier.dart';
 import '../../../state/benefit/benefit_notifier.dart';
 import '../../../state/keihi_list/keihi_list_notifier.dart';
 import '../../../state/money/money_notifier.dart';
-import '../../../state/monthly_spend/monthly_spend_state.dart';
 import '../../../state/spend/spend_notifier.dart';
 import '../../../state/time_place/time_place_notifier.dart';
 import '../../../state/train/train_notifier.dart';
@@ -365,8 +365,6 @@ class MonthlySpendPage extends ConsumerWidget {
 
     makeAmazonListMap();
 
-    final spendMonthDetailState = _ref.watch(spendMonthDetailProvider(date));
-
     final holidayState = _ref.watch(holidayProvider);
 
     final benefitState = _ref.watch(benefitProvider);
@@ -398,6 +396,312 @@ class MonthlySpendPage extends ConsumerWidget {
     monthTotalSumCredit = 0;
 
     //forで仕方ない
+
+    final spendYearlyList = _ref.watch(spendMonthDetailProvider(date).select((value) => value.spendYearlyList));
+
+    spendYearlyList.when(
+      data: (value) {
+        for (var i = 0; i < value.length; i++) {
+          final dateKeihiListMap = keihiListMap[value[i].date.yyyymmdd];
+
+          //--------------------------------------------- list2
+          final list2 = <Widget>[];
+          final list2value = <SpendListValue>[];
+
+          var daySum = 0;
+          var daySumCredit = 0;
+
+          value[i].item.forEach(
+            (element) {
+              list2value.add(
+                SpendListValue(
+                  item: element.item,
+                  price: element.price.toString().toInt(),
+                  color: (element.flag.toString() == '1') ? Colors.lightBlueAccent : Colors.white,
+                ),
+              );
+
+              daySum += element.price.toString().toInt();
+              daySumCredit += element.price.toString().toInt();
+            },
+          );
+
+          if (creditSpendMap[value[i].date.yyyymmdd] != null) {
+            creditSpendMap[value[i].date.yyyymmdd]!.forEach((element) {
+              list2value.add(
+                SpendListValue(item: element.item, price: element.price.toInt(), color: const Color(0xFFFB86CE)),
+              );
+
+              daySumCredit += element.price.toInt();
+            });
+          }
+
+          benefitState.benefitList.forEach(
+            (element) {
+              if (value[i].date.yyyymmdd == element.date.yyyymmdd) {
+                list2value.add(
+                  SpendListValue(item: 'benefit', price: element.salary.toInt(), color: Colors.yellowAccent),
+                );
+              }
+            },
+          );
+
+          bankMoveList.value?.forEach(
+            (element) {
+              if (value[i].date.yyyymmdd == element.date.yyyymmdd) {
+                list2value.add(
+                  SpendListValue(
+                    item: 'Bank Move - ${element.bank} // ${element.flag == 0 ? 'out' : 'in'}',
+                    price: element.price,
+                    color: Colors.greenAccent,
+                  ),
+                );
+              }
+            },
+          );
+
+          // bankMoveState.forEach(
+          //   (element) {
+          //     if (spendMonthDetailState.list[i].date.yyyymmdd == element.date.yyyymmdd) {
+          //       list2value.add(
+          //         SpendListValue(
+          //           item: 'Bank Move - ${element.bank} // ${element.flag == 0 ? 'out' : 'in'}',
+          //           price: element.price,
+          //           color: Colors.greenAccent,
+          //         ),
+          //       );
+          //     }
+          //   },
+          // );
+          //
+          //
+
+          list2value.forEach((element) {
+            final textStyle = getKeihiTextStyle(element: element, dateKeihiListMap: dateKeihiListMap);
+
+            list2.add(
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 3),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(color: Colors.white.withOpacity(0.3)),
+                  ),
+                ),
+                child: DefaultTextStyle(
+                  style: textStyle,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: Text(element.item, overflow: TextOverflow.ellipsis, maxLines: 1),
+                      ),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.topRight,
+                          child: Text(element.price.toString().toCurrency()),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          });
+
+          //--------------------------------------------- list2
+
+          final youbi = _utility.getYoubi(youbiStr: value[i].date.youbiStr);
+
+          final sum = everydayStateMap[value[i].date.yyyymmdd];
+
+          var diff = 0;
+          if (sum != null) {
+            diff = getDiff(spend: sum.spend.toInt(), daySum: daySum);
+          }
+
+          final spendZeroFlag = getSpendZeroFlag(date: value[i].date.yyyymmdd, spend: spendZeroUseDateState);
+
+          displayMonthlySpendList.add(
+            Container(
+              margin: const EdgeInsets.symmetric(
+                vertical: 5,
+                horizontal: 10,
+              ),
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.white.withOpacity(0.5)),
+                color: _utility.getYoubiColor(
+                  date: value[i].date,
+                  youbiStr: value[i].date.youbiStr,
+                  holiday: holidayState.data,
+                ),
+              ),
+              child: Column(
+                children: [
+                  getMidashiDate(value, i, youbi, spendZeroFlag, sum, diff, daySum),
+                  const SizedBox(height: 10),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(width: 30),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Column(children: list2),
+
+                            /////
+
+                            if (dateKeihiListMap != null)
+                              DefaultTextStyle(
+                                style: const TextStyle(fontSize: 10),
+                                child: Container(
+                                  margin: const EdgeInsets.only(top: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
+                                  decoration: BoxDecoration(color: Colors.white.withOpacity(0.1)),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [const Text('＜経費＞'), Container()],
+                                      ),
+                                      Column(
+                                        children: dateKeihiListMap.map((e) {
+                                          daySumCredit -= e.price;
+
+                                          return Row(
+                                            children: [
+                                              Expanded(
+                                                child: Text(e.item, overflow: TextOverflow.ellipsis, maxLines: 1),
+                                              ),
+                                              const SizedBox(width: 20),
+                                              Text(e.price.toString().toCurrency()),
+                                            ],
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+
+                            /////
+
+                            if (amazonListMap[value[i].date.yyyymmdd] != null)
+                              DefaultTextStyle(
+                                style: const TextStyle(fontSize: 10),
+                                child: Container(
+                                  margin: const EdgeInsets.only(top: 10),
+                                  padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
+                                  decoration: BoxDecoration(color: Colors.purpleAccent.withOpacity(0.1)),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [const Text('＜Amazon＞'), Container()],
+                                      ),
+                                      Column(
+                                        children: amazonListMap[value[i].date.yyyymmdd]!.map((e) {
+                                          return Row(
+                                            children: [
+                                              Expanded(
+                                                child: Text(e.item, overflow: TextOverflow.ellipsis, maxLines: 1),
+                                              ),
+                                              const SizedBox(width: 20),
+                                              Text(e.price.toCurrency()),
+                                            ],
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+
+                            /////
+
+                            const SizedBox(height: 10),
+                            Container(
+                              alignment: Alignment.topRight,
+                              child: Text(
+                                daySumCredit.toString().toCurrency(),
+                                style: const TextStyle(fontSize: 12, color: Color(0xFFFB86CE)),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+
+                            /////
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+
+          /////////////////////////////////////////////////////////////////////
+
+          var bMPrice = 0;
+          var bMFlag = 0;
+
+          bankMoveList.value?.forEach(
+            (element) {
+              if (value[i].date.yyyymmdd == element.date.yyyymmdd) {
+                bMPrice = element.price;
+                bMFlag = element.flag;
+              }
+            },
+          );
+
+          // bankMoveState.forEach(
+          //   (element) {
+          //     if (spendMonthDetailState.list[i].date.yyyymmdd == element.date.yyyymmdd) {
+          //       bMPrice = element.price;
+          //       bMFlag = element.flag;
+          //     }
+          //   },
+          // );
+          //
+          //
+          //
+
+          var benefit = 0;
+          benefitState.benefitList.forEach(
+            (element) {
+              if (value[i].date.yyyymmdd == element.date.yyyymmdd) {
+                benefit = element.salary.toInt();
+              }
+            },
+          );
+
+          final whitePrice = (sum != null) ? sum.spend.toInt() : 0;
+
+          calendarValueMap[value[i].date.yyyymmdd] = CalendarValue(
+            whitePrice: whitePrice,
+            pinkPrice: daySumCredit,
+            bankMovePrice: bMPrice,
+            bankMoveFlag: bMFlag,
+            benefit: benefit,
+          );
+
+          /////////////////////////////////////////////////////////////////////
+
+          monthTotalSpend += daySum;
+          monthTotalSumCredit += daySumCredit;
+        }
+      },
+      error: (error, stackTrace) => Container(),
+      loading: Container.new,
+    );
+
+    /*
+
+
+
+        final spendMonthDetailState = _ref.watch(spendMonthDetailProvider(date));
+
+
     for (var i = 0; i < spendMonthDetailState.list.length; i++) {
       final dateKeihiListMap = keihiListMap[spendMonthDetailState.list[i].date.yyyymmdd];
 
@@ -688,6 +992,12 @@ class MonthlySpendPage extends ConsumerWidget {
       monthTotalSpend += daySum;
       monthTotalSumCredit += daySumCredit;
     }
+
+
+
+
+
+    */
   }
 
   ///
@@ -759,8 +1069,15 @@ class MonthlySpendPage extends ConsumerWidget {
   }
 
   ///
-  Widget getMidashiDate(MonthlySpendState spendMonthDetailState, int i, String youbi, int spendZeroFlag,
-      MoneyEveryday? sum, int diff, int daySum) {
+  Widget getMidashiDate(
+    List<SpendYearly> value,
+    int i,
+    String youbi,
+    int spendZeroFlag,
+    MoneyEveryday? sum,
+    int diff,
+    int daySum,
+  ) {
     trainMap = _ref.watch(trainProvider.select((value) => value.trainMap));
 
     return Column(
@@ -771,7 +1088,7 @@ class MonthlySpendPage extends ConsumerWidget {
           children: [
             Row(
               children: [
-                Text('${spendMonthDetailState.list[i].date.yyyymmdd}（$youbi）'),
+                Text('${value[i].date.yyyymmdd}（$youbi）'),
                 if (spendZeroFlag == 1) Icon(Icons.star, color: Colors.yellowAccent.withOpacity(0.6)),
               ],
             ),
@@ -801,12 +1118,12 @@ class MonthlySpendPage extends ConsumerWidget {
                   onTap: () {
                     MoneyDialog(
                       context: _context,
-                      widget: SpendAlert(date: spendMonthDetailState.list[i].date, diff: daySum.toString()),
+                      widget: SpendAlert(date: value[i].date, diff: daySum.toString()),
                     );
                   },
                   child: Icon(
                     Icons.info_outline,
-                    color: (timeplaceDateList.contains(spendMonthDetailState.list[i].date.yyyymmdd))
+                    color: (timeplaceDateList.contains(value[i].date.yyyymmdd))
                         ? Colors.yellowAccent.withOpacity(0.8)
                         : Colors.white.withOpacity(0.6),
                   ),
@@ -815,7 +1132,7 @@ class MonthlySpendPage extends ConsumerWidget {
             ),
           ],
         ),
-        displayHavingMoney(date: spendMonthDetailState.list[i].date.yyyymmdd),
+        displayHavingMoney(date: value[i].date.yyyymmdd),
       ],
     );
   }

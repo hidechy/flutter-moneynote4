@@ -94,10 +94,19 @@ class MoneyInputScreen extends ConsumerWidget {
 
     loadSound();
 
-    final spendMonthDetailState = _ref.watch(spendMonthDetailProvider(date));
+    //
+    //
+    // final spendMonthDetailState = _ref.watch(spendMonthDetailProvider(date));
+    //
+    // if (spendMonthDetailState.list.isNotEmpty) {
+    //   lastInputDate = spendMonthDetailState.list[spendMonthDetailState.list.length - 1].date.yyyymmdd;
+    //
+    //
 
-    if (spendMonthDetailState.list.isNotEmpty) {
-      lastInputDate = spendMonthDetailState.list[spendMonthDetailState.list.length - 1].date.yyyymmdd;
+    final spendYearlyList = _ref.watch(spendMonthDetailProvider(date).select((value) => value.spendYearlyList));
+
+    if (spendYearlyList.value != null) {
+      lastInputDate = spendYearlyList.value![spendYearlyList.value!.length - 1].date.yyyymmdd;
     } else {
       final now = DateTime.now();
       lastInputDate = DateTime(

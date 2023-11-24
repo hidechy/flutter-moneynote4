@@ -130,24 +130,72 @@ class SpendPage extends ConsumerWidget {
   void makeDiff() {
     diff = 0;
 
-    final spendItemDailyState = _ref.watch(spendItemDailyProvider(date));
+    final spendItemDaily = _ref.watch(spendItemDailyProvider(date).select((value) => value.spendItemDaily));
 
-    for (var i = 0; i < spendItemDailyState.item.length; i++) {
-      final exValue = spendItemDailyState.item[i].split('|');
+    spendItemDaily.value?.item.forEach((element) {
+      final exValue = element.split('|');
 
       if (exValue[0] == '収入') {
         diff -= exValue[2].toInt();
       } else {
         diff += exValue[2].toInt();
       }
-    }
+    });
+
+    //
+    //
+    // final spendItemDailyState = _ref.watch(spendItemDailyProvider(date));
+    //
+    // for (var i = 0; i < spendItemDailyState.item.length; i++) {
+    //   final exValue = spendItemDailyState.item[i].split('|');
+    //
+    //   if (exValue[0] == '収入') {
+    //     diff -= exValue[2].toInt();
+    //   } else {
+    //     diff += exValue[2].toInt();
+    //   }
+    // }
+    //
+    //
   }
 
   ///
   Widget displaySpendItem() {
-    final spendItemDailyState = _ref.watch(spendItemDailyProvider(date));
-
     final list = <Widget>[];
+
+    final spendItemDaily = _ref.watch(spendItemDailyProvider(date).select((value) => value.spendItemDaily));
+
+    return spendItemDaily.when(
+      data: (value) {
+        for (var i = 0; i < value.item.length; i++) {
+          final exValue = value.item[i].split('|');
+
+          final color = getRowTextColor(kind: exValue[1]);
+
+          list.add(
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 3),
+              decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
+              child: DefaultTextStyle(
+                style: TextStyle(color: color, fontSize: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [Text(exValue[0]), Text(exValue[2].toCurrency())],
+                ),
+              ),
+            ),
+          );
+        }
+
+        return SingleChildScrollView(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: list));
+      },
+      error: (error, stackTrace) => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: CircularProgressIndicator()),
+    );
+
+    /*
+
+    final spendItemDailyState = _ref.watch(spendItemDailyProvider(date));
 
     for (var i = 0; i < spendItemDailyState.item.length; i++) {
       final exValue = spendItemDailyState.item[i].split('|');
@@ -170,6 +218,9 @@ class SpendPage extends ConsumerWidget {
     }
 
     return SingleChildScrollView(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: list));
+
+
+    */
   }
 
   ///

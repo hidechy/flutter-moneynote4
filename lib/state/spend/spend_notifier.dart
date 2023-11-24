@@ -15,7 +15,6 @@ import '../../models/spend_yearly.dart';
 import '../../models/spend_yearly_item.dart';
 import '../../models/zero_use_date.dart';
 import '../../utility/utility.dart';
-import '../monthly_spend/monthly_spend_state.dart';
 import '../spend_yearly_item/spend_yearly_item_state.dart';
 import 'spend_response_state.dart';
 
@@ -72,22 +71,15 @@ class SpendMonthSummaryNotifier extends StateNotifier<SpendResponseState> {
 ////////////////////////////////////////////////
 ////////////////////////////////////////////////
 final spendItemDailyProvider =
-    StateNotifierProvider.autoDispose.family<SpendItemDailyNotifier, SpendItemDaily, DateTime>((ref, date) {
+    StateNotifierProvider.autoDispose.family<SpendItemDailyNotifier, SpendResponseState, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return SpendItemDailyNotifier(
-    SpendItemDaily(
-      date: DateTime.now(),
-      item: [],
-    ),
-    client,
-    utility,
-  )..getSpendItemDaily(date: date);
+  return SpendItemDailyNotifier(const SpendResponseState(), client, utility)..getSpendItemDaily(date: date);
 });
 
-class SpendItemDailyNotifier extends StateNotifier<SpendItemDaily> {
+class SpendItemDailyNotifier extends StateNotifier<SpendResponseState> {
   SpendItemDailyNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
@@ -122,7 +114,7 @@ class SpendItemDailyNotifier extends StateNotifier<SpendItemDaily> {
         }
       }
 
-      state = spendItemDaily;
+      state = state.copyWith(spendItemDaily: AsyncValue.data(spendItemDaily));
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
@@ -133,27 +125,22 @@ class SpendItemDailyNotifier extends StateNotifier<SpendItemDaily> {
 
 ////////////////////////////////////////////////
 final spendMonthDetailProvider =
-    StateNotifierProvider.autoDispose.family<SpendMonthDetailNotifier, MonthlySpendState, DateTime>((ref, date) {
+    StateNotifierProvider.autoDispose.family<SpendMonthDetailNotifier, SpendResponseState, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return SpendMonthDetailNotifier(const MonthlySpendState(), client, utility)..getSpendMonthDetail(date: date);
+  return SpendMonthDetailNotifier(const SpendResponseState(), client, utility)..getSpendMonthDetail(date: date);
 });
 
-class SpendMonthDetailNotifier extends StateNotifier<MonthlySpendState> {
+class SpendMonthDetailNotifier extends StateNotifier<SpendResponseState> {
   SpendMonthDetailNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
   final Utility utility;
 
   Future<void> getSpendMonthDetail({required DateTime date}) async {
-    await client.post(
-      path: APIPath.getYearSpend,
-      body: {'date': date.yyyymmdd},
-    ).then((value) {
-      state = state.copyWith(saving: true);
-
+    await client.post(path: APIPath.getYearSpend, body: {'date': date.yyyymmdd}).then((value) {
       final list = <SpendYearly>[];
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
@@ -185,9 +172,7 @@ class SpendMonthDetailNotifier extends StateNotifier<MonthlySpendState> {
         }
       }
 
-      state = state.copyWith(saving: false);
-
-      state = state.copyWith(list: list);
+      state = state.copyWith(spendYearlyList: AsyncValue.data(list));
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });

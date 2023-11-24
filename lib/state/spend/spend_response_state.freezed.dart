@@ -16,6 +16,11 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SpendResponseState {
+//  SpendItemDaily
+  AsyncValue<SpendItemDaily> get spendItemDaily =>
+      throw _privateConstructorUsedError;
+
+  ///
   AsyncValue<List<SpendSummary>> get spendSummaryList =>
       throw _privateConstructorUsedError;
   AsyncValue<List<SpendMonthSummary>> get spendMonthSummaryList =>
@@ -25,7 +30,7 @@ mixin _$SpendResponseState {
   AsyncValue<List<SpendYearSummary>> get spendYearSummaryList =>
       throw _privateConstructorUsedError;
   AsyncValue<List<SpendSameday>> get spendSamedayList =>
-      throw _privateConstructorUsedError; //List<SpendSamedayYearly>
+      throw _privateConstructorUsedError;
   AsyncValue<List<SpendSamedayYearly>> get spendSamedayYearlyList =>
       throw _privateConstructorUsedError;
 
@@ -41,7 +46,8 @@ abstract class $SpendResponseStateCopyWith<$Res> {
       _$SpendResponseStateCopyWithImpl<$Res, SpendResponseState>;
   @useResult
   $Res call(
-      {AsyncValue<List<SpendSummary>> spendSummaryList,
+      {AsyncValue<SpendItemDaily> spendItemDaily,
+      AsyncValue<List<SpendSummary>> spendSummaryList,
       AsyncValue<List<SpendMonthSummary>> spendMonthSummaryList,
       AsyncValue<List<SpendYearly>> spendYearlyList,
       AsyncValue<List<SpendYearSummary>> spendYearSummaryList,
@@ -62,6 +68,7 @@ class _$SpendResponseStateCopyWithImpl<$Res, $Val extends SpendResponseState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? spendItemDaily = null,
     Object? spendSummaryList = null,
     Object? spendMonthSummaryList = null,
     Object? spendYearlyList = null,
@@ -70,6 +77,10 @@ class _$SpendResponseStateCopyWithImpl<$Res, $Val extends SpendResponseState>
     Object? spendSamedayYearlyList = null,
   }) {
     return _then(_value.copyWith(
+      spendItemDaily: null == spendItemDaily
+          ? _value.spendItemDaily
+          : spendItemDaily // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<SpendItemDaily>,
       spendSummaryList: null == spendSummaryList
           ? _value.spendSummaryList
           : spendSummaryList // ignore: cast_nullable_to_non_nullable
@@ -107,7 +118,8 @@ abstract class _$$SpendResponseStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {AsyncValue<List<SpendSummary>> spendSummaryList,
+      {AsyncValue<SpendItemDaily> spendItemDaily,
+      AsyncValue<List<SpendSummary>> spendSummaryList,
       AsyncValue<List<SpendMonthSummary>> spendMonthSummaryList,
       AsyncValue<List<SpendYearly>> spendYearlyList,
       AsyncValue<List<SpendYearSummary>> spendYearSummaryList,
@@ -126,6 +138,7 @@ class __$$SpendResponseStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? spendItemDaily = null,
     Object? spendSummaryList = null,
     Object? spendMonthSummaryList = null,
     Object? spendYearlyList = null,
@@ -134,6 +147,10 @@ class __$$SpendResponseStateImplCopyWithImpl<$Res>
     Object? spendSamedayYearlyList = null,
   }) {
     return _then(_$SpendResponseStateImpl(
+      spendItemDaily: null == spendItemDaily
+          ? _value.spendItemDaily
+          : spendItemDaily // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<SpendItemDaily>,
       spendSummaryList: null == spendSummaryList
           ? _value.spendSummaryList
           : spendSummaryList // ignore: cast_nullable_to_non_nullable
@@ -166,7 +183,8 @@ class __$$SpendResponseStateImplCopyWithImpl<$Res>
 
 class _$SpendResponseStateImpl implements _SpendResponseState {
   const _$SpendResponseStateImpl(
-      {this.spendSummaryList = const AsyncValue<List<SpendSummary>>.loading(),
+      {this.spendItemDaily = const AsyncValue<SpendItemDaily>.loading(),
+      this.spendSummaryList = const AsyncValue<List<SpendSummary>>.loading(),
       this.spendMonthSummaryList =
           const AsyncValue<List<SpendMonthSummary>>.loading(),
       this.spendYearlyList = const AsyncValue<List<SpendYearly>>.loading(),
@@ -176,6 +194,12 @@ class _$SpendResponseStateImpl implements _SpendResponseState {
       this.spendSamedayYearlyList =
           const AsyncValue<List<SpendSamedayYearly>>.loading()});
 
+//  SpendItemDaily
+  @override
+  @JsonKey()
+  final AsyncValue<SpendItemDaily> spendItemDaily;
+
+  ///
   @override
   @JsonKey()
   final AsyncValue<List<SpendSummary>> spendSummaryList;
@@ -191,14 +215,13 @@ class _$SpendResponseStateImpl implements _SpendResponseState {
   @override
   @JsonKey()
   final AsyncValue<List<SpendSameday>> spendSamedayList;
-//List<SpendSamedayYearly>
   @override
   @JsonKey()
   final AsyncValue<List<SpendSamedayYearly>> spendSamedayYearlyList;
 
   @override
   String toString() {
-    return 'SpendResponseState(spendSummaryList: $spendSummaryList, spendMonthSummaryList: $spendMonthSummaryList, spendYearlyList: $spendYearlyList, spendYearSummaryList: $spendYearSummaryList, spendSamedayList: $spendSamedayList, spendSamedayYearlyList: $spendSamedayYearlyList)';
+    return 'SpendResponseState(spendItemDaily: $spendItemDaily, spendSummaryList: $spendSummaryList, spendMonthSummaryList: $spendMonthSummaryList, spendYearlyList: $spendYearlyList, spendYearSummaryList: $spendYearSummaryList, spendSamedayList: $spendSamedayList, spendSamedayYearlyList: $spendSamedayYearlyList)';
   }
 
   @override
@@ -206,6 +229,8 @@ class _$SpendResponseStateImpl implements _SpendResponseState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SpendResponseStateImpl &&
+            (identical(other.spendItemDaily, spendItemDaily) ||
+                other.spendItemDaily == spendItemDaily) &&
             (identical(other.spendSummaryList, spendSummaryList) ||
                 other.spendSummaryList == spendSummaryList) &&
             (identical(other.spendMonthSummaryList, spendMonthSummaryList) ||
@@ -223,6 +248,7 @@ class _$SpendResponseStateImpl implements _SpendResponseState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      spendItemDaily,
       spendSummaryList,
       spendMonthSummaryList,
       spendYearlyList,
@@ -240,7 +266,8 @@ class _$SpendResponseStateImpl implements _SpendResponseState {
 
 abstract class _SpendResponseState implements SpendResponseState {
   const factory _SpendResponseState(
-          {final AsyncValue<List<SpendSummary>> spendSummaryList,
+          {final AsyncValue<SpendItemDaily> spendItemDaily,
+          final AsyncValue<List<SpendSummary>> spendSummaryList,
           final AsyncValue<List<SpendMonthSummary>> spendMonthSummaryList,
           final AsyncValue<List<SpendYearly>> spendYearlyList,
           final AsyncValue<List<SpendYearSummary>> spendYearSummaryList,
@@ -248,7 +275,11 @@ abstract class _SpendResponseState implements SpendResponseState {
           final AsyncValue<List<SpendSamedayYearly>> spendSamedayYearlyList}) =
       _$SpendResponseStateImpl;
 
+  @override //  SpendItemDaily
+  AsyncValue<SpendItemDaily> get spendItemDaily;
   @override
+
+  ///
   AsyncValue<List<SpendSummary>> get spendSummaryList;
   @override
   AsyncValue<List<SpendMonthSummary>> get spendMonthSummaryList;
@@ -258,7 +289,7 @@ abstract class _SpendResponseState implements SpendResponseState {
   AsyncValue<List<SpendYearSummary>> get spendYearSummaryList;
   @override
   AsyncValue<List<SpendSameday>> get spendSamedayList;
-  @override //List<SpendSamedayYearly>
+  @override
   AsyncValue<List<SpendSamedayYearly>> get spendSamedayYearlyList;
   @override
   @JsonKey(ignore: true)
