@@ -16,7 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$LifetimeResponseState {
-  Lifetime? get lifetime => throw _privateConstructorUsedError;
+  Lifetime? get lifetime =>
+      throw _privateConstructorUsedError; // 2023.11.22 AsyncValueを使用してみた
   AsyncValue<List<Lifetime>> get lifetimeList =>
       throw _privateConstructorUsedError;
   AsyncValue<Map<String, Lifetime>> get lifetimeMap =>
@@ -130,6 +131,7 @@ class _$_LifetimeResponseState implements _LifetimeResponseState {
 
   @override
   final Lifetime? lifetime;
+// 2023.11.22 AsyncValueを使用してみた
   @override
   @JsonKey()
   final AsyncValue<List<Lifetime>> lifetimeList;
@@ -176,7 +178,7 @@ abstract class _LifetimeResponseState implements LifetimeResponseState {
 
   @override
   Lifetime? get lifetime;
-  @override
+  @override // 2023.11.22 AsyncValueを使用してみた
   AsyncValue<List<Lifetime>> get lifetimeList;
   @override
   AsyncValue<Map<String, Lifetime>> get lifetimeMap;

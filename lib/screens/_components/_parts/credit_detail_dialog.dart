@@ -2,16 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/extensions/extensions.dart';
 
+import '../../../extensions/extensions.dart';
 import '../../../models/amazon_purchase.dart';
 import '../../../models/credit_spend_all.dart';
-import '../../../viewmodel/amazon_notifier.dart';
+import '../../../state/amazon_purchase/amazon_notifier.dart';
 import '../../../viewmodel/udemy_notifier.dart';
 
 class CreditDetailDialog extends ConsumerWidget {
-  CreditDetailDialog(
-      {super.key, required this.date, required this.creditDetail});
+  CreditDetailDialog({super.key, required this.date, required this.creditDetail});
 
   final DateTime date;
   final CreditSpendAll creditDetail;
@@ -101,12 +100,14 @@ class CreditDetailDialog extends ConsumerWidget {
     final amazonMap = <String, List<AmazonPurchase>>{};
 
     list2.forEach((element) {
-      final amazonPurchaseState = _ref.watch(amazonPurchaseProvider(element));
+      final amazonPurchaseList = _ref.watch(
+        amazonPurchaseProvider(element).select((value) => value.amazonPurchaseList),
+      );
 
       var list3 = <AmazonPurchase>[];
       var keepDate = '';
 
-      amazonPurchaseState.forEach((element2) {
+      amazonPurchaseList.value?.forEach((element2) {
         if (element2.date != keepDate) {
           list3 = [];
         }
@@ -117,6 +118,38 @@ class CreditDetailDialog extends ConsumerWidget {
 
         keepDate = element2.date;
       });
+
+      //
+      //
+      // amazonPurchaseList.when(
+      //   data: (value) => value.forEach((element2) {
+      //     if (element2.date != keepDate) {
+      //       list3 = [];
+      //     }
+      //
+      //     list3.add(element2);
+      //
+      //     amazonMap[element2.date] = list3;
+      //
+      //     keepDate = element2.date;
+      //   }),
+      //   error: (error, stackTrace) => Container(),
+      //   loading: Container.new,
+      // );
+      //
+      //
+
+      // amazonPurchaseState.forEach((element2) {
+      //   if (element2.date != keepDate) {
+      //     list3 = [];
+      //   }
+      //
+      //   list3.add(element2);
+      //
+      //   amazonMap[element2.date] = list3;
+      //
+      //   keepDate = element2.date;
+      // });
     });
 
     final oneHeight = _context.screenSize.height / 10;
@@ -151,9 +184,7 @@ class CreditDetailDialog extends ConsumerWidget {
 
     udemyState.forEach((element) {
       if (date.yyyymmdd == element.date) {
-        list.add(
-          Text(element.title),
-        );
+        list.add(Text(element.title));
       }
     });
 

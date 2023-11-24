@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../extensions/extensions.dart';
+import '../../../state/amazon_purchase/amazon_notifier.dart';
 import '../../../state/device_info/device_info_notifier.dart';
 import '../../../utility/utility.dart';
-import '../../../viewmodel/amazon_notifier.dart';
 
 class AmazonPage extends ConsumerWidget {
   AmazonPage({super.key, required this.date});
@@ -57,22 +57,58 @@ class AmazonPage extends ConsumerWidget {
 
   ///
   Widget displayAmazonPurchase() {
-    final amazonPurchaseState = _ref.watch(amazonPurchaseProvider(date));
+    final amazonPurchaseList = _ref.watch(amazonPurchaseProvider(date).select((value) => value.amazonPurchaseList));
 
     ///////////////////////////
     final mt = <String, List<int>>{};
 
-    amazonPurchaseState
-      ..forEach((element) {
-        final month = DateTime.parse(element.date).mm;
+    amazonPurchaseList.value?.forEach((element) {
+      final month = DateTime.parse(element.date).mm;
 
-        mt[month] = [];
-      })
-      ..forEach((element) {
-        final month = DateTime.parse(element.date).mm;
+      mt[month] = [];
+    });
 
-        mt[month]?.add(element.price.toInt());
-      });
+    amazonPurchaseList.value?.forEach((element) {
+      final month = DateTime.parse(element.date).mm;
+
+      mt[month]?.add(element.price.toInt());
+    });
+
+    // amazonPurchaseList
+    //   ..when(
+    //     data: (value) => value.forEach((element) {
+    //       final month = DateTime.parse(element.date).mm;
+    //
+    //       mt[month] = [];
+    //     }),
+    //     error: (error, stackTrace) => Container(),
+    //     loading: Container.new,
+    //   )
+
+/*
+amazonPurchaseState.forEach((element) {
+final month = DateTime.parse(element.date).mm;
+
+mt[month] = [];
+});
+*/
+    // ..when(
+    //   data: (value) => value.forEach((element) {
+    //     final month = DateTime.parse(element.date).mm;
+    //
+    //     mt[month]?.add(element.price.toInt());
+    //   }),
+    //   error: (error, stackTrace) => Container(),
+    //   loading: Container.new,
+    // );
+
+/*
+amazonPurchaseState.forEach((element) {
+final month = DateTime.parse(element.date).mm;
+
+mt[month]?.add(element.price.toInt());
+});
+*/
 
     final monthTotal = <String, int>{};
 
@@ -98,10 +134,107 @@ class AmazonPage extends ConsumerWidget {
 
     ///////////////////////////
 
-    final list = <Widget>[];
+    return amazonPurchaseList.when(
+      data: (value) {
+        final list = <Widget>[];
 
-    keepMonth = '';
+        keepMonth = '';
 
+        value.forEach((element) {
+          final month = DateTime.parse(element.date).mm;
+
+          if (month != keepMonth) {
+            list.add(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(),
+                  Container(
+                    width: _context.screenSize.width / 5,
+                    alignment: Alignment.center,
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: _utility.getLeadingBgColor(month: month),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(monthTotal[month].toString().toCurrency()),
+                  ),
+                ],
+              ),
+            );
+          }
+
+          list.add(
+            Container(
+              width: _context.screenSize.width,
+              padding: const EdgeInsets.symmetric(vertical: 3),
+              decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white.withOpacity(0.8)),
+                      color: _utility.getLeadingBgColor(month: month),
+                    ),
+                    child: Text(month),
+                  ),
+                  const SizedBox(width: 20),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(element.item),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(),
+                            Row(
+                              children: [
+                                Text(element.price.toCurrency()),
+                                const SizedBox(width: 10),
+                                const Text('/'),
+                                const SizedBox(width: 10),
+                                Text(element.date),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+
+          keepMonth = month;
+        });
+
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              Column(children: list),
+              Divider(thickness: 3, color: Colors.white.withOpacity(0.2)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(),
+                  Text(yTtl.toString().toCurrency(), style: const TextStyle(color: Colors.yellowAccent)),
+                ],
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
+        );
+      },
+      error: (error, stackTrace) => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: CircularProgressIndicator()),
+    );
+
+    /*
     amazonPurchaseState.forEach((element) {
       final month = DateTime.parse(element.date).mm;
 
@@ -174,22 +307,23 @@ class AmazonPage extends ConsumerWidget {
 
       keepMonth = month;
     });
+    */
 
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Column(children: list),
-          Divider(thickness: 3, color: Colors.white.withOpacity(0.2)),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(),
-              Text(yTtl.toString().toCurrency(), style: const TextStyle(color: Colors.yellowAccent)),
-            ],
-          ),
-          const SizedBox(height: 20),
-        ],
-      ),
-    );
+    // return SingleChildScrollView(
+    //   child: Column(
+    //     children: [
+    //       Column(children: list),
+    //       Divider(thickness: 3, color: Colors.white.withOpacity(0.2)),
+    //       Row(
+    //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //         children: [
+    //           Container(),
+    //           Text(yTtl.toString().toCurrency(), style: const TextStyle(color: Colors.yellowAccent)),
+    //         ],
+    //       ),
+    //       const SizedBox(height: 20),
+    //     ],
+    //   ),
+    // );
   }
 }

@@ -13,13 +13,13 @@ import '../../../models/money_everyday.dart';
 import '../../../models/train.dart';
 import '../../../models/zero_use_date.dart';
 import '../../../route/routes.dart';
+import '../../../state/amazon_purchase/amazon_notifier.dart';
 import '../../../state/app_param/app_param_notifier.dart';
 import '../../../state/benefit/benefit_notifier.dart';
 import '../../../state/monthly_spend/monthly_spend_state.dart';
 import '../../../state/train/train_notifier.dart';
 import '../../../utility/function.dart';
 import '../../../utility/utility.dart';
-import '../../../viewmodel/amazon_notifier.dart';
 import '../../../viewmodel/bank_notifier.dart';
 import '../../../viewmodel/holiday_notifier.dart';
 import '../../../viewmodel/keihi_list_notifier.dart';
@@ -842,11 +842,11 @@ class MonthlySpendPage extends ConsumerWidget {
   void makeAmazonListMap() {
     amazonListMap = {};
 
-    final amazonPurchaseState = _ref.watch(amazonPurchaseProvider(date));
+    final amazonPurchaseList = _ref.watch(amazonPurchaseProvider(date).select((value) => value.amazonPurchaseList));
 
     var keepDate = '';
 
-    amazonPurchaseState.forEach((element) {
+    amazonPurchaseList.value?.forEach((element) {
       if (element.date != keepDate) {
         amazonListMap[element.date] = [];
       }
@@ -855,5 +855,29 @@ class MonthlySpendPage extends ConsumerWidget {
 
       keepDate = element.date;
     });
+
+    // amazonPurchaseList.when(
+    //   data: (value) => value.forEach((element) {
+    //     if (element.date != keepDate) {
+    //       amazonListMap[element.date] = [];
+    //     }
+    //
+    //     amazonListMap[element.date]?.add(element);
+    //
+    //     keepDate = element.date;
+    //   }),
+    //   error: (error, stackTrace) => Container(),
+    //   loading: Container.new,
+    // );
+
+    // amazonPurchaseState.forEach((element) {
+    //   if (element.date != keepDate) {
+    //     amazonListMap[element.date] = [];
+    //   }
+    //
+    //   amazonListMap[element.date]?.add(element);
+    //
+    //   keepDate = element.date;
+    // });
   }
 }
