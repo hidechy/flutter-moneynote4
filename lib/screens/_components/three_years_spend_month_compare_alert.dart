@@ -68,16 +68,32 @@ class ThreeYearsSpendMonthCompareAlert extends ConsumerWidget {
   ///
   void _makeYearMonthCompareMap() {
     for (var i = DateTime.now().year - 2; i <= DateTime.now().year; i++) {
-      final spendYearDayState = _ref.watch(spendYearlyProvider(DateTime(i)));
-
       final map = <String, List<int>>{};
-      spendYearDayState
-        ..forEach((element) {
-          map[element.date.yyyymm] = [];
-        })
-        ..forEach((element) {
-          map[element.date.yyyymm]?.add(element.spend);
-        });
+
+      final spendYearlyList = _ref.watch(spendYearlyProvider(DateTime(i)).select((value) => value.spendYearlyList));
+
+      spendYearlyList.value?.forEach((element) {
+        map[element.date.yyyymm] = [];
+      });
+
+      spendYearlyList.value?.forEach((element) {
+        map[element.date.yyyymm]?.add(element.spend);
+      });
+
+      //
+      //
+      // final spendYearDayState = _ref.watch(spendYearlyProvider(DateTime(i)));
+      //
+      // spendYearDayState
+      //   ..forEach((element) {
+      //     map[element.date.yyyymm] = [];
+      //   })
+      //   ..forEach((element) {
+      //     map[element.date.yyyymm]?.add(element.spend);
+      //   });
+      //
+      //
+      //
 
       map.entries.forEach((element) {
         var sum = 0;
@@ -95,11 +111,24 @@ class ThreeYearsSpendMonthCompareAlert extends ConsumerWidget {
     final list = <Widget>[];
 
     for (var i = date.year; i > date.year - 3; i--) {
-      final spendYearDayState = _ref.watch(spendYearlyProvider(DateTime(i)));
       var sum = 0;
-      spendYearDayState.forEach((element) {
+
+      final spendYearlyList = _ref.watch(spendYearlyProvider(DateTime(i)).select((value) => value.spendYearlyList));
+
+      spendYearlyList.value?.forEach((element) {
         sum += element.spend;
       });
+
+      //
+      //
+      // final spendYearDayState = _ref.watch(spendYearlyProvider(DateTime(i)));
+      //
+      // spendYearDayState.forEach((element) {
+      //   sum += element.spend;
+      // });
+      //
+      //
+      //
 
       list.add(
         Expanded(
@@ -138,18 +167,33 @@ class ThreeYearsSpendMonthCompareAlert extends ConsumerWidget {
 
   ///
   Widget _getColumn({required int year}) {
-    final spendYearDayState = _ref.watch(spendYearlyProvider(DateTime(year)));
-
     final list = <Widget>[];
 
     final map = <String, List<int>>{};
-    spendYearDayState
-      ..forEach((element) {
-        map[element.date.yyyymm] = [];
-      })
-      ..forEach((element) {
-        map[element.date.yyyymm]?.add(element.spend);
-      });
+
+    final spendYearlyList = _ref.watch(spendYearlyProvider(DateTime(year)).select((value) => value.spendYearlyList));
+
+    spendYearlyList.value?.forEach((element) {
+      map[element.date.yyyymm] = [];
+    });
+
+    spendYearlyList.value?.forEach((element) {
+      map[element.date.yyyymm]?.add(element.spend);
+    });
+
+    //
+    //
+    // final spendYearDayState = _ref.watch(spendYearlyProvider(DateTime(year)));
+    //
+    // spendYearDayState
+    //   ..forEach((element) {
+    //     map[element.date.yyyymm] = [];
+    //   })
+    //   ..forEach((element) {
+    //     map[element.date.yyyymm]?.add(element.spend);
+    //   });
+    //
+    //
 
     final map2 = <String, int>{};
     map.entries.forEach((element) {

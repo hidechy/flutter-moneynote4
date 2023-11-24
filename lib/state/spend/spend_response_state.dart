@@ -4,6 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../models/spend_month_summary.dart';
 import '../../models/spend_summary.dart';
+import '../../models/spend_yearly.dart';
 
 part 'spend_response_state.freezed.dart';
 
@@ -11,9 +12,10 @@ part 'spend_response_state.freezed.dart';
 class SpendResponseState with _$SpendResponseState {
   const factory SpendResponseState({
     @Default(AsyncValue<List<SpendSummary>>.loading()) AsyncValue<List<SpendSummary>> spendSummaryList,
-
-//List<SpendMonthSummary>
-
     @Default(AsyncValue<List<SpendMonthSummary>>.loading()) AsyncValue<List<SpendMonthSummary>> spendMonthSummaryList,
+
+    //List<SpendYearly>
+
+    @Default(AsyncValue<List<SpendYearly>>.loading()) AsyncValue<List<SpendYearly>> spendYearlyList,
   }) = _SpendResponseState;
 }

@@ -26,14 +26,27 @@ class SpendYearDayItemAlert extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
 
-    final spendYearDayState = _ref.watch(spendYearlyProvider(date));
-
     var maxNum = 0;
-    for (var i = 0; i < spendYearDayState.length; i++) {
-      for (var j = 0; j < spendYearDayState[i].item.length; j++) {
+
+    final spendYearlyList = _ref.watch(spendYearlyProvider(date).select((value) => value.spendYearlyList));
+
+    spendYearlyList.value?.forEach((element) {
+      for (var j = 0; j < element.item.length; j++) {
         maxNum++;
       }
-    }
+    });
+
+    //
+    //
+    // final spendYearDayState = _ref.watch(spendYearlyProvider(date));
+    //
+    // for (var i = 0; i < spendYearDayState.length; i++) {
+    //   for (var j = 0; j < spendYearDayState[i].item.length; j++) {
+    //     maxNum++;
+    //   }
+    // }
+    //
+    //
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
@@ -158,8 +171,6 @@ class SpendYearDayItemAlert extends ConsumerWidget {
 
     final list = <Widget>[];
 
-    final spendYearDayState = _ref.watch(spendYearlyProvider(date));
-
     final spendZeroUseDateState = _ref.watch(spendZeroUseDateProvider);
 
     var yearTotal = 0;
@@ -167,6 +178,89 @@ class SpendYearDayItemAlert extends ConsumerWidget {
     // forで仕方ない
 
     var maxNum = 0;
+
+    final spendYearlyList = _ref.watch(spendYearlyProvider(date).select((value) => value.spendYearlyList));
+
+    return spendYearlyList.when(
+      data: (value) {
+        for (var i = 0; i < value.length; i++) {
+          final listDate = value[i].date.mmdd;
+
+          final youbi = value[i].date.youbiStr;
+
+          for (var j = 0; j < value[i].item.length; j++) {
+            final item = value[i].item[j];
+
+            if (spendYearDayItemSelectTextState != '') {
+              if (item.price.toString().toInt() < spendYearDayItemSelectTextState.toInt()) {
+                continue;
+              }
+            }
+
+            final linePrice = item.price.toString().toInt();
+
+            yearTotal += linePrice;
+
+            list.add(AutoScrollTag(
+              key: ValueKey(maxNum),
+              index: maxNum,
+              controller: autoScrollController,
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.only(bottom: 10),
+                decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
+                child: Row(
+                  children: [
+                    if (getSpendZeroFlag(date: value[i].date.yyyymmdd, spend: spendZeroUseDateState) == 1) ...[
+                      const Icon(Icons.star, color: Colors.yellowAccent, size: 10),
+                      const SizedBox(width: 10),
+                    ],
+                    if (getSpendZeroFlag(date: value[i].date.yyyymmdd, spend: spendZeroUseDateState) == 0) ...[
+                      const Icon(Icons.check_box_outline_blank, color: Colors.transparent, size: 10),
+                      const SizedBox(width: 10),
+                    ],
+                    Expanded(
+                      flex: 3,
+                      child: Text('$listDate (${youbi.substring(0, 3)})'),
+                    ),
+                    Expanded(
+                      flex: 4,
+                      child: Text(item.item, overflow: TextOverflow.ellipsis, maxLines: 1),
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: Container(
+                        alignment: Alignment.topRight,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(linePrice.toString().toCurrency()),
+                            Text(yearTotal.toString().toCurrency(), style: const TextStyle(color: Colors.grey)),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ));
+
+            maxNum++;
+          }
+        }
+
+        return SingleChildScrollView(
+          controller: autoScrollController,
+          child: DefaultTextStyle(style: const TextStyle(fontSize: 10), child: Column(children: list)),
+        );
+      },
+      error: (error, stackTrace) => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: CircularProgressIndicator()),
+    );
+
+    /*
+        final spendYearDayState = _ref.watch(spendYearlyProvider(date));
+
     for (var i = 0; i < spendYearDayState.length; i++) {
       final listDate = spendYearDayState[i].date.mmdd;
 
@@ -253,6 +347,11 @@ class SpendYearDayItemAlert extends ConsumerWidget {
         child: Column(children: list),
       ),
     );
+
+
+
+
+    */
   }
 
   ///
