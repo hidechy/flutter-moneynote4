@@ -263,11 +263,17 @@ class CreditYearlyListAlert extends ConsumerWidget {
     keihiList = [];
 
     for (var i = date.year - 1; i <= date.year; i++) {
-      final keihiListState = _ref.watch(keihiListProvider(DateTime(i)));
+      // final keihiListState = _ref.watch(keihiListProvider(DateTime(i)));
+      //
+      // keihiListState.forEach((element) {
+      //   keihiList.add('${element.item}|${element.date.yyyymmdd}');
+      // });
+      //
+      //
 
-      keihiListState.forEach((element) {
-        keihiList.add('${element.item}|${element.date.yyyymmdd}');
-      });
+      final kList = _ref.watch(keihiListProvider(DateTime(i)).select((value) => value.keihiList));
+
+      kList.value?.forEach((element) => keihiList.add('${element.item}|${element.date.yyyymmdd}'));
     }
   }
 }

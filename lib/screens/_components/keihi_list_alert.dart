@@ -97,6 +97,128 @@ class KeihiListAlert extends ConsumerWidget {
 
   ///
   Widget displayKeihiList() {
+    var sum = 0;
+
+    final keihiList = _ref.watch(keihiListProvider(date).select((value) => value.keihiList));
+
+    return keihiList.when(
+      data: (value) {
+        final list = <Widget>[];
+
+        value.forEach((element) {
+          final color =
+              (element.category1 == 'null' || element.category2 == 'null') ? Colors.yellowAccent : Colors.white;
+
+          list.add(Container(
+            padding: const EdgeInsets.all(10),
+            margin: const EdgeInsets.only(bottom: 10),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.white.withOpacity(0.3),
+                ),
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(element.date.yyyymmdd),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  element.category1,
+                                  style: TextStyle(color: color),
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  element.category2,
+                                  style: TextStyle(color: color),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        final st = <String>[
+                          element.date.yyyymmdd,
+                          element.item,
+                          element.price.toString(),
+                          element.flag
+                        ];
+
+                        final str = st.join('|');
+
+                        MoneyDialog(
+                          context: _context,
+                          widget: KeihiSettingAlert(
+                            id: element.id,
+                            str: str,
+                            date: element.date,
+                          ),
+                        );
+                      },
+                      child: Icon(
+                        Icons.settings,
+                        color: Colors.white.withOpacity(0.6),
+                      ),
+                    ),
+                  ],
+                ),
+                Text(element.item),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(),
+                    Text(element.price.toString().toCurrency()),
+                  ],
+                ),
+              ],
+            ),
+          ));
+
+          sum += element.price;
+        });
+
+        list.add(Container(
+          padding: const EdgeInsets.all(10),
+          margin: const EdgeInsets.only(bottom: 10),
+          decoration: BoxDecoration(
+            color: Colors.yellowAccent.withOpacity(0.1),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('SUM'),
+              Text(sum.toString().toCurrency()),
+            ],
+          ),
+        ));
+
+        return SingleChildScrollView(
+          child: Column(children: list),
+        );
+      },
+      error: (error, stackTrace) => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: CircularProgressIndicator()),
+    );
+
+    /*
+
+
+
+
     final list = <Widget>[];
 
     final keihiListState = _ref.watch(keihiListProvider(date));
@@ -199,5 +321,11 @@ class KeihiListAlert extends ConsumerWidget {
     return SingleChildScrollView(
       child: Column(children: list),
     );
+
+
+
+
+
+    */
   }
 }

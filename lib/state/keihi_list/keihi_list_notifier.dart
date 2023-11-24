@@ -8,36 +8,40 @@ import '../../extensions/extensions.dart';
 import '../../models/keihi.dart';
 import '../../models/tax_payment_item.dart';
 import '../../utility/utility.dart';
+import 'keihi_list_response_state.dart';
 
 ////////////////////////////////////////////////
 
 final keihiListProvider =
-    StateNotifierProvider.autoDispose.family<KeihiListNotifier, List<Keihi>, DateTime>((ref, date) {
+    StateNotifierProvider.autoDispose.family<KeihiListNotifier, KeihiListResponseState, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return KeihiListNotifier([], client, utility)..getKeihiList(date: date);
+  return KeihiListNotifier(const KeihiListResponseState(), client, utility)..getKeihiList(date: date);
 });
 
-class KeihiListNotifier extends StateNotifier<List<Keihi>> {
+class KeihiListNotifier extends StateNotifier<KeihiListResponseState> {
   KeihiListNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
   final Utility utility;
 
   Future<void> getKeihiList({required DateTime date}) async {
-    await client.post(
-      path: APIPath.selectSpendCheckItem,
-      body: {'date': date.yyyymmdd},
-    ).then((value) {
+    await client.post(path: APIPath.selectSpendCheckItem, body: {'date': date.yyyymmdd}).then((value) {
       final list = <Keihi>[];
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         list.add(Keihi.fromJson(value['data'][i] as Map<String, dynamic>));
       }
 
-      state = list;
+      // state = list;
+      //
+      //
+      //
+      //
+
+      state = state.copyWith(keihiList: AsyncValue.data(list));
     });
   }
 }
@@ -47,33 +51,15 @@ class KeihiListNotifier extends StateNotifier<List<Keihi>> {
 ////////////////////////////////////////////////
 
 final taxPaymentItemProvider =
-    StateNotifierProvider.autoDispose.family<TaxPaymentItemNotifier, TaxPaymentItem, DateTime>((ref, date) {
+    StateNotifierProvider.autoDispose.family<TaxPaymentItemNotifier, KeihiListResponseState, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return TaxPaymentItemNotifier(
-      TaxPaymentItem(
-          year: '',
-          businessIncome: 0,
-          incomeDividend: 0,
-          salaryIncome: 0,
-          expenses: 0,
-          incomeAmountDividend: 0,
-          employmentIncome: 0,
-          socialInsuranceDeduction: 0,
-          smallBusinessDeduction: 0,
-          lifeInsuranceDeduction: 0,
-          donationDeduction: 0,
-          dividendDeduction: 0,
-          withholdingTaxAmount: 0,
-          blueSpecialDeduction: 0),
-      client,
-      utility)
-    ..getTaxPaymentItem(date: date);
+  return TaxPaymentItemNotifier(const KeihiListResponseState(), client, utility)..getTaxPaymentItem(date: date);
 });
 
-class TaxPaymentItemNotifier extends StateNotifier<TaxPaymentItem> {
+class TaxPaymentItemNotifier extends StateNotifier<KeihiListResponseState> {
   TaxPaymentItemNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
@@ -84,7 +70,13 @@ class TaxPaymentItemNotifier extends StateNotifier<TaxPaymentItem> {
       path: APIPath.getTaxPaymentItem,
       body: {'date': date.yyyymmdd},
     ).then((value) {
-      state = TaxPaymentItem.fromJson(value['data'] as Map<String, dynamic>);
+      // state = TaxPaymentItem.fromJson(value['data'] as Map<String, dynamic>);
+      //
+      //
+      //
+      //
+
+      state = state.copyWith(taxPaymentItem: TaxPaymentItem.fromJson(value['data'] as Map<String, dynamic>));
     });
   }
 }

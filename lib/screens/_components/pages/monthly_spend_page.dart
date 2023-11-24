@@ -864,10 +864,28 @@ class MonthlySpendPage extends ConsumerWidget {
   void makeKeihiListMap() {
     keihiListMap = {};
 
-    final keihiListState = _ref.watch(keihiListProvider(date));
-
     var keepDate = '';
-    keihiListState.forEach((element) {
+
+    // final keihiListState = _ref.watch(keihiListProvider(date));
+    //
+    // keihiListState.forEach((element) {
+    //   if (date.yyyymm == element.date.yyyymm) {
+    //     if (element.date.yyyymmdd != keepDate) {
+    //       keihiListMap[element.date.yyyymmdd] = [];
+    //     }
+    //
+    //     keihiListMap[element.date.yyyymmdd]?.add(element);
+    //
+    //     keepDate = element.date.yyyymmdd;
+    //   }
+    // });
+    //
+    //
+    //
+
+    final keihiList = _ref.watch(keihiListProvider(date).select((value) => value.keihiList));
+
+    keihiList.value?.forEach((element) {
       if (date.yyyymm == element.date.yyyymm) {
         if (element.date.yyyymmdd != keepDate) {
           keihiListMap[element.date.yyyymmdd] = [];

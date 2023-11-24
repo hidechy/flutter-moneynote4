@@ -359,20 +359,40 @@ class TaxPaymentDisplayPage extends ConsumerWidget {
 
   ///
   void makeTaxPaymentItemValue() {
-    final taxPaymentItemState = _ref.watch(taxPaymentItemProvider(date));
+    // final taxPaymentItemState = _ref.watch(taxPaymentItemProvider(date));
+    //
+    // taxPaymentDisplayValue['事業収入'] = taxPaymentItemState.businessIncome;
+    // taxPaymentDisplayValue['収入金額配当'] = taxPaymentItemState.incomeDividend;
+    // taxPaymentDisplayValue['給与収入'] = taxPaymentItemState.salaryIncome;
+    // taxPaymentDisplayValue['経費'] = taxPaymentItemState.expenses;
+    // taxPaymentDisplayValue['所得金額配当'] = taxPaymentItemState.incomeAmountDividend;
+    // taxPaymentDisplayValue['社会保険料控除'] = taxPaymentItemState.socialInsuranceDeduction;
+    // taxPaymentDisplayValue['小規模企業共済等掛金控除'] = taxPaymentItemState.smallBusinessDeduction;
+    // taxPaymentDisplayValue['生命保険料控除'] = taxPaymentItemState.lifeInsuranceDeduction;
+    // taxPaymentDisplayValue['寄附金控除'] = taxPaymentItemState.donationDeduction;
+    // taxPaymentDisplayValue['配当控除'] = taxPaymentItemState.dividendDeduction;
+    // taxPaymentDisplayValue['源泉徴収税額'] = taxPaymentItemState.withholdingTaxAmount;
+    // taxPaymentDisplayValue['青色申告特別控除額'] = taxPaymentItemState.blueSpecialDeduction;
+    //
+    //
+    //
 
-    taxPaymentDisplayValue['事業収入'] = taxPaymentItemState.businessIncome;
-    taxPaymentDisplayValue['収入金額配当'] = taxPaymentItemState.incomeDividend;
-    taxPaymentDisplayValue['給与収入'] = taxPaymentItemState.salaryIncome;
-    taxPaymentDisplayValue['経費'] = taxPaymentItemState.expenses;
-    taxPaymentDisplayValue['所得金額配当'] = taxPaymentItemState.incomeAmountDividend;
-    taxPaymentDisplayValue['社会保険料控除'] = taxPaymentItemState.socialInsuranceDeduction;
-    taxPaymentDisplayValue['小規模企業共済等掛金控除'] = taxPaymentItemState.smallBusinessDeduction;
-    taxPaymentDisplayValue['生命保険料控除'] = taxPaymentItemState.lifeInsuranceDeduction;
-    taxPaymentDisplayValue['寄附金控除'] = taxPaymentItemState.donationDeduction;
-    taxPaymentDisplayValue['配当控除'] = taxPaymentItemState.dividendDeduction;
-    taxPaymentDisplayValue['源泉徴収税額'] = taxPaymentItemState.withholdingTaxAmount;
-    taxPaymentDisplayValue['青色申告特別控除額'] = taxPaymentItemState.blueSpecialDeduction;
+    final taxPaymentItem = _ref.watch(taxPaymentItemProvider(date).select((value) => value.taxPaymentItem));
+
+    if (taxPaymentItem != null) {
+      taxPaymentDisplayValue['事業収入'] = taxPaymentItem.businessIncome;
+      taxPaymentDisplayValue['収入金額配当'] = taxPaymentItem.incomeDividend;
+      taxPaymentDisplayValue['給与収入'] = taxPaymentItem.salaryIncome;
+      taxPaymentDisplayValue['経費'] = taxPaymentItem.expenses;
+      taxPaymentDisplayValue['所得金額配当'] = taxPaymentItem.incomeAmountDividend;
+      taxPaymentDisplayValue['社会保険料控除'] = taxPaymentItem.socialInsuranceDeduction;
+      taxPaymentDisplayValue['小規模企業共済等掛金控除'] = taxPaymentItem.smallBusinessDeduction;
+      taxPaymentDisplayValue['生命保険料控除'] = taxPaymentItem.lifeInsuranceDeduction;
+      taxPaymentDisplayValue['寄附金控除'] = taxPaymentItem.donationDeduction;
+      taxPaymentDisplayValue['配当控除'] = taxPaymentItem.dividendDeduction;
+      taxPaymentDisplayValue['源泉徴収税額'] = taxPaymentItem.withholdingTaxAmount;
+      taxPaymentDisplayValue['青色申告特別控除額'] = taxPaymentItem.blueSpecialDeduction;
+    }
   }
 
   ///
@@ -424,13 +444,20 @@ class TaxPaymentDisplayPage extends ConsumerWidget {
 
   ///
   int getKeihi() {
-    final keihiListState = _ref.watch(keihiListProvider(date));
-
     var ret = 0;
 
-    keihiListState.forEach((element) {
-      ret += element.price;
-    });
+    // final keihiListState = _ref.watch(keihiListProvider(date));
+    //
+    // keihiListState.forEach((element) {
+    //   ret += element.price;
+    // });
+    //
+    //
+    //
+
+    final keihiList = _ref.watch(keihiListProvider(date).select((value) => value.keihiList));
+
+    keihiList.value?.forEach((element) => ret += element.price);
 
     return ret;
   }
