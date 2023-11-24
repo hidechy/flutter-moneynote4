@@ -26,7 +26,7 @@ class SpendYearDayItemAlert extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
 
-    final spendYearDayState = _ref.watch(spendYearDayProvider(date));
+    final spendYearDayState = _ref.watch(spendYearlyProvider(date));
 
     var maxNum = 0;
     for (var i = 0; i < spendYearDayState.length; i++) {
@@ -158,7 +158,7 @@ class SpendYearDayItemAlert extends ConsumerWidget {
 
     final list = <Widget>[];
 
-    final spendYearDayState = _ref.watch(spendYearDayProvider(date));
+    final spendYearDayState = _ref.watch(spendYearlyProvider(date));
 
     final spendZeroUseDateState = _ref.watch(spendZeroUseDateProvider);
 

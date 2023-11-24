@@ -68,7 +68,7 @@ class ThreeYearsSpendMonthCompareAlert extends ConsumerWidget {
   ///
   void _makeYearMonthCompareMap() {
     for (var i = DateTime.now().year - 2; i <= DateTime.now().year; i++) {
-      final spendYearDayState = _ref.watch(spendYearDayProvider(DateTime(i)));
+      final spendYearDayState = _ref.watch(spendYearlyProvider(DateTime(i)));
 
       final map = <String, List<int>>{};
       spendYearDayState
@@ -95,7 +95,7 @@ class ThreeYearsSpendMonthCompareAlert extends ConsumerWidget {
     final list = <Widget>[];
 
     for (var i = date.year; i > date.year - 3; i--) {
-      final spendYearDayState = _ref.watch(spendYearDayProvider(DateTime(i)));
+      final spendYearDayState = _ref.watch(spendYearlyProvider(DateTime(i)));
       var sum = 0;
       spendYearDayState.forEach((element) {
         sum += element.spend;
@@ -138,7 +138,7 @@ class ThreeYearsSpendMonthCompareAlert extends ConsumerWidget {
 
   ///
   Widget _getColumn({required int year}) {
-    final spendYearDayState = _ref.watch(spendYearDayProvider(DateTime(year)));
+    final spendYearDayState = _ref.watch(spendYearlyProvider(DateTime(year)));
 
     final list = <Widget>[];
 

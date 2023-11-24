@@ -94,7 +94,7 @@ class SamedaySpendAlert extends ConsumerWidget {
           onTap: () {
             _ref.read(appParamProvider.notifier).setSamedaySpendAlertDay(day: i);
 
-            _ref.read(samedaySpendProvider(date).notifier).getSamedaySpend(
+            _ref.read(spendSamedayProvider(date).notifier).getSamedaySpend(
                   date: DateTime(date.yyyymm.split('-')[0].toInt(), date.yyyymm.split('-')[1].toInt(), i),
                 );
           },
@@ -118,7 +118,7 @@ class SamedaySpendAlert extends ConsumerWidget {
 
   ///
   Widget displaySamedaySpendList() {
-    final samedaySpendState = _ref.watch(samedaySpendProvider(date));
+    final samedaySpendState = _ref.watch(spendSamedayProvider(date));
 
     final list = <Widget>[];
 

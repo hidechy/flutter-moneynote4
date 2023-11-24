@@ -197,17 +197,17 @@ class SpendMonthDetailNotifier extends StateNotifier<MonthlySpendState> {
 ////////////////////////////////////////////////
 
 ////////////////////////////////////////////////
-final spendYearDayProvider =
-    StateNotifierProvider.autoDispose.family<SpendYearDayNotifier, List<SpendYearly>, DateTime>((ref, date) {
+final spendYearlyProvider =
+    StateNotifierProvider.autoDispose.family<SpendYearlyNotifier, List<SpendYearly>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return SpendYearDayNotifier([], client, utility)..getSpendYearDayData(date: date);
+  return SpendYearlyNotifier([], client, utility)..getSpendYearDayData(date: date);
 });
 
-class SpendYearDayNotifier extends StateNotifier<List<SpendYearly>> {
-  SpendYearDayNotifier(super.state, this.client, this.utility);
+class SpendYearlyNotifier extends StateNotifier<List<SpendYearly>> {
+  SpendYearlyNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
   final Utility utility;
@@ -486,17 +486,17 @@ class SpendZeroUseDateNotifier extends StateNotifier<ZeroUseDate> {
 ////////////////////////////////////////////////
 
 ////////////////////////////////////////////////
-final samedaySpendProvider =
-    StateNotifierProvider.autoDispose.family<SamedaySpendNotifier, List<SpendSameday>, DateTime>((ref, date) {
+final spendSamedayProvider =
+    StateNotifierProvider.autoDispose.family<SpendSamedayNotifier, List<SpendSameday>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return SamedaySpendNotifier([], client, utility)..getSamedaySpend(date: date);
+  return SpendSamedayNotifier([], client, utility)..getSamedaySpend(date: date);
 });
 
-class SamedaySpendNotifier extends StateNotifier<List<SpendSameday>> {
-  SamedaySpendNotifier(super.state, this.client, this.utility);
+class SpendSamedayNotifier extends StateNotifier<List<SpendSameday>> {
+  SpendSamedayNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
   final Utility utility;
@@ -527,17 +527,17 @@ class SamedaySpendNotifier extends StateNotifier<List<SpendSameday>> {
 ////////////////////////////////////////////////
 
 ////////////////////////////////////////////////
-final samedaySpendYearlyProvider = StateNotifierProvider.autoDispose
-    .family<SamedaySpendYearlyNotifier, List<SpendSamedayYearly>, DateTime>((ref, date) {
+final spendSamedayYearlyProvider = StateNotifierProvider.autoDispose
+    .family<SpendSamedayYearlyNotifier, List<SpendSamedayYearly>, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return SamedaySpendYearlyNotifier([], client, utility)..getSamedaySpendYearly(date: date);
+  return SpendSamedayYearlyNotifier([], client, utility)..getSamedaySpendYearly(date: date);
 });
 
-class SamedaySpendYearlyNotifier extends StateNotifier<List<SpendSamedayYearly>> {
-  SamedaySpendYearlyNotifier(super.state, this.client, this.utility);
+class SpendSamedayYearlyNotifier extends StateNotifier<List<SpendSamedayYearly>> {
+  SpendSamedayYearlyNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
   final Utility utility;

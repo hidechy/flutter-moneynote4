@@ -48,7 +48,7 @@ class SpendYearDayAlert extends ConsumerWidget {
     _context = context;
     _ref = ref;
 
-    final spendYearDayState = ref.watch(spendYearDayProvider(date));
+    final spendYearDayState = ref.watch(spendYearlyProvider(date));
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
@@ -161,7 +161,7 @@ class SpendYearDayAlert extends ConsumerWidget {
 
     final holidayState = _ref.watch(holidayProvider);
 
-    final spendYearDayState = _ref.watch(spendYearDayProvider(date));
+    final spendYearDayState = _ref.watch(spendYearlyProvider(date));
 
     //====================================//
     final totalMap = <String, int>{};

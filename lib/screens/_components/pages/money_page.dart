@@ -260,13 +260,13 @@ class MoneyPage extends ConsumerWidget {
     ///////////////////////////////////////////
     final yearSpendToToday = <int, int>{};
 
-    _ref.watch(samedaySpendYearlyProvider(date)).forEach((element) {
+    _ref.watch(spendSamedayYearlyProvider(date)).forEach((element) {
       final bene = genBenefitMap[element.year] ?? 0;
       yearSpendToToday[element.year] = bene + element.spend;
     });
     ///////////////////////////////////////////
 
-    _ref.watch(samedaySpendYearlyProvider(date)).forEach((element) {
+    _ref.watch(spendSamedayYearlyProvider(date)).forEach((element) {
       final bene = genBenefitMap[element.year] ?? 0;
 
       list.add(
