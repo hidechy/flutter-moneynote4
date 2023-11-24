@@ -12,7 +12,6 @@ import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/credit_notifier.dart';
-import '../../viewmodel/seiyu_notifier.dart';
 
 class CreditAlert extends ConsumerWidget {
   CreditAlert({super.key, required this.date});
@@ -160,10 +159,14 @@ class CreditAlert extends ConsumerWidget {
                                   await _ref.read(appParamProvider.notifier).setSeiyuAlertSelectDate(
                                         date: creditSpendMonthlyState[i].date.mmdd,
                                       );
-
-                                  await _ref.read(seiyuPurchaseDateProvider.notifier).getSeiyuPurchaseList(
-                                        date: creditSpendMonthlyState[i].date.yyyymmdd,
-                                      );
+                                  //
+                                  // await _ref.read(seiyuPurchaseDateProvider.notifier).getSeiyuPurchaseList(
+                                  //       date: creditSpendMonthlyState[i].date.yyyymmdd,
+                                  //     );
+                                  //
+                                  //
+                                  //
+                                  //
 
                                   await MoneyDialog(
                                     context: _context,

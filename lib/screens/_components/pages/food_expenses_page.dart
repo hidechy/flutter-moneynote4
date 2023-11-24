@@ -4,11 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../extensions/extensions.dart';
-import '../../../models/seiyu_purchase.dart';
 import '../../../models/spend_month_summary.dart';
 import '../../../state/device_info/device_info_notifier.dart';
+import '../../../state/seiyu_purchase/seiyu_purchase_notifier.dart';
 import '../../../utility/utility.dart';
-import '../../../viewmodel/seiyu_notifier.dart';
 import '../../../viewmodel/spend_notifier.dart';
 
 class FoodExpensesPage extends ConsumerWidget {
@@ -71,8 +70,14 @@ class FoodExpensesPage extends ConsumerWidget {
 
     makeFoodExpensesList(state: spendMonthSummaryState);
 
-    final seiyuAllState = _ref.watch(seiyuAllProvider(date));
-    makeSeiyuTotal(state: seiyuAllState);
+    // final seiyuAllState = _ref.watch(seiyuAllProvider(date));
+    // makeSeiyuTotal(state: seiyuAllState);
+    //
+    //
+    //
+    //
+
+    makeSeiyuTotal();
 
     var ttl = 0;
 
@@ -175,32 +180,73 @@ class FoodExpensesPage extends ConsumerWidget {
   }
 
   ///
-  void makeSeiyuTotal({required List<SeiyuPurchase> state}) {
+  void makeSeiyuTotal() {
+//    {required List<SeiyuPurchase> state}
+
+    // final seiyuAllState = _ref.watch(seiyuAllProvider(date));
+    // makeSeiyuTotal(state: seiyuAllState);
+    //
+
+    final seiyuPurchaseList = _ref.watch(seiyuAllProvider(date).select((value) => value.seiyuPurchaseList));
+
     seiyuTotalPrice = 0;
 
     final reg = RegExp('非食品');
 
     var keepDate = '';
     var ttl = 0;
-    for (var i = 0; i < state.length; i++) {
-      if (date.yyyymm == DateTime.parse(state[i].date).yyyymm) {
-        if (state[i].date != keepDate) {
-          ttl = 0;
+
+    seiyuPurchaseList.when(
+      data: (value) {
+        for (var i = 0; i < value.length; i++) {
+          if (date.yyyymm == DateTime.parse(value[i].date).yyyymm) {
+            if (value[i].date != keepDate) {
+              ttl = 0;
+            }
+
+            final match = reg.firstMatch(value[i].item);
+            if (match != null) {
+              continue;
+            }
+
+            seiyuTotalPrice += value[i].price.toInt();
+
+            ttl += value[i].price.toInt();
+
+            seiyuPriceMap[value[i].date] = ttl;
+
+            keepDate = value[i].date;
+          }
         }
+      },
+      error: (error, stackTrace) => Container(),
+      loading: Container.new,
+    );
 
-        final match = reg.firstMatch(state[i].item);
-        if (match != null) {
-          continue;
-        }
-
-        seiyuTotalPrice += state[i].price.toInt();
-
-        ttl += state[i].price.toInt();
-
-        seiyuPriceMap[state[i].date] = ttl;
-
-        keepDate = state[i].date;
-      }
-    }
+    //
+    //
+    // for (var i = 0; i < state.length; i++) {
+    //   if (date.yyyymm == DateTime.parse(state[i].date).yyyymm) {
+    //     if (state[i].date != keepDate) {
+    //       ttl = 0;
+    //     }
+    //
+    //     final match = reg.firstMatch(state[i].item);
+    //     if (match != null) {
+    //       continue;
+    //     }
+    //
+    //     seiyuTotalPrice += state[i].price.toInt();
+    //
+    //     ttl += state[i].price.toInt();
+    //
+    //     seiyuPriceMap[state[i].date] = ttl;
+    //
+    //     keepDate = state[i].date;
+    //   }
+    // }
+    //
+    //
+    //
   }
 }

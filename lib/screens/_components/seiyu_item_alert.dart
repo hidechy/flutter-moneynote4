@@ -5,9 +5,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
-import '../../state/seiyu_purchase_item/seiyu_purchase_item_request_state.dart';
+import '../../state/seiyu_purchase/seiyu_purchase_notifier.dart';
+import '../../state/seiyu_purchase/seiyu_purchase_request_state.dart';
 import '../../utility/utility.dart';
-import '../../viewmodel/seiyu_notifier.dart';
 
 class SeiyuItemAlert extends ConsumerWidget {
   SeiyuItemAlert({super.key, required this.date, required this.item});
@@ -87,9 +87,16 @@ class SeiyuItemAlert extends ConsumerWidget {
   ///
   void getSeiyuItemPhotoMap() {
     for (var i = 2020; i < DateTime.now().year; i++) {
-      _ref.watch(seiyuAllProvider(DateTime(i))).forEach((element) {
-        seiyuItemPhotoMap[element.item] = element.img;
-      });
+      // _ref.watch(seiyuAllProvider(DateTime(i))).forEach((element) {
+      //   seiyuItemPhotoMap[element.item] = element.img;
+      // });
+      //
+      //
+      //
+
+      final seiyuPurchaseList = _ref.watch(seiyuAllProvider(DateTime(i)).select((value) => value.seiyuPurchaseList));
+
+      seiyuPurchaseList.value?.forEach((element) => seiyuItemPhotoMap[element.item] = element.img);
     }
   }
 
@@ -99,10 +106,56 @@ class SeiyuItemAlert extends ConsumerWidget {
 
     //forで仕方ない
     for (var i = 2020; i <= date.year; i++) {
-      final param = SeiyuPurchaseItemRequestState(
-        date: DateTime(i),
-        item: item,
-      );
+      final param = SeiyuPurchaseRequestState(date: DateTime(i), item: item);
+
+      final seiyuItemList = _ref.watch(seiyuPurchaseItemProvider(param).select((value) => value.seiyuItemList));
+
+      seiyuItemList.value?.forEach((element) {
+        element.list.forEach((element2) {
+          final exValue = element2.split('|');
+
+          list.add(
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 3),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Colors.white.withOpacity(0.3),
+                  ),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Expanded(child: Text(exValue[0])),
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.topRight,
+                      child: Text(exValue[1].toCurrency()),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.topRight,
+                      child: Text(exValue[2]),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.topRight,
+                      child: Text(exValue[3].toCurrency()),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+      });
+
+      /*
+
+
+
 
       final seiyuPurchaseItemState = _ref.watch(seiyuPurchaseItemProvider(param));
 
@@ -147,12 +200,12 @@ class SeiyuItemAlert extends ConsumerWidget {
           );
         });
       });
+
+
+
+      */
     }
 
-    return SingleChildScrollView(
-      child: Column(
-        children: list,
-      ),
-    );
+    return SingleChildScrollView(child: Column(children: list));
   }
 }

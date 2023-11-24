@@ -7,10 +7,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../extensions/extensions.dart';
 import '../../../models/credit_spend_yearly_detail_disp.dart';
 import '../../../state/device_info/device_info_notifier.dart';
+import '../../../state/seiyu_purchase/seiyu_purchase_notifier.dart';
 import '../../../utility/utility.dart';
 import '../../../viewmodel/credit_notifier.dart';
 import '../../../viewmodel/keihi_list_notifier.dart';
-import '../../../viewmodel/seiyu_notifier.dart';
 import '../_money_dialog.dart';
 import '../credit_udemy_alert.dart';
 import 'seiyu_tab_page.dart';
@@ -73,13 +73,26 @@ class CreditYearlyDetailPage extends ConsumerWidget {
     ///////////////////////
     final reg = RegExp('西友ネットスーパー');
 
-    final seiyuAllState = _ref.watch(seiyuAllProvider(date));
     final dateList = <String>[];
-    seiyuAllState.forEach((element) {
+
+    final seiyuPurchaseList = _ref.watch(seiyuAllProvider(date).select((value) => value.seiyuPurchaseList));
+
+    seiyuPurchaseList.value?.forEach((element) {
       if (!dateList.contains(element.date)) {
         dateList.add(element.date);
       }
     });
+
+    // final seiyuAllState = _ref.watch(seiyuAllProvider(date));
+    // final dateList = <String>[];
+    // seiyuAllState.forEach((element) {
+    //   if (!dateList.contains(element.date)) {
+    //     dateList.add(element.date);
+    //   }
+    // });
+    //
+    //
+
     ///////////////////////
 
     final list = <Widget>[];

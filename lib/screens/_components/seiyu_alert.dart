@@ -5,7 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../state/app_param/app_param_notifier.dart';
-import '../../viewmodel/seiyu_notifier.dart';
+import '../../state/seiyu_purchase/seiyu_purchase_notifier.dart';
 import 'pages/seiyu_alert_page.dart';
 
 class TabInfo {

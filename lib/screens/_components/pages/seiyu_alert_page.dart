@@ -5,9 +5,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../state/device_info/device_info_notifier.dart';
+import '../../../state/seiyu_purchase/seiyu_purchase_notifier.dart';
 import '../../../utility/utility.dart';
 import '../../../viewmodel/credit_notifier.dart';
-import '../../../viewmodel/seiyu_notifier.dart';
 import '../_money_dialog.dart';
 import 'seiyu_tab_page.dart';
 
@@ -263,26 +263,50 @@ class SeiyuAlertPage extends ConsumerWidget {
 
   ///
   List<String> makeYearDateList() {
-    final seiyuAllState = _ref.watch(seiyuAllProvider(date));
-
     final list = <String>[];
     var keepDate = '';
 
     final map = <String, List<int>>{};
 
-    for (var i = 0; i < seiyuAllState.length; i++) {
-      if (keepDate != seiyuAllState[i].date) {
-        list.add(DateTime.parse(seiyuAllState[i].date).yyyymmdd);
+    final seiyuPurchaseList = _ref.watch(seiyuAllProvider(date).select((value) => value.seiyuPurchaseList));
 
-        map[seiyuAllState[i].date] = [];
-      }
+    seiyuPurchaseList.when(
+      data: (value) {
+        for (var i = 0; i < value.length; i++) {
+          if (keepDate != value[i].date) {
+            list.add(DateTime.parse(value[i].date).yyyymmdd);
 
-      if (date.year == seiyuAllState[i].date.split('-')[0].toInt()) {
-        map[seiyuAllState[i].date]?.add(seiyuAllState[i].price.toInt());
-      }
+            map[value[i].date] = [];
+          }
 
-      keepDate = seiyuAllState[i].date;
-    }
+          if (date.year == value[i].date.split('-')[0].toInt()) {
+            map[value[i].date]?.add(value[i].price.toInt());
+          }
+
+          keepDate = value[i].date;
+        }
+      },
+      error: (error, stackTrace) => Container(),
+      loading: Container.new,
+    );
+
+    // final seiyuAllState = _ref.watch(seiyuAllProvider(date));
+    //
+    // for (var i = 0; i < seiyuAllState.length; i++) {
+    //   if (keepDate != seiyuAllState[i].date) {
+    //     list.add(DateTime.parse(seiyuAllState[i].date).yyyymmdd);
+    //
+    //     map[seiyuAllState[i].date] = [];
+    //   }
+    //
+    //   if (date.year == seiyuAllState[i].date.split('-')[0].toInt()) {
+    //     map[seiyuAllState[i].date]?.add(seiyuAllState[i].price.toInt());
+    //   }
+    //
+    //   keepDate = seiyuAllState[i].date;
+    // }
+    //
+    //
 
     seiyuDateSumMap = {};
 
