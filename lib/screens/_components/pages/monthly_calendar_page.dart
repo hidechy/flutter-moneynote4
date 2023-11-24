@@ -64,6 +64,14 @@ class MonthlyCalendarPage extends ConsumerWidget {
 
     final monthlyWalkRecord = <String, WalkRecord>{};
 
+    walkRecordMap.value?.forEach((key, val) {
+      if (date.year == val.date.year && date.month == val.date.month) {
+        monthlyWalkRecord[val.date.yyyymmdd] = val;
+      }
+    });
+
+    /*
+
     walkRecordMap.when(
       data: (value) {
         value.forEach((key, val) {
@@ -77,6 +85,8 @@ class MonthlyCalendarPage extends ConsumerWidget {
       error: (error, stackTrace) => Container(),
       loading: Container.new,
     );
+
+    */
 
     //============================//
 

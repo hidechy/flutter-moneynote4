@@ -202,6 +202,15 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
     var walkRecord =
         WalkRecord(date: date, step: 0, distance: 0, timeplace: '', temple: '', mercari: '', train: '', spend: '');
 
+    walkRecordMap.value?.forEach((key, val) {
+      if (date.yyyymmdd == val.date.yyyymmdd) {
+        walkRecord = val;
+      }
+    });
+
+    /*
+
+
     walkRecordMap.when(
       data: (value) {
         value.forEach((key, val) {
@@ -215,6 +224,10 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
       error: (error, stackTrace) => Container(),
       loading: Container.new,
     );
+
+
+
+    */
 
     //============================//
 
