@@ -5,8 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../state/device_info/device_info_notifier.dart';
+import '../../../state/wells/wells_reserve_notifier.dart';
 import '../../../utility/utility.dart';
-import '../../../viewmodel/wells_reserve_notifier.dart';
 
 class WellsReservePage extends ConsumerWidget {
   WellsReservePage({super.key, required this.date});
@@ -57,6 +57,48 @@ class WellsReservePage extends ConsumerWidget {
 
   ///
   Widget displayWellsReserve() {
+    final wellsList = _ref.watch(wellsReserveProvider.select((value) => value.wellsList));
+
+    return wellsList.when(
+      data: (value) {
+        final list = <Widget>[];
+
+        for (var i = 0; i < value.length; i++) {
+          list.add(
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 3),
+              decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
+              child: Row(
+                children: [
+                  Expanded(child: Text(value[i].num)),
+                  Expanded(child: Text(value[i].date.yyyymmdd)),
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.topRight,
+                      child: Text(value[i].price.toCurrency()),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.topRight,
+                      child: Text(value[i].total.toCurrency()),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+
+        return SingleChildScrollView(child: Column(children: list));
+      },
+      error: (error, stackTrace) => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: CircularProgressIndicator()),
+    );
+
+    /*
+
+
     final wellsReserveState = _ref.watch(wellsReserveProvider);
 
     final list = <Widget>[];
@@ -101,5 +143,9 @@ class WellsReservePage extends ConsumerWidget {
     return SingleChildScrollView(
       child: Column(children: list),
     );
+
+
+
+    */
   }
 }

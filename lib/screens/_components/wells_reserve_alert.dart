@@ -5,7 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../state/app_param/app_param_notifier.dart';
-import '../../viewmodel/wells_reserve_notifier.dart';
+import '../../state/wells/wells_reserve_notifier.dart';
 import 'pages/wells_reserve_page.dart';
 
 class TabInfo {
