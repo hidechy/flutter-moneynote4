@@ -28,7 +28,7 @@ import '_components/credit_yearly_detail_alert.dart';
 import '_components/duty_alert.dart';
 import '_components/food_expenses_alert.dart';
 import '_components/home_fix_alert.dart';
-import '_components/mercari_alert.dart';
+import '_components/mercari_record_alert.dart';
 import '_components/money_alert.dart';
 import '_components/money_score_alert.dart';
 import '_components/money_total_alert.dart';
@@ -689,7 +689,7 @@ class HomeScreen extends ConsumerWidget {
         break;
 
       case 'mercari':
-        MoneyDialog(context: _context, widget: MercariAlert(date: focusDayState));
+        MoneyDialog(context: _context, widget: MercariRecordAlert(date: focusDayState));
         break;
 
       case 'udemy':

@@ -5,11 +5,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
+import '../../state/mercari_record/mercari_record_notifier.dart';
 import '../../utility/utility.dart';
-import '../../viewmodel/mercari_notifier.dart';
 
-class MercariAlert extends ConsumerWidget {
-  MercariAlert({super.key, required this.date});
+class MercariRecordAlert extends ConsumerWidget {
+  MercariRecordAlert({super.key, required this.date});
 
   final DateTime date;
 
@@ -43,8 +43,7 @@ class MercariAlert extends ConsumerWidget {
                 Container(width: context.screenSize.width),
 
                 //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
                 //----------//
 
                 displayMercari(),
@@ -58,9 +57,136 @@ class MercariAlert extends ConsumerWidget {
 
   ///
   Widget displayMercari() {
-    final mercariState = _ref.watch(mercariProvider);
+    final mercariRecordList = _ref.watch(mercariRecordProvider.select((value) => value.mercariRecordList));
 
-    final list = <Widget>[];
+    return mercariRecordList.when(
+      data: (value) {
+        final list = <Widget>[];
+
+        for (var i = 0; i < value.length; i++) {
+          final exSettlement = value[i].settlement.toString().split(':');
+
+          if (value[i].buySell == 'sell') {
+            final exDeparture = value[i].departure.toString().split(':');
+
+            list.add(
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 3),
+                decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(width: 40, child: getMercariMark(mark: value[i].buySell)),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(value[i].date.yyyymmdd),
+                          Text(value[i].title),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(),
+                                  Text(value[i].price.toString().toCurrency()),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [Container(), Text(exDeparture[0])],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [Container(), Text(exSettlement[0])],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(),
+                                  Row(
+                                    children: [
+                                      Text(value[i].cellPrice.toString()),
+                                      const SizedBox(width: 10),
+                                      const Text('-'),
+                                      const SizedBox(width: 10),
+                                      Text(value[i].tesuuryou.toString()),
+                                      const SizedBox(width: 10),
+                                      const Text('-'),
+                                      const SizedBox(width: 10),
+                                      Text(value[i].shippingFee.toString()),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          } else {
+            final exReceive = value[i].receive.toString().split(':');
+
+            list.add(
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 3),
+                decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 40,
+                      child: getMercariMark(mark: value[i].buySell),
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(value[i].date.yyyymmdd),
+                          Text(value[i].title),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(),
+                                  Text(value[i].price.toString().toCurrency()),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [Container(), Text(exSettlement[0])],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [Container(), Text(exReceive[0])],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
+        }
+
+        return SingleChildScrollView(child: Column(children: list));
+      },
+      error: (error, stackTrace) => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: CircularProgressIndicator()),
+    );
+
+    /*
+    final mercariState = _ref.watch(mercariRecordProvider);
 
     for (var i = 0; i < mercariState.length; i++) {
       final exSettlement = mercariState[i].settlement.toString().split(':');
@@ -98,10 +224,7 @@ class MercariAlert extends ConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(),
-                              Text(mercariState[i]
-                                  .price
-                                  .toString()
-                                  .toCurrency()),
+                              Text(mercariState[i].price.toString().toCurrency()),
                             ],
                           ),
                           Row(
@@ -179,10 +302,7 @@ class MercariAlert extends ConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(),
-                              Text(mercariState[i]
-                                  .price
-                                  .toString()
-                                  .toCurrency()),
+                              Text(mercariState[i].price.toString().toCurrency()),
                             ],
                           ),
                           Row(
@@ -216,6 +336,11 @@ class MercariAlert extends ConsumerWidget {
         children: list,
       ),
     );
+
+
+
+
+    */
   }
 
   ///
