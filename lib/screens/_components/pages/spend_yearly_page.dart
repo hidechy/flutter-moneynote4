@@ -102,8 +102,6 @@ class SpendYearlyPage extends ConsumerWidget {
 
   ///
   Widget displaySpendYearly() {
-    final spendYearSummaryState = _ref.watch(spendYearSummaryProvider(date));
-
     final list = <Widget>[];
 
     var yearSum = 0;
@@ -111,6 +109,91 @@ class SpendYearlyPage extends ConsumerWidget {
 
     var zeikin = 0;
     final zei = ['所得税', '住民税', '年金', '国民年金基金', '国民健康保険'];
+
+    _ref.watch(spendYearSummaryProvider(date).select((value) => value.spendYearSummaryList)).when(
+          data: (value) {
+            for (var i = 0; i < value.length; i++) {
+              var percent = '';
+              if (value[i].sum > 0) {
+                percent = '${value[i].percent} %';
+
+                yearPercent += double.parse(value[i].percent);
+              }
+
+              yearSum += value[i].sum;
+
+              if (zei.contains(value[i].item)) {
+                zeikin += value[i].sum;
+              }
+
+              list.add(
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 3),
+                  decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            getTrailing(item: value[i].item),
+                            Text(value[i].item),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.topRight,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(value[i].sum.toString().toCurrency()),
+                              const SizedBox(width: 20),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.topRight,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(percent),
+                              const SizedBox(width: 20),
+                              getLinkIcon(item: value[i].item),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+
+              if (value[i].item == zei[zei.length - 1]) {
+                list.add(
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
+                      color: Colors.lightBlueAccent.withOpacity(0.2),
+                    ),
+                    alignment: Alignment.topRight,
+                    child: Text(zeikin.toString().toCurrency()),
+                  ),
+                );
+              }
+            }
+          },
+          error: (error, stackTrace) => Container(),
+          loading: Container.new,
+        );
+
+    /*
+
+
+    final spendYearSummaryState = _ref.watch(spendYearSummaryProvider(date));
 
     for (var i = 0; i < spendYearSummaryState.length; i++) {
       var percent = '';
@@ -197,6 +280,11 @@ class SpendYearlyPage extends ConsumerWidget {
         );
       }
     }
+
+
+
+
+    */
 
     list.add(
       Container(

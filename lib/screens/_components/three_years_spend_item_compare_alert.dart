@@ -68,11 +68,24 @@ class ThreeYearsSpendItemCompareAlert extends ConsumerWidget {
     final list = <Widget>[];
 
     for (var i = date.year; i > date.year - 3; i--) {
-      final spendYearSummaryState = _ref.watch(spendYearSummaryProvider(DateTime(i)));
       var sum = 0;
-      spendYearSummaryState.forEach((element) {
+
+      final spendYearSummaryList =
+          _ref.watch(spendYearSummaryProvider(DateTime(i)).select((value) => value.spendYearSummaryList));
+
+      spendYearSummaryList.value?.forEach((element) {
         sum += element.sum;
       });
+
+      //
+      //
+      // final spendYearSummaryState = _ref.watch(spendYearSummaryProvider(DateTime(i)));
+      //
+      // spendYearSummaryState.forEach((element) {
+      //   sum += element.sum;
+      // });
+      //
+      //
 
       list.add(
         Expanded(
@@ -117,15 +130,26 @@ class ThreeYearsSpendItemCompareAlert extends ConsumerWidget {
 
   ///
   Widget _getColumn({required int year}) {
-    final spendYearSummaryState = _ref.watch(spendYearSummaryProvider(DateTime(year)));
-
     final list = <Widget>[];
 
     final map = <String, int>{};
 
-    spendYearSummaryState.forEach((element) {
+    final spendYearSummaryList =
+        _ref.watch(spendYearSummaryProvider(DateTime(year)).select((value) => value.spendYearSummaryList));
+
+    spendYearSummaryList.value?.forEach((element) {
       map[element.item] = element.sum;
     });
+
+    //
+    //
+    // final spendYearSummaryState = _ref.watch(spendYearSummaryProvider(DateTime(year)));
+    //
+    // spendYearSummaryState.forEach((element) {
+    //   map[element.item] = element.sum;
+    // });
+    //
+    //
 
     final fixPaymentValue = _utility.getFixPaymentValue();
 

@@ -19,8 +19,10 @@ mixin _$SpendResponseState {
   AsyncValue<List<SpendSummary>> get spendSummaryList =>
       throw _privateConstructorUsedError;
   AsyncValue<List<SpendMonthSummary>> get spendMonthSummaryList =>
-      throw _privateConstructorUsedError; //List<SpendYearly>
+      throw _privateConstructorUsedError;
   AsyncValue<List<SpendYearly>> get spendYearlyList =>
+      throw _privateConstructorUsedError; //List<SpendYearSummary>
+  AsyncValue<List<SpendYearSummary>> get spendYearSummaryList =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -37,7 +39,8 @@ abstract class $SpendResponseStateCopyWith<$Res> {
   $Res call(
       {AsyncValue<List<SpendSummary>> spendSummaryList,
       AsyncValue<List<SpendMonthSummary>> spendMonthSummaryList,
-      AsyncValue<List<SpendYearly>> spendYearlyList});
+      AsyncValue<List<SpendYearly>> spendYearlyList,
+      AsyncValue<List<SpendYearSummary>> spendYearSummaryList});
 }
 
 /// @nodoc
@@ -56,6 +59,7 @@ class _$SpendResponseStateCopyWithImpl<$Res, $Val extends SpendResponseState>
     Object? spendSummaryList = null,
     Object? spendMonthSummaryList = null,
     Object? spendYearlyList = null,
+    Object? spendYearSummaryList = null,
   }) {
     return _then(_value.copyWith(
       spendSummaryList: null == spendSummaryList
@@ -70,6 +74,10 @@ class _$SpendResponseStateCopyWithImpl<$Res, $Val extends SpendResponseState>
           ? _value.spendYearlyList
           : spendYearlyList // ignore: cast_nullable_to_non_nullable
               as AsyncValue<List<SpendYearly>>,
+      spendYearSummaryList: null == spendYearSummaryList
+          ? _value.spendYearSummaryList
+          : spendYearSummaryList // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<SpendYearSummary>>,
     ) as $Val);
   }
 }
@@ -85,7 +93,8 @@ abstract class _$$SpendResponseStateImplCopyWith<$Res>
   $Res call(
       {AsyncValue<List<SpendSummary>> spendSummaryList,
       AsyncValue<List<SpendMonthSummary>> spendMonthSummaryList,
-      AsyncValue<List<SpendYearly>> spendYearlyList});
+      AsyncValue<List<SpendYearly>> spendYearlyList,
+      AsyncValue<List<SpendYearSummary>> spendYearSummaryList});
 }
 
 /// @nodoc
@@ -102,6 +111,7 @@ class __$$SpendResponseStateImplCopyWithImpl<$Res>
     Object? spendSummaryList = null,
     Object? spendMonthSummaryList = null,
     Object? spendYearlyList = null,
+    Object? spendYearSummaryList = null,
   }) {
     return _then(_$SpendResponseStateImpl(
       spendSummaryList: null == spendSummaryList
@@ -116,6 +126,10 @@ class __$$SpendResponseStateImplCopyWithImpl<$Res>
           ? _value.spendYearlyList
           : spendYearlyList // ignore: cast_nullable_to_non_nullable
               as AsyncValue<List<SpendYearly>>,
+      spendYearSummaryList: null == spendYearSummaryList
+          ? _value.spendYearSummaryList
+          : spendYearSummaryList // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<SpendYearSummary>>,
     ));
   }
 }
@@ -127,7 +141,9 @@ class _$SpendResponseStateImpl implements _SpendResponseState {
       {this.spendSummaryList = const AsyncValue<List<SpendSummary>>.loading(),
       this.spendMonthSummaryList =
           const AsyncValue<List<SpendMonthSummary>>.loading(),
-      this.spendYearlyList = const AsyncValue<List<SpendYearly>>.loading()});
+      this.spendYearlyList = const AsyncValue<List<SpendYearly>>.loading(),
+      this.spendYearSummaryList =
+          const AsyncValue<List<SpendYearSummary>>.loading()});
 
   @override
   @JsonKey()
@@ -135,14 +151,17 @@ class _$SpendResponseStateImpl implements _SpendResponseState {
   @override
   @JsonKey()
   final AsyncValue<List<SpendMonthSummary>> spendMonthSummaryList;
-//List<SpendYearly>
   @override
   @JsonKey()
   final AsyncValue<List<SpendYearly>> spendYearlyList;
+//List<SpendYearSummary>
+  @override
+  @JsonKey()
+  final AsyncValue<List<SpendYearSummary>> spendYearSummaryList;
 
   @override
   String toString() {
-    return 'SpendResponseState(spendSummaryList: $spendSummaryList, spendMonthSummaryList: $spendMonthSummaryList, spendYearlyList: $spendYearlyList)';
+    return 'SpendResponseState(spendSummaryList: $spendSummaryList, spendMonthSummaryList: $spendMonthSummaryList, spendYearlyList: $spendYearlyList, spendYearSummaryList: $spendYearSummaryList)';
   }
 
   @override
@@ -155,12 +174,14 @@ class _$SpendResponseStateImpl implements _SpendResponseState {
             (identical(other.spendMonthSummaryList, spendMonthSummaryList) ||
                 other.spendMonthSummaryList == spendMonthSummaryList) &&
             (identical(other.spendYearlyList, spendYearlyList) ||
-                other.spendYearlyList == spendYearlyList));
+                other.spendYearlyList == spendYearlyList) &&
+            (identical(other.spendYearSummaryList, spendYearSummaryList) ||
+                other.spendYearSummaryList == spendYearSummaryList));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, spendSummaryList, spendMonthSummaryList, spendYearlyList);
+  int get hashCode => Object.hash(runtimeType, spendSummaryList,
+      spendMonthSummaryList, spendYearlyList, spendYearSummaryList);
 
   @JsonKey(ignore: true)
   @override
@@ -174,15 +195,18 @@ abstract class _SpendResponseState implements SpendResponseState {
   const factory _SpendResponseState(
           {final AsyncValue<List<SpendSummary>> spendSummaryList,
           final AsyncValue<List<SpendMonthSummary>> spendMonthSummaryList,
-          final AsyncValue<List<SpendYearly>> spendYearlyList}) =
+          final AsyncValue<List<SpendYearly>> spendYearlyList,
+          final AsyncValue<List<SpendYearSummary>> spendYearSummaryList}) =
       _$SpendResponseStateImpl;
 
   @override
   AsyncValue<List<SpendSummary>> get spendSummaryList;
   @override
   AsyncValue<List<SpendMonthSummary>> get spendMonthSummaryList;
-  @override //List<SpendYearly>
+  @override
   AsyncValue<List<SpendYearly>> get spendYearlyList;
+  @override //List<SpendYearSummary>
+  AsyncValue<List<SpendYearSummary>> get spendYearSummaryList;
   @override
   @JsonKey(ignore: true)
   _$$SpendResponseStateImplCopyWith<_$SpendResponseStateImpl> get copyWith =>

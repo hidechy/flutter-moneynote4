@@ -82,15 +82,29 @@ class SpendFullyearCompareAlert extends ConsumerWidget {
     fullyearCompareMap = {};
 
     for (var i = 2020; i < date.year; i++) {
-      final spendYearSummaryState = _ref.watch(spendYearSummaryProvider(DateTime(i)));
-
       var yearSum = 0;
 
-      spendYearSummaryState.forEach((element) {
+      final spendYearSummaryList =
+          _ref.watch(spendYearSummaryProvider(DateTime(i)).select((value) => value.spendYearSummaryList));
+
+      spendYearSummaryList.value?.forEach((element) {
         if (element.sum > 0) {
           yearSum += element.sum;
         }
       });
+
+      //
+      //
+      // final spendYearSummaryState = _ref.watch(spendYearSummaryProvider(DateTime(i)));
+      //
+      // spendYearSummaryState.forEach((element) {
+      //   if (element.sum > 0) {
+      //     yearSum += element.sum;
+      //   }
+      // });
+      //
+      //
+      //
 
       fullyearCompareMap[i] = yearSum;
     }
