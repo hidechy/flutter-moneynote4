@@ -12,10 +12,10 @@ import '../../../state/bank/bank_notifier.dart';
 import '../../../state/benefit/benefit_notifier.dart';
 import '../../../state/device_info/device_info_notifier.dart';
 import '../../../state/gold/gold_notifier.dart';
+import '../../../state/money/money_notifier.dart';
 import '../../../state/shintaku/shintaku_notifier.dart';
 import '../../../state/stock/stock_notifier.dart';
 import '../../../utility/utility.dart';
-import '../../../viewmodel/money_notifier.dart';
 import '../../../viewmodel/spend_notifier.dart';
 import '../_money_dialog.dart';
 import '../assets_list_alert.dart';
@@ -50,16 +50,40 @@ class MoneyPage extends ConsumerWidget {
 
     makeYearBenefit();
 
-    final moneyState = ref.watch(moneyProvider(date));
+    //===================================//
+    var total = '';
+
+    final money = ref.watch(moneyProvider(date).select((value) => value.money));
+
+    if (money != null) {
+      total = (money.sum == '') ? '0' : money.sum;
+    }
+    //===================================//
+
+    //===================================//
+    var diff = '';
 
     final yesterday = _utility.makeSpecialDate(date: date, usage: 'day', plusminus: 'minus', num: 1);
 
-    final yesterdayMoney = ref.watch(moneyProvider(yesterday!));
+    final yesterdayMoney = ref.watch(moneyProvider(yesterday!).select((value) => value.money));
 
-    final total = (moneyState.sum == '') ? '0' : moneyState.sum;
-    final diff = (moneyState.sum == '' || yesterdayMoney.sum == '')
-        ? '0'
-        : (yesterdayMoney.sum.toInt() - moneyState.sum.toInt()).toString();
+    if (money != null && yesterdayMoney != null) {
+      diff = (money.sum == '' || yesterdayMoney.sum == '')
+          ? '0'
+          : (yesterdayMoney.sum.toInt() - money.sum.toInt()).toString();
+    }
+    //===================================//
+
+    //
+    //
+    // final moneyState = ref.watch(moneyProvider(date));
+    //
+    // final total = (moneyState.sum == '') ? '0' : moneyState.sum;
+    // final diff = (moneyState.sum == '' || yesterdayMoney.sum == '')
+    //     ? '0'
+    //     : (yesterdayMoney.sum.toInt() - moneyState.sum.toInt()).toString();
+    //
+    //
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
@@ -166,13 +190,15 @@ class MoneyPage extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 30),
-                  displayMoney(data: moneyState),
-                  const SizedBox(height: 30),
-                  displayBank(data: moneyState),
-                  const SizedBox(height: 30),
-                  displayPay(data: moneyState),
-                  const SizedBox(height: 30),
+                  if (money != null) ...[
+                    const SizedBox(height: 30),
+                    displayMoney(data: money),
+                    const SizedBox(height: 30),
+                    displayBank(data: money),
+                    const SizedBox(height: 30),
+                    displayPay(data: money),
+                    const SizedBox(height: 30),
+                  ],
                 ],
               ),
 

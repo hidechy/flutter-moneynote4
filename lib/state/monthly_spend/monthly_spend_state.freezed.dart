@@ -63,22 +63,22 @@ class _$MonthlySpendStateCopyWithImpl<$Res, $Val extends MonthlySpendState>
 }
 
 /// @nodoc
-abstract class _$$_MonthlySpendStateCopyWith<$Res>
+abstract class _$$MonthlySpendStateImplCopyWith<$Res>
     implements $MonthlySpendStateCopyWith<$Res> {
-  factory _$$_MonthlySpendStateCopyWith(_$_MonthlySpendState value,
-          $Res Function(_$_MonthlySpendState) then) =
-      __$$_MonthlySpendStateCopyWithImpl<$Res>;
+  factory _$$MonthlySpendStateImplCopyWith(_$MonthlySpendStateImpl value,
+          $Res Function(_$MonthlySpendStateImpl) then) =
+      __$$MonthlySpendStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<SpendYearly> list, bool saving});
 }
 
 /// @nodoc
-class __$$_MonthlySpendStateCopyWithImpl<$Res>
-    extends _$MonthlySpendStateCopyWithImpl<$Res, _$_MonthlySpendState>
-    implements _$$_MonthlySpendStateCopyWith<$Res> {
-  __$$_MonthlySpendStateCopyWithImpl(
-      _$_MonthlySpendState _value, $Res Function(_$_MonthlySpendState) _then)
+class __$$MonthlySpendStateImplCopyWithImpl<$Res>
+    extends _$MonthlySpendStateCopyWithImpl<$Res, _$MonthlySpendStateImpl>
+    implements _$$MonthlySpendStateImplCopyWith<$Res> {
+  __$$MonthlySpendStateImplCopyWithImpl(_$MonthlySpendStateImpl _value,
+      $Res Function(_$MonthlySpendStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +87,7 @@ class __$$_MonthlySpendStateCopyWithImpl<$Res>
     Object? list = null,
     Object? saving = null,
   }) {
-    return _then(_$_MonthlySpendState(
+    return _then(_$MonthlySpendStateImpl(
       list: null == list
           ? _value._list
           : list // ignore: cast_nullable_to_non_nullable
@@ -102,8 +102,8 @@ class __$$_MonthlySpendStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_MonthlySpendState implements _MonthlySpendState {
-  const _$_MonthlySpendState(
+class _$MonthlySpendStateImpl implements _MonthlySpendState {
+  const _$MonthlySpendStateImpl(
       {final List<SpendYearly> list = const [], this.saving = false})
       : _list = list;
 
@@ -129,7 +129,7 @@ class _$_MonthlySpendState implements _MonthlySpendState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MonthlySpendState &&
+            other is _$MonthlySpendStateImpl &&
             const DeepCollectionEquality().equals(other._list, _list) &&
             (identical(other.saving, saving) || other.saving == saving));
   }
@@ -141,14 +141,15 @@ class _$_MonthlySpendState implements _MonthlySpendState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MonthlySpendStateCopyWith<_$_MonthlySpendState> get copyWith =>
-      __$$_MonthlySpendStateCopyWithImpl<_$_MonthlySpendState>(
+  _$$MonthlySpendStateImplCopyWith<_$MonthlySpendStateImpl> get copyWith =>
+      __$$MonthlySpendStateImplCopyWithImpl<_$MonthlySpendStateImpl>(
           this, _$identity);
 }
 
 abstract class _MonthlySpendState implements MonthlySpendState {
   const factory _MonthlySpendState(
-      {final List<SpendYearly> list, final bool saving}) = _$_MonthlySpendState;
+      {final List<SpendYearly> list,
+      final bool saving}) = _$MonthlySpendStateImpl;
 
   @override
   List<SpendYearly> get list;
@@ -156,6 +157,6 @@ abstract class _MonthlySpendState implements MonthlySpendState {
   bool get saving;
   @override
   @JsonKey(ignore: true)
-  _$$_MonthlySpendStateCopyWith<_$_MonthlySpendState> get copyWith =>
+  _$$MonthlySpendStateImplCopyWith<_$MonthlySpendStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

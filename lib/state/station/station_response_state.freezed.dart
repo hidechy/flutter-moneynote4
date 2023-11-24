@@ -64,22 +64,22 @@ class _$StationResponseStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_StationResponseStateCopyWith<$Res>
+abstract class _$$StationResponseStateImplCopyWith<$Res>
     implements $StationResponseStateCopyWith<$Res> {
-  factory _$$_StationResponseStateCopyWith(_$_StationResponseState value,
-          $Res Function(_$_StationResponseState) then) =
-      __$$_StationResponseStateCopyWithImpl<$Res>;
+  factory _$$StationResponseStateImplCopyWith(_$StationResponseStateImpl value,
+          $Res Function(_$StationResponseStateImpl) then) =
+      __$$StationResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<Station> stationList, Map<String, Station> stationMap});
 }
 
 /// @nodoc
-class __$$_StationResponseStateCopyWithImpl<$Res>
-    extends _$StationResponseStateCopyWithImpl<$Res, _$_StationResponseState>
-    implements _$$_StationResponseStateCopyWith<$Res> {
-  __$$_StationResponseStateCopyWithImpl(_$_StationResponseState _value,
-      $Res Function(_$_StationResponseState) _then)
+class __$$StationResponseStateImplCopyWithImpl<$Res>
+    extends _$StationResponseStateCopyWithImpl<$Res, _$StationResponseStateImpl>
+    implements _$$StationResponseStateImplCopyWith<$Res> {
+  __$$StationResponseStateImplCopyWithImpl(_$StationResponseStateImpl _value,
+      $Res Function(_$StationResponseStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -88,7 +88,7 @@ class __$$_StationResponseStateCopyWithImpl<$Res>
     Object? stationList = null,
     Object? stationMap = null,
   }) {
-    return _then(_$_StationResponseState(
+    return _then(_$StationResponseStateImpl(
       stationList: null == stationList
           ? _value._stationList
           : stationList // ignore: cast_nullable_to_non_nullable
@@ -103,8 +103,8 @@ class __$$_StationResponseStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_StationResponseState implements _StationResponseState {
-  const _$_StationResponseState(
+class _$StationResponseStateImpl implements _StationResponseState {
+  const _$StationResponseStateImpl(
       {final List<Station> stationList = const [],
       final Map<String, Station> stationMap = const {}})
       : _stationList = stationList,
@@ -137,7 +137,7 @@ class _$_StationResponseState implements _StationResponseState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_StationResponseState &&
+            other is _$StationResponseStateImpl &&
             const DeepCollectionEquality()
                 .equals(other._stationList, _stationList) &&
             const DeepCollectionEquality()
@@ -153,15 +153,16 @@ class _$_StationResponseState implements _StationResponseState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_StationResponseStateCopyWith<_$_StationResponseState> get copyWith =>
-      __$$_StationResponseStateCopyWithImpl<_$_StationResponseState>(
-          this, _$identity);
+  _$$StationResponseStateImplCopyWith<_$StationResponseStateImpl>
+      get copyWith =>
+          __$$StationResponseStateImplCopyWithImpl<_$StationResponseStateImpl>(
+              this, _$identity);
 }
 
 abstract class _StationResponseState implements StationResponseState {
   const factory _StationResponseState(
       {final List<Station> stationList,
-      final Map<String, Station> stationMap}) = _$_StationResponseState;
+      final Map<String, Station> stationMap}) = _$StationResponseStateImpl;
 
   @override
   List<Station> get stationList;
@@ -169,6 +170,6 @@ abstract class _StationResponseState implements StationResponseState {
   Map<String, Station> get stationMap;
   @override
   @JsonKey(ignore: true)
-  _$$_StationResponseStateCopyWith<_$_StationResponseState> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$StationResponseStateImplCopyWith<_$StationResponseStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

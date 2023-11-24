@@ -64,25 +64,25 @@ class _$SeiyuPurchaseRequestStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_SeiyuPurchaseRequestStateCopyWith<$Res>
+abstract class _$$SeiyuPurchaseRequestStateImplCopyWith<$Res>
     implements $SeiyuPurchaseRequestStateCopyWith<$Res> {
-  factory _$$_SeiyuPurchaseRequestStateCopyWith(
-          _$_SeiyuPurchaseRequestState value,
-          $Res Function(_$_SeiyuPurchaseRequestState) then) =
-      __$$_SeiyuPurchaseRequestStateCopyWithImpl<$Res>;
+  factory _$$SeiyuPurchaseRequestStateImplCopyWith(
+          _$SeiyuPurchaseRequestStateImpl value,
+          $Res Function(_$SeiyuPurchaseRequestStateImpl) then) =
+      __$$SeiyuPurchaseRequestStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({DateTime? date, String item});
 }
 
 /// @nodoc
-class __$$_SeiyuPurchaseRequestStateCopyWithImpl<$Res>
+class __$$SeiyuPurchaseRequestStateImplCopyWithImpl<$Res>
     extends _$SeiyuPurchaseRequestStateCopyWithImpl<$Res,
-        _$_SeiyuPurchaseRequestState>
-    implements _$$_SeiyuPurchaseRequestStateCopyWith<$Res> {
-  __$$_SeiyuPurchaseRequestStateCopyWithImpl(
-      _$_SeiyuPurchaseRequestState _value,
-      $Res Function(_$_SeiyuPurchaseRequestState) _then)
+        _$SeiyuPurchaseRequestStateImpl>
+    implements _$$SeiyuPurchaseRequestStateImplCopyWith<$Res> {
+  __$$SeiyuPurchaseRequestStateImplCopyWithImpl(
+      _$SeiyuPurchaseRequestStateImpl _value,
+      $Res Function(_$SeiyuPurchaseRequestStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -91,7 +91,7 @@ class __$$_SeiyuPurchaseRequestStateCopyWithImpl<$Res>
     Object? date = freezed,
     Object? item = null,
   }) {
-    return _then(_$_SeiyuPurchaseRequestState(
+    return _then(_$SeiyuPurchaseRequestStateImpl(
       date: freezed == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
@@ -106,8 +106,8 @@ class __$$_SeiyuPurchaseRequestStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SeiyuPurchaseRequestState implements _SeiyuPurchaseRequestState {
-  const _$_SeiyuPurchaseRequestState({this.date, this.item = ''});
+class _$SeiyuPurchaseRequestStateImpl implements _SeiyuPurchaseRequestState {
+  const _$SeiyuPurchaseRequestStateImpl({this.date, this.item = ''});
 
   @override
   final DateTime? date;
@@ -124,7 +124,7 @@ class _$_SeiyuPurchaseRequestState implements _SeiyuPurchaseRequestState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SeiyuPurchaseRequestState &&
+            other is _$SeiyuPurchaseRequestStateImpl &&
             (identical(other.date, date) || other.date == date) &&
             (identical(other.item, item) || other.item == item));
   }
@@ -135,14 +135,15 @@ class _$_SeiyuPurchaseRequestState implements _SeiyuPurchaseRequestState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SeiyuPurchaseRequestStateCopyWith<_$_SeiyuPurchaseRequestState>
-      get copyWith => __$$_SeiyuPurchaseRequestStateCopyWithImpl<
-          _$_SeiyuPurchaseRequestState>(this, _$identity);
+  _$$SeiyuPurchaseRequestStateImplCopyWith<_$SeiyuPurchaseRequestStateImpl>
+      get copyWith => __$$SeiyuPurchaseRequestStateImplCopyWithImpl<
+          _$SeiyuPurchaseRequestStateImpl>(this, _$identity);
 }
 
 abstract class _SeiyuPurchaseRequestState implements SeiyuPurchaseRequestState {
   const factory _SeiyuPurchaseRequestState(
-      {final DateTime? date, final String item}) = _$_SeiyuPurchaseRequestState;
+      {final DateTime? date,
+      final String item}) = _$SeiyuPurchaseRequestStateImpl;
 
   @override
   DateTime? get date;
@@ -150,6 +151,6 @@ abstract class _SeiyuPurchaseRequestState implements SeiyuPurchaseRequestState {
   String get item;
   @override
   @JsonKey(ignore: true)
-  _$$_SeiyuPurchaseRequestStateCopyWith<_$_SeiyuPurchaseRequestState>
+  _$$SeiyuPurchaseRequestStateImplCopyWith<_$SeiyuPurchaseRequestStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

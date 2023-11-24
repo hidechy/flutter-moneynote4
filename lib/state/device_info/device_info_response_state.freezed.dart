@@ -70,23 +70,25 @@ class _$DeviceInfoResponseStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_DeviceInfoResponseStateCopyWith<$Res>
+abstract class _$$DeviceInfoResponseStateImplCopyWith<$Res>
     implements $DeviceInfoResponseStateCopyWith<$Res> {
-  factory _$$_DeviceInfoResponseStateCopyWith(_$_DeviceInfoResponseState value,
-          $Res Function(_$_DeviceInfoResponseState) then) =
-      __$$_DeviceInfoResponseStateCopyWithImpl<$Res>;
+  factory _$$DeviceInfoResponseStateImplCopyWith(
+          _$DeviceInfoResponseStateImpl value,
+          $Res Function(_$DeviceInfoResponseStateImpl) then) =
+      __$$DeviceInfoResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String name, String systemName, String model});
 }
 
 /// @nodoc
-class __$$_DeviceInfoResponseStateCopyWithImpl<$Res>
+class __$$DeviceInfoResponseStateImplCopyWithImpl<$Res>
     extends _$DeviceInfoResponseStateCopyWithImpl<$Res,
-        _$_DeviceInfoResponseState>
-    implements _$$_DeviceInfoResponseStateCopyWith<$Res> {
-  __$$_DeviceInfoResponseStateCopyWithImpl(_$_DeviceInfoResponseState _value,
-      $Res Function(_$_DeviceInfoResponseState) _then)
+        _$DeviceInfoResponseStateImpl>
+    implements _$$DeviceInfoResponseStateImplCopyWith<$Res> {
+  __$$DeviceInfoResponseStateImplCopyWithImpl(
+      _$DeviceInfoResponseStateImpl _value,
+      $Res Function(_$DeviceInfoResponseStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -96,7 +98,7 @@ class __$$_DeviceInfoResponseStateCopyWithImpl<$Res>
     Object? systemName = null,
     Object? model = null,
   }) {
-    return _then(_$_DeviceInfoResponseState(
+    return _then(_$DeviceInfoResponseStateImpl(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -115,8 +117,8 @@ class __$$_DeviceInfoResponseStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_DeviceInfoResponseState implements _DeviceInfoResponseState {
-  const _$_DeviceInfoResponseState(
+class _$DeviceInfoResponseStateImpl implements _DeviceInfoResponseState {
+  const _$DeviceInfoResponseStateImpl(
       {this.name = '', this.systemName = '', this.model = ''});
 
   @override
@@ -138,7 +140,7 @@ class _$_DeviceInfoResponseState implements _DeviceInfoResponseState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_DeviceInfoResponseState &&
+            other is _$DeviceInfoResponseStateImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.systemName, systemName) ||
                 other.systemName == systemName) &&
@@ -151,17 +153,16 @@ class _$_DeviceInfoResponseState implements _DeviceInfoResponseState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_DeviceInfoResponseStateCopyWith<_$_DeviceInfoResponseState>
-      get copyWith =>
-          __$$_DeviceInfoResponseStateCopyWithImpl<_$_DeviceInfoResponseState>(
-              this, _$identity);
+  _$$DeviceInfoResponseStateImplCopyWith<_$DeviceInfoResponseStateImpl>
+      get copyWith => __$$DeviceInfoResponseStateImplCopyWithImpl<
+          _$DeviceInfoResponseStateImpl>(this, _$identity);
 }
 
 abstract class _DeviceInfoResponseState implements DeviceInfoResponseState {
   const factory _DeviceInfoResponseState(
       {final String name,
       final String systemName,
-      final String model}) = _$_DeviceInfoResponseState;
+      final String model}) = _$DeviceInfoResponseStateImpl;
 
   @override
   String get name;
@@ -171,6 +172,6 @@ abstract class _DeviceInfoResponseState implements DeviceInfoResponseState {
   String get model;
   @override
   @JsonKey(ignore: true)
-  _$$_DeviceInfoResponseStateCopyWith<_$_DeviceInfoResponseState>
+  _$$DeviceInfoResponseStateImplCopyWith<_$DeviceInfoResponseStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

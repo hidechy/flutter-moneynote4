@@ -42,6 +42,7 @@ dependencies:
 
 dev_dependencies:
 
+  analyzer: ^6.2.0
   build_runner:
   flutter_lints: ^2.0.0
 

@@ -59,23 +59,25 @@ class _$TimePlaceResponseStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_TimePlaceResponseStateCopyWith<$Res>
+abstract class _$$TimePlaceResponseStateImplCopyWith<$Res>
     implements $TimePlaceResponseStateCopyWith<$Res> {
-  factory _$$_TimePlaceResponseStateCopyWith(_$_TimePlaceResponseState value,
-          $Res Function(_$_TimePlaceResponseState) then) =
-      __$$_TimePlaceResponseStateCopyWithImpl<$Res>;
+  factory _$$TimePlaceResponseStateImplCopyWith(
+          _$TimePlaceResponseStateImpl value,
+          $Res Function(_$TimePlaceResponseStateImpl) then) =
+      __$$TimePlaceResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({AsyncValue<List<SpendTimeplace>> timePlaceList});
 }
 
 /// @nodoc
-class __$$_TimePlaceResponseStateCopyWithImpl<$Res>
+class __$$TimePlaceResponseStateImplCopyWithImpl<$Res>
     extends _$TimePlaceResponseStateCopyWithImpl<$Res,
-        _$_TimePlaceResponseState>
-    implements _$$_TimePlaceResponseStateCopyWith<$Res> {
-  __$$_TimePlaceResponseStateCopyWithImpl(_$_TimePlaceResponseState _value,
-      $Res Function(_$_TimePlaceResponseState) _then)
+        _$TimePlaceResponseStateImpl>
+    implements _$$TimePlaceResponseStateImplCopyWith<$Res> {
+  __$$TimePlaceResponseStateImplCopyWithImpl(
+      _$TimePlaceResponseStateImpl _value,
+      $Res Function(_$TimePlaceResponseStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -83,7 +85,7 @@ class __$$_TimePlaceResponseStateCopyWithImpl<$Res>
   $Res call({
     Object? timePlaceList = null,
   }) {
-    return _then(_$_TimePlaceResponseState(
+    return _then(_$TimePlaceResponseStateImpl(
       timePlaceList: null == timePlaceList
           ? _value.timePlaceList
           : timePlaceList // ignore: cast_nullable_to_non_nullable
@@ -94,8 +96,8 @@ class __$$_TimePlaceResponseStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_TimePlaceResponseState implements _TimePlaceResponseState {
-  const _$_TimePlaceResponseState(
+class _$TimePlaceResponseStateImpl implements _TimePlaceResponseState {
+  const _$TimePlaceResponseStateImpl(
       {this.timePlaceList = const AsyncValue<List<SpendTimeplace>>.loading()});
 
   @override
@@ -111,7 +113,7 @@ class _$_TimePlaceResponseState implements _TimePlaceResponseState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TimePlaceResponseState &&
+            other is _$TimePlaceResponseStateImpl &&
             (identical(other.timePlaceList, timePlaceList) ||
                 other.timePlaceList == timePlaceList));
   }
@@ -122,20 +124,20 @@ class _$_TimePlaceResponseState implements _TimePlaceResponseState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TimePlaceResponseStateCopyWith<_$_TimePlaceResponseState> get copyWith =>
-      __$$_TimePlaceResponseStateCopyWithImpl<_$_TimePlaceResponseState>(
-          this, _$identity);
+  _$$TimePlaceResponseStateImplCopyWith<_$TimePlaceResponseStateImpl>
+      get copyWith => __$$TimePlaceResponseStateImplCopyWithImpl<
+          _$TimePlaceResponseStateImpl>(this, _$identity);
 }
 
 abstract class _TimePlaceResponseState implements TimePlaceResponseState {
   const factory _TimePlaceResponseState(
           {final AsyncValue<List<SpendTimeplace>> timePlaceList}) =
-      _$_TimePlaceResponseState;
+      _$TimePlaceResponseStateImpl;
 
   @override
   AsyncValue<List<SpendTimeplace>> get timePlaceList;
   @override
   @JsonKey(ignore: true)
-  _$$_TimePlaceResponseStateCopyWith<_$_TimePlaceResponseState> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$TimePlaceResponseStateImplCopyWith<_$TimePlaceResponseStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

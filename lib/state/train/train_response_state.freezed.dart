@@ -63,22 +63,22 @@ class _$TrainResponseStateCopyWithImpl<$Res, $Val extends TrainResponseState>
 }
 
 /// @nodoc
-abstract class _$$_TrainResponseStateCopyWith<$Res>
+abstract class _$$TrainResponseStateImplCopyWith<$Res>
     implements $TrainResponseStateCopyWith<$Res> {
-  factory _$$_TrainResponseStateCopyWith(_$_TrainResponseState value,
-          $Res Function(_$_TrainResponseState) then) =
-      __$$_TrainResponseStateCopyWithImpl<$Res>;
+  factory _$$TrainResponseStateImplCopyWith(_$TrainResponseStateImpl value,
+          $Res Function(_$TrainResponseStateImpl) then) =
+      __$$TrainResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<Train> trainList, Map<String, Train> trainMap});
 }
 
 /// @nodoc
-class __$$_TrainResponseStateCopyWithImpl<$Res>
-    extends _$TrainResponseStateCopyWithImpl<$Res, _$_TrainResponseState>
-    implements _$$_TrainResponseStateCopyWith<$Res> {
-  __$$_TrainResponseStateCopyWithImpl(
-      _$_TrainResponseState _value, $Res Function(_$_TrainResponseState) _then)
+class __$$TrainResponseStateImplCopyWithImpl<$Res>
+    extends _$TrainResponseStateCopyWithImpl<$Res, _$TrainResponseStateImpl>
+    implements _$$TrainResponseStateImplCopyWith<$Res> {
+  __$$TrainResponseStateImplCopyWithImpl(_$TrainResponseStateImpl _value,
+      $Res Function(_$TrainResponseStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +87,7 @@ class __$$_TrainResponseStateCopyWithImpl<$Res>
     Object? trainList = null,
     Object? trainMap = null,
   }) {
-    return _then(_$_TrainResponseState(
+    return _then(_$TrainResponseStateImpl(
       trainList: null == trainList
           ? _value._trainList
           : trainList // ignore: cast_nullable_to_non_nullable
@@ -102,8 +102,8 @@ class __$$_TrainResponseStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_TrainResponseState implements _TrainResponseState {
-  const _$_TrainResponseState(
+class _$TrainResponseStateImpl implements _TrainResponseState {
+  const _$TrainResponseStateImpl(
       {final List<Train> trainList = const [],
       final Map<String, Train> trainMap = const {}})
       : _trainList = trainList,
@@ -136,7 +136,7 @@ class _$_TrainResponseState implements _TrainResponseState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TrainResponseState &&
+            other is _$TrainResponseStateImpl &&
             const DeepCollectionEquality()
                 .equals(other._trainList, _trainList) &&
             const DeepCollectionEquality().equals(other._trainMap, _trainMap));
@@ -151,15 +151,15 @@ class _$_TrainResponseState implements _TrainResponseState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TrainResponseStateCopyWith<_$_TrainResponseState> get copyWith =>
-      __$$_TrainResponseStateCopyWithImpl<_$_TrainResponseState>(
+  _$$TrainResponseStateImplCopyWith<_$TrainResponseStateImpl> get copyWith =>
+      __$$TrainResponseStateImplCopyWithImpl<_$TrainResponseStateImpl>(
           this, _$identity);
 }
 
 abstract class _TrainResponseState implements TrainResponseState {
   const factory _TrainResponseState(
       {final List<Train> trainList,
-      final Map<String, Train> trainMap}) = _$_TrainResponseState;
+      final Map<String, Train> trainMap}) = _$TrainResponseStateImpl;
 
   @override
   List<Train> get trainList;
@@ -167,6 +167,6 @@ abstract class _TrainResponseState implements TrainResponseState {
   Map<String, Train> get trainMap;
   @override
   @JsonKey(ignore: true)
-  _$$_TrainResponseStateCopyWith<_$_TrainResponseState> get copyWith =>
+  _$$TrainResponseStateImplCopyWith<_$TrainResponseStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

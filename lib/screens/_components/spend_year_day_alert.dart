@@ -7,9 +7,9 @@ import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
+import '../../state/money/money_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/holiday_notifier.dart';
-import '../../viewmodel/money_notifier.dart';
 import '../../viewmodel/spend_notifier.dart';
 import '_money_dialog.dart';
 import 'spend_alert.dart';
@@ -363,10 +363,17 @@ class SpendYearDayAlert extends ConsumerWidget {
   void makeEverydayMoney() {
     everydayMoney = {};
 
-    final moneyEverydayState = _ref.watch(moneyEverydayProvider);
+    final moneyEverydayList = _ref.watch(moneyEverydayProvider.select((value) => value.moneyEverydayList));
 
-    moneyEverydayState.forEach((element) {
-      everydayMoney[element.date.yyyymmdd] = element.sum.toInt();
-    });
+    moneyEverydayList.value?.forEach((element) => everydayMoney[element.date.yyyymmdd] = element.sum.toInt());
+
+    // final moneyEverydayState = _ref.watch(moneyEverydayProvider);
+    //
+    // moneyEverydayState.forEach((element) {
+    //   everydayMoney[element.date.yyyymmdd] = element.sum.toInt();
+    // });
+    //
+    //
+    //
   }
 }

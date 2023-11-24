@@ -59,25 +59,25 @@ class _$BalanceSheetResponseStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_BalanceSheetResponseStateCopyWith<$Res>
+abstract class _$$BalanceSheetResponseStateImplCopyWith<$Res>
     implements $BalanceSheetResponseStateCopyWith<$Res> {
-  factory _$$_BalanceSheetResponseStateCopyWith(
-          _$_BalanceSheetResponseState value,
-          $Res Function(_$_BalanceSheetResponseState) then) =
-      __$$_BalanceSheetResponseStateCopyWithImpl<$Res>;
+  factory _$$BalanceSheetResponseStateImplCopyWith(
+          _$BalanceSheetResponseStateImpl value,
+          $Res Function(_$BalanceSheetResponseStateImpl) then) =
+      __$$BalanceSheetResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({AsyncValue<List<Balancesheet>> balanceSheetList});
 }
 
 /// @nodoc
-class __$$_BalanceSheetResponseStateCopyWithImpl<$Res>
+class __$$BalanceSheetResponseStateImplCopyWithImpl<$Res>
     extends _$BalanceSheetResponseStateCopyWithImpl<$Res,
-        _$_BalanceSheetResponseState>
-    implements _$$_BalanceSheetResponseStateCopyWith<$Res> {
-  __$$_BalanceSheetResponseStateCopyWithImpl(
-      _$_BalanceSheetResponseState _value,
-      $Res Function(_$_BalanceSheetResponseState) _then)
+        _$BalanceSheetResponseStateImpl>
+    implements _$$BalanceSheetResponseStateImplCopyWith<$Res> {
+  __$$BalanceSheetResponseStateImplCopyWithImpl(
+      _$BalanceSheetResponseStateImpl _value,
+      $Res Function(_$BalanceSheetResponseStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -85,7 +85,7 @@ class __$$_BalanceSheetResponseStateCopyWithImpl<$Res>
   $Res call({
     Object? balanceSheetList = null,
   }) {
-    return _then(_$_BalanceSheetResponseState(
+    return _then(_$BalanceSheetResponseStateImpl(
       balanceSheetList: null == balanceSheetList
           ? _value.balanceSheetList
           : balanceSheetList // ignore: cast_nullable_to_non_nullable
@@ -96,8 +96,8 @@ class __$$_BalanceSheetResponseStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_BalanceSheetResponseState implements _BalanceSheetResponseState {
-  const _$_BalanceSheetResponseState(
+class _$BalanceSheetResponseStateImpl implements _BalanceSheetResponseState {
+  const _$BalanceSheetResponseStateImpl(
       {this.balanceSheetList = const AsyncValue<List<Balancesheet>>.loading()});
 
   @override
@@ -113,7 +113,7 @@ class _$_BalanceSheetResponseState implements _BalanceSheetResponseState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BalanceSheetResponseState &&
+            other is _$BalanceSheetResponseStateImpl &&
             (identical(other.balanceSheetList, balanceSheetList) ||
                 other.balanceSheetList == balanceSheetList));
   }
@@ -124,20 +124,20 @@ class _$_BalanceSheetResponseState implements _BalanceSheetResponseState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BalanceSheetResponseStateCopyWith<_$_BalanceSheetResponseState>
-      get copyWith => __$$_BalanceSheetResponseStateCopyWithImpl<
-          _$_BalanceSheetResponseState>(this, _$identity);
+  _$$BalanceSheetResponseStateImplCopyWith<_$BalanceSheetResponseStateImpl>
+      get copyWith => __$$BalanceSheetResponseStateImplCopyWithImpl<
+          _$BalanceSheetResponseStateImpl>(this, _$identity);
 }
 
 abstract class _BalanceSheetResponseState implements BalanceSheetResponseState {
   const factory _BalanceSheetResponseState(
           {final AsyncValue<List<Balancesheet>> balanceSheetList}) =
-      _$_BalanceSheetResponseState;
+      _$BalanceSheetResponseStateImpl;
 
   @override
   AsyncValue<List<Balancesheet>> get balanceSheetList;
   @override
   @JsonKey(ignore: true)
-  _$$_BalanceSheetResponseStateCopyWith<_$_BalanceSheetResponseState>
+  _$$BalanceSheetResponseStateImplCopyWith<_$BalanceSheetResponseStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

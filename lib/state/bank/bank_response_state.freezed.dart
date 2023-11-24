@@ -83,11 +83,11 @@ class _$BankResponseStateCopyWithImpl<$Res, $Val extends BankResponseState>
 }
 
 /// @nodoc
-abstract class _$$_BankResponseStateCopyWith<$Res>
+abstract class _$$BankResponseStateImplCopyWith<$Res>
     implements $BankResponseStateCopyWith<$Res> {
-  factory _$$_BankResponseStateCopyWith(_$_BankResponseState value,
-          $Res Function(_$_BankResponseState) then) =
-      __$$_BankResponseStateCopyWithImpl<$Res>;
+  factory _$$BankResponseStateImplCopyWith(_$BankResponseStateImpl value,
+          $Res Function(_$BankResponseStateImpl) then) =
+      __$$BankResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -98,11 +98,11 @@ abstract class _$$_BankResponseStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_BankResponseStateCopyWithImpl<$Res>
-    extends _$BankResponseStateCopyWithImpl<$Res, _$_BankResponseState>
-    implements _$$_BankResponseStateCopyWith<$Res> {
-  __$$_BankResponseStateCopyWithImpl(
-      _$_BankResponseState _value, $Res Function(_$_BankResponseState) _then)
+class __$$BankResponseStateImplCopyWithImpl<$Res>
+    extends _$BankResponseStateCopyWithImpl<$Res, _$BankResponseStateImpl>
+    implements _$$BankResponseStateImplCopyWith<$Res> {
+  __$$BankResponseStateImplCopyWithImpl(_$BankResponseStateImpl _value,
+      $Res Function(_$BankResponseStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -113,7 +113,7 @@ class __$$_BankResponseStateCopyWithImpl<$Res>
     Object? bankMoveList = null,
     Object? bankMonthlySpendList = null,
   }) {
-    return _then(_$_BankResponseState(
+    return _then(_$BankResponseStateImpl(
       bankCompanyChange: freezed == bankCompanyChange
           ? _value.bankCompanyChange
           : bankCompanyChange // ignore: cast_nullable_to_non_nullable
@@ -136,8 +136,8 @@ class __$$_BankResponseStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_BankResponseState implements _BankResponseState {
-  const _$_BankResponseState(
+class _$BankResponseStateImpl implements _BankResponseState {
+  const _$BankResponseStateImpl(
       {this.bankCompanyChange,
       this.bankCompanyList = const AsyncValue<List<BankCompanyAll>>.loading(),
       this.bankMoveList = const AsyncValue<List<BankMove>>.loading(),
@@ -165,7 +165,7 @@ class _$_BankResponseState implements _BankResponseState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BankResponseState &&
+            other is _$BankResponseStateImpl &&
             (identical(other.bankCompanyChange, bankCompanyChange) ||
                 other.bankCompanyChange == bankCompanyChange) &&
             (identical(other.bankCompanyList, bankCompanyList) ||
@@ -183,8 +183,8 @@ class _$_BankResponseState implements _BankResponseState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BankResponseStateCopyWith<_$_BankResponseState> get copyWith =>
-      __$$_BankResponseStateCopyWithImpl<_$_BankResponseState>(
+  _$$BankResponseStateImplCopyWith<_$BankResponseStateImpl> get copyWith =>
+      __$$BankResponseStateImplCopyWithImpl<_$BankResponseStateImpl>(
           this, _$identity);
 }
 
@@ -194,7 +194,7 @@ abstract class _BankResponseState implements BankResponseState {
           final AsyncValue<List<BankCompanyAll>> bankCompanyList,
           final AsyncValue<List<BankMove>> bankMoveList,
           final AsyncValue<List<BankMonthlySpend>> bankMonthlySpendList}) =
-      _$_BankResponseState;
+      _$BankResponseStateImpl;
 
   @override
   BankCompanyChange? get bankCompanyChange;
@@ -206,6 +206,6 @@ abstract class _BankResponseState implements BankResponseState {
   AsyncValue<List<BankMonthlySpend>> get bankMonthlySpendList;
   @override
   @JsonKey(ignore: true)
-  _$$_BankResponseStateCopyWith<_$_BankResponseState> get copyWith =>
+  _$$BankResponseStateImplCopyWith<_$BankResponseStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

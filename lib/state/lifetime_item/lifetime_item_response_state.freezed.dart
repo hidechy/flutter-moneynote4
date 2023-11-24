@@ -92,12 +92,12 @@ class _$LifetimeItemResponseStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_LifetimeItemResponseStateCopyWith<$Res>
+abstract class _$$LifetimeItemResponseStateImplCopyWith<$Res>
     implements $LifetimeItemResponseStateCopyWith<$Res> {
-  factory _$$_LifetimeItemResponseStateCopyWith(
-          _$_LifetimeItemResponseState value,
-          $Res Function(_$_LifetimeItemResponseState) then) =
-      __$$_LifetimeItemResponseStateCopyWithImpl<$Res>;
+  factory _$$LifetimeItemResponseStateImplCopyWith(
+          _$LifetimeItemResponseStateImpl value,
+          $Res Function(_$LifetimeItemResponseStateImpl) then) =
+      __$$LifetimeItemResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -109,13 +109,13 @@ abstract class _$$_LifetimeItemResponseStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_LifetimeItemResponseStateCopyWithImpl<$Res>
+class __$$LifetimeItemResponseStateImplCopyWithImpl<$Res>
     extends _$LifetimeItemResponseStateCopyWithImpl<$Res,
-        _$_LifetimeItemResponseState>
-    implements _$$_LifetimeItemResponseStateCopyWith<$Res> {
-  __$$_LifetimeItemResponseStateCopyWithImpl(
-      _$_LifetimeItemResponseState _value,
-      $Res Function(_$_LifetimeItemResponseState) _then)
+        _$LifetimeItemResponseStateImpl>
+    implements _$$LifetimeItemResponseStateImplCopyWith<$Res> {
+  __$$LifetimeItemResponseStateImplCopyWithImpl(
+      _$LifetimeItemResponseStateImpl _value,
+      $Res Function(_$LifetimeItemResponseStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -127,7 +127,7 @@ class __$$_LifetimeItemResponseStateCopyWithImpl<$Res>
     Object? itemPos = null,
     Object? lifetimeStringList = null,
   }) {
-    return _then(_$_LifetimeItemResponseState(
+    return _then(_$LifetimeItemResponseStateImpl(
       lifetimeItemList: null == lifetimeItemList
           ? _value._lifetimeItemList
           : lifetimeItemList // ignore: cast_nullable_to_non_nullable
@@ -154,8 +154,8 @@ class __$$_LifetimeItemResponseStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_LifetimeItemResponseState implements _LifetimeItemResponseState {
-  const _$_LifetimeItemResponseState(
+class _$LifetimeItemResponseStateImpl implements _LifetimeItemResponseState {
+  const _$LifetimeItemResponseStateImpl(
       {final List<LifetimeItem> lifetimeItemList = const [],
       final List<String> lifetimeItemStringList = const [],
       this.selectedItem = '',
@@ -218,7 +218,7 @@ class _$_LifetimeItemResponseState implements _LifetimeItemResponseState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_LifetimeItemResponseState &&
+            other is _$LifetimeItemResponseStateImpl &&
             const DeepCollectionEquality()
                 .equals(other._lifetimeItemList, _lifetimeItemList) &&
             const DeepCollectionEquality().equals(
@@ -242,18 +242,19 @@ class _$_LifetimeItemResponseState implements _LifetimeItemResponseState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_LifetimeItemResponseStateCopyWith<_$_LifetimeItemResponseState>
-      get copyWith => __$$_LifetimeItemResponseStateCopyWithImpl<
-          _$_LifetimeItemResponseState>(this, _$identity);
+  _$$LifetimeItemResponseStateImplCopyWith<_$LifetimeItemResponseStateImpl>
+      get copyWith => __$$LifetimeItemResponseStateImplCopyWithImpl<
+          _$LifetimeItemResponseStateImpl>(this, _$identity);
 }
 
 abstract class _LifetimeItemResponseState implements LifetimeItemResponseState {
   const factory _LifetimeItemResponseState(
-      {final List<LifetimeItem> lifetimeItemList,
-      final List<String> lifetimeItemStringList,
-      final String selectedItem,
-      final int itemPos,
-      final List<String?> lifetimeStringList}) = _$_LifetimeItemResponseState;
+          {final List<LifetimeItem> lifetimeItemList,
+          final List<String> lifetimeItemStringList,
+          final String selectedItem,
+          final int itemPos,
+          final List<String?> lifetimeStringList}) =
+      _$LifetimeItemResponseStateImpl;
 
   @override
 
@@ -273,6 +274,6 @@ abstract class _LifetimeItemResponseState implements LifetimeItemResponseState {
   List<String?> get lifetimeStringList;
   @override
   @JsonKey(ignore: true)
-  _$$_LifetimeItemResponseStateCopyWith<_$_LifetimeItemResponseState>
+  _$$LifetimeItemResponseStateImplCopyWith<_$LifetimeItemResponseStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

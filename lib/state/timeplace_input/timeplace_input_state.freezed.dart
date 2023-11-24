@@ -100,11 +100,11 @@ class _$TimeplaceInputStateCopyWithImpl<$Res, $Val extends TimeplaceInputState>
 }
 
 /// @nodoc
-abstract class _$$_TimeplaceInputStateCopyWith<$Res>
+abstract class _$$TimeplaceInputStateImplCopyWith<$Res>
     implements $TimeplaceInputStateCopyWith<$Res> {
-  factory _$$_TimeplaceInputStateCopyWith(_$_TimeplaceInputState value,
-          $Res Function(_$_TimeplaceInputState) then) =
-      __$$_TimeplaceInputStateCopyWithImpl<$Res>;
+  factory _$$TimeplaceInputStateImplCopyWith(_$TimeplaceInputStateImpl value,
+          $Res Function(_$TimeplaceInputStateImpl) then) =
+      __$$TimeplaceInputStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -118,11 +118,11 @@ abstract class _$$_TimeplaceInputStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_TimeplaceInputStateCopyWithImpl<$Res>
-    extends _$TimeplaceInputStateCopyWithImpl<$Res, _$_TimeplaceInputState>
-    implements _$$_TimeplaceInputStateCopyWith<$Res> {
-  __$$_TimeplaceInputStateCopyWithImpl(_$_TimeplaceInputState _value,
-      $Res Function(_$_TimeplaceInputState) _then)
+class __$$TimeplaceInputStateImplCopyWithImpl<$Res>
+    extends _$TimeplaceInputStateCopyWithImpl<$Res, _$TimeplaceInputStateImpl>
+    implements _$$TimeplaceInputStateImplCopyWith<$Res> {
+  __$$TimeplaceInputStateImplCopyWithImpl(_$TimeplaceInputStateImpl _value,
+      $Res Function(_$TimeplaceInputStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -136,7 +136,7 @@ class __$$_TimeplaceInputStateCopyWithImpl<$Res>
     Object? diff = null,
     Object? minusCheck = null,
   }) {
-    return _then(_$_TimeplaceInputState(
+    return _then(_$TimeplaceInputStateImpl(
       time: null == time
           ? _value._time
           : time // ignore: cast_nullable_to_non_nullable
@@ -171,8 +171,8 @@ class __$$_TimeplaceInputStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_TimeplaceInputState implements _TimeplaceInputState {
-  const _$_TimeplaceInputState(
+class _$TimeplaceInputStateImpl implements _TimeplaceInputState {
+  const _$TimeplaceInputStateImpl(
       {final List<String> time = const [],
       final List<String> place = const [],
       final List<int> spendPrice = const [],
@@ -239,7 +239,7 @@ class _$_TimeplaceInputState implements _TimeplaceInputState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TimeplaceInputState &&
+            other is _$TimeplaceInputStateImpl &&
             const DeepCollectionEquality().equals(other._time, _time) &&
             const DeepCollectionEquality().equals(other._place, _place) &&
             const DeepCollectionEquality()
@@ -266,8 +266,8 @@ class _$_TimeplaceInputState implements _TimeplaceInputState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TimeplaceInputStateCopyWith<_$_TimeplaceInputState> get copyWith =>
-      __$$_TimeplaceInputStateCopyWithImpl<_$_TimeplaceInputState>(
+  _$$TimeplaceInputStateImplCopyWith<_$TimeplaceInputStateImpl> get copyWith =>
+      __$$TimeplaceInputStateImplCopyWithImpl<_$TimeplaceInputStateImpl>(
           this, _$identity);
 }
 
@@ -279,7 +279,7 @@ abstract class _TimeplaceInputState implements TimeplaceInputState {
       final int itemPos,
       final String baseDiff,
       final int diff,
-      final List<bool> minusCheck}) = _$_TimeplaceInputState;
+      final List<bool> minusCheck}) = _$TimeplaceInputStateImpl;
 
   @override
   List<String> get time;
@@ -297,6 +297,6 @@ abstract class _TimeplaceInputState implements TimeplaceInputState {
   List<bool> get minusCheck;
   @override
   @JsonKey(ignore: true)
-  _$$_TimeplaceInputStateCopyWith<_$_TimeplaceInputState> get copyWith =>
+  _$$TimeplaceInputStateImplCopyWith<_$TimeplaceInputStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -61,25 +61,25 @@ class _$AmazonPurchaseResponseStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_AmazonPurchaseResponseStateCopyWith<$Res>
+abstract class _$$AmazonPurchaseResponseStateImplCopyWith<$Res>
     implements $AmazonPurchaseResponseStateCopyWith<$Res> {
-  factory _$$_AmazonPurchaseResponseStateCopyWith(
-          _$_AmazonPurchaseResponseState value,
-          $Res Function(_$_AmazonPurchaseResponseState) then) =
-      __$$_AmazonPurchaseResponseStateCopyWithImpl<$Res>;
+  factory _$$AmazonPurchaseResponseStateImplCopyWith(
+          _$AmazonPurchaseResponseStateImpl value,
+          $Res Function(_$AmazonPurchaseResponseStateImpl) then) =
+      __$$AmazonPurchaseResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({AsyncValue<List<AmazonPurchase>> amazonPurchaseList});
 }
 
 /// @nodoc
-class __$$_AmazonPurchaseResponseStateCopyWithImpl<$Res>
+class __$$AmazonPurchaseResponseStateImplCopyWithImpl<$Res>
     extends _$AmazonPurchaseResponseStateCopyWithImpl<$Res,
-        _$_AmazonPurchaseResponseState>
-    implements _$$_AmazonPurchaseResponseStateCopyWith<$Res> {
-  __$$_AmazonPurchaseResponseStateCopyWithImpl(
-      _$_AmazonPurchaseResponseState _value,
-      $Res Function(_$_AmazonPurchaseResponseState) _then)
+        _$AmazonPurchaseResponseStateImpl>
+    implements _$$AmazonPurchaseResponseStateImplCopyWith<$Res> {
+  __$$AmazonPurchaseResponseStateImplCopyWithImpl(
+      _$AmazonPurchaseResponseStateImpl _value,
+      $Res Function(_$AmazonPurchaseResponseStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +87,7 @@ class __$$_AmazonPurchaseResponseStateCopyWithImpl<$Res>
   $Res call({
     Object? amazonPurchaseList = null,
   }) {
-    return _then(_$_AmazonPurchaseResponseState(
+    return _then(_$AmazonPurchaseResponseStateImpl(
       amazonPurchaseList: null == amazonPurchaseList
           ? _value.amazonPurchaseList
           : amazonPurchaseList // ignore: cast_nullable_to_non_nullable
@@ -98,8 +98,9 @@ class __$$_AmazonPurchaseResponseStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_AmazonPurchaseResponseState implements _AmazonPurchaseResponseState {
-  const _$_AmazonPurchaseResponseState(
+class _$AmazonPurchaseResponseStateImpl
+    implements _AmazonPurchaseResponseState {
+  const _$AmazonPurchaseResponseStateImpl(
       {this.amazonPurchaseList =
           const AsyncValue<List<AmazonPurchase>>.loading()});
 
@@ -116,7 +117,7 @@ class _$_AmazonPurchaseResponseState implements _AmazonPurchaseResponseState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AmazonPurchaseResponseState &&
+            other is _$AmazonPurchaseResponseStateImpl &&
             (identical(other.amazonPurchaseList, amazonPurchaseList) ||
                 other.amazonPurchaseList == amazonPurchaseList));
   }
@@ -127,21 +128,21 @@ class _$_AmazonPurchaseResponseState implements _AmazonPurchaseResponseState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AmazonPurchaseResponseStateCopyWith<_$_AmazonPurchaseResponseState>
-      get copyWith => __$$_AmazonPurchaseResponseStateCopyWithImpl<
-          _$_AmazonPurchaseResponseState>(this, _$identity);
+  _$$AmazonPurchaseResponseStateImplCopyWith<_$AmazonPurchaseResponseStateImpl>
+      get copyWith => __$$AmazonPurchaseResponseStateImplCopyWithImpl<
+          _$AmazonPurchaseResponseStateImpl>(this, _$identity);
 }
 
 abstract class _AmazonPurchaseResponseState
     implements AmazonPurchaseResponseState {
   const factory _AmazonPurchaseResponseState(
           {final AsyncValue<List<AmazonPurchase>> amazonPurchaseList}) =
-      _$_AmazonPurchaseResponseState;
+      _$AmazonPurchaseResponseStateImpl;
 
   @override
   AsyncValue<List<AmazonPurchase>> get amazonPurchaseList;
   @override
   @JsonKey(ignore: true)
-  _$$_AmazonPurchaseResponseStateCopyWith<_$_AmazonPurchaseResponseState>
+  _$$AmazonPurchaseResponseStateImplCopyWith<_$AmazonPurchaseResponseStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

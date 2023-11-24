@@ -58,23 +58,25 @@ class _$RouteTransitResultStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_RouteTransitResultStateCopyWith<$Res>
+abstract class _$$RouteTransitResultStateImplCopyWith<$Res>
     implements $RouteTransitResultStateCopyWith<$Res> {
-  factory _$$_RouteTransitResultStateCopyWith(_$_RouteTransitResultState value,
-          $Res Function(_$_RouteTransitResultState) then) =
-      __$$_RouteTransitResultStateCopyWithImpl<$Res>;
+  factory _$$RouteTransitResultStateImplCopyWith(
+          _$RouteTransitResultStateImpl value,
+          $Res Function(_$RouteTransitResultStateImpl) then) =
+      __$$RouteTransitResultStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({dynamic list});
 }
 
 /// @nodoc
-class __$$_RouteTransitResultStateCopyWithImpl<$Res>
+class __$$RouteTransitResultStateImplCopyWithImpl<$Res>
     extends _$RouteTransitResultStateCopyWithImpl<$Res,
-        _$_RouteTransitResultState>
-    implements _$$_RouteTransitResultStateCopyWith<$Res> {
-  __$$_RouteTransitResultStateCopyWithImpl(_$_RouteTransitResultState _value,
-      $Res Function(_$_RouteTransitResultState) _then)
+        _$RouteTransitResultStateImpl>
+    implements _$$RouteTransitResultStateImplCopyWith<$Res> {
+  __$$RouteTransitResultStateImplCopyWithImpl(
+      _$RouteTransitResultStateImpl _value,
+      $Res Function(_$RouteTransitResultStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -82,7 +84,7 @@ class __$$_RouteTransitResultStateCopyWithImpl<$Res>
   $Res call({
     Object? list = freezed,
   }) {
-    return _then(_$_RouteTransitResultState(
+    return _then(_$RouteTransitResultStateImpl(
       list: freezed == list ? _value.list! : list,
     ));
   }
@@ -90,8 +92,8 @@ class __$$_RouteTransitResultStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_RouteTransitResultState implements _RouteTransitResultState {
-  const _$_RouteTransitResultState({this.list = const []});
+class _$RouteTransitResultStateImpl implements _RouteTransitResultState {
+  const _$RouteTransitResultStateImpl({this.list = const []});
 
   @override
   @JsonKey()
@@ -106,7 +108,7 @@ class _$_RouteTransitResultState implements _RouteTransitResultState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_RouteTransitResultState &&
+            other is _$RouteTransitResultStateImpl &&
             const DeepCollectionEquality().equals(other.list, list));
   }
 
@@ -117,21 +119,20 @@ class _$_RouteTransitResultState implements _RouteTransitResultState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_RouteTransitResultStateCopyWith<_$_RouteTransitResultState>
-      get copyWith =>
-          __$$_RouteTransitResultStateCopyWithImpl<_$_RouteTransitResultState>(
-              this, _$identity);
+  _$$RouteTransitResultStateImplCopyWith<_$RouteTransitResultStateImpl>
+      get copyWith => __$$RouteTransitResultStateImplCopyWithImpl<
+          _$RouteTransitResultStateImpl>(this, _$identity);
 }
 
 abstract class _RouteTransitResultState implements RouteTransitResultState {
   const factory _RouteTransitResultState({final dynamic list}) =
-      _$_RouteTransitResultState;
+      _$RouteTransitResultStateImpl;
 
   @override
   dynamic get list;
   @override
   @JsonKey(ignore: true)
-  _$$_RouteTransitResultStateCopyWith<_$_RouteTransitResultState>
+  _$$RouteTransitResultStateImplCopyWith<_$RouteTransitResultStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -187,25 +188,25 @@ class _$RouteTransitResultItemStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_RouteTransitResultItemStateCopyWith<$Res>
+abstract class _$$RouteTransitResultItemStateImplCopyWith<$Res>
     implements $RouteTransitResultItemStateCopyWith<$Res> {
-  factory _$$_RouteTransitResultItemStateCopyWith(
-          _$_RouteTransitResultItemState value,
-          $Res Function(_$_RouteTransitResultItemState) then) =
-      __$$_RouteTransitResultItemStateCopyWithImpl<$Res>;
+  factory _$$RouteTransitResultItemStateImplCopyWith(
+          _$RouteTransitResultItemStateImpl value,
+          $Res Function(_$RouteTransitResultItemStateImpl) then) =
+      __$$RouteTransitResultItemStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String latitude, String longitude});
 }
 
 /// @nodoc
-class __$$_RouteTransitResultItemStateCopyWithImpl<$Res>
+class __$$RouteTransitResultItemStateImplCopyWithImpl<$Res>
     extends _$RouteTransitResultItemStateCopyWithImpl<$Res,
-        _$_RouteTransitResultItemState>
-    implements _$$_RouteTransitResultItemStateCopyWith<$Res> {
-  __$$_RouteTransitResultItemStateCopyWithImpl(
-      _$_RouteTransitResultItemState _value,
-      $Res Function(_$_RouteTransitResultItemState) _then)
+        _$RouteTransitResultItemStateImpl>
+    implements _$$RouteTransitResultItemStateImplCopyWith<$Res> {
+  __$$RouteTransitResultItemStateImplCopyWithImpl(
+      _$RouteTransitResultItemStateImpl _value,
+      $Res Function(_$RouteTransitResultItemStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -214,7 +215,7 @@ class __$$_RouteTransitResultItemStateCopyWithImpl<$Res>
     Object? latitude = null,
     Object? longitude = null,
   }) {
-    return _then(_$_RouteTransitResultItemState(
+    return _then(_$RouteTransitResultItemStateImpl(
       latitude: null == latitude
           ? _value.latitude
           : latitude // ignore: cast_nullable_to_non_nullable
@@ -229,8 +230,9 @@ class __$$_RouteTransitResultItemStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_RouteTransitResultItemState implements _RouteTransitResultItemState {
-  const _$_RouteTransitResultItemState(
+class _$RouteTransitResultItemStateImpl
+    implements _RouteTransitResultItemState {
+  const _$RouteTransitResultItemStateImpl(
       {this.latitude = '', this.longitude = ''});
 
   @override
@@ -249,7 +251,7 @@ class _$_RouteTransitResultItemState implements _RouteTransitResultItemState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_RouteTransitResultItemState &&
+            other is _$RouteTransitResultItemStateImpl &&
             (identical(other.latitude, latitude) ||
                 other.latitude == latitude) &&
             (identical(other.longitude, longitude) ||
@@ -262,16 +264,16 @@ class _$_RouteTransitResultItemState implements _RouteTransitResultItemState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_RouteTransitResultItemStateCopyWith<_$_RouteTransitResultItemState>
-      get copyWith => __$$_RouteTransitResultItemStateCopyWithImpl<
-          _$_RouteTransitResultItemState>(this, _$identity);
+  _$$RouteTransitResultItemStateImplCopyWith<_$RouteTransitResultItemStateImpl>
+      get copyWith => __$$RouteTransitResultItemStateImplCopyWithImpl<
+          _$RouteTransitResultItemStateImpl>(this, _$identity);
 }
 
 abstract class _RouteTransitResultItemState
     implements RouteTransitResultItemState {
   const factory _RouteTransitResultItemState(
       {final String latitude,
-      final String longitude}) = _$_RouteTransitResultItemState;
+      final String longitude}) = _$RouteTransitResultItemStateImpl;
 
   @override
   String get latitude;
@@ -279,6 +281,6 @@ abstract class _RouteTransitResultItemState
   String get longitude;
   @override
   @JsonKey(ignore: true)
-  _$$_RouteTransitResultItemStateCopyWith<_$_RouteTransitResultItemState>
+  _$$RouteTransitResultItemStateImplCopyWith<_$RouteTransitResultItemStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

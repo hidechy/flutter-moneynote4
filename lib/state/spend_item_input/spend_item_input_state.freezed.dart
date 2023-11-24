@@ -93,11 +93,11 @@ class _$SpendItemInputStateCopyWithImpl<$Res, $Val extends SpendItemInputState>
 }
 
 /// @nodoc
-abstract class _$$_SpendItemInputStateCopyWith<$Res>
+abstract class _$$SpendItemInputStateImplCopyWith<$Res>
     implements $SpendItemInputStateCopyWith<$Res> {
-  factory _$$_SpendItemInputStateCopyWith(_$_SpendItemInputState value,
-          $Res Function(_$_SpendItemInputState) then) =
-      __$$_SpendItemInputStateCopyWithImpl<$Res>;
+  factory _$$SpendItemInputStateImplCopyWith(_$SpendItemInputStateImpl value,
+          $Res Function(_$SpendItemInputStateImpl) then) =
+      __$$SpendItemInputStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -110,11 +110,11 @@ abstract class _$$_SpendItemInputStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_SpendItemInputStateCopyWithImpl<$Res>
-    extends _$SpendItemInputStateCopyWithImpl<$Res, _$_SpendItemInputState>
-    implements _$$_SpendItemInputStateCopyWith<$Res> {
-  __$$_SpendItemInputStateCopyWithImpl(_$_SpendItemInputState _value,
-      $Res Function(_$_SpendItemInputState) _then)
+class __$$SpendItemInputStateImplCopyWithImpl<$Res>
+    extends _$SpendItemInputStateCopyWithImpl<$Res, _$SpendItemInputStateImpl>
+    implements _$$SpendItemInputStateImplCopyWith<$Res> {
+  __$$SpendItemInputStateImplCopyWithImpl(_$SpendItemInputStateImpl _value,
+      $Res Function(_$SpendItemInputStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -127,7 +127,7 @@ class __$$_SpendItemInputStateCopyWithImpl<$Res>
     Object? diff = null,
     Object? minusCheck = null,
   }) {
-    return _then(_$_SpendItemInputState(
+    return _then(_$SpendItemInputStateImpl(
       spendItem: null == spendItem
           ? _value._spendItem
           : spendItem // ignore: cast_nullable_to_non_nullable
@@ -158,8 +158,8 @@ class __$$_SpendItemInputStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SpendItemInputState implements _SpendItemInputState {
-  const _$_SpendItemInputState(
+class _$SpendItemInputStateImpl implements _SpendItemInputState {
+  const _$SpendItemInputStateImpl(
       {final List<String> spendItem = const [],
       final List<int> spendPrice = const [],
       this.itemPos = 0,
@@ -215,7 +215,7 @@ class _$_SpendItemInputState implements _SpendItemInputState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SpendItemInputState &&
+            other is _$SpendItemInputStateImpl &&
             const DeepCollectionEquality()
                 .equals(other._spendItem, _spendItem) &&
             const DeepCollectionEquality()
@@ -241,8 +241,8 @@ class _$_SpendItemInputState implements _SpendItemInputState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SpendItemInputStateCopyWith<_$_SpendItemInputState> get copyWith =>
-      __$$_SpendItemInputStateCopyWithImpl<_$_SpendItemInputState>(
+  _$$SpendItemInputStateImplCopyWith<_$SpendItemInputStateImpl> get copyWith =>
+      __$$SpendItemInputStateImplCopyWithImpl<_$SpendItemInputStateImpl>(
           this, _$identity);
 }
 
@@ -253,7 +253,7 @@ abstract class _SpendItemInputState implements SpendItemInputState {
       final int itemPos,
       final String baseDiff,
       final int diff,
-      final List<bool> minusCheck}) = _$_SpendItemInputState;
+      final List<bool> minusCheck}) = _$SpendItemInputStateImpl;
 
   @override
   List<String> get spendItem;
@@ -269,6 +269,6 @@ abstract class _SpendItemInputState implements SpendItemInputState {
   List<bool> get minusCheck;
   @override
   @JsonKey(ignore: true)
-  _$$_SpendItemInputStateCopyWith<_$_SpendItemInputState> get copyWith =>
+  _$$SpendItemInputStateImplCopyWith<_$SpendItemInputStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

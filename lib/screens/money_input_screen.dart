@@ -10,9 +10,9 @@ import 'package:vibration/vibration.dart';
 import '../extensions/extensions.dart';
 import '../models/money.dart';
 import '../route/routes.dart';
+import '../state/money/money_notifier.dart';
 import '../state/money_input/money_input_notifier.dart';
 import '../utility/utility.dart';
-import '../viewmodel/money_notifier.dart';
 import '../viewmodel/spend_notifier.dart';
 
 class MoneyInputScreen extends ConsumerWidget {
@@ -256,17 +256,27 @@ class MoneyInputScreen extends ConsumerWidget {
 
   ///
   void setDefaultMoneyData() {
-    if (date.yyyymmdd == lastInputDate) {
-      moneyState = _ref.watch(moneyProvider(date));
-    } else {
-      moneyState = _ref.watch(
-        moneyProvider(DateTime(
-          lastInputDate.split('-')[0].toInt(),
-          lastInputDate.split('-')[1].toInt(),
-          lastInputDate.split('-')[2].toInt(),
-        )),
-      );
+    final ms = _ref.watch(moneyProvider(DateTime.parse('$lastInputDate 00:00:00')).select((value) => value.money));
+
+    if (ms != null) {
+      moneyState = ms;
     }
+
+    //
+    //
+    // if (date.yyyymmdd == lastInputDate) {
+    //   moneyState = _ref.watch(moneyProvider(date));
+    // } else {
+    //   moneyState = _ref.watch(
+    //     moneyProvider(DateTime(
+    //       lastInputDate.split('-')[0].toInt(),
+    //       lastInputDate.split('-')[1].toInt(),
+    //       lastInputDate.split('-')[2].toInt(),
+    //     )),
+    //   );
+    // }
+    //
+    //
 
     tecYen10000.text = moneyState.yen10000;
     tecYen5000.text = moneyState.yen5000;

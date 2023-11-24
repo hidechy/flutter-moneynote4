@@ -107,11 +107,11 @@ class _$PolylineResultStateCopyWithImpl<$Res, $Val extends PolylineResultState>
 }
 
 /// @nodoc
-abstract class _$$_PolylineResultStateCopyWith<$Res>
+abstract class _$$PolylineResultStateImplCopyWith<$Res>
     implements $PolylineResultStateCopyWith<$Res> {
-  factory _$$_PolylineResultStateCopyWith(_$_PolylineResultState value,
-          $Res Function(_$_PolylineResultState) then) =
-      __$$_PolylineResultStateCopyWithImpl<$Res>;
+  factory _$$PolylineResultStateImplCopyWith(_$PolylineResultStateImpl value,
+          $Res Function(_$PolylineResultStateImpl) then) =
+      __$$PolylineResultStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -126,11 +126,11 @@ abstract class _$$_PolylineResultStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_PolylineResultStateCopyWithImpl<$Res>
-    extends _$PolylineResultStateCopyWithImpl<$Res, _$_PolylineResultState>
-    implements _$$_PolylineResultStateCopyWith<$Res> {
-  __$$_PolylineResultStateCopyWithImpl(_$_PolylineResultState _value,
-      $Res Function(_$_PolylineResultState) _then)
+class __$$PolylineResultStateImplCopyWithImpl<$Res>
+    extends _$PolylineResultStateCopyWithImpl<$Res, _$PolylineResultStateImpl>
+    implements _$$PolylineResultStateImplCopyWith<$Res> {
+  __$$PolylineResultStateImplCopyWithImpl(_$PolylineResultStateImpl _value,
+      $Res Function(_$PolylineResultStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -145,7 +145,7 @@ class __$$_PolylineResultStateCopyWithImpl<$Res>
     Object? northeastLat = freezed,
     Object? northeastLng = freezed,
   }) {
-    return _then(_$_PolylineResultState(
+    return _then(_$PolylineResultStateImpl(
       bounds: freezed == bounds
           ? _value.bounds
           : bounds // ignore: cast_nullable_to_non_nullable
@@ -176,8 +176,8 @@ class __$$_PolylineResultStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PolylineResultState implements _PolylineResultState {
-  const _$_PolylineResultState(
+class _$PolylineResultStateImpl implements _PolylineResultState {
+  const _$PolylineResultStateImpl(
       {this.bounds,
       this.distance = '',
       this.duration = '',
@@ -227,7 +227,7 @@ class _$_PolylineResultState implements _PolylineResultState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PolylineResultState &&
+            other is _$PolylineResultStateImpl &&
             (identical(other.bounds, bounds) || other.bounds == bounds) &&
             (identical(other.distance, distance) ||
                 other.distance == distance) &&
@@ -260,8 +260,8 @@ class _$_PolylineResultState implements _PolylineResultState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PolylineResultStateCopyWith<_$_PolylineResultState> get copyWith =>
-      __$$_PolylineResultStateCopyWithImpl<_$_PolylineResultState>(
+  _$$PolylineResultStateImplCopyWith<_$PolylineResultStateImpl> get copyWith =>
+      __$$PolylineResultStateImplCopyWithImpl<_$PolylineResultStateImpl>(
           this, _$identity);
 }
 
@@ -274,7 +274,7 @@ abstract class _PolylineResultState implements PolylineResultState {
       final dynamic southwestLat,
       final dynamic southwestLng,
       final dynamic northeastLat,
-      final dynamic northeastLng}) = _$_PolylineResultState;
+      final dynamic northeastLng}) = _$PolylineResultStateImpl;
 
   @override
   LatLngBounds? get bounds;
@@ -294,6 +294,6 @@ abstract class _PolylineResultState implements PolylineResultState {
   dynamic get northeastLng;
   @override
   @JsonKey(ignore: true)
-  _$$_PolylineResultStateCopyWith<_$_PolylineResultState> get copyWith =>
+  _$$PolylineResultStateImplCopyWith<_$PolylineResultStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

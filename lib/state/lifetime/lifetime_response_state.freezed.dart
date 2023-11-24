@@ -76,11 +76,12 @@ class _$LifetimeResponseStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_LifetimeResponseStateCopyWith<$Res>
+abstract class _$$LifetimeResponseStateImplCopyWith<$Res>
     implements $LifetimeResponseStateCopyWith<$Res> {
-  factory _$$_LifetimeResponseStateCopyWith(_$_LifetimeResponseState value,
-          $Res Function(_$_LifetimeResponseState) then) =
-      __$$_LifetimeResponseStateCopyWithImpl<$Res>;
+  factory _$$LifetimeResponseStateImplCopyWith(
+          _$LifetimeResponseStateImpl value,
+          $Res Function(_$LifetimeResponseStateImpl) then) =
+      __$$LifetimeResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -90,11 +91,12 @@ abstract class _$$_LifetimeResponseStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_LifetimeResponseStateCopyWithImpl<$Res>
-    extends _$LifetimeResponseStateCopyWithImpl<$Res, _$_LifetimeResponseState>
-    implements _$$_LifetimeResponseStateCopyWith<$Res> {
-  __$$_LifetimeResponseStateCopyWithImpl(_$_LifetimeResponseState _value,
-      $Res Function(_$_LifetimeResponseState) _then)
+class __$$LifetimeResponseStateImplCopyWithImpl<$Res>
+    extends _$LifetimeResponseStateCopyWithImpl<$Res,
+        _$LifetimeResponseStateImpl>
+    implements _$$LifetimeResponseStateImplCopyWith<$Res> {
+  __$$LifetimeResponseStateImplCopyWithImpl(_$LifetimeResponseStateImpl _value,
+      $Res Function(_$LifetimeResponseStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -104,7 +106,7 @@ class __$$_LifetimeResponseStateCopyWithImpl<$Res>
     Object? lifetimeList = null,
     Object? lifetimeMap = null,
   }) {
-    return _then(_$_LifetimeResponseState(
+    return _then(_$LifetimeResponseStateImpl(
       lifetime: freezed == lifetime
           ? _value.lifetime
           : lifetime // ignore: cast_nullable_to_non_nullable
@@ -123,8 +125,8 @@ class __$$_LifetimeResponseStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_LifetimeResponseState implements _LifetimeResponseState {
-  const _$_LifetimeResponseState(
+class _$LifetimeResponseStateImpl implements _LifetimeResponseState {
+  const _$LifetimeResponseStateImpl(
       {this.lifetime,
       this.lifetimeList = const AsyncValue<List<Lifetime>>.loading(),
       this.lifetimeMap = const AsyncValue<Map<String, Lifetime>>.loading()});
@@ -148,7 +150,7 @@ class _$_LifetimeResponseState implements _LifetimeResponseState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_LifetimeResponseState &&
+            other is _$LifetimeResponseStateImpl &&
             (identical(other.lifetime, lifetime) ||
                 other.lifetime == lifetime) &&
             (identical(other.lifetimeList, lifetimeList) ||
@@ -164,9 +166,9 @@ class _$_LifetimeResponseState implements _LifetimeResponseState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_LifetimeResponseStateCopyWith<_$_LifetimeResponseState> get copyWith =>
-      __$$_LifetimeResponseStateCopyWithImpl<_$_LifetimeResponseState>(
-          this, _$identity);
+  _$$LifetimeResponseStateImplCopyWith<_$LifetimeResponseStateImpl>
+      get copyWith => __$$LifetimeResponseStateImplCopyWithImpl<
+          _$LifetimeResponseStateImpl>(this, _$identity);
 }
 
 abstract class _LifetimeResponseState implements LifetimeResponseState {
@@ -174,7 +176,7 @@ abstract class _LifetimeResponseState implements LifetimeResponseState {
           {final Lifetime? lifetime,
           final AsyncValue<List<Lifetime>> lifetimeList,
           final AsyncValue<Map<String, Lifetime>> lifetimeMap}) =
-      _$_LifetimeResponseState;
+      _$LifetimeResponseStateImpl;
 
   @override
   Lifetime? get lifetime;
@@ -184,6 +186,6 @@ abstract class _LifetimeResponseState implements LifetimeResponseState {
   AsyncValue<Map<String, Lifetime>> get lifetimeMap;
   @override
   @JsonKey(ignore: true)
-  _$$_LifetimeResponseStateCopyWith<_$_LifetimeResponseState> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$LifetimeResponseStateImplCopyWith<_$LifetimeResponseStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

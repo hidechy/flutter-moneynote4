@@ -7,8 +7,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
+import '../../state/money/money_notifier.dart';
 import '../../utility/utility.dart';
-import '../../viewmodel/money_notifier.dart';
 
 class MonthlySpendGraphAlert extends ConsumerWidget {
   MonthlySpendGraphAlert({super.key, required this.date});
@@ -110,27 +110,52 @@ class MonthlySpendGraphAlert extends ConsumerWidget {
   void setChartData() {
     final graphWidthState = _ref.watch(graphWidthProvider);
 
-    final moneyEverydayState = _ref.watch(moneyEverydayProvider);
-
     final list = <int>[];
 
     flspots = [];
 
     var j = 0;
-    for (var i = 0; i < moneyEverydayState.length; i++) {
-      if (date.yyyymm == moneyEverydayState[i].date.yyyymm) {
-        flspots.add(
-          FlSpot(
-            (j + 1).toDouble(),
-            moneyEverydayState[i].sum.toInt().toDouble(),
-          ),
+
+    _ref.watch(moneyEverydayProvider.select((value) => value.moneyEverydayList)).when(
+          data: (value) {
+            for (var i = 0; i < value.length; i++) {
+              if (date.yyyymm == value[i].date.yyyymm) {
+                flspots.add(
+                  FlSpot(
+                    (j + 1).toDouble(),
+                    value[i].sum.toInt().toDouble(),
+                  ),
+                );
+
+                list.add(value[i].sum.toInt());
+
+                j++;
+              }
+            }
+          },
+          error: (error, stackTrace) => Container(),
+          loading: Container.new,
         );
 
-        list.add(moneyEverydayState[i].sum.toInt());
-
-        j++;
-      }
-    }
+    // final moneyEverydayState = _ref.watch(moneyEverydayProvider);
+    //
+    // for (var i = 0; i < moneyEverydayState.length; i++) {
+    //   if (date.yyyymm == moneyEverydayState[i].date.yyyymm) {
+    //     flspots.add(
+    //       FlSpot(
+    //         (j + 1).toDouble(),
+    //         moneyEverydayState[i].sum.toInt().toDouble(),
+    //       ),
+    //     );
+    //
+    //     list.add(moneyEverydayState[i].sum.toInt());
+    //
+    //     j++;
+    //   }
+    // }
+    //
+    //
+    //
 
     final minValue = list.reduce(min);
     final maxValue = list.reduce(max);

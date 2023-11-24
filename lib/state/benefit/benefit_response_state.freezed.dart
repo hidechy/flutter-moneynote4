@@ -64,22 +64,22 @@ class _$BenefitResponseStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_BenefitResponseStateCopyWith<$Res>
+abstract class _$$BenefitResponseStateImplCopyWith<$Res>
     implements $BenefitResponseStateCopyWith<$Res> {
-  factory _$$_BenefitResponseStateCopyWith(_$_BenefitResponseState value,
-          $Res Function(_$_BenefitResponseState) then) =
-      __$$_BenefitResponseStateCopyWithImpl<$Res>;
+  factory _$$BenefitResponseStateImplCopyWith(_$BenefitResponseStateImpl value,
+          $Res Function(_$BenefitResponseStateImpl) then) =
+      __$$BenefitResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<Benefit> benefitList, Map<String, Benefit> benefitMap});
 }
 
 /// @nodoc
-class __$$_BenefitResponseStateCopyWithImpl<$Res>
-    extends _$BenefitResponseStateCopyWithImpl<$Res, _$_BenefitResponseState>
-    implements _$$_BenefitResponseStateCopyWith<$Res> {
-  __$$_BenefitResponseStateCopyWithImpl(_$_BenefitResponseState _value,
-      $Res Function(_$_BenefitResponseState) _then)
+class __$$BenefitResponseStateImplCopyWithImpl<$Res>
+    extends _$BenefitResponseStateCopyWithImpl<$Res, _$BenefitResponseStateImpl>
+    implements _$$BenefitResponseStateImplCopyWith<$Res> {
+  __$$BenefitResponseStateImplCopyWithImpl(_$BenefitResponseStateImpl _value,
+      $Res Function(_$BenefitResponseStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -88,7 +88,7 @@ class __$$_BenefitResponseStateCopyWithImpl<$Res>
     Object? benefitList = null,
     Object? benefitMap = null,
   }) {
-    return _then(_$_BenefitResponseState(
+    return _then(_$BenefitResponseStateImpl(
       benefitList: null == benefitList
           ? _value._benefitList
           : benefitList // ignore: cast_nullable_to_non_nullable
@@ -103,8 +103,8 @@ class __$$_BenefitResponseStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_BenefitResponseState implements _BenefitResponseState {
-  const _$_BenefitResponseState(
+class _$BenefitResponseStateImpl implements _BenefitResponseState {
+  const _$BenefitResponseStateImpl(
       {final List<Benefit> benefitList = const [],
       final Map<String, Benefit> benefitMap = const {}})
       : _benefitList = benefitList,
@@ -137,7 +137,7 @@ class _$_BenefitResponseState implements _BenefitResponseState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BenefitResponseState &&
+            other is _$BenefitResponseStateImpl &&
             const DeepCollectionEquality()
                 .equals(other._benefitList, _benefitList) &&
             const DeepCollectionEquality()
@@ -153,15 +153,16 @@ class _$_BenefitResponseState implements _BenefitResponseState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BenefitResponseStateCopyWith<_$_BenefitResponseState> get copyWith =>
-      __$$_BenefitResponseStateCopyWithImpl<_$_BenefitResponseState>(
-          this, _$identity);
+  _$$BenefitResponseStateImplCopyWith<_$BenefitResponseStateImpl>
+      get copyWith =>
+          __$$BenefitResponseStateImplCopyWithImpl<_$BenefitResponseStateImpl>(
+              this, _$identity);
 }
 
 abstract class _BenefitResponseState implements BenefitResponseState {
   const factory _BenefitResponseState(
       {final List<Benefit> benefitList,
-      final Map<String, Benefit> benefitMap}) = _$_BenefitResponseState;
+      final Map<String, Benefit> benefitMap}) = _$BenefitResponseStateImpl;
 
   @override
   List<Benefit> get benefitList;
@@ -169,6 +170,6 @@ abstract class _BenefitResponseState implements BenefitResponseState {
   Map<String, Benefit> get benefitMap;
   @override
   @JsonKey(ignore: true)
-  _$$_BenefitResponseStateCopyWith<_$_BenefitResponseState> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$BenefitResponseStateImplCopyWith<_$BenefitResponseStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

@@ -73,11 +73,12 @@ class _$ShintakuResponseStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_ShintakuResponseStateCopyWith<$Res>
+abstract class _$$ShintakuResponseStateImplCopyWith<$Res>
     implements $ShintakuResponseStateCopyWith<$Res> {
-  factory _$$_ShintakuResponseStateCopyWith(_$_ShintakuResponseState value,
-          $Res Function(_$_ShintakuResponseState) then) =
-      __$$_ShintakuResponseStateCopyWithImpl<$Res>;
+  factory _$$ShintakuResponseStateImplCopyWith(
+          _$ShintakuResponseStateImpl value,
+          $Res Function(_$ShintakuResponseStateImpl) then) =
+      __$$ShintakuResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -87,11 +88,12 @@ abstract class _$$_ShintakuResponseStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ShintakuResponseStateCopyWithImpl<$Res>
-    extends _$ShintakuResponseStateCopyWithImpl<$Res, _$_ShintakuResponseState>
-    implements _$$_ShintakuResponseStateCopyWith<$Res> {
-  __$$_ShintakuResponseStateCopyWithImpl(_$_ShintakuResponseState _value,
-      $Res Function(_$_ShintakuResponseState) _then)
+class __$$ShintakuResponseStateImplCopyWithImpl<$Res>
+    extends _$ShintakuResponseStateCopyWithImpl<$Res,
+        _$ShintakuResponseStateImpl>
+    implements _$$ShintakuResponseStateImplCopyWith<$Res> {
+  __$$ShintakuResponseStateImplCopyWithImpl(_$ShintakuResponseStateImpl _value,
+      $Res Function(_$ShintakuResponseStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -101,7 +103,7 @@ class __$$_ShintakuResponseStateCopyWithImpl<$Res>
     Object? lastShintakuRecord = freezed,
     Object? shintakuMap = null,
   }) {
-    return _then(_$_ShintakuResponseState(
+    return _then(_$ShintakuResponseStateImpl(
       lastShintaku: freezed == lastShintaku
           ? _value.lastShintaku
           : lastShintaku // ignore: cast_nullable_to_non_nullable
@@ -120,8 +122,8 @@ class __$$_ShintakuResponseStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ShintakuResponseState implements _ShintakuResponseState {
-  const _$_ShintakuResponseState(
+class _$ShintakuResponseStateImpl implements _ShintakuResponseState {
+  const _$ShintakuResponseStateImpl(
       {this.lastShintaku,
       this.lastShintakuRecord,
       final Map<String, AssetsData> shintakuMap = const {}})
@@ -149,7 +151,7 @@ class _$_ShintakuResponseState implements _ShintakuResponseState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ShintakuResponseState &&
+            other is _$ShintakuResponseStateImpl &&
             (identical(other.lastShintaku, lastShintaku) ||
                 other.lastShintaku == lastShintaku) &&
             (identical(other.lastShintakuRecord, lastShintakuRecord) ||
@@ -165,16 +167,16 @@ class _$_ShintakuResponseState implements _ShintakuResponseState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ShintakuResponseStateCopyWith<_$_ShintakuResponseState> get copyWith =>
-      __$$_ShintakuResponseStateCopyWithImpl<_$_ShintakuResponseState>(
-          this, _$identity);
+  _$$ShintakuResponseStateImplCopyWith<_$ShintakuResponseStateImpl>
+      get copyWith => __$$ShintakuResponseStateImplCopyWithImpl<
+          _$ShintakuResponseStateImpl>(this, _$identity);
 }
 
 abstract class _ShintakuResponseState implements ShintakuResponseState {
   const factory _ShintakuResponseState(
       {final Shintaku? lastShintaku,
       final ShintakuRecord? lastShintakuRecord,
-      final Map<String, AssetsData> shintakuMap}) = _$_ShintakuResponseState;
+      final Map<String, AssetsData> shintakuMap}) = _$ShintakuResponseStateImpl;
 
   @override
   Shintaku? get lastShintaku;
@@ -184,6 +186,6 @@ abstract class _ShintakuResponseState implements ShintakuResponseState {
   Map<String, AssetsData> get shintakuMap;
   @override
   @JsonKey(ignore: true)
-  _$$_ShintakuResponseStateCopyWith<_$_ShintakuResponseState> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ShintakuResponseStateImplCopyWith<_$ShintakuResponseStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

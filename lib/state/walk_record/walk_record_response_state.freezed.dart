@@ -68,11 +68,12 @@ class _$WalkRecordResponseStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_WalkRecordResponseStateCopyWith<$Res>
+abstract class _$$WalkRecordResponseStateImplCopyWith<$Res>
     implements $WalkRecordResponseStateCopyWith<$Res> {
-  factory _$$_WalkRecordResponseStateCopyWith(_$_WalkRecordResponseState value,
-          $Res Function(_$_WalkRecordResponseState) then) =
-      __$$_WalkRecordResponseStateCopyWithImpl<$Res>;
+  factory _$$WalkRecordResponseStateImplCopyWith(
+          _$WalkRecordResponseStateImpl value,
+          $Res Function(_$WalkRecordResponseStateImpl) then) =
+      __$$WalkRecordResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -81,12 +82,13 @@ abstract class _$$_WalkRecordResponseStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_WalkRecordResponseStateCopyWithImpl<$Res>
+class __$$WalkRecordResponseStateImplCopyWithImpl<$Res>
     extends _$WalkRecordResponseStateCopyWithImpl<$Res,
-        _$_WalkRecordResponseState>
-    implements _$$_WalkRecordResponseStateCopyWith<$Res> {
-  __$$_WalkRecordResponseStateCopyWithImpl(_$_WalkRecordResponseState _value,
-      $Res Function(_$_WalkRecordResponseState) _then)
+        _$WalkRecordResponseStateImpl>
+    implements _$$WalkRecordResponseStateImplCopyWith<$Res> {
+  __$$WalkRecordResponseStateImplCopyWithImpl(
+      _$WalkRecordResponseStateImpl _value,
+      $Res Function(_$WalkRecordResponseStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -95,7 +97,7 @@ class __$$_WalkRecordResponseStateCopyWithImpl<$Res>
     Object? walkRecordList = null,
     Object? walkRecordMap = null,
   }) {
-    return _then(_$_WalkRecordResponseState(
+    return _then(_$WalkRecordResponseStateImpl(
       walkRecordList: null == walkRecordList
           ? _value.walkRecordList
           : walkRecordList // ignore: cast_nullable_to_non_nullable
@@ -110,8 +112,8 @@ class __$$_WalkRecordResponseStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_WalkRecordResponseState implements _WalkRecordResponseState {
-  const _$_WalkRecordResponseState(
+class _$WalkRecordResponseStateImpl implements _WalkRecordResponseState {
+  const _$WalkRecordResponseStateImpl(
       {this.walkRecordList = const AsyncValue<List<WalkRecord>>.loading(),
       this.walkRecordMap =
           const AsyncValue<Map<String, WalkRecord>>.loading()});
@@ -132,7 +134,7 @@ class _$_WalkRecordResponseState implements _WalkRecordResponseState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_WalkRecordResponseState &&
+            other is _$WalkRecordResponseStateImpl &&
             (identical(other.walkRecordList, walkRecordList) ||
                 other.walkRecordList == walkRecordList) &&
             (identical(other.walkRecordMap, walkRecordMap) ||
@@ -145,17 +147,16 @@ class _$_WalkRecordResponseState implements _WalkRecordResponseState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_WalkRecordResponseStateCopyWith<_$_WalkRecordResponseState>
-      get copyWith =>
-          __$$_WalkRecordResponseStateCopyWithImpl<_$_WalkRecordResponseState>(
-              this, _$identity);
+  _$$WalkRecordResponseStateImplCopyWith<_$WalkRecordResponseStateImpl>
+      get copyWith => __$$WalkRecordResponseStateImplCopyWithImpl<
+          _$WalkRecordResponseStateImpl>(this, _$identity);
 }
 
 abstract class _WalkRecordResponseState implements WalkRecordResponseState {
   const factory _WalkRecordResponseState(
           {final AsyncValue<List<WalkRecord>> walkRecordList,
           final AsyncValue<Map<String, WalkRecord>> walkRecordMap}) =
-      _$_WalkRecordResponseState;
+      _$WalkRecordResponseStateImpl;
 
   @override
   AsyncValue<List<WalkRecord>> get walkRecordList;
@@ -163,6 +164,6 @@ abstract class _WalkRecordResponseState implements WalkRecordResponseState {
   AsyncValue<Map<String, WalkRecord>> get walkRecordMap;
   @override
   @JsonKey(ignore: true)
-  _$$_WalkRecordResponseStateCopyWith<_$_WalkRecordResponseState>
+  _$$WalkRecordResponseStateImplCopyWith<_$WalkRecordResponseStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

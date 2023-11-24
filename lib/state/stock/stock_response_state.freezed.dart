@@ -72,11 +72,11 @@ class _$StockResponseStateCopyWithImpl<$Res, $Val extends StockResponseState>
 }
 
 /// @nodoc
-abstract class _$$_StockResponseStateCopyWith<$Res>
+abstract class _$$StockResponseStateImplCopyWith<$Res>
     implements $StockResponseStateCopyWith<$Res> {
-  factory _$$_StockResponseStateCopyWith(_$_StockResponseState value,
-          $Res Function(_$_StockResponseState) then) =
-      __$$_StockResponseStateCopyWithImpl<$Res>;
+  factory _$$StockResponseStateImplCopyWith(_$StockResponseStateImpl value,
+          $Res Function(_$StockResponseStateImpl) then) =
+      __$$StockResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -86,11 +86,11 @@ abstract class _$$_StockResponseStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_StockResponseStateCopyWithImpl<$Res>
-    extends _$StockResponseStateCopyWithImpl<$Res, _$_StockResponseState>
-    implements _$$_StockResponseStateCopyWith<$Res> {
-  __$$_StockResponseStateCopyWithImpl(
-      _$_StockResponseState _value, $Res Function(_$_StockResponseState) _then)
+class __$$StockResponseStateImplCopyWithImpl<$Res>
+    extends _$StockResponseStateCopyWithImpl<$Res, _$StockResponseStateImpl>
+    implements _$$StockResponseStateImplCopyWith<$Res> {
+  __$$StockResponseStateImplCopyWithImpl(_$StockResponseStateImpl _value,
+      $Res Function(_$StockResponseStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -100,7 +100,7 @@ class __$$_StockResponseStateCopyWithImpl<$Res>
     Object? lastStockRecord = freezed,
     Object? stockMap = null,
   }) {
-    return _then(_$_StockResponseState(
+    return _then(_$StockResponseStateImpl(
       lastStock: freezed == lastStock
           ? _value.lastStock
           : lastStock // ignore: cast_nullable_to_non_nullable
@@ -119,8 +119,8 @@ class __$$_StockResponseStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_StockResponseState implements _StockResponseState {
-  const _$_StockResponseState(
+class _$StockResponseStateImpl implements _StockResponseState {
+  const _$StockResponseStateImpl(
       {this.lastStock,
       this.lastStockRecord,
       final Map<String, AssetsData> stockMap = const {}})
@@ -148,7 +148,7 @@ class _$_StockResponseState implements _StockResponseState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_StockResponseState &&
+            other is _$StockResponseStateImpl &&
             (identical(other.lastStock, lastStock) ||
                 other.lastStock == lastStock) &&
             (identical(other.lastStockRecord, lastStockRecord) ||
@@ -163,8 +163,8 @@ class _$_StockResponseState implements _StockResponseState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_StockResponseStateCopyWith<_$_StockResponseState> get copyWith =>
-      __$$_StockResponseStateCopyWithImpl<_$_StockResponseState>(
+  _$$StockResponseStateImplCopyWith<_$StockResponseStateImpl> get copyWith =>
+      __$$StockResponseStateImplCopyWithImpl<_$StockResponseStateImpl>(
           this, _$identity);
 }
 
@@ -172,7 +172,7 @@ abstract class _StockResponseState implements StockResponseState {
   const factory _StockResponseState(
       {final Stock? lastStock,
       final StockRecord? lastStockRecord,
-      final Map<String, AssetsData> stockMap}) = _$_StockResponseState;
+      final Map<String, AssetsData> stockMap}) = _$StockResponseStateImpl;
 
   @override
   Stock? get lastStock;
@@ -182,6 +182,6 @@ abstract class _StockResponseState implements StockResponseState {
   Map<String, AssetsData> get stockMap;
   @override
   @JsonKey(ignore: true)
-  _$$_StockResponseStateCopyWith<_$_StockResponseState> get copyWith =>
+  _$$StockResponseStateImplCopyWith<_$StockResponseStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

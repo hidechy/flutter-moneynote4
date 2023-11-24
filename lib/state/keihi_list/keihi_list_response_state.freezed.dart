@@ -65,11 +65,12 @@ class _$KeihiListResponseStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_KeihiListResponseStateCopyWith<$Res>
+abstract class _$$KeihiListResponseStateImplCopyWith<$Res>
     implements $KeihiListResponseStateCopyWith<$Res> {
-  factory _$$_KeihiListResponseStateCopyWith(_$_KeihiListResponseState value,
-          $Res Function(_$_KeihiListResponseState) then) =
-      __$$_KeihiListResponseStateCopyWithImpl<$Res>;
+  factory _$$KeihiListResponseStateImplCopyWith(
+          _$KeihiListResponseStateImpl value,
+          $Res Function(_$KeihiListResponseStateImpl) then) =
+      __$$KeihiListResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -77,12 +78,13 @@ abstract class _$$_KeihiListResponseStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_KeihiListResponseStateCopyWithImpl<$Res>
+class __$$KeihiListResponseStateImplCopyWithImpl<$Res>
     extends _$KeihiListResponseStateCopyWithImpl<$Res,
-        _$_KeihiListResponseState>
-    implements _$$_KeihiListResponseStateCopyWith<$Res> {
-  __$$_KeihiListResponseStateCopyWithImpl(_$_KeihiListResponseState _value,
-      $Res Function(_$_KeihiListResponseState) _then)
+        _$KeihiListResponseStateImpl>
+    implements _$$KeihiListResponseStateImplCopyWith<$Res> {
+  __$$KeihiListResponseStateImplCopyWithImpl(
+      _$KeihiListResponseStateImpl _value,
+      $Res Function(_$KeihiListResponseStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -91,7 +93,7 @@ class __$$_KeihiListResponseStateCopyWithImpl<$Res>
     Object? taxPaymentItem = freezed,
     Object? keihiList = null,
   }) {
-    return _then(_$_KeihiListResponseState(
+    return _then(_$KeihiListResponseStateImpl(
       taxPaymentItem: freezed == taxPaymentItem
           ? _value.taxPaymentItem
           : taxPaymentItem // ignore: cast_nullable_to_non_nullable
@@ -106,8 +108,8 @@ class __$$_KeihiListResponseStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_KeihiListResponseState implements _KeihiListResponseState {
-  const _$_KeihiListResponseState(
+class _$KeihiListResponseStateImpl implements _KeihiListResponseState {
+  const _$KeihiListResponseStateImpl(
       {this.taxPaymentItem,
       this.keihiList = const AsyncValue<List<Keihi>>.loading()});
 
@@ -126,7 +128,7 @@ class _$_KeihiListResponseState implements _KeihiListResponseState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_KeihiListResponseState &&
+            other is _$KeihiListResponseStateImpl &&
             (identical(other.taxPaymentItem, taxPaymentItem) ||
                 other.taxPaymentItem == taxPaymentItem) &&
             (identical(other.keihiList, keihiList) ||
@@ -139,15 +141,15 @@ class _$_KeihiListResponseState implements _KeihiListResponseState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_KeihiListResponseStateCopyWith<_$_KeihiListResponseState> get copyWith =>
-      __$$_KeihiListResponseStateCopyWithImpl<_$_KeihiListResponseState>(
-          this, _$identity);
+  _$$KeihiListResponseStateImplCopyWith<_$KeihiListResponseStateImpl>
+      get copyWith => __$$KeihiListResponseStateImplCopyWithImpl<
+          _$KeihiListResponseStateImpl>(this, _$identity);
 }
 
 abstract class _KeihiListResponseState implements KeihiListResponseState {
   const factory _KeihiListResponseState(
       {final TaxPaymentItem? taxPaymentItem,
-      final AsyncValue<List<Keihi>> keihiList}) = _$_KeihiListResponseState;
+      final AsyncValue<List<Keihi>> keihiList}) = _$KeihiListResponseStateImpl;
 
   @override
   TaxPaymentItem? get taxPaymentItem;
@@ -155,6 +157,6 @@ abstract class _KeihiListResponseState implements KeihiListResponseState {
   AsyncValue<List<Keihi>> get keihiList;
   @override
   @JsonKey(ignore: true)
-  _$$_KeihiListResponseStateCopyWith<_$_KeihiListResponseState> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$KeihiListResponseStateImplCopyWith<_$KeihiListResponseStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

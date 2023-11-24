@@ -70,11 +70,11 @@ class _$GoldResponseStateCopyWithImpl<$Res, $Val extends GoldResponseState>
 }
 
 /// @nodoc
-abstract class _$$_GoldResponseStateCopyWith<$Res>
+abstract class _$$GoldResponseStateImplCopyWith<$Res>
     implements $GoldResponseStateCopyWith<$Res> {
-  factory _$$_GoldResponseStateCopyWith(_$_GoldResponseState value,
-          $Res Function(_$_GoldResponseState) then) =
-      __$$_GoldResponseStateCopyWithImpl<$Res>;
+  factory _$$GoldResponseStateImplCopyWith(_$GoldResponseStateImpl value,
+          $Res Function(_$GoldResponseStateImpl) then) =
+      __$$GoldResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -82,11 +82,11 @@ abstract class _$$_GoldResponseStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_GoldResponseStateCopyWithImpl<$Res>
-    extends _$GoldResponseStateCopyWithImpl<$Res, _$_GoldResponseState>
-    implements _$$_GoldResponseStateCopyWith<$Res> {
-  __$$_GoldResponseStateCopyWithImpl(
-      _$_GoldResponseState _value, $Res Function(_$_GoldResponseState) _then)
+class __$$GoldResponseStateImplCopyWithImpl<$Res>
+    extends _$GoldResponseStateCopyWithImpl<$Res, _$GoldResponseStateImpl>
+    implements _$$GoldResponseStateImplCopyWith<$Res> {
+  __$$GoldResponseStateImplCopyWithImpl(_$GoldResponseStateImpl _value,
+      $Res Function(_$GoldResponseStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -96,7 +96,7 @@ class __$$_GoldResponseStateCopyWithImpl<$Res>
     Object? goldList = null,
     Object? goldMap = null,
   }) {
-    return _then(_$_GoldResponseState(
+    return _then(_$GoldResponseStateImpl(
       lastGold: freezed == lastGold
           ? _value.lastGold
           : lastGold // ignore: cast_nullable_to_non_nullable
@@ -115,8 +115,8 @@ class __$$_GoldResponseStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_GoldResponseState implements _GoldResponseState {
-  const _$_GoldResponseState(
+class _$GoldResponseStateImpl implements _GoldResponseState {
+  const _$GoldResponseStateImpl(
       {this.lastGold,
       final List<Gold> goldList = const [],
       final Map<String, AssetsData> goldMap = const {}})
@@ -152,7 +152,7 @@ class _$_GoldResponseState implements _GoldResponseState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_GoldResponseState &&
+            other is _$GoldResponseStateImpl &&
             (identical(other.lastGold, lastGold) ||
                 other.lastGold == lastGold) &&
             const DeepCollectionEquality().equals(other._goldList, _goldList) &&
@@ -169,8 +169,8 @@ class _$_GoldResponseState implements _GoldResponseState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_GoldResponseStateCopyWith<_$_GoldResponseState> get copyWith =>
-      __$$_GoldResponseStateCopyWithImpl<_$_GoldResponseState>(
+  _$$GoldResponseStateImplCopyWith<_$GoldResponseStateImpl> get copyWith =>
+      __$$GoldResponseStateImplCopyWithImpl<_$GoldResponseStateImpl>(
           this, _$identity);
 }
 
@@ -178,7 +178,7 @@ abstract class _GoldResponseState implements GoldResponseState {
   const factory _GoldResponseState(
       {final Gold? lastGold,
       final List<Gold> goldList,
-      final Map<String, AssetsData> goldMap}) = _$_GoldResponseState;
+      final Map<String, AssetsData> goldMap}) = _$GoldResponseStateImpl;
 
   @override
   Gold? get lastGold;
@@ -188,6 +188,6 @@ abstract class _GoldResponseState implements GoldResponseState {
   Map<String, AssetsData> get goldMap;
   @override
   @JsonKey(ignore: true)
-  _$$_GoldResponseStateCopyWith<_$_GoldResponseState> get copyWith =>
+  _$$GoldResponseStateImplCopyWith<_$GoldResponseStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

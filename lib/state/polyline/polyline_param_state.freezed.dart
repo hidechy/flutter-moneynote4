@@ -63,22 +63,22 @@ class _$PolylineParamStateCopyWithImpl<$Res, $Val extends PolylineParamState>
 }
 
 /// @nodoc
-abstract class _$$_PolylineParamStateCopyWith<$Res>
+abstract class _$$PolylineParamStateImplCopyWith<$Res>
     implements $PolylineParamStateCopyWith<$Res> {
-  factory _$$_PolylineParamStateCopyWith(_$_PolylineParamState value,
-          $Res Function(_$_PolylineParamState) then) =
-      __$$_PolylineParamStateCopyWithImpl<$Res>;
+  factory _$$PolylineParamStateImplCopyWith(_$PolylineParamStateImpl value,
+          $Res Function(_$PolylineParamStateImpl) then) =
+      __$$PolylineParamStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String origin, String destination});
 }
 
 /// @nodoc
-class __$$_PolylineParamStateCopyWithImpl<$Res>
-    extends _$PolylineParamStateCopyWithImpl<$Res, _$_PolylineParamState>
-    implements _$$_PolylineParamStateCopyWith<$Res> {
-  __$$_PolylineParamStateCopyWithImpl(
-      _$_PolylineParamState _value, $Res Function(_$_PolylineParamState) _then)
+class __$$PolylineParamStateImplCopyWithImpl<$Res>
+    extends _$PolylineParamStateCopyWithImpl<$Res, _$PolylineParamStateImpl>
+    implements _$$PolylineParamStateImplCopyWith<$Res> {
+  __$$PolylineParamStateImplCopyWithImpl(_$PolylineParamStateImpl _value,
+      $Res Function(_$PolylineParamStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +87,7 @@ class __$$_PolylineParamStateCopyWithImpl<$Res>
     Object? origin = null,
     Object? destination = null,
   }) {
-    return _then(_$_PolylineParamState(
+    return _then(_$PolylineParamStateImpl(
       origin: null == origin
           ? _value.origin
           : origin // ignore: cast_nullable_to_non_nullable
@@ -102,8 +102,8 @@ class __$$_PolylineParamStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_PolylineParamState implements _PolylineParamState {
-  const _$_PolylineParamState({this.origin = '', this.destination = ''});
+class _$PolylineParamStateImpl implements _PolylineParamState {
+  const _$PolylineParamStateImpl({this.origin = '', this.destination = ''});
 
   @override
   @JsonKey()
@@ -121,7 +121,7 @@ class _$_PolylineParamState implements _PolylineParamState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PolylineParamState &&
+            other is _$PolylineParamStateImpl &&
             (identical(other.origin, origin) || other.origin == origin) &&
             (identical(other.destination, destination) ||
                 other.destination == destination));
@@ -133,14 +133,15 @@ class _$_PolylineParamState implements _PolylineParamState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PolylineParamStateCopyWith<_$_PolylineParamState> get copyWith =>
-      __$$_PolylineParamStateCopyWithImpl<_$_PolylineParamState>(
+  _$$PolylineParamStateImplCopyWith<_$PolylineParamStateImpl> get copyWith =>
+      __$$PolylineParamStateImplCopyWithImpl<_$PolylineParamStateImpl>(
           this, _$identity);
 }
 
 abstract class _PolylineParamState implements PolylineParamState {
   const factory _PolylineParamState(
-      {final String origin, final String destination}) = _$_PolylineParamState;
+      {final String origin,
+      final String destination}) = _$PolylineParamStateImpl;
 
   @override
   String get origin;
@@ -148,6 +149,6 @@ abstract class _PolylineParamState implements PolylineParamState {
   String get destination;
   @override
   @JsonKey(ignore: true)
-  _$$_PolylineParamStateCopyWith<_$_PolylineParamState> get copyWith =>
+  _$$PolylineParamStateImplCopyWith<_$PolylineParamStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -2,13 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/_money_dialog.dart';
-import 'package:moneynote4/screens/_components/money_score_graph_alert.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
+import '../../state/money/money_notifier.dart';
 import '../../utility/utility.dart';
-import '../../viewmodel/money_notifier.dart';
+import '_money_dialog.dart';
+import 'money_score_graph_alert.dart';
 
 class MoneyScoreAlert extends ConsumerWidget {
   MoneyScoreAlert({super.key, required this.date});

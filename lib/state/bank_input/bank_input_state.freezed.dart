@@ -107,11 +107,11 @@ class _$BankInputStateCopyWithImpl<$Res, $Val extends BankInputState>
 }
 
 /// @nodoc
-abstract class _$$_BankInputStateCopyWith<$Res>
+abstract class _$$BankInputStateImplCopyWith<$Res>
     implements $BankInputStateCopyWith<$Res> {
-  factory _$$_BankInputStateCopyWith(
-          _$_BankInputState value, $Res Function(_$_BankInputState) then) =
-      __$$_BankInputStateCopyWithImpl<$Res>;
+  factory _$$BankInputStateImplCopyWith(_$BankInputStateImpl value,
+          $Res Function(_$BankInputStateImpl) then) =
+      __$$BankInputStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -126,11 +126,11 @@ abstract class _$$_BankInputStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_BankInputStateCopyWithImpl<$Res>
-    extends _$BankInputStateCopyWithImpl<$Res, _$_BankInputState>
-    implements _$$_BankInputStateCopyWith<$Res> {
-  __$$_BankInputStateCopyWithImpl(
-      _$_BankInputState _value, $Res Function(_$_BankInputState) _then)
+class __$$BankInputStateImplCopyWithImpl<$Res>
+    extends _$BankInputStateCopyWithImpl<$Res, _$BankInputStateImpl>
+    implements _$$BankInputStateImplCopyWith<$Res> {
+  __$$BankInputStateImplCopyWithImpl(
+      _$BankInputStateImpl _value, $Res Function(_$BankInputStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -145,7 +145,7 @@ class __$$_BankInputStateCopyWithImpl<$Res>
     Object? inArrowBank = null,
     Object? inArrowDate = null,
   }) {
-    return _then(_$_BankInputState(
+    return _then(_$BankInputStateImpl(
       bankMoney: null == bankMoney
           ? _value.bankMoney
           : bankMoney // ignore: cast_nullable_to_non_nullable
@@ -184,8 +184,8 @@ class __$$_BankInputStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_BankInputState implements _BankInputState {
-  const _$_BankInputState(
+class _$BankInputStateImpl implements _BankInputState {
+  const _$BankInputStateImpl(
       {this.bankMoney = '',
       this.selectBank = '',
       this.selectDate = '',
@@ -232,7 +232,7 @@ class _$_BankInputState implements _BankInputState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BankInputState &&
+            other is _$BankInputStateImpl &&
             (identical(other.bankMoney, bankMoney) ||
                 other.bankMoney == bankMoney) &&
             (identical(other.selectBank, selectBank) ||
@@ -266,8 +266,9 @@ class _$_BankInputState implements _BankInputState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BankInputStateCopyWith<_$_BankInputState> get copyWith =>
-      __$$_BankInputStateCopyWithImpl<_$_BankInputState>(this, _$identity);
+  _$$BankInputStateImplCopyWith<_$BankInputStateImpl> get copyWith =>
+      __$$BankInputStateImplCopyWithImpl<_$BankInputStateImpl>(
+          this, _$identity);
 }
 
 abstract class _BankInputState implements BankInputState {
@@ -279,7 +280,7 @@ abstract class _BankInputState implements BankInputState {
       final String outArrowBank,
       final String outArrowDate,
       final String inArrowBank,
-      final String inArrowDate}) = _$_BankInputState;
+      final String inArrowDate}) = _$BankInputStateImpl;
 
   @override
   String get bankMoney;
@@ -299,6 +300,6 @@ abstract class _BankInputState implements BankInputState {
   String get inArrowDate;
   @override
   @JsonKey(ignore: true)
-  _$$_BankInputStateCopyWith<_$_BankInputState> get copyWith =>
+  _$$BankInputStateImplCopyWith<_$BankInputStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

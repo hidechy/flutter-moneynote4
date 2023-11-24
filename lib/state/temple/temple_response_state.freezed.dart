@@ -63,22 +63,22 @@ class _$TempleResponseStateCopyWithImpl<$Res, $Val extends TempleResponseState>
 }
 
 /// @nodoc
-abstract class _$$_TempleResponseStateCopyWith<$Res>
+abstract class _$$TempleResponseStateImplCopyWith<$Res>
     implements $TempleResponseStateCopyWith<$Res> {
-  factory _$$_TempleResponseStateCopyWith(_$_TempleResponseState value,
-          $Res Function(_$_TempleResponseState) then) =
-      __$$_TempleResponseStateCopyWithImpl<$Res>;
+  factory _$$TempleResponseStateImplCopyWith(_$TempleResponseStateImpl value,
+          $Res Function(_$TempleResponseStateImpl) then) =
+      __$$TempleResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<Temple> templeList, Map<String, Temple> templeMap});
 }
 
 /// @nodoc
-class __$$_TempleResponseStateCopyWithImpl<$Res>
-    extends _$TempleResponseStateCopyWithImpl<$Res, _$_TempleResponseState>
-    implements _$$_TempleResponseStateCopyWith<$Res> {
-  __$$_TempleResponseStateCopyWithImpl(_$_TempleResponseState _value,
-      $Res Function(_$_TempleResponseState) _then)
+class __$$TempleResponseStateImplCopyWithImpl<$Res>
+    extends _$TempleResponseStateCopyWithImpl<$Res, _$TempleResponseStateImpl>
+    implements _$$TempleResponseStateImplCopyWith<$Res> {
+  __$$TempleResponseStateImplCopyWithImpl(_$TempleResponseStateImpl _value,
+      $Res Function(_$TempleResponseStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +87,7 @@ class __$$_TempleResponseStateCopyWithImpl<$Res>
     Object? templeList = null,
     Object? templeMap = null,
   }) {
-    return _then(_$_TempleResponseState(
+    return _then(_$TempleResponseStateImpl(
       templeList: null == templeList
           ? _value._templeList
           : templeList // ignore: cast_nullable_to_non_nullable
@@ -102,8 +102,8 @@ class __$$_TempleResponseStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_TempleResponseState implements _TempleResponseState {
-  const _$_TempleResponseState(
+class _$TempleResponseStateImpl implements _TempleResponseState {
+  const _$TempleResponseStateImpl(
       {final List<Temple> templeList = const [],
       final Map<String, Temple> templeMap = const {}})
       : _templeList = templeList,
@@ -136,7 +136,7 @@ class _$_TempleResponseState implements _TempleResponseState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TempleResponseState &&
+            other is _$TempleResponseStateImpl &&
             const DeepCollectionEquality()
                 .equals(other._templeList, _templeList) &&
             const DeepCollectionEquality()
@@ -152,15 +152,15 @@ class _$_TempleResponseState implements _TempleResponseState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TempleResponseStateCopyWith<_$_TempleResponseState> get copyWith =>
-      __$$_TempleResponseStateCopyWithImpl<_$_TempleResponseState>(
+  _$$TempleResponseStateImplCopyWith<_$TempleResponseStateImpl> get copyWith =>
+      __$$TempleResponseStateImplCopyWithImpl<_$TempleResponseStateImpl>(
           this, _$identity);
 }
 
 abstract class _TempleResponseState implements TempleResponseState {
   const factory _TempleResponseState(
       {final List<Temple> templeList,
-      final Map<String, Temple> templeMap}) = _$_TempleResponseState;
+      final Map<String, Temple> templeMap}) = _$TempleResponseStateImpl;
 
   @override
   List<Temple> get templeList;
@@ -168,6 +168,6 @@ abstract class _TempleResponseState implements TempleResponseState {
   Map<String, Temple> get templeMap;
   @override
   @JsonKey(ignore: true)
-  _$$_TempleResponseStateCopyWith<_$_TempleResponseState> get copyWith =>
+  _$$TempleResponseStateImplCopyWith<_$TempleResponseStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

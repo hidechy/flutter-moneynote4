@@ -63,22 +63,22 @@ class _$CreditSummaryStateCopyWithImpl<$Res, $Val extends CreditSummaryState>
 }
 
 /// @nodoc
-abstract class _$$_CreditSummaryStateCopyWith<$Res>
+abstract class _$$CreditSummaryStateImplCopyWith<$Res>
     implements $CreditSummaryStateCopyWith<$Res> {
-  factory _$$_CreditSummaryStateCopyWith(_$_CreditSummaryState value,
-          $Res Function(_$_CreditSummaryState) then) =
-      __$$_CreditSummaryStateCopyWithImpl<$Res>;
+  factory _$$CreditSummaryStateImplCopyWith(_$CreditSummaryStateImpl value,
+          $Res Function(_$CreditSummaryStateImpl) then) =
+      __$$CreditSummaryStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<CreditSummary> list, bool saving});
 }
 
 /// @nodoc
-class __$$_CreditSummaryStateCopyWithImpl<$Res>
-    extends _$CreditSummaryStateCopyWithImpl<$Res, _$_CreditSummaryState>
-    implements _$$_CreditSummaryStateCopyWith<$Res> {
-  __$$_CreditSummaryStateCopyWithImpl(
-      _$_CreditSummaryState _value, $Res Function(_$_CreditSummaryState) _then)
+class __$$CreditSummaryStateImplCopyWithImpl<$Res>
+    extends _$CreditSummaryStateCopyWithImpl<$Res, _$CreditSummaryStateImpl>
+    implements _$$CreditSummaryStateImplCopyWith<$Res> {
+  __$$CreditSummaryStateImplCopyWithImpl(_$CreditSummaryStateImpl _value,
+      $Res Function(_$CreditSummaryStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +87,7 @@ class __$$_CreditSummaryStateCopyWithImpl<$Res>
     Object? list = null,
     Object? saving = null,
   }) {
-    return _then(_$_CreditSummaryState(
+    return _then(_$CreditSummaryStateImpl(
       list: null == list
           ? _value._list
           : list // ignore: cast_nullable_to_non_nullable
@@ -102,8 +102,8 @@ class __$$_CreditSummaryStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_CreditSummaryState implements _CreditSummaryState {
-  const _$_CreditSummaryState(
+class _$CreditSummaryStateImpl implements _CreditSummaryState {
+  const _$CreditSummaryStateImpl(
       {final List<CreditSummary> list = const [], this.saving = false})
       : _list = list;
 
@@ -129,7 +129,7 @@ class _$_CreditSummaryState implements _CreditSummaryState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CreditSummaryState &&
+            other is _$CreditSummaryStateImpl &&
             const DeepCollectionEquality().equals(other._list, _list) &&
             (identical(other.saving, saving) || other.saving == saving));
   }
@@ -141,15 +141,15 @@ class _$_CreditSummaryState implements _CreditSummaryState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CreditSummaryStateCopyWith<_$_CreditSummaryState> get copyWith =>
-      __$$_CreditSummaryStateCopyWithImpl<_$_CreditSummaryState>(
+  _$$CreditSummaryStateImplCopyWith<_$CreditSummaryStateImpl> get copyWith =>
+      __$$CreditSummaryStateImplCopyWithImpl<_$CreditSummaryStateImpl>(
           this, _$identity);
 }
 
 abstract class _CreditSummaryState implements CreditSummaryState {
   const factory _CreditSummaryState(
       {final List<CreditSummary> list,
-      final bool saving}) = _$_CreditSummaryState;
+      final bool saving}) = _$CreditSummaryStateImpl;
 
   @override
   List<CreditSummary> get list;
@@ -157,6 +157,6 @@ abstract class _CreditSummaryState implements CreditSummaryState {
   bool get saving;
   @override
   @JsonKey(ignore: true)
-  _$$_CreditSummaryStateCopyWith<_$_CreditSummaryState> get copyWith =>
+  _$$CreditSummaryStateImplCopyWith<_$CreditSummaryStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

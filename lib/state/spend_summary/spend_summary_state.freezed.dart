@@ -63,22 +63,22 @@ class _$SpendSummaryStateCopyWithImpl<$Res, $Val extends SpendSummaryState>
 }
 
 /// @nodoc
-abstract class _$$_SpendSummaryStateCopyWith<$Res>
+abstract class _$$SpendSummaryStateImplCopyWith<$Res>
     implements $SpendSummaryStateCopyWith<$Res> {
-  factory _$$_SpendSummaryStateCopyWith(_$_SpendSummaryState value,
-          $Res Function(_$_SpendSummaryState) then) =
-      __$$_SpendSummaryStateCopyWithImpl<$Res>;
+  factory _$$SpendSummaryStateImplCopyWith(_$SpendSummaryStateImpl value,
+          $Res Function(_$SpendSummaryStateImpl) then) =
+      __$$SpendSummaryStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<SpendSummary> list, bool saving});
 }
 
 /// @nodoc
-class __$$_SpendSummaryStateCopyWithImpl<$Res>
-    extends _$SpendSummaryStateCopyWithImpl<$Res, _$_SpendSummaryState>
-    implements _$$_SpendSummaryStateCopyWith<$Res> {
-  __$$_SpendSummaryStateCopyWithImpl(
-      _$_SpendSummaryState _value, $Res Function(_$_SpendSummaryState) _then)
+class __$$SpendSummaryStateImplCopyWithImpl<$Res>
+    extends _$SpendSummaryStateCopyWithImpl<$Res, _$SpendSummaryStateImpl>
+    implements _$$SpendSummaryStateImplCopyWith<$Res> {
+  __$$SpendSummaryStateImplCopyWithImpl(_$SpendSummaryStateImpl _value,
+      $Res Function(_$SpendSummaryStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +87,7 @@ class __$$_SpendSummaryStateCopyWithImpl<$Res>
     Object? list = null,
     Object? saving = null,
   }) {
-    return _then(_$_SpendSummaryState(
+    return _then(_$SpendSummaryStateImpl(
       list: null == list
           ? _value._list
           : list // ignore: cast_nullable_to_non_nullable
@@ -102,8 +102,8 @@ class __$$_SpendSummaryStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SpendSummaryState implements _SpendSummaryState {
-  const _$_SpendSummaryState(
+class _$SpendSummaryStateImpl implements _SpendSummaryState {
+  const _$SpendSummaryStateImpl(
       {final List<SpendSummary> list = const [], this.saving = false})
       : _list = list;
 
@@ -129,7 +129,7 @@ class _$_SpendSummaryState implements _SpendSummaryState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SpendSummaryState &&
+            other is _$SpendSummaryStateImpl &&
             const DeepCollectionEquality().equals(other._list, _list) &&
             (identical(other.saving, saving) || other.saving == saving));
   }
@@ -141,15 +141,15 @@ class _$_SpendSummaryState implements _SpendSummaryState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SpendSummaryStateCopyWith<_$_SpendSummaryState> get copyWith =>
-      __$$_SpendSummaryStateCopyWithImpl<_$_SpendSummaryState>(
+  _$$SpendSummaryStateImplCopyWith<_$SpendSummaryStateImpl> get copyWith =>
+      __$$SpendSummaryStateImplCopyWithImpl<_$SpendSummaryStateImpl>(
           this, _$identity);
 }
 
 abstract class _SpendSummaryState implements SpendSummaryState {
   const factory _SpendSummaryState(
       {final List<SpendSummary> list,
-      final bool saving}) = _$_SpendSummaryState;
+      final bool saving}) = _$SpendSummaryStateImpl;
 
   @override
   List<SpendSummary> get list;
@@ -157,6 +157,6 @@ abstract class _SpendSummaryState implements SpendSummaryState {
   bool get saving;
   @override
   @JsonKey(ignore: true)
-  _$$_SpendSummaryStateCopyWith<_$_SpendSummaryState> get copyWith =>
+  _$$SpendSummaryStateImplCopyWith<_$SpendSummaryStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

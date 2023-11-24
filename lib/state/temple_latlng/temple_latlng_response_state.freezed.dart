@@ -67,12 +67,12 @@ class _$TempleLatLngResponseStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_TempleLatLngResponseStateCopyWith<$Res>
+abstract class _$$TempleLatLngResponseStateImplCopyWith<$Res>
     implements $TempleLatLngResponseStateCopyWith<$Res> {
-  factory _$$_TempleLatLngResponseStateCopyWith(
-          _$_TempleLatLngResponseState value,
-          $Res Function(_$_TempleLatLngResponseState) then) =
-      __$$_TempleLatLngResponseStateCopyWithImpl<$Res>;
+  factory _$$TempleLatLngResponseStateImplCopyWith(
+          _$TempleLatLngResponseStateImpl value,
+          $Res Function(_$TempleLatLngResponseStateImpl) then) =
+      __$$TempleLatLngResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -81,13 +81,13 @@ abstract class _$$_TempleLatLngResponseStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_TempleLatLngResponseStateCopyWithImpl<$Res>
+class __$$TempleLatLngResponseStateImplCopyWithImpl<$Res>
     extends _$TempleLatLngResponseStateCopyWithImpl<$Res,
-        _$_TempleLatLngResponseState>
-    implements _$$_TempleLatLngResponseStateCopyWith<$Res> {
-  __$$_TempleLatLngResponseStateCopyWithImpl(
-      _$_TempleLatLngResponseState _value,
-      $Res Function(_$_TempleLatLngResponseState) _then)
+        _$TempleLatLngResponseStateImpl>
+    implements _$$TempleLatLngResponseStateImplCopyWith<$Res> {
+  __$$TempleLatLngResponseStateImplCopyWithImpl(
+      _$TempleLatLngResponseStateImpl _value,
+      $Res Function(_$TempleLatLngResponseStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -96,7 +96,7 @@ class __$$_TempleLatLngResponseStateCopyWithImpl<$Res>
     Object? templeLatLngList = null,
     Object? templeLatLngMap = null,
   }) {
-    return _then(_$_TempleLatLngResponseState(
+    return _then(_$TempleLatLngResponseStateImpl(
       templeLatLngList: null == templeLatLngList
           ? _value._templeLatLngList
           : templeLatLngList // ignore: cast_nullable_to_non_nullable
@@ -111,8 +111,8 @@ class __$$_TempleLatLngResponseStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_TempleLatLngResponseState implements _TempleLatLngResponseState {
-  const _$_TempleLatLngResponseState(
+class _$TempleLatLngResponseStateImpl implements _TempleLatLngResponseState {
+  const _$TempleLatLngResponseStateImpl(
       {final List<TempleLatLng> templeLatLngList = const [],
       final Map<String, TempleLatLng> templeLatLngMap = const {}})
       : _templeLatLngList = templeLatLngList,
@@ -146,7 +146,7 @@ class _$_TempleLatLngResponseState implements _TempleLatLngResponseState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TempleLatLngResponseState &&
+            other is _$TempleLatLngResponseStateImpl &&
             const DeepCollectionEquality()
                 .equals(other._templeLatLngList, _templeLatLngList) &&
             const DeepCollectionEquality()
@@ -162,16 +162,16 @@ class _$_TempleLatLngResponseState implements _TempleLatLngResponseState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TempleLatLngResponseStateCopyWith<_$_TempleLatLngResponseState>
-      get copyWith => __$$_TempleLatLngResponseStateCopyWithImpl<
-          _$_TempleLatLngResponseState>(this, _$identity);
+  _$$TempleLatLngResponseStateImplCopyWith<_$TempleLatLngResponseStateImpl>
+      get copyWith => __$$TempleLatLngResponseStateImplCopyWithImpl<
+          _$TempleLatLngResponseStateImpl>(this, _$identity);
 }
 
 abstract class _TempleLatLngResponseState implements TempleLatLngResponseState {
   const factory _TempleLatLngResponseState(
           {final List<TempleLatLng> templeLatLngList,
           final Map<String, TempleLatLng> templeLatLngMap}) =
-      _$_TempleLatLngResponseState;
+      _$TempleLatLngResponseStateImpl;
 
   @override
   List<TempleLatLng> get templeLatLngList;
@@ -179,6 +179,6 @@ abstract class _TempleLatLngResponseState implements TempleLatLngResponseState {
   Map<String, TempleLatLng> get templeLatLngMap;
   @override
   @JsonKey(ignore: true)
-  _$$_TempleLatLngResponseStateCopyWith<_$_TempleLatLngResponseState>
+  _$$TempleLatLngResponseStateImplCopyWith<_$TempleLatLngResponseStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

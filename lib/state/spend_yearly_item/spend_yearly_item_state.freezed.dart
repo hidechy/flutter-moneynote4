@@ -70,22 +70,22 @@ class _$SpendYearlyItemStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_SpendYearlyItemStateCopyWith<$Res>
+abstract class _$$SpendYearlyItemStateImplCopyWith<$Res>
     implements $SpendYearlyItemStateCopyWith<$Res> {
-  factory _$$_SpendYearlyItemStateCopyWith(_$_SpendYearlyItemState value,
-          $Res Function(_$_SpendYearlyItemState) then) =
-      __$$_SpendYearlyItemStateCopyWithImpl<$Res>;
+  factory _$$SpendYearlyItemStateImplCopyWith(_$SpendYearlyItemStateImpl value,
+          $Res Function(_$SpendYearlyItemStateImpl) then) =
+      __$$SpendYearlyItemStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({DateTime? date, String item, int? price});
 }
 
 /// @nodoc
-class __$$_SpendYearlyItemStateCopyWithImpl<$Res>
-    extends _$SpendYearlyItemStateCopyWithImpl<$Res, _$_SpendYearlyItemState>
-    implements _$$_SpendYearlyItemStateCopyWith<$Res> {
-  __$$_SpendYearlyItemStateCopyWithImpl(_$_SpendYearlyItemState _value,
-      $Res Function(_$_SpendYearlyItemState) _then)
+class __$$SpendYearlyItemStateImplCopyWithImpl<$Res>
+    extends _$SpendYearlyItemStateCopyWithImpl<$Res, _$SpendYearlyItemStateImpl>
+    implements _$$SpendYearlyItemStateImplCopyWith<$Res> {
+  __$$SpendYearlyItemStateImplCopyWithImpl(_$SpendYearlyItemStateImpl _value,
+      $Res Function(_$SpendYearlyItemStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -95,7 +95,7 @@ class __$$_SpendYearlyItemStateCopyWithImpl<$Res>
     Object? item = null,
     Object? price = freezed,
   }) {
-    return _then(_$_SpendYearlyItemState(
+    return _then(_$SpendYearlyItemStateImpl(
       date: freezed == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
@@ -114,8 +114,8 @@ class __$$_SpendYearlyItemStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SpendYearlyItemState implements _SpendYearlyItemState {
-  const _$_SpendYearlyItemState({this.date, this.item = '', this.price});
+class _$SpendYearlyItemStateImpl implements _SpendYearlyItemState {
+  const _$SpendYearlyItemStateImpl({this.date, this.item = '', this.price});
 
   @override
   final DateTime? date;
@@ -134,7 +134,7 @@ class _$_SpendYearlyItemState implements _SpendYearlyItemState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SpendYearlyItemState &&
+            other is _$SpendYearlyItemStateImpl &&
             (identical(other.date, date) || other.date == date) &&
             (identical(other.item, item) || other.item == item) &&
             (identical(other.price, price) || other.price == price));
@@ -146,16 +146,17 @@ class _$_SpendYearlyItemState implements _SpendYearlyItemState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SpendYearlyItemStateCopyWith<_$_SpendYearlyItemState> get copyWith =>
-      __$$_SpendYearlyItemStateCopyWithImpl<_$_SpendYearlyItemState>(
-          this, _$identity);
+  _$$SpendYearlyItemStateImplCopyWith<_$SpendYearlyItemStateImpl>
+      get copyWith =>
+          __$$SpendYearlyItemStateImplCopyWithImpl<_$SpendYearlyItemStateImpl>(
+              this, _$identity);
 }
 
 abstract class _SpendYearlyItemState implements SpendYearlyItemState {
   const factory _SpendYearlyItemState(
       {final DateTime? date,
       final String item,
-      final int? price}) = _$_SpendYearlyItemState;
+      final int? price}) = _$SpendYearlyItemStateImpl;
 
   @override
   DateTime? get date;
@@ -165,6 +166,6 @@ abstract class _SpendYearlyItemState implements SpendYearlyItemState {
   int? get price;
   @override
   @JsonKey(ignore: true)
-  _$$_SpendYearlyItemStateCopyWith<_$_SpendYearlyItemState> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$SpendYearlyItemStateImplCopyWith<_$SpendYearlyItemStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

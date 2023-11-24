@@ -57,22 +57,22 @@ class _$UdemyResponseStateCopyWithImpl<$Res, $Val extends UdemyResponseState>
 }
 
 /// @nodoc
-abstract class _$$_UdemyResponseStateCopyWith<$Res>
+abstract class _$$UdemyResponseStateImplCopyWith<$Res>
     implements $UdemyResponseStateCopyWith<$Res> {
-  factory _$$_UdemyResponseStateCopyWith(_$_UdemyResponseState value,
-          $Res Function(_$_UdemyResponseState) then) =
-      __$$_UdemyResponseStateCopyWithImpl<$Res>;
+  factory _$$UdemyResponseStateImplCopyWith(_$UdemyResponseStateImpl value,
+          $Res Function(_$UdemyResponseStateImpl) then) =
+      __$$UdemyResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({AsyncValue<List<Udemy>> udemyList});
 }
 
 /// @nodoc
-class __$$_UdemyResponseStateCopyWithImpl<$Res>
-    extends _$UdemyResponseStateCopyWithImpl<$Res, _$_UdemyResponseState>
-    implements _$$_UdemyResponseStateCopyWith<$Res> {
-  __$$_UdemyResponseStateCopyWithImpl(
-      _$_UdemyResponseState _value, $Res Function(_$_UdemyResponseState) _then)
+class __$$UdemyResponseStateImplCopyWithImpl<$Res>
+    extends _$UdemyResponseStateCopyWithImpl<$Res, _$UdemyResponseStateImpl>
+    implements _$$UdemyResponseStateImplCopyWith<$Res> {
+  __$$UdemyResponseStateImplCopyWithImpl(_$UdemyResponseStateImpl _value,
+      $Res Function(_$UdemyResponseStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -80,7 +80,7 @@ class __$$_UdemyResponseStateCopyWithImpl<$Res>
   $Res call({
     Object? udemyList = null,
   }) {
-    return _then(_$_UdemyResponseState(
+    return _then(_$UdemyResponseStateImpl(
       udemyList: null == udemyList
           ? _value.udemyList
           : udemyList // ignore: cast_nullable_to_non_nullable
@@ -91,8 +91,8 @@ class __$$_UdemyResponseStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_UdemyResponseState implements _UdemyResponseState {
-  const _$_UdemyResponseState(
+class _$UdemyResponseStateImpl implements _UdemyResponseState {
+  const _$UdemyResponseStateImpl(
       {this.udemyList = const AsyncValue<List<Udemy>>.loading()});
 
   @override
@@ -108,7 +108,7 @@ class _$_UdemyResponseState implements _UdemyResponseState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_UdemyResponseState &&
+            other is _$UdemyResponseStateImpl &&
             (identical(other.udemyList, udemyList) ||
                 other.udemyList == udemyList));
   }
@@ -119,19 +119,19 @@ class _$_UdemyResponseState implements _UdemyResponseState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UdemyResponseStateCopyWith<_$_UdemyResponseState> get copyWith =>
-      __$$_UdemyResponseStateCopyWithImpl<_$_UdemyResponseState>(
+  _$$UdemyResponseStateImplCopyWith<_$UdemyResponseStateImpl> get copyWith =>
+      __$$UdemyResponseStateImplCopyWithImpl<_$UdemyResponseStateImpl>(
           this, _$identity);
 }
 
 abstract class _UdemyResponseState implements UdemyResponseState {
   const factory _UdemyResponseState({final AsyncValue<List<Udemy>> udemyList}) =
-      _$_UdemyResponseState;
+      _$UdemyResponseStateImpl;
 
   @override
   AsyncValue<List<Udemy>> get udemyList;
   @override
   @JsonKey(ignore: true)
-  _$$_UdemyResponseStateCopyWith<_$_UdemyResponseState> get copyWith =>
+  _$$UdemyResponseStateImplCopyWith<_$UdemyResponseStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

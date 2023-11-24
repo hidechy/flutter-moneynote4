@@ -69,12 +69,12 @@ class _$SeiyuPurchaseResponseStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_SeiyuPurchaseResponseStateCopyWith<$Res>
+abstract class _$$SeiyuPurchaseResponseStateImplCopyWith<$Res>
     implements $SeiyuPurchaseResponseStateCopyWith<$Res> {
-  factory _$$_SeiyuPurchaseResponseStateCopyWith(
-          _$_SeiyuPurchaseResponseState value,
-          $Res Function(_$_SeiyuPurchaseResponseState) then) =
-      __$$_SeiyuPurchaseResponseStateCopyWithImpl<$Res>;
+  factory _$$SeiyuPurchaseResponseStateImplCopyWith(
+          _$SeiyuPurchaseResponseStateImpl value,
+          $Res Function(_$SeiyuPurchaseResponseStateImpl) then) =
+      __$$SeiyuPurchaseResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -83,13 +83,13 @@ abstract class _$$_SeiyuPurchaseResponseStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_SeiyuPurchaseResponseStateCopyWithImpl<$Res>
+class __$$SeiyuPurchaseResponseStateImplCopyWithImpl<$Res>
     extends _$SeiyuPurchaseResponseStateCopyWithImpl<$Res,
-        _$_SeiyuPurchaseResponseState>
-    implements _$$_SeiyuPurchaseResponseStateCopyWith<$Res> {
-  __$$_SeiyuPurchaseResponseStateCopyWithImpl(
-      _$_SeiyuPurchaseResponseState _value,
-      $Res Function(_$_SeiyuPurchaseResponseState) _then)
+        _$SeiyuPurchaseResponseStateImpl>
+    implements _$$SeiyuPurchaseResponseStateImplCopyWith<$Res> {
+  __$$SeiyuPurchaseResponseStateImplCopyWithImpl(
+      _$SeiyuPurchaseResponseStateImpl _value,
+      $Res Function(_$SeiyuPurchaseResponseStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -98,7 +98,7 @@ class __$$_SeiyuPurchaseResponseStateCopyWithImpl<$Res>
     Object? seiyuPurchaseList = null,
     Object? seiyuItemList = null,
   }) {
-    return _then(_$_SeiyuPurchaseResponseState(
+    return _then(_$SeiyuPurchaseResponseStateImpl(
       seiyuPurchaseList: null == seiyuPurchaseList
           ? _value.seiyuPurchaseList
           : seiyuPurchaseList // ignore: cast_nullable_to_non_nullable
@@ -113,8 +113,8 @@ class __$$_SeiyuPurchaseResponseStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SeiyuPurchaseResponseState implements _SeiyuPurchaseResponseState {
-  const _$_SeiyuPurchaseResponseState(
+class _$SeiyuPurchaseResponseStateImpl implements _SeiyuPurchaseResponseState {
+  const _$SeiyuPurchaseResponseStateImpl(
       {this.seiyuPurchaseList = const AsyncValue<List<SeiyuPurchase>>.loading(),
       this.seiyuItemList = const AsyncValue<List<SeiyuItem>>.loading()});
 
@@ -134,7 +134,7 @@ class _$_SeiyuPurchaseResponseState implements _SeiyuPurchaseResponseState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SeiyuPurchaseResponseState &&
+            other is _$SeiyuPurchaseResponseStateImpl &&
             (identical(other.seiyuPurchaseList, seiyuPurchaseList) ||
                 other.seiyuPurchaseList == seiyuPurchaseList) &&
             (identical(other.seiyuItemList, seiyuItemList) ||
@@ -148,9 +148,9 @@ class _$_SeiyuPurchaseResponseState implements _SeiyuPurchaseResponseState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SeiyuPurchaseResponseStateCopyWith<_$_SeiyuPurchaseResponseState>
-      get copyWith => __$$_SeiyuPurchaseResponseStateCopyWithImpl<
-          _$_SeiyuPurchaseResponseState>(this, _$identity);
+  _$$SeiyuPurchaseResponseStateImplCopyWith<_$SeiyuPurchaseResponseStateImpl>
+      get copyWith => __$$SeiyuPurchaseResponseStateImplCopyWithImpl<
+          _$SeiyuPurchaseResponseStateImpl>(this, _$identity);
 }
 
 abstract class _SeiyuPurchaseResponseState
@@ -158,7 +158,7 @@ abstract class _SeiyuPurchaseResponseState
   const factory _SeiyuPurchaseResponseState(
           {final AsyncValue<List<SeiyuPurchase>> seiyuPurchaseList,
           final AsyncValue<List<SeiyuItem>> seiyuItemList}) =
-      _$_SeiyuPurchaseResponseState;
+      _$SeiyuPurchaseResponseStateImpl;
 
   @override
   AsyncValue<List<SeiyuPurchase>> get seiyuPurchaseList;
@@ -166,6 +166,6 @@ abstract class _SeiyuPurchaseResponseState
   AsyncValue<List<SeiyuItem>> get seiyuItemList;
   @override
   @JsonKey(ignore: true)
-  _$$_SeiyuPurchaseResponseStateCopyWith<_$_SeiyuPurchaseResponseState>
+  _$$SeiyuPurchaseResponseStateImplCopyWith<_$SeiyuPurchaseResponseStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

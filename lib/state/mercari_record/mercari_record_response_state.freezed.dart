@@ -60,25 +60,25 @@ class _$MercariRecordResponseStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_MercariRecordResponseStateCopyWith<$Res>
+abstract class _$$MercariRecordResponseStateImplCopyWith<$Res>
     implements $MercariRecordResponseStateCopyWith<$Res> {
-  factory _$$_MercariRecordResponseStateCopyWith(
-          _$_MercariRecordResponseState value,
-          $Res Function(_$_MercariRecordResponseState) then) =
-      __$$_MercariRecordResponseStateCopyWithImpl<$Res>;
+  factory _$$MercariRecordResponseStateImplCopyWith(
+          _$MercariRecordResponseStateImpl value,
+          $Res Function(_$MercariRecordResponseStateImpl) then) =
+      __$$MercariRecordResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({AsyncValue<List<MercariRecord>> mercariRecordList});
 }
 
 /// @nodoc
-class __$$_MercariRecordResponseStateCopyWithImpl<$Res>
+class __$$MercariRecordResponseStateImplCopyWithImpl<$Res>
     extends _$MercariRecordResponseStateCopyWithImpl<$Res,
-        _$_MercariRecordResponseState>
-    implements _$$_MercariRecordResponseStateCopyWith<$Res> {
-  __$$_MercariRecordResponseStateCopyWithImpl(
-      _$_MercariRecordResponseState _value,
-      $Res Function(_$_MercariRecordResponseState) _then)
+        _$MercariRecordResponseStateImpl>
+    implements _$$MercariRecordResponseStateImplCopyWith<$Res> {
+  __$$MercariRecordResponseStateImplCopyWithImpl(
+      _$MercariRecordResponseStateImpl _value,
+      $Res Function(_$MercariRecordResponseStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -86,7 +86,7 @@ class __$$_MercariRecordResponseStateCopyWithImpl<$Res>
   $Res call({
     Object? mercariRecordList = null,
   }) {
-    return _then(_$_MercariRecordResponseState(
+    return _then(_$MercariRecordResponseStateImpl(
       mercariRecordList: null == mercariRecordList
           ? _value.mercariRecordList
           : mercariRecordList // ignore: cast_nullable_to_non_nullable
@@ -97,8 +97,8 @@ class __$$_MercariRecordResponseStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_MercariRecordResponseState implements _MercariRecordResponseState {
-  const _$_MercariRecordResponseState(
+class _$MercariRecordResponseStateImpl implements _MercariRecordResponseState {
+  const _$MercariRecordResponseStateImpl(
       {this.mercariRecordList =
           const AsyncValue<List<MercariRecord>>.loading()});
 
@@ -115,7 +115,7 @@ class _$_MercariRecordResponseState implements _MercariRecordResponseState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MercariRecordResponseState &&
+            other is _$MercariRecordResponseStateImpl &&
             (identical(other.mercariRecordList, mercariRecordList) ||
                 other.mercariRecordList == mercariRecordList));
   }
@@ -126,21 +126,21 @@ class _$_MercariRecordResponseState implements _MercariRecordResponseState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MercariRecordResponseStateCopyWith<_$_MercariRecordResponseState>
-      get copyWith => __$$_MercariRecordResponseStateCopyWithImpl<
-          _$_MercariRecordResponseState>(this, _$identity);
+  _$$MercariRecordResponseStateImplCopyWith<_$MercariRecordResponseStateImpl>
+      get copyWith => __$$MercariRecordResponseStateImplCopyWithImpl<
+          _$MercariRecordResponseStateImpl>(this, _$identity);
 }
 
 abstract class _MercariRecordResponseState
     implements MercariRecordResponseState {
   const factory _MercariRecordResponseState(
           {final AsyncValue<List<MercariRecord>> mercariRecordList}) =
-      _$_MercariRecordResponseState;
+      _$MercariRecordResponseStateImpl;
 
   @override
   AsyncValue<List<MercariRecord>> get mercariRecordList;
   @override
   @JsonKey(ignore: true)
-  _$$_MercariRecordResponseStateCopyWith<_$_MercariRecordResponseState>
+  _$$MercariRecordResponseStateImplCopyWith<_$MercariRecordResponseStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

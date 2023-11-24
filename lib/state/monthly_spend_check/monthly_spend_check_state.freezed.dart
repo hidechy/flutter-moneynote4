@@ -88,11 +88,12 @@ class _$MonthlySpendCheckStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_MonthlySpendCheckStateCopyWith<$Res>
+abstract class _$$MonthlySpendCheckStateImplCopyWith<$Res>
     implements $MonthlySpendCheckStateCopyWith<$Res> {
-  factory _$$_MonthlySpendCheckStateCopyWith(_$_MonthlySpendCheckState value,
-          $Res Function(_$_MonthlySpendCheckState) then) =
-      __$$_MonthlySpendCheckStateCopyWithImpl<$Res>;
+  factory _$$MonthlySpendCheckStateImplCopyWith(
+          _$MonthlySpendCheckStateImpl value,
+          $Res Function(_$MonthlySpendCheckStateImpl) then) =
+      __$$MonthlySpendCheckStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -104,12 +105,13 @@ abstract class _$$_MonthlySpendCheckStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_MonthlySpendCheckStateCopyWithImpl<$Res>
+class __$$MonthlySpendCheckStateImplCopyWithImpl<$Res>
     extends _$MonthlySpendCheckStateCopyWithImpl<$Res,
-        _$_MonthlySpendCheckState>
-    implements _$$_MonthlySpendCheckStateCopyWith<$Res> {
-  __$$_MonthlySpendCheckStateCopyWithImpl(_$_MonthlySpendCheckState _value,
-      $Res Function(_$_MonthlySpendCheckState) _then)
+        _$MonthlySpendCheckStateImpl>
+    implements _$$MonthlySpendCheckStateImplCopyWith<$Res> {
+  __$$MonthlySpendCheckStateImplCopyWithImpl(
+      _$MonthlySpendCheckStateImpl _value,
+      $Res Function(_$MonthlySpendCheckStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -121,7 +123,7 @@ class __$$_MonthlySpendCheckStateCopyWithImpl<$Res>
     Object? selectedCategory = freezed,
     Object? errorMsg = freezed,
   }) {
-    return _then(_$_MonthlySpendCheckState(
+    return _then(_$MonthlySpendCheckStateImpl(
       selectItems: null == selectItems
           ? _value._selectItems
           : selectItems // ignore: cast_nullable_to_non_nullable
@@ -144,8 +146,8 @@ class __$$_MonthlySpendCheckStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_MonthlySpendCheckState implements _MonthlySpendCheckState {
-  const _$_MonthlySpendCheckState(
+class _$MonthlySpendCheckStateImpl implements _MonthlySpendCheckState {
+  const _$MonthlySpendCheckStateImpl(
       {final List<String> selectItems = const [],
       final List<Map<String, dynamic>> checkItems = const [],
       this.monthTotal = 0,
@@ -191,7 +193,7 @@ class _$_MonthlySpendCheckState implements _MonthlySpendCheckState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MonthlySpendCheckState &&
+            other is _$MonthlySpendCheckStateImpl &&
             const DeepCollectionEquality()
                 .equals(other._selectItems, _selectItems) &&
             const DeepCollectionEquality()
@@ -215,9 +217,9 @@ class _$_MonthlySpendCheckState implements _MonthlySpendCheckState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MonthlySpendCheckStateCopyWith<_$_MonthlySpendCheckState> get copyWith =>
-      __$$_MonthlySpendCheckStateCopyWithImpl<_$_MonthlySpendCheckState>(
-          this, _$identity);
+  _$$MonthlySpendCheckStateImplCopyWith<_$MonthlySpendCheckStateImpl>
+      get copyWith => __$$MonthlySpendCheckStateImplCopyWithImpl<
+          _$MonthlySpendCheckStateImpl>(this, _$identity);
 }
 
 abstract class _MonthlySpendCheckState implements MonthlySpendCheckState {
@@ -226,7 +228,7 @@ abstract class _MonthlySpendCheckState implements MonthlySpendCheckState {
       final List<Map<String, dynamic>> checkItems,
       final int monthTotal,
       final dynamic selectedCategory,
-      final dynamic errorMsg}) = _$_MonthlySpendCheckState;
+      final dynamic errorMsg}) = _$MonthlySpendCheckStateImpl;
 
   @override
   List<String> get selectItems;
@@ -240,6 +242,6 @@ abstract class _MonthlySpendCheckState implements MonthlySpendCheckState {
   dynamic get errorMsg;
   @override
   @JsonKey(ignore: true)
-  _$$_MonthlySpendCheckStateCopyWith<_$_MonthlySpendCheckState> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$MonthlySpendCheckStateImplCopyWith<_$MonthlySpendCheckStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

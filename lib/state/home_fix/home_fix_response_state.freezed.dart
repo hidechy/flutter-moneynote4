@@ -59,22 +59,22 @@ class _$HomeFixResponseStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_HomeFixResponseStateCopyWith<$Res>
+abstract class _$$HomeFixResponseStateImplCopyWith<$Res>
     implements $HomeFixResponseStateCopyWith<$Res> {
-  factory _$$_HomeFixResponseStateCopyWith(_$_HomeFixResponseState value,
-          $Res Function(_$_HomeFixResponseState) then) =
-      __$$_HomeFixResponseStateCopyWithImpl<$Res>;
+  factory _$$HomeFixResponseStateImplCopyWith(_$HomeFixResponseStateImpl value,
+          $Res Function(_$HomeFixResponseStateImpl) then) =
+      __$$HomeFixResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({AsyncValue<List<HomeFix>> homeFixList});
 }
 
 /// @nodoc
-class __$$_HomeFixResponseStateCopyWithImpl<$Res>
-    extends _$HomeFixResponseStateCopyWithImpl<$Res, _$_HomeFixResponseState>
-    implements _$$_HomeFixResponseStateCopyWith<$Res> {
-  __$$_HomeFixResponseStateCopyWithImpl(_$_HomeFixResponseState _value,
-      $Res Function(_$_HomeFixResponseState) _then)
+class __$$HomeFixResponseStateImplCopyWithImpl<$Res>
+    extends _$HomeFixResponseStateCopyWithImpl<$Res, _$HomeFixResponseStateImpl>
+    implements _$$HomeFixResponseStateImplCopyWith<$Res> {
+  __$$HomeFixResponseStateImplCopyWithImpl(_$HomeFixResponseStateImpl _value,
+      $Res Function(_$HomeFixResponseStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -82,7 +82,7 @@ class __$$_HomeFixResponseStateCopyWithImpl<$Res>
   $Res call({
     Object? homeFixList = null,
   }) {
-    return _then(_$_HomeFixResponseState(
+    return _then(_$HomeFixResponseStateImpl(
       homeFixList: null == homeFixList
           ? _value.homeFixList
           : homeFixList // ignore: cast_nullable_to_non_nullable
@@ -93,8 +93,8 @@ class __$$_HomeFixResponseStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_HomeFixResponseState implements _HomeFixResponseState {
-  const _$_HomeFixResponseState(
+class _$HomeFixResponseStateImpl implements _HomeFixResponseState {
+  const _$HomeFixResponseStateImpl(
       {this.homeFixList = const AsyncValue<List<HomeFix>>.loading()});
 
   @override
@@ -110,7 +110,7 @@ class _$_HomeFixResponseState implements _HomeFixResponseState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_HomeFixResponseState &&
+            other is _$HomeFixResponseStateImpl &&
             (identical(other.homeFixList, homeFixList) ||
                 other.homeFixList == homeFixList));
   }
@@ -121,19 +121,21 @@ class _$_HomeFixResponseState implements _HomeFixResponseState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_HomeFixResponseStateCopyWith<_$_HomeFixResponseState> get copyWith =>
-      __$$_HomeFixResponseStateCopyWithImpl<_$_HomeFixResponseState>(
-          this, _$identity);
+  _$$HomeFixResponseStateImplCopyWith<_$HomeFixResponseStateImpl>
+      get copyWith =>
+          __$$HomeFixResponseStateImplCopyWithImpl<_$HomeFixResponseStateImpl>(
+              this, _$identity);
 }
 
 abstract class _HomeFixResponseState implements HomeFixResponseState {
   const factory _HomeFixResponseState(
-      {final AsyncValue<List<HomeFix>> homeFixList}) = _$_HomeFixResponseState;
+          {final AsyncValue<List<HomeFix>> homeFixList}) =
+      _$HomeFixResponseStateImpl;
 
   @override
   AsyncValue<List<HomeFix>> get homeFixList;
   @override
   @JsonKey(ignore: true)
-  _$$_HomeFixResponseStateCopyWith<_$_HomeFixResponseState> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$HomeFixResponseStateImplCopyWith<_$HomeFixResponseStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

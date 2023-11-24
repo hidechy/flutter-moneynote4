@@ -63,22 +63,22 @@ class _$HomeMenuStateCopyWithImpl<$Res, $Val extends HomeMenuState>
 }
 
 /// @nodoc
-abstract class _$$_HomeMenuStateCopyWith<$Res>
+abstract class _$$HomeMenuStateImplCopyWith<$Res>
     implements $HomeMenuStateCopyWith<$Res> {
-  factory _$$_HomeMenuStateCopyWith(
-          _$_HomeMenuState value, $Res Function(_$_HomeMenuState) then) =
-      __$$_HomeMenuStateCopyWithImpl<$Res>;
+  factory _$$HomeMenuStateImplCopyWith(
+          _$HomeMenuStateImpl value, $Res Function(_$HomeMenuStateImpl) then) =
+      __$$HomeMenuStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String menuFlag, String menuName});
 }
 
 /// @nodoc
-class __$$_HomeMenuStateCopyWithImpl<$Res>
-    extends _$HomeMenuStateCopyWithImpl<$Res, _$_HomeMenuState>
-    implements _$$_HomeMenuStateCopyWith<$Res> {
-  __$$_HomeMenuStateCopyWithImpl(
-      _$_HomeMenuState _value, $Res Function(_$_HomeMenuState) _then)
+class __$$HomeMenuStateImplCopyWithImpl<$Res>
+    extends _$HomeMenuStateCopyWithImpl<$Res, _$HomeMenuStateImpl>
+    implements _$$HomeMenuStateImplCopyWith<$Res> {
+  __$$HomeMenuStateImplCopyWithImpl(
+      _$HomeMenuStateImpl _value, $Res Function(_$HomeMenuStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +87,7 @@ class __$$_HomeMenuStateCopyWithImpl<$Res>
     Object? menuFlag = null,
     Object? menuName = null,
   }) {
-    return _then(_$_HomeMenuState(
+    return _then(_$HomeMenuStateImpl(
       menuFlag: null == menuFlag
           ? _value.menuFlag
           : menuFlag // ignore: cast_nullable_to_non_nullable
@@ -102,8 +102,8 @@ class __$$_HomeMenuStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_HomeMenuState implements _HomeMenuState {
-  const _$_HomeMenuState({this.menuFlag = '', this.menuName = ''});
+class _$HomeMenuStateImpl implements _HomeMenuState {
+  const _$HomeMenuStateImpl({this.menuFlag = '', this.menuName = ''});
 
   @override
   @JsonKey()
@@ -121,7 +121,7 @@ class _$_HomeMenuState implements _HomeMenuState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_HomeMenuState &&
+            other is _$HomeMenuStateImpl &&
             (identical(other.menuFlag, menuFlag) ||
                 other.menuFlag == menuFlag) &&
             (identical(other.menuName, menuName) ||
@@ -134,13 +134,13 @@ class _$_HomeMenuState implements _HomeMenuState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_HomeMenuStateCopyWith<_$_HomeMenuState> get copyWith =>
-      __$$_HomeMenuStateCopyWithImpl<_$_HomeMenuState>(this, _$identity);
+  _$$HomeMenuStateImplCopyWith<_$HomeMenuStateImpl> get copyWith =>
+      __$$HomeMenuStateImplCopyWithImpl<_$HomeMenuStateImpl>(this, _$identity);
 }
 
 abstract class _HomeMenuState implements HomeMenuState {
   const factory _HomeMenuState({final String menuFlag, final String menuName}) =
-      _$_HomeMenuState;
+      _$HomeMenuStateImpl;
 
   @override
   String get menuFlag;
@@ -148,6 +148,6 @@ abstract class _HomeMenuState implements HomeMenuState {
   String get menuName;
   @override
   @JsonKey(ignore: true)
-  _$$_HomeMenuStateCopyWith<_$_HomeMenuState> get copyWith =>
+  _$$HomeMenuStateImplCopyWith<_$HomeMenuStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

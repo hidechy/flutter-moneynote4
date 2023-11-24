@@ -203,11 +203,11 @@ class _$MoneyInputStateCopyWithImpl<$Res, $Val extends MoneyInputState>
 }
 
 /// @nodoc
-abstract class _$$_MoneyInputStateCopyWith<$Res>
+abstract class _$$MoneyInputStateImplCopyWith<$Res>
     implements $MoneyInputStateCopyWith<$Res> {
-  factory _$$_MoneyInputStateCopyWith(
-          _$_MoneyInputState value, $Res Function(_$_MoneyInputState) then) =
-      __$$_MoneyInputStateCopyWithImpl<$Res>;
+  factory _$$MoneyInputStateImplCopyWith(_$MoneyInputStateImpl value,
+          $Res Function(_$MoneyInputStateImpl) then) =
+      __$$MoneyInputStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -235,11 +235,11 @@ abstract class _$$_MoneyInputStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_MoneyInputStateCopyWithImpl<$Res>
-    extends _$MoneyInputStateCopyWithImpl<$Res, _$_MoneyInputState>
-    implements _$$_MoneyInputStateCopyWith<$Res> {
-  __$$_MoneyInputStateCopyWithImpl(
-      _$_MoneyInputState _value, $Res Function(_$_MoneyInputState) _then)
+class __$$MoneyInputStateImplCopyWithImpl<$Res>
+    extends _$MoneyInputStateCopyWithImpl<$Res, _$MoneyInputStateImpl>
+    implements _$$MoneyInputStateImplCopyWith<$Res> {
+  __$$MoneyInputStateImplCopyWithImpl(
+      _$MoneyInputStateImpl _value, $Res Function(_$MoneyInputStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -267,7 +267,7 @@ class __$$_MoneyInputStateCopyWithImpl<$Res>
     Object? payD = null,
     Object? payE = null,
   }) {
-    return _then(_$_MoneyInputState(
+    return _then(_$MoneyInputStateImpl(
       date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
@@ -358,8 +358,8 @@ class __$$_MoneyInputStateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_MoneyInputState implements _MoneyInputState {
-  const _$_MoneyInputState(
+class _$MoneyInputStateImpl implements _MoneyInputState {
+  const _$MoneyInputStateImpl(
       {this.date = '',
       this.yen10000 = '',
       this.yen5000 = '',
@@ -382,8 +382,8 @@ class _$_MoneyInputState implements _MoneyInputState {
       this.payD = '',
       this.payE = ''});
 
-  factory _$_MoneyInputState.fromJson(Map<String, dynamic> json) =>
-      _$$_MoneyInputStateFromJson(json);
+  factory _$MoneyInputStateImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MoneyInputStateImplFromJson(json);
 
   @override
   @JsonKey()
@@ -461,7 +461,7 @@ class _$_MoneyInputState implements _MoneyInputState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MoneyInputState &&
+            other is _$MoneyInputStateImpl &&
             (identical(other.date, date) || other.date == date) &&
             (identical(other.yen10000, yen10000) ||
                 other.yen10000 == yen10000) &&
@@ -516,12 +516,13 @@ class _$_MoneyInputState implements _MoneyInputState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MoneyInputStateCopyWith<_$_MoneyInputState> get copyWith =>
-      __$$_MoneyInputStateCopyWithImpl<_$_MoneyInputState>(this, _$identity);
+  _$$MoneyInputStateImplCopyWith<_$MoneyInputStateImpl> get copyWith =>
+      __$$MoneyInputStateImplCopyWithImpl<_$MoneyInputStateImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_MoneyInputStateToJson(
+    return _$$MoneyInputStateImplToJson(
       this,
     );
   }
@@ -549,10 +550,10 @@ abstract class _MoneyInputState implements MoneyInputState {
       final String payB,
       final String payC,
       final String payD,
-      final String payE}) = _$_MoneyInputState;
+      final String payE}) = _$MoneyInputStateImpl;
 
   factory _MoneyInputState.fromJson(Map<String, dynamic> json) =
-      _$_MoneyInputState.fromJson;
+      _$MoneyInputStateImpl.fromJson;
 
   @override
   String get date;
@@ -598,6 +599,6 @@ abstract class _MoneyInputState implements MoneyInputState {
   String get payE;
   @override
   @JsonKey(ignore: true)
-  _$$_MoneyInputStateCopyWith<_$_MoneyInputState> get copyWith =>
+  _$$MoneyInputStateImplCopyWith<_$MoneyInputStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -64,23 +64,25 @@ class _$LatLngAddressParamStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_LatLngAddressParamStateCopyWith<$Res>
+abstract class _$$LatLngAddressParamStateImplCopyWith<$Res>
     implements $LatLngAddressParamStateCopyWith<$Res> {
-  factory _$$_LatLngAddressParamStateCopyWith(_$_LatLngAddressParamState value,
-          $Res Function(_$_LatLngAddressParamState) then) =
-      __$$_LatLngAddressParamStateCopyWithImpl<$Res>;
+  factory _$$LatLngAddressParamStateImplCopyWith(
+          _$LatLngAddressParamStateImpl value,
+          $Res Function(_$LatLngAddressParamStateImpl) then) =
+      __$$LatLngAddressParamStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String latitude, String longitude});
 }
 
 /// @nodoc
-class __$$_LatLngAddressParamStateCopyWithImpl<$Res>
+class __$$LatLngAddressParamStateImplCopyWithImpl<$Res>
     extends _$LatLngAddressParamStateCopyWithImpl<$Res,
-        _$_LatLngAddressParamState>
-    implements _$$_LatLngAddressParamStateCopyWith<$Res> {
-  __$$_LatLngAddressParamStateCopyWithImpl(_$_LatLngAddressParamState _value,
-      $Res Function(_$_LatLngAddressParamState) _then)
+        _$LatLngAddressParamStateImpl>
+    implements _$$LatLngAddressParamStateImplCopyWith<$Res> {
+  __$$LatLngAddressParamStateImplCopyWithImpl(
+      _$LatLngAddressParamStateImpl _value,
+      $Res Function(_$LatLngAddressParamStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -89,7 +91,7 @@ class __$$_LatLngAddressParamStateCopyWithImpl<$Res>
     Object? latitude = null,
     Object? longitude = null,
   }) {
-    return _then(_$_LatLngAddressParamState(
+    return _then(_$LatLngAddressParamStateImpl(
       latitude: null == latitude
           ? _value.latitude
           : latitude // ignore: cast_nullable_to_non_nullable
@@ -104,8 +106,9 @@ class __$$_LatLngAddressParamStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_LatLngAddressParamState implements _LatLngAddressParamState {
-  const _$_LatLngAddressParamState({this.latitude = '', this.longitude = ''});
+class _$LatLngAddressParamStateImpl implements _LatLngAddressParamState {
+  const _$LatLngAddressParamStateImpl(
+      {this.latitude = '', this.longitude = ''});
 
   @override
   @JsonKey()
@@ -123,7 +126,7 @@ class _$_LatLngAddressParamState implements _LatLngAddressParamState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_LatLngAddressParamState &&
+            other is _$LatLngAddressParamStateImpl &&
             (identical(other.latitude, latitude) ||
                 other.latitude == latitude) &&
             (identical(other.longitude, longitude) ||
@@ -136,16 +139,15 @@ class _$_LatLngAddressParamState implements _LatLngAddressParamState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_LatLngAddressParamStateCopyWith<_$_LatLngAddressParamState>
-      get copyWith =>
-          __$$_LatLngAddressParamStateCopyWithImpl<_$_LatLngAddressParamState>(
-              this, _$identity);
+  _$$LatLngAddressParamStateImplCopyWith<_$LatLngAddressParamStateImpl>
+      get copyWith => __$$LatLngAddressParamStateImplCopyWithImpl<
+          _$LatLngAddressParamStateImpl>(this, _$identity);
 }
 
 abstract class _LatLngAddressParamState implements LatLngAddressParamState {
   const factory _LatLngAddressParamState(
       {final String latitude,
-      final String longitude}) = _$_LatLngAddressParamState;
+      final String longitude}) = _$LatLngAddressParamStateImpl;
 
   @override
   String get latitude;
@@ -153,6 +155,6 @@ abstract class _LatLngAddressParamState implements LatLngAddressParamState {
   String get longitude;
   @override
   @JsonKey(ignore: true)
-  _$$_LatLngAddressParamStateCopyWith<_$_LatLngAddressParamState>
+  _$$LatLngAddressParamStateImplCopyWith<_$LatLngAddressParamStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

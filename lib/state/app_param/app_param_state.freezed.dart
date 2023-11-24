@@ -237,11 +237,11 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
 }
 
 /// @nodoc
-abstract class _$$_AppParamStateCopyWith<$Res>
+abstract class _$$AppParamStateImplCopyWith<$Res>
     implements $AppParamStateCopyWith<$Res> {
-  factory _$$_AppParamStateCopyWith(
-          _$_AppParamState value, $Res Function(_$_AppParamState) then) =
-      __$$_AppParamStateCopyWithImpl<$Res>;
+  factory _$$AppParamStateImplCopyWith(
+          _$AppParamStateImpl value, $Res Function(_$AppParamStateImpl) then) =
+      __$$AppParamStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -274,11 +274,11 @@ abstract class _$$_AppParamStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_AppParamStateCopyWithImpl<$Res>
-    extends _$AppParamStateCopyWithImpl<$Res, _$_AppParamState>
-    implements _$$_AppParamStateCopyWith<$Res> {
-  __$$_AppParamStateCopyWithImpl(
-      _$_AppParamState _value, $Res Function(_$_AppParamState) _then)
+class __$$AppParamStateImplCopyWithImpl<$Res>
+    extends _$AppParamStateCopyWithImpl<$Res, _$AppParamStateImpl>
+    implements _$$AppParamStateImplCopyWith<$Res> {
+  __$$AppParamStateImplCopyWithImpl(
+      _$AppParamStateImpl _value, $Res Function(_$AppParamStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -311,7 +311,7 @@ class __$$_AppParamStateCopyWithImpl<$Res>
     Object? CreditYearlyListSelectedString = null,
     Object? selectedYearlyCalendarDate = freezed,
   }) {
-    return _then(_$_AppParamState(
+    return _then(_$AppParamStateImpl(
       errorMessage: null == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -423,8 +423,8 @@ class __$$_AppParamStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_AppParamState implements _AppParamState {
-  const _$_AppParamState(
+class _$AppParamStateImpl implements _AppParamState {
+  const _$AppParamStateImpl(
       {this.errorMessage = '',
       this.AmazonAlertSelectYear = 0,
       this.CreditCompanyAlertSelectYear = 0,
@@ -539,7 +539,7 @@ class _$_AppParamState implements _AppParamState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AppParamState &&
+            other is _$AppParamStateImpl &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
             (identical(other.AmazonAlertSelectYear, AmazonAlertSelectYear) ||
@@ -628,8 +628,8 @@ class _$_AppParamState implements _AppParamState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AppParamStateCopyWith<_$_AppParamState> get copyWith =>
-      __$$_AppParamStateCopyWithImpl<_$_AppParamState>(this, _$identity);
+  _$$AppParamStateImplCopyWith<_$AppParamStateImpl> get copyWith =>
+      __$$AppParamStateImplCopyWithImpl<_$AppParamStateImpl>(this, _$identity);
 }
 
 abstract class _AppParamState implements AppParamState {
@@ -659,7 +659,7 @@ abstract class _AppParamState implements AppParamState {
       final bool openMoneyArea,
       final String CreditYearlyListSelectString,
       final String CreditYearlyListSelectedString,
-      final DateTime? selectedYearlyCalendarDate}) = _$_AppParamState;
+      final DateTime? selectedYearlyCalendarDate}) = _$AppParamStateImpl;
 
   @override
   String get errorMessage;
@@ -715,6 +715,6 @@ abstract class _AppParamState implements AppParamState {
   DateTime? get selectedYearlyCalendarDate;
   @override
   @JsonKey(ignore: true)
-  _$$_AppParamStateCopyWith<_$_AppParamState> get copyWith =>
+  _$$AppParamStateImplCopyWith<_$AppParamStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

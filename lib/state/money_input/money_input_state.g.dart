@@ -6,8 +6,9 @@ part of 'money_input_state.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_MoneyInputState _$$_MoneyInputStateFromJson(Map<String, dynamic> json) =>
-    _$_MoneyInputState(
+_$MoneyInputStateImpl _$$MoneyInputStateImplFromJson(
+        Map<String, dynamic> json) =>
+    _$MoneyInputStateImpl(
       date: json['date'] as String? ?? '',
       yen10000: json['yen10000'] as String? ?? '',
       yen5000: json['yen5000'] as String? ?? '',
@@ -31,7 +32,8 @@ _$_MoneyInputState _$$_MoneyInputStateFromJson(Map<String, dynamic> json) =>
       payE: json['payE'] as String? ?? '',
     );
 
-Map<String, dynamic> _$$_MoneyInputStateToJson(_$_MoneyInputState instance) =>
+Map<String, dynamic> _$$MoneyInputStateImplToJson(
+        _$MoneyInputStateImpl instance) =>
     <String, dynamic>{
       'date': instance.date,
       'yen10000': instance.yen10000,

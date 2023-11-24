@@ -70,23 +70,25 @@ class _$RouteTransitParamStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_RouteTransitParamStateCopyWith<$Res>
+abstract class _$$RouteTransitParamStateImplCopyWith<$Res>
     implements $RouteTransitParamStateCopyWith<$Res> {
-  factory _$$_RouteTransitParamStateCopyWith(_$_RouteTransitParamState value,
-          $Res Function(_$_RouteTransitParamState) then) =
-      __$$_RouteTransitParamStateCopyWithImpl<$Res>;
+  factory _$$RouteTransitParamStateImplCopyWith(
+          _$RouteTransitParamStateImpl value,
+          $Res Function(_$RouteTransitParamStateImpl) then) =
+      __$$RouteTransitParamStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String start, String goal, String startTime});
 }
 
 /// @nodoc
-class __$$_RouteTransitParamStateCopyWithImpl<$Res>
+class __$$RouteTransitParamStateImplCopyWithImpl<$Res>
     extends _$RouteTransitParamStateCopyWithImpl<$Res,
-        _$_RouteTransitParamState>
-    implements _$$_RouteTransitParamStateCopyWith<$Res> {
-  __$$_RouteTransitParamStateCopyWithImpl(_$_RouteTransitParamState _value,
-      $Res Function(_$_RouteTransitParamState) _then)
+        _$RouteTransitParamStateImpl>
+    implements _$$RouteTransitParamStateImplCopyWith<$Res> {
+  __$$RouteTransitParamStateImplCopyWithImpl(
+      _$RouteTransitParamStateImpl _value,
+      $Res Function(_$RouteTransitParamStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -96,7 +98,7 @@ class __$$_RouteTransitParamStateCopyWithImpl<$Res>
     Object? goal = null,
     Object? startTime = null,
   }) {
-    return _then(_$_RouteTransitParamState(
+    return _then(_$RouteTransitParamStateImpl(
       start: null == start
           ? _value.start
           : start // ignore: cast_nullable_to_non_nullable
@@ -115,8 +117,8 @@ class __$$_RouteTransitParamStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_RouteTransitParamState implements _RouteTransitParamState {
-  const _$_RouteTransitParamState(
+class _$RouteTransitParamStateImpl implements _RouteTransitParamState {
+  const _$RouteTransitParamStateImpl(
       {this.start = '', this.goal = '', this.startTime = ''});
 
   @override
@@ -138,7 +140,7 @@ class _$_RouteTransitParamState implements _RouteTransitParamState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_RouteTransitParamState &&
+            other is _$RouteTransitParamStateImpl &&
             (identical(other.start, start) || other.start == start) &&
             (identical(other.goal, goal) || other.goal == goal) &&
             (identical(other.startTime, startTime) ||
@@ -151,16 +153,16 @@ class _$_RouteTransitParamState implements _RouteTransitParamState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_RouteTransitParamStateCopyWith<_$_RouteTransitParamState> get copyWith =>
-      __$$_RouteTransitParamStateCopyWithImpl<_$_RouteTransitParamState>(
-          this, _$identity);
+  _$$RouteTransitParamStateImplCopyWith<_$RouteTransitParamStateImpl>
+      get copyWith => __$$RouteTransitParamStateImplCopyWithImpl<
+          _$RouteTransitParamStateImpl>(this, _$identity);
 }
 
 abstract class _RouteTransitParamState implements RouteTransitParamState {
   const factory _RouteTransitParamState(
       {final String start,
       final String goal,
-      final String startTime}) = _$_RouteTransitParamState;
+      final String startTime}) = _$RouteTransitParamStateImpl;
 
   @override
   String get start;
@@ -170,6 +172,6 @@ abstract class _RouteTransitParamState implements RouteTransitParamState {
   String get startTime;
   @override
   @JsonKey(ignore: true)
-  _$$_RouteTransitParamStateCopyWith<_$_RouteTransitParamState> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$RouteTransitParamStateImplCopyWith<_$RouteTransitParamStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

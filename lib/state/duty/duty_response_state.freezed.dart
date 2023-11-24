@@ -57,22 +57,22 @@ class _$DutyResponseStateCopyWithImpl<$Res, $Val extends DutyResponseState>
 }
 
 /// @nodoc
-abstract class _$$_DutyResponseStateCopyWith<$Res>
+abstract class _$$DutyResponseStateImplCopyWith<$Res>
     implements $DutyResponseStateCopyWith<$Res> {
-  factory _$$_DutyResponseStateCopyWith(_$_DutyResponseState value,
-          $Res Function(_$_DutyResponseState) then) =
-      __$$_DutyResponseStateCopyWithImpl<$Res>;
+  factory _$$DutyResponseStateImplCopyWith(_$DutyResponseStateImpl value,
+          $Res Function(_$DutyResponseStateImpl) then) =
+      __$$DutyResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({AsyncValue<List<Duty>> dutyList});
 }
 
 /// @nodoc
-class __$$_DutyResponseStateCopyWithImpl<$Res>
-    extends _$DutyResponseStateCopyWithImpl<$Res, _$_DutyResponseState>
-    implements _$$_DutyResponseStateCopyWith<$Res> {
-  __$$_DutyResponseStateCopyWithImpl(
-      _$_DutyResponseState _value, $Res Function(_$_DutyResponseState) _then)
+class __$$DutyResponseStateImplCopyWithImpl<$Res>
+    extends _$DutyResponseStateCopyWithImpl<$Res, _$DutyResponseStateImpl>
+    implements _$$DutyResponseStateImplCopyWith<$Res> {
+  __$$DutyResponseStateImplCopyWithImpl(_$DutyResponseStateImpl _value,
+      $Res Function(_$DutyResponseStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -80,7 +80,7 @@ class __$$_DutyResponseStateCopyWithImpl<$Res>
   $Res call({
     Object? dutyList = null,
   }) {
-    return _then(_$_DutyResponseState(
+    return _then(_$DutyResponseStateImpl(
       dutyList: null == dutyList
           ? _value.dutyList
           : dutyList // ignore: cast_nullable_to_non_nullable
@@ -91,8 +91,8 @@ class __$$_DutyResponseStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_DutyResponseState implements _DutyResponseState {
-  const _$_DutyResponseState(
+class _$DutyResponseStateImpl implements _DutyResponseState {
+  const _$DutyResponseStateImpl(
       {this.dutyList = const AsyncValue<List<Duty>>.loading()});
 
   @override
@@ -108,7 +108,7 @@ class _$_DutyResponseState implements _DutyResponseState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_DutyResponseState &&
+            other is _$DutyResponseStateImpl &&
             (identical(other.dutyList, dutyList) ||
                 other.dutyList == dutyList));
   }
@@ -119,19 +119,19 @@ class _$_DutyResponseState implements _DutyResponseState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_DutyResponseStateCopyWith<_$_DutyResponseState> get copyWith =>
-      __$$_DutyResponseStateCopyWithImpl<_$_DutyResponseState>(
+  _$$DutyResponseStateImplCopyWith<_$DutyResponseStateImpl> get copyWith =>
+      __$$DutyResponseStateImplCopyWithImpl<_$DutyResponseStateImpl>(
           this, _$identity);
 }
 
 abstract class _DutyResponseState implements DutyResponseState {
   const factory _DutyResponseState({final AsyncValue<List<Duty>> dutyList}) =
-      _$_DutyResponseState;
+      _$DutyResponseStateImpl;
 
   @override
   AsyncValue<List<Duty>> get dutyList;
   @override
   @JsonKey(ignore: true)
-  _$$_DutyResponseStateCopyWith<_$_DutyResponseState> get copyWith =>
+  _$$DutyResponseStateImplCopyWith<_$DutyResponseStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -75,12 +75,12 @@ class _$TemplePhotosResponseStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_TemplePhotosResponseStateCopyWith<$Res>
+abstract class _$$TemplePhotosResponseStateImplCopyWith<$Res>
     implements $TemplePhotosResponseStateCopyWith<$Res> {
-  factory _$$_TemplePhotosResponseStateCopyWith(
-          _$_TemplePhotosResponseState value,
-          $Res Function(_$_TemplePhotosResponseState) then) =
-      __$$_TemplePhotosResponseStateCopyWithImpl<$Res>;
+  factory _$$TemplePhotosResponseStateImplCopyWith(
+          _$TemplePhotosResponseStateImpl value,
+          $Res Function(_$TemplePhotosResponseStateImpl) then) =
+      __$$TemplePhotosResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -90,13 +90,13 @@ abstract class _$$_TemplePhotosResponseStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_TemplePhotosResponseStateCopyWithImpl<$Res>
+class __$$TemplePhotosResponseStateImplCopyWithImpl<$Res>
     extends _$TemplePhotosResponseStateCopyWithImpl<$Res,
-        _$_TemplePhotosResponseState>
-    implements _$$_TemplePhotosResponseStateCopyWith<$Res> {
-  __$$_TemplePhotosResponseStateCopyWithImpl(
-      _$_TemplePhotosResponseState _value,
-      $Res Function(_$_TemplePhotosResponseState) _then)
+        _$TemplePhotosResponseStateImpl>
+    implements _$$TemplePhotosResponseStateImplCopyWith<$Res> {
+  __$$TemplePhotosResponseStateImplCopyWithImpl(
+      _$TemplePhotosResponseStateImpl _value,
+      $Res Function(_$TemplePhotosResponseStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -106,7 +106,7 @@ class __$$_TemplePhotosResponseStateCopyWithImpl<$Res>
     Object? templePhotoDateMap = null,
     Object? templePhotoTempleMap = null,
   }) {
-    return _then(_$_TemplePhotosResponseState(
+    return _then(_$TemplePhotosResponseStateImpl(
       templePhotoList: null == templePhotoList
           ? _value._templePhotoList
           : templePhotoList // ignore: cast_nullable_to_non_nullable
@@ -125,8 +125,8 @@ class __$$_TemplePhotosResponseStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_TemplePhotosResponseState implements _TemplePhotosResponseState {
-  const _$_TemplePhotosResponseState(
+class _$TemplePhotosResponseStateImpl implements _TemplePhotosResponseState {
+  const _$TemplePhotosResponseStateImpl(
       {final List<TemplePhoto> templePhotoList = const [],
       final Map<String, List<TemplePhoto>> templePhotoDateMap = const {},
       final Map<String, List<TemplePhoto>> templePhotoTempleMap = const {}})
@@ -172,7 +172,7 @@ class _$_TemplePhotosResponseState implements _TemplePhotosResponseState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TemplePhotosResponseState &&
+            other is _$TemplePhotosResponseStateImpl &&
             const DeepCollectionEquality()
                 .equals(other._templePhotoList, _templePhotoList) &&
             const DeepCollectionEquality()
@@ -191,9 +191,9 @@ class _$_TemplePhotosResponseState implements _TemplePhotosResponseState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TemplePhotosResponseStateCopyWith<_$_TemplePhotosResponseState>
-      get copyWith => __$$_TemplePhotosResponseStateCopyWithImpl<
-          _$_TemplePhotosResponseState>(this, _$identity);
+  _$$TemplePhotosResponseStateImplCopyWith<_$TemplePhotosResponseStateImpl>
+      get copyWith => __$$TemplePhotosResponseStateImplCopyWithImpl<
+          _$TemplePhotosResponseStateImpl>(this, _$identity);
 }
 
 abstract class _TemplePhotosResponseState implements TemplePhotosResponseState {
@@ -201,7 +201,7 @@ abstract class _TemplePhotosResponseState implements TemplePhotosResponseState {
           {final List<TemplePhoto> templePhotoList,
           final Map<String, List<TemplePhoto>> templePhotoDateMap,
           final Map<String, List<TemplePhoto>> templePhotoTempleMap}) =
-      _$_TemplePhotosResponseState;
+      _$TemplePhotosResponseStateImpl;
 
   @override
   List<TemplePhoto> get templePhotoList;
@@ -211,6 +211,6 @@ abstract class _TemplePhotosResponseState implements TemplePhotosResponseState {
   Map<String, List<TemplePhoto>> get templePhotoTempleMap;
   @override
   @JsonKey(ignore: true)
-  _$$_TemplePhotosResponseStateCopyWith<_$_TemplePhotosResponseState>
+  _$$TemplePhotosResponseStateImplCopyWith<_$TemplePhotosResponseStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

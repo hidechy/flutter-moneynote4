@@ -57,22 +57,22 @@ class _$WellsResponseStateCopyWithImpl<$Res, $Val extends WellsResponseState>
 }
 
 /// @nodoc
-abstract class _$$_WellsResponseStateCopyWith<$Res>
+abstract class _$$WellsResponseStateImplCopyWith<$Res>
     implements $WellsResponseStateCopyWith<$Res> {
-  factory _$$_WellsResponseStateCopyWith(_$_WellsResponseState value,
-          $Res Function(_$_WellsResponseState) then) =
-      __$$_WellsResponseStateCopyWithImpl<$Res>;
+  factory _$$WellsResponseStateImplCopyWith(_$WellsResponseStateImpl value,
+          $Res Function(_$WellsResponseStateImpl) then) =
+      __$$WellsResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({AsyncValue<List<Wells>> wellsList});
 }
 
 /// @nodoc
-class __$$_WellsResponseStateCopyWithImpl<$Res>
-    extends _$WellsResponseStateCopyWithImpl<$Res, _$_WellsResponseState>
-    implements _$$_WellsResponseStateCopyWith<$Res> {
-  __$$_WellsResponseStateCopyWithImpl(
-      _$_WellsResponseState _value, $Res Function(_$_WellsResponseState) _then)
+class __$$WellsResponseStateImplCopyWithImpl<$Res>
+    extends _$WellsResponseStateCopyWithImpl<$Res, _$WellsResponseStateImpl>
+    implements _$$WellsResponseStateImplCopyWith<$Res> {
+  __$$WellsResponseStateImplCopyWithImpl(_$WellsResponseStateImpl _value,
+      $Res Function(_$WellsResponseStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -80,7 +80,7 @@ class __$$_WellsResponseStateCopyWithImpl<$Res>
   $Res call({
     Object? wellsList = null,
   }) {
-    return _then(_$_WellsResponseState(
+    return _then(_$WellsResponseStateImpl(
       wellsList: null == wellsList
           ? _value.wellsList
           : wellsList // ignore: cast_nullable_to_non_nullable
@@ -91,8 +91,8 @@ class __$$_WellsResponseStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_WellsResponseState implements _WellsResponseState {
-  const _$_WellsResponseState(
+class _$WellsResponseStateImpl implements _WellsResponseState {
+  const _$WellsResponseStateImpl(
       {this.wellsList = const AsyncValue<List<Wells>>.loading()});
 
   @override
@@ -108,7 +108,7 @@ class _$_WellsResponseState implements _WellsResponseState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_WellsResponseState &&
+            other is _$WellsResponseStateImpl &&
             (identical(other.wellsList, wellsList) ||
                 other.wellsList == wellsList));
   }
@@ -119,19 +119,19 @@ class _$_WellsResponseState implements _WellsResponseState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_WellsResponseStateCopyWith<_$_WellsResponseState> get copyWith =>
-      __$$_WellsResponseStateCopyWithImpl<_$_WellsResponseState>(
+  _$$WellsResponseStateImplCopyWith<_$WellsResponseStateImpl> get copyWith =>
+      __$$WellsResponseStateImplCopyWithImpl<_$WellsResponseStateImpl>(
           this, _$identity);
 }
 
 abstract class _WellsResponseState implements WellsResponseState {
   const factory _WellsResponseState({final AsyncValue<List<Wells>> wellsList}) =
-      _$_WellsResponseState;
+      _$WellsResponseStateImpl;
 
   @override
   AsyncValue<List<Wells>> get wellsList;
   @override
   @JsonKey(ignore: true)
-  _$$_WellsResponseStateCopyWith<_$_WellsResponseState> get copyWith =>
+  _$$WellsResponseStateImplCopyWith<_$WellsResponseStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

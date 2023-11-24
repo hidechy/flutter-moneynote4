@@ -18,13 +18,13 @@ import '../../../state/app_param/app_param_notifier.dart';
 import '../../../state/bank/bank_notifier.dart';
 import '../../../state/benefit/benefit_notifier.dart';
 import '../../../state/keihi_list/keihi_list_notifier.dart';
+import '../../../state/money/money_notifier.dart';
 import '../../../state/monthly_spend/monthly_spend_state.dart';
 import '../../../state/time_place/time_place_notifier.dart';
 import '../../../state/train/train_notifier.dart';
 import '../../../utility/function.dart';
 import '../../../utility/utility.dart';
 import '../../../viewmodel/holiday_notifier.dart';
-import '../../../viewmodel/money_notifier.dart';
 import '../../../viewmodel/spend_notifier.dart';
 import '../_money_dialog.dart';
 import '../monthly_calendar_alert.dart';
@@ -381,9 +381,18 @@ class MonthlySpendPage extends ConsumerWidget {
 
     final spendZeroUseDateState = _ref.watch(spendZeroUseDateProvider);
 
-    final moneyEverydayState = _ref.watch(moneyEverydayProvider);
+    //
+    //
+    //
+    // final moneyEverydayState = _ref.watch(moneyEverydayProvider);
+    //
+    // final everydayStateMap = makeEverydayStateMap(state: moneyEverydayState);
+    //
+    //
+    //
+    //
 
-    final everydayStateMap = makeEverydayStateMap(state: moneyEverydayState);
+    final everydayStateMap = makeEverydayStateMap();
 
     monthTotalSpend = 0;
     monthTotalSumCredit = 0;
@@ -699,14 +708,34 @@ class MonthlySpendPage extends ConsumerWidget {
   }
 
   ///
-  Map<String, MoneyEveryday> makeEverydayStateMap({required List<MoneyEveryday> state}) {
+  Map<String, MoneyEveryday> makeEverydayStateMap() {
+    final moneyEverydayList = _ref.watch(moneyEverydayProvider.select((value) => value.moneyEverydayList));
+
     final map = <String, MoneyEveryday>{};
 
-    for (var i = 0; i < state.length; i++) {
-      map[state[i].date.yyyymmdd] = state[i];
-    }
+    moneyEverydayList.value?.forEach((element) => map[element.date.yyyymmdd] = element);
 
     return map;
+
+    //
+    //
+    // final everydayStateMap = makeEverydayStateMap(state: moneyEverydayState);
+    //
+
+//    {required List<MoneyEveryday> state}
+
+    //
+    //
+    // final map = <String, MoneyEveryday>{};
+    //
+    // for (var i = 0; i < state.length; i++) {
+    //   map[state[i].date.yyyymmdd] = state[i];
+    // }
+    //
+    // return map;
+    //
+    //
+    //
   }
 
   ///

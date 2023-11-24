@@ -63,22 +63,22 @@ class _$MapMarkerStateCopyWithImpl<$Res, $Val extends MapMarkerState>
 }
 
 /// @nodoc
-abstract class _$$_MapMarkerStateCopyWith<$Res>
+abstract class _$$MapMarkerStateImplCopyWith<$Res>
     implements $MapMarkerStateCopyWith<$Res> {
-  factory _$$_MapMarkerStateCopyWith(
-          _$_MapMarkerState value, $Res Function(_$_MapMarkerState) then) =
-      __$$_MapMarkerStateCopyWithImpl<$Res>;
+  factory _$$MapMarkerStateImplCopyWith(_$MapMarkerStateImpl value,
+          $Res Function(_$MapMarkerStateImpl) then) =
+      __$$MapMarkerStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Set<Marker> markers, String selectTime});
 }
 
 /// @nodoc
-class __$$_MapMarkerStateCopyWithImpl<$Res>
-    extends _$MapMarkerStateCopyWithImpl<$Res, _$_MapMarkerState>
-    implements _$$_MapMarkerStateCopyWith<$Res> {
-  __$$_MapMarkerStateCopyWithImpl(
-      _$_MapMarkerState _value, $Res Function(_$_MapMarkerState) _then)
+class __$$MapMarkerStateImplCopyWithImpl<$Res>
+    extends _$MapMarkerStateCopyWithImpl<$Res, _$MapMarkerStateImpl>
+    implements _$$MapMarkerStateImplCopyWith<$Res> {
+  __$$MapMarkerStateImplCopyWithImpl(
+      _$MapMarkerStateImpl _value, $Res Function(_$MapMarkerStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -87,7 +87,7 @@ class __$$_MapMarkerStateCopyWithImpl<$Res>
     Object? markers = null,
     Object? selectTime = null,
   }) {
-    return _then(_$_MapMarkerState(
+    return _then(_$MapMarkerStateImpl(
       markers: null == markers
           ? _value._markers
           : markers // ignore: cast_nullable_to_non_nullable
@@ -102,8 +102,8 @@ class __$$_MapMarkerStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_MapMarkerState implements _MapMarkerState {
-  const _$_MapMarkerState(
+class _$MapMarkerStateImpl implements _MapMarkerState {
+  const _$MapMarkerStateImpl(
       {final Set<Marker> markers = const {}, this.selectTime = ''})
       : _markers = markers;
 
@@ -129,7 +129,7 @@ class _$_MapMarkerState implements _MapMarkerState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MapMarkerState &&
+            other is _$MapMarkerStateImpl &&
             const DeepCollectionEquality().equals(other._markers, _markers) &&
             (identical(other.selectTime, selectTime) ||
                 other.selectTime == selectTime));
@@ -142,13 +142,15 @@ class _$_MapMarkerState implements _MapMarkerState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MapMarkerStateCopyWith<_$_MapMarkerState> get copyWith =>
-      __$$_MapMarkerStateCopyWithImpl<_$_MapMarkerState>(this, _$identity);
+  _$$MapMarkerStateImplCopyWith<_$MapMarkerStateImpl> get copyWith =>
+      __$$MapMarkerStateImplCopyWithImpl<_$MapMarkerStateImpl>(
+          this, _$identity);
 }
 
 abstract class _MapMarkerState implements MapMarkerState {
   const factory _MapMarkerState(
-      {final Set<Marker> markers, final String selectTime}) = _$_MapMarkerState;
+      {final Set<Marker> markers,
+      final String selectTime}) = _$MapMarkerStateImpl;
 
   @override
   Set<Marker> get markers;
@@ -156,6 +158,6 @@ abstract class _MapMarkerState implements MapMarkerState {
   String get selectTime;
   @override
   @JsonKey(ignore: true)
-  _$$_MapMarkerStateCopyWith<_$_MapMarkerState> get copyWith =>
+  _$$MapMarkerStateImplCopyWith<_$MapMarkerStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
