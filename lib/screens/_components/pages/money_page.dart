@@ -144,13 +144,15 @@ class MoneyPage extends ConsumerWidget {
                         ),
                         Row(
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(total.toCurrency(), style: const TextStyle(fontSize: 16)),
-                                Text(diff.toCurrency(), style: const TextStyle(fontSize: 16)),
-                              ],
-                            ),
+                            (total != '' && diff != '')
+                                ? Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(total.toCurrency(), style: const TextStyle(fontSize: 16)),
+                                      Text(diff.toCurrency(), style: const TextStyle(fontSize: 16)),
+                                    ],
+                                  )
+                                : Container(),
                             const SizedBox(width: 20),
                             (total == '0')
                                 ? Container()
