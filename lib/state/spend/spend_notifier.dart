@@ -516,16 +516,16 @@ class SpendSamedayNotifier extends StateNotifier<SpendResponseState> {
 ////////////////////////////////////////////////
 
 ////////////////////////////////////////////////
-final spendSamedayYearlyProvider = StateNotifierProvider.autoDispose
-    .family<SpendSamedayYearlyNotifier, List<SpendSamedayYearly>, DateTime>((ref, date) {
+final spendSamedayYearlyProvider =
+    StateNotifierProvider.autoDispose.family<SpendSamedayYearlyNotifier, SpendResponseState, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return SpendSamedayYearlyNotifier([], client, utility)..getSamedaySpendYearly(date: date);
+  return SpendSamedayYearlyNotifier(const SpendResponseState(), client, utility)..getSamedaySpendYearly(date: date);
 });
 
-class SpendSamedayYearlyNotifier extends StateNotifier<List<SpendSamedayYearly>> {
+class SpendSamedayYearlyNotifier extends StateNotifier<SpendResponseState> {
   SpendSamedayYearlyNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
@@ -544,7 +544,7 @@ class SpendSamedayYearlyNotifier extends StateNotifier<List<SpendSamedayYearly>>
         );
       }
 
-      state = list;
+      state = state.copyWith(spendSamedayYearlyList: AsyncValue.data(list));
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });

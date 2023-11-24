@@ -4,6 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../models/spend_month_summary.dart';
 import '../../models/spend_sameday.dart';
+import '../../models/spend_sameday_yearly.dart';
 import '../../models/spend_summary.dart';
 import '../../models/spend_year_summary.dart';
 import '../../models/spend_yearly.dart';
@@ -17,9 +18,11 @@ class SpendResponseState with _$SpendResponseState {
     @Default(AsyncValue<List<SpendMonthSummary>>.loading()) AsyncValue<List<SpendMonthSummary>> spendMonthSummaryList,
     @Default(AsyncValue<List<SpendYearly>>.loading()) AsyncValue<List<SpendYearly>> spendYearlyList,
     @Default(AsyncValue<List<SpendYearSummary>>.loading()) AsyncValue<List<SpendYearSummary>> spendYearSummaryList,
-
-    //List<SpendSameday>
-
     @Default(AsyncValue<List<SpendSameday>>.loading()) AsyncValue<List<SpendSameday>> spendSamedayList,
+
+    //List<SpendSamedayYearly>
+
+    @Default(AsyncValue<List<SpendSamedayYearly>>.loading())
+    AsyncValue<List<SpendSamedayYearly>> spendSamedayYearlyList,
   }) = _SpendResponseState;
 }

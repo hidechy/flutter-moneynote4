@@ -260,11 +260,94 @@ class MoneyPage extends ConsumerWidget {
     ///////////////////////////////////////////
     final yearSpendToToday = <int, int>{};
 
-    _ref.watch(spendSamedayYearlyProvider(date)).forEach((element) {
+    final spendSamedayYearlyList =
+        _ref.watch(spendSamedayYearlyProvider(date).select((value) => value.spendSamedayYearlyList));
+
+    spendSamedayYearlyList.value?.forEach((element) {
       final bene = genBenefitMap[element.year] ?? 0;
       yearSpendToToday[element.year] = bene + element.spend;
     });
+
+    //
+    //
+    // _ref.watch(spendSamedayYearlyProvider(date)).forEach((element) {
+    //   final bene = genBenefitMap[element.year] ?? 0;
+    //   yearSpendToToday[element.year] = bene + element.spend;
+    // });
+    //
+    //
+    //
+
     ///////////////////////////////////////////
+
+    return spendSamedayYearlyList.when(
+      data: (value) {
+        value.forEach((element) {
+          final bene = genBenefitMap[element.year] ?? 0;
+
+          list.add(
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 3),
+              margin: const EdgeInsets.only(bottom: 5),
+              decoration: BoxDecoration(
+                border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
+              ),
+              child: DefaultTextStyle(
+                style: const TextStyle(color: Colors.white),
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: Text('${element.year}-01-01\n-> ${date.mmdd}', style: const TextStyle(fontSize: 10))),
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.topRight,
+                        child: Text(element.spend.toString().toCurrency(), style: const TextStyle(fontSize: 10)),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.topRight,
+                        child: Text(bene.toString().toCurrency(), style: const TextStyle(fontSize: 10)),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.topRight,
+                        child: Text(
+                          (bene + element.spend).toString().toCurrency(),
+                          style: const TextStyle(color: Color(0xFFFBB6CE), fontSize: 10),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    GestureDetector(
+                      onTap: () {
+                        MoneyDialog(
+                          context: _context,
+                          widget: SpendYearDayAlert(
+                            date: DateTime(element.year, date.month, date.day),
+                            spend: bene + element.spend,
+                            yearSpendToToday: yearSpendToToday,
+                          ),
+                        );
+                      },
+                      child: const Icon(Icons.info_outline),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+
+        return Column(children: list);
+      },
+      error: (error, stackTrace) => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: CircularProgressIndicator()),
+    );
+
+    /*
+
 
     _ref.watch(spendSamedayYearlyProvider(date)).forEach((element) {
       final bene = genBenefitMap[element.year] ?? 0;
@@ -324,6 +407,11 @@ class MoneyPage extends ConsumerWidget {
     });
 
     return Column(children: list);
+
+
+
+
+    */
   }
 
   ///
