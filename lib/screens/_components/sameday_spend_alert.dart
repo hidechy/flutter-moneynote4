@@ -118,11 +118,96 @@ class SamedaySpendAlert extends ConsumerWidget {
 
   ///
   Widget displaySamedaySpendList() {
-    final samedaySpendState = _ref.watch(spendSamedayProvider(date));
-
     final list = <Widget>[];
 
     var j = 0;
+
+    final spendSamedayList = _ref.watch(spendSamedayProvider(date).select((value) => value.spendSamedayList));
+
+    return spendSamedayList.when(
+      data: (value) {
+        for (var i = value.length - 1; i >= 0; i--) {
+          list.add(
+            Container(
+              padding: const EdgeInsets.all(10),
+              margin: const EdgeInsets.only(bottom: 10),
+              decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(value[i].ym),
+                            Text(value[i].sum.toString().toCurrency()),
+                          ],
+                        ),
+                        Container(
+                          width: double.infinity,
+                          margin: const EdgeInsets.only(top: 3),
+                          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+                          decoration: BoxDecoration(
+                            color: (j == 0) ? Colors.greenAccent.withOpacity(0.1) : Colors.blueAccent.withOpacity(0.1),
+                          ),
+                          child: (j == 0)
+                              ? displayThisMonthItem(sum: value[i].sum)
+                              : displayPastMonthItem(sum: value[i].sum, ym: value[i].ym),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          final year = value[i].ym.split('-')[0].toInt();
+                          final month = value[i].ym.split('-')[1].toInt();
+
+                          final selectedMonth = DateTime(year, month).month;
+                          final todayMonth = DateTime.now().month;
+
+                          MoneyDialog(
+                            context: _context,
+                            widget: MonthlySpendAlert(date: DateTime(year, month), index: todayMonth - selectedMonth),
+                          );
+                        },
+                        child: Icon(Icons.info_outline, color: Colors.white.withOpacity(0.6)),
+                      ),
+                      const SizedBox(width: 10),
+                      GestureDetector(
+                        onTap: () {
+                          MoneyDialog(
+                            context: _context,
+                            widget: SamedaySpendGraphAlert(
+                              date: DateTime(value[i].ym.split('-')[0].toInt(), value[i].ym.split('-')[1].toInt()),
+                            ),
+                          );
+                        },
+                        child: Icon(Icons.graphic_eq, color: Colors.white.withOpacity(0.6)),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+
+          j++;
+        }
+
+        return SingleChildScrollView(child: Column(children: list));
+      },
+      error: (error, stackTrace) => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: CircularProgressIndicator()),
+    );
+
+    /*
+
+
+    final samedaySpendState = _ref.watch(spendSamedayProvider(date));
 
     for (var i = samedaySpendState.length - 1; i >= 0; i--) {
       list.add(
@@ -202,6 +287,10 @@ class SamedaySpendAlert extends ConsumerWidget {
     }
 
     return SingleChildScrollView(child: Column(children: list));
+
+
+
+    */
   }
 
   ///
