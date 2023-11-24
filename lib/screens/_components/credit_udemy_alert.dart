@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
-import '../../models/credit_spend_monthly.dart';
-import '../../models/udemy.dart';
 import '../../state/device_info/device_info_notifier.dart';
+import '../../state/udemy/udemy_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/credit_notifier.dart';
-import '../../viewmodel/udemy_notifier.dart';
 import '_parts/udemy_box.dart';
 
 class CreditUdemyAlert extends ConsumerWidget {
@@ -48,8 +46,7 @@ class CreditUdemyAlert extends ConsumerWidget {
                 Container(width: context.screenSize.width),
 
                 //----------//
-                if (deviceInfoState.model == 'iPhone')
-                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
                 //----------//
 
                 Row(
@@ -75,10 +72,12 @@ class CreditUdemyAlert extends ConsumerWidget {
     );
   }
 
+  /*
+
+
+
   ///
-  List<Udemy> getUdemyList(
-      {required List<CreditSpendMonthly> creditUdemyState,
-      required List<Udemy> udemyState}) {
+  List<Udemy> getUdemyList({required List<CreditSpendMonthly> creditUdemyState, required List<Udemy> udemyState}) {
     final list = <Udemy>[];
 
     final title = <String>[];
@@ -119,6 +118,38 @@ class CreditUdemyAlert extends ConsumerWidget {
       child: Column(
         children: list,
       ),
+    );
+  }
+
+
+
+
+
+
+  */
+
+  ///
+  Widget displayUdemy() {
+    final creditUdemyState = _ref.watch(creditUdemyProvider(date));
+
+    final udemyList = _ref.watch(udemyProvider.select((value) => value.udemyList));
+
+    return udemyList.when(
+      data: (value) {
+        final list = <Widget>[];
+
+        value.forEach((element) {
+          creditUdemyState.forEach((element2) {
+            if (element.date == element2.date.yyyymmdd) {
+              list.add(UdemyBox(udemy: element));
+            }
+          });
+        });
+
+        return SingleChildScrollView(child: Column(children: list));
+      },
+      error: (error, stackTrace) => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: CircularProgressIndicator()),
     );
   }
 }

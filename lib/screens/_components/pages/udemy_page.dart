@@ -5,8 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../state/device_info/device_info_notifier.dart';
+import '../../../state/udemy/udemy_notifier.dart';
 import '../../../utility/utility.dart';
-import '../../../viewmodel/udemy_notifier.dart';
 import '../_parts/udemy_box.dart';
 
 class UdemyPage extends ConsumerWidget {
@@ -56,6 +56,35 @@ class UdemyPage extends ConsumerWidget {
 
   ///
   Widget displayUdemy() {
+    final udemyList = _ref.watch(udemyProvider.select((value) => value.udemyList));
+
+    return udemyList.when(
+      data: (value) {
+        final list = <Widget>[];
+
+        value
+          ..sort((a, b) => a.date.compareTo(b.date))
+          ..forEach((element) {
+            if (date.year == '${element.date} 00:00:00'.toDateTime().year) {
+              if (element.category == category) {
+                list.add(UdemyBox(udemy: element));
+              }
+            }
+          });
+
+        return SingleChildScrollView(
+          child: DefaultTextStyle(style: const TextStyle(fontSize: 10), child: Column(children: list)),
+        );
+      },
+      error: (error, stackTrace) => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: CircularProgressIndicator()),
+    );
+
+    /*
+
+
+
+
     final list = <Widget>[];
 
     _ref.watch(udemyProvider)
@@ -74,5 +103,10 @@ class UdemyPage extends ConsumerWidget {
         child: Column(children: list),
       ),
     );
+
+
+
+
+    */
   }
 }

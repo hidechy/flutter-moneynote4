@@ -3,8 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../extensions/extensions.dart';
-import '../../viewmodel/udemy_notifier.dart';
+import '../../state/udemy/udemy_notifier.dart';
 import 'pages/udemy_page.dart';
 
 class TabInfo {
@@ -65,15 +64,27 @@ class UdemyGenreAlert extends ConsumerWidget {
 
     final list = <String>[];
 
-    final udemyState = _ref.watch(udemyProvider);
+    final udemyList = _ref.watch(udemyProvider.select((value) => value.udemyList));
 
-    udemyState.forEach((element) {
-      if (date.year == '${element.date} 00:00:00'.toDateTime().year) {
+    udemyList.value?.forEach((element) {
+      if (date.year == DateTime.parse('${element.date} 00:00:00').year) {
         if (!list.contains(element.category)) {
           list.add(element.category);
         }
       }
     });
+
+    //
+    // udemyState.forEach((element) {
+    //   if (date.year == '${element.date} 00:00:00'.toDateTime().year) {
+    //     if (!list.contains(element.category)) {
+    //       list.add(element.category);
+    //     }
+    //   }
+    // });
+    //
+    //
+    //
 
     list
       ..sort((a, b) => a.compareTo(b))

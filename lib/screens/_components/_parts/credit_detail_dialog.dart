@@ -7,7 +7,7 @@ import '../../../extensions/extensions.dart';
 import '../../../models/amazon_purchase.dart';
 import '../../../models/credit_spend_all.dart';
 import '../../../state/amazon_purchase/amazon_notifier.dart';
-import '../../../viewmodel/udemy_notifier.dart';
+import '../../../state/udemy/udemy_notifier.dart';
 
 class CreditDetailDialog extends ConsumerWidget {
   CreditDetailDialog({super.key, required this.date, required this.creditDetail});
@@ -68,10 +68,7 @@ class CreditDetailDialog extends ConsumerWidget {
               ),
               // displayAmazonData(
               //     item: creditDetail.item, date: creditDetail.date),
-              displayUdemyData(
-                item: creditDetail.item,
-                date: creditDetail.date,
-              ),
+              displayUdemyData(item: creditDetail.item, date: creditDetail.date),
             ],
           ),
         ),
@@ -178,16 +175,34 @@ class CreditDetailDialog extends ConsumerWidget {
     }
     //------------------------------------//
 
-    final list = <Widget>[];
+    final udemyList = _ref.watch(udemyProvider.select((value) => value.udemyList));
 
-    final udemyState = _ref.watch(udemyProvider);
+    return udemyList.when(
+      data: (value) {
+        final list = <Widget>[];
 
-    udemyState.forEach((element) {
-      if (date.yyyymmdd == element.date) {
-        list.add(Text(element.title));
-      }
-    });
+        value.forEach((element) {
+          if (date.yyyymmdd == element.date) {
+            list.add(Text(element.title));
+          }
+        });
 
-    return Column(children: list);
+        return Column(children: list);
+      },
+      error: (error, stackTrace) => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: CircularProgressIndicator()),
+    );
+
+    // final list = <Widget>[];
+    //
+    // final udemyState = _ref.watch(udemyProvider);
+    //
+    // udemyState.forEach((element) {
+    //   if (date.yyyymmdd == element.date) {
+    //     list.add(Text(element.title));
+    //   }
+    // });
+    //
+    // return Column(children: list);
   }
 }
