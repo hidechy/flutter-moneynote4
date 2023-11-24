@@ -10,8 +10,8 @@ import '../../../extensions/extensions.dart';
 import '../../../state/benefit/benefit_notifier.dart';
 import '../../../state/device_info/device_info_notifier.dart';
 import '../../../state/duty/duty_notifier.dart';
+import '../../../state/keihi_list/keihi_list_notifier.dart';
 import '../../../utility/utility.dart';
-import '../../../viewmodel/keihi_list_notifier.dart';
 
 ///
 class CsvData {

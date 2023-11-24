@@ -10,9 +10,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../extensions/extensions.dart';
 import '../../route/routes.dart';
 import '../../state/device_info/device_info_notifier.dart';
+import '../../state/keihi_list/keihi_list_notifier.dart';
 import '../../state/monthly_spend_check/monthly_spend_check_notifier.dart';
 import '../../utility/utility.dart';
-import '../../viewmodel/keihi_list_notifier.dart';
 
 class KeihiSettingAlert extends ConsumerWidget {
   KeihiSettingAlert({super.key, required this.id, required this.str, required this.date});

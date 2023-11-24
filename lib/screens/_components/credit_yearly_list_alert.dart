@@ -7,9 +7,9 @@ import '../../extensions/extensions.dart';
 import '../../models/credit_spend_all_disp.dart';
 import '../../state/app_param/app_param_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
+import '../../state/keihi_list/keihi_list_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/credit_notifier.dart';
-import '../../viewmodel/keihi_list_notifier.dart';
 
 class CreditYearlyListAlert extends ConsumerWidget {
   CreditYearlyListAlert({super.key, required this.date});
