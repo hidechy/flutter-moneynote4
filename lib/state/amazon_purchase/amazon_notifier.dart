@@ -10,7 +10,7 @@ import '../../utility/utility.dart';
 import 'amazon_purchase_response_state.dart';
 
 /*
-amazonPurchaseProvider        List<AmazonPurchase>
+amazonPurchaseProvider        AmazonPurchaseResponseState
 */
 
 ////////////////////////////////////////////////

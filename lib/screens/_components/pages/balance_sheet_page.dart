@@ -5,9 +5,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../models/balancesheet.dart';
+import '../../../state/balance_sheet/balance_sheet_notifier.dart';
 import '../../../state/device_info/device_info_notifier.dart';
 import '../../../utility/utility.dart';
-import '../../../viewmodel/balance_sheet_notifier.dart';
 
 class BalanceSheetPage extends ConsumerWidget {
   BalanceSheetPage({super.key, required this.date});
@@ -58,7 +58,45 @@ class BalanceSheetPage extends ConsumerWidget {
 
   ///
   Widget displayBalanceSheet() {
-    final list = <Widget>[];
+    final balanceSheetList = _ref.watch(balanceSheetProvider(date).select((value) => value.balanceSheetList));
+
+    return balanceSheetList.when(
+      data: (value) {
+        final list = <Widget>[];
+
+        value.forEach((element) {
+          list.add(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  child: Text(element.ym),
+                ),
+                getAssetsWidget(data: element),
+                Container(
+                  alignment: Alignment.topRight,
+                  padding: const EdgeInsets.only(right: 10),
+                  child: Text(element.assetsTotal.toString().toCurrency()),
+                ),
+                getCapitalWidget(data: element),
+                Container(
+                  alignment: Alignment.topRight,
+                  padding: const EdgeInsets.only(right: 10),
+                  child: Text(element.capitalTotal.toString().toCurrency()),
+                ),
+              ],
+            ),
+          );
+        });
+
+        return SingleChildScrollView(child: Column(children: list));
+      },
+      error: (error, stackTrace) => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: CircularProgressIndicator()),
+    );
+
+    /*
 
     final balanceSheetState = _ref.watch(balanceSheetProvider(date));
 
@@ -93,6 +131,8 @@ class BalanceSheetPage extends ConsumerWidget {
         children: list,
       ),
     );
+
+    */
   }
 
   //
