@@ -6,8 +6,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../state/device_info/device_info_notifier.dart';
+import '../../../state/home_fix/home_fix_notifier.dart';
 import '../../../utility/utility.dart';
-import '../../../viewmodel/home_fix_notifier.dart';
 
 class HomeFixPage extends ConsumerWidget {
   HomeFixPage({super.key, required this.date});
@@ -60,7 +60,74 @@ class HomeFixPage extends ConsumerWidget {
 
   ///
   Widget displayHomeFix() {
-    final list = <Widget>[];
+    final homeFixList = _ref.watch(homeFixProvider(date).select((value) => value.homeFixList));
+
+    return homeFixList.when(
+      data: (value) {
+        final list = <Widget>[];
+
+        value.forEach((element) {
+          //--------------------------------
+          final datas = [
+            {'icon': FontAwesomeIcons.house, 'title': 'yachin', 'data': element.yachin},
+            {'icon': FontAwesomeIcons.wifi, 'title': 'wifi', 'data': element.wifi},
+            {'icon': FontAwesomeIcons.mobileScreenButton, 'title': 'mobile', 'data': element.mobile},
+            {'icon': FontAwesomeIcons.fireFlameSimple, 'title': 'gas', 'data': element.gas},
+            {'icon': FontAwesomeIcons.bolt, 'title': 'denki', 'data': element.denki},
+            {'icon': FontAwesomeIcons.droplet, 'title': 'suidou', 'data': element.suidou},
+          ];
+          //--------------------------------
+
+          list.add(
+            Container(
+              width: _context.screenSize.width,
+              padding: const EdgeInsets.symmetric(vertical: 3),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Colors.white.withOpacity(0.3),
+                  ),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: _context.screenSize.width,
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Colors.indigo.withOpacity(0.8), Colors.transparent],
+                        stops: const [0.7, 1],
+                      ),
+                    ),
+                    child: Text(element.ym),
+                  ),
+
+                  //forで仕方ない
+                  for (var i = 0; i < datas.length; i++) ...[
+                    const SizedBox(height: 20),
+                    dispData(
+                      icon: datas[i]['icon']! as IconData,
+                      title: datas[i]['title'].toString(),
+                      data: datas[i]['data'].toString(),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          );
+        });
+
+        return SingleChildScrollView(child: Column(children: list));
+      },
+      error: (error, stackTrace) => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: CircularProgressIndicator()),
+    );
+
+    /*
+
+
 
     final homeFixState = _ref.watch(homeFixProvider(date));
 
@@ -120,6 +187,11 @@ class HomeFixPage extends ConsumerWidget {
     return SingleChildScrollView(
       child: Column(children: list),
     );
+
+
+
+
+    */
   }
 
   ///
