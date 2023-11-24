@@ -8,8 +8,8 @@ import '../../extensions/extensions.dart';
 import '../../models/time_location.dart';
 import '../../route/routes.dart';
 import '../../state/device_info/device_info_notifier.dart';
+import '../../state/time_location/time_location_notifier.dart';
 import '../../utility/utility.dart';
-import '../../viewmodel/time_location_notifier.dart';
 
 class TimeLocationAlert extends ConsumerWidget {
   TimeLocationAlert({super.key, required this.date});
@@ -68,6 +68,46 @@ class TimeLocationAlert extends ConsumerWidget {
 
   ///
   Widget displayTimeLocation() {
+    final tlList = _ref.watch(timeLocationProvider(date).select((value) => value.timeLocationList));
+
+    return tlList.when(
+      data: (value) {
+        timeLocationList = tlList.value!;
+
+        final list = <Widget>[];
+
+        value.forEach((element) {
+          list.add(
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 3),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Colors.white.withOpacity(0.3),
+                  ),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Expanded(child: Text(element.time)),
+                  Expanded(child: Text(element.latitude)),
+                  Expanded(child: Text(element.longitude)),
+                ],
+              ),
+            ),
+          );
+        });
+
+        return SingleChildScrollView(child: Column(children: list));
+      },
+      error: (error, stackTrace) => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: CircularProgressIndicator()),
+    );
+
+    /*
+
+
+
     final list = <Widget>[];
 
     final timeLocationState = _ref.watch(timeLocationProvider(date));
@@ -109,5 +149,9 @@ class TimeLocationAlert extends ConsumerWidget {
     return SingleChildScrollView(
       child: Column(children: list),
     );
+
+
+
+    */
   }
 }
