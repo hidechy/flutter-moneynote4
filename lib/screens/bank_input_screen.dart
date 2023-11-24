@@ -6,9 +6,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../extensions/extensions.dart';
 import '../route/routes.dart';
+import '../state/bank/bank_notifier.dart';
 import '../state/bank_input/bank_input_notifier.dart';
 import '../utility/utility.dart';
-import '../viewmodel/bank_notifier.dart';
 import '../viewmodel/holiday_notifier.dart';
 
 class BankInputScreen extends ConsumerWidget {
@@ -253,11 +253,58 @@ class BankInputScreen extends ConsumerWidget {
   Widget getMonthlyBankRecord() {
     final bankInputState = _ref.watch(bankInputProvider);
 
-    final bankAllState = _ref.watch(bankAllProvider(bankInputState.selectBank));
+    final bankCompanyList = _ref.watch(
+      bankCompanyListProvider(bankInputState.selectBank).select((value) => value.bankCompanyList),
+    );
 
     final holidayState = _ref.watch(holidayProvider);
 
     final ym = date.yyyymm;
+
+    return bankCompanyList.when(
+      data: (value) {
+        final list = <Widget>[];
+
+        for (var i = 0; i < value.length; i++) {
+          if (value[i].date.yyyymm == ym) {
+            list.add(
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 3),
+                decoration: BoxDecoration(
+                  border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
+                  color: _utility.getYoubiColor(
+                    date: value[i].date,
+                    youbiStr: value[i].date.youbiStr,
+                    holiday: holidayState.data,
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(children: [Text(value[i].date.yyyy), Text(value[i].date.mmdd)]),
+                    Row(
+                      children: [
+                        Text(value[i].price.toCurrency()),
+                        const SizedBox(width: 10),
+                        getBankMark(mark: value[i].mark),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
+        }
+
+        return SingleChildScrollView(child: Column(children: list));
+      },
+      error: (error, stackTrace) => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: CircularProgressIndicator()),
+    );
+
+    /*
+
+
 
     final list = <Widget>[];
 
@@ -293,6 +340,11 @@ class BankInputScreen extends ConsumerWidget {
     }
 
     return SingleChildScrollView(child: Column(children: list));
+
+
+
+
+    */
   }
 
   ///

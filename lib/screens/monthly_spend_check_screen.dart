@@ -8,12 +8,12 @@ import '../extensions/extensions.dart';
 import '../models/bank_monthly_spend.dart';
 import '../models/credit_spend_monthly.dart';
 import '../route/routes.dart';
+import '../state/bank/bank_notifier.dart';
 import '../state/device_info/device_info_notifier.dart';
 import '../state/monthly_spend_check/monthly_spend_check_notifier.dart';
 import '../state/time_place/time_place_notifier.dart';
 import '../utility/function.dart';
 import '../utility/utility.dart';
-import '../viewmodel/bank_notifier.dart';
 import '../viewmodel/keihi_list_notifier.dart';
 import '../viewmodel/spend_notifier.dart';
 import '_components/_money_dialog.dart';
@@ -826,11 +826,13 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
 
   ///
   void makeBankMonthlySpendMap() {
-    final bankMonthlySpendState = _ref.watch(bankMonthlySpendProvider(date));
+    final bankMonthlySpendList =
+        _ref.watch(bankMonthlySpendProvider(date).select((value) => value.bankMonthlySpendList));
 
     var list = <BankMonthlySpend>[];
     var keepDay = '';
-    bankMonthlySpendState.forEach((element) {
+
+    bankMonthlySpendList.value?.forEach((element) {
       if (keepDay != element.day) {
         list = [];
       }
@@ -841,6 +843,27 @@ class MonthlySpendCheckScreen extends ConsumerWidget {
 
       keepDay = element.day;
     });
+
+    //
+    //
+    // final bankMonthlySpendState = _ref.watch(bankMonthlySpendProvider(date));
+    //
+    // var list = <BankMonthlySpend>[];
+    // var keepDay = '';
+    // bankMonthlySpendState.forEach((element) {
+    //   if (keepDay != element.day) {
+    //     list = [];
+    //   }
+    //
+    //   list.add(element);
+    //
+    //   bankMonthlySpendMap['${date.yyyymm}-${element.day}'] = list;
+    //
+    //   keepDay = element.day;
+    // });
+    //
+    //
+    //
   }
 
   ///

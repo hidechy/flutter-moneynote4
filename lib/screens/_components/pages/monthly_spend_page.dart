@@ -15,13 +15,13 @@ import '../../../models/zero_use_date.dart';
 import '../../../route/routes.dart';
 import '../../../state/amazon_purchase/amazon_notifier.dart';
 import '../../../state/app_param/app_param_notifier.dart';
+import '../../../state/bank/bank_notifier.dart';
 import '../../../state/benefit/benefit_notifier.dart';
 import '../../../state/monthly_spend/monthly_spend_state.dart';
 import '../../../state/time_place/time_place_notifier.dart';
 import '../../../state/train/train_notifier.dart';
 import '../../../utility/function.dart';
 import '../../../utility/utility.dart';
-import '../../../viewmodel/bank_notifier.dart';
 import '../../../viewmodel/holiday_notifier.dart';
 import '../../../viewmodel/keihi_list_notifier.dart';
 import '../../../viewmodel/money_notifier.dart';
@@ -371,7 +371,13 @@ class MonthlySpendPage extends ConsumerWidget {
 
     final benefitState = _ref.watch(benefitProvider);
 
-    final bankMoveState = _ref.watch(bankMoveProvider);
+    // final bankMoveState = _ref.watch(bankMoveProvider);
+    //
+    //
+    //
+    //
+
+    final bankMoveList = _ref.watch(bankMoveProvider.select((value) => value.bankMoveList));
 
     final spendZeroUseDateState = _ref.watch(spendZeroUseDateProvider);
 
@@ -428,7 +434,7 @@ class MonthlySpendPage extends ConsumerWidget {
         },
       );
 
-      bankMoveState.forEach(
+      bankMoveList.value?.forEach(
         (element) {
           if (spendMonthDetailState.list[i].date.yyyymmdd == element.date.yyyymmdd) {
             list2value.add(
@@ -441,6 +447,22 @@ class MonthlySpendPage extends ConsumerWidget {
           }
         },
       );
+
+      // bankMoveState.forEach(
+      //   (element) {
+      //     if (spendMonthDetailState.list[i].date.yyyymmdd == element.date.yyyymmdd) {
+      //       list2value.add(
+      //         SpendListValue(
+      //           item: 'Bank Move - ${element.bank} // ${element.flag == 0 ? 'out' : 'in'}',
+      //           price: element.price,
+      //           color: Colors.greenAccent,
+      //         ),
+      //       );
+      //     }
+      //   },
+      // );
+      //
+      //
 
       list2value.forEach((element) {
         final textStyle = getKeihiTextStyle(element: element, dateKeihiListMap: dateKeihiListMap);
@@ -611,7 +633,8 @@ class MonthlySpendPage extends ConsumerWidget {
 
       var bMPrice = 0;
       var bMFlag = 0;
-      bankMoveState.forEach(
+
+      bankMoveList.value?.forEach(
         (element) {
           if (spendMonthDetailState.list[i].date.yyyymmdd == element.date.yyyymmdd) {
             bMPrice = element.price;
@@ -619,6 +642,18 @@ class MonthlySpendPage extends ConsumerWidget {
           }
         },
       );
+
+      // bankMoveState.forEach(
+      //   (element) {
+      //     if (spendMonthDetailState.list[i].date.yyyymmdd == element.date.yyyymmdd) {
+      //       bMPrice = element.price;
+      //       bMFlag = element.flag;
+      //     }
+      //   },
+      // );
+      //
+      //
+      //
 
       var benefit = 0;
       benefitState.benefitList.forEach(

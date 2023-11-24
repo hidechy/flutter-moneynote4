@@ -8,13 +8,13 @@ import '../../../extensions/extensions.dart';
 import '../../../models/money.dart';
 import '../../../route/routes.dart';
 import '../../../state/app_param/app_param_notifier.dart';
+import '../../../state/bank/bank_notifier.dart';
 import '../../../state/benefit/benefit_notifier.dart';
 import '../../../state/device_info/device_info_notifier.dart';
 import '../../../state/gold/gold_notifier.dart';
 import '../../../state/shintaku/shintaku_notifier.dart';
 import '../../../state/stock/stock_notifier.dart';
 import '../../../utility/utility.dart';
-import '../../../viewmodel/bank_notifier.dart';
 import '../../../viewmodel/money_notifier.dart';
 import '../../../viewmodel/spend_notifier.dart';
 import '../_money_dialog.dart';
@@ -369,71 +369,74 @@ class MoneyPage extends ConsumerWidget {
 
   ///
   Widget displayBank({required Money data}) {
-    final bankStateA = _ref.watch(bankLastProvider('bank_a'));
-    final bankStateB = _ref.watch(bankLastProvider('bank_b'));
-    final bankStateC = _ref.watch(bankLastProvider('bank_c'));
-    final bankStateD = _ref.watch(bankLastProvider('bank_d'));
-    final bankStateE = _ref.watch(bankLastProvider('bank_e'));
+    final bankStateA = _ref.watch(bankLastProvider('bank_a').select((value) => value.bankCompanyChange));
+    final bankStateB = _ref.watch(bankLastProvider('bank_b').select((value) => value.bankCompanyChange));
+    final bankStateC = _ref.watch(bankLastProvider('bank_c').select((value) => value.bankCompanyChange));
+    final bankStateD = _ref.watch(bankLastProvider('bank_d').select((value) => value.bankCompanyChange));
+    final bankStateE = _ref.watch(bankLastProvider('bank_e').select((value) => value.bankCompanyChange));
 
-    return DefaultTextStyle(
-      style: const TextStyle(fontSize: 12),
-      child: DefaultTextStyle(
-        style: const TextStyle(color: Colors.white),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(color: Colors.indigo, borderRadius: BorderRadius.circular(20)),
-                    alignment: Alignment.center,
-                    child: const Text('BANK'),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    alignment: Alignment.topRight,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(),
-                        Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () => _context.goNamed(RouteNames.bankInput, extra: {'date': date}),
-                              child: const Icon(Icons.business),
-                            ),
-                            const SizedBox(width: 10),
-                            GestureDetector(
-                              onTap: () => MoneyDialog(context: _context, widget: BankDataListAlert(flag: 'bank')),
-                              child: const Icon(Icons.list),
-                            ),
-                          ],
+    return (bankStateA == null || bankStateB == null || bankStateC == null || bankStateD == null || bankStateE == null)
+        ? Container()
+        : DefaultTextStyle(
+            style: const TextStyle(fontSize: 12),
+            child: DefaultTextStyle(
+              style: const TextStyle(color: Colors.white),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(color: Colors.indigo, borderRadius: BorderRadius.circular(20)),
+                          alignment: Alignment.center,
+                          child: const Text('BANK'),
                         ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.topRight,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(),
+                              Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () => _context.goNamed(RouteNames.bankInput, extra: {'date': date}),
+                                    child: const Icon(Icons.business),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  GestureDetector(
+                                    onTap: () =>
+                                        MoneyDialog(context: _context, widget: BankDataListAlert(flag: 'bank')),
+                                    child: const Icon(Icons.list),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  DefaultTextStyle(
+                    style: const TextStyle(fontSize: 16),
+                    child: Column(
+                      children: [
+                        getBankDispRow(name: 'bank_a', price: data.bankA, dt: bankStateA.date.toString()),
+                        getBankDispRow(name: 'bank_b', price: data.bankB, dt: bankStateB.date.toString()),
+                        getBankDispRow(name: 'bank_c', price: data.bankC, dt: bankStateC.date.toString()),
+                        getBankDispRow(name: 'bank_d', price: data.bankD, dt: bankStateD.date.toString()),
+                        getBankDispRow(name: 'bank_e', price: data.bankE, dt: bankStateE.date.toString()),
                       ],
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            DefaultTextStyle(
-              style: const TextStyle(fontSize: 16),
-              child: Column(
-                children: [
-                  getBankDispRow(name: 'bank_a', price: data.bankA, dt: bankStateA.date.toString()),
-                  getBankDispRow(name: 'bank_b', price: data.bankB, dt: bankStateB.date.toString()),
-                  getBankDispRow(name: 'bank_c', price: data.bankC, dt: bankStateC.date.toString()),
-                  getBankDispRow(name: 'bank_d', price: data.bankD, dt: bankStateD.date.toString()),
-                  getBankDispRow(name: 'bank_e', price: data.bankE, dt: bankStateE.date.toString()),
                 ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
+          );
   }
 
   ///
@@ -485,62 +488,64 @@ class MoneyPage extends ConsumerWidget {
 
   ///
   Widget displayPay({required Money data}) {
-    final payStateA = _ref.watch(bankLastProvider('pay_a'));
-    final payStateB = _ref.watch(bankLastProvider('pay_b'));
-    final payStateC = _ref.watch(bankLastProvider('pay_c'));
-    final payStateD = _ref.watch(bankLastProvider('pay_d'));
-    final payStateE = _ref.watch(bankLastProvider('pay_e'));
+    final payStateA = _ref.watch(bankLastProvider('pay_a').select((value) => value.bankCompanyChange));
+    final payStateB = _ref.watch(bankLastProvider('pay_b').select((value) => value.bankCompanyChange));
+    final payStateC = _ref.watch(bankLastProvider('pay_c').select((value) => value.bankCompanyChange));
+    final payStateD = _ref.watch(bankLastProvider('pay_d').select((value) => value.bankCompanyChange));
+    final payStateE = _ref.watch(bankLastProvider('pay_e').select((value) => value.bankCompanyChange));
 
-    return DefaultTextStyle(
-      style: const TextStyle(fontSize: 12),
-      child: DefaultTextStyle(
-        style: const TextStyle(color: Colors.white),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(color: Colors.indigo, borderRadius: BorderRadius.circular(20)),
-                    alignment: Alignment.center,
-                    child: const Text('E-MONEY'),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    alignment: Alignment.topRight,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(),
-                        GestureDetector(
-                          onTap: () => MoneyDialog(context: _context, widget: BankDataListAlert(flag: 'pay')),
-                          child: const Icon(Icons.list),
+    return (payStateA == null || payStateB == null || payStateC == null || payStateD == null || payStateE == null)
+        ? Container()
+        : DefaultTextStyle(
+            style: const TextStyle(fontSize: 12),
+            child: DefaultTextStyle(
+              style: const TextStyle(color: Colors.white),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(color: Colors.indigo, borderRadius: BorderRadius.circular(20)),
+                          alignment: Alignment.center,
+                          child: const Text('E-MONEY'),
                         ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.topRight,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(),
+                              GestureDetector(
+                                onTap: () => MoneyDialog(context: _context, widget: BankDataListAlert(flag: 'pay')),
+                                child: const Icon(Icons.list),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  DefaultTextStyle(
+                    style: const TextStyle(fontSize: 16),
+                    child: Column(
+                      children: [
+                        getBankDispRow(name: 'pay_a', price: data.payA, dt: payStateA.date.toString()),
+                        getBankDispRow(name: 'pay_b', price: data.payB, dt: payStateB.date.toString()),
+                        getBankDispRow(name: 'pay_c', price: data.payC, dt: payStateC.date.toString()),
+                        getBankDispRow(name: 'pay_d', price: data.payD, dt: payStateD.date.toString()),
+                        getBankDispRow(name: 'pay_e', price: data.payE, dt: payStateE.date.toString()),
                       ],
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            DefaultTextStyle(
-              style: const TextStyle(fontSize: 16),
-              child: Column(
-                children: [
-                  getBankDispRow(name: 'pay_a', price: data.payA, dt: payStateA.date.toString()),
-                  getBankDispRow(name: 'pay_b', price: data.payB, dt: payStateB.date.toString()),
-                  getBankDispRow(name: 'pay_c', price: data.payC, dt: payStateC.date.toString()),
-                  getBankDispRow(name: 'pay_d', price: data.payD, dt: payStateD.date.toString()),
-                  getBankDispRow(name: 'pay_e', price: data.payE, dt: payStateE.date.toString()),
                 ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
+          );
   }
 
   ///

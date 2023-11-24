@@ -2,53 +2,46 @@
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../data/http/client.dart';
-import '../data/http/path.dart';
-import '../extensions/extensions.dart';
-import '../models/bank_company_all.dart';
-import '../models/bank_company_change.dart';
-import '../models/bank_monthly_spend.dart';
-import '../models/bank_move.dart';
-import '../utility/utility.dart';
+import '../../data/http/client.dart';
+import '../../data/http/path.dart';
+import '../../extensions/extensions.dart';
+import '../../models/bank_company_all.dart';
+import '../../models/bank_company_change.dart';
+import '../../models/bank_monthly_spend.dart';
+import '../../models/bank_move.dart';
+import '../../utility/utility.dart';
+import 'bank_response_state.dart';
 
 /*
-bankLastProvider        BankCompanyChange
-bankAllProvider       List<BankCompanyAll>
-bankMoveProvider        List<BankMove>
-bankMonthlySpendProvider        List<BankMonthlySpend>
+bankLastProvider        BankResponseState
+bankAllProvider       BankResponseState
+bankMoveProvider        BankResponseState
+bankMonthlySpendProvider        BankResponseState
 */
 
 ////////////////////////////////////////////////
 
-final bankLastProvider = StateNotifierProvider.autoDispose
-    .family<BankLastNotifier, BankCompanyChange, String>((ref, bank) {
+final bankLastProvider =
+    StateNotifierProvider.autoDispose.family<BankLastNotifier, BankResponseState, String>((ref, bank) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return BankLastNotifier(
-    BankCompanyChange(date: DateTime.now(), price: '', diff: 0),
-    client,
-    utility,
-  )..getBankCompanyRecord(bank: bank);
+  return BankLastNotifier(const BankResponseState(), client, utility)..getBankLastRecord(bank: bank);
 });
 
-class BankLastNotifier extends StateNotifier<BankCompanyChange> {
+class BankLastNotifier extends StateNotifier<BankResponseState> {
   BankLastNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
   final Utility utility;
 
-  Future<void> getBankCompanyRecord({required String bank}) async {
+  Future<void> getBankLastRecord({required String bank}) async {
     await client.post(
       path: APIPath.bankSearch,
       body: {'bank': bank},
     ).then((value) {
-      var bankCompanyRecord = BankCompanyChange(
-        date: DateTime.now(),
-        price: '',
-        diff: 0,
-      );
+      var bankCompanyRecord = BankCompanyChange(date: DateTime.now(), price: '', diff: 0);
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         bankCompanyRecord = BankCompanyChange(
@@ -58,7 +51,7 @@ class BankLastNotifier extends StateNotifier<BankCompanyChange> {
         );
       }
 
-      state = bankCompanyRecord;
+      state = state.copyWith(bankCompanyChange: bankCompanyRecord);
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
@@ -69,31 +62,28 @@ class BankLastNotifier extends StateNotifier<BankCompanyChange> {
 
 ////////////////////////////////////////////////
 
-final bankAllProvider = StateNotifierProvider.autoDispose
-    .family<BankAllNotifier, List<BankCompanyAll>, String>((ref, bank) {
+final bankCompanyListProvider =
+    StateNotifierProvider.autoDispose.family<BankCompanyListNotifier, BankResponseState, String>((ref, bank) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return BankAllNotifier([], client, utility)..getBankCompanyRecord(bank: bank);
+  return BankCompanyListNotifier(const BankResponseState(), client, utility)..getBankCompanyList(bank: bank);
 });
 
-class BankAllNotifier extends StateNotifier<List<BankCompanyAll>> {
-  BankAllNotifier(super.state, this.client, this.utility);
+class BankCompanyListNotifier extends StateNotifier<BankResponseState> {
+  BankCompanyListNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
   final Utility utility;
 
-  Future<void> getBankCompanyRecord({required String bank}) async {
-    if (bank == '') {
-      state = [];
-      return;
-    }
+  Future<void> getBankCompanyList({required String bank}) async {
+    await client.post(path: APIPath.getAllBank, body: {'bank': bank}).then((value) {
+      if (bank == '') {
+        state = state.copyWith(bankCompanyList: const AsyncValue.data([]));
+        return;
+      }
 
-    await client.post(
-      path: APIPath.getAllBank,
-      body: {'bank': bank},
-    ).then((value) {
       final list = <BankCompanyAll>[];
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
@@ -101,11 +91,9 @@ class BankAllNotifier extends StateNotifier<List<BankCompanyAll>> {
         if (i == 0) {
           mark = 'up';
         } else {
-          if (value['data'][i][bank].toString().toInt() >
-              value['data'][i - 1][bank].toString().toInt()) {
+          if (value['data'][i][bank].toString().toInt() > value['data'][i - 1][bank].toString().toInt()) {
             mark = 'up';
-          } else if (value['data'][i][bank].toString().toInt() <
-              value['data'][i - 1][bank].toString().toInt()) {
+          } else if (value['data'][i][bank].toString().toInt() < value['data'][i - 1][bank].toString().toInt()) {
             mark = 'down';
           } else {
             mark = 'equal';
@@ -121,7 +109,7 @@ class BankAllNotifier extends StateNotifier<List<BankCompanyAll>> {
         );
       }
 
-      state = list;
+      state = state.copyWith(bankCompanyList: AsyncValue.data(list));
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
@@ -132,16 +120,15 @@ class BankAllNotifier extends StateNotifier<List<BankCompanyAll>> {
 
 ////////////////////////////////////////////////
 
-final bankMoveProvider =
-    StateNotifierProvider.autoDispose<BankMoveNotifier, List<BankMove>>((ref) {
+final bankMoveProvider = StateNotifierProvider.autoDispose<BankMoveNotifier, BankResponseState>((ref) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return BankMoveNotifier([], client, utility)..getBankMove();
+  return BankMoveNotifier(const BankResponseState(), client, utility)..getBankMove();
 });
 
-class BankMoveNotifier extends StateNotifier<List<BankMove>> {
+class BankMoveNotifier extends StateNotifier<BankResponseState> {
   BankMoveNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
@@ -152,12 +139,10 @@ class BankMoveNotifier extends StateNotifier<List<BankMove>> {
       final list = <BankMove>[];
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        list.add(
-          BankMove.fromJson(value['data'][i] as Map<String, dynamic>),
-        );
+        list.add(BankMove.fromJson(value['data'][i] as Map<String, dynamic>));
       }
 
-      state = list;
+      state = state.copyWith(bankMoveList: AsyncValue.data(list));
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
@@ -168,40 +153,30 @@ class BankMoveNotifier extends StateNotifier<List<BankMove>> {
 
 ////////////////////////////////////////////////
 
-final bankMonthlySpendProvider = StateNotifierProvider.autoDispose
-    .family<BankMonthlySpendNotifier, List<BankMonthlySpend>, DateTime>(
-        (ref, date) {
+final bankMonthlySpendProvider =
+    StateNotifierProvider.autoDispose.family<BankMonthlySpendNotifier, BankResponseState, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return BankMonthlySpendNotifier(
-    [],
-    client,
-    utility,
-  )..getBankMonthlySpend(date: date);
+  return BankMonthlySpendNotifier(const BankResponseState(), client, utility)..getBankMonthlySpend(date: date);
 });
 
-class BankMonthlySpendNotifier extends StateNotifier<List<BankMonthlySpend>> {
+class BankMonthlySpendNotifier extends StateNotifier<BankResponseState> {
   BankMonthlySpendNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
   final Utility utility;
 
   Future<void> getBankMonthlySpend({required DateTime date}) async {
-    await client.post(
-      path: APIPath.getMonthlyBankRecord,
-      body: {'date': date.yyyymmdd},
-    ).then((value) {
+    await client.post(path: APIPath.getMonthlyBankRecord, body: {'date': date.yyyymmdd}).then((value) {
       final list = <BankMonthlySpend>[];
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        list.add(
-          BankMonthlySpend.fromJson(value['data'][i] as Map<String, dynamic>),
-        );
+        list.add(BankMonthlySpend.fromJson(value['data'][i] as Map<String, dynamic>));
       }
 
-      state = list;
+      state = state.copyWith(bankMonthlySpendList: AsyncValue.data(list));
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });

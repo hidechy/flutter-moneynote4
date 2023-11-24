@@ -6,10 +6,10 @@ import 'package:moneynote4/models/bank_move.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../../extensions/extensions.dart';
+import '../../../state/bank/bank_notifier.dart';
 import '../../../state/benefit/benefit_notifier.dart';
 import '../../../state/device_info/device_info_notifier.dart';
 import '../../../utility/utility.dart';
-import '../../../viewmodel/bank_notifier.dart';
 import '../../../viewmodel/holiday_notifier.dart';
 import '../../../viewmodel/money_notifier.dart';
 
@@ -82,7 +82,11 @@ class MoneyTotalPage extends ConsumerWidget {
 
   ///
   void _makeBankMoveList() {
-    _ref.watch(bankMoveProvider).forEach((element) => bankMoveList[element.date.yyyymmdd] = element);
+//    _ref.watch(bankMoveProvider).forEach((element) => bankMoveList[element.date.yyyymmdd] = element);
+
+    final bmList = _ref.watch(bankMoveProvider.select((value) => value.bankMoveList));
+
+    bmList.value?.forEach((element) => bankMoveList[element.date.yyyymmdd] = element);
   }
 
   ///

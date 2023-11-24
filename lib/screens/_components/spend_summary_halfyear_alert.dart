@@ -8,10 +8,10 @@ import 'package:uuid/uuid.dart';
 import '../../extensions/extensions.dart';
 import '../../models/credit_spend_monthly.dart';
 import '../../models/spend_yearly.dart';
+import '../../state/bank/bank_notifier.dart';
 import '../../state/benefit/benefit_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
-import '../../viewmodel/bank_notifier.dart';
 import '../../viewmodel/credit_notifier.dart';
 import '../../viewmodel/spend_notifier.dart';
 
@@ -137,7 +137,13 @@ class SpendSummaryHalfyearAlert extends ConsumerWidget {
   Widget displayComparisonData() {
     final benefitState = _ref.watch(benefitProvider);
 
-    final bankMoveState = _ref.watch(bankMoveProvider);
+    // final bankMoveState = _ref.watch(bankMoveProvider);
+    //
+    //
+    //
+    //
+
+    final bankMoveList = _ref.watch(bankMoveProvider.select((value) => value.bankMoveList));
 
     final spendZeroUseDateState = _ref.watch(spendZeroUseDateProvider);
 
@@ -262,7 +268,7 @@ class SpendSummaryHalfyearAlert extends ConsumerWidget {
           }
         });
 
-        bankMoveState.forEach((element3) {
+        bankMoveList.value?.forEach((element3) {
           if (element3.date.yyyymmdd == element2.date.yyyymmdd) {
             list3.add(
               Container(
@@ -298,6 +304,51 @@ class SpendSummaryHalfyearAlert extends ConsumerWidget {
             );
           }
         });
+
+        //
+        //
+        //
+        // bankMoveState.forEach((element3) {
+        //   if (element3.date.yyyymmdd == element2.date.yyyymmdd) {
+        //     list3.add(
+        //       Container(
+        //         padding: const EdgeInsets.symmetric(vertical: 3),
+        //         decoration: BoxDecoration(
+        //           border: Border(
+        //             bottom: BorderSide(
+        //               color: Colors.white.withOpacity(0.3),
+        //             ),
+        //           ),
+        //         ),
+        //         child: DefaultTextStyle(
+        //           style: const TextStyle(
+        //             color: Colors.greenAccent,
+        //             fontSize: 12,
+        //           ),
+        //           child: Row(
+        //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //             children: [
+        //               Expanded(
+        //                 child: Text(
+        //                   'Bank Move - ${element3.bank} // ${element3.flag == 0 ? 'out' : 'in'}',
+        //                   overflow: TextOverflow.ellipsis,
+        //                   maxLines: 1,
+        //                 ),
+        //               ),
+        //               const SizedBox(width: 20),
+        //               Text(element3.price.toString().toCurrency()),
+        //             ],
+        //           ),
+        //         ),
+        //       ),
+        //     );
+        //   }
+        // });
+        //
+        //
+        //
+        //
+        //
 
         final spendZeroFlag = getSpendZeroFlag(
           date: element2.date.yyyymmdd,
