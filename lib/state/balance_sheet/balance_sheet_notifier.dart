@@ -21,7 +21,7 @@ final balanceSheetProvider =
 
   final utility = Utility();
 
-  return BalanceSheetNotifier(BalanceSheetResponseState(), client, utility)..getBalanceSheetList(date: date);
+  return BalanceSheetNotifier(const BalanceSheetResponseState(), client, utility)..getBalanceSheetList(date: date);
 });
 
 class BalanceSheetNotifier extends StateNotifier<BalanceSheetResponseState> {
