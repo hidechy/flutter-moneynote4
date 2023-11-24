@@ -9,8 +9,8 @@ import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
+import '../../state/spend/spend_notifier.dart';
 import '../../utility/utility.dart';
-import '../../viewmodel/spend_notifier.dart';
 
 class MonthlyUnitSpendGraphAlert extends ConsumerWidget {
   MonthlyUnitSpendGraphAlert({super.key, required this.date});
@@ -55,8 +55,7 @@ class MonthlyUnitSpendGraphAlert extends ConsumerWidget {
               Container(width: context.screenSize.width),
 
               //----------//
-              if (deviceInfoState.model == 'iPhone')
-                _utility.getFileNameDebug(name: runtimeType.toString()),
+              if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
               //----------//
 
               Expanded(

@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/yearly_calendar_alert.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../extensions/extensions.dart';
@@ -16,8 +15,8 @@ import '../models/spend_month_summary.dart';
 import '../state/device_info/device_info_notifier.dart';
 import '../state/device_info/device_info_request_state.dart';
 import '../state/home_menu/home_menu_notifier.dart';
+import '../state/spend/spend_notifier.dart';
 import '../utility/utility.dart';
-import '../viewmodel/spend_notifier.dart';
 import '_components/_money_dialog.dart';
 import '_components/amazon_alert.dart';
 import '_components/balance_sheet_alert.dart';
@@ -43,6 +42,7 @@ import '_components/tax_payment_display_alert.dart';
 import '_components/train_alert.dart';
 import '_components/udemy_alert.dart';
 import '_components/wells_reserve_alert.dart';
+import '_components/yearly_calendar_alert.dart';
 
 class HomeScreen extends ConsumerWidget {
   HomeScreen({super.key});

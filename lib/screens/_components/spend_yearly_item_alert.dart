@@ -5,9 +5,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
+import '../../state/spend/spend_notifier.dart';
 import '../../state/spend_yearly_item/spend_yearly_item_state.dart';
 import '../../utility/utility.dart';
-import '../../viewmodel/spend_notifier.dart';
 import '_money_dialog.dart';
 import 'spend_timeplace_alert.dart';
 

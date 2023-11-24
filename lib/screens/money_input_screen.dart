@@ -12,8 +12,8 @@ import '../models/money.dart';
 import '../route/routes.dart';
 import '../state/money/money_notifier.dart';
 import '../state/money_input/money_input_notifier.dart';
+import '../state/spend/spend_notifier.dart';
 import '../utility/utility.dart';
-import '../viewmodel/spend_notifier.dart';
 
 class MoneyInputScreen extends ConsumerWidget {
   MoneyInputScreen({super.key, required this.date});

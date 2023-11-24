@@ -6,11 +6,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../state/device_info/device_info_notifier.dart';
+import '../../../state/spend/spend_notifier.dart';
 import '../../../state/temple/temple_notifier.dart';
 import '../../../state/time_place/time_place_notifier.dart';
 import '../../../state/train/train_notifier.dart';
 import '../../../utility/utility.dart';
-import '../../../viewmodel/spend_notifier.dart';
 import '../_money_dialog.dart';
 import '../temple_display_alert.dart';
 import '../time_location_alert.dart';

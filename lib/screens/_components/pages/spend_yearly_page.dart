@@ -2,15 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/screens/_components/three_years_spend_item_compare_alert.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../state/device_info/device_info_notifier.dart';
+import '../../../state/spend/spend_notifier.dart';
 import '../../../utility/utility.dart';
-import '../../../viewmodel/spend_notifier.dart';
 import '../_money_dialog.dart';
 import '../credit_yearly_detail_alert.dart';
 import '../spend_yearly_item_alert.dart';
+import '../three_years_spend_item_compare_alert.dart';
 import '../three_years_spend_month_compare_alert.dart';
 
 class SpendYearlyPage extends ConsumerWidget {

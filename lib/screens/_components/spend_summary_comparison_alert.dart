@@ -6,8 +6,8 @@ import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
+import '../../state/spend/spend_notifier.dart';
 import '../../utility/utility.dart';
-import '../../viewmodel/spend_notifier.dart';
 
 class SpendSummaryComparisonAlert extends ConsumerWidget {
   SpendSummaryComparisonAlert({super.key});
@@ -71,23 +71,46 @@ class SpendSummaryComparisonAlert extends ConsumerWidget {
     final midashi = <String>[];
 
     for (var i = 2020; i <= DateTime.now().yyyy.toInt(); i++) {
-      final spendSummaryState = _ref.watch(
-        spendSummaryProvider(DateTime(i)),
-      );
-
       final map2 = <String, int>{};
-      for (var j = 0; j < spendSummaryState.list.length; j++) {
-        if (i == 2020) {
-          midashi.add(spendSummaryState.list[j].item);
-        }
 
-        var total = 0;
-        for (var k = 0; k < spendSummaryState.list[j].list.length; k++) {
-          total += spendSummaryState.list[j].list[k].price;
-        }
+      _ref.watch(spendSummaryProvider(DateTime(i)).select((value) => value.spendSummaryList)).when(
+            data: (value) {
+              for (var j = 0; j < value.length; j++) {
+                if (i == 2020) {
+                  midashi.add(value[j].item);
+                }
 
-        map2[spendSummaryState.list[j].item] = total;
-      }
+                var total = 0;
+                for (var k = 0; k < value[j].list.length; k++) {
+                  total += value[j].list[k].price;
+                }
+
+                map2[value[j].item] = total;
+              }
+            },
+            error: (error, stackTrace) => Container(),
+            loading: Container.new,
+          );
+
+      //
+      // final spendSummaryState = _ref.watch(
+      //   spendSummaryProvider(DateTime(i)),
+      // );
+      //
+      // for (var j = 0; j < spendSummaryState.list.length; j++) {
+      //   if (i == 2020) {
+      //     midashi.add(spendSummaryState.list[j].item);
+      //   }
+      //
+      //   var total = 0;
+      //   for (var k = 0; k < spendSummaryState.list[j].list.length; k++) {
+      //     total += spendSummaryState.list[j].list[k].price;
+      //   }
+      //
+      //   map2[spendSummaryState.list[j].item] = total;
+      // }
+      //
+      //
 
       map[i] = map2;
     }

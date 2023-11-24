@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/extensions/extensions.dart';
 
+import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
+import '../../state/spend/spend_notifier.dart';
 import '../../utility/utility.dart';
-import '../../viewmodel/spend_notifier.dart';
 
 class ThreeYearsSpendItemCompareAlert extends ConsumerWidget {
   ThreeYearsSpendItemCompareAlert({super.key, required this.date});

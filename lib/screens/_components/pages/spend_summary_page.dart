@@ -5,8 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../state/device_info/device_info_notifier.dart';
+import '../../../state/spend/spend_notifier.dart';
 import '../../../utility/utility.dart';
-import '../../../viewmodel/spend_notifier.dart';
 import '../_money_dialog.dart';
 import '../spend_summary_comparison_alert.dart';
 
@@ -78,12 +78,27 @@ class SpendSummaryPage extends ConsumerWidget {
   Widget displaySpendSummary() {
     final oneWidth = _context.screenSize.width / 6.5;
 
-    final spendSummaryState = _ref.watch(spendSummaryProvider(date));
-
     //--------------------------------------------------//
     final itemSumMap = <String, int>{};
 
-    spendSummaryState.list.forEach((element) {
+    // final spendSummaryState = _ref.watch(spendSummaryProvider(date));
+    //
+    // spendSummaryState.list.forEach((element) {
+    //   var sum = 0;
+    //
+    //   element.list.forEach((element2) {
+    //     sum += element2.price.toString().toInt();
+    //   });
+    //
+    //   itemSumMap[element.item] = sum;
+    // });
+    //
+    //
+    //
+
+    final spendSummaryList = _ref.watch(spendSummaryProvider(date).select((value) => value.spendSummaryList));
+
+    spendSummaryList.value?.forEach((element) {
       var sum = 0;
 
       element.list.forEach((element2) {
@@ -98,6 +113,96 @@ class SpendSummaryPage extends ConsumerWidget {
     final list = <Widget>[];
 
     var total = 0;
+
+    return spendSummaryList.when(
+      data: (value) {
+        for (var i = 0; i < value.length; i++) {
+          final list2 = <Widget>[];
+
+          value[i].list.forEach((element) {
+            list2.add(
+              Container(
+                width: oneWidth,
+                margin: const EdgeInsets.all(3),
+                padding: const EdgeInsets.all(3),
+                decoration: BoxDecoration(border: Border.all(color: Colors.white.withOpacity(0.3))),
+                child: Stack(
+                  children: [
+                    Text(element.month, style: const TextStyle(color: Colors.grey)),
+                    Container(
+                      alignment: Alignment.topRight,
+                      child: Text(element.price.toString().toCurrency()),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          });
+
+          total += itemSumMap[value[i].item].toString().toInt();
+
+          if (itemSumMap[value[i].item].toString() == '0') {
+            continue;
+          }
+
+          list.add(
+            Container(
+              width: _context.screenSize.width,
+              padding: const EdgeInsets.symmetric(vertical: 3),
+              decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: _context.screenSize.width,
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Colors.indigo.withOpacity(0.8), Colors.transparent],
+                        stops: const [0.7, 1],
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(child: Text(value[i].item, overflow: TextOverflow.ellipsis)),
+                        Container(
+                          width: 60,
+                          alignment: Alignment.topRight,
+                          child: Text(
+                            itemSumMap[value[i].item].toString().toCurrency(),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Wrap(children: list2),
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    alignment: Alignment.topRight,
+                    child: Text(
+                      total.toString().toCurrency(),
+                      style: const TextStyle(color: Colors.grey),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+
+        return SingleChildScrollView(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: list));
+      },
+      error: (error, stackTrace) => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: CircularProgressIndicator()),
+    );
+
+    /*
+
+
+
+
+
 
     //forで仕方ない
     for (var i = 0; i < spendSummaryState.list.length; i++) {
@@ -197,5 +302,10 @@ class SpendSummaryPage extends ConsumerWidget {
         children: list,
       ),
     );
+
+
+
+
+    */
   }
 }

@@ -7,8 +7,8 @@ import '../../../extensions/extensions.dart';
 import '../../../models/spend_month_summary.dart';
 import '../../../state/device_info/device_info_notifier.dart';
 import '../../../state/seiyu_purchase/seiyu_purchase_notifier.dart';
+import '../../../state/spend/spend_notifier.dart';
 import '../../../utility/utility.dart';
-import '../../../viewmodel/spend_notifier.dart';
 
 class FoodExpensesPage extends ConsumerWidget {
   FoodExpensesPage({super.key, required this.date});

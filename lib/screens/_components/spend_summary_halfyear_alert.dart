@@ -12,8 +12,8 @@ import '../../state/bank/bank_notifier.dart';
 import '../../state/benefit/benefit_notifier.dart';
 import '../../state/credit/credit_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
+import '../../state/spend/spend_notifier.dart';
 import '../../utility/utility.dart';
-import '../../viewmodel/spend_notifier.dart';
 
 class SpendSummaryHalfyearAlert extends ConsumerWidget {
   SpendSummaryHalfyearAlert({super.key});

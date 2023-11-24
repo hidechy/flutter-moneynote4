@@ -2,22 +2,22 @@
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../data/http/client.dart';
-import '../data/http/path.dart';
-import '../extensions/extensions.dart';
-import '../models/spend_item_daily.dart';
-import '../models/spend_month_summary.dart';
-import '../models/spend_sameday.dart';
-import '../models/spend_sameday_yearly.dart';
-import '../models/spend_summary.dart';
-import '../models/spend_year_summary.dart';
-import '../models/spend_yearly.dart';
-import '../models/spend_yearly_item.dart';
-import '../models/zero_use_date.dart';
-import '../state/monthly_spend/monthly_spend_state.dart';
-import '../state/spend_summary/spend_summary_state.dart';
-import '../state/spend_yearly_item/spend_yearly_item_state.dart';
-import '../utility/utility.dart';
+import '../../data/http/client.dart';
+import '../../data/http/path.dart';
+import '../../extensions/extensions.dart';
+import '../../models/spend_item_daily.dart';
+import '../../models/spend_month_summary.dart';
+import '../../models/spend_sameday.dart';
+import '../../models/spend_sameday_yearly.dart';
+import '../../models/spend_summary.dart';
+import '../../models/spend_year_summary.dart';
+import '../../models/spend_yearly.dart';
+import '../../models/spend_yearly_item.dart';
+import '../../models/zero_use_date.dart';
+import '../../utility/utility.dart';
+import '../monthly_spend/monthly_spend_state.dart';
+import '../spend_yearly_item/spend_yearly_item_state.dart';
+import 'spend_response_state.dart';
 
 /*
 spendMonthSummaryProvider       List<SpendMonthSummary>
@@ -373,40 +373,29 @@ class SpendYearlyItemNotifier extends StateNotifier<List<SpendYearlyItemState>> 
 
 ////////////////////////////////////////////////
 final spendSummaryProvider =
-    StateNotifierProvider.autoDispose.family<SpendSummaryNotifier, SpendSummaryState, DateTime>((ref, date) {
+    StateNotifierProvider.autoDispose.family<SpendSummaryNotifier, SpendResponseState, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return SpendSummaryNotifier(const SpendSummaryState(), client, utility)..getSpendSummary(date: date);
+  return SpendSummaryNotifier(const SpendResponseState(), client, utility)..getSpendSummary(date: date);
 });
 
-class SpendSummaryNotifier extends StateNotifier<SpendSummaryState> {
+class SpendSummaryNotifier extends StateNotifier<SpendResponseState> {
   SpendSummaryNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
   final Utility utility;
 
   Future<void> getSpendSummary({required DateTime date}) async {
-    state = state.copyWith(saving: true);
-
-    final year = date.yyyy;
-
-    await client.post(
-      path: APIPath.getYearSpendSummaySummary,
-      body: {'year': year},
-    ).then((value) {
+    await client.post(path: APIPath.getYearSpendSummaySummary, body: {'year': date.yyyy}).then((value) {
       final list = <SpendSummary>[];
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        list.add(
-          SpendSummary.fromJson(value['data'][i] as Map<String, dynamic>),
-        );
+        list.add(SpendSummary.fromJson(value['data'][i] as Map<String, dynamic>));
       }
 
-      state = state.copyWith(saving: false);
-
-      state = state.copyWith(list: list);
+      state = state.copyWith(spendSummaryList: AsyncValue.data(list));
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });

@@ -7,9 +7,9 @@ import 'package:vibration/vibration.dart';
 
 import '../extensions/extensions.dart';
 import '../route/routes.dart';
+import '../state/spend/spend_notifier.dart';
 import '../state/spend_item_input/spend_item_input_notifier.dart';
 import '../utility/utility.dart';
-import '../viewmodel/spend_notifier.dart';
 
 class SpendItemInputScreen extends ConsumerWidget {
   SpendItemInputScreen({super.key, required this.date, required this.diff});
