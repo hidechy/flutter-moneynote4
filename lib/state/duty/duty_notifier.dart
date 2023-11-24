@@ -2,11 +2,12 @@
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../data/http/client.dart';
-import '../data/http/path.dart';
-import '../extensions/extensions.dart';
-import '../models/duty.dart';
-import '../utility/utility.dart';
+import '../../data/http/client.dart';
+import '../../data/http/path.dart';
+import '../../extensions/extensions.dart';
+import '../../models/duty.dart';
+import '../../utility/utility.dart';
+import 'duty_response_state.dart';
 
 /*
 dutyProvider        List<Duty>
@@ -14,16 +15,15 @@ dutyProvider        List<Duty>
 
 ////////////////////////////////////////////////
 
-final dutyProvider = StateNotifierProvider.autoDispose
-    .family<DutyNotifier, List<Duty>, DateTime>((ref, date) {
+final dutyProvider = StateNotifierProvider.autoDispose.family<DutyNotifier, DutyResponseState, DateTime>((ref, date) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return DutyNotifier([], client, utility)..getDuty(date: date);
+  return DutyNotifier(const DutyResponseState(), client, utility)..getDuty(date: date);
 });
 
-class DutyNotifier extends StateNotifier<List<Duty>> {
+class DutyNotifier extends StateNotifier<DutyResponseState> {
   DutyNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
@@ -49,7 +49,7 @@ class DutyNotifier extends StateNotifier<List<Duty>> {
         }
       }
 
-      state = list;
+      state = state.copyWith(dutyList: AsyncValue.data(list));
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });

@@ -9,8 +9,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../extensions/extensions.dart';
 import '../../../state/benefit/benefit_notifier.dart';
 import '../../../state/device_info/device_info_notifier.dart';
+import '../../../state/duty/duty_notifier.dart';
 import '../../../utility/utility.dart';
-import '../../../viewmodel/duty_notifier.dart';
 import '../../../viewmodel/keihi_list_notifier.dart';
 
 ///
@@ -397,17 +397,27 @@ class TaxPaymentDisplayPage extends ConsumerWidget {
 
     final yoteiYearMonth = [july.yyyymm, august.yyyymm, november.yyyymm];
 
-    final dutyState = _ref.watch(dutyProvider(date));
-
     var ret = 0;
 
-    dutyState.forEach((element) {
+    final dutyList = _ref.watch(dutyProvider(date).select((value) => value.dutyList));
+
+    dutyList.value?.forEach((element) {
       if (element.duty == '所得税') {
         if (yoteiYearMonth.contains(DateTime.parse(element.date).yyyymm)) {
           ret += element.price;
         }
       }
     });
+
+    // final dutyState = _ref.watch(dutyProvider(date));
+    //
+    // dutyState.forEach((element) {
+    //   if (element.duty == '所得税') {
+    //     if (yoteiYearMonth.contains(DateTime.parse(element.date).yyyymm)) {
+    //       ret += element.price;
+    //     }
+    //   }
+    // });
 
     return ret;
   }
@@ -429,15 +439,23 @@ class TaxPaymentDisplayPage extends ConsumerWidget {
   int getShakaiHoken() {
     final shakaiHokenItems = ['年金', '国民年金基金', '国民健康保険'];
 
-    final dutyState = _ref.watch(dutyProvider(date));
-
     var ret = 0;
 
-    dutyState.forEach((element) {
+    final dutyList = _ref.watch(dutyProvider(date).select((value) => value.dutyList));
+
+    dutyList.value?.forEach((element) {
       if (shakaiHokenItems.contains(element.duty)) {
         ret += element.price;
       }
     });
+
+    // final dutyState = _ref.watch(dutyProvider(date));
+    //
+    // dutyState.forEach((element) {
+    //   if (shakaiHokenItems.contains(element.duty)) {
+    //     ret += element.price;
+    //   }
+    // });
 
     return ret;
   }
