@@ -96,7 +96,7 @@ class GoldListNotifier extends StateNotifier<GoldResponseState> {
         list.add(Gold.fromJson(value['data'][i] as Map<String, dynamic>));
       }
 
-      state = state.copyWith(goldList: list);
+      state = state.copyWith(goldList: AsyncValue.data(list));
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });

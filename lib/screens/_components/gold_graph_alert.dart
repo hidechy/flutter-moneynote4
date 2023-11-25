@@ -93,8 +93,6 @@ class GoldGraphAlert extends ConsumerWidget {
   void setChartData() {
     dateList = [];
 
-    final goldListState = _ref.watch(goldListProvider);
-
     final flspotsList = <List<FlSpot>>[];
 
     final flspotsGoldValue = <FlSpot>[];
@@ -103,6 +101,41 @@ class GoldGraphAlert extends ConsumerWidget {
     final points = <int>[];
 
     var j = 0;
+
+    _ref.watch(goldListProvider.select((value) => value.goldList)).when(
+          data: (value) {
+            for (var i = 0; i < value.length; i++) {
+              if (value[i].goldValue == '-') {
+                continue;
+              }
+
+              final date = '${value[i].year}-${value[i].month}-${value[i].day}';
+
+              dateList.add(date);
+
+              flspotsGoldValue.add(FlSpot(j.toDouble(), value[i].goldValue.toString().toDouble()));
+
+              flspotsGoldDiff.add(
+                FlSpot(
+                  j.toDouble(),
+                  (value[i].goldValue.toString().toInt() - value[i].payPrice.toString().toInt()).toDouble(),
+                ),
+              );
+
+              points.add(value[i].goldValue);
+
+              j++;
+            }
+          },
+          error: (error, stackTrace) => Container(),
+          loading: Container.new,
+        );
+
+    /*
+
+    final goldListState = _ref.watch(goldListProvider);
+
+
     for (var i = 0; i < goldListState.goldList.length; i++) {
       if (goldListState.goldList[i].goldValue == '-') {
         continue;
@@ -133,6 +166,10 @@ class GoldGraphAlert extends ConsumerWidget {
 
       j++;
     }
+
+
+
+    */
 
     flspotsList
       ..add(flspotsGoldValue)
