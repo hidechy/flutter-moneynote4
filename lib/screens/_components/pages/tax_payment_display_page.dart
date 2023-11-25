@@ -397,14 +397,27 @@ class TaxPaymentDisplayPage extends ConsumerWidget {
 
   ///
   int getBenefit() {
-    final benefitState = _ref.watch(benefitProvider);
-
     var ret = 0;
-    benefitState.benefitList.forEach((element) {
+
+    final benefitList = _ref.watch(benefitProvider.select((value) => value.benefitList));
+
+    benefitList.value?.forEach((element) {
       if (element.date.year == date.year) {
         ret += element.salary.toInt();
       }
     });
+
+    //
+    //
+    // final benefitState = _ref.watch(benefitProvider);
+    //
+    // benefitState.benefitList.forEach((element) {
+    //   if (element.date.year == date.year) {
+    //     ret += element.salary.toInt();
+    //   }
+    // });
+    //
+    //
 
     return ret;
   }

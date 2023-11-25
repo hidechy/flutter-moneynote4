@@ -7,10 +7,10 @@ import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
+import '../../state/holiday/holiday_notifier.dart';
 import '../../state/money/money_notifier.dart';
 import '../../state/spend/spend_notifier.dart';
 import '../../utility/utility.dart';
-import '../../viewmodel/holiday_notifier.dart';
 import '_money_dialog.dart';
 import 'spend_alert.dart';
 import 'spend_fullyear_compare_alert.dart';

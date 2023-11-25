@@ -176,7 +176,14 @@ class SpendSummaryHalfyearAlert extends ConsumerWidget {
 
   ///
   Widget displayComparisonData() {
-    final benefitState = _ref.watch(benefitProvider);
+    final benefitList = _ref.watch(benefitProvider.select((value) => value.benefitList));
+
+    //
+    //
+    // final benefitState = _ref.watch(benefitProvider);
+    //
+    //
+    //
 
     // final bankMoveState = _ref.watch(bankMoveProvider);
     //
@@ -272,7 +279,7 @@ class SpendSummaryHalfyearAlert extends ConsumerWidget {
           });
         }
 
-        benefitState.benefitList.forEach((element3) {
+        benefitList.value?.forEach((element3) {
           if (element3.date.yyyymmdd == element2.date.yyyymmdd) {
             list3.add(
               Container(

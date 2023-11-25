@@ -8,8 +8,8 @@ import '../extensions/extensions.dart';
 import '../route/routes.dart';
 import '../state/bank/bank_notifier.dart';
 import '../state/bank_input/bank_input_notifier.dart';
+import '../state/holiday/holiday_notifier.dart';
 import '../utility/utility.dart';
-import '../viewmodel/holiday_notifier.dart';
 
 class BankInputScreen extends ConsumerWidget {
   BankInputScreen({super.key, required this.date});

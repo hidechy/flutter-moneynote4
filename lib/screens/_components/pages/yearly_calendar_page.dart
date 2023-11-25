@@ -4,9 +4,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../extensions/extensions.dart';
 import '../../../models/lifetime.dart';
 import '../../../state/app_param/app_param_notifier.dart';
+import '../../../state/holiday/holiday_notifier.dart';
 import '../../../state/lifetime/lifetime_notifier.dart';
 import '../../../utility/utility.dart';
-import '../../../viewmodel/holiday_notifier.dart';
 import '../_money_dialog.dart';
 import '../lifetime_record_display_alert.dart';
 

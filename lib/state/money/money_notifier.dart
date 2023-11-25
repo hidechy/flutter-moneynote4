@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/models/benefit.dart';
 
 import '../../data/http/client.dart';
 import '../../data/http/path.dart';
@@ -10,7 +11,6 @@ import '../../models/money_everyday.dart';
 import '../../models/money_score.dart';
 import '../../utility/utility.dart';
 import '../benefit/benefit_notifier.dart';
-import '../benefit/benefit_response_state.dart';
 import 'money_response_state.dart';
 
 /*
@@ -213,9 +213,10 @@ final moneyScoreProvider = StateNotifierProvider.autoDispose<MoneyScoreNotifier,
   final moneyEverydayState = ref.watch(moneyEverydayProvider.select((value) => value.moneyEverydayList));
   final everydayList = (moneyEverydayState.value != null) ? moneyEverydayState.value! : <MoneyEveryday>[];
 
-  final benefitState = ref.watch(benefitProvider);
+  final benefitList = ref.watch(benefitProvider.select((value) => value.benefitList));
+  final bList = (benefitList.value != null) ? benefitList.value! : <Benefit>[];
 
-  return MoneyScoreNotifier([], client, everydayList, benefitState)..getMoneyScore();
+  return MoneyScoreNotifier([], client, everydayList, bList)..getMoneyScore();
 });
 
 class MoneyScoreNotifier extends StateNotifier<List<MoneyScore>> {
@@ -223,12 +224,12 @@ class MoneyScoreNotifier extends StateNotifier<List<MoneyScore>> {
     super.state,
     this.client,
     this.moneyEverydayState,
-    this.benefitState,
+    this.benefitList,
   );
 
   final HttpClient client;
   final List<MoneyEveryday> moneyEverydayState;
-  final BenefitResponseState benefitState;
+  final List<Benefit> benefitList;
 
   Future<void> getMoneyScore() async {
     final list = <MoneyScore>[];
@@ -256,7 +257,8 @@ class MoneyScoreNotifier extends StateNotifier<List<MoneyScore>> {
     final bene = <String, List<int>>{};
     var beneList = <int>[];
     var keepYm = '';
-    benefitState.benefitList.forEach((element) {
+
+    benefitList.forEach((element) {
       if (keepYm != element.ym) {
         beneList = [];
       }
@@ -267,6 +269,24 @@ class MoneyScoreNotifier extends StateNotifier<List<MoneyScore>> {
 
       keepYm = element.ym;
     });
+
+    //
+    //
+    // benefitState.benefitList.forEach((element) {
+    //   if (keepYm != element.ym) {
+    //     beneList = [];
+    //   }
+    //
+    //   beneList.add(element.salary.toInt());
+    //
+    //   bene[element.ym] = beneList;
+    //
+    //   keepYm = element.ym;
+    // });
+    //
+    //
+    //
+    //
 
     final benefit = <String, int>{};
     bene.forEach((key, value) {

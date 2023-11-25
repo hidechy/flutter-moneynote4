@@ -9,9 +9,9 @@ import '../../../models/bank_move.dart';
 import '../../../state/bank/bank_notifier.dart';
 import '../../../state/benefit/benefit_notifier.dart';
 import '../../../state/device_info/device_info_notifier.dart';
+import '../../../state/holiday/holiday_notifier.dart';
 import '../../../state/money/money_notifier.dart';
 import '../../../utility/utility.dart';
-import '../../../viewmodel/holiday_notifier.dart';
 
 class MoneyTotalPage extends ConsumerWidget {
   MoneyTotalPage({super.key, required this.date});

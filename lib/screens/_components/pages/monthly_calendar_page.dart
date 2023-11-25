@@ -4,10 +4,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../extensions/extensions.dart';
 import '../../../models/walk_record.dart';
 import '../../../state/device_info/device_info_notifier.dart';
+import '../../../state/holiday/holiday_notifier.dart';
 import '../../../state/lifetime/lifetime_notifier.dart';
 import '../../../state/walk_record/walk_record_notifier.dart';
 import '../../../utility/utility.dart';
-import '../../../viewmodel/holiday_notifier.dart';
 import '../_parts/lifetime_display_parts.dart';
 
 // ignore: must_be_immutable

@@ -16,8 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$BenefitResponseState {
-  List<Benefit> get benefitList => throw _privateConstructorUsedError;
-  Map<String, Benefit> get benefitMap => throw _privateConstructorUsedError;
+  Map<String, Benefit> get benefitMap => throw _privateConstructorUsedError; //
+  AsyncValue<List<Benefit>> get benefitList =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $BenefitResponseStateCopyWith<BenefitResponseState> get copyWith =>
@@ -30,7 +31,8 @@ abstract class $BenefitResponseStateCopyWith<$Res> {
           $Res Function(BenefitResponseState) then) =
       _$BenefitResponseStateCopyWithImpl<$Res, BenefitResponseState>;
   @useResult
-  $Res call({List<Benefit> benefitList, Map<String, Benefit> benefitMap});
+  $Res call(
+      {Map<String, Benefit> benefitMap, AsyncValue<List<Benefit>> benefitList});
 }
 
 /// @nodoc
@@ -47,18 +49,18 @@ class _$BenefitResponseStateCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? benefitList = null,
     Object? benefitMap = null,
+    Object? benefitList = null,
   }) {
     return _then(_value.copyWith(
-      benefitList: null == benefitList
-          ? _value.benefitList
-          : benefitList // ignore: cast_nullable_to_non_nullable
-              as List<Benefit>,
       benefitMap: null == benefitMap
           ? _value.benefitMap
           : benefitMap // ignore: cast_nullable_to_non_nullable
               as Map<String, Benefit>,
+      benefitList: null == benefitList
+          ? _value.benefitList
+          : benefitList // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<Benefit>>,
     ) as $Val);
   }
 }
@@ -71,7 +73,8 @@ abstract class _$$BenefitResponseStateImplCopyWith<$Res>
       __$$BenefitResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Benefit> benefitList, Map<String, Benefit> benefitMap});
+  $Res call(
+      {Map<String, Benefit> benefitMap, AsyncValue<List<Benefit>> benefitList});
 }
 
 /// @nodoc
@@ -85,18 +88,18 @@ class __$$BenefitResponseStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? benefitList = null,
     Object? benefitMap = null,
+    Object? benefitList = null,
   }) {
     return _then(_$BenefitResponseStateImpl(
-      benefitList: null == benefitList
-          ? _value._benefitList
-          : benefitList // ignore: cast_nullable_to_non_nullable
-              as List<Benefit>,
       benefitMap: null == benefitMap
           ? _value._benefitMap
           : benefitMap // ignore: cast_nullable_to_non_nullable
               as Map<String, Benefit>,
+      benefitList: null == benefitList
+          ? _value.benefitList
+          : benefitList // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<Benefit>>,
     ));
   }
 }
@@ -105,19 +108,9 @@ class __$$BenefitResponseStateImplCopyWithImpl<$Res>
 
 class _$BenefitResponseStateImpl implements _BenefitResponseState {
   const _$BenefitResponseStateImpl(
-      {final List<Benefit> benefitList = const [],
-      final Map<String, Benefit> benefitMap = const {}})
-      : _benefitList = benefitList,
-        _benefitMap = benefitMap;
-
-  final List<Benefit> _benefitList;
-  @override
-  @JsonKey()
-  List<Benefit> get benefitList {
-    if (_benefitList is EqualUnmodifiableListView) return _benefitList;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_benefitList);
-  }
+      {final Map<String, Benefit> benefitMap = const {},
+      this.benefitList = const AsyncValue<List<Benefit>>.loading()})
+      : _benefitMap = benefitMap;
 
   final Map<String, Benefit> _benefitMap;
   @override
@@ -128,9 +121,14 @@ class _$BenefitResponseStateImpl implements _BenefitResponseState {
     return EqualUnmodifiableMapView(_benefitMap);
   }
 
+//
+  @override
+  @JsonKey()
+  final AsyncValue<List<Benefit>> benefitList;
+
   @override
   String toString() {
-    return 'BenefitResponseState(benefitList: $benefitList, benefitMap: $benefitMap)';
+    return 'BenefitResponseState(benefitMap: $benefitMap, benefitList: $benefitList)';
   }
 
   @override
@@ -139,16 +137,14 @@ class _$BenefitResponseStateImpl implements _BenefitResponseState {
         (other.runtimeType == runtimeType &&
             other is _$BenefitResponseStateImpl &&
             const DeepCollectionEquality()
-                .equals(other._benefitList, _benefitList) &&
-            const DeepCollectionEquality()
-                .equals(other._benefitMap, _benefitMap));
+                .equals(other._benefitMap, _benefitMap) &&
+            (identical(other.benefitList, benefitList) ||
+                other.benefitList == benefitList));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_benefitList),
-      const DeepCollectionEquality().hash(_benefitMap));
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_benefitMap), benefitList);
 
   @JsonKey(ignore: true)
   @override
@@ -161,13 +157,14 @@ class _$BenefitResponseStateImpl implements _BenefitResponseState {
 
 abstract class _BenefitResponseState implements BenefitResponseState {
   const factory _BenefitResponseState(
-      {final List<Benefit> benefitList,
-      final Map<String, Benefit> benefitMap}) = _$BenefitResponseStateImpl;
+          {final Map<String, Benefit> benefitMap,
+          final AsyncValue<List<Benefit>> benefitList}) =
+      _$BenefitResponseStateImpl;
 
   @override
-  List<Benefit> get benefitList;
-  @override
   Map<String, Benefit> get benefitMap;
+  @override //
+  AsyncValue<List<Benefit>> get benefitList;
   @override
   @JsonKey(ignore: true)
   _$$BenefitResponseStateImplCopyWith<_$BenefitResponseStateImpl>

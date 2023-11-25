@@ -2,12 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:moneynote4/extensions/extensions.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
+import '../../../extensions/extensions.dart';
 import '../../../state/bank/bank_notifier.dart';
+import '../../../state/holiday/holiday_notifier.dart';
 import '../../../utility/utility.dart';
-import '../../../viewmodel/holiday_notifier.dart';
 
 class BankDataListPage extends ConsumerWidget {
   BankDataListPage({super.key, required this.name});

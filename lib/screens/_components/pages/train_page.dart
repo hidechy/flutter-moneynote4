@@ -5,9 +5,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../state/device_info/device_info_notifier.dart';
+import '../../../state/holiday/holiday_notifier.dart';
 import '../../../state/train/train_notifier.dart';
 import '../../../utility/utility.dart';
-import '../../../viewmodel/holiday_notifier.dart';
 
 class TrainPage extends ConsumerWidget {
   TrainPage({super.key, required this.date});

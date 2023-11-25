@@ -7,8 +7,8 @@ import 'package:scroll_to_index/scroll_to_index.dart';
 import '../../extensions/extensions.dart';
 import '../../state/bank/bank_notifier.dart';
 import '../../state/device_info/device_info_notifier.dart';
+import '../../state/holiday/holiday_notifier.dart';
 import '../../utility/utility.dart';
-import '../../viewmodel/holiday_notifier.dart';
 
 class BankAlert extends ConsumerWidget {
   BankAlert({super.key, required this.name});

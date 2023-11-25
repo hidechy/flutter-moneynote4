@@ -18,6 +18,7 @@ import '../../../state/amazon_purchase/amazon_notifier.dart';
 import '../../../state/app_param/app_param_notifier.dart';
 import '../../../state/bank/bank_notifier.dart';
 import '../../../state/benefit/benefit_notifier.dart';
+import '../../../state/holiday/holiday_notifier.dart';
 import '../../../state/keihi_list/keihi_list_notifier.dart';
 import '../../../state/money/money_notifier.dart';
 import '../../../state/spend/spend_notifier.dart';
@@ -25,7 +26,6 @@ import '../../../state/time_place/time_place_notifier.dart';
 import '../../../state/train/train_notifier.dart';
 import '../../../utility/function.dart';
 import '../../../utility/utility.dart';
-import '../../../viewmodel/holiday_notifier.dart';
 import '../_money_dialog.dart';
 import '../monthly_calendar_alert.dart';
 import '../monthly_spend_graph_alert.dart';
@@ -367,7 +367,14 @@ class MonthlySpendPage extends ConsumerWidget {
 
     final holidayState = _ref.watch(holidayProvider);
 
-    final benefitState = _ref.watch(benefitProvider);
+    final benefitList = _ref.watch(benefitProvider.select((value) => value.benefitList));
+
+    //
+    //
+    // final benefitState = _ref.watch(benefitProvider);
+    //
+    //
+    //
 
     // final bankMoveState = _ref.watch(bankMoveProvider);
     //
@@ -436,15 +443,30 @@ class MonthlySpendPage extends ConsumerWidget {
             });
           }
 
-          benefitState.benefitList.forEach(
-            (element) {
-              if (value[i].date.yyyymmdd == element.date.yyyymmdd) {
-                list2value.add(
-                  SpendListValue(item: 'benefit', price: element.salary.toInt(), color: Colors.yellowAccent),
-                );
-              }
-            },
-          );
+          benefitList.value?.forEach((element) {
+            if (value[i].date.yyyymmdd == element.date.yyyymmdd) {
+              list2value.add(
+                SpendListValue(item: 'benefit', price: element.salary.toInt(), color: Colors.yellowAccent),
+              );
+            }
+          });
+
+          //
+          //
+          //
+          // benefitState.benefitList.forEach(
+          //   (element) {
+          //     if (value[i].date.yyyymmdd == element.date.yyyymmdd) {
+          //       list2value.add(
+          //         SpendListValue(item: 'benefit', price: element.salary.toInt(), color: Colors.yellowAccent),
+          //       );
+          //     }
+          //   },
+          // );
+          //
+          //
+          //
+          //
 
           bankMoveList.value?.forEach(
             (element) {
@@ -667,13 +689,26 @@ class MonthlySpendPage extends ConsumerWidget {
           //
 
           var benefit = 0;
-          benefitState.benefitList.forEach(
-            (element) {
-              if (value[i].date.yyyymmdd == element.date.yyyymmdd) {
-                benefit = element.salary.toInt();
-              }
-            },
-          );
+
+          benefitList.value?.forEach((element) {
+            if (value[i].date.yyyymmdd == element.date.yyyymmdd) {
+              benefit = element.salary.toInt();
+            }
+          });
+
+          //
+          //
+          //
+          // benefitState.benefitList.forEach(
+          //   (element) {
+          //     if (value[i].date.yyyymmdd == element.date.yyyymmdd) {
+          //       benefit = element.salary.toInt();
+          //     }
+          //   },
+          // );
+          //
+          //
+          //
 
           final whitePrice = (sum != null) ? sum.spend.toInt() : 0;
 

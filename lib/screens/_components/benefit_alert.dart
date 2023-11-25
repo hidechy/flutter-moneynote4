@@ -64,38 +64,125 @@ class BenefitAlert extends ConsumerWidget {
   Widget displayBenefit() {
     final list = <Widget>[];
 
-    final benefitState = _ref.watch(benefitProvider);
-
     //////////////////////////////////////////////
     final yearBenefit = <String, int>{};
 
     var yb = 0;
     var keepYear = '';
-    benefitState.benefitList.forEach((val) {
-      if (keepYear !=
-          DateTime(
-            val.ym.split('-')[0].toInt(),
-            val.ym.split('-')[1].toInt(),
-          ).yyyy) {
+
+    final benefitList = _ref.watch(benefitProvider.select((value) => value.benefitList));
+
+    benefitList.value?.forEach((element) {
+      if (keepYear != DateTime(element.ym.split('-')[0].toInt(), element.ym.split('-')[1].toInt()).yyyy) {
         yb = 0;
       }
 
-      yb += val.salary.toInt();
+      yb += element.salary.toInt();
 
-      yearBenefit[DateTime(
-        val.ym.split('-')[0].toInt(),
-        val.ym.split('-')[1].toInt(),
-      ).yyyy] = yb;
+      yearBenefit[DateTime(element.ym.split('-')[0].toInt(), element.ym.split('-')[1].toInt()).yyyy] = yb;
 
-      keepYear = DateTime(
-        val.ym.split('-')[0].toInt(),
-        val.ym.split('-')[1].toInt(),
-      ).yyyy;
+      keepYear = DateTime(element.ym.split('-')[0].toInt(), element.ym.split('-')[1].toInt()).yyyy;
     });
+
+    //
+    //
+    //
+    // final benefitState = _ref.watch(benefitProvider);
+    //
+    // benefitState.benefitList.forEach((val) {
+    //   if (keepYear !=
+    //       DateTime(
+    //         val.ym.split('-')[0].toInt(),
+    //         val.ym.split('-')[1].toInt(),
+    //       ).yyyy) {
+    //     yb = 0;
+    //   }
+    //
+    //   yb += val.salary.toInt();
+    //
+    //   yearBenefit[DateTime(
+    //     val.ym.split('-')[0].toInt(),
+    //     val.ym.split('-')[1].toInt(),
+    //   ).yyyy] = yb;
+    //
+    //   keepYear = DateTime(
+    //     val.ym.split('-')[0].toInt(),
+    //     val.ym.split('-')[1].toInt(),
+    //   ).yyyy;
+    // });
+    //
+    //
+    //
+    //
 
     //////////////////////////////////////////////
 
     keepYear = '';
+
+    return benefitList.when(
+      data: (value) {
+        value.forEach((element) {
+          if (keepYear != DateTime(element.ym.split('-')[0].toInt(), element.ym.split('-')[1].toInt()).yyyy) {
+            list.add(
+              Container(
+                margin: const EdgeInsets.only(top: 30),
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))),
+                  color: Colors.yellowAccent.withOpacity(0.2),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(DateTime(element.ym.split('-')[0].toInt(), element.ym.split('-')[1].toInt()).yyyy),
+                    ),
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.topRight,
+                        child: Text(
+                          yearBenefit[DateTime(element.ym.split('-')[0].toInt(), element.ym.split('-')[1].toInt()).yyyy]
+                              .toString(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
+
+          list.add(
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 3),
+              decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3)))),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(child: Text(element.ym)),
+                  Expanded(flex: 2, child: Text(element.company)),
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.topRight,
+                      child: Text(element.salary.toCurrency()),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+
+          keepYear = DateTime(element.ym.split('-')[0].toInt(), element.ym.split('-')[1].toInt()).yyyy;
+        });
+
+        return SingleChildScrollView(child: Column(children: list));
+      },
+      error: (error, stackTrace) => const Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: CircularProgressIndicator()),
+    );
+
+    /*
+
     benefitState.benefitList.forEach((element) {
       if (keepYear !=
           DateTime(
@@ -181,5 +268,10 @@ class BenefitAlert extends ConsumerWidget {
         children: list,
       ),
     );
+
+
+
+
+    */
   }
 }

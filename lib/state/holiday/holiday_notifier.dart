@@ -2,11 +2,11 @@
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../data/http/client.dart';
-import '../data/http/path.dart';
-import '../extensions/extensions.dart';
-import '../models/holiday.dart';
-import '../utility/utility.dart';
+import '../../data/http/client.dart';
+import '../../data/http/path.dart';
+import '../../extensions/extensions.dart';
+import '../../models/holiday.dart';
+import '../../utility/utility.dart';
 
 /*
 holidayProvider       Holiday
