@@ -40,7 +40,7 @@ class TempleLatLngNotifier extends StateNotifier<TempleLatLngResponseState> {
         map[val.temple] = val;
       }
 
-      state = state.copyWith(templeLatLngList: list, templeLatLngMap: map);
+      state = state.copyWith(templeLatLngList: AsyncValue.data(list), templeLatLngMap: map);
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });

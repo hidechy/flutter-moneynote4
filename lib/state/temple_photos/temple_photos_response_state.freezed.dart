@@ -16,10 +16,11 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$TemplePhotosResponseState {
-  List<TemplePhoto> get templePhotoList => throw _privateConstructorUsedError;
   Map<String, List<TemplePhoto>> get templePhotoDateMap =>
       throw _privateConstructorUsedError;
   Map<String, List<TemplePhoto>> get templePhotoTempleMap =>
+      throw _privateConstructorUsedError; //
+  AsyncValue<List<TemplePhoto>> get templePhotoList =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -34,9 +35,9 @@ abstract class $TemplePhotosResponseStateCopyWith<$Res> {
       _$TemplePhotosResponseStateCopyWithImpl<$Res, TemplePhotosResponseState>;
   @useResult
   $Res call(
-      {List<TemplePhoto> templePhotoList,
-      Map<String, List<TemplePhoto>> templePhotoDateMap,
-      Map<String, List<TemplePhoto>> templePhotoTempleMap});
+      {Map<String, List<TemplePhoto>> templePhotoDateMap,
+      Map<String, List<TemplePhoto>> templePhotoTempleMap,
+      AsyncValue<List<TemplePhoto>> templePhotoList});
 }
 
 /// @nodoc
@@ -53,15 +54,11 @@ class _$TemplePhotosResponseStateCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? templePhotoList = null,
     Object? templePhotoDateMap = null,
     Object? templePhotoTempleMap = null,
+    Object? templePhotoList = null,
   }) {
     return _then(_value.copyWith(
-      templePhotoList: null == templePhotoList
-          ? _value.templePhotoList
-          : templePhotoList // ignore: cast_nullable_to_non_nullable
-              as List<TemplePhoto>,
       templePhotoDateMap: null == templePhotoDateMap
           ? _value.templePhotoDateMap
           : templePhotoDateMap // ignore: cast_nullable_to_non_nullable
@@ -70,6 +67,10 @@ class _$TemplePhotosResponseStateCopyWithImpl<$Res,
           ? _value.templePhotoTempleMap
           : templePhotoTempleMap // ignore: cast_nullable_to_non_nullable
               as Map<String, List<TemplePhoto>>,
+      templePhotoList: null == templePhotoList
+          ? _value.templePhotoList
+          : templePhotoList // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<TemplePhoto>>,
     ) as $Val);
   }
 }
@@ -84,9 +85,9 @@ abstract class _$$TemplePhotosResponseStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<TemplePhoto> templePhotoList,
-      Map<String, List<TemplePhoto>> templePhotoDateMap,
-      Map<String, List<TemplePhoto>> templePhotoTempleMap});
+      {Map<String, List<TemplePhoto>> templePhotoDateMap,
+      Map<String, List<TemplePhoto>> templePhotoTempleMap,
+      AsyncValue<List<TemplePhoto>> templePhotoList});
 }
 
 /// @nodoc
@@ -102,15 +103,11 @@ class __$$TemplePhotosResponseStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? templePhotoList = null,
     Object? templePhotoDateMap = null,
     Object? templePhotoTempleMap = null,
+    Object? templePhotoList = null,
   }) {
     return _then(_$TemplePhotosResponseStateImpl(
-      templePhotoList: null == templePhotoList
-          ? _value._templePhotoList
-          : templePhotoList // ignore: cast_nullable_to_non_nullable
-              as List<TemplePhoto>,
       templePhotoDateMap: null == templePhotoDateMap
           ? _value._templePhotoDateMap
           : templePhotoDateMap // ignore: cast_nullable_to_non_nullable
@@ -119,6 +116,10 @@ class __$$TemplePhotosResponseStateImplCopyWithImpl<$Res>
           ? _value._templePhotoTempleMap
           : templePhotoTempleMap // ignore: cast_nullable_to_non_nullable
               as Map<String, List<TemplePhoto>>,
+      templePhotoList: null == templePhotoList
+          ? _value.templePhotoList
+          : templePhotoList // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<TemplePhoto>>,
     ));
   }
 }
@@ -127,21 +128,11 @@ class __$$TemplePhotosResponseStateImplCopyWithImpl<$Res>
 
 class _$TemplePhotosResponseStateImpl implements _TemplePhotosResponseState {
   const _$TemplePhotosResponseStateImpl(
-      {final List<TemplePhoto> templePhotoList = const [],
-      final Map<String, List<TemplePhoto>> templePhotoDateMap = const {},
-      final Map<String, List<TemplePhoto>> templePhotoTempleMap = const {}})
-      : _templePhotoList = templePhotoList,
-        _templePhotoDateMap = templePhotoDateMap,
+      {final Map<String, List<TemplePhoto>> templePhotoDateMap = const {},
+      final Map<String, List<TemplePhoto>> templePhotoTempleMap = const {},
+      this.templePhotoList = const AsyncValue<List<TemplePhoto>>.loading()})
+      : _templePhotoDateMap = templePhotoDateMap,
         _templePhotoTempleMap = templePhotoTempleMap;
-
-  final List<TemplePhoto> _templePhotoList;
-  @override
-  @JsonKey()
-  List<TemplePhoto> get templePhotoList {
-    if (_templePhotoList is EqualUnmodifiableListView) return _templePhotoList;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_templePhotoList);
-  }
 
   final Map<String, List<TemplePhoto>> _templePhotoDateMap;
   @override
@@ -163,9 +154,14 @@ class _$TemplePhotosResponseStateImpl implements _TemplePhotosResponseState {
     return EqualUnmodifiableMapView(_templePhotoTempleMap);
   }
 
+//
+  @override
+  @JsonKey()
+  final AsyncValue<List<TemplePhoto>> templePhotoList;
+
   @override
   String toString() {
-    return 'TemplePhotosResponseState(templePhotoList: $templePhotoList, templePhotoDateMap: $templePhotoDateMap, templePhotoTempleMap: $templePhotoTempleMap)';
+    return 'TemplePhotosResponseState(templePhotoDateMap: $templePhotoDateMap, templePhotoTempleMap: $templePhotoTempleMap, templePhotoList: $templePhotoList)';
   }
 
   @override
@@ -174,19 +170,19 @@ class _$TemplePhotosResponseStateImpl implements _TemplePhotosResponseState {
         (other.runtimeType == runtimeType &&
             other is _$TemplePhotosResponseStateImpl &&
             const DeepCollectionEquality()
-                .equals(other._templePhotoList, _templePhotoList) &&
-            const DeepCollectionEquality()
                 .equals(other._templePhotoDateMap, _templePhotoDateMap) &&
             const DeepCollectionEquality()
-                .equals(other._templePhotoTempleMap, _templePhotoTempleMap));
+                .equals(other._templePhotoTempleMap, _templePhotoTempleMap) &&
+            (identical(other.templePhotoList, templePhotoList) ||
+                other.templePhotoList == templePhotoList));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(_templePhotoList),
       const DeepCollectionEquality().hash(_templePhotoDateMap),
-      const DeepCollectionEquality().hash(_templePhotoTempleMap));
+      const DeepCollectionEquality().hash(_templePhotoTempleMap),
+      templePhotoList);
 
   @JsonKey(ignore: true)
   @override
@@ -198,17 +194,17 @@ class _$TemplePhotosResponseStateImpl implements _TemplePhotosResponseState {
 
 abstract class _TemplePhotosResponseState implements TemplePhotosResponseState {
   const factory _TemplePhotosResponseState(
-          {final List<TemplePhoto> templePhotoList,
-          final Map<String, List<TemplePhoto>> templePhotoDateMap,
-          final Map<String, List<TemplePhoto>> templePhotoTempleMap}) =
+          {final Map<String, List<TemplePhoto>> templePhotoDateMap,
+          final Map<String, List<TemplePhoto>> templePhotoTempleMap,
+          final AsyncValue<List<TemplePhoto>> templePhotoList}) =
       _$TemplePhotosResponseStateImpl;
 
-  @override
-  List<TemplePhoto> get templePhotoList;
   @override
   Map<String, List<TemplePhoto>> get templePhotoDateMap;
   @override
   Map<String, List<TemplePhoto>> get templePhotoTempleMap;
+  @override //
+  AsyncValue<List<TemplePhoto>> get templePhotoList;
   @override
   @JsonKey(ignore: true)
   _$$TemplePhotosResponseStateImplCopyWith<_$TemplePhotosResponseStateImpl>

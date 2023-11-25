@@ -40,7 +40,7 @@ class TempleNotifier extends StateNotifier<TempleResponseState> {
         map[val.date.yyyymmdd] = val;
       }
 
-      state = state.copyWith(templeList: list, templeMap: map);
+      state = state.copyWith(templeList: AsyncValue.data(list), templeMap: map);
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });

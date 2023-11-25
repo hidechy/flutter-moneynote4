@@ -16,8 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$TempleResponseState {
-  List<Temple> get templeList => throw _privateConstructorUsedError;
-  Map<String, Temple> get templeMap => throw _privateConstructorUsedError;
+  Map<String, Temple> get templeMap => throw _privateConstructorUsedError; //
+  AsyncValue<List<Temple>> get templeList => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TempleResponseStateCopyWith<TempleResponseState> get copyWith =>
@@ -30,7 +30,8 @@ abstract class $TempleResponseStateCopyWith<$Res> {
           TempleResponseState value, $Res Function(TempleResponseState) then) =
       _$TempleResponseStateCopyWithImpl<$Res, TempleResponseState>;
   @useResult
-  $Res call({List<Temple> templeList, Map<String, Temple> templeMap});
+  $Res call(
+      {Map<String, Temple> templeMap, AsyncValue<List<Temple>> templeList});
 }
 
 /// @nodoc
@@ -46,18 +47,18 @@ class _$TempleResponseStateCopyWithImpl<$Res, $Val extends TempleResponseState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? templeList = null,
     Object? templeMap = null,
+    Object? templeList = null,
   }) {
     return _then(_value.copyWith(
-      templeList: null == templeList
-          ? _value.templeList
-          : templeList // ignore: cast_nullable_to_non_nullable
-              as List<Temple>,
       templeMap: null == templeMap
           ? _value.templeMap
           : templeMap // ignore: cast_nullable_to_non_nullable
               as Map<String, Temple>,
+      templeList: null == templeList
+          ? _value.templeList
+          : templeList // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<Temple>>,
     ) as $Val);
   }
 }
@@ -70,7 +71,8 @@ abstract class _$$TempleResponseStateImplCopyWith<$Res>
       __$$TempleResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Temple> templeList, Map<String, Temple> templeMap});
+  $Res call(
+      {Map<String, Temple> templeMap, AsyncValue<List<Temple>> templeList});
 }
 
 /// @nodoc
@@ -84,18 +86,18 @@ class __$$TempleResponseStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? templeList = null,
     Object? templeMap = null,
+    Object? templeList = null,
   }) {
     return _then(_$TempleResponseStateImpl(
-      templeList: null == templeList
-          ? _value._templeList
-          : templeList // ignore: cast_nullable_to_non_nullable
-              as List<Temple>,
       templeMap: null == templeMap
           ? _value._templeMap
           : templeMap // ignore: cast_nullable_to_non_nullable
               as Map<String, Temple>,
+      templeList: null == templeList
+          ? _value.templeList
+          : templeList // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<Temple>>,
     ));
   }
 }
@@ -104,19 +106,9 @@ class __$$TempleResponseStateImplCopyWithImpl<$Res>
 
 class _$TempleResponseStateImpl implements _TempleResponseState {
   const _$TempleResponseStateImpl(
-      {final List<Temple> templeList = const [],
-      final Map<String, Temple> templeMap = const {}})
-      : _templeList = templeList,
-        _templeMap = templeMap;
-
-  final List<Temple> _templeList;
-  @override
-  @JsonKey()
-  List<Temple> get templeList {
-    if (_templeList is EqualUnmodifiableListView) return _templeList;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_templeList);
-  }
+      {final Map<String, Temple> templeMap = const {},
+      this.templeList = const AsyncValue<List<Temple>>.loading()})
+      : _templeMap = templeMap;
 
   final Map<String, Temple> _templeMap;
   @override
@@ -127,9 +119,14 @@ class _$TempleResponseStateImpl implements _TempleResponseState {
     return EqualUnmodifiableMapView(_templeMap);
   }
 
+//
+  @override
+  @JsonKey()
+  final AsyncValue<List<Temple>> templeList;
+
   @override
   String toString() {
-    return 'TempleResponseState(templeList: $templeList, templeMap: $templeMap)';
+    return 'TempleResponseState(templeMap: $templeMap, templeList: $templeList)';
   }
 
   @override
@@ -138,16 +135,14 @@ class _$TempleResponseStateImpl implements _TempleResponseState {
         (other.runtimeType == runtimeType &&
             other is _$TempleResponseStateImpl &&
             const DeepCollectionEquality()
-                .equals(other._templeList, _templeList) &&
-            const DeepCollectionEquality()
-                .equals(other._templeMap, _templeMap));
+                .equals(other._templeMap, _templeMap) &&
+            (identical(other.templeList, templeList) ||
+                other.templeList == templeList));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_templeList),
-      const DeepCollectionEquality().hash(_templeMap));
+      runtimeType, const DeepCollectionEquality().hash(_templeMap), templeList);
 
   @JsonKey(ignore: true)
   @override
@@ -159,13 +154,13 @@ class _$TempleResponseStateImpl implements _TempleResponseState {
 
 abstract class _TempleResponseState implements TempleResponseState {
   const factory _TempleResponseState(
-      {final List<Temple> templeList,
-      final Map<String, Temple> templeMap}) = _$TempleResponseStateImpl;
+      {final Map<String, Temple> templeMap,
+      final AsyncValue<List<Temple>> templeList}) = _$TempleResponseStateImpl;
 
   @override
-  List<Temple> get templeList;
-  @override
   Map<String, Temple> get templeMap;
+  @override //
+  AsyncValue<List<Temple>> get templeList;
   @override
   @JsonKey(ignore: true)
   _$$TempleResponseStateImplCopyWith<_$TempleResponseStateImpl> get copyWith =>

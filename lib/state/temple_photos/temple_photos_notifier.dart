@@ -49,7 +49,11 @@ class TemplePhotosNotifier extends StateNotifier<TemplePhotosResponseState> {
         templeMap[val.temple]?.add(val);
       }
 
-      state = state.copyWith(templePhotoList: list, templePhotoDateMap: dateMap, templePhotoTempleMap: templeMap);
+      state = state.copyWith(
+        templePhotoList: AsyncValue.data(list),
+        templePhotoDateMap: dateMap,
+        templePhotoTempleMap: templeMap,
+      );
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });

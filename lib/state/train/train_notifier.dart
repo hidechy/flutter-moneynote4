@@ -49,7 +49,7 @@ class TrainNotifier extends StateNotifier<TrainResponseState> {
         map[train.date.yyyymmdd] = train;
       }
 
-      state = state.copyWith(trainList: list, trainMap: map);
+      state = state.copyWith(trainList: AsyncValue.data(list), trainMap: map);
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });

@@ -16,8 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$TempleLatLngResponseState {
-  List<TempleLatLng> get templeLatLngList => throw _privateConstructorUsedError;
   Map<String, TempleLatLng> get templeLatLngMap =>
+      throw _privateConstructorUsedError; //
+  AsyncValue<List<TempleLatLng>> get templeLatLngList =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -32,8 +33,8 @@ abstract class $TempleLatLngResponseStateCopyWith<$Res> {
       _$TempleLatLngResponseStateCopyWithImpl<$Res, TempleLatLngResponseState>;
   @useResult
   $Res call(
-      {List<TempleLatLng> templeLatLngList,
-      Map<String, TempleLatLng> templeLatLngMap});
+      {Map<String, TempleLatLng> templeLatLngMap,
+      AsyncValue<List<TempleLatLng>> templeLatLngList});
 }
 
 /// @nodoc
@@ -50,18 +51,18 @@ class _$TempleLatLngResponseStateCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? templeLatLngList = null,
     Object? templeLatLngMap = null,
+    Object? templeLatLngList = null,
   }) {
     return _then(_value.copyWith(
-      templeLatLngList: null == templeLatLngList
-          ? _value.templeLatLngList
-          : templeLatLngList // ignore: cast_nullable_to_non_nullable
-              as List<TempleLatLng>,
       templeLatLngMap: null == templeLatLngMap
           ? _value.templeLatLngMap
           : templeLatLngMap // ignore: cast_nullable_to_non_nullable
               as Map<String, TempleLatLng>,
+      templeLatLngList: null == templeLatLngList
+          ? _value.templeLatLngList
+          : templeLatLngList // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<TempleLatLng>>,
     ) as $Val);
   }
 }
@@ -76,8 +77,8 @@ abstract class _$$TempleLatLngResponseStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<TempleLatLng> templeLatLngList,
-      Map<String, TempleLatLng> templeLatLngMap});
+      {Map<String, TempleLatLng> templeLatLngMap,
+      AsyncValue<List<TempleLatLng>> templeLatLngList});
 }
 
 /// @nodoc
@@ -93,18 +94,18 @@ class __$$TempleLatLngResponseStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? templeLatLngList = null,
     Object? templeLatLngMap = null,
+    Object? templeLatLngList = null,
   }) {
     return _then(_$TempleLatLngResponseStateImpl(
-      templeLatLngList: null == templeLatLngList
-          ? _value._templeLatLngList
-          : templeLatLngList // ignore: cast_nullable_to_non_nullable
-              as List<TempleLatLng>,
       templeLatLngMap: null == templeLatLngMap
           ? _value._templeLatLngMap
           : templeLatLngMap // ignore: cast_nullable_to_non_nullable
               as Map<String, TempleLatLng>,
+      templeLatLngList: null == templeLatLngList
+          ? _value.templeLatLngList
+          : templeLatLngList // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<TempleLatLng>>,
     ));
   }
 }
@@ -113,20 +114,9 @@ class __$$TempleLatLngResponseStateImplCopyWithImpl<$Res>
 
 class _$TempleLatLngResponseStateImpl implements _TempleLatLngResponseState {
   const _$TempleLatLngResponseStateImpl(
-      {final List<TempleLatLng> templeLatLngList = const [],
-      final Map<String, TempleLatLng> templeLatLngMap = const {}})
-      : _templeLatLngList = templeLatLngList,
-        _templeLatLngMap = templeLatLngMap;
-
-  final List<TempleLatLng> _templeLatLngList;
-  @override
-  @JsonKey()
-  List<TempleLatLng> get templeLatLngList {
-    if (_templeLatLngList is EqualUnmodifiableListView)
-      return _templeLatLngList;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_templeLatLngList);
-  }
+      {final Map<String, TempleLatLng> templeLatLngMap = const {},
+      this.templeLatLngList = const AsyncValue<List<TempleLatLng>>.loading()})
+      : _templeLatLngMap = templeLatLngMap;
 
   final Map<String, TempleLatLng> _templeLatLngMap;
   @override
@@ -137,9 +127,14 @@ class _$TempleLatLngResponseStateImpl implements _TempleLatLngResponseState {
     return EqualUnmodifiableMapView(_templeLatLngMap);
   }
 
+//
+  @override
+  @JsonKey()
+  final AsyncValue<List<TempleLatLng>> templeLatLngList;
+
   @override
   String toString() {
-    return 'TempleLatLngResponseState(templeLatLngList: $templeLatLngList, templeLatLngMap: $templeLatLngMap)';
+    return 'TempleLatLngResponseState(templeLatLngMap: $templeLatLngMap, templeLatLngList: $templeLatLngList)';
   }
 
   @override
@@ -148,16 +143,14 @@ class _$TempleLatLngResponseStateImpl implements _TempleLatLngResponseState {
         (other.runtimeType == runtimeType &&
             other is _$TempleLatLngResponseStateImpl &&
             const DeepCollectionEquality()
-                .equals(other._templeLatLngList, _templeLatLngList) &&
-            const DeepCollectionEquality()
-                .equals(other._templeLatLngMap, _templeLatLngMap));
+                .equals(other._templeLatLngMap, _templeLatLngMap) &&
+            (identical(other.templeLatLngList, templeLatLngList) ||
+                other.templeLatLngList == templeLatLngList));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_templeLatLngList),
-      const DeepCollectionEquality().hash(_templeLatLngMap));
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_templeLatLngMap), templeLatLngList);
 
   @JsonKey(ignore: true)
   @override
@@ -169,14 +162,14 @@ class _$TempleLatLngResponseStateImpl implements _TempleLatLngResponseState {
 
 abstract class _TempleLatLngResponseState implements TempleLatLngResponseState {
   const factory _TempleLatLngResponseState(
-          {final List<TempleLatLng> templeLatLngList,
-          final Map<String, TempleLatLng> templeLatLngMap}) =
+          {final Map<String, TempleLatLng> templeLatLngMap,
+          final AsyncValue<List<TempleLatLng>> templeLatLngList}) =
       _$TempleLatLngResponseStateImpl;
 
   @override
-  List<TempleLatLng> get templeLatLngList;
-  @override
   Map<String, TempleLatLng> get templeLatLngMap;
+  @override //
+  AsyncValue<List<TempleLatLng>> get templeLatLngList;
   @override
   @JsonKey(ignore: true)
   _$$TempleLatLngResponseStateImplCopyWith<_$TempleLatLngResponseStateImpl>

@@ -16,8 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$TrainResponseState {
-  List<Train> get trainList => throw _privateConstructorUsedError;
   Map<String, Train> get trainMap => throw _privateConstructorUsedError;
+  AsyncValue<List<Train>> get trainList => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TrainResponseStateCopyWith<TrainResponseState> get copyWith =>
@@ -30,7 +30,7 @@ abstract class $TrainResponseStateCopyWith<$Res> {
           TrainResponseState value, $Res Function(TrainResponseState) then) =
       _$TrainResponseStateCopyWithImpl<$Res, TrainResponseState>;
   @useResult
-  $Res call({List<Train> trainList, Map<String, Train> trainMap});
+  $Res call({Map<String, Train> trainMap, AsyncValue<List<Train>> trainList});
 }
 
 /// @nodoc
@@ -46,18 +46,18 @@ class _$TrainResponseStateCopyWithImpl<$Res, $Val extends TrainResponseState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? trainList = null,
     Object? trainMap = null,
+    Object? trainList = null,
   }) {
     return _then(_value.copyWith(
-      trainList: null == trainList
-          ? _value.trainList
-          : trainList // ignore: cast_nullable_to_non_nullable
-              as List<Train>,
       trainMap: null == trainMap
           ? _value.trainMap
           : trainMap // ignore: cast_nullable_to_non_nullable
               as Map<String, Train>,
+      trainList: null == trainList
+          ? _value.trainList
+          : trainList // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<Train>>,
     ) as $Val);
   }
 }
@@ -70,7 +70,7 @@ abstract class _$$TrainResponseStateImplCopyWith<$Res>
       __$$TrainResponseStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Train> trainList, Map<String, Train> trainMap});
+  $Res call({Map<String, Train> trainMap, AsyncValue<List<Train>> trainList});
 }
 
 /// @nodoc
@@ -84,18 +84,18 @@ class __$$TrainResponseStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? trainList = null,
     Object? trainMap = null,
+    Object? trainList = null,
   }) {
     return _then(_$TrainResponseStateImpl(
-      trainList: null == trainList
-          ? _value._trainList
-          : trainList // ignore: cast_nullable_to_non_nullable
-              as List<Train>,
       trainMap: null == trainMap
           ? _value._trainMap
           : trainMap // ignore: cast_nullable_to_non_nullable
               as Map<String, Train>,
+      trainList: null == trainList
+          ? _value.trainList
+          : trainList // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<Train>>,
     ));
   }
 }
@@ -104,19 +104,9 @@ class __$$TrainResponseStateImplCopyWithImpl<$Res>
 
 class _$TrainResponseStateImpl implements _TrainResponseState {
   const _$TrainResponseStateImpl(
-      {final List<Train> trainList = const [],
-      final Map<String, Train> trainMap = const {}})
-      : _trainList = trainList,
-        _trainMap = trainMap;
-
-  final List<Train> _trainList;
-  @override
-  @JsonKey()
-  List<Train> get trainList {
-    if (_trainList is EqualUnmodifiableListView) return _trainList;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_trainList);
-  }
+      {final Map<String, Train> trainMap = const {},
+      this.trainList = const AsyncValue<List<Train>>.loading()})
+      : _trainMap = trainMap;
 
   final Map<String, Train> _trainMap;
   @override
@@ -128,8 +118,12 @@ class _$TrainResponseStateImpl implements _TrainResponseState {
   }
 
   @override
+  @JsonKey()
+  final AsyncValue<List<Train>> trainList;
+
+  @override
   String toString() {
-    return 'TrainResponseState(trainList: $trainList, trainMap: $trainMap)';
+    return 'TrainResponseState(trainMap: $trainMap, trainList: $trainList)';
   }
 
   @override
@@ -137,16 +131,14 @@ class _$TrainResponseStateImpl implements _TrainResponseState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TrainResponseStateImpl &&
-            const DeepCollectionEquality()
-                .equals(other._trainList, _trainList) &&
-            const DeepCollectionEquality().equals(other._trainMap, _trainMap));
+            const DeepCollectionEquality().equals(other._trainMap, _trainMap) &&
+            (identical(other.trainList, trainList) ||
+                other.trainList == trainList));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_trainList),
-      const DeepCollectionEquality().hash(_trainMap));
+      runtimeType, const DeepCollectionEquality().hash(_trainMap), trainList);
 
   @JsonKey(ignore: true)
   @override
@@ -158,13 +150,13 @@ class _$TrainResponseStateImpl implements _TrainResponseState {
 
 abstract class _TrainResponseState implements TrainResponseState {
   const factory _TrainResponseState(
-      {final List<Train> trainList,
-      final Map<String, Train> trainMap}) = _$TrainResponseStateImpl;
+      {final Map<String, Train> trainMap,
+      final AsyncValue<List<Train>> trainList}) = _$TrainResponseStateImpl;
 
   @override
-  List<Train> get trainList;
-  @override
   Map<String, Train> get trainMap;
+  @override
+  AsyncValue<List<Train>> get trainList;
   @override
   @JsonKey(ignore: true)
   _$$TrainResponseStateImplCopyWith<_$TrainResponseStateImpl> get copyWith =>
