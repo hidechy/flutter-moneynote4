@@ -314,20 +314,37 @@ class SamedaySpendAlert extends ConsumerWidget {
 
   ///
   Widget displayPastMonthItem({required int sum, required String ym}) {
-    final moneyScoreState = _ref.watch(moneyScoreProvider);
-
     var spend = 0;
 
-    //forで仕方ない
-    for (var i = 1; i < moneyScoreState.length; i++) {
-      if (moneyScoreState[i].ym == ym) {
-        final sagaku = (moneyScoreState[i].updown == 1) ? moneyScoreState[i].sagaku * -1 : moneyScoreState[i].sagaku;
+    _ref.watch(moneyScoreProvider.select((value) => value.moneyScoreList)).when(
+          data: (value) {
+            for (var i = 1; i < value.length; i++) {
+              if (value[i].ym == ym) {
+                final sagaku = (value[i].updown == 1) ? value[i].sagaku * -1 : value[i].sagaku;
 
-        spend = (moneyScoreState[i].updown == 1)
-            ? (moneyScoreState[i].benefit - sagaku)
-            : moneyScoreState[i].benefit + sagaku;
-      }
-    }
+                spend = (value[i].updown == 1) ? (value[i].benefit - sagaku) : value[i].benefit + sagaku;
+              }
+            }
+          },
+          error: (error, stackTrace) => Container(),
+          loading: Container.new,
+        );
+
+    //
+    // final moneyScoreState = _ref.watch(moneyScoreProvider);
+    //
+    // //forで仕方ない
+    // for (var i = 1; i < moneyScoreState.length; i++) {
+    //   if (moneyScoreState[i].ym == ym) {
+    //     final sagaku = (moneyScoreState[i].updown == 1) ? moneyScoreState[i].sagaku * -1 : moneyScoreState[i].sagaku;
+    //
+    //     spend = (moneyScoreState[i].updown == 1)
+    //         ? (moneyScoreState[i].benefit - sagaku)
+    //         : moneyScoreState[i].benefit + sagaku;
+    //   }
+    // }
+    //
+    //
 
     final wari = ((sum * 100) / spend).toString().split('.')[0];
 

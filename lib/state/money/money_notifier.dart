@@ -207,7 +207,7 @@ class MoneyAllNotifier extends StateNotifier<MoneyResponseState> {
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-final moneyScoreProvider = StateNotifierProvider.autoDispose<MoneyScoreNotifier, List<MoneyScore>>((ref) {
+final moneyScoreProvider = StateNotifierProvider.autoDispose<MoneyScoreNotifier, MoneyResponseState>((ref) {
   final client = ref.read(httpClientProvider);
 
   final moneyEverydayState = ref.watch(moneyEverydayProvider.select((value) => value.moneyEverydayList));
@@ -216,10 +216,10 @@ final moneyScoreProvider = StateNotifierProvider.autoDispose<MoneyScoreNotifier,
   final benefitList = ref.watch(benefitProvider.select((value) => value.benefitList));
   final bList = (benefitList.value != null) ? benefitList.value! : <Benefit>[];
 
-  return MoneyScoreNotifier([], client, everydayList, bList)..getMoneyScore();
+  return MoneyScoreNotifier(const MoneyResponseState(), client, everydayList, bList)..getMoneyScore();
 });
 
-class MoneyScoreNotifier extends StateNotifier<List<MoneyScore>> {
+class MoneyScoreNotifier extends StateNotifier<MoneyResponseState> {
   MoneyScoreNotifier(
     super.state,
     this.client,
@@ -319,7 +319,7 @@ class MoneyScoreNotifier extends StateNotifier<List<MoneyScore>> {
       });
     });
 
-    state = list;
+    state = state.copyWith(moneyScoreList: AsyncValue.data(list));
   }
 }
 
