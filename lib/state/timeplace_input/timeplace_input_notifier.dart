@@ -7,9 +7,8 @@ import '../../utility/utility.dart';
 import 'timeplace_input_state.dart';
 
 ////////////////////////////////////////////////
-final timeplaceInputProvider = StateNotifierProvider.autoDispose
-    .family<TimeplaceInputNotifier, TimeplaceInputState, String>(
-        (ref, baseDiff) {
+final timeplaceInputProvider =
+    StateNotifierProvider.autoDispose.family<TimeplaceInputNotifier, TimeplaceInputState, String>((ref, baseDiff) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
@@ -99,9 +98,7 @@ class TimeplaceInputNotifier extends StateNotifier<TimeplaceInputState> {
     final list = <Map<String, dynamic>>[];
     for (var i = 0; i < 10; i++) {
       if (state.time[i] != '' && state.place[i] != '') {
-        final price = (state.minusCheck[i])
-            ? state.spendPrice[i] * -1
-            : state.spendPrice[i];
+        final price = (state.minusCheck[i]) ? state.spendPrice[i] * -1 : state.spendPrice[i];
 
         list.add({
           'time': state.time[i],
@@ -115,10 +112,7 @@ class TimeplaceInputNotifier extends StateNotifier<TimeplaceInputState> {
     uploadData['date'] = date.yyyymmdd;
     uploadData['timeplace'] = list;
 
-    await client
-        .post(path: APIPath.timeplaceInsert, body: uploadData)
-        .then((value) {})
-        .catchError((error, _) {
+    await client.post(path: APIPath.timeplaceInsert, body: uploadData).then((value) {}).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
   }
