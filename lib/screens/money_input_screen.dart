@@ -265,27 +265,17 @@ class MoneyInputScreen extends ConsumerWidget {
 
   ///
   void setDefaultMoneyData() {
-    final ms = _ref.watch(moneyProvider(DateTime.parse('$lastInputDate 00:00:00')).select((value) => value.money));
+    Money? ms;
+
+    if (date.yyyymmdd == lastInputDate) {
+      ms = _ref.watch(moneyProvider(date).select((value) => value.money));
+    } else {
+      ms = _ref.watch(moneyProvider(DateTime.parse('$lastInputDate 00:00:00')).select((value) => value.money));
+    }
 
     if (ms != null) {
       moneyState = ms;
     }
-
-    //
-    //
-    // if (date.yyyymmdd == lastInputDate) {
-    //   moneyState = _ref.watch(moneyProvider(date));
-    // } else {
-    //   moneyState = _ref.watch(
-    //     moneyProvider(DateTime(
-    //       lastInputDate.split('-')[0].toInt(),
-    //       lastInputDate.split('-')[1].toInt(),
-    //       lastInputDate.split('-')[2].toInt(),
-    //     )),
-    //   );
-    // }
-    //
-    //
 
     tecYen10000.text = moneyState.yen10000;
     tecYen5000.text = moneyState.yen5000;
