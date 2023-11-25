@@ -164,26 +164,53 @@ class LifetimeRecordInputAlert extends ConsumerWidget {
   Widget lifetimeItemSetPanel() {
     final lifetimeItemState = _ref.watch(lifetimeItemProvider);
 
+    final lifetimeItemStringList = _ref.watch(lifetimeItemProvider.select((value) => value.lifetimeItemStringList));
+
     return Wrap(
-      children: lifetimeItemState.lifetimeItemStringList.map((e) {
-        return ChoiceChip(
-          label: Text(e, style: const TextStyle(fontSize: 12)),
-          backgroundColor: Colors.black.withOpacity(0.1),
-          selectedColor: Colors.yellowAccent.withOpacity(0.1),
-          selected: e.trim() == lifetimeItemState.selectedItem,
-          onSelected: (bool isSelected) async {
-            tecs[lifetimeItemState.itemPos].text = e;
+      children: (lifetimeItemStringList.value != null)
+          ? lifetimeItemStringList.value!.map((e) {
+              return ChoiceChip(
+                label: Text(e, style: const TextStyle(fontSize: 12)),
+                backgroundColor: Colors.black.withOpacity(0.1),
+                selectedColor: Colors.yellowAccent.withOpacity(0.1),
+                selected: e.trim() == lifetimeItemState.selectedItem,
+                onSelected: (bool isSelected) async {
+                  tecs[lifetimeItemState.itemPos].text = e;
 
-            await _ref.read(lifetimeItemProvider.notifier).setSelectedItem(item: e);
+                  await _ref.read(lifetimeItemProvider.notifier).setSelectedItem(item: e);
 
-            await _ref.read(lifetimeItemProvider.notifier).setLifetimeStringList(
-                  pos: lifetimeItemState.itemPos,
-                  item: e,
-                );
-          },
-        );
-      }).toList(),
+                  await _ref.read(lifetimeItemProvider.notifier).setLifetimeStringList(
+                        pos: lifetimeItemState.itemPos,
+                        item: e,
+                      );
+                },
+              );
+            }).toList()
+          : [Container()],
     );
+
+    // final lifetimeItemState = _ref.watch(lifetimeItemProvider);
+    //
+    // return Wrap(
+    //   children: lifetimeItemState.lifetimeItemStringList.map((e) {
+    //     return ChoiceChip(
+    //       label: Text(e, style: const TextStyle(fontSize: 12)),
+    //       backgroundColor: Colors.black.withOpacity(0.1),
+    //       selectedColor: Colors.yellowAccent.withOpacity(0.1),
+    //       selected: e.trim() == lifetimeItemState.selectedItem,
+    //       onSelected: (bool isSelected) async {
+    //         tecs[lifetimeItemState.itemPos].text = e;
+    //
+    //         await _ref.read(lifetimeItemProvider.notifier).setSelectedItem(item: e);
+    //
+    //         await _ref.read(lifetimeItemProvider.notifier).setLifetimeStringList(
+    //               pos: lifetimeItemState.itemPos,
+    //               item: e,
+    //             );
+    //       },
+    //     );
+    //   }).toList(),
+    // );
   }
 
   ///

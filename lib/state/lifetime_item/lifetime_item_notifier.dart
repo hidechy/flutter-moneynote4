@@ -44,7 +44,11 @@ class LifetimeItemNotifier extends StateNotifier<LifetimeItemResponseState> {
       }
       // 初期化
 
-      state = state.copyWith(lifetimeItemList: list, lifetimeItemStringList: list2, lifetimeStringList: list3);
+      state = state.copyWith(
+        lifetimeItemList: AsyncValue.data(list),
+        lifetimeItemStringList: AsyncValue.data(list2),
+        lifetimeStringList: list3,
+      );
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
