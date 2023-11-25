@@ -159,7 +159,7 @@ class MoneyTotalPage extends ConsumerWidget {
 
                     //
 
-                    if (benefitMap[value[i].date.yyyymmdd] != null)
+                    if (benefitMap.value != null && benefitMap.value![value[i].date.yyyymmdd] != null)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -171,9 +171,9 @@ class MoneyTotalPage extends ConsumerWidget {
                             ),
                             child: Row(
                               children: [
-                                Text(benefitMap[value[i].date.yyyymmdd]!.company),
+                                Text(benefitMap.value![value[i].date.yyyymmdd]!.company),
                                 const SizedBox(width: 20),
-                                Text(benefitMap[value[i].date.yyyymmdd]!.salary.toCurrency()),
+                                Text(benefitMap.value![value[i].date.yyyymmdd]!.salary.toCurrency()),
                               ],
                             ),
                           ),

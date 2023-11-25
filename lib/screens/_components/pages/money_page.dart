@@ -245,8 +245,10 @@ class MoneyPage extends ConsumerWidget {
 
       var sum = 0;
       for (var j = 0; j <= diff; j++) {
-        final date = yearFirst.add(Duration(days: j)).yyyymmdd;
-        sum += (benefitMap[date] != null) ? benefitMap[date]!.salary.toInt() : 0;
+        if (benefitMap.value != null) {
+          final date = yearFirst.add(Duration(days: j)).yyyymmdd;
+          sum += (benefitMap.value![date] != null) ? benefitMap.value![date]!.salary.toInt() : 0;
+        }
       }
 
       genBenefitMap[i] = sum;

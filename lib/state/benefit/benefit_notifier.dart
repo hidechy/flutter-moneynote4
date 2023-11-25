@@ -52,7 +52,7 @@ class BenefitNotifier extends StateNotifier<BenefitResponseState> {
         map[benefit.date.yyyymmdd] = benefit;
       }
 
-      state = state.copyWith(benefitList: AsyncValue.data(list), benefitMap: map);
+      state = state.copyWith(benefitList: AsyncValue.data(list), benefitMap: AsyncValue.data(map));
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
