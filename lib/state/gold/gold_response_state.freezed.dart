@@ -17,8 +17,9 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$GoldResponseState {
   Gold? get lastGold => throw _privateConstructorUsedError;
-  Map<String, AssetsData> get goldMap => throw _privateConstructorUsedError; //
   AsyncValue<List<Gold>> get goldList => throw _privateConstructorUsedError;
+  AsyncValue<Map<String, AssetsData>> get goldMap =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $GoldResponseStateCopyWith<GoldResponseState> get copyWith =>
@@ -33,8 +34,8 @@ abstract class $GoldResponseStateCopyWith<$Res> {
   @useResult
   $Res call(
       {Gold? lastGold,
-      Map<String, AssetsData> goldMap,
-      AsyncValue<List<Gold>> goldList});
+      AsyncValue<List<Gold>> goldList,
+      AsyncValue<Map<String, AssetsData>> goldMap});
 }
 
 /// @nodoc
@@ -51,22 +52,22 @@ class _$GoldResponseStateCopyWithImpl<$Res, $Val extends GoldResponseState>
   @override
   $Res call({
     Object? lastGold = freezed,
-    Object? goldMap = null,
     Object? goldList = null,
+    Object? goldMap = null,
   }) {
     return _then(_value.copyWith(
       lastGold: freezed == lastGold
           ? _value.lastGold
           : lastGold // ignore: cast_nullable_to_non_nullable
               as Gold?,
-      goldMap: null == goldMap
-          ? _value.goldMap
-          : goldMap // ignore: cast_nullable_to_non_nullable
-              as Map<String, AssetsData>,
       goldList: null == goldList
           ? _value.goldList
           : goldList // ignore: cast_nullable_to_non_nullable
               as AsyncValue<List<Gold>>,
+      goldMap: null == goldMap
+          ? _value.goldMap
+          : goldMap // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<Map<String, AssetsData>>,
     ) as $Val);
   }
 }
@@ -81,8 +82,8 @@ abstract class _$$GoldResponseStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {Gold? lastGold,
-      Map<String, AssetsData> goldMap,
-      AsyncValue<List<Gold>> goldList});
+      AsyncValue<List<Gold>> goldList,
+      AsyncValue<Map<String, AssetsData>> goldMap});
 }
 
 /// @nodoc
@@ -97,22 +98,22 @@ class __$$GoldResponseStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? lastGold = freezed,
-    Object? goldMap = null,
     Object? goldList = null,
+    Object? goldMap = null,
   }) {
     return _then(_$GoldResponseStateImpl(
       lastGold: freezed == lastGold
           ? _value.lastGold
           : lastGold // ignore: cast_nullable_to_non_nullable
               as Gold?,
-      goldMap: null == goldMap
-          ? _value._goldMap
-          : goldMap // ignore: cast_nullable_to_non_nullable
-              as Map<String, AssetsData>,
       goldList: null == goldList
           ? _value.goldList
           : goldList // ignore: cast_nullable_to_non_nullable
               as AsyncValue<List<Gold>>,
+      goldMap: null == goldMap
+          ? _value.goldMap
+          : goldMap // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<Map<String, AssetsData>>,
     ));
   }
 }
@@ -122,29 +123,21 @@ class __$$GoldResponseStateImplCopyWithImpl<$Res>
 class _$GoldResponseStateImpl implements _GoldResponseState {
   const _$GoldResponseStateImpl(
       {this.lastGold,
-      final Map<String, AssetsData> goldMap = const {},
-      this.goldList = const AsyncValue<List<Gold>>.loading()})
-      : _goldMap = goldMap;
+      this.goldList = const AsyncValue<List<Gold>>.loading(),
+      this.goldMap = const AsyncValue<Map<String, AssetsData>>.loading()});
 
   @override
   final Gold? lastGold;
-  final Map<String, AssetsData> _goldMap;
-  @override
-  @JsonKey()
-  Map<String, AssetsData> get goldMap {
-    if (_goldMap is EqualUnmodifiableMapView) return _goldMap;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_goldMap);
-  }
-
-//
   @override
   @JsonKey()
   final AsyncValue<List<Gold>> goldList;
+  @override
+  @JsonKey()
+  final AsyncValue<Map<String, AssetsData>> goldMap;
 
   @override
   String toString() {
-    return 'GoldResponseState(lastGold: $lastGold, goldMap: $goldMap, goldList: $goldList)';
+    return 'GoldResponseState(lastGold: $lastGold, goldList: $goldList, goldMap: $goldMap)';
   }
 
   @override
@@ -154,14 +147,13 @@ class _$GoldResponseStateImpl implements _GoldResponseState {
             other is _$GoldResponseStateImpl &&
             (identical(other.lastGold, lastGold) ||
                 other.lastGold == lastGold) &&
-            const DeepCollectionEquality().equals(other._goldMap, _goldMap) &&
             (identical(other.goldList, goldList) ||
-                other.goldList == goldList));
+                other.goldList == goldList) &&
+            (identical(other.goldMap, goldMap) || other.goldMap == goldMap));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, lastGold,
-      const DeepCollectionEquality().hash(_goldMap), goldList);
+  int get hashCode => Object.hash(runtimeType, lastGold, goldList, goldMap);
 
   @JsonKey(ignore: true)
   @override
@@ -173,16 +165,17 @@ class _$GoldResponseStateImpl implements _GoldResponseState {
 
 abstract class _GoldResponseState implements GoldResponseState {
   const factory _GoldResponseState(
-      {final Gold? lastGold,
-      final Map<String, AssetsData> goldMap,
-      final AsyncValue<List<Gold>> goldList}) = _$GoldResponseStateImpl;
+          {final Gold? lastGold,
+          final AsyncValue<List<Gold>> goldList,
+          final AsyncValue<Map<String, AssetsData>> goldMap}) =
+      _$GoldResponseStateImpl;
 
   @override
   Gold? get lastGold;
   @override
-  Map<String, AssetsData> get goldMap;
-  @override //
   AsyncValue<List<Gold>> get goldList;
+  @override
+  AsyncValue<Map<String, AssetsData>> get goldMap;
   @override
   @JsonKey(ignore: true)
   _$$GoldResponseStateImplCopyWith<_$GoldResponseStateImpl> get copyWith =>

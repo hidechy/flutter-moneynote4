@@ -63,7 +63,7 @@ class GoldLastNotifier extends StateNotifier<GoldResponseState> {
         );
       }
 
-      state = state.copyWith(lastGold: gold, goldMap: goldMap);
+      state = state.copyWith(lastGold: gold, goldMap: AsyncValue.data(goldMap));
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });

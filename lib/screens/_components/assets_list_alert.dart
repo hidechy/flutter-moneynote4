@@ -80,15 +80,16 @@ class AssetsListAlert extends ConsumerWidget {
 
     var i = 0;
     dateList.forEach((element) {
-      final goldPrice = (goldMap[element] == null) ? 0 : goldMap[element]!.price;
+      final goldPrice = (goldMap.value != null && goldMap.value![element] == null) ? 0 : goldMap.value![element]!.price;
       final stockPrice = (stockMap[element] == null) ? 0 : stockMap[element]!.price;
       final shintakuPrice = (shintakuMap[element] == null) ? 0 : shintakuMap[element]!.price;
 
-      final goldDiff = (goldMap[element] == null) ? 0 : goldMap[element]!.diff;
+      final goldDiff = (goldMap.value != null && goldMap.value![element] == null) ? 0 : goldMap.value![element]!.diff;
       final stockDiff = (stockMap[element] == null) ? 0 : stockMap[element]!.diff;
       final shintakuDiff = (shintakuMap[element] == null) ? 0 : shintakuMap[element]!.diff;
 
-      final goldPercent = (goldMap[element] == null) ? 0 : goldMap[element]!.percent;
+      final goldPercent =
+          (goldMap.value != null && goldMap.value![element] == null) ? 0 : goldMap.value![element]!.percent;
       final stockPercent = (stockMap[element] == null) ? 0 : stockMap[element]!.percent;
       final shintakuPercent = (shintakuMap[element] == null) ? 0 : shintakuMap[element]!.percent;
 
@@ -144,7 +145,9 @@ class AssetsListAlert extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
-                                (goldMap[element] == null) ? '0' : goldMap[element]!.cost.toString().toCurrency(),
+                                (goldMap.value != null && goldMap.value![element] == null)
+                                    ? '0'
+                                    : goldMap.value![element]!.cost.toString().toCurrency(),
                               ),
                               Text(
                                 goldPrice.toString().toCurrency(),
