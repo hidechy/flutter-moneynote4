@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/models/spend_month_summary.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../state/device_info/device_info_notifier.dart';
@@ -31,14 +32,6 @@ class SpendSummaryItemPage extends ConsumerWidget {
     //==================================//
 
     var sum = 0;
-
-    // final spendMonthSummaryState = _ref.watch(spendMonthSummaryProvider(date));
-    //
-    // spendMonthSummaryState.forEach((element) {
-    //   sum += element.sum;
-    // });
-    //
-    //
 
     final spendMonthSummaryList =
         _ref.watch(spendMonthSummaryProvider(date).select((value) => value.spendMonthSummaryList));
@@ -101,19 +94,13 @@ class SpendSummaryItemPage extends ConsumerWidget {
     final spendMonthSummaryList =
         _ref.watch(spendMonthSummaryProvider(date).select((value) => value.spendMonthSummaryList));
 
+    final topItems = <double, SpendMonthSummary>{};
+
     spendMonthSummaryList.value?.forEach((element) {
       percentageList.add(element.percent.toDouble());
-    });
 
-    //
-    // final spendMonthSummaryState = _ref.watch(spendMonthSummaryProvider(date));
-    //
-    // for (var i = 0; i < spendMonthSummaryState.length; i++) {
-    //   final spend = spendMonthSummaryState[i];
-    //   percentageList.add(spend.percent.toDouble());
-    // }
-    //
-    //
+      topItems[element.percent.toDouble()] = element;
+    });
 
     percentageList.sort((a, b) => -1 * a.compareTo(b));
 
@@ -134,13 +121,7 @@ class SpendSummaryItemPage extends ConsumerWidget {
 
           list.add(
             Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Colors.white.withOpacity(0.2),
-                  ),
-                ),
-              ),
+              decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.2)))),
               margin: const EdgeInsets.only(bottom: 3),
               child: DefaultTextStyle(
                 style: TextStyle(fontSize: 12, color: textColor),
@@ -174,77 +155,40 @@ class SpendSummaryItemPage extends ConsumerWidget {
           );
         });
 
+        list.add(const SizedBox(height: 20));
+
+        topPercentageList.forEach((element) {
+          if (topItems[element] != null) {
+            list.add(
+              DefaultTextStyle(
+                style: const TextStyle(fontSize: 10),
+                child: Row(
+                  children: [
+                    Expanded(flex: 2, child: Text(topItems[element]!.item)),
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.topRight,
+                        child: Text(topItems[element]!.sum.toString().toCurrency()),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.topRight,
+                        child: Text('${topItems[element]!.percent} %'),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
+        });
+
         return SingleChildScrollView(child: Column(children: list));
       },
       error: (error, stackTrace) => const Center(child: CircularProgressIndicator()),
       loading: () => const Center(child: CircularProgressIndicator()),
     );
-
-    /*
-
-
-
-
-    spendMonthSummaryState.forEach((element) {
-      var textColor = (element.sum >= 10000) ? Colors.yellowAccent : Colors.white;
-
-      textColor = getTextColor(item: element.item);
-
-      list.add(
-        Container(
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.white.withOpacity(0.2),
-              ),
-            ),
-          ),
-          margin: const EdgeInsets.only(bottom: 3),
-          child: DefaultTextStyle(
-            style: TextStyle(
-              fontSize: 12,
-              color: textColor,
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Text(element.item),
-                ),
-                Expanded(
-                  child: Container(
-                    alignment: Alignment.topRight,
-                    child: Text(element.sum.toString().toCurrency()),
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    alignment: Alignment.topRight,
-                    child: Text(
-                      '${element.percent} %',
-                      style: TextStyle(
-                        color: (topPercentageList.contains(element.percent.toDouble())) ? Colors.redAccent : textColor,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 20),
-                getLinkIcon(item: element.item),
-              ],
-            ),
-          ),
-        ),
-      );
-    });
-
-    return SingleChildScrollView(
-      child: Column(children: list),
-    );
-
-
-
-
-    */
   }
 
   ///

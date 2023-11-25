@@ -78,10 +78,7 @@ class SpendSummaryItemAlert extends StatelessWidget {
           TabInfo(
             element,
             SpendSummaryItemPage(
-              date: DateTime(
-                element.split('-')[0].toInt(),
-                element.split('-')[1].toInt(),
-              ),
+              date: DateTime(element.split('-')[0].toInt(), element.split('-')[1].toInt()),
             ),
           ),
         );
