@@ -1,5 +1,3 @@
-// ignore_for_file: must_be_immutable, use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -10,6 +8,7 @@ import '../route/routes.dart';
 import '../state/timeplace_input/timeplace_input_notifier.dart';
 import '../utility/utility.dart';
 
+// ignore: must_be_immutable
 class TimeplaceInputScreen extends ConsumerWidget {
   TimeplaceInputScreen({super.key, required this.date, required this.diff});
 
@@ -74,7 +73,9 @@ class TimeplaceInputScreen extends ConsumerWidget {
 
                             await Vibration.vibrate(pattern: [500, 1000, 500, 2000]);
 
-                            context.goNamed(RouteNames.home);
+                            if (_context.mounted) {
+                              context.goNamed(RouteNames.home);
+                            }
                           },
                           icon: const Icon(Icons.input, color: Colors.pinkAccent),
                         ),

@@ -114,11 +114,12 @@ class YearlyCalendarPage extends ConsumerWidget {
                         .watch(appParamProvider.notifier)
                         .setSelectedYearlyCalendarDate(date: DateTime.parse('${date.yyyy}-${days[i]}'));
 
-                    // ignore: use_build_context_synchronously
-                    await MoneyDialog(
-                      context: _context,
-                      widget: LifetimeRecordDisplayAlert(date: DateTime.parse('${date.yyyy}-${days[i]}')),
-                    );
+                    if (_context.mounted) {
+                      await MoneyDialog(
+                        context: _context,
+                        widget: LifetimeRecordDisplayAlert(date: DateTime.parse('${date.yyyy}-${days[i]}')),
+                      );
+                    }
                   },
                   child: Container(
                     margin: const EdgeInsets.all(3),

@@ -1,5 +1,3 @@
-// ignore_for_file: cast_nullable_to_non_nullable, strict_raw_type, must_be_immutable, use_build_context_synchronously
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -14,6 +12,7 @@ import '../../state/keihi_list/keihi_list_notifier.dart';
 import '../../state/monthly_spend_check/monthly_spend_check_notifier.dart';
 import '../../utility/utility.dart';
 
+// ignore: must_be_immutable
 class KeihiSettingAlert extends ConsumerWidget {
   KeihiSettingAlert({super.key, required this.id, required this.str, required this.date});
 
@@ -99,7 +98,9 @@ class KeihiSettingAlert extends ConsumerWidget {
 
                       await ref.read(keihiListProvider(date).notifier).getKeihiList(date: date);
 
-                      context.goNamed(RouteNames.home);
+                      if (context.mounted) {
+                        context.goNamed(RouteNames.home);
+                      }
                     },
                     icon: Icon(
                       Icons.input,
@@ -119,7 +120,7 @@ class KeihiSettingAlert extends ConsumerWidget {
                       return const Center(child: CircularProgressIndicator());
                     }
 
-                    final list = snapshot.data as List<CsvData>;
+                    final list = snapshot.data!;
                     return displayCategoryList(data: list);
                   },
                 ),
@@ -138,10 +139,9 @@ class KeihiSettingAlert extends ConsumerWidget {
     final csv = await rootBundle.loadString(path);
 
     for (final line in csv.split('\n')) {
-      final List rows = line.split(',');
+      final rows = line.split(',');
 
-      final rowData =
-          CsvData(category1: rows[0].toString(), category2: rows[1].toString(), explanation: rows[2].toString());
+      final rowData = CsvData(category1: rows[0], category2: rows[1], explanation: rows[2]);
 
       list.add(rowData);
     }

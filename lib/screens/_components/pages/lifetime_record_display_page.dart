@@ -93,14 +93,19 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
                         date: selectedYearlyCalendarDate.add(const Duration(days: -7)),
                       );
 
-                  // ignore: use_build_context_synchronously
-                  await MoneyDialog(
-                    context: _context,
-                    widget: LifetimeRecordDisplayAlert(
-                      date: selectedYearlyCalendarDate.add(const Duration(days: -7)),
-                      beforeNextPageIndex: 6,
-                    ),
-                  );
+                  if (_context.mounted) {
+                    Navigator.pop(_context);
+                  }
+
+                  if (_context.mounted) {
+                    await MoneyDialog(
+                      context: _context,
+                      widget: LifetimeRecordDisplayAlert(
+                        date: selectedYearlyCalendarDate.add(const Duration(days: -7)),
+                        beforeNextPageIndex: 6,
+                      ),
+                    );
+                  }
                 },
                 icon: const Icon(Icons.navigate_before, color: Colors.greenAccent),
               ),
@@ -119,14 +124,19 @@ class LifetimeRecordDisplayPage extends ConsumerWidget {
                         date: selectedYearlyCalendarDate.add(const Duration(days: 7)),
                       );
 
-                  // ignore: use_build_context_synchronously
-                  await MoneyDialog(
-                    context: _context,
-                    widget: LifetimeRecordDisplayAlert(
-                      date: selectedYearlyCalendarDate.add(const Duration(days: 7)),
-                      beforeNextPageIndex: 0,
-                    ),
-                  );
+                  if (_context.mounted) {
+                    Navigator.pop(_context);
+                  }
+
+                  if (_context.mounted) {
+                    await MoneyDialog(
+                      context: _context,
+                      widget: LifetimeRecordDisplayAlert(
+                        date: selectedYearlyCalendarDate.add(const Duration(days: 7)),
+                        beforeNextPageIndex: 0,
+                      ),
+                    );
+                  }
                 },
                 icon: const Icon(Icons.navigate_next, color: Colors.greenAccent),
               ),
