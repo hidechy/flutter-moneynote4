@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/lifetime_record_block_display_alert.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../models/lifetime.dart';
@@ -27,6 +29,8 @@ class YearlyCalendarPage extends ConsumerWidget {
   // 2023.11.22 AsyncValueを使用してみた
   AsyncValue<Map<String, Lifetime>> lifetimeMap = const AsyncValue.data({});
 
+  final autoScrollController = AutoScrollController();
+
   late BuildContext _context;
   late WidgetRef _ref;
 
@@ -35,6 +39,12 @@ class YearlyCalendarPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _context = context;
     _ref = ref;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final diffDays = DateTime.now().difference(DateTime(DateTime.now().year)).inDays;
+      final index = (diffDays / 7).floor() + 10;
+      await autoScrollController.scrollToIndex(index);
+    });
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -52,6 +62,21 @@ class YearlyCalendarPage extends ConsumerWidget {
             children: [
               const SizedBox(height: 20),
               Container(width: context.screenSize.width),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(),
+                  IconButton(
+                    onPressed: () {
+                      MoneyDialog(
+                        context: context,
+                        widget: LifetimeRecordBlockDisplayAlert(date: date),
+                      );
+                    },
+                    icon: const Icon(Icons.calendar_view_month_rounded, size: 14),
+                  ),
+                ],
+              ),
               Expanded(child: _getCalendar()),
               const SizedBox(height: 10),
             ],
@@ -94,7 +119,7 @@ class YearlyCalendarPage extends ConsumerWidget {
       list.add(_getRow(days: days, rowNum: i));
     }
 
-    return SingleChildScrollView(child: Column(children: list));
+    return SingleChildScrollView(controller: autoScrollController, child: Column(children: list));
   }
 
   ///
@@ -156,9 +181,14 @@ class YearlyCalendarPage extends ConsumerWidget {
       );
     }
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: list,
+    return AutoScrollTag(
+      key: ValueKey(rowNum),
+      index: rowNum,
+      controller: autoScrollController,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: list,
+      ),
     );
   }
 

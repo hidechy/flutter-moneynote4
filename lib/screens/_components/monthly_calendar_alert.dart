@@ -74,7 +74,7 @@ class MonthlyCalendarAlert extends HookConsumerWidget {
 
     final list = <String>[];
 
-    final firstDate = DateTime(2020);
+    final firstDate = DateTime(2023);
 
     final diff = DateTime.now().difference(firstDate).inDays;
 

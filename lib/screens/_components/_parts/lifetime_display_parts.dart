@@ -6,10 +6,11 @@ import '../../../models/walk_record.dart';
 
 // ignore: must_be_immutable
 class LifetimeDisplayParts extends StatelessWidget {
-  LifetimeDisplayParts({super.key, required this.lifetime, this.walkRecord});
+  LifetimeDisplayParts({super.key, required this.lifetime, this.walkRecord, this.textDisplay});
 
   final Lifetime lifetime;
   WalkRecord? walkRecord;
+  bool? textDisplay;
 
   ///
   @override
@@ -81,49 +82,53 @@ class LifetimeDisplayParts extends StatelessWidget {
   Widget _lifetimeDisplayParts({required String key, required String value}) {
     return DecoratedBox(
       decoration: BoxDecoration(color: _getLifetimeRowBgColor(value: value)),
-      child: Row(
-        children: [
-          Expanded(child: Text(key)),
-          Expanded(flex: 3, child: Text(value)),
-        ],
-      ),
+      child: (textDisplay == false)
+          ? const Text('*', style: TextStyle(color: Colors.transparent))
+          : Row(
+              children: [
+                Expanded(child: Text(key)),
+                Expanded(flex: 3, child: Text(value)),
+              ],
+            ),
     );
   }
 
   ///
   Color _getLifetimeRowBgColor({required String value}) {
+    final opa = (textDisplay == false) ? 0.4 : 0.2;
+
     switch (value) {
       case '自宅':
       case '実家':
-        return Colors.white.withOpacity(0.2);
+        return Colors.white.withOpacity(opa);
 
       case '睡眠':
-        return Colors.yellowAccent.withOpacity(0.2);
+        return Colors.yellowAccent.withOpacity(opa);
 
       case '移動':
-        return Colors.green.withOpacity(0.2);
+        return Colors.green.withOpacity(opa);
 
       case '仕事':
-        return Colors.indigo.withOpacity(0.2);
+        return Colors.indigo.withOpacity(opa);
 
       case '外出':
       case '旅行':
       case 'イベント':
-        return Colors.pinkAccent.withOpacity(0.2);
+        return Colors.pinkAccent.withOpacity(opa);
 
       case 'ボクシング':
       case '俳句会':
       case '勉強':
-        return Colors.purpleAccent.withOpacity(0.2);
+        return Colors.purpleAccent.withOpacity(opa);
 
       case '飲み会':
-        return Colors.orangeAccent.withOpacity(0.2);
+        return Colors.orangeAccent.withOpacity(opa);
 
       case '歩き':
-        return Colors.lightBlueAccent.withOpacity(0.2);
+        return Colors.lightBlueAccent.withOpacity(opa);
 
       case '緊急事態':
-        return Colors.redAccent.withOpacity(0.2);
+        return Colors.redAccent.withOpacity(opa);
     }
 
     return Colors.transparent;
