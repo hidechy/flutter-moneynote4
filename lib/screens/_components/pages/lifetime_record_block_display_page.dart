@@ -14,6 +14,8 @@ class LifetimeRecordBlockDisplayPage extends ConsumerWidget {
 
   final DateTime date;
 
+  List<String> youbiList = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
   late BuildContext _context;
   late WidgetRef _ref;
 
@@ -100,13 +102,16 @@ class LifetimeRecordBlockDisplayPage extends ConsumerWidget {
           final list2 = <Widget>[];
           for (var i = 0; i <= 30; i++) {
             if (i < value.length) {
+              var youbi = DateTime(exKey[0].toInt(), exKey[1].toInt(), (i + 1)).youbiStr;
+              final youbiNum = youbiList.indexWhere((element) => element == youbi);
+
               list2.add(
                 Column(
                   children: [
                     Text(
-                      (i % 5 == 0) ? (i + 1).toString() : '*',
+                      (youbiNum == 0) ? '${(i + 1).toString().padLeft(2, '0')}\n日' : '*\n空',
                       style: TextStyle(
-                        color: (i % 5 == 0) ? Colors.yellowAccent : Colors.transparent,
+                        color: (youbiNum == 0) ? Colors.yellowAccent : Colors.transparent,
                         fontSize: 7,
                       ),
                     ),
