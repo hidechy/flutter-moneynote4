@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:moneynote4/screens/_components/_money_dialog.dart';
-import 'package:moneynote4/screens/_components/monthly_calendar_alert.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../models/lifetime.dart';
 import '../../../state/lifetime/lifetime_notifier.dart';
+import '../_money_dialog.dart';
 import '../_parts/lifetime_display_parts.dart';
+import '../monthly_calendar_alert.dart';
 
 // ignore: must_be_immutable
 class LifetimeRecordBlockDisplayPage extends ConsumerWidget {
@@ -69,9 +69,11 @@ class LifetimeRecordBlockDisplayPage extends ConsumerWidget {
         final list = <Widget>[];
 
         monthlyLifetimeListMap.forEach((key, value) {
-          var index = DateTime.now().month - date.month;
+          final exKey = key.split('-');
 
-          if (DateTime.now().year > date.year) {
+          var index = DateTime.now().month - DateTime(exKey[0].toInt(), exKey[1].toInt()).month;
+
+          if (DateTime.now().year > DateTime(exKey[0].toInt(), exKey[1].toInt()).year) {
             index += 12;
           }
 

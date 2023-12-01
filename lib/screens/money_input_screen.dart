@@ -106,7 +106,9 @@ class MoneyInputScreen extends ConsumerWidget {
     final spendYearlyList = _ref.watch(spendMonthDetailProvider(date).select((value) => value.spendYearlyList));
 
     if (spendYearlyList.value != null) {
-      lastInputDate = spendYearlyList.value![spendYearlyList.value!.length - 1].date.yyyymmdd;
+      if (spendYearlyList.value!.isNotEmpty) {
+        lastInputDate = spendYearlyList.value!.last.date.yyyymmdd;
+      }
     } else {
       final now = DateTime.now();
       lastInputDate = DateTime(
