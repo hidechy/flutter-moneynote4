@@ -101,9 +101,21 @@ class LifetimeRecordBlockDisplayPage extends ConsumerWidget {
           for (var i = 0; i <= 30; i++) {
             if (i < value.length) {
               list2.add(
-                SizedBox(
-                  width: onedayWidth,
-                  child: LifetimeDisplayParts(lifetime: value[i], textDisplay: false),
+                Column(
+                  children: [
+                    Text(
+                      (i % 5 == 0) ? (i + 1).toString() : '*',
+                      style: TextStyle(
+                        color: (i % 5 == 0) ? Colors.yellowAccent : Colors.transparent,
+                        fontSize: 7,
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    SizedBox(
+                      width: onedayWidth,
+                      child: LifetimeDisplayParts(lifetime: value[i], textDisplay: false),
+                    ),
+                  ],
                 ),
               );
             } else {
