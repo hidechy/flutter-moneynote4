@@ -12,6 +12,8 @@ class LifetimeDisplayParts extends StatelessWidget {
   WalkRecord? walkRecord;
   bool? textDisplay;
 
+  List<String> bottomBorderItem = ['05', '11', '17'];
+
   ///
   @override
   Widget build(BuildContext context) {
@@ -81,7 +83,11 @@ class LifetimeDisplayParts extends StatelessWidget {
   ///
   Widget _lifetimeDisplayParts({required String key, required String value}) {
     return DecoratedBox(
-      decoration: BoxDecoration(color: _getLifetimeRowBgColor(value: value)),
+      decoration: BoxDecoration(
+        color: _getLifetimeRowBgColor(value: value),
+        border:
+            (bottomBorderItem.contains(key)) ? Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3))) : null,
+      ),
       child: (textDisplay == false)
           ? const Text('*', style: TextStyle(color: Colors.transparent))
           : Row(
