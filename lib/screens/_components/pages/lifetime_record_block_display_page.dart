@@ -102,7 +102,7 @@ class LifetimeRecordBlockDisplayPage extends ConsumerWidget {
           final list2 = <Widget>[];
           for (var i = 0; i <= 30; i++) {
             if (i < value.length) {
-              var youbi = DateTime(exKey[0].toInt(), exKey[1].toInt(), (i + 1)).youbiStr;
+              final youbi = DateTime(exKey[0].toInt(), exKey[1].toInt(), i + 1).youbiStr;
               final youbiNum = youbiList.indexWhere((element) => element == youbi);
 
               list2.add(

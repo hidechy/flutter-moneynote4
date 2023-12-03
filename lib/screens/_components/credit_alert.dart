@@ -312,6 +312,9 @@ class CreditAlert extends ConsumerWidget {
   ///
   Widget getCreditMark({required String kind}) {
     switch (kind) {
+      case 'paypay':
+        return const Icon(Icons.credit_card, color: Colors.indigo);
+
       case 'uc':
         return const Icon(Icons.credit_card, color: Colors.redAccent);
       case 'rakuten':
