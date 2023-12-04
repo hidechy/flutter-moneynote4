@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable, non_constant_identifier_names
 
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -56,9 +58,7 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
               if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
               //----------//
 
-              Expanded(
-                child: LineChart(graphData),
-              ),
+              Expanded(child: LineChart(graphData)),
 
               const SizedBox(height: 20),
 
@@ -76,21 +76,13 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.pinkAccent.withOpacity(0.3),
-                    ),
-                    onPressed: () {
-                      _controller.jumpTo(_controller.position.maxScrollExtent);
-                    },
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent.withOpacity(0.3)),
+                    onPressed: () => _controller.jumpTo(_controller.position.maxScrollExtent),
                     child: const Text('jump'),
                   ),
                   ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.pinkAccent.withOpacity(0.3),
-                    ),
-                    onPressed: () {
-                      _controller.jumpTo(_controller.position.minScrollExtent);
-                    },
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent.withOpacity(0.3)),
+                    onPressed: () => _controller.jumpTo(_controller.position.minScrollExtent),
                     child: const Text('back'),
                   ),
                 ],
@@ -142,17 +134,6 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
         list2.add({'day': element2.date.day, 'sum': sum});
       });
 
-      //
-      // final spendMonthDetailState = _ref.watch(spendMonthDetailProvider(element));
-      //
-      // spendMonthDetailState.list.forEach((element2) {
-      //   sum += element2.spend;
-      //
-      //   list2.add({'day': element2.date.day, 'sum': sum});
-      // });
-      //
-      //
-
       graphValues[element.yyyymm] = list2;
     });
     //---------------------------------------(2)
@@ -160,27 +141,29 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
     //---------------------------------------(3)
     final flspotsList = <List<FlSpot>>[];
 
+    final points = <int>[];
+
     graphValues.entries.forEach((element) {
       final flspots = <FlSpot>[];
 
       element.value.forEach((element2) {
-        flspots.add(
-          FlSpot(
-            element2['day'].toString().toDouble(),
-            element2['sum'].toString().toDouble(),
-          ),
-        );
+        flspots.add(FlSpot(element2['day'].toString().toDouble(), element2['sum'].toString().toDouble()));
+
+        points.add(element2['sum']);
       });
 
       flspotsList.add(flspots);
     });
     //---------------------------------------(3)
 
-    final SamedaySpendAlertDay = _ref.watch(
-      appParamProvider.select((value) => value.SamedaySpendAlertDay),
-    );
+    final SamedaySpendAlertDay = _ref.watch(appParamProvider.select((value) => value.SamedaySpendAlertDay));
 
     final yearmonth = DateTime.now().yyyymm;
+
+    final maxPoint = (points.isNotEmpty) ? points.reduce(max) : 1000000;
+    final round = (maxPoint / 500000).round();
+
+    final graphYMax = (round + 1) * 500000;
 
     graphData = LineChartData(
       ///
@@ -188,14 +171,12 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
       maxX: 31,
       //
       minY: 0,
-      maxY: 1000000,
+      maxY: graphYMax.toDouble(),
 
       ///
       lineTouchData: LineTouchData(
-        touchTooltipData: LineTouchTooltipData(
-          tooltipBgColor: Colors.white.withOpacity(0.3),
-          getTooltipItems: getGraphToolTip,
-        ),
+        touchTooltipData:
+            LineTouchTooltipData(tooltipBgColor: Colors.white.withOpacity(0.3), getTooltipItems: getGraphToolTip),
       ),
 
       ///
@@ -206,9 +187,7 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
         show: true,
 
         //-------------------------// 上部の目盛り
-        topTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
+        topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
         //-------------------------// 上部の目盛り
 
         //-------------------------// 下部の目盛り
@@ -221,17 +200,11 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
                 axisSide: meta.axisSide,
                 child: Column(
                   children: [
-                    Text(
-                      value.toInt().toString(),
-                      style: const TextStyle(fontSize: 12),
-                    ),
+                    Text(value.toInt().toString(), style: const TextStyle(fontSize: 12)),
                     if (date.yyyymm == yearmonth && value == SamedaySpendAlertDay)
                       const Text(
                         'today',
-                        style: TextStyle(
-                          fontSize: 8,
-                          color: Colors.yellowAccent,
-                        ),
+                        style: TextStyle(fontSize: 8, color: Colors.yellowAccent),
                       ),
                   ],
                 ),
@@ -247,10 +220,7 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
             showTitles: true,
             reservedSize: 60,
             getTitlesWidget: (value, meta) {
-              return Text(
-                value.toInt().toString(),
-                style: const TextStyle(fontSize: 12),
-              );
+              return Text(value.toInt().toString(), style: const TextStyle(fontSize: 12));
             },
           ),
         ),
@@ -262,10 +232,7 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
             showTitles: true,
             reservedSize: 60,
             getTitlesWidget: (value, meta) {
-              return Text(
-                value.toInt().toString(),
-                style: const TextStyle(fontSize: 12),
-              );
+              return Text(value.toInt().toString(), style: const TextStyle(fontSize: 12));
             },
           ),
         ),
@@ -276,12 +243,7 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
       lineBarsData: [
         //forで仕方ない
         for (var i = 0; i < flspotsList.length; i++)
-          LineChartBarData(
-            spots: flspotsList[i],
-            barWidth: 3,
-            isStrokeCapRound: true,
-            color: twelveColor[i],
-          ),
+          LineChartBarData(spots: flspotsList[i], barWidth: 3, isStrokeCapRound: true, color: twelveColor[i]),
       ],
     );
   }
@@ -300,13 +262,7 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
       final price = element.y.round().toString().split('.')[0].toCurrency();
       final month = usageGuideList[element.barIndex].mm;
 
-      list.add(
-        LineTooltipItem(
-          '$price ($month)',
-          textStyle,
-          textAlign: TextAlign.end,
-        ),
-      );
+      list.add(LineTooltipItem('$price ($month)', textStyle, textAlign: TextAlign.end));
     });
 
     return list;
@@ -321,18 +277,12 @@ class SamedaySpendGraphAlert extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 10),
           child: Text(
             element.yyyymm,
-            style: TextStyle(
-              color: twelveColor[list.length],
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
-            ),
+            style: TextStyle(color: twelveColor[list.length], fontWeight: FontWeight.bold, fontSize: 12),
           ),
         ),
       );
     });
 
-    return Row(
-      children: list,
-    );
+    return Row(children: list);
   }
 }

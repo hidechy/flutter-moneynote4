@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:moneynote4/screens/_components/money_kind_list_alert.dart';
 
 import '../../../extensions/extensions.dart';
 import '../../../models/money.dart';
@@ -435,12 +436,31 @@ class MoneyPage extends ConsumerWidget {
                   ),
                 ),
                 Expanded(
-                  child: Container(
-                    alignment: Alignment.topRight,
-                    child: Text(
-                      data.currency.toString().toCurrency(),
-                      style: const TextStyle(color: Colors.yellowAccent),
-                    ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          const SizedBox(width: 10),
+                          GestureDetector(
+                            onTap: () {
+                              MoneyDialog(
+                                context: _context,
+                                widget: MoneyKindListAlert(date: date),
+                              );
+                            },
+                            child: const Icon(Icons.info_outline_rounded),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        alignment: Alignment.topRight,
+                        child: Text(
+                          data.currency.toString().toCurrency(),
+                          style: const TextStyle(color: Colors.yellowAccent),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -919,9 +939,7 @@ class MoneyPage extends ConsumerWidget {
   ///
   Widget displayNotMoneyAsset() {
     var price = 0;
-    notMoneyAsset.forEach((element) {
-      price += element;
-    });
+    notMoneyAsset.forEach((element) => price += element);
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
