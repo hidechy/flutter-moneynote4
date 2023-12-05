@@ -80,9 +80,7 @@ class Balancesheet {
         'ym': ym,
         'assets_total': assetsTotal,
         'capital_total': capitalTotal,
-        'assets': Map.from(assets)
-            .map((k, v) => MapEntry<String, dynamic>(k.toString(), v)),
-        'capital': Map.from(capital)
-            .map((k, v) => MapEntry<String, dynamic>(k.toString(), v)),
+        'assets': Map.from(assets).map((k, v) => MapEntry<String, dynamic>(k.toString(), v)),
+        'capital': Map.from(capital).map((k, v) => MapEntry<String, dynamic>(k.toString(), v)),
       };
 }
