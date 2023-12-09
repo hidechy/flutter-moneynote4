@@ -68,6 +68,8 @@ class YearlyCalendarPage extends ConsumerWidget {
                   Container(),
                   IconButton(
                     onPressed: () {
+                      _ref.read(lifetimeYearlyProvider(date).notifier).getYearlyLifetime(date: date);
+
                       MoneyDialog(
                         context: context,
                         widget: LifetimeRecordBlockDisplayAlert(date: date),
